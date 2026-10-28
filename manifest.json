@@ -1,0 +1,25 @@
+{
+  "name": "¡El Mundo Mágico de Nailong! (奶龙)",
+  "short_name": "Nailong 奶龙",
+  "description": "Página interactiva oficial de fans de Nailong, el adorable dragón de leche amarillo.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFFDF2",
+  "theme_color": "#FFD93D",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "Stickers Nailong/sticker_20.webp",
+      "sizes": "200x200",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "Stickers Nailong/sticker_2.webp",
+      "sizes": "200x200",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
+}
