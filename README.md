@@ -26,7 +26,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica completa y detallada de todo el código
 ├── GEMINI.md                    # Contexto e instrucciones del proyecto para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones del proyecto para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (33 tests)
+├── verify_all.py                # Suite de pruebas automatizadas (34 tests)
 ├── Stickers Nailong/            # Colección de los 42 stickers reales (.webp)
 ├── compartir_amigos.bat         # Launcher 1-clic para compartir por Wi-Fi local
 ├── compartir_amigos.py          # Servidor LAN local en Python
@@ -51,13 +51,19 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
   - 🦖 Nuevo avatar de cabecera con sticker animado 3D de sonrisa radiante (`sticker_2.webp`) llenando el círculo.
   - 📖 Creación de `DOCUMENTACION.md`, `GEMINI.md` y `CLAUDE.md`.
   - 🧪 28 pruebas automatizadas en `verify_all.py`.
-- **v8.0.0 (Actual)**:
+- **v8.0.0**:
   - 📊 Marcador de puntos y cronómetro HUD integrados en el canvas del minijuego para visibilidad en pantalla completa.
   - 📱 Muelle de botones táctiles integrado (`#game-touch-dock`) para jugar en pantalla completa en móviles y tablets.
   - 🚀 Corrección de aislamiento CSS en pantalla completa (eliminación de trampas de apilamiento en elementos visibles).
   - 📐 Rescalado dinámico proporcional de coordenadas (`playerX` y alimentos) al redimensionar la pantalla.
   - 🎨 Encuadre óptico perfeccionado del avatar 3D en la cabecera sin recortes de frente en ningún fotograma.
   - 🎉 Efecto visual de confeti y muslitos instantáneo en el modo fiesta desde el primer fotograma.
+- **v9.0.0 (Actual)**:
+  - 💬 **Botón de WhatsApp integrado:** Envío de stickers directo a WhatsApp vía Web Share API para guardar en "Favoritos ⭐" en 1 toque.
+  - 🍏 **Solución definitiva a descargas en iPhone (iOS Safari):** Corrección de la omisión del atributo `download` en WebKit mediante guardado en Fotos / Carrete nativo y fallback Blob URL.
+  - 🗂️ **Modal de Opciones de Guardado:** Menú accesible con opciones para WhatsApp, descarga a Fotos/Archivos y copia al portapapeles.
+  - 🍞 **Notificaciones Toast Duang:** Feedback visual interactivo en pantalla para guiar en las descargas y favoritos.
+  - 🧪 **34 pruebas automatizadas** en `verify_all.py`.
 
 ---
 

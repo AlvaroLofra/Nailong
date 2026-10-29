@@ -228,11 +228,22 @@ assert "const ratio = newWidth / oldWidth;" in html, "Proportional coordinate ra
 assert "item.x * ratio" in html, "Falling items proportional rescaling missing!"
 print("✔ Minigame Proportional Scaling verified: player and food positions adapt dynamically without clipping or off-screen drift.")
 
-# Test 32: Verify Synchronized Project Documentation (GEMINI.md & CLAUDE.md)
+# Test 32: Verify WhatsApp and iOS Sticker Saving & Download Integration
+assert 'id="sticker-options-modal"' in html, "sticker-options-modal missing from DOM!"
+assert 'id="modal-whatsapp-btn"' in html and 'id="lb-whatsapp-btn"' in html, "WhatsApp action buttons missing in modals!"
+assert 'id="duang-toast"' in html, "duang-toast notification container missing from DOM!"
+assert "shareStickerDirectToWhatsApp" in html, "shareStickerDirectToWhatsApp function missing!"
+assert "forceDownloadSticker" in html, "forceDownloadSticker function missing!"
+assert "copyStickerToClipboard" in html, "copyStickerToClipboard function missing!"
+assert "showDuangToast" in html, "showDuangToast function missing!"
+assert "{ id: 'sticker-options-modal', close: closeStickerOptionsModal }" in html, "sticker-options-modal missing in setupModalBackdrops!"
+print("✔ WhatsApp & iOS Sticker Integration verified: direct WhatsApp button, iOS Camera Roll save, blob download fallback, and clipboard copy.")
+
+# Test 33: Verify Synchronized Project Documentation (GEMINI.md & CLAUDE.md)
 gemini_content = open('GEMINI.md', 'r', encoding='utf-8').read()
 claude_content = open('CLAUDE.md', 'r', encoding='utf-8').read()
 assert gemini_content == claude_content, "GEMINI.md and CLAUDE.md must have 100% identical content!"
 assert os.path.exists('DOCUMENTACION.md'), "DOCUMENTACION.md missing!"
 print("✔ Project Documentation verified: GEMINI.md and CLAUDE.md are 100% synchronized and DOCUMENTACION.md is present.")
 
-print("\n=== ALL 33 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+print("\n=== ALL 34 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

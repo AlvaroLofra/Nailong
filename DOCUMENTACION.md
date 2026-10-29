@@ -174,6 +174,14 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Encuadre Óptico del Avatar de Cabecera:** Ajuste fino del recorte circular de `sticker_2.webp` para que llene el círculo completo con `object-cover` sin cortar la parte superior de la frente ni los ojos del personaje durante ninguno de sus 36 fotogramas de animación.
 - **Efecto Inmediato en Modo Fiesta:** Distribución de las partículas iniciales para que aparezcan de forma instantánea en el campo visual del usuario, sin retrasos de caída desde fuera de pantalla.
 
+### 🚀 Versión 9.0.0 (v9) - Integración de Stickers para WhatsApp & Descarga Universal iOS / Android
+- **Botón Directo de WhatsApp en Visor Mágico y Lightbox:** Botón verde temático oficial (`#25D366`) con icono `fa-brands fa-whatsapp` en `#magic-modal` y `#photo-lightbox`. Invoca la Web Share API con el archivo binario WebP para enviar el sticker directamente a cualquier conversación o chat personal, permitiendo guardarlo en 1 toque en "Favoritos ⭐" en el teclado de stickers de WhatsApp.
+- **Solución Definitiva a la Descarga en iPhone (iOS Safari):** Corregido el problema reportado en iOS donde al pulsar "Guardar" no se descargaba el archivo (debido a que WebKit en Safari omite el atributo `download` en URLs de archivos). Implementado `forceDownloadSticker()` con conversión binaria `Blob` y llamada nativa a `navigator.share()` que activa la opción "Guardar imagen" directamente en el Carrete (Fotos de Apple) o en la app Archivos, además de descarga directa por Blob URL.
+- **Modal Interactivo de Guardado y Opciones (`#sticker-options-modal`):** Menú Claymorphism emergente que se abre al pulsar "Guardar Sticker", ofreciendo: 1) Usar en WhatsApp, 2) Descargar en el Dispositivo (Fotos / Archivos) y 3) Copiar al Portapapeles (con conversión dinámica a PNG en canvas para compatibilidad con la API de portapapeles de iOS y WhatsApp).
+- **Notificaciones Toast Flotantes Duang (`#duang-toast`):** Notificación emergente accesible y animada (`showDuangToast`) que informa al instante sobre el estado de la descarga o la guía para añadir a favoritos en WhatsApp.
+- **Explicación Técnica Honesta sobre Packs de WhatsApp:** Información integrada explicando las restricciones de seguridad de Meta/WhatsApp (que impiden que una web inyecte packs masivos sin una app nativa puente) y cómo utilizar alternativas como Sticker.ly o favoritos.
+- **Suite de Pruebas Ampliada a 34 Verificaciones:** `verify_all.py` ampliado para validar elementos de WhatsApp, integración de descargas, portapapeles y persistencia.
+
 ---
 
 ## 5. Instrucciones de Verificación y Testing
@@ -181,11 +189,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (33 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (34 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 33 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 34 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```

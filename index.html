@@ -1100,8 +1100,11 @@
                         </button>
                     </div>
 
-                    <div>
-                        <a id="modal-download-btn" href="#" download="nailong_sticker.webp" class="clay-btn bg-emerald-500 text-white font-display font-bold px-3.5 py-1.5 text-xs flex items-center gap-1.5">
+                    <div class="flex items-center gap-1.5 sm:gap-2">
+                        <button type="button" id="modal-whatsapp-btn" onclick="shareCurrentModalStickerToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp para añadir a favoritos">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                        </button>
+                        <a id="modal-download-btn" href="#" download="nailong_sticker.webp" onclick="handleModalDownload(event)" class="clay-btn bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 active:scale-95">
                             <i class="fa-solid fa-download"></i> Guardar Sticker
                         </a>
                     </div>
@@ -1155,7 +1158,10 @@
                     <button onclick="playSound('duang')" class="clay-btn clay-btn-yellow font-display font-bold px-4 sm:px-5 py-2 text-xs sm:text-sm flex items-center gap-2">
                         <span>🍮 ¡Hacer Duang!</span>
                     </button>
-                    <a id="lb-download-btn" href="#" download="nailong_foto.webp" class="clay-btn bg-emerald-500 text-white font-display font-bold px-4 sm:px-5 py-2 text-xs sm:text-sm flex items-center gap-2">
+                    <button type="button" id="lb-whatsapp-btn" onclick="shareCurrentLightboxToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-4 sm:px-5 py-2 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp para añadir a favoritos">
+                        <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
+                    </button>
+                    <a id="lb-download-btn" href="#" download="nailong_foto.webp" onclick="handleLightboxDownload(event)" class="clay-btn bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 sm:px-5 py-2 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95">
                         <i class="fa-solid fa-download"></i> Descargar Foto
                     </a>
                 </div>
@@ -1169,6 +1175,92 @@
                     <button onclick="nextLightboxPhoto()" class="clay-btn bg-white text-amber-950 px-3 py-2 font-display font-bold text-xs flex-1 flex items-center justify-center gap-1 border border-nailong-yellow">
                         Siguiente <i class="fa-solid fa-chevron-right"></i>
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL OPCIONES DE GUARDAR STICKER Y WHATSAPP -->
+    <div id="sticker-options-modal" class="fixed inset-0 bg-amber-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
+        <div class="clay-card max-w-md w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-4 sm:p-6 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
+            <!-- Close Button -->
+            <button onclick="closeStickerOptionsModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-lg flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="space-y-4 text-center">
+                <div class="space-y-1">
+                    <span class="bg-nailong-orange text-white font-display font-bold px-3 py-0.5 rounded-full text-[11px] uppercase inline-block">
+                        🦖 ¡LLÉVATE A NAILONG!
+                    </span>
+                    <h3 id="sticker-opt-title" class="font-display font-bold text-xl sm:text-2xl text-amber-950">
+                        Guardar Sticker
+                    </h3>
+                </div>
+
+                <!-- Preview Image -->
+                <div class="w-28 h-28 sm:w-32 sm:h-32 mx-auto bg-white rounded-2xl border-2 border-nailong-yellow p-2 flex items-center justify-center shadow-inner">
+                    <img id="sticker-opt-preview" src="" alt="Vista previa sticker" class="max-h-full max-w-full object-contain">
+                </div>
+
+                <!-- Options List -->
+                <div class="space-y-2.5 text-left">
+                    <!-- Option 1: WhatsApp Direct -->
+                    <button type="button" onclick="executeStickerAction('whatsapp')" class="w-full p-3 rounded-2xl bg-white hover:bg-emerald-50 border-2 border-[#25D366] shadow-sm flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                        <div class="w-10 h-10 rounded-xl bg-[#25D366] text-white flex items-center justify-center shrink-0 text-xl shadow-sm">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-display font-bold text-xs sm:text-sm text-amber-950 flex items-center gap-1.5">
+                                <span>Usar en WhatsApp</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold">Recomendado</span>
+                            </div>
+                            <p class="text-[11px] text-amber-800/90 leading-tight">
+                                Envíatelo o envíalo a un chat, pulsa sobre él y selecciona <strong class="text-emerald-700">«Añadir a favoritos ⭐»</strong>.
+                            </p>
+                        </div>
+                    </button>
+
+                    <!-- Option 2: Download / Save to Camera Roll -->
+                    <button type="button" onclick="executeStickerAction('download')" class="w-full p-3 rounded-2xl bg-white hover:bg-amber-50 border-2 border-nailong-yellow shadow-sm flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 text-xl shadow-sm">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-display font-bold text-xs sm:text-sm text-amber-950">
+                                Descargar en el Dispositivo
+                            </div>
+                            <p class="text-[11px] text-amber-800/90 leading-tight">
+                                Compatible 100% con <strong class="text-amber-950">iPhone (Carrete/Fotos)</strong>, Android y PC en formato WebP.
+                            </p>
+                        </div>
+                    </button>
+
+                    <!-- Option 3: Copy to Clipboard -->
+                    <button type="button" onclick="executeStickerAction('copy')" class="w-full p-3 rounded-2xl bg-white hover:bg-amber-50 border-2 border-nailong-pale shadow-sm flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                        <div class="w-10 h-10 rounded-xl bg-amber-400 text-amber-950 flex items-center justify-center shrink-0 text-xl shadow-sm">
+                            <i class="fa-regular fa-copy"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-display font-bold text-xs sm:text-sm text-amber-950">
+                                Copiar Sticker
+                            </div>
+                            <p class="text-[11px] text-amber-800/90 leading-tight">
+                                Copia al portapapeles para pegar directo como sticker en WhatsApp (iOS) o Telegram.
+                            </p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- WhatsApp Pack Explanation Notice -->
+                <div class="bg-amber-100/70 p-3 rounded-xl border border-amber-300 text-left space-y-1">
+                    <span class="font-display font-bold text-[11px] text-amber-950 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info text-amber-600"></i>
+                        <span>¿Por qué WhatsApp no permite instalar packs enteros con 1 clic?</span>
+                    </span>
+                    <p class="text-[10px] text-amber-900 leading-normal">
+                        WhatsApp restringe la importación masiva de packs a aplicaciones móviles nativas y no lo permite a navegadores web. Puedes guardar tus favoritos con el botón de WhatsApp (⭐), o buscar <strong>«Nailong»</strong> en la app gratuita <strong>Sticker.ly</strong> para tener todos de golpe.
+                    </p>
                 </div>
             </div>
         </div>
@@ -1240,6 +1332,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- DUANG TOAST NOTIFICATION -->
+    <div id="duang-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] max-w-sm w-[90%] sm:w-auto px-5 py-2.5 rounded-full bg-amber-950/95 text-white font-display font-bold text-xs sm:text-sm text-center border-2 border-nailong-yellow shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4">
+        <span id="duang-toast-text"></span>
     </div>
 
     <!-- JAVASCRIPT: LOGIC, DATA, AUDIO SYNTHESIZER & MINIGAME -->
@@ -1898,6 +1995,8 @@
             document.getElementById('lb-caption').textContent = '¡Aquí tenemos al creador de la página con Nailong! Mirad qué amigables son juntos. ¡Una amistad mágica para siempre! 🦖💛';
             const dlBtn = document.getElementById('lb-download-btn');
             if (dlBtn) dlBtn.style.display = 'none'; // Descarga desactivada para la foto del creador
+            const lbWhatsapp = document.getElementById('lb-whatsapp-btn');
+            if (lbWhatsapp) lbWhatsapp.style.display = 'none';
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             modal.style.display = 'flex';
@@ -1990,11 +2089,14 @@
             document.getElementById('lb-caption').textContent = item.desc;
             
             const dlBtn = document.getElementById('lb-download-btn');
+            const lbWhatsapp = document.getElementById('lb-whatsapp-btn');
             if (dlBtn) {
                 if (item.id === 43 || item.file === 'creador_nailong.webp') {
                     dlBtn.style.display = 'none';
+                    if (lbWhatsapp) lbWhatsapp.style.display = 'none';
                 } else {
                     dlBtn.style.display = 'inline-flex';
+                    if (lbWhatsapp) lbWhatsapp.style.display = 'inline-flex';
                     dlBtn.href = imgSrc;
                     dlBtn.download = item.customUrl ? `${item.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png` : `nailong_cromo_${item.id}.webp`;
                 }
@@ -2043,7 +2145,254 @@
             if (sm && !sm.classList.contains('hidden') && sm.style.display !== 'none') {
                 if (e.key === 'Escape') closeShareModal();
             }
+            const som = document.getElementById('sticker-options-modal');
+            if (som && !som.classList.contains('hidden') && som.style.display !== 'none') {
+                if (e.key === 'Escape') closeStickerOptionsModal();
+            }
         });
+
+        /* ==============================================================
+           7B. STICKER DOWNLOAD, WHATSAPP & CLIPBOARD INTEGRATION
+        ============================================================== */
+        let toastTimer = null;
+        function showDuangToast(msg) {
+            const toast = document.getElementById('duang-toast');
+            const toastText = document.getElementById('duang-toast-text');
+            if (!toast || !toastText) return;
+            toastText.textContent = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 3600);
+        }
+
+        let currentStickerOptTarget = null;
+
+        function openStickerOptionsModal(url, filename, title) {
+            playSound('pop');
+            currentStickerOptTarget = { url, filename, title };
+            const modal = document.getElementById('sticker-options-modal');
+            if (!modal) return;
+            
+            const titleEl = document.getElementById('sticker-opt-title');
+            const previewEl = document.getElementById('sticker-opt-preview');
+            if (titleEl) titleEl.textContent = title || 'Sticker de Nailong';
+            if (previewEl) previewEl.src = url;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modal.style.display = 'flex';
+        }
+
+        function closeStickerOptionsModal() {
+            playSound('pop');
+            const modal = document.getElementById('sticker-options-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            modal.style.display = 'none';
+        }
+
+        function handleModalDownload(event) {
+            if (event && event.preventDefault) event.preventDefault();
+            const gif = FEATURED_GIFS[currentModalGifIndex];
+            if (!gif) return;
+            const url = `Stickers Nailong/sticker_${gif.id}.webp`;
+            const filename = `nailong_animado_${gif.id}.webp`;
+            const title = `${gif.title} - Nailong`;
+            openStickerOptionsModal(url, filename, title);
+        }
+
+        function shareCurrentModalStickerToWhatsApp() {
+            const gif = FEATURED_GIFS[currentModalGifIndex];
+            if (!gif) return;
+            const url = `Stickers Nailong/sticker_${gif.id}.webp`;
+            const filename = `nailong_animado_${gif.id}.webp`;
+            const title = `${gif.title} - Nailong`;
+            shareStickerDirectToWhatsApp(url, filename, title);
+        }
+
+        function handleLightboxDownload(event) {
+            if (event && event.preventDefault) event.preventDefault();
+            const item = displayedStickers[currentLightboxIndex];
+            if (!item || item.id === 43 || item.file === 'creador_nailong.webp') return;
+            const url = item.customUrl ? item.customUrl : `Stickers Nailong/${item.file}`;
+            const filename = item.customUrl ? `${item.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png` : `nailong_cromo_${item.id}.webp`;
+            const title = `${item.title} - Nailong`;
+            openStickerOptionsModal(url, filename, title);
+        }
+
+        function shareCurrentLightboxToWhatsApp() {
+            const item = displayedStickers[currentLightboxIndex];
+            if (!item || item.id === 43 || item.file === 'creador_nailong.webp') return;
+            const url = item.customUrl ? item.customUrl : `Stickers Nailong/${item.file}`;
+            const filename = item.customUrl ? `${item.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png` : `nailong_cromo_${item.id}.webp`;
+            const title = `${item.title} - Nailong`;
+            shareStickerDirectToWhatsApp(url, filename, title);
+        }
+
+        async function executeStickerAction(action) {
+            if (!currentStickerOptTarget) return;
+            const { url, filename, title } = currentStickerOptTarget;
+
+            if (action === 'whatsapp') {
+                closeStickerOptionsModal();
+                await shareStickerDirectToWhatsApp(url, filename, title);
+            } else if (action === 'download') {
+                closeStickerOptionsModal();
+                await forceDownloadSticker(url, filename, title);
+            } else if (action === 'copy') {
+                closeStickerOptionsModal();
+                await copyStickerToClipboard(url);
+            }
+        }
+
+        async function forceDownloadSticker(url, filename, title) {
+            playSound('duang');
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            try {
+                const res = await fetch(url);
+                const blob = await res.blob();
+                const file = new File([blob], filename, { type: blob.type || 'image/webp' });
+
+                // On mobile (especially iOS Safari), navigator.share with files allows direct "Guardar imagen" (Camera Roll)
+                if (isMobile && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    showDuangToast('💡 En el menú nativo pulsa «Guardar imagen» para guardarla en tu Carrete de fotos.');
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: title || 'Sticker de Nailong',
+                            text: '¡Sticker de Nailong (奶龙)! ✨'
+                        });
+                        showDuangToast('✨ ¡Sticker guardado con éxito!');
+                        return;
+                    } catch (shareErr) {
+                        if (shareErr.name === 'AbortError') {
+                            // User dismissed share menu; proceed with blob trigger fallback
+                        }
+                    }
+                }
+
+                // Direct in-browser blob download
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(blobUrl);
+                }, 4000);
+
+                if (isIOS) {
+                    showDuangToast('📥 Pulsa «Descargar» en la barra de Safari para abrir el archivo.');
+                } else {
+                    showDuangToast('📥 ¡Descarga completada con éxito!');
+                }
+            } catch (e) {
+                console.warn('Fallback direct download triggered:', e);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => document.body.removeChild(a), 2000);
+                showDuangToast('💡 Mantén pulsada la imagen para guardarla en Fotos.');
+            }
+        }
+
+        async function shareStickerDirectToWhatsApp(url, filename, title) {
+            playSound('duang');
+            try {
+                const res = await fetch(url);
+                const blob = await res.blob();
+                const file = new File([blob], filename, { type: blob.type || 'image/webp' });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    showDuangToast('📲 Selecciona WhatsApp y luego pulsa "Añadir a favoritos ⭐"');
+                    await navigator.share({
+                        files: [file],
+                        title: title || 'Sticker Nailong',
+                        text: '¡Sticker de Nailong (奶龙)! 🦖 (Tócalo en WhatsApp y pulsa "Añadir a favoritos ⭐")'
+                    });
+                } else {
+                    // Browser without file share support (desktop PC / laptop)
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(blobUrl);
+                    }, 4000);
+
+                    showDuangToast('📥 Sticker descargado. ¡Arrástralo a WhatsApp Web para enviarlo como sticker!');
+                }
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    console.warn('WhatsApp share error:', err);
+                    showDuangToast('💡 Usa el botón Descargar y comparte el archivo en WhatsApp.');
+                }
+            }
+        }
+
+        async function copyStickerToClipboard(url) {
+            playSound('pop');
+            showDuangToast('⏳ Preparando sticker para copiar...');
+            try {
+                const res = await fetch(url);
+                const blob = await res.blob();
+                const blobUrl = URL.createObjectURL(blob);
+
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                await new Promise((resolve, reject) => {
+                    img.onload = resolve;
+                    img.onerror = reject;
+                    img.src = blobUrl;
+                });
+                URL.revokeObjectURL(blobUrl);
+
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || 512;
+                canvas.height = img.naturalHeight || 512;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+
+                canvas.toBlob(async (pngBlob) => {
+                    if (!pngBlob) {
+                        showDuangToast('💡 Mantén pulsada la imagen para copiarla.');
+                        return;
+                    }
+                    try {
+                        if (navigator.clipboard && window.ClipboardItem) {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': pngBlob })
+                            ]);
+                            playSound('fanfare');
+                            showDuangToast('✨ ¡Copiado al portapapeles! Pégalo en WhatsApp.');
+                        } else {
+                            showDuangToast('💡 En tu móvil, mantén pulsada la imagen para copiarla.');
+                        }
+                    } catch (clipErr) {
+                        console.warn('Clipboard write failed:', clipErr);
+                        showDuangToast('💡 Mantén pulsada la imagen en pantalla para copiarla.');
+                    }
+                }, 'image/png');
+            } catch (e) {
+                console.warn('Copy failed:', e);
+                showDuangToast('💡 No se pudo copiar. Usa la opción Descargar.');
+            }
+        }
 
         const USER_PHOTOS_STORAGE_KEY = 'nailong_saved_user_photos_v1';
 
@@ -3019,7 +3368,8 @@
             const modals = [
                 { id: 'magic-modal', close: closeMagicModal },
                 { id: 'photo-lightbox', close: closePhotoLightbox },
-                { id: 'share-modal', close: closeShareModal }
+                { id: 'share-modal', close: closeShareModal },
+                { id: 'sticker-options-modal', close: closeStickerOptionsModal }
             ];
             modals.forEach(({ id, close }) => {
                 const el = document.getElementById(id);
