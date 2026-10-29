@@ -26,13 +26,13 @@ print("✔ Single definitive index.html verified with 0 duplicate HTML files and
 
 # Test 2: Verify all stickers and creator photos on disk
 sticker_files = sorted(os.listdir('Stickers Nailong'))
-for i in range(1, 43):
+for i in range(1, 75):
     expected_file = f'sticker_{i}.webp'
     assert expected_file in sticker_files, f"Missing sticker file: {expected_file}"
 assert 'creador_nailong.webp' in sticker_files, "Optimized creador_nailong.webp missing!"
 assert 'Foto nailong yo.jfif' not in sticker_files, "Obsolete uncompressed Foto nailong yo.jfif should be removed!"
-assert len(sticker_files) == 43, f"Expected exactly 43 sticker files (42 stickers + creador), found {len(sticker_files)}"
-print("✔ All 42 sticker files + optimized creator photo verified in 'Stickers Nailong/' (obsolete files cleanly removed).")
+assert len(sticker_files) == 75, f"Expected exactly 75 sticker files (74 stickers + creador), found {len(sticker_files)}"
+print("✔ All 74 sticker files + optimized creator photo verified in 'Stickers Nailong/' (obsolete files cleanly removed).")
 
 # Test 3: Check all image references in index.html resolve to real files
 static_img_refs = re.findall(r'Stickers Nailong/([a-zA-Z0-9_\.]+\.webp)', html)
@@ -49,13 +49,13 @@ for tile in re.findall(r"sticker:\s*'([^']+)'", html):
     assert os.path.exists(os.path.join('Stickers Nailong', tile)), f"Soundboard / Mood sticker {tile} missing!"
 print("✔ All dynamically templated sticker references (GIFs, Moods, Soundboard) resolve to valid files on disk.")
 
-# Test 4: Verify ALL_STICKERS in JS array contains all 42 stickers + creator
+# Test 4: Verify ALL_STICKERS in JS array contains all 74 stickers + creator
 stickers_in_js = re.findall(r"file:\s*'sticker_(\d+)\.webp'", html)
 unique_js_stickers = sorted(set(int(x) for x in stickers_in_js))
-assert len(unique_js_stickers) == 42, f"Expected 42 stickers in ALL_STICKERS, found {len(unique_js_stickers)}"
-assert unique_js_stickers == list(range(1, 43)), f"Missing stickers in ALL_STICKERS: {set(range(1, 43)) - set(unique_js_stickers)}"
+assert len(unique_js_stickers) == 74, f"Expected 74 stickers in ALL_STICKERS, found {len(unique_js_stickers)}"
+assert unique_js_stickers == list(range(1, 75)), f"Missing stickers in ALL_STICKERS: {set(range(1, 75)) - set(unique_js_stickers)}"
 assert "creador_nailong.webp" in html, "Creator photo missing from ALL_STICKERS!"
-print("✔ ALL_STICKERS array accurately maps all 42 stickers (IDs 1 through 42) + creator photo.")
+print("✔ ALL_STICKERS array accurately maps all 74 stickers (IDs 1 through 74) + creator photo.")
 
 # Test 5: Verify SOUNDBOARD_TILES has 12 items
 soundboard_matches = re.findall(r"sticker:\s*'sticker_(\d+)\.webp',\s*name:\s*'([^']+)'", html)
@@ -301,4 +301,17 @@ drag_src = html[html.index("function makeStickerDraggable"):html.index("function
 assert "el.addEventListener('touchmove'" in drag_src and "window.addEventListener('touchmove'" not in drag_src, "Draggable sticker touch listeners must not be attached to window!"
 print("✔ v12 verified: lazy images, no GPU-heavy filters, paginated album, persisted/deletable user photos, dynamic counters, mobile-first UX and accessible modals.")
 
-print("\n=== ALL 37 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 38: Verify v13 stickers 43-74, renumbering, image crop, creator decoupling & desktop step
+from PIL import Image
+assert "item.id === 43" not in html, "item.id === 43 sentinel must be removed in favor of isCreatorItem!"
+assert "isCreatorItem" in html, "isCreatorItem helper function missing in index.html!"
+assert "GALLERY_STEP" in html, "GALLERY_STEP dynamic pagination constant missing in index.html!"
+im60 = Image.open('Stickers Nailong/sticker_60.webp')
+assert im60.size == (240, 202), f"sticker_60.webp must be cropped to 240x202, got {im60.size}"
+for extra in range(75, 78):
+    assert not os.path.exists(f'Stickers Nailong/sticker_{extra}.webp'), f"Stray sticker_{extra}.webp found on disk!"
+for i in range(1, 75):
+    assert os.path.exists(f'Stickers Nailong/sticker_{i}.webp'), f"Sticker gap detected at sticker_{i}.webp!"
+print("✔ v13 verified: 74 continuous stickers, sticker_60 cropped (240x202), isCreatorItem decoupled from id 43, GALLERY_STEP active.")
+
+print("\n=== ALL 38 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

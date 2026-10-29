@@ -62,7 +62,7 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
    - No añadir archivos de audio pesados (`.mp3`, `.wav`) en el árbol de archivos. Los sonidos se sintetizan algorítmicamente mediante la **Web Audio API** (`audioCtx.createOscillator()`).
 4. **Optimización de Recursos Gráficos:**
    - Todas las imágenes y animaciones de stickers están en formato WebP dentro de `Stickers Nailong/`.
-   - La colección contiene exactamente 42 cromos numerados (`sticker_1.webp` a `sticker_42.webp`) más las imágenes del creador (`creador_nailong.webp`).
+   - La colección contiene exactamente 74 cromos numerados (`sticker_1.webp` a `sticker_74.webp`) más las imágenes del creador (`creador_nailong.webp`).
 5. **Compatibilidad Móvil Obligatoria:**
    - La interfaz debe funcionar perfectamente en iPhone (Safari iOS con Dynamic Island y barra inferior) y Android (Chrome), respetando `viewport-fit=cover`, safe-area insets y soporte PWA.
 6. **Verificación Continua:**
@@ -79,8 +79,8 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ├── GEMINI.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Gemini)
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
-├── verify_all.py                # Suite de pruebas automatizadas (37 comprobaciones)
-└── Stickers Nailong/            # Banco de 42 cromos en WebP + foto optimizada del creador
+├── verify_all.py                # Suite de pruebas automatizadas (38 comprobaciones)
+└── Stickers Nailong/            # Banco de 74 cromos en WebP + foto optimizada del creador
 ```
 
 ---
@@ -112,7 +112,7 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
    - Modal con control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento (swipe horizontal) y pegatinas arrastrables.
 
 6. **Gran Álbum Polaroid de Cromos:**
-   - 42 cromos reales categorizados con visor ampliado (Lightbox), paginados de 12 en 12 con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
+   - 74 cromos reales categorizados con visor ampliado (Lightbox), paginados de 12 en 12 con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
    - Sección especial del creador de la web con Nailong (`#creador`).
    - Subida de fotos del usuario con compresión en canvas y guardado persistente en `localStorage`.
 
@@ -220,6 +220,14 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Accesibilidad:** `@media (prefers-reduced-motion: reduce)`, `role="dialog"` + `aria-modal` + `aria-labelledby` en los 4 modales, `aria-label` en botones de icono y bloqueo del scroll de fondo con un modal abierto (`setupModalScrollLock()`, clase `body.modal-open`).
 - **Suite de Pruebas Ampliada a 37 Comprobaciones:** nuevo Test 37 en `verify_all.py` que blinda todo lo anterior, y ventana de búsqueda del avatar del header ampliada de 15.000 a 25.000 caracteres.
 - **Decisiones diferidas:** Tailwind sigue cargándose por CDN (proyecto *buildless*), el cromo del creador sigue fuera de `ALL_STICKERS` y no se añade Service Worker.
+
+### 📌 Versión 13.0.0 (v13) - Incorporación de Stickers 43–74, Paginación Progresiva y Corrección del Creador
+- **Colección Ampliada a 74 Cromos:** Integración de los 32 nuevos stickers de Nailong (`sticker_43.webp` a `sticker_74.webp`) en `ALL_STICKERS` con títulos en tono infantil, asignación temática de categorías (`caritas`, `bailes`, `comida`, `amigos`), efectos de audio Web Audio y recuento preciso de frames.
+- **Renumeración Continua:** Eliminación de huecos en la serie gráfica (antiguos huecos 58, 59 y 63 resueltos mediante reasignación secuencial ascendente hasta 74 stickers + imagen del creador: 75 archivos WebP en total).
+- **Recorte sin Pérdidas de Texto Foráneo:** Eliminación del rótulo «GEMESNYA» en `sticker_60.webp` mediante recorte sin pérdidas a 240×202 píxeles conservando íntegro el personaje con sus manos y expresión.
+- **Corrección de Centinela del Creador:** Desacoplamiento de la verificación de la foto del creador (`isCreatorItem`), eliminando la regla rígida `item.id === 43` que impedía guardar o compartir por WhatsApp el nuevo cromo #43.
+- **Paginación Dinámica Adaptativa:** Incorporación de `GALLERY_STEP` (+24 cromos por clic en escritorio/tablet y +12 en móvil) en el botón «Ver más cromos», optimizando la fluidez de exploración sin sobrecargar el renderizado en terminales móviles.
+- **Suite de Pruebas Ampliada:** Incrementada a 38 comprobaciones en `verify_all.py` (validación de stickers 1..74, dimensiones de `sticker_60.webp`, ausencia de saltos o residuales, presencia de `GALLERY_STEP` y desvinculación total de `id === 43`).
 
 ---
 

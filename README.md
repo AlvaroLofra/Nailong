@@ -10,7 +10,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 - **Hero Interactivo & Contador Duang:** Pancita con físicas elásticas, efectos de sonido y 9 estados de ánimo en vivo.
 - **Visor Mágico de Animaciones:** Galería de escenas GIF en bucle con control de velocidad y pegatinas arrastrables.
-- **Gran Álbum Polaroid:** Catálogo de 42 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
+- **Gran Álbum Polaroid:** Catálogo de 74 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
 - **Botonera Musical:** 12 casillas con efectos de caricatura sintetizados en tiempo real mediante la Web Audio API.
 - **Laboratorio de Superpoderes:** Ajuste de tamaño, modo camaleón con ciclo arcoíris y lanzamiento de llamaradas en canvas.
 - **Minijuego "La Gran Comilona":** Juego arcade en HTML5 Canvas con pantalla completa fluida, controles táctiles y teclado.
@@ -26,8 +26,8 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
 ├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (37 verificaciones)
-└── Stickers Nailong/            # Banco de 42 cromos en WebP + foto optimizada del creador
+├── verify_all.py                # Suite de pruebas automatizadas (38 verificaciones)
+└── Stickers Nailong/            # Banco de 74 cromos en WebP + foto optimizada del creador
 ```
 
 ---
@@ -86,12 +86,20 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Reordenación responsive del Hero: Nailong visible de inmediato en móviles tras la introducción.
 - Suite de pruebas ampliada a 36 verificaciones automatizadas pasando al 100%.
 
-### v12.0.0 (Actual) - Rendimiento GPU, UX Móvil y Accesibilidad
+### v12.0.0 - Rendimiento GPU, UX Móvil y Accesibilidad
 - Carga diferida de imágenes, álbum paginado («Ver más cromos») y sin filtros de sombra ni desenfoque sobre contenido animado: mucho menos uso de GPU en Chrome y Brave.
 - Las fotos que subes ahora se conservan al recargar y se pueden borrar con 🗑️.
 - Álbum en 2 columnas en móvil, filtros deslizables, botones del minijuego sin duplicar y mascota menos intrusiva.
 - Accesibilidad: movimiento reducido, modales con `role="dialog"` y bloqueo del scroll de fondo.
 - Suite de pruebas ampliada a 37 verificaciones automatizadas pasando al 100%.
+
+### v13.0.0 (Actual) - Colección Ampliada a 74 Cromos, Paginación Progresiva y Corrección del Creador
+- Incorporación de 32 stickers nuevos (`sticker_43.webp` a `sticker_74.webp`) a `ALL_STICKERS` con títulos infantiles, categorías, efectos de audio y metadatos de fotogramas.
+- Renumeración continua sin saltos de numeración (cerrados los huecos 58, 59 y 63; 75 archivos WebP en total).
+- Recorte sin pérdidas del texto "GEMESNYA" en `sticker_60.webp` (240×202 px) preservando el personaje completo.
+- Corrección de la verificación de foto del creador (`isCreatorItem`), desvinculándola de `id === 43` para habilitar la descarga y envío a WhatsApp del cromo 43.
+- Botón «Ver más cromos» ampliado a un paso de +24 cromos en escritorio y tablet (+12 en móvil).
+- Suite de pruebas ampliada a 38 verificaciones automatizadas pasando al 100%.
 
 ---
 

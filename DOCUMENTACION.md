@@ -18,8 +18,8 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ├── DOCUMENTACION.md             # Documentación exhaustiva de código, arquitectura y funcionamiento
 ├── GEMINI.md                    # Contexto e instrucciones técnicas para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones técnicas para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas en Python (37 tests unitarios y estructurales)
-└── Stickers Nailong/            # Directorio de recursos gráficos (42 cromos .webp + foto optimizada del creador)
+├── verify_all.py                # Suite de pruebas automatizadas en Python (38 tests unitarios y estructurales)
+└── Stickers Nailong/            # Directorio de recursos gráficos (74 cromos .webp + foto optimizada del creador)
 ```
 
 ---
@@ -83,7 +83,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - Capa de pegatinas interactivas arrastrables (`makeStickerDraggable`) con aislamiento de gestos táctiles.
 - Navegación táctil con gestos de deslizamiento horizontal (Swipe izquierda/derecha).
 
-### 3.5. Gran Álbum Polaroid (42 Cromos + Creador + Fotos de Usuario)
+### 3.5. Gran Álbum Polaroid (74 Cromos + Creador + Fotos de Usuario)
 - Filtros por categorías: *Todos*, *En Movimiento*, *Comilonas*, *Caritas*, *Bailes*, *Amigos*.
 - Sistema de subida de fotos del usuario con persistencia en `localStorage`:
   - Compresión y escalado automático en un canvas temporal antes de guardarse en base64 para no saturar la cuota de almacenamiento.
@@ -228,7 +228,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   3. **Copia Dinámica al Portapapeles (`copyStickerToClipboard`):**
      - Conversión offscreen en canvas a PNG para satisfacer la especificación W3C Clipboard API en navegadores que restringen el pegado de WebP.
   4. **Alternativa de Importación Masiva:**
-     - Se documenta en el modal la recomendación de usar la app gratuita **Sticker.ly** buscando "Nailong" para instalar los 42 stickers de golpe.
+     - Se documenta en el modal la recomendación de usar la app gratuita **Sticker.ly** buscando "Nailong" para instalar los 74 stickers de golpe.
 
 ### 📌 ADR-02: Consolidación Limpia del Repositorio y Diagnóstico de Carga
 - **Fecha:** 2026-10-29
@@ -265,8 +265,20 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   3. `#party-canvas` oculto y a 1×1 px en reposo; nunca `contain: strict` (colapsa el canvas a 0×0, ver v7).
   4. Móvil primero: álbum a 2 columnas, filtros en carrusel y botones táctiles del juego sin duplicar.
   5. **Se mantiene Tailwind por CDN** (regla *buildless* del proyecto). Compilarlo con Tailwind CLI reduciría ~100 KB de JavaScript en la carga, pero introduce una herramienta de build; se aplaza como decisión de arquitectura aparte.
-  6. **No se añade el cromo `id: 43`** a `ALL_STICKERS`: la foto del creador vive en su propia sección y Lightbox (`#creador`).
+  6. **Identificación semántica de la foto del creador:** La foto del creador se discrimina por archivo (`file === 'creador_nailong.webp'` vía `isCreatorItem`), suprimiendo el centinela rígido `id: 43` para que el cromo real #43 de Nailong pueda añadirse a `ALL_STICKERS` y descargarse libremente.
 - **Medición:** abrir `Shift+Esc` en Chrome y observar el proceso de GPU mientras se hace scroll por el álbum, antes y después.
+
+### 📌 ADR-05: Expansión de Colección a 74 Stickers, Renumeración Continua y Paginación Dinámica
+- **Fecha:** 2026-10-29
+- **Estado:** Implementado / Aceptado
+- **Problema:** El array `ALL_STICKERS` solo contenía 42 cromos mientras existían 32 nuevos archivos WebP en `Stickers Nailong/` con saltos de numeración (faltaban 58, 59 y 63) y un archivo con texto incrustado ("GEMESNYA"). Además, el código trataba `id === 43` como centinela del creador, bloqueando la descarga del nuevo cromo 43, y el botón de paginación avanzaba únicamente de 12 en 12 en pantallas grandes.
+- **Decisión Adoptada:**
+  1. Recortar sin pérdidas `sticker_62.webp` a 240×202 px para eliminar el texto "GEMESNYA" sin afectar al personaje (renumerado a `sticker_60.webp`).
+  2. Renumerar secuencialmente en orden ascendente los archivos para cerrar los huecos (quedando `sticker_1.webp`…`sticker_74.webp` + `creador_nailong.webp`: 75 archivos).
+  3. Incorporar los 32 nuevos elementos a `ALL_STICKERS` con títulos en tono infantil, categorías, efectos de Web Audio y conteo verificado de fotogramas.
+  4. Desacoplar la foto del creador mediante la función `isCreatorItem(item)` (`item.file === 'creador_nailong.webp'`), eliminando cualquier chequeo por `item.id === 43`.
+  5. Ajustar el paso de paginación (`GALLERY_STEP = window.matchMedia('(min-width: 640px)').matches ? 24 : 12`), acelerando la exploración en escritorio (+24) mientras se preserva el consumo móvil (+12).
+
 
 ---
 
@@ -275,11 +287,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (37 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (38 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 37 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 38 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```
