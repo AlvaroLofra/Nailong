@@ -80,9 +80,7 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
 ├── verify_all.py                # Suite de pruebas automatizadas (35 comprobaciones)
-├── compartir_amigos.py          # Script de servidor LAN en Python con código QR en terminal
-├── compartir_amigos.bat         # Archivo de ejecución rápida en Windows
-└── Stickers Nailong/            # Banco de 42 cromos en WebP + fotos
+└── Stickers Nailong/            # Banco de 42 cromos en WebP + foto optimizada del creador
 ```
 
 ---
@@ -199,6 +197,11 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Notificaciones Toast Flotantes Duang (`#duang-toast`):** Notificación emergente accesible y animada (`showDuangToast`) que informa al instante sobre el estado de la descarga o la guía para añadir a favoritos en WhatsApp.
 - **Alineación de Gobernanza con la Biblioteca Central:** Integración formal del protocolo de inicialización en cascada, regla estricta de autorización previa para transferencia de plantillas y reglas de sesiones quirúrgicas en `GEMINI.md`, `CLAUDE.md` y registro ADR en `DOCUMENTACION.md`.
 - **Suite de Pruebas Ampliada a 35 Verificaciones:** `verify_all.py` ampliado para validar elementos de WhatsApp, integración de descargas, portapapeles, persistencia y gobernanza documental.
+
+### 📌 Versión 10.0.0 (v10) - Limpieza de Archivos Obsoletos y Verificación de Carga
+- **Eliminación de Archivos Obsoletos:** Supresión definitiva de los scripts auxiliares de red local (`compartir_amigos.bat`, `compartir_amigos.py`), la guía previa de hosting (`COMO_HOSTEAR.md`), la imagen residual `stickers_overview.png`, y la fotografía original sin comprimir de 2MB (`Stickers Nailong/Foto nailong yo.jfif`), reemplazada al 100% por la versión optimizada en formato WebP (`creador_nailong.webp`).
+- **Verificación de Carga en Navegador:** Validación exhaustiva del ciclo de vida de carga de `index.html` en Chrome headless y servidor HTTP local con 0 errores de consola, 0 excepciones no capturadas y 100% de los elementos visuales renderizados correctamente.
+- **Suite de Pruebas Actualizada:** Actualizadas las aserciones de `verify_all.py` para verificar la ausencia de archivos obsoletos y asegurar exactamente 43 elementos en `Stickers Nailong/`.
 
 ---
 

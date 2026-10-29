@@ -13,21 +13,26 @@ print("=== STARTING COMPREHENSIVE VERIFICATION ===")
 assert os.path.exists('index.html'), "index.html missing!"
 assert not os.path.exists('el_mundo_m_gico_de_nailong.html'), "Duplicate HTML 'el_mundo_m_gico_de_nailong.html' should be removed!"
 assert not os.path.exists('el_mundo_m_gico_de_nailong v1.html'), "Duplicate HTML 'el_mundo_m_gico_de_nailong v1.html' should be removed!"
+assert not os.path.exists('compartir_amigos.bat'), "Obsolete compartir_amigos.bat should be removed!"
+assert not os.path.exists('compartir_amigos.py'), "Obsolete compartir_amigos.py should be removed!"
+assert not os.path.exists('COMO_HOSTEAR.md'), "Obsolete COMO_HOSTEAR.md should be removed!"
+assert not os.path.exists('stickers_overview.png'), "Obsolete stickers_overview.png should be removed!"
 assert os.path.exists('Stickers Nailong'), "Stickers directory missing!"
 
 with open('index.html', 'r', encoding='utf-8') as f:
     html = f.read()
 
-print("✔ Single definitive index.html verified with 0 duplicate HTML files.")
+print("✔ Single definitive index.html verified with 0 duplicate HTML files and obsolete scripts cleaned.")
 
 # Test 2: Verify all stickers and creator photos on disk
 sticker_files = sorted(os.listdir('Stickers Nailong'))
 for i in range(1, 43):
     expected_file = f'sticker_{i}.webp'
     assert expected_file in sticker_files, f"Missing sticker file: {expected_file}"
-assert 'Foto nailong yo.jfif' in sticker_files, "Original Foto nailong yo.jfif missing!"
 assert 'creador_nailong.webp' in sticker_files, "Optimized creador_nailong.webp missing!"
-print("✔ All 42 sticker files + creator photos (original and webp) exist in 'Stickers Nailong/'.")
+assert 'Foto nailong yo.jfif' not in sticker_files, "Obsolete uncompressed Foto nailong yo.jfif should be removed!"
+assert len(sticker_files) == 43, f"Expected exactly 43 sticker files (42 stickers + creador), found {len(sticker_files)}"
+print("✔ All 42 sticker files + optimized creator photo verified in 'Stickers Nailong/' (obsolete files cleanly removed).")
 
 # Test 3: Check all image references in index.html resolve to real files
 static_img_refs = re.findall(r'Stickers Nailong/([a-zA-Z0-9_\.]+\.webp)', html)

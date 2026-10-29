@@ -27,10 +27,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── GEMINI.md                    # Contexto e instrucciones del proyecto para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones del proyecto para modelos Claude
 ├── verify_all.py                # Suite de pruebas automatizadas (35 tests)
-├── Stickers Nailong/            # Colección de los 42 stickers reales (.webp)
-├── compartir_amigos.bat         # Launcher 1-clic para compartir por Wi-Fi local
-├── compartir_amigos.py          # Servidor LAN local en Python
-└── COMO_HOSTEAR.md              # Guía de despliegue y alojamiento
+└── Stickers Nailong/            # Colección de los 42 stickers reales (.webp) + foto optimizada del creador
 ```
 
 ---
@@ -58,13 +55,17 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
   - 📐 Rescalado dinámico proporcional de coordenadas (`playerX` y alimentos) al redimensionar la pantalla.
   - 🎨 Encuadre óptico perfeccionado del avatar 3D en la cabecera sin recortes de frente en ningún fotograma.
   - 🎉 Efecto visual de confeti y muslitos instantáneo en el modo fiesta desde el primer fotograma.
-- **v9.0.0 (Actual)**:
+- **v9.0.0**:
   - 💬 **Botón de WhatsApp integrado:** Envío de stickers directo a WhatsApp vía Web Share API para guardar en "Favoritos ⭐" en 1 toque.
   - 🍏 **Solución definitiva a descargas en iPhone (iOS Safari):** Corrección de la omisión del atributo `download` en WebKit mediante guardado en Fotos / Carrete nativo y fallback Blob URL.
   - 🗂️ **Modal de Opciones de Guardado:** Menú accesible con opciones para WhatsApp, descarga a Fotos/Archivos y copia al portapapeles.
   - 🍞 **Notificaciones Toast Duang:** Feedback visual interactivo en pantalla para guiar en las descargas y favoritos.
   - 🏛️ **Gobernanza de Biblioteca Central:** Protocolo de inicialización en cascada y trazabilidad ADR.
   - 🧪 **35 pruebas automatizadas** en `verify_all.py`.
+- **v10.0.0 (Actual)**:
+  - 🧹 **Limpieza de Archivos Obsoletos:** Eliminación de scripts de hosting local (`compartir_amigos.bat`, `compartir_amigos.py`, `COMO_HOSTEAR.md`), capturas temporales y foto original de 2MB (`Foto nailong yo.jfif`), dejando el árbol 100% optimizado para producción.
+  - 🌐 **Diagnóstico de Navegador & Carga:** Verificación del renderizado en navegador headless con 0 errores y confirmación de funcionamiento sobre servidor estático HTTP.
+  - 🧪 **Suite de 35 Pruebas actualizada** para validar ausencia de archivos obsoletos y recuento exacto de assets.
 
 ---
 
