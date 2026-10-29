@@ -18,7 +18,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ├── DOCUMENTACION.md             # Documentación exhaustiva de código, arquitectura y funcionamiento
 ├── GEMINI.md                    # Contexto e instrucciones técnicas para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones técnicas para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas en Python (28 tests unitarios y estructurales)
+├── verify_all.py                # Suite de pruebas automatizadas en Python (33 tests unitarios y estructurales)
 ├── compartir_amigos.py          # Servidor HTTP local multi-interfaz con generación de QR en consola
 ├── compartir_amigos.bat         # Launcher rápido para Windows (doble clic)
 └── Stickers Nailong/            # Directorio de recursos gráficos (42 cromos .webp + fotos del creador)
@@ -163,8 +163,16 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Corrección Crítica del Minijuego:** Solucionado el fallo donde el minijuego había dejado de funcionar por completo. Se identificó y corrigió un `ReferenceError: keysHeld is not defined` que provocaba un fallo silencioso en el primer fotograma de `gameLoop`.
 - **Deslizador Lineal y Rápido:** Sustituida la aceleración progresiva lenta por un movimiento lineal continuo y rápido (16px a 21px por frame) para teclado y botones virtuales táctiles, ofreciendo una respuesta ágil estilo arcade clásico.
 - **Modo Pantalla Completa Fluido para el Minijuego:** Añadido botón de pantalla completa en la cabecera de controles y botón flotante en la esquina del juego. Compatible con Fullscreen API nativa y fallback CSS (`.minigame-fullscreen-active`), soporte de tecla `Escape`, transiciones suaves de entrada/salida y redimensionado automático de resolución de dibujado.
-- **Avatar de Cabecera con Sonrisa Radiante 3D:** Sustituido el avatar anterior por el GIF animado 3D de sonrisa radiante (`sticker_2.webp`), llenando el círculo completo sin recortes con zoom óptico equilibrado (`scale-110 object-center`).
+- **Avatar de Cabecera con Sonrisa Radiante 3D:** Sustituido el avatar anterior por el GIF animado 3D de sonrisa radiante (`sticker_2.webp`), llenando el círculo completo.
 - **Suite de Pruebas Ampliada:** Incrementada de 24 a 28 pruebas automatizadas en `verify_all.py`, verificando la ausencia de regresiones, sintaxis limpia y validación de interacción en navegador.
+
+### 🚀 Versión 8.0.0 (v8) - Perfeccionamiento de Pantalla Completa, HUD en Canvas y Encuadre Óptico
+- **HUD Integrado de Marcador y Tiempo en Canvas:** Inclusión de una pastilla de puntuación en vivo (`⭐ X pts`) junto a la pastilla de tiempo (`⏱️ Xs`) en la esquina superior del canvas. Permite a los jugadores ver sus puntos en tiempo real tanto en la vista estándar como en el modo pantalla completa.
+- **Controles Táctiles Internos en Pantalla Completa (`#game-touch-dock`):** Integración de botones táctiles virtuales dentro del contenedor del juego (`#game-container`), garantizando que al jugar en pantalla completa en móviles o tablets los controles táctiles permanezcan accesibles.
+- **Corrección de Aislamiento en Pantalla Completa CSS:** Eliminada la trampa de contexto de apilamiento provocada por las transformaciones CSS en elementos `.reveal-item.visible` (establecido en `transform: none`), y añadida la clase `has-minigame-fullscreen` en `body` para elevar `#game-container` por encima de cualquier otro elemento de la página.
+- **Rescalado Dinámico Proporcional de Coordenadas:** `resizeGameCanvas()` escala matemáticamente la posición horizontal del jugador (`playerX`) y la de todos los alimentos en caída activa según la proporción `newWidth / oldWidth` al entrar/salir de pantalla completa o al cambiar la orientación del dispositivo, evitando que el personaje se desplace fuera del lienzo.
+- **Encuadre Óptico del Avatar de Cabecera:** Ajuste fino del recorte circular de `sticker_2.webp` para que llene el círculo completo con `object-cover` sin cortar la parte superior de la frente ni los ojos del personaje durante ninguno de sus 36 fotogramas de animación.
+- **Efecto Inmediato en Modo Fiesta:** Distribución de las partículas iniciales para que aparezcan de forma instantánea en el campo visual del usuario, sin retrasos de caída desde fuera de pantalla.
 
 ---
 
@@ -173,11 +181,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (28 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (33 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 28 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 33 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```

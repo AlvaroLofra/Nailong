@@ -269,7 +269,7 @@
 
         .reveal-item.visible {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: none;
         }
 
         /* Custom Chubby Scrollbar */
@@ -311,6 +311,14 @@
         #game-container {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        body.has-minigame-fullscreen main {
+            z-index: 999998 !important;
+        }
+        body.has-minigame-fullscreen #minijuego,
+        body.has-minigame-fullscreen #minijuego .clay-card {
+            transform: none !important;
+            filter: none !important;
+        }
         #game-container.minigame-fullscreen-active {
             position: fixed !important;
             inset: 0 !important;
@@ -319,10 +327,12 @@
             height: 100dvh !important;
             max-width: none !important;
             max-height: none !important;
-            z-index: 99999 !important;
+            z-index: 999999 !important;
             border-radius: 0 !important;
             border: none !important;
             margin: 0 !important;
+            background: linear-gradient(to bottom, #bae6fd, #e0f2fe, #fef3c7) !important;
+            animation: minigameFsFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         #game-container:fullscreen {
             width: 100vw !important;
@@ -332,12 +342,26 @@
             border-radius: 0 !important;
             border: none !important;
             padding: 0 !important;
+            background: linear-gradient(to bottom, #bae6fd, #e0f2fe, #fef3c7) !important;
         }
         #game-container:-webkit-full-screen {
             width: 100vw !important;
             height: 100vh !important;
             border-radius: 0 !important;
             border: none !important;
+            background: linear-gradient(to bottom, #bae6fd, #e0f2fe, #fef3c7) !important;
+        }
+        #game-container.minigame-fullscreen-active #game-touch-dock,
+        #game-container:fullscreen #game-touch-dock {
+            display: flex !important;
+        }
+        @keyframes minigameFsFadeIn {
+            from {
+                opacity: 0.85;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -356,7 +380,7 @@
                 <!-- Brand Logo with Real Walking Nailong -->
                 <a href="#inicio" class="flex items-center gap-2 sm:gap-3 group shrink-0" title="Volver al inicio">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-nailong-yellow border-2 border-nailong-orange shadow-inner flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform relative">
-                        <img src="Stickers Nailong/sticker_2.webp" alt="Nailong sonrisa radiante 3D" class="w-full h-full object-cover scale-110 object-center">
+                        <img src="Stickers Nailong/sticker_2.webp" alt="Nailong sonrisa radiante 3D" class="w-full h-full object-cover object-center">
                     </div>
                     <div>
                         <span class="font-display font-bold text-lg sm:text-2xl text-amber-950 tracking-tight block leading-none">
@@ -959,6 +983,18 @@
                                 🎉 ¡Empezar a Comer!
                             </button>
                         </div>
+                    </div>
+
+                    <!-- In-Game Touch Controls for Mobile/Tablets and Fullscreen -->
+                    <div id="game-touch-dock" class="absolute bottom-3 inset-x-3 flex justify-between pointer-events-none z-20 sm:hidden">
+                        <button id="dock-left-btn" type="button" class="pointer-events-auto clay-btn bg-white/90 hover:bg-white text-amber-950 font-display font-bold py-2.5 px-5 rounded-2xl flex items-center justify-center gap-1.5 text-sm shadow-md border-2 border-nailong-yellow select-none active:scale-90 transition-transform">
+                            <i class="fa-solid fa-arrow-left text-base text-nailong-orange"></i>
+                            <span>Izquierda</span>
+                        </button>
+                        <button id="dock-right-btn" type="button" class="pointer-events-auto clay-btn bg-white/90 hover:bg-white text-amber-950 font-display font-bold py-2.5 px-5 rounded-2xl flex items-center justify-center gap-1.5 text-sm shadow-md border-2 border-nailong-yellow select-none active:scale-90 transition-transform">
+                            <span>Derecha</span>
+                            <i class="fa-solid fa-arrow-right text-base text-nailong-orange"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -2286,10 +2322,23 @@
             const container = document.getElementById('game-container');
             if (!container) return;
             const rect = container.getBoundingClientRect();
-            foodCanvas.width = Math.round(rect.width);
-            foodCanvas.height = Math.round(rect.height);
+            const oldWidth = foodCanvas.width || rect.width;
+            const newWidth = Math.round(rect.width);
+            const newHeight = Math.round(rect.height);
+
+            foodCanvas.width = newWidth;
+            foodCanvas.height = newHeight;
+
             if (!gameActive) {
                 playerX = foodCanvas.width / 2;
+            } else if (oldWidth > 0 && oldWidth !== newWidth) {
+                const ratio = newWidth / oldWidth;
+                playerX = Math.max(50, Math.min(newWidth - 50, Math.round(playerX * ratio)));
+                fallingItems.forEach(item => {
+                    item.x = Math.max(45, Math.min(newWidth - 45, Math.round(item.x * ratio)));
+                });
+            } else {
+                playerX = Math.max(50, Math.min(newWidth - 50, playerX));
             }
         }
 
@@ -2324,6 +2373,7 @@
         }
 
         function enterCssFullscreen(container) {
+            document.body.classList.add('has-minigame-fullscreen');
             container.classList.add('minigame-fullscreen-active');
             document.body.style.overflow = 'hidden';
             updateFullscreenUI(true);
@@ -2332,6 +2382,7 @@
         }
 
         function exitCssFullscreen(container) {
+            document.body.classList.remove('has-minigame-fullscreen');
             container.classList.remove('minigame-fullscreen-active');
             document.body.style.overflow = '';
             updateFullscreenUI(false);
@@ -2378,21 +2429,23 @@
 
             window.addEventListener('keydown', (e) => {
                 if (!gameActive) return;
-                if (e.key === 'ArrowLeft' || e.key === 'KeyA' || e.code === 'ArrowLeft' || e.code === 'KeyA') {
+                const key = e.key ? e.key.toLowerCase() : '';
+                if (e.key === 'ArrowLeft' || key === 'a' || e.code === 'ArrowLeft' || e.code === 'KeyA') {
                     keysHeld.left = true;
                     if (e.cancelable) e.preventDefault();
                 }
-                if (e.key === 'ArrowRight' || e.key === 'KeyD' || e.code === 'ArrowRight' || e.code === 'KeyD') {
+                if (e.key === 'ArrowRight' || key === 'd' || e.code === 'ArrowRight' || e.code === 'KeyD') {
                     keysHeld.right = true;
                     if (e.cancelable) e.preventDefault();
                 }
             });
 
             window.addEventListener('keyup', (e) => {
-                if (e.key === 'ArrowLeft' || e.key === 'KeyA' || e.code === 'ArrowLeft' || e.code === 'KeyA') {
+                const key = e.key ? e.key.toLowerCase() : '';
+                if (e.key === 'ArrowLeft' || key === 'a' || e.code === 'ArrowLeft' || e.code === 'KeyA') {
                     keysHeld.left = false;
                 }
-                if (e.key === 'ArrowRight' || e.key === 'KeyD' || e.code === 'ArrowRight' || e.code === 'KeyD') {
+                if (e.key === 'ArrowRight' || key === 'd' || e.code === 'ArrowRight' || e.code === 'KeyD') {
                     keysHeld.right = false;
                 }
             });
@@ -2408,11 +2461,13 @@
                 const isFs = !!document.fullscreenElement;
                 updateFullscreenUI(isFs);
                 setTimeout(resizeGameCanvas, 60);
+                setTimeout(resizeGameCanvas, 200);
             });
             document.addEventListener('webkitfullscreenchange', () => {
                 const isFs = !!document.webkitFullscreenElement;
                 updateFullscreenUI(isFs);
                 setTimeout(resizeGameCanvas, 60);
+                setTimeout(resizeGameCanvas, 200);
             });
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
@@ -2423,43 +2478,37 @@
                 }
             });
 
-            // Virtual Left/Right buttons for mobile touchscreens
-            let moveInterval = null;
-            const leftBtn = document.getElementById('mobile-left-btn');
-            const rightBtn = document.getElementById('mobile-right-btn');
-
-            const handleMove = (dir) => {
-                if (!gameActive) return;
-                const moveSpeed = Math.max(20, Math.round(foodCanvas.width * 0.025));
-                playerX = dir === 'left' ? Math.max(50, playerX - moveSpeed) : Math.min(foodCanvas.width - 50, playerX + moveSpeed);
+            // Virtual Left/Right buttons for mobile touchscreens (both dock and card buttons)
+            const bindButton = (btn, dir) => {
+                if (!btn) return;
+                const start = (e) => {
+                    if (e.cancelable) e.preventDefault();
+                    if (e.stopPropagation) e.stopPropagation();
+                    if (dir === 'left') { keysHeld.left = true; keysHeld.right = false; }
+                    if (dir === 'right') { keysHeld.right = true; keysHeld.left = false; }
+                };
+                const stop = (e) => {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (dir === 'left') keysHeld.left = false;
+                    if (dir === 'right') keysHeld.right = false;
+                };
+                btn.addEventListener('touchstart', start, { passive: false });
+                btn.addEventListener('touchend', stop);
+                btn.addEventListener('touchcancel', stop);
+                btn.addEventListener('mousedown', start);
+                btn.addEventListener('mouseup', stop);
+                btn.addEventListener('mouseleave', stop);
             };
 
-            if (leftBtn && rightBtn) {
-                const bindButton = (btn, dir) => {
-                    const start = (e) => {
-                        if (e.cancelable) e.preventDefault();
-                        if (dir === 'left') keysHeld.left = true;
-                        if (dir === 'right') keysHeld.right = true;
-                        handleMove(dir);
-                        clearInterval(moveInterval);
-                        moveInterval = setInterval(() => handleMove(dir), 28);
-                    };
-                    const stop = () => {
-                        if (dir === 'left') keysHeld.left = false;
-                        if (dir === 'right') keysHeld.right = false;
-                        clearInterval(moveInterval);
-                        moveInterval = null;
-                    };
-                    btn.addEventListener('touchstart', start, { passive: false });
-                    btn.addEventListener('touchend', stop);
-                    btn.addEventListener('touchcancel', stop);
-                    btn.addEventListener('mousedown', start);
-                    btn.addEventListener('mouseup', stop);
-                    btn.addEventListener('mouseleave', stop);
-                };
-                bindButton(leftBtn, 'left');
-                bindButton(rightBtn, 'right');
-            }
+            const leftBtn = document.getElementById('mobile-left-btn');
+            const rightBtn = document.getElementById('mobile-right-btn');
+            const dockLeftBtn = document.getElementById('dock-left-btn');
+            const dockRightBtn = document.getElementById('dock-right-btn');
+
+            bindButton(leftBtn, 'left');
+            bindButton(rightBtn, 'right');
+            bindButton(dockLeftBtn, 'left');
+            bindButton(dockRightBtn, 'right');
         }
 
         function startMiniGame() {
@@ -2545,17 +2594,33 @@
 
             foodCtx.clearRect(0, 0, foodCanvas.width, foodCanvas.height);
 
-            // Time Remaining Pill
+            // HUD: Time Remaining Pill
+            const isNarrow = foodCanvas.width < 440;
+            const timePillW = isNarrow ? 112 : 132;
             foodCtx.fillStyle = 'rgba(255, 255, 255, 0.92)';
             foodCtx.beginPath();
-            foodCtx.roundRect(16, 16, 150, 36, 18);
+            foodCtx.roundRect(14, 14, timePillW, 36, 18);
             foodCtx.fill();
             foodCtx.strokeStyle = '#FFE66D';
             foodCtx.lineWidth = 2;
             foodCtx.stroke();
             foodCtx.fillStyle = '#451a03';
-            foodCtx.font = 'bold 15px Fredoka, sans-serif';
-            foodCtx.fillText(`⏱️ Tiempo: ${gameTimeLeft}s`, 28, 40);
+            foodCtx.font = 'bold 14px Fredoka, sans-serif';
+            foodCtx.fillText(`⏱️ ${gameTimeLeft}s`, isNarrow ? 24 : 26, 37);
+
+            // HUD: Live Score Pill (Visible in normal and Fullscreen modes)
+            const scorePillX = 14 + timePillW + 8;
+            const scorePillW = isNarrow ? 112 : 132;
+            foodCtx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+            foodCtx.beginPath();
+            foodCtx.roundRect(scorePillX, 14, scorePillW, 36, 18);
+            foodCtx.fill();
+            foodCtx.strokeStyle = '#FF9F1C';
+            foodCtx.lineWidth = 2;
+            foodCtx.stroke();
+            foodCtx.fillStyle = '#b45309';
+            foodCtx.font = 'bold 14px Fredoka, sans-serif';
+            foodCtx.fillText(`⭐ ${gameScore} pts`, scorePillX + (isNarrow ? 14 : 18), 37);
 
             // Spawn falling foods or Bombloong's bombs with gentle, pleasant speed
             if (Math.random() < 0.048) {
@@ -2717,9 +2782,13 @@
                 const size = SIZES[Math.floor(Math.random() * SIZES.length)];
                 const sprite = getEmojiSprite(icon, size);
 
+                const initialY = (i < spawnCount * 0.4) 
+                    ? (10 + Math.random() * (canvas.height * 0.35)) 
+                    : (-30 - Math.random() * 220);
+
                 const newParticle = {
                     x: Math.random() * canvas.width,
-                    y: -30 - Math.random() * 260,
+                    y: initialY,
                     vx: (Math.random() - 0.5) * 4.0,
                     vy: 3.2 + Math.random() * 4.8,
                     rot: Math.random() * 360,

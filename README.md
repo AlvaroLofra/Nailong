@@ -26,7 +26,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica completa y detallada de todo el código
 ├── GEMINI.md                    # Contexto e instrucciones del proyecto para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones del proyecto para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (28 tests)
+├── verify_all.py                # Suite de pruebas automatizadas (33 tests)
 ├── Stickers Nailong/            # Colección de los 42 stickers reales (.webp)
 ├── compartir_amigos.bat         # Launcher 1-clic para compartir por Wi-Fi local
 ├── compartir_amigos.py          # Servidor LAN local en Python
@@ -43,7 +43,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - **v4.0.0**: Sección dedicada del creador (`#creador`), persistencia en LocalStorage y swipe táctil.
 - **v5.0.0**: Optimización a 60 FPS del Modo Fiesta con texturas GPU offscreen.
 - **v6.0.0**: Throttling de scroll con `requestAnimationFrame` y pulido de físicas.
-- **v7.0.0 (Actual)**:
+- **v7.0.0**:
   - 修复 / Arreglo crítico de visibilidad del Modo Fiesta (eliminado `contain: strict;`).
   - 修复 / Arreglo crítico del Minijuego (corrección de `ReferenceError: keysHeld is not defined`).
   - ⚡ Deslizador lineal continuo y rápido para control arcade ágil.
@@ -51,6 +51,13 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
   - 🦖 Nuevo avatar de cabecera con sticker animado 3D de sonrisa radiante (`sticker_2.webp`) llenando el círculo.
   - 📖 Creación de `DOCUMENTACION.md`, `GEMINI.md` y `CLAUDE.md`.
   - 🧪 28 pruebas automatizadas en `verify_all.py`.
+- **v8.0.0 (Actual)**:
+  - 📊 Marcador de puntos y cronómetro HUD integrados en el canvas del minijuego para visibilidad en pantalla completa.
+  - 📱 Muelle de botones táctiles integrado (`#game-touch-dock`) para jugar en pantalla completa en móviles y tablets.
+  - 🚀 Corrección de aislamiento CSS en pantalla completa (eliminación de trampas de apilamiento en elementos visibles).
+  - 📐 Rescalado dinámico proporcional de coordenadas (`playerX` y alimentos) al redimensionar la pantalla.
+  - 🎨 Encuadre óptico perfeccionado del avatar 3D en la cabecera sin recortes de frente en ningún fotograma.
+  - 🎉 Efecto visual de confeti y muslitos instantáneo en el modo fiesta desde el primer fotograma.
 
 ---
 

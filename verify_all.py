@@ -212,4 +212,27 @@ assert "id=\"game-float-fs-btn\"" in html, "game-float-fs-btn floating button mi
 assert "minigame-fullscreen-active" in html, "minigame-fullscreen-active CSS class missing!"
 print("✔ Minigame Fullscreen verified: dual fullscreen buttons (header + in-canvas floating), CSS fallback, and smooth transitions.")
 
-print("\n=== ALL 28 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 29: Verify In-Canvas Minigame HUD (Live Score & Timer)
+assert "scorePillX" in html and "pts" in html, "In-canvas live scoreboard HUD missing!"
+assert "⏱️" in html and "⭐" in html, "Canvas HUD emoji indicators missing!"
+print("✔ Minigame In-Canvas HUD verified: live points and timer pills visible during normal and fullscreen gameplay.")
+
+# Test 30: Verify In-Container Touch Dock for Fullscreen Mobile Play
+assert 'id="game-touch-dock"' in html, "game-touch-dock missing inside game-container!"
+assert 'id="dock-left-btn"' in html and 'id="dock-right-btn"' in html, "dock direction buttons missing!"
+assert "bindButton(dockLeftBtn, 'left')" in html, "dock left button binding missing!"
+print("✔ Minigame In-Container Touch Dock verified: on-screen buttons accessible even in fullscreen mode on touch devices.")
+
+# Test 31: Verify Proportional Scaling on Resize / Fullscreen
+assert "const ratio = newWidth / oldWidth;" in html, "Proportional coordinate ratio calculation missing in resizeGameCanvas!"
+assert "item.x * ratio" in html, "Falling items proportional rescaling missing!"
+print("✔ Minigame Proportional Scaling verified: player and food positions adapt dynamically without clipping or off-screen drift.")
+
+# Test 32: Verify Synchronized Project Documentation (GEMINI.md & CLAUDE.md)
+gemini_content = open('GEMINI.md', 'r', encoding='utf-8').read()
+claude_content = open('CLAUDE.md', 'r', encoding='utf-8').read()
+assert gemini_content == claude_content, "GEMINI.md and CLAUDE.md must have 100% identical content!"
+assert os.path.exists('DOCUMENTACION.md'), "DOCUMENTACION.md missing!"
+print("✔ Project Documentation verified: GEMINI.md and CLAUDE.md are 100% synchronized and DOCUMENTACION.md is present.")
+
+print("\n=== ALL 33 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
