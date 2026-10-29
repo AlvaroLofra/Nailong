@@ -240,7 +240,7 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 ### 📌 Versión 15.0.0 (v15) - Segunda Tanda de Stickers de TikTok (73–82)
 - **10 stickers nuevos** (`sticker_73.webp` a `sticker_82.webp`) con título y descripción en tono infantil, convertidos con `python normalizar_stickers.py --import CARPETA` (512×512 + EXIF de WhatsApp). Colección total: **82 stickers** (+ creador = 83 archivos).
 - **Duplicados descartados:** de los 12 archivos recibidos, 2 eran idénticos a stickers ya existentes (71 y 72) y no se añadieron. Los avisos de duplicado de la herramienta deben revisarse siempre antes de añadir.
-- **Textos incrustados:** el 75 («Nyah nyah!»), el 77 (rótulo chino en el borde) y el 82 (subtítulo «呜呜呜») conservan el texto original del vídeo; no se recortó para no dañar la imagen.
+- **Textos incrustados:** el 77 (rótulo chino en el borde) y el 82 (subtítulo «呜呜呜») conservan el texto original del vídeo; no se recortó para no dañar la imagen. El 75 se recortó (203×203 desde la esquina inferior derecha) para quitar el subtítulo «Nyah nyah!» y que el dino quede más grande.
 - La carpeta temporal de importación se elimina tras convertir; todos los stickers viven en `Stickers Nailong/`.
 
 ---

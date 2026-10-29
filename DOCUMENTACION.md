@@ -290,7 +290,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ### 📌 ADR-07: Segunda Tanda de Stickers (73–82)
 - **Fecha:** 2026-10-30
 - **Estado:** Implementado / Aceptado
-- **Decisión:** Importar la segunda tanda con `normalizar_stickers.py --import` tras comparar con la colección existente: se descartaron 2 duplicados exactos (equivalentes a 71 y 72) y se añadieron 10 (73–82), manteniendo numeración continua y los tests de formato WhatsApp (Test 39).
+- **Decisión:** Importar la segunda tanda con `normalizar_stickers.py --import` tras comparar con la colección existente: se descartaron 2 duplicados exactos (equivalentes a 71 y 72) y se añadieron 10 (73–82), manteniendo numeración continua y los tests de formato WhatsApp (Test 39). El sticker 75 se recortó para eliminar el subtítulo incrustado.
 
 ---
 
