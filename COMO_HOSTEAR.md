@@ -38,8 +38,7 @@ Si quieres tenerla guardada en tu cuenta de GitHub con un enlace fijo tipo `http
 1. Ve a **[GitHub.com](https://github.com)** e inicia sesión o crea una cuenta.
 2. Crea un nuevo repositorio público (por ejemplo, llámalo `nailong` o `pagina-nailong`).
 3. Sube los archivos de este directorio:
-   - `index.html`
-   - `el_mundo_m_gico_de_nailong.html`
+   - `index.html` (archivo web definitivo)
    - `manifest.json`
    - La carpeta `Stickers Nailong/` (con todos los 42 stickers .webp)
 4. En la barra superior de tu repositorio en GitHub, ve a **Settings** (Configuración) ⚙️.

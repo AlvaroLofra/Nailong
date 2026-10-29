@@ -8,19 +8,16 @@ if sys.stdout.encoding.lower() != 'utf-8':
 
 print("=== STARTING COMPREHENSIVE VERIFICATION ===")
 
-# Test 1: Check files exist
+# Test 1: Check single definitive index.html exists and duplicates are cleaned up
 assert os.path.exists('index.html'), "index.html missing!"
-assert os.path.exists('el_mundo_m_gico_de_nailong.html'), "el_mundo_m_gico_de_nailong.html missing!"
+assert not os.path.exists('el_mundo_m_gico_de_nailong.html'), "Duplicate HTML 'el_mundo_m_gico_de_nailong.html' should be removed!"
+assert not os.path.exists('el_mundo_m_gico_de_nailong v1.html'), "Duplicate HTML 'el_mundo_m_gico_de_nailong v1.html' should be removed!"
 assert os.path.exists('Stickers Nailong'), "Stickers directory missing!"
 
 with open('index.html', 'r', encoding='utf-8') as f:
     html = f.read()
 
-with open('el_mundo_m_gico_de_nailong.html', 'r', encoding='utf-8') as f:
-    html_sync = f.read()
-
-assert html == html_sync, "el_mundo_m_gico_de_nailong.html is not synchronized with index.html!"
-print("✔ index.html and el_mundo_m_gico_de_nailong.html are 100% synchronized.")
+print("✔ Single definitive index.html verified with 0 duplicate HTML files.")
 
 # Test 2: Verify all 42 stickers on disk
 sticker_files = sorted(os.listdir('Stickers Nailong'))

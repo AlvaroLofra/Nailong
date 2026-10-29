@@ -21,8 +21,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ## 📂 Estructura del Proyecto
 
 ```text
-├── index.html                   # Página principal interactiva (GitHub Pages)
-├── el_mundo_m_gico_de_nailong.html
+├── index.html                   # Página principal interactiva definitiva (GitHub Pages)
 ├── manifest.json                # Web App Manifest para PWA (móviles)
 ├── Stickers Nailong/            # Colección de los 42 stickers reales (.webp)
 ├── compartir_amigos.bat         # Launcher 1-clic para compartir por Wi-Fi local
