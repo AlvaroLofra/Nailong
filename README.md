@@ -23,11 +23,34 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ```text
 ├── index.html                   # Página principal interactiva definitiva (GitHub Pages)
 ├── manifest.json                # Web App Manifest para PWA (móviles)
+├── DOCUMENTACION.md             # Documentación técnica completa y detallada de todo el código
+├── GEMINI.md                    # Contexto e instrucciones del proyecto para modelos Gemini
+├── CLAUDE.md                    # Contexto e instrucciones del proyecto para modelos Claude
+├── verify_all.py                # Suite de pruebas automatizadas (28 tests)
 ├── Stickers Nailong/            # Colección de los 42 stickers reales (.webp)
 ├── compartir_amigos.bat         # Launcher 1-clic para compartir por Wi-Fi local
 ├── compartir_amigos.py          # Servidor LAN local en Python
 └── COMO_HOSTEAR.md              # Guía de despliegue y alojamiento
 ```
+
+---
+
+## 📋 Historial de Versiones & Notas del Parche
+
+- **v1.0.0**: Lanzamiento inicial de la web interactiva con todas las secciones principales.
+- **v2.0.0**: Integración de enlace oficial a GitHub Pages y código QR interactivo.
+- **v3.0.0**: Consolidación arquitectónica definitiva en `index.html`.
+- **v4.0.0**: Sección dedicada del creador (`#creador`), persistencia en LocalStorage y swipe táctil.
+- **v5.0.0**: Optimización a 60 FPS del Modo Fiesta con texturas GPU offscreen.
+- **v6.0.0**: Throttling de scroll con `requestAnimationFrame` y pulido de físicas.
+- **v7.0.0 (Actual)**:
+  - 修复 / Arreglo crítico de visibilidad del Modo Fiesta (eliminado `contain: strict;`).
+  - 修复 / Arreglo crítico del Minijuego (corrección de `ReferenceError: keysHeld is not defined`).
+  - ⚡ Deslizador lineal continuo y rápido para control arcade ágil.
+  - 🖥️ Modo Pantalla Completa fluido para el Minijuego (Fullscreen API + fallback CSS + soporte Escape).
+  - 🦖 Nuevo avatar de cabecera con sticker animado 3D de sonrisa radiante (`sticker_2.webp`) llenando el círculo.
+  - 📖 Creación de `DOCUMENTACION.md`, `GEMINI.md` y `CLAUDE.md`.
+  - 🧪 28 pruebas automatizadas en `verify_all.py`.
 
 ---
 

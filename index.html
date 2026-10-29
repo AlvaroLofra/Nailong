@@ -306,6 +306,39 @@
         .sound-tile:active {
             transform: scale(0.92);
         }
+
+        /* Minigame Fullscreen Styles & Transitions */
+        #game-container {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #game-container.minigame-fullscreen-active {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            max-width: none !important;
+            max-height: none !important;
+            z-index: 99999 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            margin: 0 !important;
+        }
+        #game-container:fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: none !important;
+            max-height: none !important;
+            border-radius: 0 !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+        #game-container:-webkit-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
+            border: none !important;
+        }
     </style>
 </head>
 <body class="relative min-h-screen selection:bg-nailong-yellow selection:text-amber-950">
@@ -314,7 +347,7 @@
     <div id="bg-particles" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
 
     <!-- Confetti & Drumstick Shower Canvas -->
-    <canvas id="party-canvas" class="fixed inset-0 pointer-events-none z-50" style="transform: translateZ(0); will-change: transform; backface-visibility: hidden; contain: strict;"></canvas>
+    <canvas id="party-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full" style="transform: translateZ(0); will-change: transform; backface-visibility: hidden;"></canvas>
 
     <!-- 1. FLOATING NAVBAR ("NUBE DE LECHE") -->
     <header class="sticky top-2 sm:top-3 z-40 px-2 sm:px-6 pt-[max(0.5rem,env(safe-area-inset-top))]">
@@ -322,8 +355,8 @@
             <div class="flex items-center justify-between gap-1.5 sm:gap-2">
                 <!-- Brand Logo with Real Walking Nailong -->
                 <a href="#inicio" class="flex items-center gap-2 sm:gap-3 group shrink-0" title="Volver al inicio">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-nailong-yellow p-1 border-2 border-nailong-orange shadow-inner flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform">
-                        <img src="Stickers Nailong/sticker_20.webp" alt="Nailong caminando" class="w-full h-full object-contain">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-nailong-yellow border-2 border-nailong-orange shadow-inner flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform relative">
+                        <img src="Stickers Nailong/sticker_2.webp" alt="Nailong sonrisa radiante 3D" class="w-full h-full object-cover scale-110 object-center">
                     </div>
                     <div>
                         <span class="font-display font-bold text-lg sm:text-2xl text-amber-950 tracking-tight block leading-none">
@@ -885,13 +918,17 @@
                     </div>
 
                     <!-- Score & Controls -->
-                    <div class="flex items-center gap-4">
-                        <div class="bg-nailong-belly border-3 border-nailong-yellow px-5 py-2.5 rounded-2xl text-center shadow-sm">
+                    <div class="flex items-center gap-3 sm:gap-4 flex-wrap justify-end">
+                        <div class="bg-nailong-belly border-3 border-nailong-yellow px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-center shadow-sm">
                             <span class="text-xs font-bold text-amber-700 block uppercase">Puntos Ricos</span>
-                            <span id="game-score" class="font-display font-bold text-3xl text-nailong-orange">0</span>
+                            <span id="game-score" class="font-display font-bold text-2xl sm:text-3xl text-nailong-orange">0</span>
                         </div>
-                        <button id="game-start-btn" onclick="startMiniGame()" class="clay-btn bg-nailong-orange text-white font-display font-bold px-6 py-3.5 text-base">
+                        <button id="game-start-btn" onclick="startMiniGame()" class="clay-btn bg-nailong-orange text-white font-display font-bold px-5 sm:px-6 py-2.5 sm:py-3.5 text-sm sm:text-base">
                             ▶️ ¡Jugar Ahora!
+                        </button>
+                        <button id="game-fullscreen-btn" onclick="toggleGameFullscreen()" title="Pantalla Completa" class="clay-btn bg-white hover:bg-amber-50 text-amber-950 border-2 border-nailong-yellow font-display font-bold px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-sm sm:text-base flex items-center gap-2 transition-all shadow-sm cursor-pointer">
+                            <i id="game-fullscreen-icon" class="fa-solid fa-expand text-nailong-orange"></i>
+                            <span id="game-fullscreen-text" class="hidden sm:inline">Pantalla Completa</span>
                         </button>
                     </div>
                 </div>
@@ -899,6 +936,12 @@
                 <!-- Responsive Game Canvas Container -->
                 <div id="game-container" class="relative w-full h-[460px] sm:h-[540px] md:h-[600px] lg:h-[660px] bg-gradient-to-b from-sky-200 via-sky-100 to-amber-100 rounded-3xl border-4 border-nailong-yellow overflow-hidden shadow-inner cursor-ew-resize touch-none select-none">
                     <canvas id="food-game-canvas" class="w-full h-full block"></canvas>
+
+                    <!-- Floating Fullscreen / Exit Fullscreen Button inside Game -->
+                    <button id="game-float-fs-btn" onclick="toggleGameFullscreen()" class="absolute top-3 right-3 z-30 bg-white/95 hover:bg-white text-amber-950 border-2 border-nailong-yellow backdrop-blur-sm px-3.5 py-1.5 rounded-full font-display font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer" title="Alternar pantalla completa">
+                        <i id="game-float-fs-icon" class="fa-solid fa-expand text-nailong-orange"></i>
+                        <span id="game-float-fs-text" class="hidden sm:inline">Pantalla Completa</span>
+                    </button>
 
                     <!-- Overlay Start/Game Over Screen -->
                     <div id="game-overlay" class="absolute inset-0 bg-amber-950/40 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center z-10">
@@ -2230,6 +2273,8 @@
         let playerScaleY = 1;
         let fallingItems = [];
         let scorePopups = [];
+        let keysHeld = { left: false, right: false };
+        let keyHoldFrames = 0;
 
         const foodCanvas = document.getElementById('food-game-canvas');
         const foodCtx = foodCanvas.getContext('2d');
@@ -2245,6 +2290,71 @@
             foodCanvas.height = Math.round(rect.height);
             if (!gameActive) {
                 playerX = foodCanvas.width / 2;
+            }
+        }
+
+        /* Funciones de Pantalla Completa Fácil y Fluida */
+        function toggleGameFullscreen() {
+            const container = document.getElementById('game-container');
+            if (!container) return;
+
+            const isNativeFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            const isCssFs = container.classList.contains('minigame-fullscreen-active');
+
+            if (!isNativeFs && !isCssFs) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen().catch(() => enterCssFullscreen(container));
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else {
+                    enterCssFullscreen(container);
+                }
+            } else {
+                if (isNativeFs) {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen().catch(() => exitCssFullscreen(container));
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                }
+                if (isCssFs) {
+                    exitCssFullscreen(container);
+                }
+            }
+        }
+
+        function enterCssFullscreen(container) {
+            container.classList.add('minigame-fullscreen-active');
+            document.body.style.overflow = 'hidden';
+            updateFullscreenUI(true);
+            setTimeout(resizeGameCanvas, 60);
+            setTimeout(resizeGameCanvas, 220);
+        }
+
+        function exitCssFullscreen(container) {
+            container.classList.remove('minigame-fullscreen-active');
+            document.body.style.overflow = '';
+            updateFullscreenUI(false);
+            setTimeout(resizeGameCanvas, 60);
+            setTimeout(resizeGameCanvas, 220);
+        }
+
+        function updateFullscreenUI(active) {
+            const btnText = document.getElementById('game-fullscreen-text');
+            const btnIcon = document.getElementById('game-fullscreen-icon');
+            const floatText = document.getElementById('game-float-fs-text');
+            const floatIcon = document.getElementById('game-float-fs-icon');
+
+            if (active) {
+                if (btnText) btnText.textContent = 'Salir Completa';
+                if (btnIcon) { btnIcon.className = 'fa-solid fa-compress text-nailong-orange'; }
+                if (floatText) floatText.textContent = 'Salir (Esc)';
+                if (floatIcon) { floatIcon.className = 'fa-solid fa-compress text-nailong-orange'; }
+            } else {
+                if (btnText) btnText.textContent = 'Pantalla Completa';
+                if (btnIcon) { btnIcon.className = 'fa-solid fa-expand text-nailong-orange'; }
+                if (floatText) floatText.textContent = 'Pantalla Completa';
+                if (floatIcon) { floatIcon.className = 'fa-solid fa-expand text-nailong-orange'; }
             }
         }
 
@@ -2293,6 +2403,26 @@
                 keyHoldFrames = 0;
             });
 
+            // Fullscreen change listeners
+            document.addEventListener('fullscreenchange', () => {
+                const isFs = !!document.fullscreenElement;
+                updateFullscreenUI(isFs);
+                setTimeout(resizeGameCanvas, 60);
+            });
+            document.addEventListener('webkitfullscreenchange', () => {
+                const isFs = !!document.webkitFullscreenElement;
+                updateFullscreenUI(isFs);
+                setTimeout(resizeGameCanvas, 60);
+            });
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const container = document.getElementById('game-container');
+                    if (container && container.classList.contains('minigame-fullscreen-active')) {
+                        exitCssFullscreen(container);
+                    }
+                }
+            });
+
             // Virtual Left/Right buttons for mobile touchscreens
             let moveInterval = null;
             const leftBtn = document.getElementById('mobile-left-btn');
@@ -2300,18 +2430,23 @@
 
             const handleMove = (dir) => {
                 if (!gameActive) return;
-                playerX = dir === 'left' ? Math.max(50, playerX - 26) : Math.min(foodCanvas.width - 50, playerX + 26);
+                const moveSpeed = Math.max(20, Math.round(foodCanvas.width * 0.025));
+                playerX = dir === 'left' ? Math.max(50, playerX - moveSpeed) : Math.min(foodCanvas.width - 50, playerX + moveSpeed);
             };
 
             if (leftBtn && rightBtn) {
                 const bindButton = (btn, dir) => {
                     const start = (e) => {
                         if (e.cancelable) e.preventDefault();
+                        if (dir === 'left') keysHeld.left = true;
+                        if (dir === 'right') keysHeld.right = true;
                         handleMove(dir);
                         clearInterval(moveInterval);
-                        moveInterval = setInterval(() => handleMove(dir), 35);
+                        moveInterval = setInterval(() => handleMove(dir), 28);
                     };
                     const stop = () => {
+                        if (dir === 'left') keysHeld.left = false;
+                        if (dir === 'right') keysHeld.right = false;
                         clearInterval(moveInterval);
                         moveInterval = null;
                     };
@@ -2397,20 +2532,15 @@
         function gameLoop() {
             if (!gameActive) return;
 
-            // Desplazamiento continuo con aceleración progresiva en función del tiempo pulsado
+            // Desplazamiento lineal constante y rápido (estilo arcade ágil)
             if (keysHeld.left || keysHeld.right) {
-                keyHoldFrames++;
-                // Empieza en 6.0px/frame y acelera suavemente hasta 17.5px/frame para cruzar la pantalla ágilmente
-                const accel = Math.min(2.9, 1 + keyHoldFrames * 0.075);
-                const currentSpeed = 6.0 * accel;
-
+                // Velocidad lineal constante rápida (16px a resolución base, escalada proporcionalmente si pantalla completa)
+                const moveSpeed = Math.max(16, Math.round(foodCanvas.width * 0.02));
                 if (keysHeld.left && !keysHeld.right) {
-                    playerX = Math.max(50, playerX - currentSpeed);
+                    playerX = Math.max(50, playerX - moveSpeed);
                 } else if (keysHeld.right && !keysHeld.left) {
-                    playerX = Math.min(foodCanvas.width - 50, playerX + currentSpeed);
+                    playerX = Math.min(foodCanvas.width - 50, playerX + moveSpeed);
                 }
-            } else {
-                keyHoldFrames = 0;
             }
 
             foodCtx.clearRect(0, 0, foodCanvas.width, foodCanvas.height);
@@ -2548,7 +2678,7 @@
             c.width = size + 8;
             c.height = size + 8;
             const ctx = c.getContext('2d');
-            ctx.font = `${size}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+            ctx.font = `${size}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", -apple-system, BlinkMacSystemFont, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(emoji, c.width / 2, c.height / 2);
@@ -2873,9 +3003,23 @@
             setupModalSwipeGestures('magic-modal', nextMagicGif, prevMagicGif);
             setupModalSwipeGestures('photo-lightbox', nextLightboxPhoto, prevLightboxPhoto);
             setupModalBackdrops();
-            window.addEventListener('resize', resizeGameCanvas);
+            const initParty = () => {
+                const pc = document.getElementById('party-canvas');
+                if (pc) {
+                    pc.width = window.innerWidth;
+                    pc.height = window.innerHeight;
+                }
+            };
+            initParty();
+            window.addEventListener('resize', () => {
+                resizeGameCanvas();
+                initParty();
+            });
             window.addEventListener('orientationchange', () => {
-                setTimeout(resizeGameCanvas, 150);
+                setTimeout(() => {
+                    resizeGameCanvas();
+                    initParty();
+                }, 150);
             });
         };
     </script>

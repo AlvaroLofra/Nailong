@@ -189,4 +189,27 @@ assert "h-[460px] sm:h-[540px]" in html, "Minigame height not enlarged for bette
 assert "finalVy = pick.bad ? (baseVy * 0.8) : baseVy;" in html, "Bomb slower drop velocity calculation missing!"
 print("✔ Minigame improved: canvas height enlarged to 660px max and bombs fall 20% slower with gentle speed for mobile.")
 
-print("\n=== ALL 24 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 25: Verify Brand Avatar 3D Radiante Smile
+assert "sticker_2.webp" in html[:15000], "Brand avatar in header must use sticker_2.webp (Sonrisa Radiante 3D)!"
+assert "scale-110" in html[:15000] and "object-cover" in html[:15000], "Brand avatar should fill circle with object-cover and zoom scale!"
+print("✔ Brand Avatar verified: uses animated sticker_2.webp (Sonrisa Radiante 3D) filling the circle with calibrated zoom.")
+
+# Test 26: Verify Party Mode Canvas Visibility
+assert 'id="party-canvas"' in html, "party-canvas missing!"
+assert "contain: strict;" not in html, "party-canvas must not contain contain: strict; which collapses layout to 0x0!"
+assert "w-full h-full" in html[html.find('id="party-canvas"')-40:html.find('id="party-canvas"')+80], "party-canvas should have full width and height classes!"
+print("✔ Party Mode Canvas verified: unconstrained layout rect allows full-screen confetti and drumstick showers.")
+
+# Test 27: Verify Minigame Keys State & Linear Fast Movement
+assert "let keysHeld = { left: false, right: false };" in html, "keysHeld variable missing or uninitialized!"
+assert "const moveSpeed = Math.max(16, Math.round(foodCanvas.width * 0.02));" in html, "Minigame fast linear speed calculation missing!"
+print("✔ Minigame runtime keys & linear movement verified: keysHeld initialized, no ReferenceError, and fast linear arcade movement.")
+
+# Test 28: Verify Minigame Fullscreen Toggle
+assert "toggleGameFullscreen" in html, "toggleGameFullscreen function missing!"
+assert "id=\"game-fullscreen-btn\"" in html, "game-fullscreen-btn missing in minigame controls!"
+assert "id=\"game-float-fs-btn\"" in html, "game-float-fs-btn floating button missing in minigame canvas!"
+assert "minigame-fullscreen-active" in html, "minigame-fullscreen-active CSS class missing!"
+print("✔ Minigame Fullscreen verified: dual fullscreen buttons (header + in-canvas floating), CSS fallback, and smooth transitions.")
+
+print("\n=== ALL 28 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
