@@ -18,7 +18,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ├── DOCUMENTACION.md             # Documentación exhaustiva de código, arquitectura y funcionamiento
 ├── GEMINI.md                    # Contexto e instrucciones técnicas para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones técnicas para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas en Python (36 tests unitarios y estructurales)
+├── verify_all.py                # Suite de pruebas automatizadas en Python (37 tests unitarios y estructurales)
 └── Stickers Nailong/            # Directorio de recursos gráficos (42 cromos .webp + foto optimizada del creador)
 ```
 
@@ -87,7 +87,9 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - Filtros por categorías: *Todos*, *En Movimiento*, *Comilonas*, *Caritas*, *Bailes*, *Amigos*.
 - Sistema de subida de fotos del usuario con persistencia en `localStorage`:
   - Compresión y escalado automático en un canvas temporal antes de guardarse en base64 para no saturar la cuota de almacenamiento.
-  - Opción de eliminar fotos de usuario guardadas.
+  - Las fotos guardadas se recuperan al abrir la web (`loadUserPhotosFromStorage()` en `window.onload`) y llevan un botón 🗑️ para eliminarlas (con confirmación).
+- Paginación progresiva: 12 cromos visibles (`GALLERY_PAGE_SIZE`) y botón «Ver más cromos de Nailong» (`showMoreGallery()`); el Lightbox navega por la lista filtrada completa. Cuadrícula de 2 columnas en móvil.
+- Contadores de los filtros calculados desde los datos (`updateFilterCounts()`).
 - Tarjeta especial del creador con Nailong (`creador_nailong.webp`), botón de celebración de confeti y descripción cariñosa.
 
 ### 3.6. Botonera Musical (Soundboard)
@@ -117,6 +119,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - Canvas de cobertura completa sin restricciones de contención CSS (`contain: none`), sincronizado dinámicamente con el tamaño de ventana.
 - Pre-renderizado de glifos en lienzos offscreen (`getEmojiSprite`) con cascada de fuentes tipográficas para soporte universal de emojis en color (`Segoe UI Emoji`, `Apple Color Emoji`, `Noto Color Emoji`).
 - Blitting GPU a 60 FPS con reciclaje in situ de partículas sin recolección de basura (Zero GC Lag).
+- El canvas permanece oculto y a 1×1 px mientras no hay confeti (no consume VRAM en reposo); `triggerPartyMode()` lo muestra y dimensiona, y `animatePartyConfetti()` lo oculta al terminar.
 
 ---
 
@@ -192,6 +195,13 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Reordenación Responsiva del Hero en Móviles:** Ajuste del grid responsive en `#inicio` para que en pantallas móviles el muñeco interactivo de Nailong aparezca inmediatamente después del texto de bienvenida (*"Vengo del Planeta Dragón..."*) y justo antes del selector de estados de ánimo, logrando paridad visual con la experiencia de escritorio desde el primer scroll.
 - **Suite de Pruebas Ampliada:** Incorporado el Test 36 en `verify_all.py`, certificando el paso del 100% de las 36 comprobaciones automatizadas.
 
+### 🚀 Versión 12.0.0 (v12) - Rendimiento GPU, Bugs del Álbum, UX Móvil y Accesibilidad
+- **Rendimiento:** `loading="lazy"` + `decoding="async"` en imágenes secundarias y plantillas (`renderGifWall`, `renderPolaroidGallery`, `renderSoundboard`); `fetchpriority="high"` en `#hero-nailong-img`; eliminados `drop-shadow` del muro de GIFs y del álbum y todos los `backdrop-blur`; álbum paginado de 12 en 12; canvas de fiesta oculto en reposo; emojis del minijuego con sprites (`getEmojiSprite`).
+- **Bugs:** carga de fotos de usuario en `window.onload`, botón de borrado con confirmación, aviso si `localStorage` está lleno, semilla numérica para chincheta e inclinación de fotos de usuario, contadores de filtros dinámicos y eliminación de listeners globales táctiles en `makeStickerDraggable()`.
+- **UX móvil:** álbum en 2 columnas, filtros y estados de ánimo en carrusel horizontal, `#game-touch-dock` solo en pantalla completa táctil, bocadillo y mascota menos intrusivos, scrollspy en la navbar, feedback visual de la botonera y menos partículas de fondo.
+- **Accesibilidad:** `prefers-reduced-motion`, `role="dialog"`/`aria-modal`/`aria-labelledby` en los 4 modales, `aria-label` en botones de icono y bloqueo del scroll de fondo.
+- **Suite de Pruebas Ampliada:** Test 37 en `verify_all.py`, certificando el paso del 100 % de las 37 comprobaciones.
+
 ---
 
 ## 6. Registro Histórico de Decisiones de Arquitectura (ADR)
@@ -244,6 +254,20 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   2. Aumentar las dimensiones de `#photo-lightbox` a `max-w-3xl` (con contenedor hasta 500px / 60vh) y dotar al botón `¡Hacer Duang!` y a la propia imagen de interactividad física completa mediante `triggerLightboxDuang()` (activación de clase `.animate-duang` con reflow forzado y generación de partículas flotantes).
   3. Suprimir la advertencia teórica en `#sticker-options-modal` para dar protagonismo total a los tres botones de descarga y a la imagen ampliada del sticker.
 
+
+### 📌 ADR-04: Rendimiento de GPU en Chrome/Brave, Paginación del Álbum y Tailwind por CDN
+- **Fecha:** 2026-10-29
+- **Estado:** Implementado / Aceptado
+- **Problema:** En Chrome y Brave de escritorio la página se volvía lenta y el proceso de GPU se disparaba (se aliviaba al refrescar). Causas identificadas: decenas de WebP animados decodificándose a la vez (el álbum pintaba los 42 cromos sin `loading="lazy"`), filtros `drop-shadow` recalculados en cada fotograma de cada animación, `backdrop-blur` sobre un fondo que seguía animándose (navbar y modales) y un canvas de pantalla completa siempre reservado en VRAM. Además, 42 tarjetas a una columna obligaban a un scroll excesivo en móvil.
+- **Decisión Adoptada:**
+  1. Carga diferida (`loading="lazy"`, `decoding="async"`) y paginación del álbum (12 cromos por página) para limitar cuántos WebP animados existen a la vez; `displayedStickers` conserva la lista completa para el Lightbox.
+  2. Prohibido usar `drop-shadow` en imágenes animadas de cuadrículas y `backdrop-blur` sobre contenido animado; la profundidad se resuelve con `box-shadow` de los contenedores.
+  3. `#party-canvas` oculto y a 1×1 px en reposo; nunca `contain: strict` (colapsa el canvas a 0×0, ver v7).
+  4. Móvil primero: álbum a 2 columnas, filtros en carrusel y botones táctiles del juego sin duplicar.
+  5. **Se mantiene Tailwind por CDN** (regla *buildless* del proyecto). Compilarlo con Tailwind CLI reduciría ~100 KB de JavaScript en la carga, pero introduce una herramienta de build; se aplaza como decisión de arquitectura aparte.
+  6. **No se añade el cromo `id: 43`** a `ALL_STICKERS`: la foto del creador vive en su propia sección y Lightbox (`#creador`).
+- **Medición:** abrir `Shift+Esc` en Chrome y observar el proceso de GPU mientras se hace scroll por el álbum, antes y después.
+
 ---
 
 ## 7. Instrucciones de Verificación y Testing
@@ -251,11 +275,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (36 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (37 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 36 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 37 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```

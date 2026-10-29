@@ -26,7 +26,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
 ├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (36 verificaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (37 verificaciones)
 └── Stickers Nailong/            # Banco de 42 cromos en WebP + foto optimizada del creador
 ```
 
@@ -79,12 +79,19 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Eliminación definitiva de scripts auxiliares obsoletos (`.bat`, `.py`) y fotos sin comprimir.
 - Verificación completa de ciclo de vida de carga en Chrome con cero errores de consola.
 
-### v11.0.0 (Actual) - Experiencia Visual, Físicas Duang y Hero Móvil
+### v11.0.0 - Experiencia Visual, Físicas Duang y Hero Móvil
 - Modal de stickers optimizado: supresión de textos explicativos secundarios y ampliación de botones y previsualización.
 - Banner prominente en el Gran Álbum informando del guardado y envío a WhatsApp en un clic.
 - Lightbox del creador ampliado con físicas elásticas reactivas al botón `¡Hacer Duang!` y partículas flotantes.
 - Reordenación responsive del Hero: Nailong visible de inmediato en móviles tras la introducción.
 - Suite de pruebas ampliada a 36 verificaciones automatizadas pasando al 100%.
+
+### v12.0.0 (Actual) - Rendimiento GPU, UX Móvil y Accesibilidad
+- Carga diferida de imágenes, álbum paginado («Ver más cromos») y sin filtros de sombra ni desenfoque sobre contenido animado: mucho menos uso de GPU en Chrome y Brave.
+- Las fotos que subes ahora se conservan al recargar y se pueden borrar con 🗑️.
+- Álbum en 2 columnas en móvil, filtros deslizables, botones del minijuego sin duplicar y mascota menos intrusiva.
+- Accesibilidad: movimiento reducido, modales con `role="dialog"` y bloqueo del scroll de fondo.
+- Suite de pruebas ampliada a 37 verificaciones automatizadas pasando al 100%.
 
 ---
 

@@ -253,6 +253,69 @@
             transition: transform 0.4s var(--spring), box-shadow 0.4s var(--spring), border-color 0.3s;
         }
 
+        /* Filtros y estados de ánimo: carrusel deslizable en móvil, envuelven en escritorio */
+        .gallery-filter-btn, .mood-btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+            min-height: 44px;
+        }
+
+        @media (max-width: 639px) {
+            #gallery-filters, #hero-mood-buttons {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                overflow-x: auto;
+                scroll-snap-type: x proximity;
+                padding-bottom: 0.5rem;
+                scrollbar-width: none;
+            }
+            #gallery-filters::-webkit-scrollbar, #hero-mood-buttons::-webkit-scrollbar {
+                display: none;
+            }
+            #gallery-filters > *, #hero-mood-buttons > * {
+                scroll-snap-align: start;
+            }
+        }
+
+        /* Scrollspy de la navegación */
+        #desktop-nav-links a[aria-current="true"] {
+            background: #FFD93D;
+        }
+
+        /* Feedback de la botonera */
+        .sound-tile.is-playing {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 4px rgba(255, 159, 28, 0.45);
+        }
+
+        /* Bloqueo del scroll de fondo con un modal abierto */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* La mascota se oculta en móvil mientras se juega al minijuego */
+        @media (max-width: 639px) {
+            #floating-companion.companion-hidden-by-game {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        /* Accesibilidad: respetar la preferencia de movimiento reducido */
+        @media (prefers-reduced-motion: reduce) {
+            .bg-particle { display: none; }
+            .animate-float, .animate-wiggle { animation: none !important; }
+            .reveal-item { opacity: 1 !important; transform: none !important; transition: none !important; }
+            html { scroll-behavior: auto !important; }
+        }
+
+        @media (max-width: 639px) {
+            .polaroid {
+                padding: 0.6rem 0.6rem 1rem 0.6rem;
+                border-radius: 1.2rem;
+            }
+        }
+
         .polaroid:hover {
             transform: rotate(0deg) translateY(-8px) scale(1.04) !important;
             z-index: 25;
@@ -351,9 +414,11 @@
             border: none !important;
             background: linear-gradient(to bottom, #bae6fd, #e0f2fe, #fef3c7) !important;
         }
-        #game-container.minigame-fullscreen-active #game-touch-dock,
-        #game-container:fullscreen #game-touch-dock {
-            display: flex !important;
+        @media (pointer: coarse) {
+            #game-container.minigame-fullscreen-active #game-touch-dock,
+            #game-container:fullscreen #game-touch-dock {
+                display: flex !important;
+            }
         }
         @keyframes minigameFsFadeIn {
             from {
@@ -371,11 +436,11 @@
     <div id="bg-particles" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
 
     <!-- Confetti & Drumstick Shower Canvas -->
-    <canvas id="party-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full" style="transform: translateZ(0); will-change: transform; backface-visibility: hidden;"></canvas>
+    <canvas id="party-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full" style="display: none;"></canvas>
 
     <!-- 1. FLOATING NAVBAR ("NUBE DE LECHE") -->
     <header class="sticky top-2 sm:top-3 z-40 px-2 sm:px-6 pt-[max(0.5rem,env(safe-area-inset-top))]">
-        <nav class="max-w-7xl mx-auto bg-white/95 backdrop-blur-md border-3 sm:border-4 border-nailong-yellow rounded-2xl sm:rounded-3xl lg:rounded-full px-3 sm:px-4 py-2 sm:py-2.5 shadow-lg transition-all duration-300">
+        <nav class="max-w-7xl mx-auto bg-white/95 border-3 sm:border-4 border-nailong-yellow rounded-2xl sm:rounded-3xl lg:rounded-full px-3 sm:px-4 py-2 sm:py-2.5 shadow-lg transition-all duration-300">
             <div class="flex items-center justify-between gap-1.5 sm:gap-2">
                 <!-- Brand Logo with Real Walking Nailong -->
                 <a href="#inicio" class="flex items-center gap-2 sm:gap-3 group shrink-0" title="Volver al inicio">
@@ -391,12 +456,12 @@
                 </a>
 
                 <!-- Desktop Navigation Links -->
-                <div class="hidden lg:flex items-center gap-1 xl:gap-2 font-display text-sm xl:text-base font-semibold text-amber-900">
+                <div id="desktop-nav-links" class="hidden lg:flex items-center gap-1 xl:gap-2 font-display text-sm xl:text-base font-semibold text-amber-900">
                     <a href="#inicio" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">👋 ¡Hola!</a>
                     <a href="#historia" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🌟 ¿Quién es?</a>
                     <a href="#creador" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">💛 Creador</a>
                     <a href="#muro-gifs" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🎬 Muro de GIFs</a>
-                    <a href="#galeria" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">📸 Álbum (43+)</a>
+                    <a href="#galeria" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">📸 Álbum</a>
                     <a href="#soundboard" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🔊 Botonera</a>
                     <a href="#poderes" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">⚡ Poderes</a>
                     <a href="#minijuego" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🍗 Minijuego</a>
@@ -431,7 +496,7 @@
                 <a href="#historia" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🌟 ¿Quién es Nailong?</a>
                 <a href="#creador" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">💛 El Creador & Nailong</a>
                 <a href="#muro-gifs" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🎬 Muro de GIFs</a>
-                <a href="#galeria" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">📸 Gran Álbum Polaroid (43+)</a>
+                <a href="#galeria" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">📸 Gran Álbum Polaroid</a>
                 <a href="#soundboard" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🔊 Botonera Musical (12)</a>
                 <a href="#poderes" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">⚡ Laboratorio de Poderes</a>
                 <a href="#minijuego" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-orange text-white hover:bg-amber-600 transition-colors flex items-center gap-2">🍗 Minijuego La Gran Comilona</a>
@@ -515,7 +580,7 @@
                             <div class="absolute bottom-3 sm:bottom-4 w-48 sm:w-64 h-8 sm:h-12 bg-amber-900/15 rounded-full blur-md"></div>
                             
                             <!-- Real High-Res Animated Nailong Image -->
-                            <img id="hero-nailong-img" src="Stickers Nailong/sticker_20.webp" alt="Nailong animado real" class="w-full h-full object-contain drop-shadow-2xl transition-all duration-300">
+                            <img id="hero-nailong-img" fetchpriority="high" src="Stickers Nailong/sticker_20.webp" alt="Nailong animado real" class="w-full h-full object-contain drop-shadow-2xl transition-all duration-300">
                         </div>
 
                         <p class="mt-2.5 sm:mt-3 text-[11px] sm:text-sm font-bold text-amber-900/85 bg-nailong-pale/80 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full border border-nailong-yellow">
@@ -597,7 +662,7 @@
                 <!-- Card 1: Nailong El Dragón de Leche -->
                 <div class="clay-card p-6 flex flex-col items-center text-center space-y-4 reveal-item">
                     <div class="w-32 h-32 rounded-3xl bg-nailong-pale border-3 border-nailong-yellow flex items-center justify-center shadow-inner overflow-hidden p-2 group-hover:scale-105 transition-transform">
-                        <img src="Stickers Nailong/sticker_2.webp" alt="Nailong Bebé" class="w-full h-full object-contain">
+                        <img src="Stickers Nailong/sticker_2.webp" alt="Nailong Bebé" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-nailong-yellow px-3 py-0.5 rounded-full font-display font-bold text-xs text-amber-950">3 AÑITOS DE EDAD</span>
                     <h3 class="font-display font-bold text-2xl text-amber-950">El Dragón de Leche</h3>
@@ -609,7 +674,7 @@
                 <!-- Card 2: Xiao Qi (El Niño Inventor) -->
                 <div class="clay-card p-6 flex flex-col items-center text-center space-y-4 reveal-item">
                     <div class="w-32 h-32 rounded-3xl bg-nailong-sky/50 border-3 border-nailong-sky flex items-center justify-center shadow-inner overflow-hidden p-2">
-                        <img src="Stickers Nailong/sticker_30.webp" alt="Xiao Qi tirando de Nailong" class="w-full h-full object-contain">
+                        <img src="Stickers Nailong/sticker_30.webp" alt="Xiao Qi tirando de Nailong" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-nailong-sky px-3 py-0.5 rounded-full font-display font-bold text-xs text-sky-950">MEJOR AMIGO HUMANO</span>
                     <h3 class="font-display font-bold text-2xl text-amber-950">Xiao Qi (小七)</h3>
@@ -621,7 +686,7 @@
                 <!-- Card 3: Bombloong (El Rival Morado) -->
                 <div class="clay-card p-6 flex flex-col items-center text-center space-y-4 reveal-item">
                     <div class="w-32 h-32 rounded-3xl bg-purple-100 border-3 border-purple-300 flex items-center justify-center shadow-inner overflow-hidden p-2">
-                        <img src="Stickers Nailong/sticker_29.webp" alt="Bombloong dragón morado" class="w-full h-full object-contain">
+                        <img src="Stickers Nailong/sticker_29.webp" alt="Bombloong dragón morado" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-purple-200 px-3 py-0.5 rounded-full font-display font-bold text-xs text-purple-950">RIVAL CASCARRABIAS</span>
                     <h3 class="font-display font-bold text-2xl text-amber-950">Bombloong (暴暴龙)</h3>
@@ -633,7 +698,7 @@
                 <!-- Card 4: Los Superpoderes y Amor por el Pollo -->
                 <div class="clay-card p-6 flex flex-col items-center text-center space-y-4 reveal-item">
                     <div class="w-32 h-32 rounded-3xl bg-nailong-softpink/40 border-3 border-nailong-pink flex items-center justify-center shadow-inner overflow-hidden p-2">
-                        <img src="Stickers Nailong/sticker_33.webp" alt="Escamas verdes de Nailong" class="w-full h-full object-contain">
+                        <img src="Stickers Nailong/sticker_33.webp" alt="Escamas verdes de Nailong" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-nailong-pink/40 px-3 py-0.5 rounded-full font-display font-bold text-xs text-rose-950">CURIOSIDADES</span>
                     <h3 class="font-display font-bold text-2xl text-amber-950">¡Poderes y Escamitas!</h3>
@@ -703,7 +768,7 @@
                             <!-- Polaroid Frame -->
                             <div class="bg-white p-4 pb-6 rounded-3xl shadow-2xl border-4 border-amber-200 transform hover:scale-102 hover:-rotate-1 transition-all duration-300 max-w-xs sm:max-w-sm">
                                 <div class="w-64 h-80 sm:w-72 sm:h-96 rounded-2xl overflow-hidden bg-amber-50 relative border-2 border-amber-100 flex items-center justify-center">
-                                    <img src="Stickers Nailong/creador_nailong.webp" alt="El creador de la página con Nailong" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    <img src="Stickers Nailong/creador_nailong.webp" alt="El creador de la página con Nailong" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     <span class="absolute top-3 left-3 bg-nailong-yellow border-2 border-amber-500 text-amber-950 font-display font-bold text-xs px-3 py-1 rounded-full shadow-sm">
                                         🌟 Creador & Nailong
                                     </span>
@@ -720,7 +785,7 @@
 
                             <!-- Floating Nailong badge sticking out -->
                             <div class="absolute -bottom-3 -right-3 w-16 h-16 sm:w-20 sm:h-20 drop-shadow-xl animate-float pointer-events-none">
-                                <img src="Stickers Nailong/sticker_20.webp" alt="Nailong saltando" class="w-full h-full object-contain">
+                                <img src="Stickers Nailong/sticker_20.webp" alt="Nailong saltando" loading="lazy" decoding="async" class="w-full h-full object-contain">
                             </div>
                         </div>
                     </div>
@@ -785,7 +850,7 @@
             <div class="flex flex-wrap items-center justify-between gap-4 bg-white/90 p-4 rounded-3xl border-3 border-nailong-yellow shadow-sm reveal-item">
                 <div class="flex flex-wrap items-center gap-2" id="gallery-filters">
                     <button onclick="filterGallery('all', this)" data-filter="all" class="gallery-filter-btn bg-nailong-yellow text-amber-950 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-amber-500 shadow-sm transition-all">
-                        ✨ Todas las Fotos (43+)
+                        ✨ Todas las Fotos (42)
                     </button>
                     <button onclick="filterGallery('animated', this)" data-filter="animated" class="gallery-filter-btn bg-white hover:bg-nailong-pale text-amber-900 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-nailong-yellow transition-all">
                         🎬 En Movimiento (23)
@@ -800,7 +865,7 @@
                         💃 Bailes & Travesuras (13)
                     </button>
                     <button onclick="filterGallery('amigos', this)" data-filter="amigos" class="gallery-filter-btn bg-white hover:bg-nailong-pale text-amber-900 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-nailong-yellow transition-all">
-                        👥 Xiao Qi, Bombloong & Creador (5)
+                        👥 Xiao Qi y Bombloong (4)
                     </button>
                 </div>
 
@@ -821,8 +886,11 @@
             </div>
 
             <!-- Polaroid Grid -->
-            <div id="polaroid-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 pt-2">
-                <!-- Dynamically populated with all 42 real sticker cards -->
+            <div id="polaroid-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-7 pt-2">
+                <!-- Dynamically populated with the real sticker cards (paginated) -->
+            </div>
+            <div id="gallery-load-more-wrap" class="text-center mt-8 hidden">
+                <button id="gallery-load-more" type="button" onclick="showMoreGallery()" class="clay-btn bg-nailong-yellow text-amber-950 font-display font-bold px-6 py-4 rounded-3xl text-base sm:text-lg border-3 border-amber-500 min-h-[48px]">🦖 ¡Ver más cromos de Nailong!</button>
             </div>
         </section>
 
@@ -930,7 +998,7 @@
 
                         <!-- Real Transparent Nailong Lab Avatar -->
                         <div id="lab-nailong-figure" class="transition-transform duration-300 ease-out relative z-0 w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
-                            <img id="lab-nailong-img" src="Stickers Nailong/sticker_20.webp" alt="Nailong en el laboratorio" class="w-full h-full object-contain drop-shadow-xl select-none">
+                            <img id="lab-nailong-img" src="Stickers Nailong/sticker_20.webp" alt="Nailong en el laboratorio" loading="lazy" decoding="async" class="w-full h-full object-contain drop-shadow-xl select-none">
                         </div>
                     </div>
                 </div>
@@ -974,16 +1042,16 @@
                     <canvas id="food-game-canvas" class="w-full h-full block"></canvas>
 
                     <!-- Floating Fullscreen / Exit Fullscreen Button inside Game -->
-                    <button id="game-float-fs-btn" onclick="toggleGameFullscreen()" class="absolute top-3 right-3 z-30 bg-white/95 hover:bg-white text-amber-950 border-2 border-nailong-yellow backdrop-blur-sm px-3.5 py-1.5 rounded-full font-display font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer" title="Alternar pantalla completa">
+                    <button id="game-float-fs-btn" onclick="toggleGameFullscreen()" class="absolute top-3 right-3 z-30 bg-white/95 hover:bg-white text-amber-950 border-2 border-nailong-yellow px-3.5 py-1.5 rounded-full font-display font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer" title="Alternar pantalla completa">
                         <i id="game-float-fs-icon" class="fa-solid fa-expand text-nailong-orange"></i>
                         <span id="game-float-fs-text" class="hidden sm:inline">Pantalla Completa</span>
                     </button>
 
                     <!-- Overlay Start/Game Over Screen -->
-                    <div id="game-overlay" class="absolute inset-0 bg-amber-950/40 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center z-10">
+                    <div id="game-overlay" class="absolute inset-0 bg-amber-950/50 flex flex-col items-center justify-center p-6 text-center z-10">
                         <div class="bg-white border-4 border-nailong-yellow rounded-3xl p-6 sm:p-8 max-w-md shadow-2xl space-y-4">
                             <div class="w-24 h-24 mx-auto drop-shadow-md">
-                                <img src="Stickers Nailong/sticker_10.webp" alt="Nailong con hambre" class="w-full h-full object-contain">
+                                <img src="Stickers Nailong/sticker_10.webp" alt="Nailong con hambre" loading="lazy" decoding="async" class="w-full h-full object-contain">
                             </div>
                             <h3 id="game-overlay-title" class="font-display font-bold text-2xl sm:text-3xl text-amber-950">
                                 ¡Nailong tiene mucha hambre!
@@ -998,7 +1066,7 @@
                     </div>
 
                     <!-- In-Game Touch Controls for Mobile/Tablets and Fullscreen -->
-                    <div id="game-touch-dock" class="absolute bottom-3 inset-x-3 flex justify-between pointer-events-none z-20 sm:hidden">
+                    <div id="game-touch-dock" class="absolute bottom-3 inset-x-3 hidden justify-between pointer-events-none z-20">
                         <button id="dock-left-btn" type="button" class="pointer-events-auto clay-btn bg-white/90 hover:bg-white text-amber-950 font-display font-bold py-2.5 px-5 rounded-2xl flex items-center justify-center gap-1.5 text-sm shadow-md border-2 border-nailong-yellow select-none active:scale-90 transition-transform">
                             <i class="fa-solid fa-arrow-left text-base text-nailong-orange"></i>
                             <span>Izquierda</span>
@@ -1030,9 +1098,9 @@
     <footer class="bg-nailong-pale/95 border-t-4 border-nailong-yellow py-12 pb-[max(3rem,calc(env(safe-area-inset-bottom,0px)+2rem))] px-4 text-center relative z-10">
         <div class="max-w-4xl mx-auto space-y-4">
             <div class="flex justify-center items-center gap-3 font-display font-bold text-2xl sm:text-3xl text-amber-950">
-                <img src="Stickers Nailong/sticker_2.webp" alt="Nailong mini" class="w-10 h-10 object-contain">
+                <img src="Stickers Nailong/sticker_2.webp" alt="Nailong mini" loading="lazy" decoding="async" class="w-10 h-10 object-contain">
                 <span>Nailong (奶龙) Fan Club Oficial</span>
-                <img src="Stickers Nailong/sticker_20.webp" alt="Nailong mini 2" class="w-10 h-10 object-contain">
+                <img src="Stickers Nailong/sticker_20.webp" alt="Nailong mini 2" loading="lazy" decoding="async" class="w-10 h-10 object-contain">
             </div>
             <p class="text-amber-900/85 font-semibold text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                 Página web inmersiva dedicada a <strong>Nailong (Nailoong)</strong>, el entrañable dragón de leche amarillo creado por Xie Chengen y Seventh Impression. Realizada con fotos y stickers auténticos para todos sus pequeños fans.
@@ -1052,18 +1120,18 @@
     </footer>
 
     <!-- MODAL VISOR MÁGICO DE GIFS Y ANIMACIONES -->
-    <div id="magic-modal" class="fixed inset-0 bg-amber-950/70 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
+    <div id="magic-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" class="fixed inset-0 bg-amber-950/80 z-50 hidden items-center justify-center p-3 sm:p-4">
         <div class="clay-card max-w-2xl w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-4 sm:p-8 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
-            <button onclick="closeMagicModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm">
+            <button onclick="closeMagicModal()" aria-label="Cerrar" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <!-- Previous / Next Navigation Arrows for Visor Mágico (Desktop) -->
-            <button onclick="prevMagicGif()" title="GIF Anterior (Flecha Izquierda)" class="hidden sm:flex absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-nailong-yellow text-amber-950 font-bold text-xl items-center justify-center border-2 border-nailong-yellow shadow-md transition-transform hover:scale-110 z-20">
+            <button onclick="prevMagicGif()" title="GIF Anterior (Flecha Izquierda)" aria-label="GIF anterior" class="hidden sm:flex absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-nailong-yellow text-amber-950 font-bold text-xl items-center justify-center border-2 border-nailong-yellow shadow-md transition-transform hover:scale-110 z-20">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
-            <button onclick="nextMagicGif()" title="Siguiente GIF (Flecha Derecha)" class="hidden sm:flex absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-nailong-yellow text-amber-950 font-bold text-xl items-center justify-center border-2 border-nailong-yellow shadow-md transition-transform hover:scale-110 z-20">
+            <button onclick="nextMagicGif()" title="Siguiente GIF (Flecha Derecha)" aria-label="GIF siguiente" class="hidden sm:flex absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-nailong-yellow text-amber-950 font-bold text-xl items-center justify-center border-2 border-nailong-yellow shadow-md transition-transform hover:scale-110 z-20">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
 
@@ -1137,18 +1205,18 @@
     </div>
 
     <!-- MODAL LIGHTBOX FOTOS DEL ÁLBUM -->
-    <div id="photo-lightbox" class="fixed inset-0 bg-amber-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
+    <div id="photo-lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
         <div class="clay-card max-w-2xl lg:max-w-3xl w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-4 sm:p-7 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
-            <button onclick="closePhotoLightbox()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
+            <button onclick="closePhotoLightbox()" aria-label="Cerrar" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <!-- Navigation Buttons (Desktop) -->
-            <button onclick="prevLightboxPhoto()" class="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-nailong-yellow text-amber-950 font-bold text-xl items-center justify-center border-2 border-nailong-yellow shadow-md transition-transform hover:scale-110 z-20">
+            <button onclick="prevLightboxPhoto()" aria-label="Foto anterior" class="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-nailong-yellow text-amber-950 font-bold text-xl items-center justify-center border-2 border-nailong-yellow shadow-md transition-transform hover:scale-110 z-20">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
-            <button onclick="nextLightboxPhoto()" class="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-nailong-yellow text-amber-950 font-bold text-xl items-center justify-center border-2 border-nailong-yellow shadow-md transition-transform hover:scale-110 z-20">
+            <button onclick="nextLightboxPhoto()" aria-label="Foto siguiente" class="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-nailong-yellow text-amber-950 font-bold text-xl items-center justify-center border-2 border-nailong-yellow shadow-md transition-transform hover:scale-110 z-20">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
 
@@ -1194,10 +1262,10 @@
     </div>
 
     <!-- MODAL OPCIONES DE GUARDAR STICKER Y WHATSAPP -->
-    <div id="sticker-options-modal" class="fixed inset-0 bg-amber-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
+    <div id="sticker-options-modal" role="dialog" aria-modal="true" aria-labelledby="sticker-opt-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
         <div class="clay-card max-w-lg w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-5 sm:p-7 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
-            <button onclick="closeStickerOptionsModal()" class="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
+            <button onclick="closeStickerOptionsModal()" aria-label="Cerrar" class="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
@@ -1269,10 +1337,10 @@
     </div>
 
         <!-- MODAL COMPARTIR CON AMIGOS -->
-    <div id="share-modal" class="fixed inset-0 bg-amber-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
+    <div id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
         <div class="clay-card max-w-lg w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-5 sm:p-8 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
-            <button onclick="closeShareModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
+            <button onclick="closeShareModal()" aria-label="Cerrar" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
@@ -1281,7 +1349,7 @@
                     <span class="bg-nailong-orange text-white font-display font-bold px-4 py-1 rounded-full text-xs uppercase inline-block">
                         💛 ¡COMPARTE CON TUS AMIGOS!
                     </span>
-                    <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950">
+                    <h3 id="share-modal-title" class="font-display font-bold text-2xl sm:text-3xl text-amber-950">
                         ¡El Mundo Mágico de Nailong!
                     </h3>
                     <p class="text-amber-900/90 font-semibold text-xs sm:text-sm">
@@ -1707,6 +1775,30 @@
             playSound('pop');
         }
 
+        // En móvil el bocadillo solo se muestra unos segundos para no tapar el contenido
+        let companionSpeechTimer = null;
+        function flashCompanionSpeech(ms) {
+            const speech = document.getElementById('companion-speech');
+            if (!speech) return;
+            speech.style.transition = 'opacity 0.4s';
+            speech.style.opacity = '1';
+            clearTimeout(companionSpeechTimer);
+            if (window.innerWidth < 640) {
+                companionSpeechTimer = setTimeout(() => { speech.style.opacity = '0'; }, ms);
+            }
+        }
+
+        function setupCompanionAutoHide() {
+            const comp = document.getElementById('floating-companion');
+            const game = document.getElementById('game-container');
+            if (comp && game && 'IntersectionObserver' in window) {
+                new IntersectionObserver((entries) => {
+                    entries.forEach(en => comp.classList.toggle('companion-hidden-by-game', en.isIntersecting));
+                }, { threshold: 0.25 }).observe(game);
+            }
+            flashCompanionSpeech(4000);
+        }
+
         function pokeCompanion() {
             companionPokes++;
             playSound('duang');
@@ -1716,6 +1808,7 @@
 
             const speech = document.getElementById('companion-speech');
             speech.textContent = `"${companionPhrases[companionPokes % companionPhrases.length]}"`;
+            flashCompanionSpeech(2500);
             speech.classList.add('scale-110');
             setTimeout(() => speech.classList.remove('scale-110'), 250);
         }
@@ -1728,6 +1821,7 @@
                     const pos = window.scrollY;
                     const speech = document.getElementById('companion-speech');
                     if (speech) {
+                        const speechBefore = speech.textContent;
                         if (pos < 600) {
                             speech.textContent = '"¡Tócame para un Duang! 💛"';
                         } else if (pos < 1300) {
@@ -1735,7 +1829,7 @@
                         } else if (pos < 2200) {
                             speech.textContent = '"¡Mira mis animaciones en el Visor Mágico! 🎬"';
                         } else if (pos < 3400) {
-                            speech.textContent = '"¡Tengo 43 cromos míos en el álbum! 📸"';
+                            speech.textContent = '"¡Tengo 42 cromos míos en el álbum! 📸"';
                         } else if (pos < 4400) {
                             speech.textContent = '"¡Toca la botonera para hacerme reír! 🔊"';
                         } else if (pos < 5400) {
@@ -1743,6 +1837,7 @@
                         } else {
                             speech.textContent = '"¡Vamos a comer muslos de pollo al juego! 🍗"';
                         }
+                        if (speech.textContent !== speechBefore) flashCompanionSpeech(4000);
                     }
                     companionScrollTicking = false;
                 });
@@ -1781,7 +1876,7 @@
 
                         <!-- Real Animated Looping Image -->
                         <div class="w-full h-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                            <img src="Stickers Nailong/sticker_${gif.id}.webp" alt="${gif.title}" class="max-h-full max-w-full object-contain drop-shadow-md">
+                            <img src="Stickers Nailong/sticker_${gif.id}.webp" alt="${gif.title}" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain">
                         </div>
 
                         <!-- Hover Prompt -->
@@ -1975,14 +2070,16 @@
                     onStart(e.touches[0].clientX, e.touches[0].clientY, e);
                 }
             }, { passive: false });
-            window.addEventListener('touchmove', (e) => {
+            // En eventos táctiles el objetivo es siempre el elemento donde empezó el toque:
+            // al registrar sobre el propio sticker no quedan listeners huérfanos en window.
+            el.addEventListener('touchmove', (e) => {
                 if (isDragging && e.touches.length > 0) {
                     if (e.cancelable) e.preventDefault();
                     onMove(e.touches[0].clientX, e.touches[0].clientY);
                 }
             }, { passive: false });
-            window.addEventListener('touchend', onEnd);
-            window.addEventListener('touchcancel', onEnd);
+            el.addEventListener('touchend', onEnd);
+            el.addEventListener('touchcancel', onEnd);
         }
 
                 /* ==============================================================
@@ -2045,6 +2142,11 @@
         let currentLightboxIndex = 0;
         let displayedStickers = [];
 
+        // Paginación progresiva: displayedStickers guarda la lista completa filtrada (el lightbox navega por ella);
+        // solo se pintan las primeras galleryVisibleCount tarjetas para no decodificar 42 WebP a la vez.
+        const GALLERY_PAGE_SIZE = 12;
+        let galleryVisibleCount = GALLERY_PAGE_SIZE;
+
         function renderPolaroidGallery(filter = 'all') {
             activeFilter = filter;
             const grid = document.getElementById('polaroid-grid');
@@ -2060,9 +2162,11 @@
             const pinColors = ['bg-rose-400', 'bg-sky-400', 'bg-amber-400', 'bg-emerald-400', 'bg-purple-400', 'bg-pink-400', 'bg-orange-400'];
             const tilts = ['-rotate-2', 'rotate-2', '-rotate-1', 'rotate-1', 'rotate-3', '-rotate-3'];
 
-            grid.innerHTML = displayedStickers.map((item, idx) => {
-                const pin = pinColors[item.id % pinColors.length];
-                const tilt = tilts[item.id % tilts.length];
+            grid.innerHTML = displayedStickers.slice(0, galleryVisibleCount).map((item, idx) => {
+                // Las fotos de usuario tienen id de texto ('user_...'): se usa el índice como semilla
+                const seed = Number.isFinite(Number(item.id)) ? Number(item.id) : idx;
+                const pin = pinColors[seed % pinColors.length];
+                const tilt = tilts[seed % tilts.length];
                 const isAnim = item.frames > 2;
                 const imgSrc = item.customUrl ? item.customUrl : `Stickers Nailong/${item.file}`;
 
@@ -2072,33 +2176,58 @@
                         <div class="w-5 h-5 rounded-full ${pin} border-2 border-white shadow mx-auto -mt-6 mb-2"></div>
 
                         <!-- Sticker Photo Box -->
-                        <div class="relative w-full h-52 rounded-2xl bg-gradient-to-br from-amber-50 to-nailong-pale flex items-center justify-center p-3 border-2 border-nailong-pale overflow-hidden shadow-inner group-hover:scale-105 transition-transform duration-300">
-                            <img src="${imgSrc}" alt="${item.title}" class="max-h-full max-w-full object-contain drop-shadow">
+                        <div class="relative w-full h-36 sm:h-52 rounded-2xl bg-gradient-to-br from-amber-50 to-nailong-pale flex items-center justify-center p-2 sm:p-3 border-2 border-nailong-pale overflow-hidden shadow-inner group-hover:scale-105 transition-transform duration-300">
+                            <img src="${imgSrc}" alt="${item.title}" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain">
                             ${isAnim ? `
                                 <span class="absolute top-2 left-2 bg-amber-950/80 text-nailong-yellow text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow">
                                     <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                                    ANIMADO (${item.frames}f)
+                                    <span>ANIMADO<span class="hidden sm:inline"> (${item.frames}f)</span></span>
                                 </span>
                             ` : ''}
                             ${item.customUrl ? `
-                                <span class="absolute top-2 right-2 bg-nailong-orange text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+                                <span class="absolute top-2 left-2 bg-nailong-orange text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
                                     🌟 ¡TU FOTO!
                                 </span>
+                            ` : ''}
+                            ${item.isUserPhoto ? `
+                                <button type="button" onclick="deleteUserPhoto('${item.id}', event)" aria-label="Borrar mi foto"
+                                        class="absolute top-2 right-2 z-20 w-10 h-10 rounded-full bg-white/95 border-2 border-rose-300 text-lg shadow flex items-center justify-center hover:bg-rose-100">🗑️</button>
                             ` : ''}
                         </div>
 
                         <div class="pt-3 space-y-1 text-center">
                             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">${item.customUrl ? 'CROMO PERSONAL' : `CROMO #${item.id}`}</span>
-                            <h4 class="font-display font-bold text-lg text-amber-950 leading-snug group-hover:text-nailong-orange transition-colors">
+                            <h4 class="font-display font-bold text-sm sm:text-lg text-amber-950 leading-snug group-hover:text-nailong-orange transition-colors">
                                 ${item.title}
                             </h4>
-                            <p class="text-xs font-semibold text-amber-800/85 line-clamp-2">
+                            <p class="text-[11px] sm:text-xs font-semibold text-amber-800/85 line-clamp-2">
                                 ${item.desc}
                             </p>
                         </div>
                     </div>
                 `;
             }).join('');
+
+            updateLoadMoreButton();
+        }
+
+        function updateLoadMoreButton() {
+            const wrap = document.getElementById('gallery-load-more-wrap');
+            const btn = document.getElementById('gallery-load-more');
+            if (!wrap || !btn) return;
+            const remaining = displayedStickers.length - galleryVisibleCount;
+            if (remaining > 0) {
+                btn.textContent = `🦖 ¡Ver más cromos de Nailong! (+${Math.min(GALLERY_PAGE_SIZE, remaining)})`;
+                wrap.classList.remove('hidden');
+            } else {
+                wrap.classList.add('hidden');
+            }
+        }
+
+        function showMoreGallery() {
+            playSound('pop');
+            galleryVisibleCount += GALLERY_PAGE_SIZE;
+            renderPolaroidGallery(activeFilter);
         }
 
         function filterGallery(category, btnEl) {
@@ -2109,7 +2238,11 @@
             if (btnEl) {
                 btnEl.className = 'gallery-filter-btn bg-nailong-yellow text-amber-950 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-amber-500 shadow-sm transition-all';
             }
+            galleryVisibleCount = GALLERY_PAGE_SIZE;
             renderPolaroidGallery(category);
+            if (btnEl && btnEl.scrollIntoView) {
+                btnEl.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+            }
         }
 
         function openPhotoLightbox(index) {
@@ -2443,7 +2576,7 @@
                             ALL_STICKERS.unshift(photo);
                         }
                     });
-                    updateAllFilterCount();
+                    updateFilterCounts();
                 }
             } catch(e) {
                 console.warn('Error al cargar fotos de localStorage:', e);
@@ -2456,23 +2589,40 @@
                 localStorage.setItem(USER_PHOTOS_STORAGE_KEY, JSON.stringify(userPhotos));
             } catch(e) {
                 console.warn('LocalStorage error:', e);
+                showDuangToast('No caben más fotos en este navegador 😢');
             }
         }
 
         function deleteUserPhoto(photoId, e) {
             if (e && e.stopPropagation) e.stopPropagation();
+            if (!confirm('¿Borrar esta foto de tu álbum?')) return;
             playSound('pop');
             ALL_STICKERS = ALL_STICKERS.filter(s => String(s.id) !== String(photoId));
             saveUserPhotosToStorage();
-            updateAllFilterCount();
+            updateFilterCounts();
             renderPolaroidGallery(activeFilter);
         }
 
-        function updateAllFilterCount() {
-            const allBtn = document.querySelector('#gallery-filters button[data-filter="all"]');
-            if (allBtn) {
-                allBtn.textContent = `✨ Todas las Fotos (${ALL_STICKERS.length})`;
-            }
+        // Los contadores de los filtros se calculan desde los datos reales de ALL_STICKERS
+        const FILTER_LABELS = {
+            all: '✨ Todas las Fotos',
+            animated: '🎬 En Movimiento',
+            comida: '🍗 Comilonas',
+            caritas: '🤪 Caritas & Pucheros',
+            bailes: '💃 Bailes & Travesuras',
+            amigos: '👥 Xiao Qi y Bombloong'
+        };
+
+        function updateFilterCounts() {
+            Object.keys(FILTER_LABELS).forEach(key => {
+                const btn = document.querySelector(`#gallery-filters button[data-filter="${key}"]`);
+                if (!btn) return;
+                let count;
+                if (key === 'all') count = ALL_STICKERS.length;
+                else if (key === 'animated') count = ALL_STICKERS.filter(st => st.frames > 2).length;
+                else count = ALL_STICKERS.filter(st => st.cat === key).length;
+                btn.textContent = `${FILTER_LABELS[key]} (${count})`;
+            });
         }
 
         function handleUserPhotoUpload(event) {
@@ -2526,7 +2676,7 @@
                         if (allBtn) {
                             allBtn.className = 'gallery-filter-btn bg-nailong-yellow text-amber-950 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-amber-500 shadow-sm transition-all';
                         }
-                        updateAllFilterCount();
+                        updateFilterCounts();
 
                         renderPolaroidGallery('all');
                         playSound('fanfare');
@@ -2562,7 +2712,7 @@
             grid.innerHTML = SOUNDBOARD_TILES.map((tile, i) => `
                 <button onclick="playTileSound('${tile.sound}', this)" class="sound-tile clay-card p-4 sm:p-5 flex flex-col items-center justify-between text-center bg-white/95 hover:bg-nailong-belly border-3 border-nailong-yellow transition-all group">
                     <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-nailong-pale p-2 flex items-center justify-center overflow-hidden mb-2 shadow-inner group-hover:scale-110 transition-transform">
-                        <img src="Stickers Nailong/${tile.sticker}" alt="${tile.name}" class="w-full h-full object-contain">
+                        <img src="Stickers Nailong/${tile.sticker}" alt="${tile.name}" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <div>
                         <span class="text-xl mb-1 block">${tile.icon}</span>
@@ -2577,6 +2727,9 @@
             btnEl.classList.remove('animate-duang');
             void btnEl.offsetWidth;
             btnEl.classList.add('animate-duang');
+            btnEl.classList.add('is-playing');
+            clearTimeout(btnEl._playingTimer);
+            btnEl._playingTimer = setTimeout(() => btnEl.classList.remove('is-playing'), 800);
         }
 
         /* ==============================================================
@@ -2899,6 +3052,8 @@
         function startMiniGame() {
             playSound('fanfare');
             resizeGameCanvas();
+            // Pre-calienta los sprites de comida y bombas para evitar tirones en el primer fotograma
+            ['🍗', '🍰', '🍦', '🍼', '🍉', '🍔', '💣'].forEach(em => getEmojiSprite(em, 34));
 
             // Cancel any previous game animation frame and timer
             if (gameAnimId) {
@@ -3061,7 +3216,9 @@
             for (let i = fallingItems.length - 1; i >= 0; i--) {
                 const item = fallingItems[i];
                 item.y += item.vy;
-                foodCtx.fillText(item.emoji, item.x, item.y);
+                // Sprite pre-rasterizado (evita rasterizar el glifo emoji en cada fotograma)
+                const foodSprite = getEmojiSprite(item.emoji, 34);
+                foodCtx.drawImage(foodSprite.canvas, item.x - foodSprite.width / 2, item.y - foodSprite.height / 2 - 12);
 
                 // Collision detection with Nailong
                 const dx = item.x - playerX;
@@ -3190,6 +3347,7 @@
                 }
             }
 
+            canvas.style.display = 'block';
             if (!partyRunning) {
                 partyRunning = true;
                 requestAnimationFrame(animatePartyConfetti);
@@ -3234,6 +3392,10 @@
             } else {
                 partyRunning = false;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Libera el búfer y oculta el canvas cuando cae la última partícula
+                canvas.style.display = 'none';
+                canvas.width = 1;
+                canvas.height = 1;
             }
         }
 
@@ -3424,7 +3586,9 @@
         function createBackgroundFloatingParticles() {
             const container = document.getElementById('bg-particles');
             const items = ['⭐', '🫧', '🍗', '✨', '🍼', '💛', '🍰'];
-            for (let i = 0; i < 18; i++) {
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const particleCount = window.innerWidth < 640 ? 10 : 18;
+            for (let i = 0; i < particleCount; i++) {
                 const el = document.createElement('div');
                 el.className = 'bg-particle text-xl sm:text-2xl select-none';
                 el.textContent = items[i % items.length];
@@ -3447,7 +3611,39 @@
             document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
         }
 
+        // Resalta en la navbar la sección que se está viendo
+        function setupScrollSpy() {
+            const ids = ['inicio', 'historia', 'creador', 'muro-gifs', 'galeria', 'soundboard', 'poderes', 'minijuego'];
+            const links = document.querySelectorAll('#desktop-nav-links a[href^="#"]');
+            if (!links.length || !('IntersectionObserver' in window)) return;
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(en => {
+                    if (!en.isIntersecting) return;
+                    links.forEach(a => {
+                        if (a.getAttribute('href') === '#' + en.target.id) a.setAttribute('aria-current', 'true');
+                        else a.removeAttribute('aria-current');
+                    });
+                });
+            }, { rootMargin: '-40% 0px -55% 0px' });
+            ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+        }
+
+        // Bloquea el scroll de fondo mientras haya algún modal abierto (sin tocar el flujo de pantalla completa)
+        function setupModalScrollLock() {
+            const els = ['magic-modal', 'photo-lightbox', 'sticker-options-modal', 'share-modal']
+                .map(id => document.getElementById(id)).filter(Boolean);
+            const sync = () => {
+                const open = els.some(el => getComputedStyle(el).display !== 'none');
+                document.body.classList.toggle('modal-open', open);
+            };
+            const mo = new MutationObserver(sync);
+            els.forEach(el => mo.observe(el, { attributes: true, attributeFilter: ['class', 'style'] }));
+            sync();
+        }
+
         window.onload = function() {
+            loadUserPhotosFromStorage();
+            updateFilterCounts();
             renderGifWall();
             renderPolaroidGallery('all');
             renderSoundboard();
@@ -3458,14 +3654,17 @@
             setupModalSwipeGestures('magic-modal', nextMagicGif, prevMagicGif);
             setupModalSwipeGestures('photo-lightbox', nextLightboxPhoto, prevLightboxPhoto);
             setupModalBackdrops();
+            setupScrollSpy();
+            setupCompanionAutoHide();
+            setupModalScrollLock();
+            // El canvas de fiesta solo se dimensiona mientras hay confeti activo (ahorra VRAM en reposo)
             const initParty = () => {
                 const pc = document.getElementById('party-canvas');
-                if (pc) {
+                if (pc && partyRunning) {
                     pc.width = window.innerWidth;
                     pc.height = window.innerHeight;
                 }
             };
-            initParty();
             window.addEventListener('resize', () => {
                 resizeGameCanvas();
                 initParty();

@@ -79,7 +79,7 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ├── GEMINI.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Gemini)
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
-├── verify_all.py                # Suite de pruebas automatizadas (36 comprobaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (37 comprobaciones)
 └── Stickers Nailong/            # Banco de 42 cromos en WebP + foto optimizada del creador
 ```
 
@@ -112,7 +112,7 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
    - Modal con control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento (swipe horizontal) y pegatinas arrastrables.
 
 6. **Gran Álbum Polaroid de Cromos:**
-   - 42 cromos reales categorizados con visor ampliado (Lightbox).
+   - 42 cromos reales categorizados con visor ampliado (Lightbox), paginados de 12 en 12 con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
    - Sección especial del creador de la web con Nailong (`#creador`).
    - Subida de fotos del usuario con compresión en canvas y guardado persistente en `localStorage`.
 
@@ -131,7 +131,7 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
    - Compatibilidad completa con ratón, teclado (`ArrowLeft`/`ArrowRight`/`A`/`D`) y toques táctiles.
 
 10. **Modo Fiesta Duang-Duang:**
-    - Renderizado GPU a 60 FPS sobre un canvas de pantalla completa (`#party-canvas`) sin restricciones de contención CSS (`contain: none`).
+    - Renderizado GPU a 60 FPS sobre un canvas de pantalla completa (`#party-canvas`) sin restricciones de contención CSS (`contain: none`). El canvas permanece oculto (`display: none`, 1×1 px) mientras no hay confeti activo y solo se dimensiona al lanzar la fiesta.
     - Sprites de emojis pre-rasterizados en lienzos offscreen con cascada tipográfica (`Segoe UI Emoji`, `Apple Color Emoji`, `Noto Color Emoji`) para visualización universal a color.
 
 11. **Compartir & Conectividad Social:**
@@ -209,6 +209,17 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Lightbox del Creador Ampliado con Físicas Duang:** Foto vertical del creador ampliada hasta 500px / 60vh (`max-w-3xl`) y botón `¡Hacer Duang!` reactivo con animación elástica `.animate-duang` y ráfaga de emojis flotantes (`triggerLightboxDuang`).
 - **Hero Móvil Inmediato:** Reordenación responsive del Hero en `#inicio` para que el dragón Nailong sea visible de inmediato al entrar en la página en móviles, justo tras la introducción y antes de los estados de ánimo.
 - **Suite de Pruebas Ampliada a 36 Comprobaciones:** `verify_all.py` ampliado para validar físicamente el banner de WhatsApp, el rebote Duang en lightbox, la eliminación del texto obsoleto y el nuevo flujo responsive.
+
+### 📌 Versión 12.0.0 (v12) - Rendimiento GPU, Bugs del Álbum, UX Móvil y Accesibilidad
+- **Rendimiento (GPU en Chrome/Brave):** `loading="lazy"` y `decoding="async"` en todas las imágenes fuera del primer pantallazo y en las plantillas del muro de GIFs, el álbum y la botonera (`fetchpriority="high"` en el Nailong del Hero). Eliminados los `drop-shadow` del muro de GIFs y del álbum y todos los `backdrop-blur` (navbar, 4 modales, overlay del juego, botón de pantalla completa), que obligaban a recalcular filtros sobre contenido animado en cada fotograma.
+- **Álbum paginado:** `renderPolaroidGallery()` pinta 12 cromos (`GALLERY_PAGE_SIZE`) y el botón `#gallery-load-more` (`showMoreGallery()`) añade 12 más; `displayedStickers` conserva la lista completa para que el Lightbox navegue por todos los cromos. Los filtros reinician la paginación.
+- **Canvas de fiesta bajo demanda:** `#party-canvas` empieza oculto, se dimensiona y muestra solo al lanzar el confeti y se oculta y reduce a 1×1 al caer la última partícula. Nunca usar `contain: strict` (regresión de v7).
+- **Minijuego:** los emojis que caen se dibujan con sprites pre-rasterizados (`getEmojiSprite(emoji, 34)`, precalentados en `startMiniGame()`) en lugar de `fillText` en cada fotograma.
+- **Bugs corregidos:** (1) `loadUserPhotosFromStorage()` se invoca ahora en `window.onload`, por lo que las fotos subidas persisten al recargar; (2) botón 🗑️ para borrar fotos propias (con confirmación) y aviso con toast si el almacenamiento está lleno; (3) las fotos de usuario (id de texto) ya no generan clases `undefined` en chincheta e inclinación; (4) contadores de filtros calculados desde los datos (`updateFilterCounts()`), sin cifras fijas erróneas (`43+`, `Creador (5)`); (5) los listeners táctiles de `makeStickerDraggable()` se registran sobre el propio sticker y ya no se acumulan en `window`.
+- **UX móvil (mobile-first):** álbum en 2 columnas con tarjeta compacta; filtros del álbum y estados de ánimo del Hero como carrusel horizontal deslizable (reglas CSS sobre `.gallery-filter-btn` / `.mood-btn` para no depender del `className` que reescribe el JS); `#game-touch-dock` oculto por defecto y visible solo en pantalla completa táctil (sin botones duplicados); el bocadillo del compañero flotante desaparece a los 4 s en móvil y la mascota se oculta mientras `#game-container` está en pantalla; scrollspy en la navbar de escritorio (`aria-current`); halo `is-playing` en la botonera; 10 partículas de fondo en móvil en lugar de 18.
+- **Accesibilidad:** `@media (prefers-reduced-motion: reduce)`, `role="dialog"` + `aria-modal` + `aria-labelledby` en los 4 modales, `aria-label` en botones de icono y bloqueo del scroll de fondo con un modal abierto (`setupModalScrollLock()`, clase `body.modal-open`).
+- **Suite de Pruebas Ampliada a 37 Comprobaciones:** nuevo Test 37 en `verify_all.py` que blinda todo lo anterior, y ventana de búsqueda del avatar del header ampliada de 15.000 a 25.000 caracteres.
+- **Decisiones diferidas:** Tailwind sigue cargándose por CDN (proyecto *buildless*), el cromo del creador sigue fuera de `ALL_STICKERS` y no se añade Service Worker.
 
 ---
 

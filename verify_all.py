@@ -195,8 +195,8 @@ assert "finalVy = pick.bad ? (baseVy * 0.8) : baseVy;" in html, "Bomb slower dro
 print("✔ Minigame improved: canvas height enlarged to 660px max and bombs fall 20% slower with gentle speed for mobile.")
 
 # Test 25: Verify Brand Avatar 3D Radiante Smile
-assert "sticker_2.webp" in html[:15000], "Brand avatar in header must use sticker_2.webp (Sonrisa Radiante 3D)!"
-assert "scale-110" in html[:15000] and "object-cover" in html[:15000], "Brand avatar should fill circle with object-cover and zoom scale!"
+assert "sticker_2.webp" in html[:25000], "Brand avatar in header must use sticker_2.webp (Sonrisa Radiante 3D)!"
+assert "scale-110" in html[:25000] and "object-cover" in html[:25000], "Brand avatar should fill circle with object-cover and zoom scale!"
 print("✔ Brand Avatar verified: uses animated sticker_2.webp (Sonrisa Radiante 3D) filling the circle with calibrated zoom.")
 
 # Test 26: Verify Party Mode Canvas Visibility
@@ -268,4 +268,37 @@ assert "¿Por qué WhatsApp no permite instalar packs enteros" not in html, "Exp
 assert "lg:col-start-7 lg:row-start-1 lg:row-span-3" in html, "Hero mobile-first responsive stage placement missing!"
 print("✔ Visual Polish & Duang Physics verified: Lightbox jelly animations with particles, enlarged creator frame, WhatsApp album banner, and mobile hero priority flow.")
 
-print("\n=== ALL 36 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 37: Verify v12 performance, bug fixes, mobile UX & accessibility improvements
+def js_function_body(source, name):
+    start = source.index(f"function {name}(")
+    end = source.index("\n        function ", start + 10)
+    return source[start:end]
+
+gif_wall_src = js_function_body(html, "renderGifWall")
+polaroid_src = js_function_body(html, "renderPolaroidGallery")
+soundboard_src = js_function_body(html, "renderSoundboard")
+for label, src in (("renderGifWall", gif_wall_src), ("renderPolaroidGallery", polaroid_src), ("renderSoundboard", soundboard_src)):
+    assert 'loading="lazy"' in src and 'decoding="async"' in src, f"{label} images must use loading=lazy and decoding=async!"
+assert "drop-shadow" not in gif_wall_src and "drop-shadow" not in polaroid_src, "Animated grid images must not use drop-shadow filters!"
+assert "backdrop-blur" not in html, "backdrop-blur over animated content must be removed (GPU cost)!"
+assert "GALLERY_PAGE_SIZE" in html and "showMoreGallery" in html and 'id="gallery-load-more"' in html, "Progressive album pagination missing!"
+onload_src = html[html.index("window.onload = function()"):]
+assert "loadUserPhotosFromStorage();" in onload_src, "loadUserPhotosFromStorage() must be called in window.onload!"
+assert "deleteUserPhoto('${item.id}', event)" in polaroid_src, "Delete button for user photos missing in album template!"
+assert "Number.isFinite(Number(item.id))" in polaroid_src, "Pin/tilt seed must support string ids of user photos!"
+assert "43+" not in html and "Creador (5)" not in html, "Hardcoded filter counters (43+, Creador (5)) must be gone!"
+assert "function updateFilterCounts" in html, "Dynamic filter counters missing!"
+assert 'id="polaroid-grid" class="grid grid-cols-2' in html, "Album must use 2 columns on mobile!"
+assert 'id="game-touch-dock" class="absolute bottom-3 inset-x-3 hidden' in html, "In-game touch dock must be hidden outside fullscreen!"
+assert "getEmojiSprite(item.emoji, 34)" in html, "Minigame must draw emoji sprites instead of fillText!"
+assert 'id="party-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full" style="display: none;"' in html, "Party canvas must start hidden!"
+assert "canvas.style.display = 'none'" in html, "Party canvas must be hidden again when confetti ends!"
+assert "@media (prefers-reduced-motion: reduce)" in html, "prefers-reduced-motion support missing!"
+assert html.count('role="dialog" aria-modal="true"') == 4, "The 4 modals must declare role=dialog and aria-modal!"
+assert "setupModalScrollLock" in html and "body.modal-open" in html, "Body scroll lock for modals missing!"
+assert "setupScrollSpy" in html and "flashCompanionSpeech" in html, "Scrollspy and mobile companion behavior missing!"
+drag_src = html[html.index("function makeStickerDraggable"):html.index("function makeStickerDraggable") + 4000]
+assert "el.addEventListener('touchmove'" in drag_src and "window.addEventListener('touchmove'" not in drag_src, "Draggable sticker touch listeners must not be attached to window!"
+print("✔ v12 verified: lazy images, no GPU-heavy filters, paginated album, persisted/deletable user photos, dynamic counters, mobile-first UX and accessible modals.")
+
+print("\n=== ALL 37 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
