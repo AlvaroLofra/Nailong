@@ -314,7 +314,7 @@
     <div id="bg-particles" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
 
     <!-- Confetti & Drumstick Shower Canvas -->
-    <canvas id="party-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+    <canvas id="party-canvas" class="fixed inset-0 pointer-events-none z-50" style="transform: translateZ(0); will-change: transform; backface-visibility: hidden; contain: strict;"></canvas>
 
     <!-- 1. FLOATING NAVBAR ("NUBE DE LECHE") -->
     <header class="sticky top-2 sm:top-3 z-40 px-2 sm:px-6 pt-[max(0.5rem,env(safe-area-inset-top))]">
@@ -948,7 +948,7 @@
             </p>
             <div class="pt-3 flex flex-wrap justify-center gap-3">
                 <button onclick="openShareModal()" class="inline-flex items-center gap-2 bg-nailong-yellow border-2 border-amber-500 px-6 py-2.5 rounded-full font-display font-bold text-amber-950 text-sm hover:bg-amber-400 transition-colors shadow-sm">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> 🚀 ¿Cómo hostear para tus amigos?
+                    <i class="fa-solid fa-cloud-arrow-up"></i> 🚀 ¡COMPARTE CON TUS AMIGOS!
                 </button>
                 <a href="#inicio" class="inline-flex items-center gap-2 bg-white border-2 border-nailong-orange px-6 py-2.5 rounded-full font-display font-bold text-amber-950 text-sm hover:bg-nailong-yellow transition-colors shadow-sm">
                     <i class="fa-solid fa-arrow-up"></i> Volver arriba con Nailong
@@ -1542,26 +1542,33 @@
             setTimeout(() => speech.classList.remove('scale-110'), 250);
         }
 
-        // Contextual Speech as user scrolls
+        // Contextual Speech as user scrolls (Optimizado con rAF para scroll a 60fps constante)
+        let companionScrollTicking = false;
         window.addEventListener('scroll', () => {
-            const pos = window.scrollY;
-            const speech = document.getElementById('companion-speech');
-            if (!speech) return;
-
-            if (pos < 600) {
-                speech.textContent = '"¡Tócame para un Duang! 💛"';
-            } else if (pos < 1300) {
-                speech.textContent = '"¡Ese de la foto es mi amigo Xiao Qi! 🌟"';
-            } else if (pos < 2200) {
-                speech.textContent = '"¡Mira mis animaciones en el Visor Mágico! 🎬"';
-            } else if (pos < 3400) {
-                speech.textContent = '"¡Tengo 42 cromos míos en el álbum! 📸"';
-            } else if (pos < 4400) {
-                speech.textContent = '"¡Toca la botonera para hacerme reír! 🔊"';
-            } else if (pos < 5400) {
-                speech.textContent = '"¡Lánzame llamitas en el laboratorio! 🔥"';
-            } else {
-                speech.textContent = '"¡Vamos a comer muslos de pollo al juego! 🍗"';
+            if (!companionScrollTicking) {
+                requestAnimationFrame(() => {
+                    const pos = window.scrollY;
+                    const speech = document.getElementById('companion-speech');
+                    if (speech) {
+                        if (pos < 600) {
+                            speech.textContent = '"¡Tócame para un Duang! 💛"';
+                        } else if (pos < 1300) {
+                            speech.textContent = '"¡Ese de la foto es mi amigo Xiao Qi! 🌟"';
+                        } else if (pos < 2200) {
+                            speech.textContent = '"¡Mira mis animaciones en el Visor Mágico! 🎬"';
+                        } else if (pos < 3400) {
+                            speech.textContent = '"¡Tengo 43 cromos míos en el álbum! 📸"';
+                        } else if (pos < 4400) {
+                            speech.textContent = '"¡Toca la botonera para hacerme reír! 🔊"';
+                        } else if (pos < 5400) {
+                            speech.textContent = '"¡Lánzame llamitas en el laboratorio! 🔥"';
+                        } else {
+                            speech.textContent = '"¡Vamos a comer muslos de pollo al juego! 🍗"';
+                        }
+                    }
+                    companionScrollTicking = false;
+                });
+                companionScrollTicking = true;
             }
         }, { passive: true });
 
@@ -1811,8 +1818,7 @@
             document.getElementById('lb-img').src = 'Stickers Nailong/creador_nailong.webp';
             document.getElementById('lb-caption').textContent = '¡Aquí tenemos al creador de la página con Nailong! Mirad qué amigables son juntos. ¡Una amistad mágica para siempre! 🦖💛';
             const dlBtn = document.getElementById('lb-download-btn');
-            dlBtn.href = 'Stickers Nailong/creador_nailong.webp';
-            dlBtn.download = 'creador_y_nailong.webp';
+            if (dlBtn) dlBtn.style.display = 'none'; // Descarga desactivada para la foto del creador
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             modal.style.display = 'flex';
@@ -1905,8 +1911,15 @@
             document.getElementById('lb-caption').textContent = item.desc;
             
             const dlBtn = document.getElementById('lb-download-btn');
-            dlBtn.href = imgSrc;
-            dlBtn.download = item.customUrl ? `${item.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png` : `nailong_cromo_${item.id}.webp`;
+            if (dlBtn) {
+                if (item.id === 43 || item.file === 'creador_nailong.webp') {
+                    dlBtn.style.display = 'none';
+                } else {
+                    dlBtn.style.display = 'inline-flex';
+                    dlBtn.href = imgSrc;
+                    dlBtn.download = item.customUrl ? `${item.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png` : `nailong_cromo_${item.id}.webp`;
+                }
+            }
 
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -2255,8 +2268,29 @@
 
             window.addEventListener('keydown', (e) => {
                 if (!gameActive) return;
-                if (e.key === 'ArrowLeft') playerX = Math.max(50, playerX - 35);
-                if (e.key === 'ArrowRight') playerX = Math.min(foodCanvas.width - 50, playerX + 35);
+                if (e.key === 'ArrowLeft' || e.key === 'KeyA' || e.code === 'ArrowLeft' || e.code === 'KeyA') {
+                    keysHeld.left = true;
+                    if (e.cancelable) e.preventDefault();
+                }
+                if (e.key === 'ArrowRight' || e.key === 'KeyD' || e.code === 'ArrowRight' || e.code === 'KeyD') {
+                    keysHeld.right = true;
+                    if (e.cancelable) e.preventDefault();
+                }
+            });
+
+            window.addEventListener('keyup', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'KeyA' || e.code === 'ArrowLeft' || e.code === 'KeyA') {
+                    keysHeld.left = false;
+                }
+                if (e.key === 'ArrowRight' || e.key === 'KeyD' || e.code === 'ArrowRight' || e.code === 'KeyD') {
+                    keysHeld.right = false;
+                }
+            });
+
+            window.addEventListener('blur', () => {
+                keysHeld.left = false;
+                keysHeld.right = false;
+                keyHoldFrames = 0;
             });
 
             // Virtual Left/Right buttons for mobile touchscreens
@@ -2334,6 +2368,9 @@
 
         function endMiniGame() {
             gameActive = false;
+            keysHeld.left = false;
+            keysHeld.right = false;
+            keyHoldFrames = 0;
             if (gameTimerInterval) {
                 clearInterval(gameTimerInterval);
                 gameTimerInterval = null;
@@ -2359,6 +2396,22 @@
 
         function gameLoop() {
             if (!gameActive) return;
+
+            // Desplazamiento continuo con aceleración progresiva en función del tiempo pulsado
+            if (keysHeld.left || keysHeld.right) {
+                keyHoldFrames++;
+                // Empieza en 6.0px/frame y acelera suavemente hasta 17.5px/frame para cruzar la pantalla ágilmente
+                const accel = Math.min(2.9, 1 + keyHoldFrames * 0.075);
+                const currentSpeed = 6.0 * accel;
+
+                if (keysHeld.left && !keysHeld.right) {
+                    playerX = Math.max(50, playerX - currentSpeed);
+                } else if (keysHeld.right && !keysHeld.left) {
+                    playerX = Math.min(foodCanvas.width - 50, playerX + currentSpeed);
+                }
+            } else {
+                keyHoldFrames = 0;
+            }
 
             foodCtx.clearRect(0, 0, foodCanvas.width, foodCanvas.height);
 
@@ -2521,8 +2574,8 @@
             const SIZES = [26, 32, 40];
             const isMobile = window.innerWidth < 640;
             // Capacidad máxima de partículas activas sin ninguna caída de FPS
-            const MAX_PARTICLES = isMobile ? 180 : 260;
-            const spawnCount = isMobile ? 55 : 75;
+            const MAX_PARTICLES = isMobile ? 90 : 140;
+            const spawnCount = isMobile ? 36 : 50;
 
             // Pre-calentar sprites
             icons.forEach(ic => {
@@ -2577,19 +2630,20 @@
                 p.rot += p.vrot;
 
                 if (p.y > bottomLimit) {
-                    // Eliminación O(1) in-place sin generar basura en memoria (zero GC lag)
                     partyParticles[i] = partyParticles[partyParticles.length - 1];
                     partyParticles.pop();
                     continue;
                 }
 
-                ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate((p.rot * Math.PI) / 180);
-                // Dibujo GPU instantáneo por texturas pre-rasterizadas (sin recalcular tipografía)
+                // Ultra-rápido: setTransform directo sin save/restore stack (cero overhead durante scroll)
+                const rad = (p.rot * Math.PI) / 180;
+                const cos = Math.cos(rad);
+                const sin = Math.sin(rad);
+                ctx.setTransform(cos, sin, -sin, cos, p.x, p.y);
                 ctx.drawImage(p.sprite.canvas, -p.sprite.width / 2, -p.sprite.height / 2);
-                ctx.restore();
             }
+
+            ctx.resetTransform();
 
             if (partyParticles.length > 0) {
                 requestAnimationFrame(animatePartyConfetti);
