@@ -2479,55 +2479,118 @@
         }
 
         /* ==============================================================
-           11. MODO FIESTA DUANG-DUANG (CONFETI & MUSLITOS DE POLLO)
+           11. MODO FIESTA DUANG-DUANG ULTRA OPTIMIZADO (GPU BLITTING 60FPS)
         ============================================================== */
         let partyParticles = [];
         let partyRunning = false;
+        let lastPartySoundTime = 0;
+        const EMOJI_SPRITES = {};
+
+        // Pre-renderiza glifos de emojis en lienzos offscreen para renderizado GPU instantáneo sin recalcular fuentes
+        function getEmojiSprite(emoji, size = 32) {
+            const key = `${emoji}_${size}`;
+            if (EMOJI_SPRITES[key]) return EMOJI_SPRITES[key];
+
+            const c = document.createElement('canvas');
+            c.width = size + 8;
+            c.height = size + 8;
+            const ctx = c.getContext('2d');
+            ctx.font = `${size}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(emoji, c.width / 2, c.height / 2);
+            EMOJI_SPRITES[key] = { canvas: c, width: c.width, height: c.height };
+            return EMOJI_SPRITES[key];
+        }
 
         function triggerPartyMode() {
-            playSound('fanfare');
+            const now = Date.now();
+            if (now - lastPartySoundTime > 200) {
+                playSound('fanfare');
+                lastPartySoundTime = now;
+            }
+
             const canvas = document.getElementById('party-canvas');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            if (!canvas) return;
+            if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
 
             const icons = ['🍗', '💛', '✨', '🍼', '🍰', '🎉', '🦖', '🍮', '⭐'];
-            for (let i = 0; i < 70; i++) {
-                partyParticles.push({
+            const SIZES = [26, 32, 40];
+            const isMobile = window.innerWidth < 640;
+            // Capacidad máxima de partículas activas sin ninguna caída de FPS
+            const MAX_PARTICLES = isMobile ? 180 : 260;
+            const spawnCount = isMobile ? 55 : 75;
+
+            // Pre-calentar sprites
+            icons.forEach(ic => {
+                SIZES.forEach(sz => getEmojiSprite(ic, sz));
+            });
+
+            for (let i = 0; i < spawnCount; i++) {
+                const icon = icons[Math.floor(Math.random() * icons.length)];
+                const size = SIZES[Math.floor(Math.random() * SIZES.length)];
+                const sprite = getEmojiSprite(icon, size);
+
+                const newParticle = {
                     x: Math.random() * canvas.width,
-                    y: -20 - Math.random() * 320,
-                    vx: (Math.random() - 0.5) * 4.5,
-                    vy: 3.5 + Math.random() * 5.5,
+                    y: -30 - Math.random() * 260,
+                    vx: (Math.random() - 0.5) * 4.0,
+                    vy: 3.2 + Math.random() * 4.8,
                     rot: Math.random() * 360,
-                    vrot: (Math.random() - 0.5) * 6,
-                    icon: icons[Math.floor(Math.random() * icons.length)],
-                    size: 20 + Math.random() * 18
-                });
+                    vrot: (Math.random() - 0.5) * 5.5,
+                    sprite: sprite
+                };
+
+                if (partyParticles.length < MAX_PARTICLES) {
+                    partyParticles.push(newParticle);
+                } else {
+                    // Si se spammea el botón, recicla partículas desde arriba manteniendo la lluvia constante sin sobrecargar
+                    const replaceIdx = i % partyParticles.length;
+                    partyParticles[replaceIdx] = newParticle;
+                }
             }
 
             if (!partyRunning) {
                 partyRunning = true;
-                animatePartyConfetti();
+                requestAnimationFrame(animatePartyConfetti);
             }
         }
 
         function animatePartyConfetti() {
             const canvas = document.getElementById('party-canvas');
+            if (!canvas) {
+                partyRunning = false;
+                return;
+            }
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            partyParticles.forEach(p => {
+            const bottomLimit = canvas.height + 50;
+
+            for (let i = partyParticles.length - 1; i >= 0; i--) {
+                const p = partyParticles[i];
                 p.x += p.vx;
                 p.y += p.vy;
                 p.rot += p.vrot;
+
+                if (p.y > bottomLimit) {
+                    // Eliminación O(1) in-place sin generar basura en memoria (zero GC lag)
+                    partyParticles[i] = partyParticles[partyParticles.length - 1];
+                    partyParticles.pop();
+                    continue;
+                }
+
                 ctx.save();
                 ctx.translate(p.x, p.y);
                 ctx.rotate((p.rot * Math.PI) / 180);
-                ctx.font = `${p.size}px sans-serif`;
-                ctx.fillText(p.icon, 0, 0);
+                // Dibujo GPU instantáneo por texturas pre-rasterizadas (sin recalcular tipografía)
+                ctx.drawImage(p.sprite.canvas, -p.sprite.width / 2, -p.sprite.height / 2);
                 ctx.restore();
-            });
+            }
 
-            partyParticles = partyParticles.filter(p => p.y < canvas.height + 60);
             if (partyParticles.length > 0) {
                 requestAnimationFrame(animatePartyConfetti);
             } else {
