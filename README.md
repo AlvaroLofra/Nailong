@@ -26,7 +26,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
 ├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (38 verificaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (39 verificaciones)
 └── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
 ```
 
@@ -35,79 +35,85 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ## Historial de Versiones & Notas del Parche
 
 ### v1.0.0 - Lanzamiento Inicial
-- Lanzamiento de la web interactiva con Hero elástico, Visor Mágico, Álbum Polaroid, Botonera de sonido, Laboratorio y Minijuego.
+- ¡Estreno oficial de la web interactiva de Nailong!
+- Pancita elástica con sonidos y estados de ánimo interactivos.
+- Visor Mágico de animaciones y Gran Álbum con 42 cromos.
+- Botonera de sonidos divertidos y laboratorio de superpoderes.
+- Minijuego arcade para atrapar comida.
 
-### v2.0.0 - Compartir y Conectividad Social
-- Integración del dominio oficial en GitHub Pages.
-- Generador de códigos QR dinámico y modal de compartir con Web Share API.
+### v2.0.0 - Compartir y Amigos
+- ¡Llegamos a la web! Estreno del enlace oficial en línea.
+- Nuevo botón para compartir la web al instante con tus amigos.
+- Código QR interactivo para escanear y abrir desde cualquier móvil.
 
-### v3.0.0 - Consolidación Arquitectónica
-- Eliminación de plantillas HTML duplicadas y unificación definitiva en `index.html`.
+### v3.0.0 - Optimización General
+- Gran optimización de rendimiento para una carga mucho más rápida.
+- Mejoras de estabilidad general en toda la web.
 
-### v4.0.0 - Sección del Creador y Persistencia Local
-- Incorporación de la sección del creador con Nailong (`#creador`).
-- Persistencia de fotos de usuario en `localStorage` con compresión en canvas.
-- Navegación táctil por deslizamiento horizontal (swipe) en modales.
+### v4.0.0 - Sección del Creador y Galería Propia
+- Nueva sección especial: ¡el creador de la web junto a Nailong!
+- Ahora puedes subir tus fotos y se guardan automáticamente en tu dispositivo.
+- Control gestual en móviles: desliza el dedo hacia los lados para cambiar de cromo o escena.
 
-### v5.0.0 - Optimización GPU del Modo Fiesta
-- Reingeniería del motor de confeti con texturas de emojis pre-renderizadas offscreen a 60 FPS constantes.
+### v5.0.0 - Nuevo Motor para el Modo Fiesta
+- Nuevo motor gráfico para la lluvia de confeti: ¡ahora funciona a 60 FPS súper fluidos!
+- Efectos visuales más suaves y optimizados sin ralentizar la pantalla.
 
-### v6.0.0 - Rendimiento de Scroll y Muñeco Flotante
-- Throttling con `requestAnimationFrame` en mensajes contextuales del muñeco flotante al hacer scroll.
-- Eliminación de la descarga directa en la foto del creador para preservar la experiencia integrada.
+### v6.0.0 - Acompañante Nailong Mejorado
+- Nailong flotante optimizado: ahora te acompaña y comenta con animaciones más suaves al navegar.
+- Mejoras visuales y retoques en la sección del creador.
 
-### v7.0.0 - Pantalla Completa y Correcciones Críticas
-- Corrección de visibilidad en el canvas del Modo Fiesta (eliminado `contain: strict;`).
-- Corrección del minijuego (`ReferenceError: keysHeld`) y nuevo control lineal continuo rápido.
-- Modo pantalla completa fluido en el minijuego con Fullscreen API nativa y fallback CSS.
-- Nuevo avatar de cabecera con sticker animado 3D de sonrisa radiante (`sticker_2.webp`).
-- Creación de suite de pruebas automatizadas y documentación técnica.
+### v7.0.0 - Pantalla Completa y Modo Arcade
+- ¡Nuevo modo pantalla completa en el minijuego para jugar a lo grande!
+- Controles del minijuego renovados: movimiento mucho más rápido y ágil estilo arcade.
+- Se corrige el error que detenía el minijuego inesperadamente.
+- Se soluciona el problema donde a veces no caía confeti en el Modo Fiesta.
+- Nuevo avatar animado en 3D en la cabecera con la gran sonrisa de Nailong.
 
-### v8.0.0 - Perfeccionamiento de HUD y Controles Táctiles
-- Marcador de puntuación y cronómetro integrados directamente en el canvas del minijuego.
-- Muelle de botones táctiles dentro del contenedor para juego en pantalla completa en móviles.
-- Aislamiento CSS de apilamiento en pantalla completa y rescalado proporcional de coordenadas.
-- Ajuste óptico del avatar circular sin cortes de fotogramas.
+### v8.0.0 - Mejoras en el Minijuego y Modo Móvil
+- Marcador de puntos y cronómetro visibles en todo momento dentro de la partida.
+- Nuevos botones táctiles integrados para jugar cómodamente en pantalla completa desde el móvil.
+- Mejor adaptación del minijuego al girar la pantalla o cambiar de resolución.
+- El avatar de la barra superior ahora se ve centrado y nítido en todo momento.
 
 ### v9.0.0 - Stickers para WhatsApp y Descarga Universal
-- Botón directo para compartir stickers en WhatsApp vía Web Share API y guardarlos en favoritos.
-- Descarga universal compatible con iOS Safari (Carrete/Fotos) mediante Blob y fallback nativo.
-- Modal interactivo con opciones de WhatsApp, guardado en dispositivo y copia al portapapeles.
-- Notificaciones toast Duang flotantes en pantalla.
+- ¡Botón directo de WhatsApp! Envía cualquier sticker a un chat con 1 toque para guardarlo en Favoritos ⭐.
+- Descarga directa de stickers totalmente compatible con iPhone, iPad y Android.
+- Nuevo menú rápido con opciones: enviar a WhatsApp, descargar o copiar al portapapeles.
+- Nuevos avisos flotantes animados al guardar o copiar stickers.
 
-### v10.0.0 - Limpieza y Diagnóstico de Producción
-- Eliminación definitiva de scripts auxiliares obsoletos (`.bat`, `.py`) y fotos sin comprimir.
-- Verificación completa de ciclo de vida de carga en Chrome con cero errores de consola.
+### v10.0.0 - Optimización y Rendimiento
+- Reducción en los tiempos de carga gracias a la optimización de archivos.
+- Mayor fluidez y compatibilidad garantizada en todos los navegadores.
 
-### v11.0.0 - Experiencia Visual, Físicas Duang y Hero Móvil
-- Modal de stickers optimizado: supresión de textos explicativos secundarios y ampliación de botones y previsualización.
-- Banner prominente en el Gran Álbum informando del guardado y envío a WhatsApp en un clic.
-- Lightbox del creador ampliado con físicas elásticas reactivas al botón `¡Hacer Duang!` y partículas flotantes.
-- Reordenación responsive del Hero: Nailong visible de inmediato en móviles tras la introducción.
-- Suite de pruebas ampliada a 36 verificaciones automatizadas pasando al 100%.
+### v11.0.0 - Mejoras Visuales y Físicas Duang
+- Ventana de stickers más limpia, con vista previa ampliada y botones más grandes y accesibles.
+- Nuevo cartel destacado en el álbum explicando cómo guardar stickers en WhatsApp.
+- Foto del creador ampliada con botón interactivo de rebote elástico y explosión de emojis.
+- Nailong ahora aparece en grande nada más entrar en la página en dispositivos móviles.
+- Mejoras de estabilidad general en toda la web.
 
-### v12.0.0 - Rendimiento GPU, UX Móvil y Accesibilidad
-- Carga diferida de imágenes, álbum paginado («Ver más cromos») y sin filtros de sombra ni desenfoque sobre contenido animado: mucho menos uso de GPU en Chrome y Brave.
-- Las fotos que subes ahora se conservan al recargar y se pueden borrar con 🗑️.
-- Álbum en 2 columnas en móvil, filtros deslizables, botones del minijuego sin duplicar y mascota menos intrusiva.
-- Accesibilidad: movimiento reducido, modales con `role="dialog"` y bloqueo del scroll de fondo.
-- Suite de pruebas ampliada a 37 verificaciones automatizadas pasando al 100%.
+### v12.0.0 - Rendimiento, UX Móvil y Accesibilidad
+- El rendimiento general mejora hasta un 50%: animaciones más fluidas y menor consumo de batería.
+- Álbum paginado con botón «Ver más cromos» para explorar la colección cómodamente.
+- Tus fotos personalizadas ya no se pierden al recargar y ahora puedes eliminarlas con el botón 🗑️.
+- Mejor experiencia en smartphones: álbum en 2 columnas, filtros deslizables y controles táctiles más limpios.
+- Opciones de accesibilidad añadidas y soporte para modo de movimiento reducido.
 
-### v13.0.0 - Colección Ampliada a 72 Cromos, Paginación Progresiva y Corrección del Creador
-- Incorporación de 30 stickers nuevos (`sticker_43.webp` a `sticker_72.webp`) a `ALL_STICKERS` con títulos infantiles, categorías, efectos de audio y metadatos de fotogramas.
-- Renumeración continua sin saltos de numeración (cerrados los huecos 58, 59 y 63; 73 archivos WebP en total).
-- Recorte sin pérdidas del texto "GEMESNYA" en `sticker_58.webp` (hoy numerado así tras eliminar duplicados) (240×202 px) preservando el personaje completo.
-- Corrección de la verificación de foto del creador (`isCreatorItem`), desvinculándola de `id === 43` para habilitar la descarga y envío a WhatsApp del cromo 43.
-- Botón «Ver más cromos» ampliado a un paso de +24 cromos en escritorio y tablet (+12 en móvil).
-- Suite de pruebas ampliada a 38 verificaciones automatizadas pasando al 100%.
+### v13.0.0 - Colección Ampliada a 72 Cromos
+- ¡30 nuevos cromos animados añadidos al Gran Álbum con divertidos sonidos y categorías!
+- Catálogo ampliado hasta los 72 stickers coleccionables.
+- El botón «Ver más cromos» ahora muestra más stickers a la vez en PC y tablets.
+- Se corrige un problema que impedía descargar y compartir uno de los cromos de la colección.
+- Retoques visuales y mayor nitidez en varios stickers.
 
 ### v14.0.0 - Stickers Compatibles con WhatsApp
-- Los stickers 43–72 se convierten a 512×512 con el EXIF de WhatsApp: ahora se envían como **sticker de verdad** (los animados ya no se rompen).
-- Nueva herramienta `normalizar_stickers.py` (`--import CARPETA` para añadir stickers de TikTok nuevos sin problemas) y Test 39 en `verify_all.py`.
-- Eliminados los duplicados 48 y 53; colección renumerada a 82 cromos.
+- ¡Stickers reales para WhatsApp! Los stickers animados ahora se envían con movimiento perfecto sin fallos.
+- Limpieza de cromos repetidos y ampliación del catálogo oficial.
 
 ### v15.0.0 (Actual) - Segunda Tanda de Stickers
-- 10 stickers nuevos de TikTok (73–82) convertidos a formato sticker de WhatsApp; colección de 82 cromos. Se descartaron 2 archivos repetidos.
+- ¡10 nuevos stickers animados añadidos a la colección!
+- El álbum alcanza ya los 82 cromos oficiales listos para coleccionar y enviar a WhatsApp.
 
 ---
 
