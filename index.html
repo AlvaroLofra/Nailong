@@ -346,7 +346,7 @@
 
                 <!-- Action Buttons: Share, Audio Mute, Pet Toggle, Party Mode & Mobile Menu -->
                 <div class="flex items-center gap-1.5 sm:gap-2">
-                    <button id="share-toggle-btn" onclick="openShareModal()" title="Compartir o Hostear para Amigos" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-900 hover:bg-nailong-yellow transition-all shadow-sm">
+                    <button id="share-toggle-btn" onclick="openShareModal()" title="Compartir con Amigos" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-900 hover:bg-nailong-yellow transition-all shadow-sm">
                         <i class="fa-solid fa-share-nodes text-sm sm:text-base"></i>
                     </button>
                     <button id="sound-toggle-btn" onclick="toggleAudioMute()" title="Activar/Silenciar Sonidos" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-800 hover:bg-nailong-yellow transition-all shadow-sm">
@@ -378,7 +378,7 @@
                 <a href="#minijuego" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-orange text-white hover:bg-amber-600 transition-colors flex items-center gap-2">🍗 Minijuego La Gran Comilona</a>
                 <div class="pt-2 border-t border-nailong-pale/80 flex flex-col gap-1.5">
                     <button onclick="openShareModal(); toggleMobileMenu();" class="px-4 py-2.5 rounded-2xl bg-nailong-yellow text-amber-950 font-bold hover:bg-amber-400 transition-colors flex items-center justify-between text-left shadow-sm">
-                        <span class="flex items-center gap-2">🚀 ¿Cómo Hostear & Compartir?</span>
+                        <span class="flex items-center gap-2">📲 ¡Compartir con Amigos!</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                     <button onclick="toggleCompanion();" class="px-4 py-2 rounded-2xl bg-white border border-nailong-yellow hover:bg-nailong-pale transition-colors flex items-center justify-between text-left">
@@ -1003,32 +1003,58 @@
         </div>
     </div>
 
-    <!-- MODAL COMPARTIR Y GUÍA DE HOSTEO GRATIS -->
+        <!-- MODAL COMPARTIR CON AMIGOS -->
     <div id="share-modal" class="fixed inset-0 bg-amber-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
-        <div class="clay-card max-w-xl w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-5 sm:p-8 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
+        <div class="clay-card max-w-lg w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-5 sm:p-8 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
-            <button onclick="closeShareModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm">
+            <button onclick="closeShareModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <div class="space-y-6 text-center">
                 <div class="space-y-2">
                     <span class="bg-nailong-orange text-white font-display font-bold px-4 py-1 rounded-full text-xs uppercase inline-block">
-                        🚀 ¡ENSEÑA ESTA PÁGINA A TUS AMIGOS!
+                        💛 ¡COMPARTE CON TUS AMIGOS!
                     </span>
                     <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950">
-                        ¿Cómo Compartir & Hostear?
+                        ¡El Mundo Mágico de Nailong!
                     </h3>
                     <p class="text-amber-900/90 font-semibold text-xs sm:text-sm">
-                        Esta web está 100% optimizada para teléfonos <strong>iPhone (iOS Safari)</strong> y <strong>Android (Chrome)</strong>, tabletas y ordenadores. ¡Aquí tienes las formas más rápidas y gratis de publicarla!
+                        Pásale la página a tus amigos para que jueguen al minijuego, toquen la pancita rebotona y vean los 42 stickers reales desde su iPhone, Android o PC.
                     </p>
                 </div>
 
-                <!-- Quick Actions: Share / Copy Link -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- QR Code Block for Live Page -->
+                <div class="bg-white/95 p-4 sm:p-5 rounded-3xl border-3 border-nailong-yellow shadow-inner flex flex-col items-center gap-2.5">
+                    <span class="font-display font-bold text-sm text-amber-950 flex items-center gap-1.5">
+                        <i class="fa-solid fa-qrcode text-nailong-orange text-lg"></i>
+                        <span>Escanea con la Cámara de tu Móvil:</span>
+                    </span>
+                    <div class="w-44 h-44 sm:w-48 sm:h-48 bg-white p-2.5 rounded-2xl border-2 border-nailong-pale shadow-md flex items-center justify-center">
+                        <img id="share-qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Falvarolofra.github.io%2FNailong%2F" alt="Código QR Nailong" class="w-full h-full object-contain">
+                    </div>
+                    <span class="text-xs font-bold text-amber-800">
+                        📸 Apunta con la cámara de tu iPhone o Android para abrirla al instante
+                    </span>
+                </div>
+
+                <!-- Live Link Display Box -->
+                <div class="bg-nailong-pale/80 p-3 rounded-2xl border-2 border-nailong-yellow flex items-center justify-between gap-2 text-left">
+                    <div class="overflow-hidden">
+                        <span class="text-[10px] font-bold text-amber-700 uppercase block">Enlace oficial en GitHub</span>
+                        <span id="share-url-text" class="font-mono text-xs sm:text-sm font-bold text-amber-950 truncate block select-all">https://alvarolofra.github.io/Nailong/</span>
+                    </div>
+                    <button onclick="copyCurrentShareLink()" class="clay-btn clay-btn-yellow shrink-0 px-3.5 py-1.5 text-xs font-display font-bold flex items-center gap-1 shadow-sm">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copiar</span>
+                    </button>
+                </div>
+
+                <!-- Action Buttons: Share / Copy Link -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                     <button id="native-share-btn" onclick="triggerNativeShare()" class="clay-btn bg-nailong-orange text-white font-display font-bold py-3 px-4 text-sm flex items-center justify-center gap-2 shadow-md">
                         <i class="fa-solid fa-share-nodes text-lg"></i>
-                        <span>📲 Compartir (WhatsApp/Móvil)</span>
+                        <span>📲 Compartir (WhatsApp)</span>
                     </button>
                     <button onclick="copyCurrentShareLink()" class="clay-btn clay-btn-yellow font-display font-bold py-3 px-4 text-sm flex items-center justify-center gap-2 shadow-md">
                         <i class="fa-regular fa-copy text-lg"></i>
@@ -1036,83 +1062,7 @@
                     </button>
                 </div>
 
-                <!-- QR Code Block for Instant Camera Scan -->
-                <div class="bg-white/95 p-4 rounded-2xl border-2 border-nailong-yellow shadow-inner flex flex-col items-center gap-2">
-                    <span class="font-display font-bold text-xs sm:text-sm text-amber-950 flex items-center gap-1.5">
-                        <i class="fa-solid fa-qrcode text-nailong-orange"></i>
-                        <span>Escanear con la Cámara del Móvil (QR):</span>
-                    </span>
-                    <div class="w-36 h-36 bg-white p-2 rounded-xl border border-nailong-pale shadow flex items-center justify-center">
-                        <img id="share-qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fnailong-fan.web.app" alt="Código QR Nailong" class="w-full h-full object-contain">
-                    </div>
-                    <span class="text-[11px] font-semibold text-amber-800">
-                        ¡Apunta con la cámara de tu iPhone o Android para abrirla!
-                    </span>
-                </div>
-
-                <!-- Free Hosting Options -->
-                <div class="space-y-3 text-left">
-                    <h4 class="font-display font-bold text-sm sm:text-base text-amber-950 flex items-center gap-2">
-                        <span>🌟 Formas Fáciles de Hostear y Compartir:</span>
-                    </h4>
-
-                    <!-- Option 0: Local Wi-Fi Sharing -->
-                    <div class="bg-amber-50 p-3.5 rounded-2xl border-2 border-amber-300 hover:border-nailong-orange transition-all">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="font-display font-bold text-xs sm:text-sm text-amber-950 flex items-center gap-1.5">
-                                <span>🦖 0. ¡En Directo por Wi-Fi (Doble clic en tu PC)!</span>
-                            </span>
-                            <span class="text-[10px] bg-amber-200 text-amber-900 font-bold px-2 py-0.5 rounded-full">¡El más fácil!</span>
-                        </div>
-                        <p class="text-xs text-amber-900/85">
-                            Haz doble clic en <code>compartir_amigos.bat</code> en esta carpeta. Te dará una dirección IP local para que cualquier amigo conectado a tu misma red Wi-Fi la abra al segundo desde Safari o Chrome.
-                        </p>
-                    </div>
-
-                    <!-- Option 1: Netlify Drop -->
-                    <div class="bg-white/90 p-3.5 rounded-2xl border-2 border-nailong-pale hover:border-nailong-yellow transition-all">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="font-display font-bold text-xs sm:text-sm text-amber-950 flex items-center gap-1.5">
-                                <span>⚡ 1. Netlify Drop (La más rápida - 30 segundos)</span>
-                            </span>
-                            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Sin código</span>
-                        </div>
-                        <p class="text-xs text-amber-900/85">
-                            Entra en <a href="https://app.netlify.com/drop" target="_blank" rel="noopener" class="text-nailong-orange font-bold underline">app.netlify.com/drop</a> y arrastra toda la carpeta del proyecto. ¡Te dará un enlace web HTTPS público al instante para pasarlo a tus amigos!
-                        </p>
-                    </div>
-
-                    <!-- Option 2: GitHub Pages -->
-                    <div class="bg-white/90 p-3.5 rounded-2xl border-2 border-nailong-pale hover:border-nailong-yellow transition-all">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="font-display font-bold text-xs sm:text-sm text-amber-950 flex items-center gap-1.5">
-                                <span>🐙 2. GitHub Pages (100% permanente y gratis)</span>
-                            </span>
-                            <span class="text-[10px] bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded-full">Oficial</span>
-                        </div>
-                        <p class="text-xs text-amber-900/85">
-                            Sube esta carpeta a un repositorio de GitHub, ve a <em>Settings &gt; Pages</em> y selecciona la rama <code>main</code>. Tu página estará online para siempre en <code>https://tu-usuario.github.io/nailong</code>.
-                        </p>
-                    </div>
-
-                    <!-- Option 3: Local Tunnel -->
-                    <div class="bg-white/90 p-3.5 rounded-2xl border-2 border-nailong-pale hover:border-nailong-yellow transition-all">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="font-display font-bold text-xs sm:text-sm text-amber-950 flex items-center gap-1.5">
-                                <span>🚀 3. Túnel Local (Para enseñarlo AHORA MISMO)</span>
-                            </span>
-                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">Instantáneo</span>
-                        </div>
-                        <p class="text-xs text-amber-900/85">
-                            Desde tu terminal en esta carpeta ejecuta: <code>npx localtunnel --port 8000</code> después de iniciar un servidor local (<code>python -m http.server 8000</code>). ¡Tus amigos verán la página en directo desde tu ordenador!
-                        </p>
-                    </div>
-                </div>
-
-                <div class="pt-2 text-center">
-                    <p class="text-xs text-amber-800 font-semibold mb-2">
-                        📖 Hemos creado una guía detallada en el archivo <strong>COMO_HOSTEAR.md</strong> con instrucciones paso a paso.
-                    </p>
+                <div class="pt-1 text-center">
                     <button onclick="closeShareModal()" class="clay-btn bg-nailong-yellow text-amber-950 font-display font-bold px-6 py-2.5 text-xs">
                         ¡Entendido, volver a la página! 🦖💛
                     </button>
@@ -2398,9 +2348,18 @@
             }
         }
 
-        /* ==============================================================
-           12. SHARE & HOSTING MODAL FOR FRIENDS
+                /* ==============================================================
+           12. SHARE MODAL FOR FRIENDS (GITHUB PAGES LIVE)
         ============================================================== */
+        const NAILONG_OFFICIAL_URL = 'https://alvarolofra.github.io/Nailong/';
+
+        function getLiveShareUrl() {
+            if (window.location.protocol.startsWith('http') && !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1')) {
+                return window.location.href;
+            }
+            return NAILONG_OFFICIAL_URL;
+        }
+
         function openShareModal() {
             playSound('pop');
             const modal = document.getElementById('share-modal');
@@ -2408,9 +2367,14 @@
             modal.classList.add('flex');
             modal.style.display = 'flex';
 
-            // Dynamically update QR Code with current page URL
+            const shareUrl = getLiveShareUrl();
+            const urlText = document.getElementById('share-url-text');
+            if (urlText) {
+                urlText.textContent = shareUrl;
+            }
+
+            // Dynamically update QR Code with live URL
             try {
-                const currentUrl = window.location.href.startsWith('http') ? window.location.href : 'https://tu-usuario.github.io/nailong';
                 const qrImg = document.getElementById('share-qr-code');
                 if (qrImg) {
                     qrImg.onerror = function() {
@@ -2420,11 +2384,11 @@
                         if (parent && !parent.querySelector('.qr-fallback-msg')) {
                             const msg = document.createElement('div');
                             msg.className = 'qr-fallback-msg text-xs text-amber-800 font-bold p-2 text-center';
-                            msg.textContent = '📱 Escanea cuando la web esté publicada online o copia el enlace de arriba.';
+                            msg.textContent = '📱 Escanea el código QR o copia el enlace de arriba.';
                             parent.appendChild(msg);
                         }
                     };
-                    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(currentUrl)}`;
+                    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shareUrl)}`;
                 }
             } catch(e) {}
         }
@@ -2439,10 +2403,11 @@
 
         async function triggerNativeShare() {
             playSound('fanfare');
+            const shareUrl = getLiveShareUrl();
             const shareData = {
                 title: '¡El Mundo Mágico de Nailong (奶龙)! 🦖✨',
                 text: '¡Mira la página fan interactiva de Nailong con fotos reales, stickers animados, sonidos duang y minijuego!',
-                url: window.location.href.startsWith('http') ? window.location.href : 'https://tu-usuario.github.io/nailong'
+                url: shareUrl
             };
 
             const canNativeShare = navigator.share && (!navigator.canShare || navigator.canShare(shareData));
@@ -2459,7 +2424,7 @@
 
         function copyCurrentShareLink() {
             playSound('duang');
-            const urlToCopy = window.location.href.startsWith('http') ? window.location.href : 'https://tu-usuario.github.io/nailong';
+            const urlToCopy = getLiveShareUrl();
             const showSuccess = () => {
                 const btnText = document.getElementById('copy-btn-text');
                 if (btnText) {
@@ -2495,7 +2460,7 @@
             }
         }
 
-        /* ==============================================================
+/* ==============================================================
            13. MOBILE TOUCH SWIPE GESTURES FOR MODALS
         ============================================================== */
         function setupModalSwipeGestures(modalId, onNext, onPrev) {

@@ -173,10 +173,9 @@ assert "btn.addEventListener('touchcancel', stop)" in html, "touchcancel listene
 assert "if (e.cancelable) e.preventDefault();" in html, "Canvas touchmove preventDefault missing to lock page scroll during play!"
 print("✔ Minigame touch safety verified: touchcancel prevents runaway movement and canvas drag locks screen scroll.")
 
-# Test 22: Verify 1-Click Friend Sharing Local Server and Batch Launcher
-assert os.path.exists('compartir_amigos.bat'), "compartir_amigos.bat launcher missing!"
-assert os.path.exists('compartir_amigos.py'), "compartir_amigos.py server script missing!"
-assert "compartir_amigos.bat" in html, "Local Wi-Fi sharing option missing in #share-modal!"
-print("✔ 1-Click local friend sharing verified: compartir_amigos.bat launcher and Python LAN server ready for friends.")
+# Test 22: Verify Live GitHub Pages Share Integration & QR Code
+assert "alvarolofra.github.io/Nailong" in html, "Official GitHub Pages URL missing from index.html!"
+assert "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Falvarolofra.github.io%2FNailong%2F" in html, "QR Code generator missing live GitHub Pages URL!"
+print("✔ Live GitHub Pages share integration & QR code scanner verified: points directly to alvarolofra.github.io/Nailong.")
 
 print("\n=== ALL 22 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
