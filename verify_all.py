@@ -26,13 +26,13 @@ print("✔ Single definitive index.html verified with 0 duplicate HTML files and
 
 # Test 2: Verify all stickers and creator photos on disk
 sticker_files = sorted(os.listdir('Stickers Nailong'))
-for i in range(1, 73):
+for i in range(1, 83):
     expected_file = f'sticker_{i}.webp'
     assert expected_file in sticker_files, f"Missing sticker file: {expected_file}"
 assert 'creador_nailong.webp' in sticker_files, "Optimized creador_nailong.webp missing!"
 assert 'Foto nailong yo.jfif' not in sticker_files, "Obsolete uncompressed Foto nailong yo.jfif should be removed!"
-assert len(sticker_files) == 73, f"Expected exactly 73 sticker files (72 stickers + creador), found {len(sticker_files)}"
-print("✔ All 72 sticker files + optimized creator photo verified in 'Stickers Nailong/' (obsolete files cleanly removed).")
+assert len(sticker_files) == 83, f"Expected exactly 83 sticker files (82 stickers + creador), found {len(sticker_files)}"
+print("✔ All 82 sticker files + optimized creator photo verified in 'Stickers Nailong/' (obsolete files cleanly removed).")
 
 # Test 3: Check all image references in index.html resolve to real files
 static_img_refs = re.findall(r'Stickers Nailong/([a-zA-Z0-9_\.]+\.webp)', html)
@@ -49,13 +49,13 @@ for tile in re.findall(r"sticker:\s*'([^']+)'", html):
     assert os.path.exists(os.path.join('Stickers Nailong', tile)), f"Soundboard / Mood sticker {tile} missing!"
 print("✔ All dynamically templated sticker references (GIFs, Moods, Soundboard) resolve to valid files on disk.")
 
-# Test 4: Verify ALL_STICKERS in JS array contains all 72 stickers + creator
+# Test 4: Verify ALL_STICKERS in JS array contains all 82 stickers + creator
 stickers_in_js = re.findall(r"file:\s*'sticker_(\d+)\.webp'", html)
 unique_js_stickers = sorted(set(int(x) for x in stickers_in_js))
-assert len(unique_js_stickers) == 72, f"Expected 72 stickers in ALL_STICKERS, found {len(unique_js_stickers)}"
-assert unique_js_stickers == list(range(1, 73)), f"Missing stickers in ALL_STICKERS: {set(range(1, 73)) - set(unique_js_stickers)}"
+assert len(unique_js_stickers) == 82, f"Expected 82 stickers in ALL_STICKERS, found {len(unique_js_stickers)}"
+assert unique_js_stickers == list(range(1, 83)), f"Missing stickers in ALL_STICKERS: {set(range(1, 83)) - set(unique_js_stickers)}"
 assert "creador_nailong.webp" in html, "Creator photo missing from ALL_STICKERS!"
-print("✔ ALL_STICKERS array accurately maps all 72 stickers (IDs 1 through 72) + creator photo.")
+print("✔ ALL_STICKERS array accurately maps all 82 stickers (IDs 1 through 82) + creator photo.")
 
 # Test 5: Verify SOUNDBOARD_TILES has 12 items
 soundboard_matches = re.findall(r"sticker:\s*'sticker_(\d+)\.webp',\s*name:\s*'([^']+)'", html)
@@ -306,14 +306,14 @@ from PIL import Image
 assert "item.id === 43" not in html, "item.id === 43 sentinel must be removed in favor of isCreatorItem!"
 assert "isCreatorItem" in html, "isCreatorItem helper function missing in index.html!"
 assert "GALLERY_STEP" in html, "GALLERY_STEP dynamic pagination constant missing in index.html!"
-for extra in range(73, 80):
+for extra in range(83, 90):
     assert not os.path.exists(f'Stickers Nailong/sticker_{extra}.webp'), f"Stray sticker_{extra}.webp found on disk!"
-for i in range(1, 73):
+for i in range(1, 83):
     assert os.path.exists(f'Stickers Nailong/sticker_{i}.webp'), f"Sticker gap detected at sticker_{i}.webp!"
 im60 = Image.open('Stickers Nailong/sticker_58.webp').convert('RGBA')
 bbox = im60.getchannel('A').getbbox()
 assert bbox and (bbox[3] - bbox[1]) < (bbox[2] - bbox[0]), "sticker_58 (GEMESNYA recortado) must keep its cropped, wider-than-tall content!"
-print("✔ v13 verified: 72 continuous stickers, sticker_58 cropped, isCreatorItem decoupled from id 43, GALLERY_STEP active.")
+print("✔ v13 verified: 82 continuous stickers, sticker_58 cropped, isCreatorItem decoupled from id 43, GALLERY_STEP active.")
 
 # Test 39: v14 - TODOS los stickers cumplen el formato de WhatsApp (512x512, EXIF, peso) -> se envian como sticker
 import subprocess, sys
@@ -323,6 +323,6 @@ assert os.path.exists('normalizar_stickers.py'), "normalizar_stickers.py missing
 for _id, _file, _fr in re.findall(r"id:\s*(\d+),\s*file:\s*'(sticker_\d+\.webp)',\s*frames:\s*(\d+)", html):
     _n = getattr(Image.open(os.path.join('Stickers Nailong', _file)), 'n_frames', 1)
     assert _n == int(_fr), f"frames de {_file} en ALL_STICKERS ({_fr}) no coincide con el archivo ({_n}): actualizalo en index.html"
-print("✔ v14 verified: all 72 stickers are 512x512 WebP with WhatsApp EXIF and within size limits (sent as real stickers).")
+print("✔ v14 verified: all 82 stickers are 512x512 WebP with WhatsApp EXIF and within size limits (sent as real stickers).")
 
 print("\n=== ALL 39 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

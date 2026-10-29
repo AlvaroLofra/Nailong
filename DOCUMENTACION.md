@@ -19,7 +19,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ├── GEMINI.md                    # Contexto e instrucciones técnicas para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones técnicas para modelos Claude
 ├── verify_all.py                # Suite de pruebas automatizadas en Python (38 tests unitarios y estructurales)
-└── Stickers Nailong/            # Directorio de recursos gráficos (72 cromos .webp + foto optimizada del creador)
+└── Stickers Nailong/            # Directorio de recursos gráficos (82 cromos .webp + foto optimizada del creador)
 ```
 
 ---
@@ -228,7 +228,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   3. **Copia Dinámica al Portapapeles (`copyStickerToClipboard`):**
      - Conversión offscreen en canvas a PNG para satisfacer la especificación W3C Clipboard API en navegadores que restringen el pegado de WebP.
   4. **Alternativa de Importación Masiva:**
-     - Se documenta en el modal la recomendación de usar la app gratuita **Sticker.ly** buscando "Nailong" para instalar los 72 stickers de golpe.
+     - Se documenta en el modal la recomendación de usar la app gratuita **Sticker.ly** buscando "Nailong" para instalar los 82 stickers de golpe.
 
 ### 📌 ADR-02: Consolidación Limpia del Repositorio y Diagnóstico de Carga
 - **Fecha:** 2026-10-29
@@ -286,6 +286,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Problema:** Los stickers 43–74 llegaban a WhatsApp como imagen (y los animados se perdían): eran WebP 240×240 / tamaños arbitrarios sin EXIF de WhatsApp. Los 1–42 funcionaban por ser 512×512 con EXIF `sticker-pack-id`.
 - **Decisión:** Convertir todo a 512×512 (lienzo transparente, sin deformar), inyectar el EXIF original, limitar peso (≤100 KB estático / ≤500 KB animado) y mantener ≤10 s mediante `normalizar_stickers.py`; el Test 39 de `verify_all.py` impide regresiones. Eliminados los duplicados 48 y 53.
 - **Consecuencias:** Los próximos stickers de TikTok se incorporan con `python normalizar_stickers.py --import CARPETA`. Copiar al portapapeles sigue produciendo PNG estático (limitación del navegador).
+
+### 📌 ADR-07: Segunda Tanda de Stickers (73–82)
+- **Fecha:** 2026-10-30
+- **Estado:** Implementado / Aceptado
+- **Decisión:** Importar la segunda tanda con `normalizar_stickers.py --import` tras comparar con la colección existente: se descartaron 2 duplicados exactos (equivalentes a 71 y 72) y se añadieron 10 (73–82), manteniendo numeración continua y los tests de formato WhatsApp (Test 39).
 
 ---
 

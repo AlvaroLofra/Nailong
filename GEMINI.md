@@ -62,7 +62,7 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
    - No añadir archivos de audio pesados (`.mp3`, `.wav`) en el árbol de archivos. Los sonidos se sintetizan algorítmicamente mediante la **Web Audio API** (`audioCtx.createOscillator()`).
 4. **Optimización de Recursos Gráficos:**
    - Todas las imágenes y animaciones de stickers están en formato WebP dentro de `Stickers Nailong/`.
-   - La colección contiene exactamente 72 cromos numerados (`sticker_1.webp` a `sticker_72.webp`) más las imágenes del creador (`creador_nailong.webp`).
+   - La colección contiene exactamente 82 cromos numerados (`sticker_1.webp` a `sticker_82.webp`) más las imágenes del creador (`creador_nailong.webp`).
 5. **Compatibilidad Móvil Obligatoria:**
    - La interfaz debe funcionar perfectamente en iPhone (Safari iOS con Dynamic Island y barra inferior) y Android (Chrome), respetando `viewport-fit=cover`, safe-area insets y soporte PWA.
 6. **Verificación Continua:**
@@ -80,7 +80,7 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
 ├── verify_all.py                # Suite de pruebas automatizadas (38 comprobaciones)
-└── Stickers Nailong/            # Banco de 72 cromos en WebP + foto optimizada del creador
+└── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
 ```
 
 ---
@@ -112,7 +112,7 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
    - Modal con control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento (swipe horizontal) y pegatinas arrastrables.
 
 6. **Gran Álbum Polaroid de Cromos:**
-   - 72 cromos reales categorizados con visor ampliado (Lightbox), paginados de 12 en 12 con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
+   - 82 cromos reales categorizados con visor ampliado (Lightbox), paginados de 12 en 12 con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
    - Sección especial del creador de la web con Nailong (`#creador`).
    - Subida de fotos del usuario con compresión en canvas y guardado persistente en `localStorage`.
 
@@ -236,6 +236,12 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Limpieza:** eliminados los duplicados 48 (versión recortada del 45) y 53 (fotograma estático del 59 animado); renumeración continua hasta **72 stickers** (+ creador = 73 archivos).
 - **Copiar al portapapeles:** limitación del navegador (solo admite PNG): copia una imagen fija. Para enviar como sticker usar el botón de WhatsApp.
 - **Suite de Pruebas:** 39 comprobaciones; el Test 39 falla si algún sticker no es 512×512, no lleva EXIF o supera el peso.
+
+### 📌 Versión 15.0.0 (v15) - Segunda Tanda de Stickers de TikTok (73–82)
+- **10 stickers nuevos** (`sticker_73.webp` a `sticker_82.webp`) con título y descripción en tono infantil, convertidos con `python normalizar_stickers.py --import CARPETA` (512×512 + EXIF de WhatsApp). Colección total: **82 stickers** (+ creador = 83 archivos).
+- **Duplicados descartados:** de los 12 archivos recibidos, 2 eran idénticos a stickers ya existentes (71 y 72) y no se añadieron. Los avisos de duplicado de la herramienta deben revisarse siempre antes de añadir.
+- **Textos incrustados:** el 75 («Nyah nyah!»), el 77 (rótulo chino en el borde) y el 82 (subtítulo «呜呜呜») conservan el texto original del vídeo; no se recortó para no dañar la imagen.
+- La carpeta temporal de importación se elimina tras convertir; todos los stickers viven en `Stickers Nailong/`.
 
 ---
 
