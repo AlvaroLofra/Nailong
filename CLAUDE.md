@@ -8,6 +8,43 @@ Este archivo sirve como guía maestra y contexto técnico para agentes inteligen
 
 ---
 
+## 🏛️ 0. Protocolo de Gobernanza y Conexión con la Biblioteca Central
+
+Actúa como asistente senior de desarrollo e ingeniería para este proyecto.
+
+Antes de proponer código, realizar cambios o crear archivos, debes conectarte a la biblioteca central de metodologías, directrices y plantillas que reside en la siguiente ruta absoluta del equipo:
+
+`C:\Users\Administrator\Documents\Claude Code\Documentos, Herramientas e Información General`
+
+Sigue estrictamente este protocolo de inicialización:
+
+### 1. Inspección y Orientación (Lectura en Cascada):
+- Lee el índice maestro: `C:\Users\Administrator\Documents\Claude Code\Documentos, Herramientas e Información General\00_INDICE_GENERAL.md`.
+- Consulta las directrices de la biblioteca que encajen con el objetivo de esta sesión:
+  * Si es arquitectura, metodología o estructura del repo: `GUIA_MAESTRA_DESARROLLO_Y_PROYECTOS.md`.
+  * Si es desarrollo de código o uso de LLMs: `ESTRATEGIA_LLM_OPTIMIZACION_TOKENS_Y_SESIONES.md`.
+  * Si es interfaz de usuario, diseño web o frontend: `Herramientras UI UX/DESIGN.md` y `CLAUDE.md.snippet`.
+  * Si es preparación académica, estudio o defensa oral: `GUIA_PEDAGOGICA_Y_DEFENSA_ACADEMICA.md`.
+  * Si requiere vídeo programático con React: consulta las extensiones en `Skills/Remotion/`.
+  * Si requiere maquetación o informes formales: `Plantillas y Blueprints/Plantillas Word y PDF/`.
+
+### 2. Regla Estricta de Autorización para Transferencia de Archivos:
+- TIENES TERMINANTEMENTE PROHIBIDO copiar, mover o duplicar archivos, plantillas (como `CLAUDE.md`, `DESIGN.md`, plantillas Word/PDF) o carpetas de skills desde la biblioteca central a este proyecto SIN AUTORIZACIÓN EXPRESA DEL USUARIO.
+- Si detectas que este proyecto necesita una plantilla o skill concreta, enumérala brevemente y pregunta:
+  «He detectado que para este proyecto convendría importar [fichero/plantilla/skill] desde la biblioteca central. ¿Me autorizas a copiarlo a este directorio de trabajo?»
+- Espera la respuesta del usuario antes de realizar cualquier copia.
+
+### 3. Reglas Operativas Obligatorias Durante Toda la Sesión:
+- **Sesión Quirúrgica:** 1 sesión = 1 tarea acotada. Prohibido hacer búsquedas ciegas (`grep` en todo el disco) si puedes acceder por rutas directas.
+- **Comandos Silenciosos:** Ejecuta comprobaciones con flags breves que no inunden el contexto de tokens (ej. `python verify_all.py`, `git status -s`, `pytest -q`).
+- **Ground Truth (Cero Invención):** Si un dato, artículo, métrica o versión no se puede verificar en tiempo real contra su fuente primaria, márcalo explícitamente como «no comprobado». Los cálculos matemáticos y de fechas se delegan en código determinista, nunca en el LLM.
+- **Definition of Done:** Al terminar la tarea, genera o actualiza el registro de estado actual, documenta las decisiones tomadas (ADR) y haz un resumen conciso de handoff.
+
+### 4. Protocolo de Respuesta Inicial:
+- Responde en 3-4 líneas confirmando que has consultado la biblioteca central, resumiendo el estado del proyecto actual según lo que ves y preguntando por qué tarea concreta empezamos hoy (o solicitando autorización si necesitas importar alguna plantilla clave).
+
+---
+
 ## 1. Visión General del Proyecto
 
 La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedicado a **Nailong (奶龙)**, el dragón de leche amarillo creado por *Seventh Impression*. Ofrece una experiencia interactiva para niños y fans con fotos reales, animaciones en bucle, cromos coleccionables, minijuegos y efectos de sonido en tiempo real.
@@ -38,11 +75,11 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma)
 ├── manifest.json                # Manifiesto para instalación PWA en móviles
-├── DOCUMENTACION.md             # Documentación técnica completa de código y arquitectura
-├── GEMINI.md                    # Guía de contexto e instrucciones de proyecto (Gemini)
-├── CLAUDE.md                    # Guía de contexto e instrucciones de proyecto (Claude)
+├── DOCUMENTACION.md             # Documentación técnica completa de código, ADRs y arquitectura
+├── GEMINI.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Gemini)
+├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
-├── verify_all.py                # Suite de pruebas automatizadas (33 comprobaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (35 comprobaciones)
 ├── compartir_amigos.py          # Script de servidor LAN en Python con código QR en terminal
 ├── compartir_amigos.bat         # Archivo de ejecución rápida en Windows
 └── Stickers Nailong/            # Banco de 42 cromos en WebP + fotos
@@ -154,13 +191,14 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Corrección de Aislamiento en Pantalla Completa CSS:** Eliminada la trampa de contexto de apilamiento provocada por las transformaciones CSS en elementos `.reveal-item.visible` (establecido en `transform: none`), y añadida la clase `has-minigame-fullscreen` en `body` para elevar `#game-container` por encima de cualquier otro elemento de la página.
 - **Rescalado Dinámico Proporcional de Coordenadas:** `resizeGameCanvas()` escala matemáticamente la posición horizontal del jugador (`playerX`) y la de todos los alimentos en caída activa según la proporción `newWidth / oldWidth` al entrar/salir de pantalla completa o al cambiar la orientación del dispositivo, evitando que el personaje se desplace fuera del lienzo.
 - **Encuadre Óptico del Avatar de Cabecera:** Ajuste fino del recorte circular de `sticker_2.webp` para que llene el círculo completo con `object-cover` sin cortar la parte superior de la frente ni los ojos del personaje durante ninguno de sus 36 fotogramas de animación.
-### 📌 Versión 9.0.0 (v9) - Integración de Stickers para WhatsApp & Descarga Universal iOS / Android
-- **Botón Directo de WhatsApp en Visor Mágico y Lightbox:** Incorporado botón temático de WhatsApp (`#25D366`) con icono oficial en `#magic-modal` y `#photo-lightbox`. Invoca la Web Share API con el archivo binario WebP para enviar el sticker directamente a cualquier chat o a uno mismo, permitiendo añadirlo a "Favoritos ⭐" en el teclado de WhatsApp en 1 toque.
-- **Solución Definitiva a la Descarga en iPhone (iOS Safari):** Resuelto el fallo donde en iPhone no se descargaban los stickers al pulsar "Guardar" (provocado por la restricción del motor WebKit de Safari que ignora el atributo `download` en URLs de archivos). Implementado `forceDownloadSticker()` con conversión binaria `Blob` y llamada nativa a `navigator.share()` que activa la opción "Guardar imagen" directamente en el Carrete (Fotos de Apple) o en la app Archivos.
+
+### 📌 Versión 9.0.0 (v9) - Integración de Stickers para WhatsApp, Descarga Universal iOS / Android y Gobernanza Central
+- **Botón Directo de WhatsApp en Visor Mágico y Lightbox:** Incorporado botón temático de WhatsApp (`#25D366`) con icono oficial en `#magic-modal` y `#photo-lightbox`. Invoca la Web Share API con el archivo binario WebP puro para enviar el sticker directamente a cualquier chat o a uno mismo, permitiendo añadirlo a "Favoritos ⭐" en el teclado de WhatsApp en 1 toque.
+- **Solución Definitiva a la Descarga en iPhone (iOS Safari):** Resuelto el fallo donde en iPhone no se descargaban los stickers al pulsar "Guardar" (provocado por la restricción del motor WebKit de Safari que ignora el atributo `download` en URLs de archivos). Implementado `forceDownloadSticker()` con conversión binaria `Blob` y llamada nativa a `navigator.share()` que activa la opción "Guardar imagen" directamente en el Carrete (Fotos de Apple) o en la app Archivos, con detección ampliada para iPadOS (`MacIntel` + `maxTouchPoints`).
 - **Modal Interactivo de Guardado y Opciones (`#sticker-options-modal`):** Menú Claymorphism emergente que se abre al pulsar "Guardar Sticker", ofreciendo: 1) Usar en WhatsApp, 2) Descargar en el Dispositivo (Fotos / Archivos) y 3) Copiar al Portapapeles (con conversión dinámica a PNG en canvas para compatibilidad con la API de portapapeles de iOS y WhatsApp).
 - **Notificaciones Toast Flotantes Duang (`#duang-toast`):** Notificación emergente accesible y animada (`showDuangToast`) que informa al instante sobre el estado de la descarga o la guía para añadir a favoritos en WhatsApp.
-- **Explicación Técnica Honesta sobre Packs de WhatsApp:** Información integrada explicando las restricciones de seguridad de Meta/WhatsApp (que impiden que una web inyecte packs masivos sin una app nativa puente) y cómo utilizar alternativas como Sticker.ly o favoritos.
-- **Suite de Pruebas Ampliada a 34 Verificaciones:** `verify_all.py` ampliado para validar elementos de WhatsApp, integración de descargas, portapapeles y persistencia.
+- **Alineación de Gobernanza con la Biblioteca Central:** Integración formal del protocolo de inicialización en cascada, regla estricta de autorización previa para transferencia de plantillas y reglas de sesiones quirúrgicas en `GEMINI.md`, `CLAUDE.md` y registro ADR en `DOCUMENTACION.md`.
+- **Suite de Pruebas Ampliada a 35 Verificaciones:** `verify_all.py` ampliado para validar elementos de WhatsApp, integración de descargas, portapapeles, persistencia y gobernanza documental.
 
 ---
 

@@ -2252,8 +2252,8 @@
 
         async function forceDownloadSticker(url, filename, title) {
             playSound('duang');
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const isIOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
+            const isMobile = isIOS || /Android/i.test(navigator.userAgent);
 
             try {
                 const res = await fetch(url);
@@ -2266,8 +2266,7 @@
                     try {
                         await navigator.share({
                             files: [file],
-                            title: title || 'Sticker de Nailong',
-                            text: '¡Sticker de Nailong (奶龙)! ✨'
+                            title: title || 'Sticker de Nailong'
                         });
                         showDuangToast('✨ ¡Sticker guardado con éxito!');
                         return;
@@ -2319,8 +2318,7 @@
                     showDuangToast('📲 Selecciona WhatsApp y luego pulsa "Añadir a favoritos ⭐"');
                     await navigator.share({
                         files: [file],
-                        title: title || 'Sticker Nailong',
-                        text: '¡Sticker de Nailong (奶龙)! 🦖 (Tócalo en WhatsApp y pulsa "Añadir a favoritos ⭐")'
+                        title: title || 'Sticker Nailong'
                     });
                 } else {
                     // Browser without file share support (desktop PC / laptop)
@@ -2335,7 +2333,7 @@
                         URL.revokeObjectURL(blobUrl);
                     }, 4000);
 
-                    showDuangToast('📥 Sticker descargado. ¡Arrástralo a WhatsApp Web para enviarlo como sticker!');
+                    showDuangToast('📥 Sticker descargado. Arrástralo a WhatsApp Web (web.whatsapp.com) para enviarlo.');
                 }
             } catch (err) {
                 if (err.name !== 'AbortError') {

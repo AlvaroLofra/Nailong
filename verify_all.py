@@ -246,4 +246,12 @@ assert gemini_content == claude_content, "GEMINI.md and CLAUDE.md must have 100%
 assert os.path.exists('DOCUMENTACION.md'), "DOCUMENTACION.md missing!"
 print("✔ Project Documentation verified: GEMINI.md and CLAUDE.md are 100% synchronized and DOCUMENTACION.md is present.")
 
-print("\n=== ALL 34 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 34: Verify Central Library Governance Protocol & Architectural Decision Records (ADR)
+doc_content = open('DOCUMENTACION.md', 'r', encoding='utf-8').read()
+assert "Protocolo de Gobernanza y Conexión con la Biblioteca Central" in gemini_content, "Central Library protocol missing from GEMINI.md!"
+assert "00_INDICE_GENERAL.md" in gemini_content, "Cascade index missing from GEMINI.md!"
+assert "GUIA_MAESTRA_DESARROLLO_Y_PROYECTOS.md" in gemini_content, "Methodology reference missing from GEMINI.md!"
+assert "ADR-01: Descarga Universal en iOS (Safari) e Integración de Stickers para WhatsApp" in doc_content, "ADR-01 missing from DOCUMENTACION.md!"
+print("✔ Central Library Governance Protocol and ADR-01 verified in project documentation.")
+
+print("\n=== ALL 35 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

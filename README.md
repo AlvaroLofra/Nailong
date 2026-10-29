@@ -26,7 +26,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica completa y detallada de todo el código
 ├── GEMINI.md                    # Contexto e instrucciones del proyecto para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones del proyecto para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (34 tests)
+├── verify_all.py                # Suite de pruebas automatizadas (35 tests)
 ├── Stickers Nailong/            # Colección de los 42 stickers reales (.webp)
 ├── compartir_amigos.bat         # Launcher 1-clic para compartir por Wi-Fi local
 ├── compartir_amigos.py          # Servidor LAN local en Python
@@ -63,7 +63,8 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
   - 🍏 **Solución definitiva a descargas en iPhone (iOS Safari):** Corrección de la omisión del atributo `download` en WebKit mediante guardado en Fotos / Carrete nativo y fallback Blob URL.
   - 🗂️ **Modal de Opciones de Guardado:** Menú accesible con opciones para WhatsApp, descarga a Fotos/Archivos y copia al portapapeles.
   - 🍞 **Notificaciones Toast Duang:** Feedback visual interactivo en pantalla para guiar en las descargas y favoritos.
-  - 🧪 **34 pruebas automatizadas** en `verify_all.py`.
+  - 🏛️ **Gobernanza de Biblioteca Central:** Protocolo de inicialización en cascada y trazabilidad ADR.
+  - 🧪 **35 pruebas automatizadas** en `verify_all.py`.
 
 ---
 

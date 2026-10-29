@@ -180,20 +180,48 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Modal Interactivo de Guardado y Opciones (`#sticker-options-modal`):** Menú Claymorphism emergente que se abre al pulsar "Guardar Sticker", ofreciendo: 1) Usar en WhatsApp, 2) Descargar en el Dispositivo (Fotos / Archivos) y 3) Copiar al Portapapeles (con conversión dinámica a PNG en canvas para compatibilidad con la API de portapapeles de iOS y WhatsApp).
 - **Notificaciones Toast Flotantes Duang (`#duang-toast`):** Notificación emergente accesible y animada (`showDuangToast`) que informa al instante sobre el estado de la descarga o la guía para añadir a favoritos en WhatsApp.
 - **Explicación Técnica Honesta sobre Packs de WhatsApp:** Información integrada explicando las restricciones de seguridad de Meta/WhatsApp (que impiden que una web inyecte packs masivos sin una app nativa puente) y cómo utilizar alternativas como Sticker.ly o favoritos.
-- **Suite de Pruebas Ampliada a 34 Verificaciones:** `verify_all.py` ampliado para validar elementos de WhatsApp, integración de descargas, portapapeles y persistencia.
+- **Suite de Pruebas Ampliada a 35 Verificaciones:** `verify_all.py` ampliado para validar elementos de WhatsApp, integración de descargas, portapapeles, persistencia y gobernanza documental.
 
 ---
 
-## 5. Instrucciones de Verificación y Testing
+## 6. Registro Histórico de Decisiones de Arquitectura (ADR)
+
+### 📌 ADR-01: Descarga Universal en iOS (Safari) e Integración de Stickers para WhatsApp
+- **Fecha:** 2026-10-29
+- **Estado:** Implementado / Aceptado
+- **Problema:**
+  1. En iPhone (iOS Safari), los enlaces `<a href="..." download>` fallan silenciosamente debido a que el motor WebKit ignora el atributo `download` para URLs de imágenes y assets no originados en el mismo origen directo o esquemas de archivo.
+  2. Los usuarios desean una opción para añadir stickers directamente a un pack de stickers de WhatsApp desde la web.
+- **Análisis de Viabilidad y Restricciones de Plataforma:**
+  - *¿Es posible desde una web inyectar stickers directamente en la base de datos de WhatsApp con 1 clic?* **NO.**
+    - En Android, WhatsApp exige una aplicación nativa instalada que implemente un `ContentProvider` registrado con `com.whatsapp.provider.sticker` y responda al intent nativo `com.whatsapp.intent.action.ENABLE_ADD_PACK_TO_WHATSAPP`.
+    - En iOS, WhatsApp requiere acceso a un UIPasteboard privado (`net.whatsapp.WhatsApp.stickers`) restringido a binarios nativos de iOS.
+    - No existe ningún esquema URI (`whatsapp://...`) ni Web API W3C que permita a un navegador escribir en el almacenamiento interno de WhatsApp.
+- **Decisión Adoptada (Estrategia Híbrida de 3 Vías):**
+  1. **Envío Directo a WhatsApp vía Web Share API (`navigator.share`):**
+     - Se encapsula el archivo WebP en un objeto binario `File` con MIME `image/webp`.
+     - Se invoca `navigator.share({ files: [file] })` **sin parámetro `text` mixto** (eliminando el bug de Android donde WhatsApp descarta el archivo de imagen si se pasa texto simultáneamente).
+     - El usuario comparte el sticker a cualquier conversación de WhatsApp o a su propio chat («Tú»), lo toca en pantalla y pulsa **«Añadir a favoritos ⭐»**, quedando permanentemente en su teclado de WhatsApp.
+  2. **Descarga Universal en Carrete iOS (`forceDownloadSticker`):**
+     - Mediante `fetch` y `Blob`, en dispositivos móviles (incluyendo iPadOS detectado vía `MacIntel` + `maxTouchPoints`) se invoca `navigator.share({ files: [file] })`. En iOS Safari esto despliega la hoja nativa con la opción directa del sistema **«Guardar imagen»**, guardándola de inmediato en el Carrete (Fotos de Apple).
+     - Si se usa navegador de escritorio o el usuario cancela la hoja, se dispara la descarga directa por Blob URL y un enlace de apertura en pestaña auxiliar.
+  3. **Copia Dinámica al Portapapeles (`copyStickerToClipboard`):**
+     - Conversión offscreen en canvas a PNG para satisfacer la especificación W3C Clipboard API en navegadores que restringen el pegado de WebP.
+  4. **Alternativa de Importación Masiva:**
+     - Se documenta en el modal la recomendación de usar la app gratuita **Sticker.ly** buscando "Nailong" para instalar los 42 stickers de golpe.
+
+---
+
+## 7. Instrucciones de Verificación y Testing
 
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (34 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (35 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 34 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 35 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```
