@@ -10,7 +10,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 - **Hero Interactivo & Contador Duang:** Pancita con físicas elásticas, efectos de sonido y 9 estados de ánimo en vivo.
 - **Visor Mágico de Animaciones:** Galería de escenas GIF en bucle con control de velocidad y pegatinas arrastrables.
-- **Gran Álbum Polaroid:** Catálogo de 74 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
+- **Gran Álbum Polaroid:** Catálogo de 72 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
 - **Botonera Musical:** 12 casillas con efectos de caricatura sintetizados en tiempo real mediante la Web Audio API.
 - **Laboratorio de Superpoderes:** Ajuste de tamaño, modo camaleón con ciclo arcoíris y lanzamiento de llamaradas en canvas.
 - **Minijuego "La Gran Comilona":** Juego arcade en HTML5 Canvas con pantalla completa fluida, controles táctiles y teclado.
@@ -27,7 +27,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
 ├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
 ├── verify_all.py                # Suite de pruebas automatizadas (38 verificaciones)
-└── Stickers Nailong/            # Banco de 74 cromos en WebP + foto optimizada del creador
+└── Stickers Nailong/            # Banco de 72 cromos en WebP + foto optimizada del creador
 ```
 
 ---
@@ -93,13 +93,18 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Accesibilidad: movimiento reducido, modales con `role="dialog"` y bloqueo del scroll de fondo.
 - Suite de pruebas ampliada a 37 verificaciones automatizadas pasando al 100%.
 
-### v13.0.0 (Actual) - Colección Ampliada a 74 Cromos, Paginación Progresiva y Corrección del Creador
-- Incorporación de 32 stickers nuevos (`sticker_43.webp` a `sticker_74.webp`) a `ALL_STICKERS` con títulos infantiles, categorías, efectos de audio y metadatos de fotogramas.
-- Renumeración continua sin saltos de numeración (cerrados los huecos 58, 59 y 63; 75 archivos WebP en total).
-- Recorte sin pérdidas del texto "GEMESNYA" en `sticker_60.webp` (240×202 px) preservando el personaje completo.
+### v13.0.0 - Colección Ampliada a 72 Cromos, Paginación Progresiva y Corrección del Creador
+- Incorporación de 30 stickers nuevos (`sticker_43.webp` a `sticker_72.webp`) a `ALL_STICKERS` con títulos infantiles, categorías, efectos de audio y metadatos de fotogramas.
+- Renumeración continua sin saltos de numeración (cerrados los huecos 58, 59 y 63; 73 archivos WebP en total).
+- Recorte sin pérdidas del texto "GEMESNYA" en `sticker_58.webp` (hoy numerado así tras eliminar duplicados) (240×202 px) preservando el personaje completo.
 - Corrección de la verificación de foto del creador (`isCreatorItem`), desvinculándola de `id === 43` para habilitar la descarga y envío a WhatsApp del cromo 43.
 - Botón «Ver más cromos» ampliado a un paso de +24 cromos en escritorio y tablet (+12 en móvil).
 - Suite de pruebas ampliada a 38 verificaciones automatizadas pasando al 100%.
+
+### v14.0.0 (Actual) - Stickers Compatibles con WhatsApp
+- Los stickers 43–72 se convierten a 512×512 con el EXIF de WhatsApp: ahora se envían como **sticker de verdad** (los animados ya no se rompen).
+- Nueva herramienta `normalizar_stickers.py` (`--import CARPETA` para añadir stickers de TikTok nuevos sin problemas) y Test 39 en `verify_all.py`.
+- Eliminados los duplicados 48 y 53; colección renumerada a 72 cromos.
 
 ---
 

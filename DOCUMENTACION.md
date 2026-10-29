@@ -19,7 +19,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ├── GEMINI.md                    # Contexto e instrucciones técnicas para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones técnicas para modelos Claude
 ├── verify_all.py                # Suite de pruebas automatizadas en Python (38 tests unitarios y estructurales)
-└── Stickers Nailong/            # Directorio de recursos gráficos (74 cromos .webp + foto optimizada del creador)
+└── Stickers Nailong/            # Directorio de recursos gráficos (72 cromos .webp + foto optimizada del creador)
 ```
 
 ---
@@ -83,7 +83,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - Capa de pegatinas interactivas arrastrables (`makeStickerDraggable`) con aislamiento de gestos táctiles.
 - Navegación táctil con gestos de deslizamiento horizontal (Swipe izquierda/derecha).
 
-### 3.5. Gran Álbum Polaroid (74 Cromos + Creador + Fotos de Usuario)
+### 3.5. Gran Álbum Polaroid (72 Cromos + Creador + Fotos de Usuario)
 - Filtros por categorías: *Todos*, *En Movimiento*, *Comilonas*, *Caritas*, *Bailes*, *Amigos*.
 - Sistema de subida de fotos del usuario con persistencia en `localStorage`:
   - Compresión y escalado automático en un canvas temporal antes de guardarse en base64 para no saturar la cuota de almacenamiento.
@@ -228,7 +228,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   3. **Copia Dinámica al Portapapeles (`copyStickerToClipboard`):**
      - Conversión offscreen en canvas a PNG para satisfacer la especificación W3C Clipboard API en navegadores que restringen el pegado de WebP.
   4. **Alternativa de Importación Masiva:**
-     - Se documenta en el modal la recomendación de usar la app gratuita **Sticker.ly** buscando "Nailong" para instalar los 74 stickers de golpe.
+     - Se documenta en el modal la recomendación de usar la app gratuita **Sticker.ly** buscando "Nailong" para instalar los 72 stickers de golpe.
 
 ### 📌 ADR-02: Consolidación Limpia del Repositorio y Diagnóstico de Carga
 - **Fecha:** 2026-10-29
@@ -268,17 +268,24 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   6. **Identificación semántica de la foto del creador:** La foto del creador se discrimina por archivo (`file === 'creador_nailong.webp'` vía `isCreatorItem`), suprimiendo el centinela rígido `id: 43` para que el cromo real #43 de Nailong pueda añadirse a `ALL_STICKERS` y descargarse libremente.
 - **Medición:** abrir `Shift+Esc` en Chrome y observar el proceso de GPU mientras se hace scroll por el álbum, antes y después.
 
-### 📌 ADR-05: Expansión de Colección a 74 Stickers, Renumeración Continua y Paginación Dinámica
+### 📌 ADR-05: Expansión de Colección a 72 Stickers, Renumeración Continua y Paginación Dinámica
 - **Fecha:** 2026-10-29
 - **Estado:** Implementado / Aceptado
-- **Problema:** El array `ALL_STICKERS` solo contenía 42 cromos mientras existían 32 nuevos archivos WebP en `Stickers Nailong/` con saltos de numeración (faltaban 58, 59 y 63) y un archivo con texto incrustado ("GEMESNYA"). Además, el código trataba `id === 43` como centinela del creador, bloqueando la descarga del nuevo cromo 43, y el botón de paginación avanzaba únicamente de 12 en 12 en pantallas grandes.
+- **Problema:** El array `ALL_STICKERS` solo contenía 42 cromos mientras existían 32 archivos nuevos WebP en `Stickers Nailong/` con saltos de numeración (faltaban 58, 59 y 63) y un archivo con texto incrustado ("GEMESNYA"). Además, el código trataba `id === 43` como centinela del creador, bloqueando la descarga del nuevo cromo 43, y el botón de paginación avanzaba únicamente de 12 en 12 en pantallas grandes.
 - **Decisión Adoptada:**
   1. Recortar sin pérdidas `sticker_62.webp` a 240×202 px para eliminar el texto "GEMESNYA" sin afectar al personaje (renumerado a `sticker_60.webp`).
-  2. Renumerar secuencialmente en orden ascendente los archivos para cerrar los huecos (quedando `sticker_1.webp`…`sticker_74.webp` + `creador_nailong.webp`: 75 archivos).
+  2. Renumerar secuencialmente en orden ascendente los archivos para cerrar los huecos (quedando `sticker_1.webp`…`sticker_72.webp` + `creador_nailong.webp`: 73 archivos).
   3. Incorporar los 32 nuevos elementos a `ALL_STICKERS` con títulos en tono infantil, categorías, efectos de Web Audio y conteo verificado de fotogramas.
   4. Desacoplar la foto del creador mediante la función `isCreatorItem(item)` (`item.file === 'creador_nailong.webp'`), eliminando cualquier chequeo por `item.id === 43`.
   5. Ajustar el paso de paginación (`GALLERY_STEP = window.matchMedia('(min-width: 640px)').matches ? 24 : 12`), acelerando la exploración en escritorio (+24) mientras se preserva el consumo móvil (+12).
 
+
+### 📌 ADR-06: Formato Sticker de WhatsApp y Herramienta `normalizar_stickers.py`
+- **Fecha:** 2026-10-29
+- **Estado:** Implementado / Aceptado
+- **Problema:** Los stickers 43–74 llegaban a WhatsApp como imagen (y los animados se perdían): eran WebP 240×240 / tamaños arbitrarios sin EXIF de WhatsApp. Los 1–42 funcionaban por ser 512×512 con EXIF `sticker-pack-id`.
+- **Decisión:** Convertir todo a 512×512 (lienzo transparente, sin deformar), inyectar el EXIF original, limitar peso (≤100 KB estático / ≤500 KB animado) y mantener ≤10 s mediante `normalizar_stickers.py`; el Test 39 de `verify_all.py` impide regresiones. Eliminados los duplicados 48 y 53.
+- **Consecuencias:** Los próximos stickers de TikTok se incorporan con `python normalizar_stickers.py --import CARPETA`. Copiar al portapapeles sigue produciendo PNG estático (limitación del navegador).
 
 ---
 
@@ -287,7 +294,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (38 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (39 tests)
 python verify_all.py
 ```
 
