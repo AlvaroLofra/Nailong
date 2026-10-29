@@ -79,7 +79,7 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ├── GEMINI.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Gemini)
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
-├── verify_all.py                # Suite de pruebas automatizadas (35 comprobaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (36 comprobaciones)
 └── Stickers Nailong/            # Banco de 42 cromos en WebP + foto optimizada del creador
 ```
 
@@ -202,6 +202,13 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Eliminación de Archivos Obsoletos:** Supresión definitiva de los scripts auxiliares de red local (`compartir_amigos.bat`, `compartir_amigos.py`), la guía previa de hosting (`COMO_HOSTEAR.md`), la imagen residual `stickers_overview.png`, y la fotografía original sin comprimir de 2MB (`Stickers Nailong/Foto nailong yo.jfif`), reemplazada al 100% por la versión optimizada en formato WebP (`creador_nailong.webp`).
 - **Verificación de Carga en Navegador:** Validación exhaustiva del ciclo de vida de carga de `index.html` en Chrome headless y servidor HTTP local con 0 errores de consola, 0 excepciones no capturadas y 100% de los elementos visuales renderizados correctamente.
 - **Suite de Pruebas Actualizada:** Actualizadas las aserciones de `verify_all.py` para verificar la ausencia de archivos obsoletos y asegurar exactamente 43 elementos en `Stickers Nailong/`.
+
+### 📌 Versión 11.0.0 (v11) - Experiencia de Guardado, Banner WhatsApp, Lightbox Duang y Hero Móvil
+- **Modal de Guardado Limpio y Botones Grandes:** Supresión del bloque de texto explicativo sobre restricciones en `#sticker-options-modal`. Previsualización del sticker ampliada a 176x176px y botones de acción (*WhatsApp*, *Descargar* y *Copiar*) con textos e iconos aumentados (`text-base sm:text-lg`, iconos de 48px).
+- **Banner Prominente en el Gran Álbum:** Cartel de alto impacto en `#galeria` con icono temático de WhatsApp (`#25D366`) y descarga, comunicando que cualquier sticker puede guardarse o enviarse a WhatsApp con un solo toque.
+- **Lightbox del Creador Ampliado con Físicas Duang:** Foto vertical del creador ampliada hasta 500px / 60vh (`max-w-3xl`) y botón `¡Hacer Duang!` reactivo con animación elástica `.animate-duang` y ráfaga de emojis flotantes (`triggerLightboxDuang`).
+- **Hero Móvil Inmediato:** Reordenación responsive del Hero en `#inicio` para que el dragón Nailong sea visible de inmediato al entrar en la página en móviles, justo tras la introducción y antes de los estados de ánimo.
+- **Suite de Pruebas Ampliada a 36 Comprobaciones:** `verify_all.py` ampliado para validar físicamente el banner de WhatsApp, el rebote Duang en lightbox, la eliminación del texto obsoleto y el nuevo flujo responsive.
 
 ---
 

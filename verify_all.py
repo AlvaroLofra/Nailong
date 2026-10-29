@@ -251,7 +251,7 @@ assert gemini_content == claude_content, "GEMINI.md and CLAUDE.md must have 100%
 assert os.path.exists('DOCUMENTACION.md'), "DOCUMENTACION.md missing!"
 print("✔ Project Documentation verified: GEMINI.md and CLAUDE.md are 100% synchronized and DOCUMENTACION.md is present.")
 
-# Test 34: Verify Central Library Governance Protocol & Architectural Decision Records (ADR)
+# Test 35: Verify Central Library Governance Protocol & Architectural Decision Records (ADR)
 doc_content = open('DOCUMENTACION.md', 'r', encoding='utf-8').read()
 assert "Protocolo de Gobernanza y Conexión con la Biblioteca Central" in gemini_content, "Central Library protocol missing from GEMINI.md!"
 assert "00_INDICE_GENERAL.md" in gemini_content, "Cascade index missing from GEMINI.md!"
@@ -259,4 +259,13 @@ assert "GUIA_MAESTRA_DESARROLLO_Y_PROYECTOS.md" in gemini_content, "Methodology 
 assert "ADR-01: Descarga Universal en iOS (Safari) e Integración de Stickers para WhatsApp" in doc_content, "ADR-01 missing from DOCUMENTACION.md!"
 print("✔ Central Library Governance Protocol and ADR-01 verified in project documentation.")
 
-print("\n=== ALL 35 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 36: Verify Visual Polish, Lightbox Duang Physics & Mobile Hero Flow
+assert "triggerLightboxDuang" in html, "triggerLightboxDuang function missing!"
+assert "lb-particles" in html, "lb-particles container missing in lightbox!"
+assert "BANNER DESTACADO WHATSAPP" in html, "WhatsApp and easy download banner missing in #galeria!"
+assert "max-w-2xl lg:max-w-3xl" in html, "Enlarged photo lightbox sizing missing!"
+assert "¿Por qué WhatsApp no permite instalar packs enteros" not in html, "Explanatory notice in sticker options modal should be removed!"
+assert "lg:col-start-7 lg:row-start-1 lg:row-span-3" in html, "Hero mobile-first responsive stage placement missing!"
+print("✔ Visual Polish & Duang Physics verified: Lightbox jelly animations with particles, enlarged creator frame, WhatsApp album banner, and mobile hero priority flow.")
+
+print("\n=== ALL 36 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

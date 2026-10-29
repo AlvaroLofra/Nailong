@@ -18,7 +18,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ├── DOCUMENTACION.md             # Documentación exhaustiva de código, arquitectura y funcionamiento
 ├── GEMINI.md                    # Contexto e instrucciones técnicas para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones técnicas para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas en Python (35 tests unitarios y estructurales)
+├── verify_all.py                # Suite de pruebas automatizadas en Python (36 tests unitarios y estructurales)
 └── Stickers Nailong/            # Directorio de recursos gráficos (42 cromos .webp + foto optimizada del creador)
 ```
 
@@ -185,6 +185,13 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Verificación de Carga en Navegador:** Validación exhaustiva del ciclo de vida de carga de `index.html` en Chrome headless y servidor HTTP local con 0 errores de consola, 0 excepciones no capturadas y 100% de los elementos visuales renderizados correctamente.
 - **Suite de Pruebas Actualizada:** Actualizadas las aserciones de `verify_all.py` para verificar la ausencia de archivos obsoletos y asegurar exactamente 43 elementos en `Stickers Nailong/`.
 
+### 🚀 Versión 11.0.0 (v11) - Experiencia de Guardado, Banner WhatsApp, Lightbox Duang y Hero Móvil
+- **Modal de Guardado Limpio y Ampliado:** Eliminada la caja explicativa de restricciones de WhatsApp en `#sticker-options-modal`. Previsualización del sticker ampliada a 176x176px y botones de acción (*WhatsApp*, *Descargar* y *Copiar*) con textos, iconos y espaciado aumentados (`text-base sm:text-lg`, iconos de 48px), ofreciendo una interfaz táctil limpia y directa.
+- **Banner Prominente en el Gran Álbum:** Incorporado un cartel estilizado de alto impacto visual en `#galeria` con icono oficial de WhatsApp (`#25D366`) y flecha de descarga, comunicando con máxima claridad que cualquier sticker puede guardarse o enviarse a WhatsApp con un simple toque.
+- **Lightbox del Creador y Físicas Duang:** Ampliadas las dimensiones del visor modal a `max-w-3xl` con altura máxima de contenedor de imagen de 500px / 60vh. Implementada la función interactiva `triggerLightboxDuang(event)` que aplica la deformación elástica `.animate-duang` en `#lb-img` y lanza partículas flotantes (`🍮 ¡DUANG!`, `💛`, `✨`, `🎉`), reaccionando tanto al botón como al clic directo sobre la foto.
+- **Reordenación Responsiva del Hero en Móviles:** Ajuste del grid responsive en `#inicio` para que en pantallas móviles el muñeco interactivo de Nailong aparezca inmediatamente después del texto de bienvenida (*"Vengo del Planeta Dragón..."*) y justo antes del selector de estados de ánimo, logrando paridad visual con la experiencia de escritorio desde el primer scroll.
+- **Suite de Pruebas Ampliada:** Incorporado el Test 36 en `verify_all.py`, certificando el paso del 100% de las 36 comprobaciones automatizadas.
+
 ---
 
 ## 6. Registro Histórico de Decisiones de Arquitectura (ADR)
@@ -225,6 +232,18 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
      - **Tiempo de despliegue:** Los pipelines de GitHub Pages tardan típicamente entre 1 y 2 minutos tras el push en publicar los cambios.
      - **Configuración de Pages:** Requiere tener la rama `main` y directorio `/ (root)` activados en `Settings > Pages`.
 
+### 📌 ADR-03: Reordenación Responsiva del Hero en Móviles, Físicas Duang en Lightbox y Optimización del Modal de Descarga
+- **Fecha:** 2026-10-29
+- **Estado:** Implementado / Aceptado
+- **Problema:**
+  1. En dispositivos móviles, el avatar interactivo de Nailong quedaba relegado al final de la primera sección (debajo de 9 botones de estados de ánimo y del contador), provocando que el usuario tuviera que hacer scroll prolongado para ver al personaje.
+  2. En el visor modal (`#photo-lightbox`), la foto vertical del creador se visualizaba con un tamaño excesivamente reducido y el botón `¡Hacer Duang!` solo emitía sonido sin proporcionar feedback háptico ni visual en pantalla.
+  3. En el modal de descarga (`#sticker-options-modal`), el recuadro explicativo de restricciones sobrecargaba visualmente la tarjeta y restaba espacio a los botones de acción primarios.
+- **Decisión Adoptada:**
+  1. Utilizar un grid CSS responsive desacoplado (`lg:col-span-6 lg:row-start-X`) que reordena de forma nativa los bloques en móvil (Intro ➔ Avatar interactivo ➔ Estados de ánimo ➔ Contador) sin duplicar elementos en el DOM ni alterar la disposición a dos columnas en PC.
+  2. Aumentar las dimensiones de `#photo-lightbox` a `max-w-3xl` (con contenedor hasta 500px / 60vh) y dotar al botón `¡Hacer Duang!` y a la propia imagen de interactividad física completa mediante `triggerLightboxDuang()` (activación de clase `.animate-duang` con reflow forzado y generación de partículas flotantes).
+  3. Suprimir la advertencia teórica en `#sticker-options-modal` para dar protagonismo total a los tres botones de descarga y a la imagen ampliada del sticker.
+
 ---
 
 ## 7. Instrucciones de Verificación y Testing
@@ -232,11 +251,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (35 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (36 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 35 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 36 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```

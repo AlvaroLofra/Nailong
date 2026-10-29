@@ -26,7 +26,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica completa y detallada de todo el código
 ├── GEMINI.md                    # Contexto e instrucciones del proyecto para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones del proyecto para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (35 tests)
+├── verify_all.py                # Suite de pruebas automatizadas (36 tests)
 └── Stickers Nailong/            # Colección de los 42 stickers reales (.webp) + foto optimizada del creador
 ```
 
@@ -62,10 +62,16 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
   - 🍞 **Notificaciones Toast Duang:** Feedback visual interactivo en pantalla para guiar en las descargas y favoritos.
   - 🏛️ **Gobernanza de Biblioteca Central:** Protocolo de inicialización en cascada y trazabilidad ADR.
   - 🧪 **35 pruebas automatizadas** en `verify_all.py`.
-- **v10.0.0 (Actual)**:
+- **v10.0.0**:
   - 🧹 **Limpieza de Archivos Obsoletos:** Eliminación de scripts de hosting local (`compartir_amigos.bat`, `compartir_amigos.py`, `COMO_HOSTEAR.md`), capturas temporales y foto original de 2MB (`Foto nailong yo.jfif`), dejando el árbol 100% optimizado para producción.
   - 🌐 **Diagnóstico de Navegador & Carga:** Verificación del renderizado en navegador headless con 0 errores y confirmación de funcionamiento sobre servidor estático HTTP.
   - 🧪 **Suite de 35 Pruebas actualizada** para validar ausencia de archivos obsoletos y recuento exacto de assets.
+- **v11.0.0 (Actual)**:
+  - 📦 **Modal de Stickers Limpio & Botones Grandes:** Eliminada la caja de texto explicativo en `#sticker-options-modal`, agrandando la vista previa y los 3 botones principales (*WhatsApp*, *Descargar* y *Copiar*) para un manejo táctil fluido.
+  - 📢 **Banner Destacado de WhatsApp en el Álbum:** Incorporado un cartel llamativo en `#galeria` informando de la descarga y envío instantáneo a WhatsApp en 1 clic.
+  - 🍮 **Lightbox Ampliado con Físicas Duang:** Foto del creador ampliada hasta 500px (`max-w-3xl`) y botón `¡Hacer Duang!` interactivo con rebote elástico `.animate-duang` y ráfaga de emojis flotantes.
+  - 📱 **Hero Móvil Inmediato:** Reordenación responsive del Hero para que Nailong sea visible de inmediato al entrar en la página en móviles, justo tras la introducción y antes de los estados de ánimo.
+  - 🧪 **36 pruebas automatizadas** en `verify_all.py`.
 
 ---
 

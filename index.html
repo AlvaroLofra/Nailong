@@ -482,9 +482,9 @@
                 <div class="absolute -top-12 -left-12 w-56 h-56 bg-nailong-yellow/30 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-nailong-pink/30 rounded-full blur-3xl pointer-events-none"></div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                    <!-- Left Column: Info, Belly Counter & Mood Buttons -->
-                    <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                    <!-- 1. Encabezado e Introducción -->
+                    <div class="lg:col-span-6 lg:row-start-1 space-y-4 text-center lg:text-left">
                         <div class="inline-flex items-center gap-2 bg-nailong-yellow/50 border-2 border-nailong-orange px-4 py-1.5 rounded-full text-amber-950 font-display font-bold text-sm shadow-sm">
                             <span class="animate-bounce">🍼</span> ¡El dinosaurio amarillo más famoso de China!
                         </div>
@@ -496,83 +496,83 @@
                         <p class="text-lg sm:text-xl text-amber-900/95 font-semibold leading-relaxed">
                             Vengo del Planeta Dragón, tengo 3 añitos, huelo a leche calentita y mi barriguita redonda rebota haciendo <span class="bg-nailong-yellow px-2.5 py-0.5 rounded-lg font-display font-bold text-amber-950">¡DUANG~ DUANG!</span> ¡Haz clic en mi pancita para hacerme cosquillas!
                         </p>
-
-                        <!-- Mood Switcher Pills with Real Stickers -->
-                        <div class="space-y-2.5">
-                            <p class="font-display font-bold text-amber-950 text-base flex items-center justify-center lg:justify-start gap-2">
-                                <span>✨ Cambia mi estado de ánimo en vivo:</span>
-                            </p>
-                            <div class="flex flex-wrap justify-center lg:justify-start gap-2" id="hero-mood-buttons">
-                                <button onclick="setHeroMood('happy', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-nailong-yellow border-2 border-amber-500 text-amber-950 shadow-sm hover:scale-105 transition-all">
-                                    😄 Feliz
-                                </button>
-                                <button onclick="setHeroMood('popcorn', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                    🍿 Palomitas
-                                </button>
-                                <button onclick="setHeroMood('maracas', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                    🪇 Maracas
-                                </button>
-                                <button onclick="setHeroMood('pirate', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                    🏴‍☠️ Pirata
-                                </button>
-                                <button onclick="setHeroMood('sleep', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                    😴 Hamaca
-                                </button>
-                                <button onclick="setHeroMood('scared', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                    🏃 ¡A Correr!
-                                </button>
-                                <button onclick="setHeroMood('drama', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                    🥺 Puchero
-                                </button>
-                                <button onclick="setHeroMood('pastry', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                    🥟 Glotón
-                                </button>
-                                <button onclick="setHeroMood('chicken', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                    🍗 Pollo Rico
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Belly Counter & Direct CTAs -->
-                        <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
-                            <div class="bg-white border-3 border-nailong-orange rounded-3xl px-5 py-3 shadow-md flex items-center gap-3">
-                                <span class="text-3xl animate-bounce">👉</span>
-                                <div class="text-left">
-                                    <span class="text-xs uppercase tracking-wider font-bold text-amber-700 block">Cosquillas en su pancita</span>
-                                    <span id="belly-counter" class="font-display font-bold text-2xl text-nailong-orange">0 ¡Duangs!</span>
-                                </div>
-                            </div>
-
-                            <a href="#muro-gifs" class="clay-btn clay-btn-yellow font-display font-bold px-6 py-3.5 text-base flex items-center gap-2">
-                                <span>Ver GIFs y Fotos Reales</span>
-                                <i class="fa-solid fa-arrow-down animate-bounce"></i>
-                            </a>
-                        </div>
                     </div>
 
-                    <!-- Right Column: Interactive Real Animated Nailong Hero Stage -->
-                    <div class="lg:col-span-6 flex flex-col items-center justify-center relative">
+                    <!-- 2. Escenario Interactivo de Nailong (Inmediatamente visible en móviles tras la intro, y a la derecha en PC) -->
+                    <div class="lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-3 flex flex-col items-center justify-center relative py-2 lg:py-0">
                         <!-- Speech Bubble -->
-                        <div id="nailong-speech" class="mb-3 bg-white border-4 border-nailong-yellow px-6 py-3 rounded-full shadow-lg font-display font-bold text-amber-950 text-base sm:text-xl transition-all transform scale-100 relative max-w-md text-center">
+                        <div id="nailong-speech" class="mb-2.5 sm:mb-3 bg-white border-3 sm:border-4 border-nailong-yellow px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg font-display font-bold text-amber-950 text-sm sm:text-lg lg:text-xl transition-all transform scale-100 relative max-w-xs sm:max-w-md text-center">
                             "¡Toca mi barriguita redonda! ¡Duang~!"
-                            <div class="w-4 h-4 bg-white border-r-4 border-b-4 border-nailong-yellow transform rotate-45 absolute -bottom-2.5 left-1/2 -translate-x-1/2"></div>
+                            <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-white border-r-3 sm:border-r-4 border-b-3 sm:border-b-4 border-nailong-yellow transform rotate-45 absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2"></div>
                         </div>
 
                         <!-- Floating Particles Container on Click -->
                         <div id="belly-particles" class="absolute inset-0 pointer-events-none z-20"></div>
 
-                        <!-- Giant Real Nailong Stage -->
-                        <div id="hero-nailong-wrapper" class="relative cursor-pointer select-none animate-float w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 max-w-full flex items-center justify-center" onclick="pokeHeroBelly(event)">
+                        <!-- Interactive Nailong Stage (Compact in mobile, giant in desktop) -->
+                        <div id="hero-nailong-wrapper" class="relative cursor-pointer select-none animate-float w-52 h-52 sm:w-64 sm:h-64 lg:w-96 lg:h-96 max-w-full flex items-center justify-center" onclick="pokeHeroBelly(event)" title="¡Tócame para hacer Duang!">
                             <!-- Soft Ground Glow Shadow -->
-                            <div class="absolute bottom-4 w-64 h-12 bg-amber-900/15 rounded-full blur-md"></div>
+                            <div class="absolute bottom-3 sm:bottom-4 w-48 sm:w-64 h-8 sm:h-12 bg-amber-900/15 rounded-full blur-md"></div>
                             
                             <!-- Real High-Res Animated Nailong Image -->
                             <img id="hero-nailong-img" src="Stickers Nailong/sticker_20.webp" alt="Nailong animado real" class="w-full h-full object-contain drop-shadow-2xl transition-all duration-300">
                         </div>
 
-                        <p class="mt-3 text-xs sm:text-sm font-bold text-amber-900/85 bg-nailong-pale/80 px-4 py-1.5 rounded-full border border-nailong-yellow">
+                        <p class="mt-2.5 sm:mt-3 text-[11px] sm:text-sm font-bold text-amber-900/85 bg-nailong-pale/80 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full border border-nailong-yellow">
                             💡 Tip: ¡Haz clic varias veces seguidas en su pancita para ver cómo rebota!
                         </p>
+                    </div>
+
+                    <!-- 3. Selector de Estados de Ánimo con Stickers Reales -->
+                    <div class="lg:col-span-6 lg:col-start-1 lg:row-start-2 space-y-2.5 text-center lg:text-left">
+                        <p class="font-display font-bold text-amber-950 text-base flex items-center justify-center lg:justify-start gap-2">
+                            <span>✨ Cambia mi estado de ánimo en vivo:</span>
+                        </p>
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-2" id="hero-mood-buttons">
+                            <button onclick="setHeroMood('happy', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-nailong-yellow border-2 border-amber-500 text-amber-950 shadow-sm hover:scale-105 transition-all">
+                                😄 Feliz
+                            </button>
+                            <button onclick="setHeroMood('popcorn', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🍿 Palomitas
+                            </button>
+                            <button onclick="setHeroMood('maracas', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🪇 Maracas
+                            </button>
+                            <button onclick="setHeroMood('pirate', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🏴‍☠️ Pirata
+                            </button>
+                            <button onclick="setHeroMood('sleep', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                😴 Hamaca
+                            </button>
+                            <button onclick="setHeroMood('scared', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🏃 ¡A Correr!
+                            </button>
+                            <button onclick="setHeroMood('drama', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🥺 Puchero
+                            </button>
+                            <button onclick="setHeroMood('pastry', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🥟 Glotón
+                            </button>
+                            <button onclick="setHeroMood('chicken', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🍗 Pollo Rico
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4. Contador de Pancita y Botón de Exploración -->
+                    <div class="lg:col-span-6 lg:col-start-1 lg:row-start-3 pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                        <div class="bg-white border-3 border-nailong-orange rounded-3xl px-5 py-3 shadow-md flex items-center gap-3">
+                            <span class="text-3xl animate-bounce">👉</span>
+                            <div class="text-left">
+                                <span class="text-xs uppercase tracking-wider font-bold text-amber-700 block">Cosquillas en su pancita</span>
+                                <span id="belly-counter" class="font-display font-bold text-2xl text-nailong-orange">0 ¡Duangs!</span>
+                            </div>
+                        </div>
+
+                        <a href="#muro-gifs" class="clay-btn clay-btn-yellow font-display font-bold px-6 py-3.5 text-base flex items-center gap-2">
+                            <span>Ver GIFs y Fotos Reales</span>
+                            <i class="fa-solid fa-arrow-down animate-bounce"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -766,6 +766,18 @@
                 </h2>
                 <p class="text-lg text-amber-900/85 font-semibold">
                     Explora los 42 stickers y fotos reales del muñeco: sus comilonas, caras divertidas, bailes virales y momentos con amigos. ¡O añade tus propias fotos!
+                </p>
+            </div>
+
+            <!-- BANNER DESTACADO WHATSAPP Y DESCARGA DIRECTA -->
+            <div class="clay-card bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border-3 border-emerald-400 p-5 sm:p-7 text-center max-w-4xl mx-auto shadow-md reveal-item">
+                <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-emerald-900 font-display font-bold text-xl sm:text-3xl leading-snug">
+                    <i class="fa-brands fa-whatsapp text-3xl sm:text-4xl text-[#25D366] animate-bounce"></i>
+                    <span>¡Haz clic en cualquier sticker para descargarlo y usarlo en WhatsApp fácilmente!</span>
+                    <i class="fa-solid fa-cloud-arrow-down text-emerald-600 text-2xl sm:text-3xl"></i>
+                </div>
+                <p class="text-xs sm:text-base text-emerald-950/85 font-semibold mt-2.5 max-w-2xl mx-auto leading-relaxed">
+                    Toca cualquiera de los 42 cromos auténticos para abrir el menú mágico: descárgalo directo en tu móvil (<strong class="text-emerald-800">iPhone / Android</strong>) o envíatelo para añadirlo a tus favoritos ⭐
                 </p>
             </div>
 
@@ -1126,9 +1138,9 @@
 
     <!-- MODAL LIGHTBOX FOTOS DEL ÁLBUM -->
     <div id="photo-lightbox" class="fixed inset-0 bg-amber-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
-        <div class="clay-card max-w-xl w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-4 sm:p-8 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
+        <div class="clay-card max-w-2xl lg:max-w-3xl w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-4 sm:p-7 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
-            <button onclick="closePhotoLightbox()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm">
+            <button onclick="closePhotoLightbox()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
@@ -1148,20 +1160,21 @@
                     Título de la Foto
                 </h3>
 
-                <div class="relative h-60 sm:h-80 rounded-3xl bg-white border-3 border-nailong-yellow flex items-center justify-center p-3 overflow-hidden shadow-inner">
-                    <img id="lb-img" src="" alt="Foto Nailong" class="max-h-full max-w-full object-contain drop-shadow-lg">
+                <div id="lb-img-container" class="relative h-72 sm:h-[440px] md:h-[500px] max-h-[60vh] rounded-3xl bg-white border-3 border-nailong-yellow flex items-center justify-center p-3 sm:p-4 overflow-hidden shadow-inner cursor-pointer group" onclick="triggerLightboxDuang(event)" title="¡Haz clic en la foto para hacer Duang! 🍮">
+                    <img id="lb-img" src="" alt="Foto Nailong" class="max-h-full max-w-full object-contain drop-shadow-xl select-none group-hover:scale-102 transition-transform duration-200">
+                    <div id="lb-particles" class="absolute inset-0 pointer-events-none z-20"></div>
                 </div>
 
                 <p id="lb-caption" class="text-amber-900 font-semibold text-xs sm:text-base px-2 sm:px-4"></p>
 
                 <div class="pt-2 flex flex-wrap justify-center gap-2 sm:gap-3">
-                    <button onclick="playSound('duang')" class="clay-btn clay-btn-yellow font-display font-bold px-4 sm:px-5 py-2 text-xs sm:text-sm flex items-center gap-2">
+                    <button onclick="triggerLightboxDuang(event)" class="clay-btn clay-btn-yellow font-display font-bold px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 transition-transform hover:scale-105 active:scale-95 shadow-sm">
                         <span>🍮 ¡Hacer Duang!</span>
                     </button>
-                    <button type="button" id="lb-whatsapp-btn" onclick="shareCurrentLightboxToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-4 sm:px-5 py-2 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp para añadir a favoritos">
+                    <button type="button" id="lb-whatsapp-btn" onclick="shareCurrentLightboxToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp para añadir a favoritos">
                         <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
                     </button>
-                    <a id="lb-download-btn" href="#" download="nailong_foto.webp" onclick="handleLightboxDownload(event)" class="clay-btn bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 sm:px-5 py-2 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95">
+                    <a id="lb-download-btn" href="#" download="nailong_foto.webp" onclick="handleLightboxDownload(event)" class="clay-btn bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95">
                         <i class="fa-solid fa-download"></i> Descargar Foto
                     </a>
                 </div>
@@ -1182,85 +1195,74 @@
 
     <!-- MODAL OPCIONES DE GUARDAR STICKER Y WHATSAPP -->
     <div id="sticker-options-modal" class="fixed inset-0 bg-amber-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
-        <div class="clay-card max-w-md w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-4 sm:p-6 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
+        <div class="clay-card max-w-lg w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-5 sm:p-7 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
-            <button onclick="closeStickerOptionsModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-lg flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
+            <button onclick="closeStickerOptionsModal()" class="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <div class="space-y-4 text-center">
+            <div class="space-y-4 sm:space-y-5 text-center">
                 <div class="space-y-1">
-                    <span class="bg-nailong-orange text-white font-display font-bold px-3 py-0.5 rounded-full text-[11px] uppercase inline-block">
+                    <span class="bg-nailong-orange text-white font-display font-bold px-3.5 py-1 rounded-full text-xs sm:text-sm uppercase inline-block">
                         🦖 ¡LLÉVATE A NAILONG!
                     </span>
-                    <h3 id="sticker-opt-title" class="font-display font-bold text-xl sm:text-2xl text-amber-950">
+                    <h3 id="sticker-opt-title" class="font-display font-bold text-2xl sm:text-3xl text-amber-950">
                         Guardar Sticker
                     </h3>
                 </div>
 
-                <!-- Preview Image -->
-                <div class="w-28 h-28 sm:w-32 sm:h-32 mx-auto bg-white rounded-2xl border-2 border-nailong-yellow p-2 flex items-center justify-center shadow-inner">
-                    <img id="sticker-opt-preview" src="" alt="Vista previa sticker" class="max-h-full max-w-full object-contain">
+                <!-- Preview Image (Enlarged) -->
+                <div class="w-36 h-36 sm:w-44 sm:h-44 mx-auto bg-white rounded-3xl border-3 border-nailong-yellow p-3 flex items-center justify-center shadow-inner">
+                    <img id="sticker-opt-preview" src="" alt="Vista previa sticker" class="max-h-full max-w-full object-contain drop-shadow-md">
                 </div>
 
-                <!-- Options List -->
-                <div class="space-y-2.5 text-left">
+                <!-- Options List (Bigger text, buttons, and icons) -->
+                <div class="space-y-3 sm:space-y-3.5 text-left pt-1">
                     <!-- Option 1: WhatsApp Direct -->
-                    <button type="button" onclick="executeStickerAction('whatsapp')" class="w-full p-3 rounded-2xl bg-white hover:bg-emerald-50 border-2 border-[#25D366] shadow-sm flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]">
-                        <div class="w-10 h-10 rounded-xl bg-[#25D366] text-white flex items-center justify-center shrink-0 text-xl shadow-sm">
+                    <button type="button" onclick="executeStickerAction('whatsapp')" class="w-full p-3.5 sm:p-4 rounded-2xl bg-white hover:bg-emerald-50 border-2 sm:border-3 border-[#25D366] shadow-sm flex items-center gap-3.5 sm:gap-4 transition-all hover:scale-[1.02] active:scale-[0.98] group">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#25D366] text-white flex items-center justify-center shrink-0 text-2xl sm:text-3xl shadow-sm group-hover:rotate-6 transition-transform">
                             <i class="fa-brands fa-whatsapp"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="font-display font-bold text-xs sm:text-sm text-amber-950 flex items-center gap-1.5">
+                            <div class="font-display font-bold text-base sm:text-lg text-amber-950 flex items-center gap-2">
                                 <span>Usar en WhatsApp</span>
-                                <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold">Recomendado</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold">⭐ Recomendado</span>
                             </div>
-                            <p class="text-[11px] text-amber-800/90 leading-tight">
-                                Envíatelo o envíalo a un chat, pulsa sobre él y selecciona <strong class="text-emerald-700">«Añadir a favoritos ⭐»</strong>.
+                            <p class="text-xs sm:text-sm text-amber-900/90 leading-tight mt-0.5">
+                                Envíatelo o mándalo a un chat, pulsa sobre él y selecciona <strong class="text-emerald-700">«Añadir a favoritos ⭐»</strong>.
                             </p>
                         </div>
                     </button>
 
                     <!-- Option 2: Download / Save to Camera Roll -->
-                    <button type="button" onclick="executeStickerAction('download')" class="w-full p-3 rounded-2xl bg-white hover:bg-amber-50 border-2 border-nailong-yellow shadow-sm flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 text-xl shadow-sm">
+                    <button type="button" onclick="executeStickerAction('download')" class="w-full p-3.5 sm:p-4 rounded-2xl bg-white hover:bg-amber-50 border-2 sm:border-3 border-nailong-yellow shadow-sm flex items-center gap-3.5 sm:gap-4 transition-all hover:scale-[1.02] active:scale-[0.98] group">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shrink-0 text-2xl sm:text-3xl shadow-sm group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-download"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="font-display font-bold text-xs sm:text-sm text-amber-950">
+                            <div class="font-display font-bold text-base sm:text-lg text-amber-950">
                                 Descargar en el Dispositivo
                             </div>
-                            <p class="text-[11px] text-amber-800/90 leading-tight">
-                                Compatible 100% con <strong class="text-amber-950">iPhone (Carrete/Fotos)</strong>, Android y PC en formato WebP.
+                            <p class="text-xs sm:text-sm text-amber-900/90 leading-tight mt-0.5">
+                                Compatible con <strong class="text-amber-950">iPhone (Fotos/Carrete)</strong>, Android y PC en formato WebP.
                             </p>
                         </div>
                     </button>
 
                     <!-- Option 3: Copy to Clipboard -->
-                    <button type="button" onclick="executeStickerAction('copy')" class="w-full p-3 rounded-2xl bg-white hover:bg-amber-50 border-2 border-nailong-pale shadow-sm flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]">
-                        <div class="w-10 h-10 rounded-xl bg-amber-400 text-amber-950 flex items-center justify-center shrink-0 text-xl shadow-sm">
+                    <button type="button" onclick="executeStickerAction('copy')" class="w-full p-3.5 sm:p-4 rounded-2xl bg-white hover:bg-amber-50 border-2 sm:border-3 border-amber-300 shadow-sm flex items-center gap-3.5 sm:gap-4 transition-all hover:scale-[1.02] active:scale-[0.98] group">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center shrink-0 text-2xl sm:text-3xl shadow-sm group-hover:-rotate-6 transition-transform">
                             <i class="fa-regular fa-copy"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="font-display font-bold text-xs sm:text-sm text-amber-950">
+                            <div class="font-display font-bold text-base sm:text-lg text-amber-950">
                                 Copiar Sticker
                             </div>
-                            <p class="text-[11px] text-amber-800/90 leading-tight">
-                                Copia al portapapeles para pegar directo como sticker en WhatsApp (iOS) o Telegram.
+                            <p class="text-xs sm:text-sm text-amber-900/90 leading-tight mt-0.5">
+                                Copia al portapapeles para pegar directo como sticker en WhatsApp o Telegram.
                             </p>
                         </div>
                     </button>
-                </div>
-
-                <!-- WhatsApp Pack Explanation Notice -->
-                <div class="bg-amber-100/70 p-3 rounded-xl border border-amber-300 text-left space-y-1">
-                    <span class="font-display font-bold text-[11px] text-amber-950 flex items-center gap-1">
-                        <i class="fa-solid fa-circle-info text-amber-600"></i>
-                        <span>¿Por qué WhatsApp no permite instalar packs enteros con 1 clic?</span>
-                    </span>
-                    <p class="text-[10px] text-amber-900 leading-normal">
-                        WhatsApp restringe la importación masiva de packs a aplicaciones móviles nativas y no lo permite a navegadores web. Puedes guardar tus favoritos con el botón de WhatsApp (⭐), o buscar <strong>«Nailong»</strong> en la app gratuita <strong>Sticker.ly</strong> para tener todos de golpe.
-                    </p>
                 </div>
             </div>
         </div>
@@ -1986,9 +1988,43 @@
                 /* ==============================================================
            6B. LIGHTBOX PARA LA FOTO DEL CREADOR
         ============================================================== */
+        function triggerLightboxDuang(event) {
+            if (event) event.stopPropagation();
+            playSound('duang');
+
+            // Bouncy Spring Squash on Lightbox Image
+            const img = document.getElementById('lb-img');
+            if (img) {
+                img.classList.remove('animate-duang');
+                void img.offsetWidth; // Force Reflow
+                img.classList.add('animate-duang');
+            }
+
+            // Floating Emoji Particles on Photo
+            const container = document.getElementById('lb-particles');
+            if (container) {
+                const badge = document.createElement('div');
+                const emojis = ['🍮 ¡DUANG!', '✨', '💛', '🎉', '🦖', '🍗', '⭐'];
+                const pick = emojis[Math.floor(Math.random() * emojis.length)];
+                badge.className = 'absolute font-display font-bold text-xl sm:text-2xl text-nailong-orange pointer-events-none transition-all duration-700 select-none drop-shadow-md z-30';
+                badge.style.left = `${30 + Math.random() * 40}%`;
+                badge.style.top = `${35 + Math.random() * 25}%`;
+                badge.textContent = pick;
+                container.appendChild(badge);
+
+                requestAnimationFrame(() => {
+                    badge.style.transform = `translate(${(Math.random() - 0.5) * 120}px, -90px) scale(1.3)`;
+                    badge.style.opacity = '0';
+                });
+                setTimeout(() => badge.remove(), 750);
+            }
+        }
+
         function openCreatorLightbox() {
             playSound('fanfare');
             const modal = document.getElementById('photo-lightbox');
+            const pContainer = document.getElementById('lb-particles');
+            if (pContainer) pContainer.innerHTML = '';
             document.getElementById('lb-badge').textContent = '🌟 CREADOR & NAILONG • FOTO OFICIAL';
             document.getElementById('lb-title').textContent = '¡El Creador de la Página con Nailong!';
             document.getElementById('lb-img').src = 'Stickers Nailong/creador_nailong.webp';
@@ -2081,6 +2117,8 @@
             currentLightboxIndex = index;
             const item = displayedStickers[index];
             const modal = document.getElementById('photo-lightbox');
+            const pContainer = document.getElementById('lb-particles');
+            if (pContainer) pContainer.innerHTML = '';
             const imgSrc = item.customUrl ? item.customUrl : `Stickers Nailong/${item.file}`;
 
             document.getElementById('lb-badge').textContent = item.customUrl ? 'CROMO PERSONAL' : `CROMO #${item.id} • ${item.frames > 2 ? `ANIMADO (${item.frames} FRAMES)` : 'FOTO CLÁSICA'}`;
