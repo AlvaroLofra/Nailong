@@ -23,10 +23,11 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma para GitHub Pages)
 ├── manifest.json                # Manifiesto PWA para instalación en dispositivos móviles
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (27.5 MB)
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
 ├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (40 verificaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (42 verificaciones)
 └── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
 ```
 
@@ -34,97 +35,89 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ## Historial de Versiones & Notas del Parche
 
-### v1.0.0 - Lanzamiento Inicial
+### 📌 Ciclo v1.0.0 – v1.5.0: Ciclo Inicial y Optimizaciones Web
+
+#### v1.0.0 — Lanzamiento Inicial
 - ¡Estreno oficial de la web interactiva de Nailong!
-- Pancita elástica con sonidos y estados de ánimo interactivos.
-- Visor Mágico de animaciones y Gran Álbum con 42 cromos.
-- Botonera de sonidos divertidos y laboratorio de superpoderes.
-- Minijuego arcade para atrapar comida.
+- Pancita elástica con sonidos Web Audio y 9 estados de ánimo interactivos.
+- Visor Mágico de animaciones y Gran Álbum con 42 cromos auténticos.
+- Botonera de sonidos divertidos y laboratorio interactivo de superpoderes.
+- Minijuego arcade en canvas para atrapar comida.
 
-### v2.0.0 - Compartir y Amigos
-- ¡Llegamos a la web! Estreno del enlace oficial en línea.
-- Nuevo botón para compartir la web al instante con tus amigos.
-- Código QR interactivo para escanear y abrir desde cualquier móvil.
+#### v1.1.0 — Compartir, QR y Consolidación
+- Estreno del enlace oficial en vivo en GitHub Pages.
+- Botón de compartir con amigos y código QR interactivo para móviles.
+- Consolidación de `index.html` como único archivo de producción y despliegue.
 
-### v3.0.0 - Optimización General
-- Gran optimización de rendimiento para una carga mucho más rápida.
-- Mejoras de estabilidad general en toda la web.
-
-### v4.0.0 - Sección del Creador y Galería Propia
+#### v1.2.0 — Sección del Creador y Optimización GPU
 - Nueva sección especial: ¡el creador de la web junto a Nailong!
-- Ahora puedes subir tus fotos y se guardan automáticamente en tu dispositivo.
-- Control gestual en móviles: desliza el dedo hacia los lados para cambiar de cromo o escena.
+- Subida de fotos del usuario con persistencia en `localStorage`.
+- Control táctil gestual (swipe horizontal) en visor y álbum.
+- Motor de confeti a 60 FPS con sprites pre-rasterizados offscreen.
 
-### v5.0.0 - Nuevo Motor para el Modo Fiesta
-- Nuevo motor gráfico para la lluvia de confeti: ¡ahora funciona a 60 FPS súper fluidos!
-- Efectos visuales más suaves y optimizados sin ralentizar la pantalla.
+#### v1.3.0 — Pantalla Completa y Modo Arcade
+- Modo pantalla completa fluido en el minijuego (doble botón y soporte tecla `Escape`).
+- Movimiento arcade lineal rápido (16px a 21px por frame) en teclado y controles táctiles.
+- HUD integrado en canvas con puntuación y tiempo en vivo.
+- Avatar animado 3D de cabecera con la gran sonrisa de Nailong (`sticker_2.webp`).
 
-### v6.0.0 - Acompañante Nailong Mejorado
-- Nailong flotante optimizado: ahora te acompaña y comenta con animaciones más suaves al navegar.
-- Mejoras visuales y retoques en la sección del creador.
+#### v1.4.0 — Stickers Móviles y Físicas Duang
+- Integración con WhatsApp y función universal de guardado para iPhone (Carrete) y Android.
+- Menú Claymorphism emergente de opciones y avisos Toast flotantes.
+- Foto del creador ampliada con botón interactivo de rebote elástico `.animate-duang`.
+- Prioridad responsive en móvil: Nailong aparece inmediatamente en el Hero.
 
-### v7.0.0 - Pantalla Completa y Modo Arcade
-- ¡Nuevo modo pantalla completa en el minijuego para jugar a lo grande!
-- Controles del minijuego renovados: movimiento mucho más rápido y ágil estilo arcade.
-- Se corrige el error que detenía el minijuego inesperadamente.
-- Se soluciona el problema donde a veces no caía confeti en el Modo Fiesta.
-- Nuevo avatar animado en 3D en la cabecera con la gran sonrisa de Nailong.
+#### v1.5.0 — Rendimiento GPU, Álbum Paginado y Accesibilidad
+- Carga diferida (`loading="lazy"`) y supresión de filtros `drop-shadow` y `backdrop-blur`.
+- Álbum paginado con botón «Ver más cromos» (12 iniciales + 12 por clic).
+- Álbum en 2 columnas en móviles, filtros en carrusel deslizable y controles táctiles no duplicados.
+- Soporte para accesibilidad y modo de movimiento reducido (`prefers-reduced-motion`).
 
-### v8.0.0 - Mejoras en el Minijuego y Modo Móvil
-- Marcador de puntos y cronómetro visibles en todo momento dentro de la partida.
-- Nuevos botones táctiles integrados para jugar cómodamente en pantalla completa desde el móvil.
-- Mejor adaptación del minijuego al girar la pantalla o cambiar de resolución.
-- El avatar de la barra superior ahora se ve centrado y nítido en todo momento.
+---
 
-### v9.0.0 - Stickers para WhatsApp y Descarga Universal
-- ¡Botón directo de WhatsApp! Envía cualquier sticker a un chat con 1 toque para guardarlo en Favoritos ⭐.
-- Descarga directa de stickers totalmente compatible con iPhone, iPad y Android.
-- Nuevo menú rápido con opciones: enviar a WhatsApp, descargar o copiar al portapapeles.
-- Nuevos avisos flotantes animados al guardar o copiar stickers.
+### 📌 Ciclo v2.0.0 – v2.3.0: Expansión a 82 Stickers y Normalización WhatsApp
 
-### v10.0.0 - Optimización y Rendimiento
-- Reducción en los tiempos de carga gracias a la optimización de archivos.
-- Mayor fluidez y compatibilidad garantizada en todos los navegadores.
+#### v2.0.0 — Colección Ampliada a 72 Cromos
+- 30 nuevos stickers animados incorporados a la colección oficial.
+- Renumeración secuencial continua y recorte del texto foráneo en `sticker_58.webp`.
+- Desacople definitivo de la foto del creador (`isCreatorItem`).
+- Paginación dinámica con paso adaptativo (`GALLERY_STEP`).
 
-### v11.0.0 - Mejoras Visuales y Físicas Duang
-- Ventana de stickers más limpia, con vista previa ampliada y botones más grandes y accesibles.
-- Nuevo cartel destacado en el álbum explicando cómo guardar stickers en WhatsApp.
-- Foto del creador ampliada con botón interactivo de rebote elástico y explosión de emojis.
-- Nailong ahora aparece en grande nada más entrar en la página en dispositivos móviles.
-- Mejoras de estabilidad general en toda la web.
+#### v2.1.0 — Normalización Técnica WhatsApp y Muxer Animado
+- Normalización rigurosa de formato: 512×512, peso estricto (≤100 KB estático / ≤500 KB animado) y chunk EXIF de WhatsApp inyectado.
+- Desarrollo de muxer WebP animado propio (`build_animated`) para compatibilidad WhatsApp.
+- Herramienta interna `normalizar_stickers.py` para mantenimiento, auditoría e importación.
 
-### v12.0.0 - Rendimiento, UX Móvil y Accesibilidad
-- El rendimiento general mejora hasta un 50%: animaciones más fluidas y menor consumo de batería.
-- Álbum paginado con botón «Ver más cromos» para explorar la colección cómodamente.
-- Tus fotos personalizadas ya no se pierden al recargar y ahora puedes eliminarlas con el botón 🗑️.
-- Mejor experiencia en smartphones: álbum en 2 columnas, filtros deslizables y controles táctiles más limpios.
-- Opciones de accesibilidad añadidas y soporte para modo de movimiento reducido.
+#### v2.2.0 — Segunda Tanda: Expansión a 82 Stickers
+- 10 nuevos stickers animados añadidos para alcanzar los 82 cromos coleccionables.
+- Descarte de duplicados y optimización gráfica.
 
-### v13.0.0 - Colección Ampliada a 72 Cromos
-- ¡30 nuevos cromos animados añadidos al Gran Álbum con divertidos sonidos y categorías!
-- Catálogo ampliado hasta los 72 stickers coleccionables.
-- El botón «Ver más cromos» ahora muestra más stickers a la vez en PC y tablets.
-- Se corrige un problema que impedía descargar y compartir uno de los cromos de la colección.
-- Retoques visuales y mayor nitidez en varios stickers.
+#### v2.3.0 — Paginación +24 y Portapapeles con Transparencia
+- Paginación fija de +24 cromos en todos los dispositivos.
+- «Copiar Sticker» optimizado con esquinas redondeadas transparentes (`CLIPBOARD_CORNER_RADIUS = 48px`): al pegarse en WhatsApp se reconoce como sticker con contorno blanco nativo.
+- Claridad técnica en la interfaz y versionado visible en el pie de página.
 
-### v14.0.0 - Stickers Compatibles con WhatsApp
-- Primeros pasos para enviar los stickers a WhatsApp con su formato oficial (512×512).
-- Limpieza de cromos repetidos y ampliación del catálogo oficial.
+---
 
-### v15.0.0 - Segunda Tanda de Stickers
-- ¡10 nuevos stickers animados añadidos a la colección!
-- El álbum alcanza ya los 82 cromos oficiales listos para coleccionar y enviar a WhatsApp.
+### 📌 Versión 3.0.0 (Actual) — App Android Nativa Oficial, «Mi Selección» y Descarga Directa
 
-### v16.0.0 - Álbum más ágil y mejoras para WhatsApp
-- El botón «Ver más cromos» ahora carga 24 cromos de golpe también en el móvil.
-- Tarjetas y visor más limpios: se quita el número de fotogramas de los stickers animados.
-- Nueva marca de versión discreta al final de la página.
-- Stickers animados reconstruidos con una estructura más compatible con WhatsApp y nueva herramienta interna para importar stickers de TikTok.
-
-### v17.0.0 (Actual) - Copiar Sticker para WhatsApp
-- «Copiar Sticker» funciona ya con todos los cromos: pégalo en un chat de WhatsApp y llegará como sticker (los animados se pegan quietos).
-- Los cromos sin fondo transparente se copian con las esquinas redondeadas, que es lo que WhatsApp necesita para reconocerlos como sticker.
-- El botón de WhatsApp avisa de que envía el cromo como foto y recomienda «Copiar Sticker».
+- **App Nativa Android (`StickersNailong.apk`, 27.5 MB):**
+  - Aplicación Android nativa autónoma compilada y firmada con esquemas v1 y v2.
+  - Integración oficial con WhatsApp mediante `StickerContentProvider` con permisos `com.whatsapp.sticker.READ` y disparo del Intent `ENABLE_STICKER_PACK`.
+- **3 Packs Oficiales Preconfigurados (82 Stickers):**
+  - **Nailong animado 1:** 30 stickers animados con icono de bandeja animado.
+  - **Nailong animado 2:** 30 stickers animados con icono de bandeja temático.
+  - **Nailong estático:** 22 stickers estáticos normalizados con etiquetas de accesibilidad.
+- **Sistema «Mi Selección»:**
+  - Selección interactiva de cromos sueltos (mínimo 3, máximo 30) entre cualquier pack mediante toques con checkmark visual.
+  - Detección inteligente de selecciones mixtas (separación de animados y estáticos para cumplir las restricciones de WhatsApp).
+  - Almacenamiento y servicio dinámico en memoria interna (`context.getFilesDir()/selection_packs/`) con identificadores incrementales únicos (`seleccion_1`, `seleccion_2`...).
+- **Diseño Claymorphism Temático Nailong:**
+  - Interfaz cálida en tonos crema, amarillo pastel, ámbar y naranja mandarina con tarjetas Claymorphism en relieve.
+  - Insignias dinámicas de tipo, selector de carpetas («Ver stickers ❯») y botones de importación directa a WhatsApp.
+- **Descarga Directa en la Web:**
+  - Banner Claymorphism destacado en `#galeria` dentro de la web oficial para descargar `StickersNailong.apk` con 1 toque.
+  - Suite de pruebas automatizadas actualizada a 42 comprobaciones completas.
 
 ---
 

@@ -14,11 +14,12 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ```text
 ├── index.html                   # Aplicación completa (HTML5, Tailwind CDN, CSS animaciones, JS modular)
 ├── manifest.json                # Manifiesto PWA para instalación en pantalla de inicio móvil
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (27.5 MB)
 ├── README.md                    # Descripción general y enlaces públicos
 ├── DOCUMENTACION.md             # Documentación exhaustiva de código, arquitectura y funcionamiento
 ├── GEMINI.md                    # Contexto e instrucciones técnicas para modelos Gemini
 ├── CLAUDE.md                    # Contexto e instrucciones técnicas para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas en Python (38 tests unitarios y estructurales)
+├── verify_all.py                # Suite de pruebas automatizadas en Python (42 tests unitarios y estructurales)
 └── Stickers Nailong/            # Directorio de recursos gráficos (82 cromos .webp + foto optimizada del creador)
 ```
 
@@ -334,6 +335,34 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 
 **Pendiente de comprobar** (ronda 3 de pruebas): radio mínimo de esquina que basta (4/8/16/24 px), si el contorno blanco aparece también en stickers ya transparentes, y las vías 1 y 2.
 
+### 📌 ADR-09: App Android Nativa Oficial, ContentProvider Dinámico para «Mi Selección» y Descarga Directa en la Web (v3.0.0)
+- **Fecha:** 2026-10-30
+- **Estado:** Implementado / Aceptado
+- **Problema:** En el navegador web móvil (Chrome en Android y Safari en iOS), WhatsApp no ofrece ninguna API pública para importar stickers directamente a su teclado:
+  1. `navigator.share` (`ACTION_SEND`) siempre es tratado por WhatsApp como imagen suelta o GIF, nunca como sticker.
+  2. La API del portapapeles (`ClipboardItem`) solo soporta `image/png` estático, perdiendo la animación en los 60 stickers animados de la colección.
+  3. La única vía oficial para añadir paquetes completos y stickers animados al teclado de WhatsApp es una aplicación nativa Android que implemente un `ContentProvider` registrado con el permiso `com.whatsapp.sticker.READ` y dispare el Intent `com.whatsapp.intent.action.ENABLE_STICKER_PACK`.
+- **Decisión Adoptada:**
+  1. **Desarrollo de App Android Nativa (`StickersNailong.apk`):** Basada en la arquitectura oficial de WhatsApp Stickers (`com.eva.nailongstickers`), compilada con Temurin JDK 17 y Gradle 8.7, y firmada con esquemas v1 y v2 (27.5 MB).
+  2. **3 Packs Oficiales Preconfigurados (82 Stickers):**
+     - *Nailong animado 1:* 30 stickers animados (25 originales + 5 ampliados) con icono de bandeja animado (`tray.png`, 96×96).
+     - *Nailong animado 2:* 30 stickers animados (30 ampliados) con icono de bandeja temático.
+     - *Nailong estático:* 22 stickers estáticos normalizados (≤100 KB, 512×512) con accesibilidad UTF-16 verificada.
+  3. **Sistema Innovador «Mi Selección» (`DynamicPackManager.java`):**
+     - Permite al usuario tocar cromos de cualquiera de los 3 packs para crear un lote a medida (mínimo 3, máximo 30 stickers).
+     - **Bifurcación Inteligente:** Detecta si la selección contiene elementos mixtos (WhatsApp rechaza paquetes que mezclan estáticos y animados) y ofrece al usuario separar automáticamente en dos importaciones consecutivas o elegir cuál importar.
+     - Identificadores incrementales únicos (`seleccion_1`, `seleccion_2`...) para evitar que WhatsApp ignore la importación si detecta un ID repetido.
+     - Almacenamiento dinámico en `context.getFilesDir()/selection_packs/<id>/` con metadatos JSON y bandeja generada dinámicamente.
+     - Aviso explícito de borrado manual: la app informa al usuario de que los packs creados se gestionan y borran directamente en WhatsApp.
+  4. **Ampliación de `StickerContentProvider.java`:**
+     - Coincidencia comodín `stickers_asset/*/*` para servir tanto los archivos empaquetados en assets sin comprimir (`noCompress "webp"`) como los archivos dinámicos generados en almacenamiento interno mediante `ParcelFileDescriptor` envuelto en `AssetFileDescriptor`.
+  5. **Diseño Claymorphism Temático Nailong:**
+     - Paleta cálida (#FFFDF0/#FEF9C3/#FFD93D/#EA580C/#25D366), tarjetas Claymorphism con sombreados interiores/exteriores y relieve suave, navegación clara con botones «Ver stickers ❯» y «Añadir a WhatsApp», e indicadores de checkmark interactivos.
+  6. **Distribución Directa en la Web:**
+     - `StickersNailong.apk` alojado directamente en la raíz web para descarga instantánea.
+     - Banner Claymorphism en `#galeria` dentro de `index.html`.
+  7. **Suite de Pruebas Ampliada:** Incrementada a 42 comprobaciones completas en `verify_all.py`.
+
 ---
 
 ## 7. Instrucciones de Verificación y Testing
@@ -341,11 +370,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (40 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (42 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 38 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 42 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```

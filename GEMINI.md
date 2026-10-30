@@ -75,11 +75,12 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma)
 ├── manifest.json                # Manifiesto para instalación PWA en móviles
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (27.5 MB)
 ├── DOCUMENTACION.md             # Documentación técnica completa de código, ADRs y arquitectura
 ├── GEMINI.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Gemini)
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
-├── verify_all.py                # Suite de pruebas automatizadas (38 comprobaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (42 comprobaciones)
 └── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
 ```
 
@@ -141,7 +142,9 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 
 ## 5. Historial de Actualizaciones y Notas del Parche (Changelog en Tiempo Real)
 
-### 📌 Versión 1.0.0 (v1) - Lanzamiento Inicial
+### 📌 Ciclo v1.0.0 – v1.5.0: Arquitectura Base, Interacción y Optimizaciones Web
+
+#### v1.0.0 (Lanzamiento Inicial)
 - Creación de la web interactiva con temática de Nailong (奶龙).
 - Hero interactivo con físicas elásticas, contador de clics y Web Audio API.
 - Visor Mágico de animaciones con control de velocidad.
@@ -150,113 +153,105 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - Laboratorio interactivo con cambio de tamaño, modo camaleón y llamaradas.
 - Minijuego Canvas para atrapar comida.
 
-### 📌 Versión 2.0.0 (v2) - Compartir & Conectividad Social
+#### v1.1.0 (Compartir, QR y Consolidación Arquitectónica)
 - Integración de enlace oficial en GitHub Pages (`https://alvarolofra.github.io/Nailong/`).
 - Generador dinámico de códigos QR para escaneo instantáneo con móviles.
 - Modal de compartir con botón de copia rápida al portapapeles y Web Share API nativa.
+- Consolidación definitiva de `index.html` como único archivo de producción y despliegue (eliminación de duplicados y variantes redundantes).
 
-### 📌 Versión 3.0.0 (v3) - Limpieza y Consolidación Arquitectónica
-- Eliminación de archivos HTML redundantes (`el_mundo_m_gico_de_nailong.html`, `el_mundo_m_gico_de_nailong v1.html`).
-- Consolidación de `index.html` como único archivo de producción y despliegue.
-
-### 📌 Versión 4.0.0 (v4) - Sección del Creador, LocalStorage & Mejoras Táctiles
+#### v1.2.0 (Sección del Creador, LocalStorage y Optimización GPU a 60 FPS)
 - Incorporación de la sección especial dedicada al creador de la web junto a Nailong (`#creador`) con foto optimizada en formato WebP (`creador_nailong.webp`).
-- Persistencia local de fotos del usuario mediante `localStorage` con escalado inteligente para optimizar almacenamiento.
-- Soporte para eliminar fotos de usuario guardadas.
-- Altura del minijuego ampliada hasta 660px y reducción del 20% en la velocidad de caída de las bombas para mejorar el tiempo de reacción.
+- Persistencia local de fotos del usuario mediante `localStorage` con escalado inteligente y opción de borrado.
 - Navegación táctil por deslizamiento (swipe horizontal) en el Visor Mágico y en el Lightbox de fotos.
+- Reingeniería del motor de confeti del Modo Fiesta mediante pre-renderizado offscreen de texturas de emojis (`getEmojiSprite`) a 60 FPS constantes.
+- Throttling con `requestAnimationFrame` en los mensajes contextuales del acompañante flotante.
 
-### 📌 Versión 5.0.0 (v5) - Optimización GPU a 60 FPS del Modo Fiesta
-- Reingeniería del motor de confeti mediante pre-renderizado offscreen de texturas de emojis (`getEmojiSprite`).
-- Reducción drástica del overhead de cálculo tipográfico por frame, permitiendo renderizado GPU a 60 FPS constantes.
+#### v1.3.0 (Estabilidad Arcade, Pantalla Completa y HUD Integrado)
+- **Correcciones Críticas de Estabilidad:** Solución al colapso de renderizado del Modo Fiesta (`contain: strict;` eliminado) y corrección de `ReferenceError: keysHeld is not defined` en el minijuego.
+- **Deslizador Arcade Lineal y Rápido:** Movimiento lineal continuo y ágil (16px a 21px por frame) para teclado y botones táctiles virtuales.
+- **Pantalla Completa Fluida:** Doble botón de pantalla completa con soporte de Fullscreen API nativa, fallback CSS (`.minigame-fullscreen-active`), soporte de tecla `Escape` y redimensionado de resolución de dibujado.
+- **HUD en Canvas y Controles Táctiles Integrados:** Marcador y tiempo en vivo integrados en canvas (`#food-game-canvas`) y dock táctil (`#game-touch-dock`) accesible en pantalla completa.
+- **Escalado Proporcional y Avatar de Cabecera:** Rescalado matemático dinámico de coordenadas (`resizeGameCanvas`) y encuadre óptico del avatar animado 3D (`sticker_2.webp`).
 
-### 📌 Versión 6.0.0 (v6) - Rendimiento de Scroll & Acompañante
-- Implementación de throttling con `requestAnimationFrame` en los mensajes contextuales del muñeco flotante al hacer scroll.
-- Eliminación de descarga directa de la foto del creador para preservar la experiencia visual integrada.
-- Preparación del sistema de movimiento continuo en el minijuego.
+#### v1.4.0 (Integración Móvil WhatsApp, Descargas Universales y Físicas Duang)
+- **Botón Directo y Descarga Universal:** Botón de WhatsApp (`#25D366`) con Web Share API y función `forceDownloadSticker()` con conversión binaria `Blob` compatible con Safari iOS (Carrete) y Android.
+- **Modal de Opciones y Toasts Duang:** Menú Claymorphism emergente (`#sticker-options-modal`) y notificaciones flotantes animadas (`#duang-toast`).
+- **Limpieza de Archivos Residuales:** Supresión de scripts auxiliares de red local y unificación visual con `creador_nailong.webp`.
+- **Lightbox del Creador Ampliado con Físicas Duang:** Foto vertical del creador ampliada (`max-w-3xl`) con botón reactivo `.animate-duang` y partículas (`triggerLightboxDuang`).
+- **Hero Móvil Prioritario:** Reordenación responsive para mostrar inmediatamente a Nailong al entrar en móviles.
 
-### 📌 Versión 7.0.0 (v7) - Estabilidad, Deslizador Lineal Rápido y Pantalla Completa
-- **Corrección Crítica del Modo Fiesta:** Solucionado el problema donde al hacer clic en el botón de fiesta no caía nada. La causa raíz era la propiedad CSS `contain: strict;` en `#party-canvas`, que provocaba que el navegador colapsara el rectángulo de renderizado a 0x0 píxeles. Eliminado el confinamiento de tamaño y asegurada la visibilidad en pantalla completa.
-- **Corrección Crítica del Minijuego:** Solucionado el fallo donde el minijuego había dejado de funcionar por completo. Se identificó y corrigió un `ReferenceError: keysHeld is not defined` que provocaba un fallo silencioso en el primer fotograma de `gameLoop`.
-- **Deslizador Lineal y Rápido:** Sustituida la aceleración progresiva lenta por un movimiento lineal continuo y rápido (16px a 21px por frame) para teclado y botones virtuales táctiles, ofreciendo una respuesta ágil estilo arcade clásico.
-- **Modo Pantalla Completa Fluido para el Minijuego:** Añadido botón de pantalla completa en la cabecera de controles y botón flotante en la esquina del juego. Compatible con Fullscreen API nativa y fallback CSS (`.minigame-fullscreen-active`), soporte de tecla `Escape`, transiciones suaves de entrada/salida y redimensionado automático de resolución de dibujado.
-- **Avatar de Cabecera con Sonrisa Radiante 3D:** Sustituido el avatar anterior por el GIF animado 3D de sonrisa radiante (`sticker_2.webp`), llenando el círculo completo.
-- **Suite de Pruebas Ampliada:** Incrementada de 24 a 28 pruebas automatizadas en `verify_all.py`, verificando la ausencia de regresiones, sintaxis limpia y validación de interacción en navegador.
+#### v1.5.0 (Rendimiento GPU, Álbum Paginado, UX Móvil y Accesibilidad)
+- **Rendimiento GPU:** Carga diferida (`loading="lazy"`, `decoding="async"`) en imágenes fuera de pantalla, eliminación de filtros `drop-shadow` en cuadrículas animadas y de `backdrop-blur` en menús y modales.
+- **Álbum Paginado:** Paginación de 12 en 12 (`GALLERY_PAGE_SIZE`) con botón «Ver más cromos» preservando la lista completa en Lightbox.
+- **Canvas de Fiesta Bajo Demanda:** `#party-canvas` se mantiene oculto y en 1×1 px mientras no hay confeti activo.
+- **Minijuego Optimizado:** Sprites de emojis pre-rasterizados (`getEmojiSprite(emoji, 34)`).
+- **UX Móvil y Accesibilidad:** Cuadrícula de 2 columnas en móvil, filtros en carrusel horizontal, soporte de `prefers-reduced-motion`, modales accesibles (`role="dialog"`, `aria-modal`) y bloqueo de scroll de fondo (`body.modal-open`).
 
-### 📌 Versión 8.0.0 (v8) - Perfeccionamiento de Pantalla Completa, HUD en Canvas y Encuadre Óptico
-- **HUD Integrado de Marcador y Tiempo en Canvas:** Inclusión de una pastilla de puntuación en vivo (`⭐ X pts`) junto a la pastilla de tiempo (`⏱️ Xs`) en la esquina superior del canvas, permitiendo ver los puntos en tiempo real tanto en la vista estándar como en el modo pantalla completa.
-- **Controles Táctiles Internos en Pantalla Completa (`#game-touch-dock`):** Integración de botones táctiles virtuales dentro del contenedor del juego (`#game-container`), garantizando que al jugar en pantalla completa en móviles o tablets los controles táctiles permanezcan accesibles.
-- **Corrección de Aislamiento en Pantalla Completa CSS:** Eliminada la trampa de contexto de apilamiento provocada por las transformaciones CSS en elementos `.reveal-item.visible` (establecido en `transform: none`), y añadida la clase `has-minigame-fullscreen` en `body` para elevar `#game-container` por encima de cualquier otro elemento de la página.
-- **Rescalado Dinámico Proporcional de Coordenadas:** `resizeGameCanvas()` escala matemáticamente la posición horizontal del jugador (`playerX`) y la de todos los alimentos en caída activa según la proporción `newWidth / oldWidth` al entrar/salir de pantalla completa o al cambiar la orientación del dispositivo, evitando que el personaje se desplace fuera del lienzo.
-- **Encuadre Óptico del Avatar de Cabecera:** Ajuste fino del recorte circular de `sticker_2.webp` para que llene el círculo completo con `object-cover` sin cortar la parte superior de la frente ni los ojos del personaje durante ninguno de sus 36 fotogramas de animación.
+---
 
-### 📌 Versión 9.0.0 (v9) - Integración de Stickers para WhatsApp, Descarga Universal iOS / Android y Gobernanza Central
-- **Botón Directo de WhatsApp en Visor Mágico y Lightbox:** Incorporado botón temático de WhatsApp (`#25D366`) con icono oficial en `#magic-modal` y `#photo-lightbox`. Invoca la Web Share API con el archivo binario WebP puro para enviar el sticker directamente a cualquier chat o a uno mismo, permitiendo añadirlo a "Favoritos ⭐" en el teclado de WhatsApp en 1 toque.
-- **Solución Definitiva a la Descarga en iPhone (iOS Safari):** Resuelto el fallo donde en iPhone no se descargaban los stickers al pulsar "Guardar" (provocado por la restricción del motor WebKit de Safari que ignora el atributo `download` en URLs de archivos). Implementado `forceDownloadSticker()` con conversión binaria `Blob` y llamada nativa a `navigator.share()` que activa la opción "Guardar imagen" directamente en el Carrete (Fotos de Apple) o en la app Archivos, con detección ampliada para iPadOS (`MacIntel` + `maxTouchPoints`).
-- **Modal Interactivo de Guardado y Opciones (`#sticker-options-modal`):** Menú Claymorphism emergente que se abre al pulsar "Guardar Sticker", ofreciendo: 1) Usar en WhatsApp, 2) Descargar en el Dispositivo (Fotos / Archivos) y 3) Copiar al Portapapeles (con conversión dinámica a PNG en canvas para compatibilidad con la API de portapapeles de iOS y WhatsApp).
-- **Notificaciones Toast Flotantes Duang (`#duang-toast`):** Notificación emergente accesible y animada (`showDuangToast`) que informa al instante sobre el estado de la descarga o la guía para añadir a favoritos en WhatsApp.
-- **Alineación de Gobernanza con la Biblioteca Central:** Integración formal del protocolo de inicialización en cascada, regla estricta de autorización previa para transferencia de plantillas y reglas de sesiones quirúrgicas en `GEMINI.md`, `CLAUDE.md` y registro ADR en `DOCUMENTACION.md`.
-- **Suite de Pruebas Ampliada a 35 Verificaciones:** `verify_all.py` ampliado para validar elementos de WhatsApp, integración de descargas, portapapeles, persistencia y gobernanza documental.
+### 📌 Ciclo v2.0.0 – v2.3.0: Expansión a 82 Stickers y Normalización Técnica WhatsApp
 
-### 📌 Versión 10.0.0 (v10) - Limpieza de Archivos Obsoletos y Verificación de Carga
-- **Eliminación de Archivos Obsoletos:** Supresión definitiva de los scripts auxiliares de red local (`compartir_amigos.bat`, `compartir_amigos.py`), la guía previa de hosting (`COMO_HOSTEAR.md`), la imagen residual `stickers_overview.png`, y la fotografía original sin comprimir de 2MB (`Stickers Nailong/Foto nailong yo.jfif`), reemplazada al 100% por la versión optimizada en formato WebP (`creador_nailong.webp`).
-- **Verificación de Carga en Navegador:** Validación exhaustiva del ciclo de vida de carga de `index.html` en Chrome headless y servidor HTTP local con 0 errores de consola, 0 excepciones no capturadas y 100% de los elementos visuales renderizados correctamente.
-- **Suite de Pruebas Actualizada:** Actualizadas las aserciones de `verify_all.py` para verificar la ausencia de archivos obsoletos y asegurar exactamente 43 elementos en `Stickers Nailong/`.
+#### v2.0.0 (Colección Ampliada a 72 Cromos y Renumeración Continua)
+- **Colección Ampliada:** Integración de 30 nuevos stickers de Nailong (`sticker_43.webp` a `sticker_72.webp`) en `ALL_STICKERS` con títulos infantiles, categorías y Web Audio.
+- **Renumeración Continua:** Eliminación de huecos en la serie gráfica y recorte sin pérdidas de `sticker_58.webp` (eliminación del texto «GEMESNYA»).
+- **Desacople de Centinela del Creador:** Reemplazo de la regla fija `item.id === 43` por `isCreatorItem(item)`, liberando el sticker 43 para descarga libre.
+- **Paginación Dinámica:** Incorporación de `GALLERY_STEP` para avance ágil en el álbum.
 
-### 📌 Versión 11.0.0 (v11) - Experiencia de Guardado, Banner WhatsApp, Lightbox Duang y Hero Móvil
-- **Modal de Guardado Limpio y Botones Grandes:** Supresión del bloque de texto explicativo sobre restricciones en `#sticker-options-modal`. Previsualización del sticker ampliada a 176x176px y botones de acción (*WhatsApp*, *Descargar* y *Copiar*) con textos e iconos aumentados (`text-base sm:text-lg`, iconos de 48px).
-- **Banner Prominente en el Gran Álbum:** Cartel de alto impacto en `#galeria` con icono temático de WhatsApp (`#25D366`) y descarga, comunicando que cualquier sticker puede guardarse o enviarse a WhatsApp con un solo toque.
-- **Lightbox del Creador Ampliado con Físicas Duang:** Foto vertical del creador ampliada hasta 500px / 60vh (`max-w-3xl`) y botón `¡Hacer Duang!` reactivo con animación elástica `.animate-duang` y ráfaga de emojis flotantes (`triggerLightboxDuang`).
-- **Hero Móvil Inmediato:** Reordenación responsive del Hero en `#inicio` para que el dragón Nailong sea visible de inmediato al entrar en la página en móviles, justo tras la introducción y antes de los estados de ánimo.
-- **Suite de Pruebas Ampliada a 36 Comprobaciones:** `verify_all.py` ampliado para validar físicamente el banner de WhatsApp, el rebote Duang en lightbox, la eliminación del texto obsoleto y el nuevo flujo responsive.
+#### v2.1.0 (Normalización Técnica WhatsApp 512×512 y Herramienta de Mantenimiento)
+- **Normalización Estricta para WhatsApp:** Diagnóstico de compatibilidad: WhatsApp requiere dimensiones exactas de **512×512**, peso ≤100 KB (estático) o ≤500 KB (animado), duración ≤10 s y chunk EXIF `sticker-pack-id`.
+- **Muxer WebP Propio para Animados:** Estructura de fotogramas completos con `ALPH` + VP8 perfil 0 mediante muxer binario dedicado en `normalizar_stickers.py` para cumplir los requisitos de WhatsApp.
+- **Herramienta `normalizar_stickers.py`:** Utilidad para conversión, inyección EXIF, verificación (`--check`) e importación de nuevos lotes (`--import`).
+- **Limpieza de Duplicados:** Eliminación de duplicados (48 y 53) y consolidación secuencial.
 
-### 📌 Versión 12.0.0 (v12) - Rendimiento GPU, Bugs del Álbum, UX Móvil y Accesibilidad
-- **Rendimiento (GPU en Chrome/Brave):** `loading="lazy"` y `decoding="async"` en todas las imágenes fuera del primer pantallazo y en las plantillas del muro de GIFs, el álbum y la botonera (`fetchpriority="high"` en el Nailong del Hero). Eliminados los `drop-shadow` del muro de GIFs y del álbum y todos los `backdrop-blur` (navbar, 4 modales, overlay del juego, botón de pantalla completa), que obligaban a recalcular filtros sobre contenido animado en cada fotograma.
-- **Álbum paginado:** `renderPolaroidGallery()` pinta 12 cromos (`GALLERY_PAGE_SIZE`) y el botón `#gallery-load-more` (`showMoreGallery()`) añade 12 más; `displayedStickers` conserva la lista completa para que el Lightbox navegue por todos los cromos. Los filtros reinician la paginación.
-- **Canvas de fiesta bajo demanda:** `#party-canvas` empieza oculto, se dimensiona y muestra solo al lanzar el confeti y se oculta y reduce a 1×1 al caer la última partícula. Nunca usar `contain: strict` (regresión de v7).
-- **Minijuego:** los emojis que caen se dibujan con sprites pre-rasterizados (`getEmojiSprite(emoji, 34)`, precalentados en `startMiniGame()`) en lugar de `fillText` en cada fotograma.
-- **Bugs corregidos:** (1) `loadUserPhotosFromStorage()` se invoca ahora en `window.onload`, por lo que las fotos subidas persisten al recargar; (2) botón 🗑️ para borrar fotos propias (con confirmación) y aviso con toast si el almacenamiento está lleno; (3) las fotos de usuario (id de texto) ya no generan clases `undefined` en chincheta e inclinación; (4) contadores de filtros calculados desde los datos (`updateFilterCounts()`), sin cifras fijas erróneas (`43+`, `Creador (5)`); (5) los listeners táctiles de `makeStickerDraggable()` se registran sobre el propio sticker y ya no se acumulan en `window`.
-- **UX móvil (mobile-first):** álbum en 2 columnas con tarjeta compacta; filtros del álbum y estados de ánimo del Hero como carrusel horizontal deslizable (reglas CSS sobre `.gallery-filter-btn` / `.mood-btn` para no depender del `className` que reescribe el JS); `#game-touch-dock` oculto por defecto y visible solo en pantalla completa táctil (sin botones duplicados); el bocadillo del compañero flotante desaparece a los 4 s en móvil y la mascota se oculta mientras `#game-container` está en pantalla; scrollspy en la navbar de escritorio (`aria-current`); halo `is-playing` en la botonera; 10 partículas de fondo en móvil en lugar de 18.
-- **Accesibilidad:** `@media (prefers-reduced-motion: reduce)`, `role="dialog"` + `aria-modal` + `aria-labelledby` en los 4 modales, `aria-label` en botones de icono y bloqueo del scroll de fondo con un modal abierto (`setupModalScrollLock()`, clase `body.modal-open`).
-- **Suite de Pruebas Ampliada a 37 Comprobaciones:** nuevo Test 37 en `verify_all.py` que blinda todo lo anterior, y ventana de búsqueda del avatar del header ampliada de 15.000 a 25.000 caracteres.
-- **Decisiones diferidas:** Tailwind sigue cargándose por CDN (proyecto *buildless*), el cromo del creador sigue fuera de `ALL_STICKERS` y no se añade Service Worker.
+#### v2.2.0 (Segunda Tanda: Expansión a 82 Cromos Auténticos)
+- **Expansión a 82 Stickers:** Adición de 10 nuevos stickers animados (`sticker_73.webp` a `sticker_82.webp`) normalizados con EXIF de WhatsApp.
+- **Filtro de Duplicados y Recorte:** Descarte de duplicados exactos y recorte del sticker 75 para eliminar subtítulos de vídeo.
 
-### 📌 Versión 13.0.0 (v13) - Incorporación de Stickers 43–72, Paginación Progresiva y Corrección del Creador
-- **Colección Ampliada a 72 Cromos:** Integración de los 30 nuevos stickers de Nailong (`sticker_43.webp` a `sticker_72.webp`) en `ALL_STICKERS` con títulos en tono infantil, asignación temática de categorías (`caritas`, `bailes`, `comida`, `amigos`), efectos de audio Web Audio y recuento preciso de frames.
-- **Renumeración Continua:** Eliminación de huecos en la serie gráfica (antiguos huecos 58, 59 y 63 resueltos mediante reasignación secuencial ascendente hasta 72 stickers + imagen del creador: 73 archivos WebP en total).
-- **Recorte sin Pérdidas de Texto Foráneo:** Eliminación del rótulo «GEMESNYA» en `sticker_58.webp` mediante recorte sin pérdidas a 240×202 píxeles conservando íntegro el personaje con sus manos y expresión.
-- **Corrección de Centinela del Creador:** Desacoplamiento de la verificación de la foto del creador (`isCreatorItem`), eliminando la regla rígida `item.id === 43` que impedía guardar o compartir por WhatsApp el nuevo cromo #43.
-- **Paginación Dinámica Adaptativa:** Incorporación de `GALLERY_STEP` (+24 cromos por clic en escritorio/tablet y +12 en móvil) en el botón «Ver más cromos», optimizando la fluidez de exploración sin sobrecargar el renderizado en terminales móviles.
-- **Suite de Pruebas Ampliada:** Incrementada a 38 comprobaciones en `verify_all.py` (validación de stickers 1..72, dimensiones de `sticker_60.webp`, ausencia de saltos o residuales, presencia de `GALLERY_STEP` y desvinculación total de `id === 43`).
+#### v2.3.0 (Paginación +24 Universal, Portapapeles con Transparencia y Cierre Web)
+- **Paginación Unificada:** `GALLERY_STEP = 24` fijo para todos los dispositivos. Limpieza de texto de recuento de fotogramas en la interfaz y versionado visible en el footer.
+- **Diagnóstico Experimental WhatsApp Web:** Identificación de que la Web Share API en navegadores móviles siempre entrega archivos como imagen o GIF a través de `ACTION_SEND`.
+- **Solución Portapapeles:** Implementación en `copyStickerToClipboard()` de esquinas redondeadas transparentes (`CLIPBOARD_CORNER_RADIUS = 48px`) para stickers casi opacos (< `CLIPBOARD_MIN_TRANSPARENT`), permitiendo que al pegar en WhatsApp se reconozcan como stickers con contorno blanco nativo.
+- **Ajuste de Expectativas:** Transparencia honesta en la interfaz indicando que el botón de WhatsApp envía como foto y recomendando «Copiar Sticker».
 
-### 📌 Versión 14.0.0 (v14) - Stickers Compatibles con WhatsApp y Herramienta de Normalización
-- **Causa raíz:** los stickers descargados de TikTok (43–74 originales) eran WebP de 240×240 (o de tamaños arbitrarios) y sin EXIF de WhatsApp, por lo que WhatsApp los recibía como imagen suelta y los animados se rompían. WhatsApp solo reconoce un sticker si es **512×512**, pesa **≤100 KB** (estático) o **≤500 KB** (animado), dura ≤10 s y lleva el EXIF `sticker-pack-id` (los antiguos 1–42 ya cumplían).
-- **`normalizar_stickers.py`:** convierte a 512×512 sobre lienzo transparente (sin deformar), inyecta el EXIF de WhatsApp (idéntico byte a byte al de los originales), ajusta calidad/peso (si hace falta quita fotogramas alternos: el Test 39 comprueba que `frames` de `ALL_STICKERS` coincide con el archivo) y avisa de huecos de numeración y posibles duplicados. Uso: `python normalizar_stickers.py` (corrige en sitio), `--check` (solo informa) y `--import CARPETA` (convierte y añade con el siguiente número libre, imprimiendo las líneas esqueleto de `ALL_STICKERS`).
-- **Segunda causa (animados):** con 512×512 y EXIF los estáticos ya funcionaban, pero los animados seguían llegando como imagen. El codificador de Pillow generaba fotogramas parciales con offsets, sin chunk `ALPH` y con VP8 de perfil 2, a diferencia de los stickers antiguos que sí funcionan (todos los fotogramas a lienzo completo, con `ALPH` + VP8 perfil 0). `normalizar_stickers.py` ahora ensambla el WebP animado con su propio muxer con esa estructura exacta (`build_animated`) y `--check`/Test 39 verifican la estructura (`structure_problems`) en los stickers 43 en adelante.
-- **Flujo para nuevos stickers de TikTok:** copiarlos a una carpeta temporal fuera de `Stickers Nailong/` → `python normalizar_stickers.py --import CARPETA` → rellenar `title/cat/sound/desc` en `ALL_STICKERS` → actualizar los contadores de cromos → `python verify_all.py`.
-- **Limpieza:** eliminados los duplicados 48 (versión recortada del 45) y 53 (fotograma estático del 59 animado); renumeración continua hasta **72 stickers** (+ creador = 73 archivos).
-- **Copiar al portapapeles:** limitación del navegador (solo admite PNG): copia una imagen fija. Para enviar como sticker usar el botón de WhatsApp.
-- **Suite de Pruebas:** 39 comprobaciones; el Test 39 falla si algún sticker no es 512×512, no lleva EXIF o supera el peso.
+---
 
-### 📌 Versión 15.0.0 (v15) - Segunda Tanda de Stickers de TikTok (73–82)
-- **10 stickers nuevos** (`sticker_73.webp` a `sticker_82.webp`) con título y descripción en tono infantil, convertidos con `python normalizar_stickers.py --import CARPETA` (512×512 + EXIF de WhatsApp). Colección total: **82 stickers** (+ creador = 83 archivos).
-- **Duplicados descartados:** de los 12 archivos recibidos, 2 eran idénticos a stickers ya existentes (71 y 72) y no se añadieron. Los avisos de duplicado de la herramienta deben revisarse siempre antes de añadir.
-- **Textos incrustados:** el 77 (rótulo chino en el borde) y el 82 (subtítulo «呜呜呜») conservan el texto original del vídeo; no se recortó para no dañar la imagen. El 75 se recortó (203×203 desde la esquina inferior derecha) para quitar el subtítulo «Nyah nyah!» y que el dino quede más grande.
-- La carpeta temporal de importación se elimina tras convertir; todos los stickers viven en `Stickers Nailong/`.
+### 📌 Versión 3.0.0 (v3.0.0) - App Android Nativa Oficial, «Mi Selección» y Descarga Directa
 
-### 📌 Versión 16.0.0 (v16) - Paginación 24 en Todos los Dispositivos, Limpieza de Texto y Versión Visible
-- **Paginación:** `GALLERY_STEP = 24` fijo (antes 24 en escritorio y 12 en móvil); la carga inicial sigue en `GALLERY_PAGE_SIZE = 12`.
-- **UI:** eliminado el número de fotogramas en la insignia «ANIMADO» de las tarjetas y del Lightbox (el campo `frames` se conserva en los datos para los filtros y para el Test 39).
-- **Versión visible:** `<p id="app-version">v16</p>` en el pie de página (texto pequeño, solo el número). Actualizarlo en cada versión nueva; el Test 40 lo comprueba.
-- **Estado de la exportación a WhatsApp (SIN RESOLVER):** tras la v14/v15 los estáticos con transparencia (p. ej. 58, 69) se reciben como sticker, pero los animados (nuevos y antiguos) y algunos estáticos opacos (8) llegan como imagen. Investigación y pruebas pendientes en `HANDOFF_WHATSAPP.md` (no versionado) y en la memoria del proyecto.
-- **Suite de Pruebas:** 40 comprobaciones.
+- **App Nativa Android Oficial (`StickersNailong.apk`):**
+  - Desarrollo y compilación del paquete de aplicación nativa Android independiente (`C:\src\nailong_stickers_app\StickersNailong.apk`, 27.5 MB), firmado con esquemas v1 y v2.
+  - Implementación sobre la arquitectura oficial de WhatsApp Stickers mediante `StickerContentProvider` con permisos `com.whatsapp.sticker.READ` y disparo del Intent nativo `com.whatsapp.intent.action.ENABLE_STICKER_PACK`.
+  - Sin dependencias de servicios externos ni empaquetadores de terceros: funcionamiento 100% autónomo y local.
 
-### 📌 Versión 17.0.0 (v17) - Copiar Sticker Funciona en WhatsApp (Cierre del Problema de Exportación)
-- **Diagnóstico (probado en Android con una página temporal de variantes):** «Compartir» (Web Share API) siempre llega a WhatsApp como imagen (o GIF), sea cual sea el archivo; no tiene arreglo desde la web. «Copiar» (PNG en el portapapeles) llega como sticker solo si el PNG tiene transparencia visible; un PNG opaco (o con un solo píxel semitransparente) llega como foto. WhatsApp añade un contorno blanco al pegar.
-- **Arreglo:** `copyStickerToClipboard()` dibuja en 512×512 y, si el sticker tiene menos de `CLIPBOARD_MIN_TRANSPARENT` (2178) píxeles transparentes, recorta esquinas redondeadas de `CLIPBOARD_CORNER_RADIUS` (48 px) ⇒ todos los cromos se pegan como sticker. Los animados se pegan quietos (el portapapeles del navegador solo admite PNG).
-- **Textos:** «Copiar Sticker» es la opción recomendada; el botón de WhatsApp avisa de que llega como foto (ya no promete «Añadir a favoritos»); banner del álbum actualizado.
-- **Animados:** sin solución desde la web en el móvil. Vías por comprobar (WhatsApp Web arrastrando el `.webp`, compartir desde Archivos) en ADR-08 de `DOCUMENTACION.md`.
-- **Suite de Pruebas:** 41 comprobaciones (Test 41: recorte condicional en el portapapeles y textos sin promesas falsas; Test 40: versión v17 en el pie).
+- **3 Packs Oficiales Preconfigurados (82 Stickers):**
+  1. **Nailong animado 1:** 30 stickers animados optimizados (antiguos 1–42 + parte de la tanda 43–72) con icono de bandeja animado (`tray.png`, 96×96).
+  2. **Nailong animado 2:** 30 stickers animados optimizados (tandas 43–72 y 73–82) con icono de bandeja temático.
+  3. **Nailong estático:** 22 stickers estáticos normalizados (≤100 KB, 512×512) con accesibilidad UTF-16 rigurosamente validada.
+
+- **Sistema Innovador «Mi Selección»:**
+  - Capacidad para que el usuario navegue por los 3 packs oficiales y marque stickers sueltos de forma interactiva (toque sobre la imagen para seleccionar con checkmark visual, pulsación larga para previsualización ampliada).
+  - Selector flexible: mínimo 3 y máximo 30 stickers por exportación (límites estrictos de WhatsApp).
+  - Barra de herramientas reactiva con contador de stickers seleccionados en tiempo real, botón para desmarcar todo y botón «Añadir a WhatsApp».
+  - **Bifurcación Inteligente por Contenido Mixto:** Detección automática cuando la selección contiene stickers animados y estáticos combinados (WhatsApp prohíbe terminantemente mezclar ambos tipos en un mismo pack). Diálogo guiado que ofrece al usuario: 1) Importar solo los animados, 2) Importar solo los estáticos, o 3) Importar ambos tipos en dos packs independientes consecutivos.
+  - Aviso explícito al usuario informando de que los packs creados deben eliminarse manualmente desde WhatsApp si ya no se desean.
+  - Identificadores incrementales únicos (`seleccion_1`, `seleccion_2`...) para garantizar que WhatsApp registre cada selección como un pack completamente nuevo sin ignorar la importación.
+
+- **Servicio de Archivos Dinámico en Almacenamiento Interno:**
+  - `DynamicPackManager.java`: Creación y gestión de directorios dinámicos en almacenamiento interno (`context.getFilesDir()/selection_packs/<identifier>/`), copiado de archivos `.webp`, generación automática del archivo de metadatos `metadata.json` y del icono de bandeja `tray.png`.
+  - `StickerContentProvider.java`: Ampliación del ContentProvider con coincidencia de comodín (`stickers_asset/*/*`) para servir los archivos dinámicos desde almacenamiento interno mediante `ParcelFileDescriptor` envuelto en `AssetFileDescriptor`, manteniendo el servicio sin comprimir de los assets precompilados.
+
+- **Rediseño Claymorphism Temático Nailong en la App Android:**
+  - Identidad gráfica unificada con la web oficial: paleta cálida con fondo crema suave (`#FFFDF0`), tarjetas amarillo pastel (`#FEF9C3`), acentos ámbar (`#FFD93D`), detalles naranja mandarina (`#EA580C`) y verde oficial WhatsApp (`#25D366`).
+  - Tarjetas Claymorphism táctiles con sombreados suaves y relieve visual.
+  - Insignias dinámicas de tipo («✨ 30 animados», «🎨 22 estáticos», «⭐ Mi Selección»).
+  - Cada fila de pack incluye botón secundario «Ver stickers ❯» para navegar a la carpeta y botón principal «Añadir a WhatsApp».
+
+- **Descarga Directa e Integración en la Web Oficial:**
+  - Copia directa de `StickersNailong.apk` en la raíz de producción de la web oficial.
+  - Banner Claymorphism destacado en la sección `#galeria` de `index.html` con enlace de descarga directa del APK, botón de acción destacado y guía de instalación para Android.
+  - Actualización del indicador visible de versión en el pie de página a `v3.0.0`.
+
+- **Suite de Pruebas Ampliada a 42 Comprobaciones:**
+  - `verify_all.py` ampliado para validar físicamente la presencia del binario APK (>20 MB), la integración del banner Claymorphism en la web, la versión `v3.0.0` y la integridad estructural de toda la plataforma.
 
 ---
 

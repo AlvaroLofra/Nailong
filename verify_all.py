@@ -328,7 +328,7 @@ print("✔ v14 verified: all 82 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v17<', html), "Footer must show the current version number (v17)!"
+assert re.search(r'id="app-version"[^>]*>v3\.0\.0<', html), "Footer must show the current version number (v3.0.0)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -339,4 +339,12 @@ assert "Añadir a favoritos" not in html, "The WhatsApp share button must not pr
 assert not os.path.exists('HANDOFF_WHATSAPP.md'), "Temporary WhatsApp handoff must be removed!"
 print("✔ v17 verified: clipboard sticker has transparent rounded corners (pasted as a WhatsApp sticker).")
 
-print("\n=== ALL 41 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 42: v3.0.0 - App Nativa Android Stickers Nailong (.apk) y Banner Claymorphism en la web
+assert os.path.exists('StickersNailong.apk'), "StickersNailong.apk missing from web root!"
+assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailong.apk seems too small!"
+assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
+assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
+assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
+print("✔ v3.0.0 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner.")
+
+print("\n=== ALL 42 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
