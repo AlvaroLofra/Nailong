@@ -251,7 +251,15 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
   - Actualización del indicador visible de versión en el pie de página a `v3.0.0`.
 
 - **Suite de Pruebas Ampliada a 42 Comprobaciones:**
-  - `verify_all.py` ampliado para validar físicamente la presencia del binario APK (>20 MB), la integración del banner Claymorphism en la web, la versión `v3.0.0` y la integridad estructural de toda la plataforma.
+  - `verify_all.py` ampliado para validar físicamente la presencia del binario APK (>20 MB), la integración del banner Claymorphism en la web, la versión `v3.0.1` y la integridad estructural de toda la plataforma.
+
+---
+
+### 📌 Versión 3.0.1 (v3.0.1) - Pulido Tipográfico, Ajuste de Badges y Limpieza de Inspecciones Lint
+- **Ajuste Tipográfico en Botones:** Incorporación de `android:textAllCaps="false"` y ajuste de `textSize="12sp"` con padding lateral calibrado en el botón «Ver stickers ❯», resolviendo el salto a doble línea y corte inferior en dispositivos con fuentes de gran escala (ej. Xiaomi / HyperOS).
+- **Encuadre de Título:** Reducción de padding en badges y ajuste a 16sp para que títulos como «Nailong animado 1» se muestren íntegros sin truncarse con puntos suspensivos.
+- **Limpieza Completa de Inspecciones Lint:** Resolución de avisos de márgenes bidireccionales RTL (`layout_marginLeft`/`layout_marginRight`), extracción de cadenas a recursos XML (`@string/my_selection_badge_title`) y etiquetas de compatibilidad de API para dejar Android Studio sin avisos en rojo.
+- **Sincronización Web y Documentación:** Actualizado el banner web a `v3.0.1 APK`, pie de página a `v3.0.1` y verificación con 42 comprobaciones completas.
 
 ---
 

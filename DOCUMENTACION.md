@@ -364,6 +364,16 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
      - Banner Claymorphism en `#galeria` dentro de `index.html`.
   7. **Suite de Pruebas Ampliada:** Incrementada a 42 comprobaciones completas en `verify_all.py`.
 
+### 📌 ADR-10: Pulido Tipográfico en Botones, Ajuste de Badges y Limpieza de Inspecciones Lint (v3.0.1)
+- **Fecha:** 2026-10-30
+- **Estado:** Implementado / Aceptado
+- **Problema:** En dispositivos con escalado de fuente del sistema (ej. Xiaomi / HyperOS), el botón de la tarjeta de packs transformaba el texto forzadamente a mayúsculas (`textAllCaps="true"` por defecto), provocando que «VER STICKERS ❯» saltara a dos líneas y la segunda línea quedara recortada verticalmente por la altura fija de 44 dp. Asimismo, títulos largos como «Nailong animado 1» se truncaban a «Nailong anim...» por falta de espacio frente a las insignias laterales, y Android Studio reportaba advertencias Lint de márgenes bidireccionales RTL (`layout_marginLeft`/`layout_marginRight`), cadenas no extraídas a XML y compatibilidad de API.
+- **Decisión:**
+  1. Configurar `android:textAllCaps="false"`, `android:textSize="12sp"`, padding lateral calibrado y protección `android:maxLines="1"` en el botón de navegación.
+  2. Reducir padding de insignias a 7dp y ajustar el título a 16sp para visualización completa de los nombres de los 3 packs oficiales.
+  3. Resolver todas las inspecciones de Lint en `activity_sticker_pack_list.xml` y `sticker_packs_list_item.xml` añadiendo compatibilidad RTL API 15-17, extrayendo cadenas a `strings.xml` (`@string/my_selection_badge_title`) y anotando `@tools:targetApi="lollipop"`.
+  4. Incrementar versión a `v3.0.1` (`versionCode 2`, `versionName "3.0.1"`) y sincronizar la web (`v3.0.1 APK`, pie de página y test 42 de `verify_all.py`).
+
 ---
 
 ## 7. Instrucciones de Verificación y Testing

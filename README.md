@@ -99,8 +99,9 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ---
 
-### 📌 Versión 3.0.0 (Actual) — App Android Nativa Oficial, «Mi Selección» y Descarga Directa
+### 📌 Ciclo v3.0.0 – v3.0.1: App Android Nativa Oficial, «Mi Selección» y Descarga Directa
 
+#### v3.0.0 — Lanzamiento de la App Oficial y Sistema «Mi Selección»
 - **App Nativa Android (`StickersNailong.apk`, 26.6 MB):**
   - Aplicación Android nativa autónoma compilada y firmada con esquemas v1 y v2.
   - Integración oficial con WhatsApp mediante `StickerContentProvider` con permisos `com.whatsapp.sticker.READ` y disparo del Intent `ENABLE_STICKER_PACK`.
@@ -118,6 +119,12 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - **Descarga Directa en la Web:**
   - Banner Claymorphism destacado en `#galeria` dentro de la web oficial para descargar `StickersNailong.apk` con 1 toque.
   - Suite de pruebas automatizadas actualizada a 42 comprobaciones completas.
+
+#### v3.0.1 (Actual) — Pulido de UI, Ajuste Tipográfico y Limpieza de Inspecciones
+- **Ajuste Tipográfico en Botones:** Añadido `textAllCaps="false"` y tamaño calibrado en el botón «Ver stickers ❯» para evitar que el texto en mayúsculas forzadas salte a dos líneas y se corte en pantallas con escala de fuente grande.
+- **Encuadre de Título:** Reducción de padding en badges y ajuste a 16sp para que títulos como «Nailong animado 1» se muestren íntegros sin truncarse con puntos suspensivos.
+- **Limpieza de Inspecciones Lint:** Resolución de advertencias de márgenes bidireccionales RTL (`layout_marginLeft`/`layout_marginRight`), extracción de cadenas a recursos XML (`@string/my_selection_badge_title`) y etiquetas de compatibilidad de API para dejar Android Studio sin avisos en rojo.
+- **Sincronización Web y Documentación:** Actualizado el banner web a `v3.0.1 APK`, pie de página a `v3.0.1` y verificación con 42 comprobaciones completas.
 
 ---
 
