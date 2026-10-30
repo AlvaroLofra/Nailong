@@ -334,7 +334,9 @@ print("✔ v16 verified: +24 pagination on all devices, no frame-count text, ver
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
 copy_src = html[html.index("async function copyStickerToClipboard"):html.index("async function copyStickerToClipboard") + 3000]
 assert "roundRect(0, 0, 512, 512" in copy_src and "ctx.clip()" in copy_src, "copyStickerToClipboard must clip rounded transparent corners on a 512x512 canvas!"
-assert not os.path.exists('prueba_whatsapp') and not os.path.exists('HANDOFF_WHATSAPP.md'), "Temporary WhatsApp test files must be removed!"
+assert "countTransparentPixels(ctx) < CLIPBOARD_MIN_TRANSPARENT" in copy_src, "Rounded corners must only be applied to (almost) opaque stickers!"
+assert "Añadir a favoritos" not in html, "The WhatsApp share button must not promise a sticker (it always arrives as a photo)!"
+assert not os.path.exists('HANDOFF_WHATSAPP.md'), "Temporary WhatsApp handoff must be removed!"
 print("✔ v17 verified: clipboard sticker has transparent rounded corners (pasted as a WhatsApp sticker).")
 
 print("\n=== ALL 41 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

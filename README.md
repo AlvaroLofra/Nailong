@@ -122,8 +122,9 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Stickers animados reconstruidos con una estructura más compatible con WhatsApp y nueva herramienta interna para importar stickers de TikTok.
 
 ### v17.0.0 (Actual) - Copiar Sticker para WhatsApp
-- «Copiar Sticker» funciona ya con todos los cromos: al pegarlo en un chat de WhatsApp llega como sticker (los animados se pegan quietos).
-- Los cromos copiados llevan las esquinas redondeadas.
+- «Copiar Sticker» funciona ya con todos los cromos: pégalo en un chat de WhatsApp y llegará como sticker (los animados se pegan quietos).
+- Los cromos sin fondo transparente se copian con las esquinas redondeadas, que es lo que WhatsApp necesita para reconocerlos como sticker.
+- El botón de WhatsApp avisa de que envía el cromo como foto y recomienda «Copiar Sticker».
 
 ---
 

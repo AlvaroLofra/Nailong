@@ -295,12 +295,44 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 
 ### 📌 ADR-08: Exportación a WhatsApp: Copiar al Portapapeles con Esquinas Transparentes (v17)
 - **Fecha:** 2026-10-30
-- **Estado:** Implementado / Aceptado
-- **Pruebas en móvil (Android, Chrome + WhatsApp)** con una página temporal de variantes (ya eliminada):
-  - **Compartir (Web Share API):** cualquier archivo llega como **imagen**, incluso los estáticos que funcionan copiados (58), con alfa, con margen, con MIME `image/webp.wasticker` o con texto. Los GIF llegan como GIF. No es un problema del formato del archivo sino de la vía: WhatsApp no trata como sticker lo que recibe por «Compartir».
-  - **Copiar y pegar (portapapeles, PNG):** llega como **sticker** si el PNG tiene transparencia visible (esquinas redondeadas, borde transparente, fondo transparente) y como **imagen** si es opaco, aunque tenga un único píxel semitransparente. Los animados se pegan como sticker quieto (el portapapeles del navegador solo admite PNG).
-- **Decisión:** `copyStickerToClipboard()` dibuja siempre el sticker en un lienzo de 512×512 recortado con esquinas redondeadas (radio 48 px), de modo que todos (incluidos los opacos como el 8 y los animados opacos) llegan como sticker. Textos del modal y del aviso actualizados (los animados se pegan quietos).
-- **Consecuencias:** enviar un sticker **animado** como sticker no es posible desde una web: requiere una app con el ContentProvider oficial de WhatsApp (`ENABLE_STICKER_PACK`) o apps de terceros (Sticker.ly). El botón de WhatsApp (Web Share) se mantiene, pero envía imagen. El Test 41 de `verify_all.py` protege el recorte.
+- **Estado:** Implementado / Aceptado (la vía para stickers animados sigue abierta, ver «Vías de mejora»)
+
+**Contexto.** Tras la v14–v16 (512×512, EXIF de WhatsApp, muxer propio para animados) seguían llegando como imagen todos los animados y algunos estáticos. No existe documentación pública de cómo decide la app de WhatsApp si lo que recibe es sticker o imagen; la única vía oficial para añadir stickers es una app Android con `ContentProvider` + intent `com.whatsapp.intent.action.ENABLE_STICKER_PACK` (o `whatsapp://stickerPack` en iOS), inaccesible desde una web.
+
+**Técnicas usadas.**
+1. **Inspección de la estructura RIFF/WebP** de cada sticker (chunks `VP8X` y sus flags, `ALPH`, `VP8 `, `ANIM`, `ANMF`, `EXIF`) con un script de Python, comparando los que funcionan con los que no. Hallazgo: los estáticos que fallaban (8, y también 3, 17, 22, 38) no tienen canal alfa (`VP8X` flag 0x8, sin `ALPH`), y los que funcionaban (1, 58, 69) sí.
+2. **Página temporal de pruebas** (`prueba_whatsapp/`, publicada en GitHub Pages sin enlace y con `noindex`, borrada al terminar) con una **matriz de variantes del mismo sticker**: con/sin canal alfa, con borde transparente, con esquinas redondeadas, un único píxel semitransparente, MIME `image/webp.wasticker`, con/sin `title`/`text` en `navigator.share`, codificación Pillow frente al muxer propio, versión ligera (<100 KB) y GIF (fondo blanco, opaco y transparente). Cada variante tenía un código (S0…, A0…, C0…) y Eva anotó en su Android qué llegaba como sticker. Es la única forma fiable: WhatsApp no se puede probar desde el ordenador.
+3. **Comprobación automática en el navegador** (Chrome): se interceptó `navigator.clipboard.write` para analizar el PNG que genera la web (tamaño y número de píxeles transparentes) y asegurar que coincide con la variante que funcionó.
+
+**Resultados (Android, Chrome + WhatsApp, 2026-10-30).**
+
+| Vía | Variante | Resultado |
+|---|---|---|
+| Compartir (Web Share API) | cualquier WebP: original, con alfa, con borde, MIME wasticker, con texto, ligero, otra codificación; incluso el 58 | **imagen** |
+| Compartir | GIF del 47 (fondo blanco o transparente) / GIF del 50 (opaco) | **GIF** / imagen |
+| Copiar (PNG) | 8 opaco tal cual / con 1 píxel semitransparente | **imagen** |
+| Copiar (PNG) | 8 con esquinas redondeadas (r = 48 px, 2178 px transparentes) / con borde transparente de 24 px | **sticker** |
+| Copiar (PNG) | 58 (ya transparente) | **sticker** |
+| Copiar (PNG) | animado 47 (con transparencia) / animado 50 con esquinas | **sticker quieto** |
+| Copiar (PNG) | animado 50 opaco tal cual | **imagen** |
+
+**Conclusiones.**
+- «Compartir» no sirve para stickers: WhatsApp trata todo lo recibido por `ACTION_SEND` como foto (o GIF). No depende del archivo, así que no se puede arreglar desde la web.
+- «Copiar y pegar» sí: WhatsApp convierte en sticker el PNG pegado **si tiene transparencia visible**. Al pegar, WhatsApp le añade su propio **contorno blanco** (pendiente de confirmar que también ocurre con los stickers que ya eran transparentes, como el 58).
+- El portapapeles del navegador solo admite `image/png` (además de `text/plain`/`text/html` y formatos «web custom» que las apps nativas no leen), así que **un sticker animado nunca se puede copiar animado**: se pega el primer fotograma.
+
+**Decisión.**
+- `copyStickerToClipboard()` dibuja el sticker en 512×512; si tiene menos de `CLIPBOARD_MIN_TRANSPARENT` (2178) píxeles transparentes, lo vuelve a dibujar recortado con esquinas redondeadas de `CLIPBOARD_CORNER_RADIUS` (48 px). Los que ya tienen transparencia no se tocan.
+- «Copiar Sticker» pasa a ser la opción recomendada. El botón de WhatsApp (Web Share) se mantiene, pero sus textos dicen la verdad: llega como foto y para sticker hay que usar «Copiar Sticker». Banner del álbum actualizado.
+- Test 41 de `verify_all.py`: recorte condicional con esquinas, ningún texto promete «Añadir a favoritos» y no queda `HANDOFF_WHATSAPP.md`.
+
+**Vías de mejora para los stickers animados** (sin apps ni servicios externos; **no comprobadas**):
+1. **WhatsApp Web / escritorio:** enviar el `.webp` animado de 512×512 desde web.whatsapp.com o la app de escritorio arrastrándolo a un chat. Si WhatsApp Web lo envía como sticker animado, en el móvil basta con pulsarlo → «Añadir a favoritos». La web podría tener un botón «Descargar para WhatsApp Web» con instrucciones. Requiere ordenador.
+2. **Descargar y compartir desde Archivos/Galería** del móvil: probablemente igual que Web Share (misma vía `ACTION_SEND` ⇒ imagen), pero no se ha probado.
+3. **Reenviar un sticker animado ya recibido:** una vez alguien lo tiene como sticker (p. ej. vía 1), se puede reenviar o añadir a favoritos desde el propio WhatsApp.
+4. Descartadas: portapapeles (solo PNG), Web Share (siempre imagen/GIF), GIF (llega como GIF). Fuera de alcance por requerir apps: app Android propia con el `ContentProvider` oficial, Sticker.ly/Sticker Maker y paquetes `.wastickers`.
+
+**Pendiente de comprobar** (ronda 3 de pruebas): radio mínimo de esquina que basta (4/8/16/24 px), si el contorno blanco aparece también en stickers ya transparentes, y las vías 1 y 2.
 
 ---
 

@@ -838,11 +838,11 @@
             <div class="clay-card bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border-3 border-emerald-400 p-5 sm:p-7 text-center max-w-4xl mx-auto shadow-md reveal-item">
                 <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-emerald-900 font-display font-bold text-xl sm:text-3xl leading-snug">
                     <i class="fa-brands fa-whatsapp text-3xl sm:text-4xl text-[#25D366] animate-bounce"></i>
-                    <span>¡Haz clic en cualquier sticker para descargarlo y usarlo en WhatsApp fácilmente!</span>
+                    <span>¡Haz clic en cualquier sticker para copiarlo y pegarlo en WhatsApp como sticker!</span>
                     <i class="fa-solid fa-cloud-arrow-down text-emerald-600 text-2xl sm:text-3xl"></i>
                 </div>
                 <p class="text-xs sm:text-base text-emerald-950/85 font-semibold mt-2.5 max-w-2xl mx-auto leading-relaxed">
-                    Toca cualquiera de los 82 cromos auténticos para abrir el menú mágico: descárgalo directo en tu móvil (<strong class="text-emerald-800">iPhone / Android</strong>) o envíatelo para añadirlo a tus favoritos ⭐
+                    Toca cualquiera de los 82 cromos auténticos para abrir el menú mágico: pulsa «Copiar Sticker» y pégalo en tu chat de WhatsApp (<strong class="text-emerald-800">iPhone / Android</strong>), o descárgalo directo en tu móvil ⭐
                 </p>
             </div>
 
@@ -1182,7 +1182,7 @@
                     </div>
 
                     <div class="flex items-center gap-1.5 sm:gap-2">
-                        <button type="button" id="modal-whatsapp-btn" onclick="shareCurrentModalStickerToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp para añadir a favoritos">
+                        <button type="button" id="modal-whatsapp-btn" onclick="shareCurrentModalStickerToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp como foto (para sticker usa Copiar Sticker)">
                             <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
                         </button>
                         <a id="modal-download-btn" href="#" download="nailong_sticker.webp" onclick="handleModalDownload(event)" class="clay-btn bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 active:scale-95">
@@ -1240,7 +1240,7 @@
                     <button onclick="triggerLightboxDuang(event)" class="clay-btn clay-btn-yellow font-display font-bold px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 transition-transform hover:scale-105 active:scale-95 shadow-sm">
                         <span>🍮 ¡Hacer Duang!</span>
                     </button>
-                    <button type="button" id="lb-whatsapp-btn" onclick="shareCurrentLightboxToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp para añadir a favoritos">
+                    <button type="button" id="lb-whatsapp-btn" onclick="shareCurrentLightboxToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp como foto (para sticker usa Copiar Sticker)">
                         <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
                     </button>
                     <a id="lb-download-btn" href="#" download="nailong_foto.webp" onclick="handleLightboxDownload(event)" class="clay-btn bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95">
@@ -1294,11 +1294,10 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="font-display font-bold text-base sm:text-lg text-amber-950 flex items-center gap-2">
-                                <span>Usar en WhatsApp</span>
-                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold">⭐ Recomendado</span>
+                                <span>Enviar por WhatsApp</span>
                             </div>
                             <p class="text-xs sm:text-sm text-amber-900/90 leading-tight mt-0.5">
-                                Envíatelo o mándalo a un chat, pulsa sobre él y selecciona <strong class="text-emerald-700">«Añadir a favoritos ⭐»</strong>.
+                                Lo manda a un chat como <strong class="text-emerald-700">foto</strong>. Para que llegue como sticker, usa «Copiar Sticker».
                             </p>
                         </div>
                     </button>
@@ -1324,8 +1323,9 @@
                             <i class="fa-regular fa-copy"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="font-display font-bold text-base sm:text-lg text-amber-950">
-                                Copiar Sticker
+                            <div class="font-display font-bold text-base sm:text-lg text-amber-950 flex items-center gap-2">
+                                <span>Copiar Sticker</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold">⭐ Recomendado</span>
                             </div>
                             <p class="text-xs sm:text-sm text-amber-900/90 leading-tight mt-0.5">
                                 Pégalo en un chat de WhatsApp o Telegram y llegará como sticker (los animados, quietos).
@@ -2532,7 +2532,7 @@
                 const file = new File([blob], filename, { type: blob.type || 'image/webp' });
 
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    showDuangToast('📲 Selecciona WhatsApp y luego pulsa "Añadir a favoritos ⭐"');
+                    showDuangToast('📲 Elige WhatsApp: llegará como foto. Para enviarlo como sticker usa «Copiar Sticker».');
                     await navigator.share({
                         files: [file],
                         title: title || 'Sticker Nailong'
@@ -2560,6 +2560,17 @@
             }
         }
 
+        // Esquinas de radio 48 px = 2178 píxeles transparentes: cantidad comprobada en WhatsApp.
+        const CLIPBOARD_CORNER_RADIUS = 48;
+        const CLIPBOARD_MIN_TRANSPARENT = 2178;
+
+        function countTransparentPixels(ctx) {
+            const data = ctx.getImageData(0, 0, 512, 512).data;
+            let n = 0;
+            for (let i = 3; i < data.length; i += 4) if (data[i] < 255) n++;
+            return n;
+        }
+
         async function copyStickerToClipboard(url) {
             playSound('pop');
             showDuangToast('⏳ Preparando sticker para copiar...');
@@ -2578,18 +2589,25 @@
                 URL.revokeObjectURL(blobUrl);
 
                 // WhatsApp solo pega como sticker un PNG con transparencia visible: los opacos
-                // (y un solo píxel transparente) llegan como foto. Se recortan las esquinas
-                // redondeadas sobre un lienzo de 512x512, que funciona con todos (probado en Android).
+                // (y un solo píxel transparente) llegan como foto (probado en Android, ver ADR-08).
+                // Si el sticker apenas tiene transparencia, se recortan esquinas redondeadas.
                 const canvas = document.createElement('canvas');
                 canvas.width = canvas.height = 512;
                 const ctx = canvas.getContext('2d');
-                ctx.beginPath();
-                if (ctx.roundRect) ctx.roundRect(0, 0, 512, 512, 48);
-                else ctx.rect(0, 0, 512, 512);
-                ctx.clip();
                 const scale = Math.min(512 / (img.naturalWidth || 512), 512 / (img.naturalHeight || 512));
                 const w = (img.naturalWidth || 512) * scale, h = (img.naturalHeight || 512) * scale;
-                ctx.drawImage(img, (512 - w) / 2, (512 - h) / 2, w, h);
+                const draw = () => ctx.drawImage(img, (512 - w) / 2, (512 - h) / 2, w, h);
+                draw();
+                if (countTransparentPixels(ctx) < CLIPBOARD_MIN_TRANSPARENT) {
+                    ctx.clearRect(0, 0, 512, 512);
+                    ctx.save();
+                    ctx.beginPath();
+                    if (ctx.roundRect) ctx.roundRect(0, 0, 512, 512, CLIPBOARD_CORNER_RADIUS);
+                    else ctx.rect(0, 0, 512, 512);
+                    ctx.clip();
+                    draw();
+                    ctx.restore();
+                }
 
                 canvas.toBlob(async (pngBlob) => {
                     if (!pngBlob) {

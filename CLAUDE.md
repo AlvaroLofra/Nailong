@@ -252,9 +252,11 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Suite de Pruebas:** 40 comprobaciones.
 
 ### 📌 Versión 17.0.0 (v17) - Copiar Sticker Funciona en WhatsApp (Cierre del Problema de Exportación)
-- **Diagnóstico (probado en Android):** «Compartir» (Web Share API) siempre llega a WhatsApp como imagen (o GIF), sea cual sea el archivo; no tiene arreglo desde la web. «Copiar» (PNG en el portapapeles) llega como sticker solo si el PNG tiene transparencia visible; un PNG opaco (o con un solo píxel semitransparente) llega como foto.
-- **Arreglo:** `copyStickerToClipboard()` dibuja en 512×512 con esquinas redondeadas transparentes (radio 48 px) ⇒ todos los cromos se pegan como sticker. Los animados se pegan quietos (el portapapeles del navegador solo admite PNG); un sticker animado solo puede añadirse desde una app nativa (ContentProvider de WhatsApp) o Sticker.ly. Ver ADR-08.
-- **Suite de Pruebas:** 41 comprobaciones (Test 41: recorte con esquinas en el portapapeles; Test 40: versión v17 en el pie).
+- **Diagnóstico (probado en Android con una página temporal de variantes):** «Compartir» (Web Share API) siempre llega a WhatsApp como imagen (o GIF), sea cual sea el archivo; no tiene arreglo desde la web. «Copiar» (PNG en el portapapeles) llega como sticker solo si el PNG tiene transparencia visible; un PNG opaco (o con un solo píxel semitransparente) llega como foto. WhatsApp añade un contorno blanco al pegar.
+- **Arreglo:** `copyStickerToClipboard()` dibuja en 512×512 y, si el sticker tiene menos de `CLIPBOARD_MIN_TRANSPARENT` (2178) píxeles transparentes, recorta esquinas redondeadas de `CLIPBOARD_CORNER_RADIUS` (48 px) ⇒ todos los cromos se pegan como sticker. Los animados se pegan quietos (el portapapeles del navegador solo admite PNG).
+- **Textos:** «Copiar Sticker» es la opción recomendada; el botón de WhatsApp avisa de que llega como foto (ya no promete «Añadir a favoritos»); banner del álbum actualizado.
+- **Animados:** sin solución desde la web en el móvil. Vías por comprobar (WhatsApp Web arrastrando el `.webp`, compartir desde Archivos) en ADR-08 de `DOCUMENTACION.md`.
+- **Suite de Pruebas:** 41 comprobaciones (Test 41: recorte condicional en el portapapeles y textos sin promesas falsas; Test 40: versión v17 en el pie).
 
 ---
 
