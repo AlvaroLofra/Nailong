@@ -293,6 +293,12 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Estado:** Implementado / Aceptado
 - **Decisión:** Importar la segunda tanda con `normalizar_stickers.py --import` tras comparar con la colección existente: se descartaron 2 duplicados exactos (equivalentes a 71 y 72) y se añadieron 10 (73–82), manteniendo numeración continua y los tests de formato WhatsApp (Test 39). El sticker 75 se recortó para eliminar el subtítulo incrustado.
 
+### 📌 ADR-08: Estado de la Exportación a WhatsApp (abierto)
+- **Fecha:** 2026-10-30
+- **Estado:** Abierto / En investigación
+- **Hecho:** estáticos y animados en 512×512 con EXIF de WhatsApp; animados re-ensamblados con muxer propio (fotogramas completos, ALPH + VP8 perfil 0). **Resultado en móvil:** los animados siguen sin reconocerse como sticker; los estáticos con transparencia sí; estáticos opacos como el 8 no.
+- **Conclusión de la investigación:** no hay documentación pública sobre cómo decide WhatsApp si un `.webp` compartido (Web Share API) es sticker o imagen; la vía oficial es una app Android con ContentProvider + intent `ENABLE_STICKER_PACK`. Ver `HANDOFF_WHATSAPP.md`.
+
 ---
 
 ## 7. Instrucciones de Verificación y Testing
@@ -300,7 +306,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (39 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (40 tests)
 python verify_all.py
 ```
 

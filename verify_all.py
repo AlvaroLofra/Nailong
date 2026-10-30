@@ -325,4 +325,10 @@ for _id, _file, _fr in re.findall(r"id:\s*(\d+),\s*file:\s*'(sticker_\d+\.webp)'
     assert _n == int(_fr), f"frames de {_file} en ALL_STICKERS ({_fr}) no coincide con el archivo ({_n}): actualizalo en index.html"
 print("✔ v14 verified: all 82 stickers are 512x512 WebP with WhatsApp EXIF and within size limits (sent as real stickers).")
 
-print("\n=== ALL 39 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
+assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
+assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
+assert re.search(r'id="app-version"[^>]*>v16<', html), "Footer must show the current version number (v16)!"
+print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
+
+print("\n=== ALL 40 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

@@ -1116,6 +1116,7 @@
                     <span>🎉 ¡Lluvia de Pollo y Confeti!</span>
                 </button>
             </div>
+            <p id="app-version" class="pt-2 text-[10px] font-semibold text-amber-900/50">v16</p>
         </div>
     </footer>
 
@@ -2185,7 +2186,7 @@
         // Paginación progresiva: displayedStickers guarda la lista completa filtrada (el lightbox navega por ella);
         // solo se pintan las primeras galleryVisibleCount tarjetas para no decodificar 82 WebP a la vez.
         const GALLERY_PAGE_SIZE = 12;
-        const GALLERY_STEP = window.matchMedia('(min-width: 640px)').matches ? 24 : 12;
+        const GALLERY_STEP = 24;
         let galleryVisibleCount = GALLERY_PAGE_SIZE;
 
         function renderPolaroidGallery(filter = 'all') {
@@ -2222,7 +2223,7 @@
                             ${isAnim ? `
                                 <span class="absolute top-2 left-2 bg-amber-950/80 text-nailong-yellow text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow">
                                     <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                                    <span>ANIMADO<span class="hidden sm:inline"> (${item.frames}f)</span></span>
+                                    <span>ANIMADO</span>
                                 </span>
                             ` : ''}
                             ${item.customUrl ? `
@@ -2299,7 +2300,7 @@
             if (pContainer) pContainer.innerHTML = '';
             const imgSrc = item.customUrl ? item.customUrl : `Stickers Nailong/${item.file}`;
 
-            document.getElementById('lb-badge').textContent = item.customUrl ? 'CROMO PERSONAL' : `CROMO #${item.id} • ${item.frames > 2 ? `ANIMADO (${item.frames} FRAMES)` : 'FOTO CLÁSICA'}`;
+            document.getElementById('lb-badge').textContent = item.customUrl ? 'CROMO PERSONAL' : `CROMO #${item.id} • ${item.frames > 2 ? 'ANIMADO' : 'FOTO CLÁSICA'}`;
             document.getElementById('lb-title').textContent = item.title;
             document.getElementById('lb-img').src = imgSrc;
             document.getElementById('lb-caption').textContent = item.desc;

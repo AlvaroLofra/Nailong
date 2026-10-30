@@ -26,7 +26,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
 ├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (39 verificaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (40 verificaciones)
 └── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
 ```
 
@@ -108,12 +108,18 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Retoques visuales y mayor nitidez en varios stickers.
 
 ### v14.0.0 - Stickers Compatibles con WhatsApp
-- ¡Stickers reales para WhatsApp! Los stickers animados ahora se envían con movimiento perfecto sin fallos.
+- Primeros pasos para enviar los stickers a WhatsApp con su formato oficial (512×512).
 - Limpieza de cromos repetidos y ampliación del catálogo oficial.
 
-### v15.0.0 (Actual) - Segunda Tanda de Stickers
+### v15.0.0 - Segunda Tanda de Stickers
 - ¡10 nuevos stickers animados añadidos a la colección!
 - El álbum alcanza ya los 82 cromos oficiales listos para coleccionar y enviar a WhatsApp.
+
+### v16.0.0 (Actual) - Álbum más ágil y mejoras para WhatsApp
+- El botón «Ver más cromos» ahora carga 24 cromos de golpe también en el móvil.
+- Tarjetas y visor más limpios: se quita el número de fotogramas de los stickers animados.
+- Nueva marca de versión discreta al final de la página.
+- Stickers animados reconstruidos con una estructura más compatible con WhatsApp y nueva herramienta interna para importar stickers de TikTok.
 
 ---
 

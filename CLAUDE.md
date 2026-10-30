@@ -112,7 +112,7 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
    - Modal con control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento (swipe horizontal) y pegatinas arrastrables.
 
 6. **Gran Álbum Polaroid de Cromos:**
-   - 82 cromos reales categorizados con visor ampliado (Lightbox), paginados de 12 en 12 con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
+   - 82 cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
    - Sección especial del creador de la web con Nailong (`#creador`).
    - Subida de fotos del usuario con compresión en canvas y guardado persistente en `localStorage`.
 
@@ -243,6 +243,13 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Duplicados descartados:** de los 12 archivos recibidos, 2 eran idénticos a stickers ya existentes (71 y 72) y no se añadieron. Los avisos de duplicado de la herramienta deben revisarse siempre antes de añadir.
 - **Textos incrustados:** el 77 (rótulo chino en el borde) y el 82 (subtítulo «呜呜呜») conservan el texto original del vídeo; no se recortó para no dañar la imagen. El 75 se recortó (203×203 desde la esquina inferior derecha) para quitar el subtítulo «Nyah nyah!» y que el dino quede más grande.
 - La carpeta temporal de importación se elimina tras convertir; todos los stickers viven en `Stickers Nailong/`.
+
+### 📌 Versión 16.0.0 (v16) - Paginación 24 en Todos los Dispositivos, Limpieza de Texto y Versión Visible
+- **Paginación:** `GALLERY_STEP = 24` fijo (antes 24 en escritorio y 12 en móvil); la carga inicial sigue en `GALLERY_PAGE_SIZE = 12`.
+- **UI:** eliminado el número de fotogramas en la insignia «ANIMADO» de las tarjetas y del Lightbox (el campo `frames` se conserva en los datos para los filtros y para el Test 39).
+- **Versión visible:** `<p id="app-version">v16</p>` en el pie de página (texto pequeño, solo el número). Actualizarlo en cada versión nueva; el Test 40 lo comprueba.
+- **Estado de la exportación a WhatsApp (SIN RESOLVER):** tras la v14/v15 los estáticos con transparencia (p. ej. 58, 69) se reciben como sticker, pero los animados (nuevos y antiguos) y algunos estáticos opacos (8) llegan como imagen. Investigación y pruebas pendientes en `HANDOFF_WHATSAPP.md` (no versionado) y en la memoria del proyecto.
+- **Suite de Pruebas:** 40 comprobaciones.
 
 ---
 
