@@ -15,6 +15,7 @@ Uso (desde la carpeta del proyecto):
 Tras --import imprime las lineas esqueleto para ALL_STICKERS de index.html
 (falta rellenar title / cat / sound / desc) y avisa de posibles duplicados.
 """
+import io
 import json
 import os
 import re
@@ -30,6 +31,7 @@ MAX_STATIC_KB = 100
 MAX_ANIM_KB = 500
 MIN_FRAME_MS = 20          # WhatsApp exige >= 8 ms; 20 da margen
 MAX_TOTAL_MS = 10000       # WhatsApp: animacion <= 10 s
+LEGACY_MAX = 42            # stickers 1-42: originales que ya funcionan, no se re-codifican
 PACK = {
     'sticker-pack-id': 'bc5ea55c-2fd4-43b7-856d-e2898d3563b9',
     'sticker-pack-name': 'Muñeco amarillo',
@@ -56,8 +58,9 @@ def webp_chunks(path):
     return out
 
 
-def problems(path):
-    """Lista de motivos por los que WhatsApp no tomaria el archivo como sticker."""
+def problems(path, strict=True):
+    """Lista de motivos por los que WhatsApp no tomaria el archivo como sticker.
+    strict=False omite la estructura de fotogramas (stickers 1-42 originales, que ya funcionan)."""
     out = []
     im = Image.open(path)
     n = getattr(im, 'n_frames', 1)
@@ -68,6 +71,32 @@ def problems(path):
         out.append('sin EXIF de WhatsApp')
     if kb > (MAX_ANIM_KB if n > 1 else MAX_STATIC_KB):
         out.append(f'pesa {kb:.0f} KB (limite {MAX_ANIM_KB if n > 1 else MAX_STATIC_KB})')
+    if strict and n > 1:
+        out += structure_problems(path)
+    return out
+
+
+def structure_problems(path):
+    """Estructura que WhatsApp acepta en animados: fotogramas a lienzo completo, sin offsets, con ALPH."""
+    b = open(path, 'rb').read()
+    i, bad_part, no_alpha, frames = 12, 0, 0, 0
+    while i < len(b):
+        tag, size = b[i:i + 4], struct.unpack('<I', b[i + 4:i + 8])[0]
+        if tag == b'ANMF':
+            d = b[i + 8:i + 8 + size]
+            frames += 1
+            x = int.from_bytes(d[0:3], 'little'); y = int.from_bytes(d[3:6], 'little')
+            w = int.from_bytes(d[6:9], 'little') + 1; h = int.from_bytes(d[9:12], 'little') + 1
+            if x or y or (w, h) != (SIZE, SIZE):
+                bad_part += 1
+            if b'ALPH' not in d[16:]:
+                no_alpha += 1
+        i += 8 + size + (size & 1)
+    out = []
+    if bad_part:
+        out.append(f'{bad_part} fotogramas parciales/con offset (deben ser lienzo completo)')
+    if no_alpha:
+        out.append(f'{no_alpha} fotogramas sin chunk ALPH')
     return out
 
 
@@ -91,6 +120,45 @@ def to_square(frame):
     return canvas
 
 
+def _chunk(tag, payload):
+    return tag + struct.pack('<I', len(payload)) + payload + (b'\x00' if len(payload) & 1 else b'')
+
+
+def _frame_chunks(frame, quality):
+    """Codifica un fotograma como WebP estatico (ALPH + VP8) y devuelve esos dos chunks.
+    Fuerza un pixel con alfa 254 para que SIEMPRE exista el chunk ALPH, como en los
+    stickers que WhatsApp acepta (todos los fotogramas con ALPH + VP8)."""
+    f = frame.copy()
+    r, g, b, a = f.getpixel((SIZE - 1, SIZE - 1))
+    if a == 255:
+        f.putpixel((SIZE - 1, SIZE - 1), (r, g, b, 254))
+    buf = io.BytesIO()
+    f.save(buf, format='WEBP', quality=quality, method=4)
+    data, i, keep = buf.getvalue(), 12, []
+    while i < len(data):
+        tag, size = data[i:i + 4], struct.unpack('<I', data[i + 4:i + 8])[0]
+        if tag in (b'ALPH', b'VP8 '):
+            keep.append(_chunk(tag, data[i + 8:i + 8 + size]))
+        i += 8 + size + (size & 1)
+    return b''.join(keep)
+
+
+def build_animated(frames, durs, quality, exif):
+    """WebP animado 'estilo sticker': TODOS los fotogramas a lienzo completo (sin sub-rectangulos,
+    sin offsets, sin mezcla entre fotogramas), cada uno con ALPH + VP8. Es la estructura de los
+    stickers animados que WhatsApp reconoce; el codificador de Pillow produce fotogramas parciales
+    y VP8 sin ALPH que WhatsApp rechaza como sticker."""
+    w = h = SIZE
+    vp8x = _chunk(b'VP8X', bytes([0x1A, 0, 0, 0]) + (w - 1).to_bytes(3, 'little') + (h - 1).to_bytes(3, 'little'))
+    anim = _chunk(b'ANIM', b'\x00\x00\x00\x00' + struct.pack('<H', 0))
+    body = vp8x + anim
+    for fr, d in zip(frames, durs):
+        hdr = (0).to_bytes(3, 'little') * 2 + (w - 1).to_bytes(3, 'little') + (h - 1).to_bytes(3, 'little')             + d.to_bytes(3, 'little') + bytes([3])   # 3 = liberar a fondo + sin mezcla
+        body += _chunk(b'ANMF', hdr + _frame_chunks(fr, quality))
+    body += _chunk(b'EXIF', exif)
+    return b'RIFF' + struct.pack('<I', 4 + len(body)) + b'WEBP' + body
+
+
 def convert(src, dst):
     """Convierte src a un WebP valido para WhatsApp en dst. Devuelve (frames, KB)."""
     frames, durs = load_frames(src)
@@ -107,11 +175,10 @@ def convert(src, dst):
         du = [sum(durs[i:i + step]) for i in range(0, len(sq), step)]
         for q in (80, 70, 60, 50, 40, 30):
             tmp = dst + '.tmp'
-            kw = dict(format='WEBP', quality=q, method=4, exif=exif)
             if len(fr) > 1:
-                fr[0].save(tmp, save_all=True, append_images=fr[1:], duration=du, loop=0, **kw)
+                open(tmp, 'wb').write(build_animated(fr, du, q, exif))
             else:
-                fr[0].save(tmp, **kw)
+                fr[0].save(tmp, format='WEBP', quality=q, method=4, exif=exif)
             if os.path.getsize(tmp) <= limit:
                 os.replace(tmp, dst)
                 return len(fr), os.path.getsize(dst) / 1024
@@ -178,7 +245,7 @@ def main():
     bad = 0
     for i in ids:
         p = f'{DIR}/sticker_{i}.webp'
-        pr = problems(p)
+        pr = problems(p, strict=i > LEGACY_MAX)
         if not pr:
             continue
         bad += 1

@@ -285,6 +285,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Estado:** Implementado / Aceptado
 - **Problema:** Los stickers 43–74 llegaban a WhatsApp como imagen (y los animados se perdían): eran WebP 240×240 / tamaños arbitrarios sin EXIF de WhatsApp. Los 1–42 funcionaban por ser 512×512 con EXIF `sticker-pack-id`.
 - **Decisión:** Convertir todo a 512×512 (lienzo transparente, sin deformar), inyectar el EXIF original, limitar peso (≤100 KB estático / ≤500 KB animado) y mantener ≤10 s mediante `normalizar_stickers.py`; el Test 39 de `verify_all.py` impide regresiones. Eliminados los duplicados 48 y 53.
+- **Ampliación:** los animados además exigen estructura de fotogramas completos con `ALPH` + VP8 perfil 0 (los generados por Pillow no la cumplían); `normalizar_stickers.py` usa un muxer propio (`build_animated`) y el Test 39 la comprueba.
 - **Consecuencias:** Los próximos stickers de TikTok se incorporan con `python normalizar_stickers.py --import CARPETA`. Copiar al portapapeles sigue produciendo PNG estático (limitación del navegador).
 
 ### 📌 ADR-07: Segunda Tanda de Stickers (73–82)
