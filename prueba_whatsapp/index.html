@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Prueba stickers WhatsApp</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; background: #fffbea; color: #222; }
+  h1 { font-size: 1.3rem; margin: 0 0 4px; }
+  p.intro { margin: 0 0 16px; font-size: .95rem; }
+  .card { background: #fff; border-radius: 14px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 6px #0001; display: flex; gap: 12px; align-items: flex-start; }
+  .card img { width: 96px; height: 96px; background: repeating-conic-gradient(#ddd 0 25%, #fff 0 50%) 0 0/16px 16px; border-radius: 8px; flex-shrink: 0; }
+  .code { font-weight: 800; font-size: 1.2rem; }
+  .desc { font-size: .85rem; margin: 2px 0 8px; color: #555; }
+  button { font-size: .95rem; padding: 8px 10px; margin: 0 6px 6px 0; border-radius: 10px; border: 0; background: #25D366; color: #fff; font-weight: 700; }
+  button.alt { background: #3b82f6; }
+  button.dl { background: #777; }
+  #log { font-size: .8rem; color: #a00; }
+</style>
+</head>
+<body>
+<h1>Prueba: ¿sticker o imagen?</h1>
+<p class="intro">Para cada fila pulsa el botón verde, envíalo a un chat (por ejemplo a ti misma) y apunta el código y si llegó como <b>sticker</b>, <b>imagen</b> o <b>no se pudo</b>. Los azules prueban otras formas de compartir el mismo archivo. Con «Descargar» puedes probar también a compartirlo luego desde Archivos/Galería.</p>
+<p id="log"></p>
+<div id="list"></div>
+<script>
+const V = [
+  ['S0', 's0_8_original.webp', 'Estático 8 tal cual (sin canal alfa). Esperado: imagen.'],
+  ['S1', 's1_8_con_alfa.webp', 'Estático 8 con canal alfa (se ve igual).'],
+  ['S2', 's2_8_con_margen.webp', 'Estático 8 con borde transparente.'],
+  ['S3', 's3_58_control.webp', 'Estático 58 (control). Esperado: sticker.'],
+  ['A0', 'a0_47_original.webp', 'Animado 47 tal cual (con transparencia).', true],
+  ['A2', 'a2_50_original.webp', 'Animado 50 tal cual (opaco).'],
+  ['A3', 'a3_50_con_margen.webp', 'Animado 50 con borde transparente.'],
+  ['A4', 'a4_47_ligero.webp', 'Animado 47 ligero (menos de 100 KB).', true],
+  ['A5', 'a5_47_pillow.webp', 'Animado 47 codificado de otra forma.'],
+  ['A6', 'a6_47.gif', 'Animado 47 como GIF (plan B: llegará como GIF, no sticker).'],
+];
+const log = m => document.getElementById('log').textContent = m;
+
+async function share(name, code, mode) {
+  try {
+    const blob = await (await fetch(name + '?v=' + Date.now())).blob();
+    const isGif = name.endsWith('.gif');
+    let type = isGif ? 'image/gif' : 'image/webp', fname = name;
+    if (mode === 'wasticker') type = 'image/webp.wasticker';
+    const file = new File([blob], fname, { type });
+    const data = { files: [file] };
+    if (mode === 'title') { data.title = 'Nailong'; data.text = 'Nailong'; }
+    if (!navigator.canShare || !navigator.canShare(data)) { log(code + ' (' + (mode || 'normal') + '): el navegador no deja compartir este archivo'); return; }
+    await navigator.share(data);
+    log('');
+  } catch (e) { log(code + ': ' + e.name + ' ' + e.message); }
+}
+
+const list = document.getElementById('list');
+for (const [code, name, desc, extra] of V) {
+  const d = document.createElement('div');
+  d.className = 'card';
+  d.innerHTML = `<img src="${name}" alt=""><div><div class="code">${code}</div><div class="desc">${desc}</div>
+    <button data-m="">Compartir ${code}</button>
+    ${extra ? `<button class="alt" data-m="wasticker">${code}-W (tipo wasticker)</button><button class="alt" data-m="title">${code}-T (con texto)</button>` : ''}
+    <a href="${name}" download><button class="dl" type="button">Descargar</button></a></div>`;
+  d.querySelectorAll('button[data-m]').forEach(b => b.onclick = () => share(name, code + (b.dataset.m === 'wasticker' ? '-W' : b.dataset.m === 'title' ? '-T' : ''), b.dataset.m));
+  list.appendChild(d);
+}
+</script>
+</body>
+</html>
