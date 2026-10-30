@@ -1116,7 +1116,7 @@
                     <span>🎉 ¡Lluvia de Pollo y Confeti!</span>
                 </button>
             </div>
-            <p id="app-version" class="pt-2 text-[10px] font-semibold text-amber-900/50">v16</p>
+            <p id="app-version" class="pt-2 text-[10px] font-semibold text-amber-900/50">v17</p>
         </div>
     </footer>
 
@@ -1328,7 +1328,7 @@
                                 Copiar Sticker
                             </div>
                             <p class="text-xs sm:text-sm text-amber-900/90 leading-tight mt-0.5">
-                                Copia al portapapeles para pegar directo como sticker en WhatsApp o Telegram.
+                                Pégalo en un chat de WhatsApp o Telegram y llegará como sticker (los animados, quietos).
                             </p>
                         </div>
                     </button>
@@ -2577,11 +2577,19 @@
                 });
                 URL.revokeObjectURL(blobUrl);
 
+                // WhatsApp solo pega como sticker un PNG con transparencia visible: los opacos
+                // (y un solo píxel transparente) llegan como foto. Se recortan las esquinas
+                // redondeadas sobre un lienzo de 512x512, que funciona con todos (probado en Android).
                 const canvas = document.createElement('canvas');
-                canvas.width = img.naturalWidth || 512;
-                canvas.height = img.naturalHeight || 512;
+                canvas.width = canvas.height = 512;
                 const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
+                ctx.beginPath();
+                if (ctx.roundRect) ctx.roundRect(0, 0, 512, 512, 48);
+                else ctx.rect(0, 0, 512, 512);
+                ctx.clip();
+                const scale = Math.min(512 / (img.naturalWidth || 512), 512 / (img.naturalHeight || 512));
+                const w = (img.naturalWidth || 512) * scale, h = (img.naturalHeight || 512) * scale;
+                ctx.drawImage(img, (512 - w) / 2, (512 - h) / 2, w, h);
 
                 canvas.toBlob(async (pngBlob) => {
                     if (!pngBlob) {
@@ -2594,7 +2602,7 @@
                                 new ClipboardItem({ 'image/png': pngBlob })
                             ]);
                             playSound('fanfare');
-                            showDuangToast('✨ ¡Copiado al portapapeles! Pégalo en WhatsApp.');
+                            showDuangToast('✨ ¡Copiado! Mantén pulsado en el chat de WhatsApp y pulsa «Pegar»: llegará como sticker (los animados, quietos).');
                         } else {
                             showDuangToast('💡 En tu móvil, mantén pulsada la imagen para copiarla.');
                         }

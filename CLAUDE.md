@@ -251,6 +251,11 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Estado de la exportación a WhatsApp (SIN RESOLVER):** tras la v14/v15 los estáticos con transparencia (p. ej. 58, 69) se reciben como sticker, pero los animados (nuevos y antiguos) y algunos estáticos opacos (8) llegan como imagen. Investigación y pruebas pendientes en `HANDOFF_WHATSAPP.md` (no versionado) y en la memoria del proyecto.
 - **Suite de Pruebas:** 40 comprobaciones.
 
+### 📌 Versión 17.0.0 (v17) - Copiar Sticker Funciona en WhatsApp (Cierre del Problema de Exportación)
+- **Diagnóstico (probado en Android):** «Compartir» (Web Share API) siempre llega a WhatsApp como imagen (o GIF), sea cual sea el archivo; no tiene arreglo desde la web. «Copiar» (PNG en el portapapeles) llega como sticker solo si el PNG tiene transparencia visible; un PNG opaco (o con un solo píxel semitransparente) llega como foto.
+- **Arreglo:** `copyStickerToClipboard()` dibuja en 512×512 con esquinas redondeadas transparentes (radio 48 px) ⇒ todos los cromos se pegan como sticker. Los animados se pegan quietos (el portapapeles del navegador solo admite PNG); un sticker animado solo puede añadirse desde una app nativa (ContentProvider de WhatsApp) o Sticker.ly. Ver ADR-08.
+- **Suite de Pruebas:** 41 comprobaciones (Test 41: recorte con esquinas en el portapapeles; Test 40: versión v17 en el pie).
+
 ---
 
 ## 6. Comandos de Verificación y Testing

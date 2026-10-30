@@ -115,11 +115,15 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - ¡10 nuevos stickers animados añadidos a la colección!
 - El álbum alcanza ya los 82 cromos oficiales listos para coleccionar y enviar a WhatsApp.
 
-### v16.0.0 (Actual) - Álbum más ágil y mejoras para WhatsApp
+### v16.0.0 - Álbum más ágil y mejoras para WhatsApp
 - El botón «Ver más cromos» ahora carga 24 cromos de golpe también en el móvil.
 - Tarjetas y visor más limpios: se quita el número de fotogramas de los stickers animados.
 - Nueva marca de versión discreta al final de la página.
 - Stickers animados reconstruidos con una estructura más compatible con WhatsApp y nueva herramienta interna para importar stickers de TikTok.
+
+### v17.0.0 (Actual) - Copiar Sticker para WhatsApp
+- «Copiar Sticker» funciona ya con todos los cromos: al pegarlo en un chat de WhatsApp llega como sticker (los animados se pegan quietos).
+- Los cromos copiados llevan las esquinas redondeadas.
 
 ---
 

@@ -293,11 +293,14 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - **Estado:** Implementado / Aceptado
 - **Decisión:** Importar la segunda tanda con `normalizar_stickers.py --import` tras comparar con la colección existente: se descartaron 2 duplicados exactos (equivalentes a 71 y 72) y se añadieron 10 (73–82), manteniendo numeración continua y los tests de formato WhatsApp (Test 39). El sticker 75 se recortó para eliminar el subtítulo incrustado.
 
-### 📌 ADR-08: Estado de la Exportación a WhatsApp (abierto)
+### 📌 ADR-08: Exportación a WhatsApp: Copiar al Portapapeles con Esquinas Transparentes (v17)
 - **Fecha:** 2026-10-30
-- **Estado:** Abierto / En investigación
-- **Hecho:** estáticos y animados en 512×512 con EXIF de WhatsApp; animados re-ensamblados con muxer propio (fotogramas completos, ALPH + VP8 perfil 0). **Resultado en móvil:** los animados siguen sin reconocerse como sticker; los estáticos con transparencia sí; estáticos opacos como el 8 no.
-- **Conclusión de la investigación:** no hay documentación pública sobre cómo decide WhatsApp si un `.webp` compartido (Web Share API) es sticker o imagen; la vía oficial es una app Android con ContentProvider + intent `ENABLE_STICKER_PACK`. Ver `HANDOFF_WHATSAPP.md`.
+- **Estado:** Implementado / Aceptado
+- **Pruebas en móvil (Android, Chrome + WhatsApp)** con una página temporal de variantes (ya eliminada):
+  - **Compartir (Web Share API):** cualquier archivo llega como **imagen**, incluso los estáticos que funcionan copiados (58), con alfa, con margen, con MIME `image/webp.wasticker` o con texto. Los GIF llegan como GIF. No es un problema del formato del archivo sino de la vía: WhatsApp no trata como sticker lo que recibe por «Compartir».
+  - **Copiar y pegar (portapapeles, PNG):** llega como **sticker** si el PNG tiene transparencia visible (esquinas redondeadas, borde transparente, fondo transparente) y como **imagen** si es opaco, aunque tenga un único píxel semitransparente. Los animados se pegan como sticker quieto (el portapapeles del navegador solo admite PNG).
+- **Decisión:** `copyStickerToClipboard()` dibuja siempre el sticker en un lienzo de 512×512 recortado con esquinas redondeadas (radio 48 px), de modo que todos (incluidos los opacos como el 8 y los animados opacos) llegan como sticker. Textos del modal y del aviso actualizados (los animados se pegan quietos).
+- **Consecuencias:** enviar un sticker **animado** como sticker no es posible desde una web: requiere una app con el ContentProvider oficial de WhatsApp (`ENABLE_STICKER_PACK`) o apps de terceros (Sticker.ly). El botón de WhatsApp (Web Share) se mantiene, pero envía imagen. El Test 41 de `verify_all.py` protege el recorte.
 
 ---
 

@@ -328,7 +328,13 @@ print("✔ v14 verified: all 82 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v16<', html), "Footer must show the current version number (v16)!"
+assert re.search(r'id="app-version"[^>]*>v17<', html), "Footer must show the current version number (v17)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
-print("\n=== ALL 40 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
+copy_src = html[html.index("async function copyStickerToClipboard"):html.index("async function copyStickerToClipboard") + 3000]
+assert "roundRect(0, 0, 512, 512" in copy_src and "ctx.clip()" in copy_src, "copyStickerToClipboard must clip rounded transparent corners on a 512x512 canvas!"
+assert not os.path.exists('prueba_whatsapp') and not os.path.exists('HANDOFF_WHATSAPP.md'), "Temporary WhatsApp test files must be removed!"
+print("✔ v17 verified: clipboard sticker has transparent rounded corners (pasted as a WhatsApp sticker).")
+
+print("\n=== ALL 41 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
