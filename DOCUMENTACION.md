@@ -14,7 +14,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ```text
 ├── index.html                   # Aplicación completa (HTML5, Tailwind CDN, CSS animaciones, JS modular)
 ├── manifest.json                # Manifiesto PWA para instalación en pantalla de inicio móvil
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (27.5 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (26.6 MB)
 ├── README.md                    # Descripción general y enlaces públicos
 ├── DOCUMENTACION.md             # Documentación exhaustiva de código, arquitectura y funcionamiento
 ├── GEMINI.md                    # Contexto e instrucciones técnicas para modelos Gemini
@@ -343,19 +343,20 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   2. La API del portapapeles (`ClipboardItem`) solo soporta `image/png` estático, perdiendo la animación en los 60 stickers animados de la colección.
   3. La única vía oficial para añadir paquetes completos y stickers animados al teclado de WhatsApp es una aplicación nativa Android que implemente un `ContentProvider` registrado con el permiso `com.whatsapp.sticker.READ` y dispare el Intent `com.whatsapp.intent.action.ENABLE_STICKER_PACK`.
 - **Decisión Adoptada:**
-  1. **Desarrollo de App Android Nativa (`StickersNailong.apk`):** Basada en la arquitectura oficial de WhatsApp Stickers (`com.eva.nailongstickers`), compilada con Temurin JDK 17 y Gradle 8.7, y firmada con esquemas v1 y v2 (27.5 MB).
+  1. **Desarrollo de App Android Nativa (`StickersNailong.apk`):** Basada en la arquitectura oficial de WhatsApp Stickers (`com.eva.nailongstickers`), compilada con Temurin JDK 17 y Gradle 8.7, y firmada con esquemas v1 y v2 (26.6 MB / 26.669.804 bytes).
   2. **3 Packs Oficiales Preconfigurados (82 Stickers):**
      - *Nailong animado 1:* 30 stickers animados (25 originales + 5 ampliados) con icono de bandeja animado (`tray.png`, 96×96).
      - *Nailong animado 2:* 30 stickers animados (30 ampliados) con icono de bandeja temático.
      - *Nailong estático:* 22 stickers estáticos normalizados (≤100 KB, 512×512) con accesibilidad UTF-16 verificada.
   3. **Sistema Innovador «Mi Selección» (`DynamicPackManager.java`):**
-     - Permite al usuario tocar cromos de cualquiera de los 3 packs para crear un lote a medida (mínimo 3, máximo 30 stickers).
-     - **Bifurcación Inteligente:** Detecta si la selección contiene elementos mixtos (WhatsApp rechaza paquetes que mezclan estáticos y animados) y ofrece al usuario separar automáticamente en dos importaciones consecutivas o elegir cuál importar.
+     - Permite al usuario tocar cromos de cualquiera de los 3 packs para crear un lote a medida (mínimo 3, máximo 30 stickers) con `ToggleResult` (`ADDED`, `REMOVED`, `LIMIT_REACHED`).
+     - **Bifurcación Inteligente:** Detecta si la selección contiene elementos mixtos (WhatsApp rechaza paquetes que mezclan estáticos y animados) y ofrece al usuario importar ambos en dos importaciones consecutivas (encadenadas en `onActivityResult`) o elegir cuál importar.
      - Identificadores incrementales únicos (`seleccion_1`, `seleccion_2`...) para evitar que WhatsApp ignore la importación si detecta un ID repetido.
-     - Almacenamiento dinámico en `context.getFilesDir()/selection_packs/<id>/` con metadatos JSON y bandeja generada dinámicamente.
+     - Almacenamiento dinámico en `context.getFilesDir()/selection_packs/<id>/` con metadatos JSON leídos de forma segura con `ByteArrayOutputStream` y bandeja generada dinámicamente según el tipo de pack.
      - Aviso explícito de borrado manual: la app informa al usuario de que los packs creados se gestionan y borran directamente en WhatsApp.
   4. **Ampliación de `StickerContentProvider.java`:**
-     - Coincidencia comodín `stickers_asset/*/*` para servir tanto los archivos empaquetados en assets sin comprimir (`noCompress "webp"`) como los archivos dinámicos generados en almacenamiento interno mediante `ParcelFileDescriptor` envuelto en `AssetFileDescriptor`.
+     - Aislamiento de consultas globales para que la home de la app solo liste los 3 packs oficiales, resolviendo los packs de selección dinámicos bajo demanda por identificador (`metadata/<id>` y `stickers/<id>`).
+     - Coincidencia comodín `stickers_asset/*/*` para servir tanto los archivos empaquetados en assets sin comprimir (`noCompress "webp"`) como los archivos dinámicos generados en almacenamiento interno mediante `ParcelFileDescriptor` envuelto en `AssetFileDescriptor` con su longitud exacta.
   5. **Diseño Claymorphism Temático Nailong:**
      - Paleta cálida (#FFFDF0/#FEF9C3/#FFD93D/#EA580C/#25D366), tarjetas Claymorphism con sombreados interiores/exteriores y relieve suave, navegación clara con botones «Ver stickers ❯» y «Añadir a WhatsApp», e indicadores de checkmark interactivos.
   6. **Distribución Directa en la Web:**

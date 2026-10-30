@@ -75,7 +75,7 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma)
 ├── manifest.json                # Manifiesto para instalación PWA en móviles
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (27.5 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (26.6 MB)
 ├── DOCUMENTACION.md             # Documentación técnica completa de código, ADRs y arquitectura
 ├── GEMINI.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Gemini)
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
@@ -218,7 +218,7 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 ### 📌 Versión 3.0.0 (v3.0.0) - App Android Nativa Oficial, «Mi Selección» y Descarga Directa
 
 - **App Nativa Android Oficial (`StickersNailong.apk`):**
-  - Desarrollo y compilación del paquete de aplicación nativa Android independiente (`C:\src\nailong_stickers_app\StickersNailong.apk`, 27.5 MB), firmado con esquemas v1 y v2.
+  - Desarrollo y compilación del paquete de aplicación nativa Android independiente (`C:\src\nailong_stickers_app\StickersNailong.apk`, 26.6 MB), firmado con esquemas v1 y v2.
   - Implementación sobre la arquitectura oficial de WhatsApp Stickers mediante `StickerContentProvider` con permisos `com.whatsapp.sticker.READ` y disparo del Intent nativo `com.whatsapp.intent.action.ENABLE_STICKER_PACK`.
   - Sin dependencias de servicios externos ni empaquetadores de terceros: funcionamiento 100% autónomo y local.
 

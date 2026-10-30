@@ -23,7 +23,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma para GitHub Pages)
 ├── manifest.json                # Manifiesto PWA para instalación en dispositivos móviles
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (27.5 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (26.6 MB)
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
 ├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
@@ -101,7 +101,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ### 📌 Versión 3.0.0 (Actual) — App Android Nativa Oficial, «Mi Selección» y Descarga Directa
 
-- **App Nativa Android (`StickersNailong.apk`, 27.5 MB):**
+- **App Nativa Android (`StickersNailong.apk`, 26.6 MB):**
   - Aplicación Android nativa autónoma compilada y firmada con esquemas v1 y v2.
   - Integración oficial con WhatsApp mediante `StickerContentProvider` con permisos `com.whatsapp.sticker.READ` y disparo del Intent `ENABLE_STICKER_PACK`.
 - **3 Packs Oficiales Preconfigurados (82 Stickers):**
