@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Prueba fusión de secciones</title>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:system-ui,sans-serif;margin:0;background:#fffbea;color:#4a3728;overflow-x:hidden}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 60px}
+  .switch{position:sticky;top:0;z-index:5;background:#fff;border-bottom:3px solid #ffd93d;padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .switch b{font-size:.85rem}
+  .switch button{border:2px solid #f59e0b;background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;font-size:.9rem;min-height:40px}
+  .switch button.on{background:#ffd93d}
+  .note{background:#fff3c4;border:2px dashed #f59e0b;border-radius:14px;padding:10px 14px;margin:14px 0;font-size:.9rem}
+  .variant{display:none}.variant.on{display:block}
+  h2{font-size:1.5rem;margin:22px 0 6px;color:#451a03}
+  h3{margin:0;font-size:1.05rem;color:#451a03}
+  .app{border:3px solid #fbbf24;border-radius:22px;background:linear-gradient(90deg,#fffbeb,#fef9c3,#fff7ed);padding:16px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:14px 0;box-shadow:0 4px 0 #fbbf24}
+  .app img{width:64px;height:64px;border-radius:16px;background:#fff;border:2px solid #fbbf24;padding:3px;object-fit:cover}
+  .app .t{flex:1 1 220px}
+  .app small{display:block;font-weight:600;font-size:.82rem;line-height:1.35;margin-top:2px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#25d366;color:#fff;font-weight:800;border-radius:16px;padding:12px 18px;border:2px solid #6ee7b7;text-decoration:none;width:100%}
+  @media(min-width:600px){.btn{width:auto}}
+  .chip{display:inline-block;background:#ea580c;color:#fff;border-radius:999px;font-size:.7rem;font-weight:800;padding:2px 10px}
+  .card{background:#fff;border:3px solid #ffd93d;border-radius:18px;overflow:hidden;box-shadow:0 3px 0 #fde68a}
+  .sc{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#fef3c7,#fef9c3);padding:6px}
+  .sc img{max-width:100%;max-height:100%;object-fit:contain}
+  .cap{font-size:.72rem;font-weight:700;padding:5px 7px;text-align:center;line-height:1.2}
+  /* A: carrusel */
+  .strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 12px;-webkit-overflow-scrolling:touch}
+  .strip .card{flex:0 0 118px;scroll-snap-align:start;cursor:pointer}
+  @media(min-width:800px){.strip .card{flex-basis:150px}}
+  /* B: 3x3 */
+  .g33{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:520px}
+  @media(min-width:800px){.g33{grid-template-columns:repeat(9,1fr);max-width:none}}
+  .g33 .card{cursor:pointer}
+  /* C: pestañas */
+  .tabs{display:flex;gap:8px;margin:12px 0}
+  .tabs button{flex:1;border:3px solid #f59e0b;background:#fff;border-radius:16px;padding:12px 6px;font-weight:800;font-size:.95rem;min-height:48px}
+  .tabs button.on{background:#ffd93d}
+  .pane{display:none}.pane.on{display:block}
+  .gw{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(min-width:800px){.gw{grid-template-columns:repeat(3,1fr)}}
+  /* álbum */
+  .filters{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px}
+  .filters span{flex:0 0 auto;border:2px solid #fde047;background:#fff;border-radius:999px;padding:6px 12px;font-size:.82rem;font-weight:800}
+  .filters span.on{background:#ffd93d;border-color:#f59e0b}
+  .album{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(min-width:800px){.album{grid-template-columns:repeat(4,1fr)}}
+  .hint{font-size:.8rem;font-weight:700;color:#92400e;margin:2px 0 6px}
+  #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#451a03;color:#fff;padding:10px 16px;border-radius:999px;font-weight:700;font-size:.85rem;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}
+</style>
+</head>
+<body>
+<div class="switch">
+  <b>Opción:</b>
+  <button data-v="A" class="on">A · Carrusel</button>
+  <button data-v="B">B · Cuadrícula</button>
+  <button data-v="C">C · Pestañas</button>
+  <button data-v="O">Ahora</button>
+</div>
+<div class="wrap">
+<div class="note">Página <b>temporal</b> de prueba (se borrará). Las miniaturas son stickers reales; al tocar una, el Visor Mágico real se abriría. Cambia de opción arriba y compara en móvil y en PC.</div>
+
+<!-- ===== A ===== -->
+<section class="variant on" id="vA">
+  <h2>🎨 Stickers de Nailong</h2>
+  <p class="hint">Orden: 1) la App, 2) Visor Mágico en tira, 3) álbum.</p>
+  <div class="app">
+    <img src="../Stickers Nailong/sticker_2.webp" alt="">
+    <div class="t"><span class="chip">🚀 APP ANDROID</span><h3>Stickers Nailong para WhatsApp</h3><small>Los 82 stickers (60 animados) con 1 toque + «Mi Selección».</small></div>
+    <a class="btn" href="#" onclick="return t('Descargaría el APK')">Descargar APK (26 MB)</a>
+  </div>
+  <h3>🎬 Visor Mágico <span style="font-weight:600;font-size:.85rem">· toca una escena</span></h3>
+  <div class="strip" id="stripA"></div>
+  <h3 style="margin-top:8px">📸 Álbum de 82 stickers</h3>
+  <div class="filters"><span class="on">✨ Todas (82)</span><span>🎬 Movimiento (23)</span><span>🍗 Comida (7)</span><span>🤪 Caritas (18)</span><span>💃 Bailes (13)</span></div>
+  <div class="album" id="albumA"></div>
+  <p class="hint">En el visor ampliado de un sticker animado habría un botón «🔍 Abrir en el Visor Mágico».</p>
+</section>
+
+<!-- ===== B ===== -->
+<section class="variant" id="vB">
+  <h2>🎨 Stickers de Nailong</h2>
+  <p class="hint">Orden: App, mini-muro fijo (3×3 en móvil, fila de 9 en PC), álbum.</p>
+  <div class="app">
+    <img src="../Stickers Nailong/sticker_2.webp" alt="">
+    <div class="t"><span class="chip">🚀 APP ANDROID</span><h3>Stickers Nailong para WhatsApp</h3><small>Los 82 stickers (60 animados) con 1 toque + «Mi Selección».</small></div>
+    <a class="btn" href="#" onclick="return t('Descargaría el APK')">Descargar APK (26 MB)</a>
+  </div>
+  <h3>🎬 Visor Mágico <span style="font-weight:600;font-size:.85rem">· toca una escena</span></h3>
+  <div class="g33" id="g33" style="margin:8px 0 14px"></div>
+  <h3>📸 Álbum de 82 stickers</h3>
+  <div class="filters"><span class="on">✨ Todas (82)</span><span>🎬 Movimiento (23)</span><span>🍗 Comida (7)</span><span>🤪 Caritas (18)</span><span>💃 Bailes (13)</span></div>
+  <div class="album" id="albumB"></div>
+</section>
+
+<!-- ===== C ===== -->
+<section class="variant" id="vC">
+  <h2>🎨 Stickers de Nailong</h2>
+  <p class="hint">Orden: App y, debajo, dos pestañas.</p>
+  <div class="app">
+    <img src="../Stickers Nailong/sticker_2.webp" alt="">
+    <div class="t"><span class="chip">🚀 APP ANDROID</span><h3>Stickers Nailong para WhatsApp</h3><small>Los 82 stickers (60 animados) con 1 toque + «Mi Selección».</small></div>
+    <a class="btn" href="#" onclick="return t('Descargaría el APK')">Descargar APK (26 MB)</a>
+  </div>
+  <div class="tabs"><button class="on" data-p="alb">📸 Álbum (82)</button><button data-p="vis">🎬 Visor Mágico (9)</button></div>
+  <div class="pane on" id="pAlb">
+    <div class="filters"><span class="on">✨ Todas (82)</span><span>🎬 Movimiento (23)</span><span>🍗 Comida (7)</span><span>🤪 Caritas (18)</span><span>💃 Bailes (13)</span></div>
+    <div class="album" id="albumC"></div>
+  </div>
+  <div class="pane" id="pVis"><div class="gw" id="gwC"></div></div>
+</section>
+
+<!-- ===== Ahora ===== -->
+<section class="variant" id="vO">
+  <h2>Como está ahora (resumido)</h2>
+  <p class="hint">9 tarjetas grandes, una por fila en móvil; la app aparece después.</p>
+  <div id="oldList" style="display:grid;gap:12px"></div>
+  <div class="note">… y solo entonces: título del álbum → banner de la App → filtros → álbum.</div>
+</section>
+</div>
+<div id="toast"></div>
+<script>
+const S=[[19,'Cine y palomitas'],[11,'Baile de maracas'],[35,'Capitán pirata'],[23,'¡A correr!'],[31,'La croqueta'],[40,'Siesta en hamaca'],[6,'¡Mmm, bigotes!'],[12,'Monstruo de bollitos'],[41,'Saltitos de victoria']];
+const img=i=>`<img src="../Stickers Nailong/sticker_${i}.webp" loading="lazy" alt="">`;
+const mini=([i,n])=>`<div class="card" onclick="t('Abriría el Visor Mágico: ${n}')"><div class="sc">${img(i)}</div><div class="cap">${n}</div></div>`;
+const alb=n=>Array.from({length:n},(_,k)=>`<div class="card" onclick="t('Abriría el visor del sticker')"><div class="sc">${img(k+1)}</div></div>`).join('');
+stripA.innerHTML=S.map(mini).join('');
+g33.innerHTML=S.map(([i,n])=>`<div class="card" onclick="t('Abriría el Visor Mágico: ${n}')"><div class="sc">${img(i)}</div></div>`).join('');
+albumA.innerHTML=alb(8);albumB.innerHTML=alb(8);albumC.innerHTML=alb(8);
+gwC.innerHTML=S.map(mini).join('');
+oldList.innerHTML=S.slice(0,3).map(([i,n])=>`<div class="card" style="padding:12px"><div class="sc" style="aspect-ratio:auto;height:240px;border-radius:14px">${img(i)}</div><h3 style="margin-top:8px">${n}</h3></div>`).join('')+'<div class="note">(se muestran 3 de las 9)</div>';
+function t(m){toast.textContent=m;toast.style.opacity=1;clearTimeout(window._t);window._t=setTimeout(()=>toast.style.opacity=0,1600);return false}
+document.querySelectorAll('.switch button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.switch button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.variant').forEach(v=>v.classList.toggle('on',v.id==='v'+b.dataset.v));
+  scrollTo(0,0)});
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  pAlb.classList.toggle('on',b.dataset.p==='alb');pVis.classList.toggle('on',b.dataset.p==='vis')});
+</script>
+</body>
+</html>
