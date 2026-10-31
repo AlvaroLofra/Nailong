@@ -24,10 +24,10 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma para GitHub Pages)
 ├── manifest.json                # Manifiesto PWA para instalación en dispositivos móviles
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (26.6 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (24.6 MB)
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
-├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
-├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
+├── AGENTS.md                    # Instrucciones de desarrollo para agentes de IA (CLAUDE.md y GEMINI.md apuntan a él)
+├── CHANGELOG.md                 # Historial de versiones
 ├── verify_all.py                # Suite de pruebas automatizadas (44 verificaciones)
 └── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
 ```

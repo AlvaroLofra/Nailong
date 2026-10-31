@@ -1,0 +1,368 @@
+        :root {
+            --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --bouncy: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            overflow-x: clip;
+        }
+
+        /* Barra superior: en pantallas muy estrechas (<360px) se compacta para que no desborde */
+        @media (max-width: 359px) {
+            header nav .w-9 { width: 2rem; height: 2rem; }
+            header nav #party-mode-btn { padding-left: 0.5rem; padding-right: 0.5rem; }
+            header nav .w-10 { width: 2.25rem; height: 2.25rem; }
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(180deg, #FFFDF2 0%, #FFF9DB 25%, #FFF3B0 55%, #FFF9DB 80%, #FFFDF2 100%);
+            color: #4A3728;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            padding-left: env(safe-area-inset-left, 0px);
+            padding-right: env(safe-area-inset-right, 0px);
+        }
+
+        /* Prevent image long-press menus on iOS and Android */
+        img {
+            -webkit-touch-callout: none;
+        }
+
+        /* Touch-friendly Drag Layer & Controls */
+        #modal-stickers-layer {
+            touch-action: none;
+        }
+
+        /* Touch-friendly Range Slider Thumb for Mobile */
+        input[type=range]::-webkit-slider-thumb {
+            width: 28px;
+            height: 28px;
+            border-radius: 9999px;
+            background: #FF9F1C;
+            border: 3px solid #FFFDF2;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+        input[type=range]::-moz-range-thumb {
+            width: 28px;
+            height: 28px;
+            border-radius: 9999px;
+            background: #FF9F1C;
+            border: 3px solid #FFFDF2;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+
+        h1, h2, h3, h4, .font-chubby {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* Claymorphism UI Cards */
+        .clay-card {
+            background: rgba(255, 253, 242, 0.94);
+            border-radius: 2.2rem;
+            border: 4px solid #FFE66D;
+            box-shadow: 
+                0 16px 32px -8px rgba(255, 159, 28, 0.18),
+                inset 0 -6px 12px rgba(255, 217, 61, 0.25),
+                inset 0 6px 12px rgba(255, 255, 255, 0.95);
+            transition: transform 0.35s var(--spring), box-shadow 0.35s var(--spring);
+        }
+
+        .clay-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 
+                0 24px 44px -10px rgba(255, 159, 28, 0.28),
+                inset 0 -6px 12px rgba(255, 217, 61, 0.35),
+                inset 0 6px 12px rgba(255, 255, 255, 0.98);
+        }
+
+        /* Clay Bouncy Buttons */
+        .clay-btn {
+            border-radius: 9999px;
+            box-shadow: 
+                0 8px 0 #E07A00,
+                0 12px 20px rgba(255, 159, 28, 0.35),
+                inset 0 4px 6px rgba(255, 255, 255, 0.7);
+            transition: all 0.2s var(--spring);
+            cursor: pointer;
+        }
+
+        .clay-btn:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 
+                0 11px 0 #E07A00,
+                0 16px 26px rgba(255, 159, 28, 0.45),
+                inset 0 4px 6px rgba(255, 255, 255, 0.85);
+        }
+
+        .clay-btn:active {
+            transform: translateY(6px) scale(0.96);
+            box-shadow: 
+                0 2px 0 #E07A00,
+                0 6px 12px rgba(255, 159, 28, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .clay-btn-yellow {
+            background: #FFD93D;
+            color: #451a03;
+            box-shadow: 
+                0 8px 0 #D49B00,
+                0 12px 20px rgba(212, 155, 0, 0.35),
+                inset 0 4px 6px rgba(255, 255, 255, 0.75);
+        }
+        .clay-btn-yellow:hover {
+            box-shadow: 
+                0 11px 0 #D49B00,
+                0 16px 26px rgba(212, 155, 0, 0.45),
+                inset 0 4px 6px rgba(255, 255, 255, 0.85);
+        }
+        .clay-btn-yellow:active {
+            box-shadow: 
+                0 2px 0 #D49B00,
+                0 6px 12px rgba(212, 155, 0, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Duang-Duang Jelly Belly Physics */
+        @keyframes duangJelly {
+            0% { transform: scale(1, 1); }
+            20% { transform: scale(1.24, 0.78); }
+            40% { transform: scale(0.84, 1.2); }
+            60% { transform: scale(1.12, 0.92); }
+            80% { transform: scale(0.96, 1.05); }
+            100% { transform: scale(1, 1); }
+        }
+
+        .animate-duang {
+            animation: duangJelly 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Floating Soft Idle */
+        @keyframes floatSoft {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1.2deg); }
+        }
+
+        .animate-float {
+            animation: floatSoft 3.8s ease-in-out infinite;
+        }
+
+        /* Wiggle Hop */
+        @keyframes wiggleHop {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(-3deg); }
+            75% { transform: translateY(-4px) rotate(3deg); }
+        }
+        .animate-wiggle {
+            animation: wiggleHop 2s ease-in-out infinite;
+        }
+
+        /* Rainbow Hue Cycle for Chameleon Lab */
+        @keyframes rainbowCycle {
+            0% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(180deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        .gif-rainbow {
+            animation: rainbowCycle 4s linear infinite;
+        }
+
+        /* Polaroid Photo Card */
+        .polaroid {
+            background: #FFFFFF;
+            padding: 1rem 1rem 1.8rem 1rem;
+            border-radius: 1.6rem;
+            box-shadow: 0 14px 28px rgba(74, 55, 40, 0.12);
+            border: 3px solid #FFF3B0;
+            transition: transform 0.4s var(--spring), box-shadow 0.4s var(--spring), border-color 0.3s;
+        }
+
+        /* Filtros y estados de ánimo: carrusel deslizable en móvil, envuelven en escritorio */
+        .gallery-filter-btn, .mood-btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+            min-height: 44px;
+        }
+
+        @media (max-width: 639px) {
+            #gallery-filters, #hero-mood-buttons {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                overflow-x: auto;
+                scroll-snap-type: x proximity;
+                padding-bottom: 0.5rem;
+                scrollbar-width: none;
+            }
+            #gallery-filters::-webkit-scrollbar, #hero-mood-buttons::-webkit-scrollbar {
+                display: none;
+            }
+            #gallery-filters > *, #hero-mood-buttons > * {
+                scroll-snap-align: start;
+            }
+        }
+
+        /* Scrollspy de la navegación */
+        #desktop-nav-links a[aria-current="true"] {
+            background: #FFD93D;
+        }
+
+        /* Feedback de la botonera */
+        .sound-tile.is-playing {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 4px rgba(255, 159, 28, 0.45);
+        }
+
+        /* Bloqueo del scroll de fondo con un modal abierto */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* La mascota se oculta en móvil mientras se juega al minijuego */
+        @media (max-width: 639px) {
+            #floating-companion.companion-hidden-by-game {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        /* Accesibilidad: respetar la preferencia de movimiento reducido */
+        @media (prefers-reduced-motion: reduce) {
+            .bg-particle { display: none; }
+            .animate-float, .animate-wiggle { animation: none !important; }
+            .reveal-item { opacity: 1 !important; transform: none !important; transition: none !important; }
+            html { scroll-behavior: auto !important; }
+        }
+
+        @media (max-width: 639px) {
+            .polaroid {
+                padding: 0.6rem 0.6rem 1rem 0.6rem;
+                border-radius: 1.2rem;
+            }
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) translateY(-8px) scale(1.04) !important;
+            z-index: 25;
+            box-shadow: 0 24px 48px rgba(255, 159, 28, 0.28);
+            border-color: #FFD93D;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(35px) scale(0.97);
+            transition: opacity 0.65s var(--spring), transform 0.65s var(--spring);
+        }
+
+        .reveal-item.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Custom Chubby Scrollbar */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF9DB;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFD93D;
+            border-radius: 99px;
+            border: 3px solid #FFF9DB;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF9F1C;
+        }
+
+        /* Floating Background Particles */
+        .bg-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(105vh) rotate(0deg); }
+            100% { transform: translateY(-15vh) rotate(360deg); }
+        }
+
+        /* Sound Tile Active Animation */
+        .sound-tile:active {
+            transform: scale(0.92);
+        }
+
+        /* Minigame Fullscreen Styles & Transitions */
+        #game-container {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        body.has-minigame-fullscreen main {
+            z-index: 999998 !important;
+        }
+        body.has-minigame-fullscreen #minijuego,
+        body.has-minigame-fullscreen #minijuego .clay-card {
+            transform: none !important;
+            filter: none !important;
+        }
+        #game-container.minigame-fullscreen-active {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            max-width: none !important;
+            max-height: none !important;
+            z-index: 999999 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            margin: 0 !important;
+            background: linear-gradient(to bottom, #bae6fd, #e0f2fe, #fef3c7) !important;
+            animation: minigameFsFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        #game-container:fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: none !important;
+            max-height: none !important;
+            border-radius: 0 !important;
+            border: none !important;
+            padding: 0 !important;
+            background: linear-gradient(to bottom, #bae6fd, #e0f2fe, #fef3c7) !important;
+        }
+        #game-container:-webkit-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
+            border: none !important;
+            background: linear-gradient(to bottom, #bae6fd, #e0f2fe, #fef3c7) !important;
+        }
+        @media (pointer: coarse) {
+            #game-container.minigame-fullscreen-active #game-touch-dock,
+            #game-container:fullscreen #game-touch-dock {
+                display: flex !important;
+            }
+        }
+        @keyframes minigameFsFadeIn {
+            from {
+                opacity: 0.85;
+            }
+            to {
+                opacity: 1;
+            }
+        }
