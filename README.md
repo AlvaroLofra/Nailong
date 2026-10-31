@@ -10,7 +10,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 - **Hero Interactivo & Contador Duang:** Pancita con físicas elásticas, efectos de sonido y 9 estados de ánimo en vivo.
 - **Visor Mágico de Animaciones:** Tira deslizable de 9 escenas GIF en bucle con control de velocidad y pegatinas arrastrables.
-- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero y, catálogo de 82 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
+- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero, Visor Mágico en tira y catálogo de 82 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
 - **Botonera Musical:** 12 casillas con efectos de caricatura sintetizados en tiempo real mediante la Web Audio API.
 - **Laboratorio de Superpoderes:** Ajuste de tamaño, modo camaleón con ciclo arcoíris y lanzamiento de llamaradas en canvas.
 - **Minijuego "La Gran Comilona":** Juego arcade en HTML5 Canvas con pantalla completa fluida, controles táctiles y teclado.
