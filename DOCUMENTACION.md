@@ -60,7 +60,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   - Compartir con amigos (abre modal con enlace oficial y código QR).
   - Silenciador global de audio (`toggleMuteAudio`).
   - Lanza-lluvia Modo Fiesta (`triggerPartyMode`).
-  - Menú hamburguesa responsivo para móviles.
+  - Menú hamburguesa responsivo para móviles, con botón destacado «Descargar la App» (en escritorio, enlace «📲 App»).
 
 ### 3.2. Hero Interactivo & Contador Duang
 - Al hacer clic o tocar la pancita de Nailong:
@@ -76,7 +76,7 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 - Al tocarlo, emite un rebote y un sonido alegre.
 
 ### 3.4. Visor Mágico de GIFs y Escenas
-- Galería con 9 escenas animadas reales de Nailong.
+- Tira horizontal con snap (`#gif-wall-grid`, dentro del bloque `#muro-gifs` de la sección `#galeria`) con 9 escenas animadas reales de Nailong, debajo del banner de la app. También se abre desde el lightbox del álbum con «Abrir en el Visor Mágico».
 - Modal con reproductor de velocidad variable:
   - 🐢 Lenta (0.5x)
   - 🦖 Normal (1x)
@@ -390,6 +390,13 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   9. **Calibración del Icono Adaptive:** Modificado `generate_launcher_icons()` en `generar_assets.py` para aplicar un factor de escala del 72% centrado en la zona segura (*Safe Zone*) de 108 dp, evitando recortes de máscara circular en el launcher.
   10. **Versionado y Pruebas:** Binario `StickersNailong.apk` (24.6 MB) recompilado con `versionCode 3`, `versionName "3.1.0"`, firmado y verificado con 43 tests superados al 100%.
 
+### 📌 ADR-12: Fusión del Muro de GIFs con el Álbum, Botón de App en el Menú y Barra Móvil sin Desbordes (v3.2.0)
+- **Fecha:** 2026-10-31
+- **Estado:** Implementado / Aceptado
+- **Problema:** El muro de GIFs (9 tarjetas, 1 por fila en móvil) y el álbum mostraban casi lo mismo dos veces, alargaban el scroll y enterraban el banner de la app, lo más importante del proyecto. Además la barra superior desbordaba en pantallas estrechas (medido: +12 px a 320 px), dando sensación de zoom y cortando el botón del menú.
+- **Decisión:** Se probaron 3 opciones en una subpágina temporal (ya borrada): A carrusel, B cuadrícula, C pestañas. Se eligió **A**: sección única con app → Visor en tira horizontal → álbum, y acceso al Visor desde el lightbox. Menú: botón verde a `#android-app-banner`. Barra: subtítulo `hidden sm:block`, «Fiesta» solo emoji en móvil, reglas `@media (max-width: 359px)` y `overflow-x: clip`.
+- **Consecuencias:** `renderGifWall` pinta botones de tira (conserva `loading="lazy"`/`decoding="async"`); `verify_all.py` pasa a 44 tests; versión web `v3.2.0` (APK sin cambios, sigue `v3.1.0`). El zoom en el Poco X7 Pro no se pudo reproducir; queda pendiente de confirmar en el dispositivo.
+
 ---
 
 ## 7. Instrucciones de Verificación y Testing
@@ -397,11 +404,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (43 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (44 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 43 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 44 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```

@@ -9,8 +9,8 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ## Características Principales
 
 - **Hero Interactivo & Contador Duang:** Pancita con físicas elásticas, efectos de sonido y 9 estados de ánimo en vivo.
-- **Visor Mágico de Animaciones:** Galería de escenas GIF en bucle con control de velocidad y pegatinas arrastrables.
-- **Gran Álbum Polaroid:** Catálogo de 82 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
+- **Visor Mágico de Animaciones:** Tira deslizable de 9 escenas GIF en bucle con control de velocidad y pegatinas arrastrables.
+- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero y, catálogo de 82 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
 - **Botonera Musical:** 12 casillas con efectos de caricatura sintetizados en tiempo real mediante la Web Audio API.
 - **Laboratorio de Superpoderes:** Ajuste de tamaño, modo camaleón con ciclo arcoíris y lanzamiento de llamaradas en canvas.
 - **Minijuego "La Gran Comilona":** Juego arcade en HTML5 Canvas con pantalla completa fluida, controles táctiles y teclado.
@@ -27,7 +27,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── GEMINI.md                    # Contexto y directrices de desarrollo para modelos Gemini
 ├── CLAUDE.md                    # Contexto y directrices de desarrollo para modelos Claude
-├── verify_all.py                # Suite de pruebas automatizadas (42 verificaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (44 verificaciones)
 └── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
 ```
 
@@ -99,7 +99,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.1.0: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
+### 📌 Ciclo v3.0.0 – v3.2.0: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
 
 #### v3.0.0 — Lanzamiento de la App Oficial y Sistema «Mi Selección»
 - **App Nativa Android (`StickersNailong.apk`, 26.6 MB):**
@@ -125,7 +125,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - **Encuadre de Título:** Reducción de padding en badges y ajuste a 16sp para que títulos como «Nailong animado 1» se muestren íntegros sin truncarse con puntos suspensivos.
 - **Limpieza de Inspecciones Lint:** Resolución de advertencias de márgenes bidireccionales RTL (`layout_marginLeft`/`layout_marginRight`), extracción de cadenas a recursos XML (`@string/my_selection_badge_title`) y etiquetas de compatibilidad de API para dejar Android Studio sin avisos en rojo.
 
-#### v3.1.0 (Actual) — UI Pulida, Tipografía Fredoka y Personalización de Packs
+#### v3.1.0 — UI Pulida, Tipografía Fredoka y Personalización de Packs
 - **Corrección Web Móvil:** Píldora del álbum fotográfico (`#galeria`) optimizada como bloque fluido (`inline-block rounded-2xl`) con ajuste de salto limpio en 2 líneas sin solapamiento de bordes.
 - **Tipografía Fredoka Integrada:** Incorporación nativa de la familia tipográfica Google Font **Fredoka** (`fredoka.xml` con pesos Regular, Medium, SemiBold y Bold) en la aplicación Android para dotar a botones, títulos, tarjetas y diálogos del mismo diseño divertido, redondeado y alegre de la web oficial.
 - **Feedback Táctil Instantáneo (Cero Lag):** Reemplazo de los Toasts encolados del sistema operativo por un **Banner/Píldora In-App Claymorphism reactivo** que actualiza el contador de selección en tiempo real (0 ms de demora) sin acumular colas ni mensajes atrasados.
@@ -136,6 +136,13 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - **Mensaje de Éxito Celebratorio:** Diálogo emergente temático (*"🎉 ¡Pack añadido a WhatsApp! Tus stickers de Nailong ya están listos para usar en tus chats"*).
 - **Calibración del Icono de la App (Safe Zone):** Ajuste de escala al 72% y centrado en el lienzo del icono adaptativo (`ic_launcher_foreground.png`), resolviendo el zoom excesivo y asegurando que la carita completa de Nailong se vea redonda y nítida en el launcher sin recortes en la barbilla ni en la cabeza.
 - **Sincronización Web y Pruebas:** Binario `StickersNailong.apk` (24.6 MB) actualizado en web con insignia `v3.1.0 APK`, pie de página `v3.1.0` y suite de verificación ampliada a **43 comprobaciones completas**.
+
+#### v3.2.0 (Actual) — Sección «Stickers» Unificada y Barra Móvil Corregida
+- **Muro de GIFs y álbum fusionados:** una sola sección con el banner de la app primero, el Visor Mágico como tira horizontal de 9 escenas y el álbum después. En móvil el Visor ocupa unos 200 px en vez de 9 tarjetas apiladas.
+- **Visor desde el álbum:** botón «Abrir en el Visor Mágico» en los stickers que son una de las 9 escenas.
+- **Botón «Descargar la App»** en el menú de los tres puntos (móvil) y «📲 App» en la barra de escritorio.
+- **Corrección del zoom/desborde en móvil:** barra superior compactada para que el botón del menú se vea entero en pantallas estrechas.
+- Suite de verificación ampliada a **44 comprobaciones** y pie de página `v3.2.0`.
 
 ---
 

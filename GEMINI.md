@@ -80,7 +80,7 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ├── GEMINI.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Gemini)
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
-├── verify_all.py                # Suite de pruebas automatizadas (42 comprobaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (44 comprobaciones)
 └── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
 ```
 
@@ -274,6 +274,15 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 - **Diálogo de Éxito Festivo:** Notificación `dialog_success_whatsapp.xml` celebratoria con estilo Claymorphism.
 - **Calibración de Icono Adaptive:** Modificación de `generate_launcher_icons()` para centrar el primer plano al 72% del lienzo de 108 dp, resolviendo el corte de barbilla y frente en máscaras circulares del launcher.
 - **Suite de Pruebas Ampliada a 43 Comprobaciones:** Actualizado `verify_all.py` a 43 tests automáticos superados al 100%.
+
+---
+
+### 📌 Versión 3.2.0 (v3.2.0) - Sección «Stickers» Unificada, Botón de App en el Menú y Barra Móvil Corregida
+- **Fusión Muro de GIFs + Álbum:** una única sección `#galeria` con el orden: banner de la app (APK) → tira horizontal del Visor Mágico (9 escenas, ancla `#muro-gifs`) → aviso de WhatsApp → filtros → álbum. Se elimina la sección independiente del muro (9 tarjetas grandes, una por fila en móvil).
+- **Acceso al Visor desde el Álbum:** el lightbox muestra «🔍 Abrir en el Visor Mágico» en los stickers que son una de las 9 escenas (`featuredGifIndexOf`, `openVisorFromLightbox`).
+- **Botón de la App en la Navegación:** botón verde «📲 Descargar la App (Android)» en el menú móvil y «📲 App» en la barra de escritorio, ambos hacia `#android-app-banner`.
+- **Barra Superior sin Desbordes:** subtítulo solo en pantallas anchas, «Fiesta» como emoji en móvil, botones reducidos por debajo de 360 px y `overflow-x: clip` en `html` (medido: a 320 px desbordaba 12 px).
+- **Pruebas:** `verify_all.py` ampliado a 44 comprobaciones y pie de página `v3.2.0` (la insignia del APK sigue en `v3.1.0 APK`: el binario no cambia).
 
 ---
 

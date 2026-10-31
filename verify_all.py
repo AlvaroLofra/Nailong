@@ -328,7 +328,7 @@ print("✔ v14 verified: all 82 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3\.1\.0<', html), "Footer must show the current version number (v3.1.0)!"
+assert re.search(r'id="app-version"[^>]*>v3\.2\.0<', html), "Footer must show the current version number (v3.2.0)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -357,4 +357,11 @@ assert os.path.exists(r'C:\src\nailong_stickers_app\stickers\Android\app\src\mai
 assert os.path.exists(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\drawable\card_stickers_container.xml'), "card_stickers_container.xml missing!"
 print("✔ v3.1.0 verified: Fredoka typography family, custom dialog layout, and card container in Android app.")
 
-print("\n=== ALL 43 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 44: v3.2.0 - Muro de GIFs fusionado con el album: app primero, Visor Magico en tira y acceso desde el lightbox
+assert 'section id="muro-gifs"' not in html, "The old standalone GIF wall section must be gone!"
+assert html.index('id="android-app-banner"') < html.index('id="gif-wall-grid"') < html.index('id="polaroid-grid"'), "Order must be: app banner, Visor Magico strip, album!"
+assert 'href="#android-app-banner"' in html and 'id="lb-visor-btn"' in html and 'openVisorFromLightbox' in html, "App nav button or lightbox Visor button missing!"
+assert 'overflow-x: clip' in html and '@media (max-width: 359px)' in html, "Navbar overflow fix missing!"
+print("✔ v3.2.0 verified: GIF wall merged into stickers section (app banner, Visor strip, album), app button in nav, navbar fits narrow phones.")
+
+print("\n=== ALL 44 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
