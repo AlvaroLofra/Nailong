@@ -31,7 +31,9 @@ Fuera de esta carpeta:
 
 | Ruta | Contenido |
 |---|---|
-| `../index.html` | Punto único de entrada de la SPA web interactiva (HTML5, Tailwind CDN, JS vanilla). |
+| `../index.html` | Punto único de entrada de la SPA web (HTML5 + Tailwind CDN); carga `css/` y `js/`. |
+| `../css/` · `../js/` | Estilos y scripts de la web, divididos por bloque funcional (D-15; mapa en `notas_tecnicas/00_mapa_de_codigo.md`). |
+| `../archivo/` | Material histórico (investigación y plan antiguos). No se lee salvo petición. |
 | `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (24.6 MB, v3.2.1). |
 | `../Stickers Nailong/` | Colección oficial de 82 cromos WebP normalizados + foto del creador. |
 | `../verify_all.py` | Suite de pruebas automatizadas (44 comprobaciones estructurales y funcionales). |
@@ -60,6 +62,6 @@ Fuera de esta carpeta:
 | Bitácoras de sesiones | [`estado_del_proyecto/bitacora_de_sesiones/`](estado_del_proyecto/bitacora_de_sesiones/) |
 | App Android nativa y `StickerContentProvider` | [`notas_tecnicas/01_app_android_whatsapp_stickers.md`](notas_tecnicas/01_app_android_whatsapp_stickers.md) |
 | Normalización de stickers WebP y metadatos WhatsApp | [`notas_tecnicas/02_normalizacion_stickers_webp.md`](notas_tecnicas/02_normalizacion_stickers_webp.md) |
-| Mapa de bloques y funciones de `index.html` (para no buscar a ciegas) | [`notas_tecnicas/00_mapa_de_codigo.md`](notas_tecnicas/00_mapa_de_codigo.md) |
+| Mapa de ficheros, bloques y funciones de la web (para no buscar a ciegas) | [`notas_tecnicas/00_mapa_de_codigo.md`](notas_tecnicas/00_mapa_de_codigo.md) |
 | Motor de audio sintetizado con Web Audio API | [`notas_tecnicas/03_web_audio_sintetizado.md`](notas_tecnicas/03_web_audio_sintetizado.md) |
 | Minijuego Canvas a 60 FPS y aceleración GPU | [`notas_tecnicas/04_minijuego_y_rendimiento_gpu.md`](notas_tecnicas/04_minijuego_y_rendimiento_gpu.md) |

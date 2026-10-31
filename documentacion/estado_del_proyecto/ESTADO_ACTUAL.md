@@ -2,8 +2,8 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 31/10/2026 — Sesión «Adopción de las pautas de la biblioteca central» (D-14), sobre v3.2.1 (sin cambios de producto).
-> **Rama activa:** `docs/adopcion-pautas-centrales` (sin commitear; `main` intacta y sincronizada con `origin/main`).
+> **Última actualización:** 31/10/2026 — Sesión «Adopción de las pautas de la biblioteca central» (D-14) y división de `index.html` (D-15), sobre v3.2.1 (sin cambios visibles de producto).
+> **Rama activa:** `docs/adopcion-pautas-centrales` (subida a `origin`; `main` intacta hasta fusionar).
 > **Versión actual de producción:** Web `v3.2.1` | Android APK `v3.2.1` (`versionCode 4`).
 
 ---
@@ -18,7 +18,7 @@ La aplicación web y la aplicación nativa Android se encuentran plenamente sinc
 
 | Métrica / Concepto | Valor Verificado |
 |---|---|
-| **Punto único de entrada web** | `index.html` (SPA pura, 0 dependencias de compilación). |
+| **Punto único de entrada web** | `index.html` + `css/` + `js/` (SPA pura, 0 dependencias de compilación). |
 | **Banco de cromos coleccionables** | Exactamente 82 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador. |
 | **Packs oficiales preconfigurados en Android** | 3 packs: *Nailong animado 1* (30), *Nailong animado 2* (30) y *Nailong estático* (22). |
 | **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con bifurcación inteligente por tipo mixto. |
@@ -53,6 +53,8 @@ La aplicación web y la aplicación nativa Android se encuentran plenamente sinc
 
 ---
 
+- [x] **División de `index.html` (D-15):** `index.html` (≈1.060 líneas) + `css/styles.css` + `js/` (10 ficheros + config de Tailwind), contenido idéntico al original; comprobado en navegador local sin errores de consola.
+- [x] **Material histórico (D-14 E):** `DeepResearch…md` y `PLAN_APP_STICKERS_WHATSAPP.md` en `archivo/`; `prueba_whatsapp/` eliminada.
 - [x] **Instrucciones de agente (D-14):** `AGENTS.md` canónico (~55 líneas) · `CLAUDE.md`/`GEMINI.md` reducidos a punteros · `CHANGELOG.md` y `documentacion/notas_tecnicas/00_mapa_de_codigo.md` creados con el contenido que antes inflaba `CLAUDE.md` · `CLAUDE.local.md` (ignorado) con la ruta de la biblioteca central · `.gitignore` nuevo · `verify_all.py` (tests 33 y 35) adaptado; sigue en 44/44.
 
 ---
@@ -60,7 +62,8 @@ La aplicación web y la aplicación nativa Android se encuentran plenamente sinc
 ## 4. Qué Está Pendiente o Próximos Pasos
 
 - [ ] **Decidir el commit** de la rama `docs/adopcion-pautas-centrales` (código y documentación en commits separados) y su fusión en `main`.
-- [ ] **D-14 parte D (abierta):** extraer `index.html` (≈3.800 líneas) a módulos y fijar versiones de las cargas CDN (Tailwind sin versión, Font Awesome sin `integrity`).
+- [ ] **Fijar versiones CDN** (Tailwind sin versión, Font Awesome sin `integrity`) y decidir si `js/` pasa a módulos ES (D-15, abierta).
+- [ ] **Fusionar la rama en `main`** para publicar la división en GitHub Pages (hoy solo está en la rama).
 - [ ] `DOCUMENTACION.md` duplica a `documentacion/` y conserva cifras antiguas en su cuerpo (la suite lo exige); consolidarlo o retirarlo en una sesión propia.
 
 - [ ] Validación manual en dispositivo físico por parte del usuario de la exportación fluida a WhatsApp.

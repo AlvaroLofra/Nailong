@@ -1,11 +1,33 @@
-# Mapa de código de `index.html`
+# Mapa de código de la web (`index.html`, `css/`, `js/`)
 
-> **Propósito:** saltar directamente a la zona correcta de `index.html` (≈3.800 líneas, ≈233 KB) sin búsquedas ciegas. Trasladado desde `CLAUDE.md`/`GEMINI.md` el 2026-10-31 (D-14).
-> **Mantenimiento:** si cambia la estructura de `index.html`, actualiza este mapa en la misma sesión. Para localizar una función: `grep -n "function nombre" index.html`.
+> **Propósito:** saltar directamente al fichero correcto sin búsquedas ciegas. Desde D-15 (2026-10-31) el antiguo `index.html` de ≈3.800 líneas está dividido en marcado + CSS + 10 ficheros JS. Trasladado desde `CLAUDE.md`/`GEMINI.md` el 2026-10-31 (D-14).
+> **Mantenimiento:** si cambia la estructura de `index.html`, actualiza este mapa en la misma sesión. Para localizar una función: `grep -n "function nombre" js/*.js`.
 
 ## Bloques funcionales
 
-El archivo `index.html` está estructurado en 14 bloques funcionales organizados:
+## Qué vive en cada fichero
+
+| Fichero | Contenido (bloques de la lista de abajo) | Líneas aprox. |
+|---|---|---|
+| `index.html` | Marcado de todas las secciones; carga `css/` y `js/` (con `?v=` anti-caché) | 1.060 |
+| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego | 370 |
+| `js/tailwind-config.js` | Paleta y fuentes de Tailwind (se carga justo tras el CDN) | 27 |
+| `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 170 |
+| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (82 cromos) y datos | 90 |
+| `js/03-hero.js` | 3 · Hero, contador Duang y estados de ánimo | 110 |
+| `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante | 110 |
+| `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 265 |
+| `js/06-album-y-descargas.js` | 7–7B · Álbum polaroid, lightbox, descarga/WhatsApp/portapapeles | 600 |
+| `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 145 |
+| `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona» | 435 |
+| `js/09-modo-fiesta.js` | 11 · Modo Fiesta (confeti en canvas) | 310 |
+| `js/10-inicio.js` | 14 · Inicialización, scrollspy, bloqueo de scroll y `window.onload` | 95 |
+
+Reglas: son **scripts clásicos** que comparten el ámbito global (sin `import`/`export`), así que el **orden de carga importa** y es el de la tabla. Al añadir un fichero, regístralo en `index.html`; `verify_all.py` falla si hay un `.js`/`.css` sin cargar o una referencia rota.
+
+## Bloques funcionales
+
+El código está estructurado en 14 bloques funcionales organizados:
 
 1. **Configuración y Estilos:**
    - Tailwind CSS CDN + paleta personalizada (`nailong-yellow`, `nailong-orange`, `nailong-belly`, etc.).
@@ -57,16 +79,16 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 
 ## Anclas y puntos de entrada clave
 
-| Qué | Dónde buscar en `index.html` |
+| Qué | Fichero · símbolo |
 |---|---|
-| Datos de los 82 cromos | constante `ALL_STICKERS` |
-| Álbum paginado | `renderPolaroidGallery`, `GALLERY_PAGE_SIZE`, `GALLERY_STEP`, `showMoreGallery` |
-| Muro/tira de escenas y Visor Mágico | `renderGifWall`, `featuredGifIndexOf`, `openVisorFromLightbox` |
-| Descarga y compartir stickers | `forceDownloadSticker`, `shareStickerDirectToWhatsApp`, `copyStickerToClipboard`, `#sticker-options-modal` |
-| Audio | `renderSoundboard`, `audioCtx` (osciladores Web Audio) |
-| Minijuego | `#food-game-canvas`, `resizeGameCanvas`, `getEmojiSprite` |
-| Modo Fiesta | `#party-canvas` |
-| Modales y bloqueo de scroll | `setupModalBackdrops`, `setupModalScrollLock`, `body.modal-open` |
-| Arranque | `window.onload = function()` (al final del script) |
+| Datos de los 82 cromos | `js/02-datos-stickers.js` · `ALL_STICKERS` |
+| Álbum paginado | `js/06-album-y-descargas.js` · `renderPolaroidGallery`, `GALLERY_PAGE_SIZE`, `GALLERY_STEP`, `showMoreGallery` |
+| Muro/tira de escenas y Visor Mágico | `js/05-visor-magico.js` y `js/06-…` · `renderGifWall`, `featuredGifIndexOf`, `openVisorFromLightbox` |
+| Descarga y compartir stickers | `js/06-album-y-descargas.js` · `forceDownloadSticker`, `shareStickerDirectToWhatsApp`, `copyStickerToClipboard`, `#sticker-options-modal` |
+| Audio | `js/01-audio.js`, `js/07-…` · `renderSoundboard`, `audioCtx` (osciladores Web Audio) |
+| Minijuego | `js/08-minijuego.js` · `#food-game-canvas`, `resizeGameCanvas`, `getEmojiSprite` |
+| Modo Fiesta | `js/09-modo-fiesta.js` · `#party-canvas` |
+| Modales y bloqueo de scroll | `js/10-inicio.js` · `setupModalBackdrops`, `setupModalScrollLock`, `body.modal-open` |
+| Arranque | `js/10-inicio.js` · `window.onload = function()` |
 
 > Esta tabla se ha construido con los nombres que `verify_all.py` ya comprueba; el número de línea no se fija porque cambia con cada edición.

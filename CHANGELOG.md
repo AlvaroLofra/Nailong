@@ -5,6 +5,10 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [Sin publicar]
+### Cambiado
+- `index.html` dividido en marcado + `css/styles.css` + `js/` (10 ficheros), sin cambios visibles (D-15). Instrucciones de agente reorganizadas (`AGENTS.md`, D-14).
+
 ## [3.2.1] — 2026-10-31
 Última versión publicada. Ver la sección «Versión 3.2.1» más abajo.
 
