@@ -34,8 +34,8 @@ Fuera de esta carpeta:
 | `../index.html` | Punto único de entrada de la SPA web (HTML5 + Tailwind CDN); carga `css/` y `js/`. |
 | `../css/` · `../js/` | Estilos y scripts de la web, divididos por bloque funcional (D-15; mapa en `notas_tecnicas/00_mapa_de_codigo.md`). |
 | `../archivo/` | Material histórico (investigación y plan antiguos). No se lee salvo petición. |
-| `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (24.6 MB, v3.2.1). |
-| `../Stickers Nailong/` | Colección oficial de 82 cromos WebP normalizados + foto del creador. |
+| `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (20.3 MB, v3.2.2). |
+| `../Stickers Nailong/` | Colección oficial de 80 cromos WebP normalizados + foto del creador. |
 | `../verify_all.py` | Suite de pruebas automatizadas (44 comprobaciones estructurales y funcionales). |
 | `../README.md` | Portada pública del proyecto con notas de parche directas para usuarios. |
 | `../DOCUMENTACION.md` | Documentación técnica consolidada para compatibilidad con la suite de verificación. |

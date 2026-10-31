@@ -25,6 +25,7 @@
 | **D-13** | Corrección de eventos táctiles en diálogo de exportación y robustecimiento de ContentProvider | Tomada | 2026-10-31 |
 | **D-14** | Adopción de las pautas de la biblioteca central: `AGENTS.md` canónico, changelog fuera de las instrucciones y auditoría con brechas abiertas | Tomada (A–C, E) · D pasa a D-15 | 2026-10-31 |
 | **D-15** | `index.html` dividido en marcado + `css/styles.css` + 10 ficheros `js/` (scripts clásicos, sin build) | Tomada | 2026-10-31 |
+| **D-16** | Retiro de stickers duplicados (1/42 y 6/14), renumeración continua a 80 y lanzamiento v3.2.2 | Tomada | 2026-10-31 |
 
 ---
 
@@ -190,3 +191,16 @@
 - **Opciones descartadas:** módulos ES (`import`/`export`): exigirían reescribir el ámbito global (los `onclick` del HTML y las funciones compartidas) con más riesgo y sin beneficio inmediato; un bundler (rompe la regla buildless).
 - **Consecuencias:** `verify_all.py` construye el «código fuente completo» concatenando `index.html` + `css/` + `js/` y falla si hay un fichero sin cargar, una referencia rota o un `<script>` inline; el chequeo de sintaxis con Node pasa a ser por fichero. Seguimos en 44 comprobaciones. Si más adelante se quiere ES Modules, será una decisión nueva.
 - **Abierta:** fijar versión de Tailwind (hoy `cdn.tailwindcss.com` sin versión) y `integrity` en Font Awesome.
+
+---
+
+## D-16 · Retiro de stickers duplicados (1/42 y 6/14), renumeración continua a 80 y versión v3.2.2
+- **Estado:** **Tomada** (2026-10-31, a petición del usuario).
+- **Problema:** Se identificaron dos duplicaciones en el catálogo: `sticker_1` y `sticker_42` eran idénticos byte a byte (SHA-256 idéntico); y `sticker_6` duplicaba la animación de `sticker_14` (misma escena de Nailong relamiéndose/riendo).
+- **Decisión:**
+  1. Eliminar `sticker_42.webp` (conservando `sticker_1.webp` como cromo inicial de apertura) y eliminar `sticker_6.webp` (conservando `sticker_14.webp`).
+  2. Renumerar secuencialmente sin saltos el catálogo de 1 a 80 (`sticker_1.webp`…`sticker_80.webp` + `creador_nailong.webp`: 81 archivos).
+  3. Remapear las referencias en la web (`js/02-datos-stickers.js`, `js/03-hero.js`, `js/05-visor-magico.js`, `js/07-sonidos-y-laboratorio.js`, `js/08-minijuego.js`, `index.html` y `manifest.json`).
+  4. Actualizar los 3 packs de la app Android nativa en `generar_assets.py`: *Nailong animado 1* (29 stickers), *Nailong animado 2* (30 stickers) y *Nailong estático* (21 stickers), totalizando 80 stickers y cumpliendo el límite de 3 a 30 por pack.
+  5. Recompilar `StickersNailong.apk` (`versionCode 5`, `versionName "3.2.2"`, 20.3 MB), firmarlo y alojarlo en la web con badge `v3.2.2 APK` y pie `v3.2.2`.
+- **Consecuencias:** Colección depurada sin elementos redundantes; suite `verify_all.py` adaptada a 80 stickers manteniendo 44/44 tests en verde.

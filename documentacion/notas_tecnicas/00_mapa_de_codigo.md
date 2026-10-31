@@ -52,7 +52,7 @@ El código está estructurado en 14 bloques funcionales organizados:
    - Modal con control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento (swipe horizontal) y pegatinas arrastrables.
 
 6. **Gran Álbum Polaroid de Cromos:**
-   - 82 cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
+   - 80 cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
    - Sección especial del creador de la web con Nailong (`#creador`).
    - Subida de fotos del usuario con compresión en canvas y guardado persistente en `localStorage`.
 

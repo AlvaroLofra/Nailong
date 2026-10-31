@@ -5,12 +5,11 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
-## [Sin publicar]
-### Cambiado
-- `index.html` dividido en marcado + `css/styles.css` + `js/` (10 ficheros), sin cambios visibles (D-15). Instrucciones de agente reorganizadas (`AGENTS.md`, D-14).
+## [3.2.2] — 2026-10-31
+Última versión publicada. Retiro de duplicados 1/42 y 6/14, renumeración continua a 80 stickers y APK sincronizado.
 
 ## [3.2.1] — 2026-10-31
-Última versión publicada. Ver la sección «Versión 3.2.1» más abajo.
+División de `index.html` en marcado + `css/styles.css` + `js/` (D-15) e instrucciones de agente canónicas (`AGENTS.md`, D-14).
 
 ---
 
@@ -170,3 +169,18 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 - **Sincronización Web y Binario:** Recompilación del APK firmado `StickersNailong.apk` (24.6 MB, `versionCode 4`, `versionName "3.2.1"`), actualización de insignia `v3.2.1 APK`, pie de página `v3.2.1` y suite de verificación pasando las 44 pruebas al 100%.
 - **Reorganización Web:** Reubicación de la sección del creador con Nailong (`#creador`) debajo del minijuego (`#minijuego`) al pie de la página, manteniendo la navegación intacta.
 - **Estandarización Documental UEM y Dicotomía de Estilo:** Separación estricta entre la vitrina pública (`README.md`, notas de parche directas, cortas y sin tecnicismos) y la base técnica modular en `documentacion/` (`00_INDICE.md`, `estado_del_proyecto/`, `guias_y_contexto/`, `notas_tecnicas/`).
+
+---
+
+### 📌 Versión 3.2.2 (v3.2.2) - Retiro de Duplicados, Renumeración Continua a 80 Stickers y Actualización del APK
+- **Eliminación de Stickers Duplicados:** Detección y retiro de dos duplicados redundantes:
+  - Eliminado el duplicado estático `sticker_42.webp` (idéntico byte a byte a `sticker_1.webp`, preservando el cromo inicial #1).
+  - Eliminado `sticker_6.webp` (duplicado de la animación de `sticker_14.webp`, conservando esta última).
+- **Renumeración Continua del Catálogo (1..80):** Reordenación secuencial ascendente sin saltos numéricos, garantizando una colección de exactamente 80 stickers oficiales y 1 foto del creador.
+- **Sincronización Web:**
+  - Actualización de `ALL_STICKERS` en `js/02-datos-stickers.js` a 80 cromos.
+  - Remapeo de referencias en `heroMoods` (`js/03-hero.js`), `FEATURED_GIFS` (`js/05-visor-magico.js`), `SOUNDBOARD_TILES` (`js/07-sonidos-y-laboratorio.js`), sprite del minijuego (`js/08-minijuego.js`), favicons (`index.html` y `manifest.json`) y cache-busting `?v=3.2.2`.
+- **Actualización de la App Android (`StickersNailong.apk`):**
+  - Ajuste de `generar_assets.py` con los nuevos lotes de packs: *Nailong animado 1* (29 stickers), *Nailong animado 2* (30 stickers) y *Nailong estático* (21 stickers), totalizando 80 stickers.
+  - Recompilación con Gradle (`versionCode 5`, `versionName "3.2.2"`), firmado con apksigner (esquemas v1, v2 y v3) y copia del binario (20.3 MB / 21.315.677 bytes) a la raíz del repositorio web.
+- **Pruebas Automatizadas:** `verify_all.py` actualizado a 80 stickers, verificando que los 44 tests continúen superándose al 100%.

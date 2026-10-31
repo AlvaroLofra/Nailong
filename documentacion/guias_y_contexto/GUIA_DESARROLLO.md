@@ -33,10 +33,10 @@ python verify_all.py
 
 ### Qué valida la suite (44 comprobaciones):
 1. Integridad del punto único de entrada (`index.html`) sin duplicados residuales.
-2. Presencia de los 82 stickers en `Stickers Nailong/` (`sticker_1.webp` a `sticker_82.webp`) y de `creador_nailong.webp`.
+2. Presencia de los 80 stickers en `Stickers Nailong/` (`sticker_1.webp` a `sticker_82.webp`) y de `creador_nailong.webp`.
 3. Normalización estricta de stickers WebP (512×512, EXIF WhatsApp, límites de peso y duración).
 4. Presencia del binario APK Android (`StickersNailong.apk` > 20 MB).
-5. Sincronización de versiones visibles (v3.2.1 en web y footer).
+5. Sincronización de versiones visibles (v3.2.2 en web y footer).
 6. Elementos interactivos del DOM, canvas de minijuego, motor de audio y banner de descarga.
 
 ---

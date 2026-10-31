@@ -14,7 +14,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 - **Hero Interactivo & Contador Duang:** Pancita con físicas elásticas, efectos de sonido y 9 estados de ánimo en vivo.
 - **Visor Mágico de Animaciones:** Tira deslizable de 9 escenas GIF en bucle con control de velocidad y pegatinas arrastrables.
-- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero, Visor Mágico en tira y catálogo de 82 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
+- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero, Visor Mágico en tira y catálogo de 80 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
 - **Botonera Musical:** 12 casillas con efectos de caricatura sintetizados en tiempo real mediante la Web Audio API.
 - **Laboratorio de Superpoderes:** Ajuste de tamaño, modo camaleón con ciclo arcoíris y lanzamiento de llamaradas en canvas.
 - **Minijuego "La Gran Comilona":** Juego arcade en HTML5 Canvas con pantalla completa fluida, controles táctiles y teclado.
@@ -28,12 +28,12 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma para GitHub Pages)
 ├── manifest.json                # Manifiesto PWA para instalación en dispositivos móviles
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (24.6 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (20.3 MB)
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── AGENTS.md                    # Instrucciones de desarrollo para agentes de IA (CLAUDE.md y GEMINI.md apuntan a él)
 ├── CHANGELOG.md                 # Historial de versiones
 ├── verify_all.py                # Suite de pruebas automatizadas (44 verificaciones)
-└── Stickers Nailong/            # Banco de 82 cromos en WebP + foto optimizada del creador
+└── Stickers Nailong/            # Banco de 80 cromos en WebP + foto optimizada del creador
 ```
 
 ---
@@ -132,7 +132,13 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Acceso directo a la descarga de la app en la barra superior y en el menú móvil.
 - Cabecera compactada para pantallas móviles estrechas sin desbordes laterales.
 
-#### v3.2.1 (Actual) — Exportación a WhatsApp Fluida y Reorganización Web
+#### v3.2.2 (Actual) — Colección Optimizada a 80 Stickers y Sincronización Total
+- Retiro de stickers duplicados: eliminados los duplicados `sticker_6` y `sticker_42`.
+- Renumeración continua del catálogo completo a exactamente 80 cromos oficiales.
+- Sincronización de estados de ánimo, sonidos, Visor Mágico y minijuego en la web.
+- Actualización de la app Android (`StickersNailong.apk` v3.2.2) con los tres paquetes oficiales optimizados.
+
+#### v3.2.1 — Exportación a WhatsApp Fluida y Reorganización Web
 - Solucionada la apertura del menú de WhatsApp al exportar desde «Mi Selección».
 - Respuesta táctil inmediata al pulsar los botones en las ventanas de confirmación y éxito.
 - Entrega de archivos de stickers más rápida y directa a WhatsApp en cualquier dispositivo.

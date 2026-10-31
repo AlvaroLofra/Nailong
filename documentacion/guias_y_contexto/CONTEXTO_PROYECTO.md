@@ -35,7 +35,7 @@
 | Pilar | Descripción |
 |---|---|
 | **Interactividad Inmersiva** | El usuario no solo mira fotos; toca la pancita de Nailong, cambia sus expresiones, lanza llamaradas y juega en el minijuego arcade. |
-| **Coleccionismo Total** | Álbum completo con 82 cromos auténticos organizados por estados de ánimo, listos para descargar o copiar. |
+| **Coleccionismo Total** | Álbum completo con 80 cromos auténticos organizados por estados de ánimo, listos para descargar o copiar. |
 | **Síntesis en Tiempo Real** | Sonidos de dibujos animados generados algorítmicamente mediante Web Audio API sin descargas de audio externas. |
-| **Solución Nativa para WhatsApp** | Aplicación Android nativa independiente (`StickersNailong.apk`) para instalar los 82 stickers animados en el teclado de WhatsApp en 1 click o crear paquetes personalizados con «Mi Selección». |
+| **Solución Nativa para WhatsApp** | Aplicación Android nativa independiente (`StickersNailong.apk`) para instalar los 80 stickers animados en el teclado de WhatsApp en 1 click o crear paquetes personalizados con «Mi Selección». |
 | **Cero Fricción (Buildless)** | La web no requiere NodeJS, empaquetadores ni compiladores; se sirve directamente desde GitHub Pages. |
