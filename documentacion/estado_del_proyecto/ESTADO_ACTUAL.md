@@ -2,15 +2,15 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 31/10/2026 — Retiro de stickers duplicados (1/42 y 6/14), renumeración continua a 80 stickers y lanzamiento v3.2.2 (D-16).
+> **Última actualización:** 31/10/2026 — Retiro de stickers duplicados (1/42 y 6/14), renumeración continua a 80 stickers y lanzamiento v3.2.3 (D-16).
 > **Rama activa:** `main` (sincronizada con `origin/main`).
-> **Versión actual de producción:** Web `v3.2.2` | Android APK `v3.2.2` (`versionCode 5`).
+> **Versión actual de producción:** Web `v3.2.3` | Android APK `v3.2.3` (`versionCode 5`).
 
 ---
 
 ## 1. En una Frase
 
-La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.2.2**, tras eliminar dos stickers duplicados redundantes, renumerar limpiamente el catálogo a 80 cromos oficiales continuos (59 animados y 21 estáticos) y superar las 44/44 pruebas de verificación al 100%.
+La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.2.3**, tras eliminar dos stickers duplicados redundantes, renumerar limpiamente el catálogo a 80 cromos oficiales continuos (59 animados y 21 estáticos) y superar las 44/44 pruebas de verificación al 100%.
 
 ---
 
@@ -44,7 +44,7 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
   - `verify_all.py` adaptado a 80 stickers pasando las 44/44 pruebas al 100%.
   - `normalizar_stickers.py --check` validando 0 problemas en los 80 stickers.
 - [x] **Vitrina Pública y Documentación:**
-  - `README.md` actualizado con notas de parche directas para v3.2.2 y sticker animado en cabecera.
+  - `README.md` actualizado con notas de parche directas para v3.2.3 y sticker animado en cabecera.
   - `CHANGELOG.md`, `DECISIONES.md` (D-16), `00_INDICE.md` y guías sincronizadas.
 
 ---

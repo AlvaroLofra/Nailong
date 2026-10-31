@@ -5,8 +5,10 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
-## [3.2.2] — 2026-10-31
-Última versión publicada. Retiro de duplicados 1/42 y 6/14, renumeración continua a 80 stickers y APK sincronizado.
+## [3.2.3] — 2026-10-31
+Última versión publicada. Corrección de la etiqueta del peso del APK en la web (20 MB).
+
+## [3.2.2] — 2026-10-31 Retiro de duplicados 1/42 y 6/14, renumeración continua a 80 stickers y APK sincronizado.
 
 ## [3.2.1] — 2026-10-31
 División de `index.html` en marcado + `css/styles.css` + `js/` (D-15) e instrucciones de agente canónicas (`AGENTS.md`, D-14).
@@ -184,3 +186,10 @@ División de `index.html` en marcado + `css/styles.css` + `js/` (D-15) e instruc
   - Ajuste de `generar_assets.py` con los nuevos lotes de packs: *Nailong animado 1* (29 stickers), *Nailong animado 2* (30 stickers) y *Nailong estático* (21 stickers), totalizando 80 stickers.
   - Recompilación con Gradle (`versionCode 5`, `versionName "3.2.2"`), firmado con apksigner (esquemas v1, v2 y v3) y copia del binario (20.3 MB / 21.315.677 bytes) a la raíz del repositorio web.
 - **Pruebas Automatizadas:** `verify_all.py` actualizado a 80 stickers, verificando que los 44 tests continúen superándose al 100%.
+
+---
+
+### 📌 Versión 3.2.3 (v3.2.3) - Corrección de Peso del APK en la Web
+- **Botón de Descarga Web:** Corrección de la etiqueta textual del botón de descarga en `index.html` a `Descargar APK (20 MB)`, reflejando con exactitud el peso real del binario `StickersNailong.apk` (20.3 MB / 21.315.677 bytes) tras la optimización del catálogo a 80 stickers.
+- **Sincronización:** Actualizado el pie de página y la insignia a `v3.2.3` con cache-busting `?v=3.2.3`.
+

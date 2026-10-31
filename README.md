@@ -132,7 +132,10 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Acceso directo a la descarga de la app en la barra superior y en el menú móvil.
 - Cabecera compactada para pantallas móviles estrechas sin desbordes laterales.
 
-#### v3.2.2 (Actual) — Colección Optimizada a 80 Stickers y Sincronización Total
+#### v3.2.3 (Actual) — Corrección de Peso de APK en la Web
+- Corrección de la etiqueta del botón de descarga del APK en la web oficial: muestra el peso real de 20 MB (en lugar del valor histórico de 26 MB).
+
+#### v3.2.2 — Colección Optimizada a 80 Stickers y Sincronización Total
 - Retiro de stickers duplicados: eliminados los duplicados `sticker_6` y `sticker_42`.
 - Renumeración continua del catálogo completo a exactamente 80 cromos oficiales.
 - Sincronización de estados de ánimo, sonidos, Visor Mágico y minijuego en la web.
