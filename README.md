@@ -104,7 +104,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.2.1: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
+### 📌 Ciclo v3.0.0 – v3.2.3: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
 
 #### v3.0.0 — App Android Oficial y «Mi Selección»
 - Estreno de la aplicación nativa oficial para Android (`StickersNailong.apk`).
@@ -132,8 +132,12 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Acceso directo a la descarga de la app en la barra superior y en el menú móvil.
 - Cabecera compactada para pantallas móviles estrechas sin desbordes laterales.
 
-#### v3.2.3 (Actual) — Corrección de Peso de APK en la Web
-- Corrección de la etiqueta del botón de descarga del APK en la web oficial: muestra el peso real de 20 MB (en lugar del valor histórico de 26 MB).
+#### v3.2.1 — Exportación a WhatsApp Fluida y Reorganización Web
+- Solucionada la apertura del menú de WhatsApp al exportar desde «Mi Selección».
+- Respuesta táctil inmediata al pulsar los botones en las ventanas de confirmación y éxito.
+- Entrega de archivos de stickers más rápida y directa a WhatsApp en cualquier dispositivo.
+- Reorganización de la web: sección del creador con Nailong ubicada al final de la página.
+- Paquete `StickersNailong.apk` actualizado y verificado al 100% con 44 pruebas de calidad.
 
 #### v3.2.2 — Colección Optimizada a 80 Stickers y Sincronización Total
 - Retiro de stickers duplicados: eliminados los duplicados `sticker_6` y `sticker_42`.
@@ -141,12 +145,8 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Sincronización de estados de ánimo, sonidos, Visor Mágico y minijuego en la web.
 - Actualización de la app Android (`StickersNailong.apk` v3.2.2) con los tres paquetes oficiales optimizados.
 
-#### v3.2.1 — Exportación a WhatsApp Fluida y Reorganización Web
-- Solucionada la apertura del menú de WhatsApp al exportar desde «Mi Selección».
-- Respuesta táctil inmediata al pulsar los botones en las ventanas de confirmación y éxito.
-- Entrega de archivos de stickers más rápida y directa a WhatsApp en cualquier dispositivo.
-- Reorganización de la web: sección del creador con Nailong ubicada al final de la página.
-- Paquete `StickersNailong.apk` actualizado y verificado al 100% con 44 pruebas de calidad.
+#### v3.2.3 (Actual) — Corrección de Peso de APK en la Web
+- Corrección de la etiqueta del botón de descarga del APK en la web oficial: muestra el peso real de 20 MB (en lugar del valor histórico de 26 MB).
 
 ---
 
