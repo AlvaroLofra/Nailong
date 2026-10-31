@@ -67,6 +67,11 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
    - La interfaz debe funcionar perfectamente en iPhone (Safari iOS con Dynamic Island y barra inferior) y Android (Chrome), respetando `viewport-fit=cover`, safe-area insets y soporte PWA.
 6. **Verificación Continua:**
    - Tras cualquier cambio, se DEBE ejecutar la suite de pruebas `python verify_all.py` y comprobar que todos los tests pasen al 100%.
+7. **Dicotomía Documental (README vs. documentacion/):**
+   - **`README.md` (Vitrina Pública):** Estilo directo, claro, conciso y orientado exclusivamente al usuario final. Frases cortas sobre lo que el usuario ve o recibe. Prohibido incluir justificaciones técnicas internas, bloques de código explicativos o razonamientos defensivos.
+   - **`documentacion/` (Base de Conocimiento Técnica):** Registro de ingeniería riguroso siguiendo el estándar UEM (`00_INDICE.md`, `estado_del_proyecto/` con `ESTADO_ACTUAL.md` y `DECISIONES.md`, `guias_y_contexto/`, `notas_tecnicas/`).
+8. **Mantenimiento del Índice Maestro:**
+   - Cualquier documento técnico o bitácora nueva que se cree en `documentacion/` DEBE ser indexada en `documentacion/00_INDICE.md` en el mismo commit.
 
 ---
 
@@ -75,8 +80,13 @@ La aplicación es un sitio web inmersivo, responsivo y de alto rendimiento dedic
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma)
 ├── manifest.json                # Manifiesto para instalación PWA en móviles
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (26.6 MB)
-├── DOCUMENTACION.md             # Documentación técnica completa de código, ADRs y arquitectura
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (24.6 MB, v3.2.1)
+├── DOCUMENTACION.md             # Documentación técnica consolidada para compatibilidad con tests
+├── documentacion/               # Base de conocimiento modular (estándar UEM)
+│   ├── 00_INDICE.md             # Índice maestro y orden de lectura
+│   ├── estado_del_proyecto/     # ESTADO_ACTUAL.md, DECISIONES.md, bitacoras/
+│   ├── guias_y_contexto/        # Contexto del proyecto y guía de desarrollo
+│   └── notas_tecnicas/          # Notas técnicas por subsistema (Android, WebP, Audio, GPU)
 ├── GEMINI.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Gemini)
 ├── CLAUDE.md                    # Guía de contexto, gobernanza y reglas de desarrollo (Claude)
 ├── README.md                    # Presentación pública del repositorio
@@ -294,6 +304,8 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
   - Detección del paquete solicitante (`com.whatsapp` / `com.whatsapp.w4b`) en `getPackForAllStickerPacks` para resolver positivamente cualquier verificación global de metadatos de WhatsApp manteniendo la lista principal de la app limpia.
   - Paridad de esquema con valores por defecto vacíos en `androidPlayStoreLink` e `iosAppStoreLink` en `DynamicPackManager.java`.
 - **Sincronización Web y Binario:** Recompilación del APK firmado `StickersNailong.apk` (24.6 MB, `versionCode 4`, `versionName "3.2.1"`), actualización de insignia `v3.2.1 APK`, pie de página `v3.2.1` y suite de verificación pasando las 44 pruebas al 100%.
+- **Reorganización Web:** Reubicación de la sección del creador con Nailong (`#creador`) debajo del minijuego (`#minijuego`) al pie de la página, manteniendo la navegación intacta.
+- **Estandarización Documental UEM y Dicotomía de Estilo:** Separación estricta entre la vitrina pública (`README.md`, notas de parche directas, cortas y sin tecnicismos) y la base técnica modular en `documentacion/` (`00_INDICE.md`, `estado_del_proyecto/`, `guias_y_contexto/`, `notas_tecnicas/`).
 
 ---
 

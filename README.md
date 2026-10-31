@@ -14,6 +14,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - **Botonera Musical:** 12 casillas con efectos de caricatura sintetizados en tiempo real mediante la Web Audio API.
 - **Laboratorio de Superpoderes:** Ajuste de tamaño, modo camaleón con ciclo arcoíris y lanzamiento de llamaradas en canvas.
 - **Minijuego "La Gran Comilona":** Juego arcade en HTML5 Canvas con pantalla completa fluida, controles táctiles y teclado.
+- **Encuentro con el Creador:** Rincón especial al pie de la página con foto y dedicatoria junto a Nailong.
 - **Diseño Mobile-First (PWA):** Adaptación a Dynamic Island, gestos swipe y soporte para instalación en la pantalla de inicio en iOS y Android.
 
 ---
@@ -101,57 +102,38 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ### 📌 Ciclo v3.0.0 – v3.2.1: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
 
-#### v3.0.0 — Lanzamiento de la App Oficial y Sistema «Mi Selección»
-- **App Nativa Android (`StickersNailong.apk`, 26.6 MB):**
-  - Aplicación Android nativa autónoma compilada y firmada con esquemas v1 y v2.
-  - Integración oficial con WhatsApp mediante `StickerContentProvider` con permisos `com.whatsapp.sticker.READ` y disparo del Intent `ENABLE_STICKER_PACK`.
-- **3 Packs Oficiales Preconfigurados (82 Stickers):**
-  - **Nailong animado 1:** 30 stickers animados con icono de bandeja animado.
-  - **Nailong animado 2:** 30 stickers animados con icono de bandeja temático.
-  - **Nailong estático:** 22 stickers estáticos normalizados con etiquetas de accesibilidad.
-- **Sistema «Mi Selección»:**
-  - Selección interactiva de cromos sueltos (mínimo 3, máximo 30) entre cualquier pack mediante toques con checkmark visual.
-  - Detección inteligente de selecciones mixtas (separación de animados y estáticos para cumplir las restricciones de WhatsApp).
-  - Almacenamiento y servicio dinámico en memoria interna (`context.getFilesDir()/selection_packs/`) con identificadores incrementales únicos (`seleccion_1`, `seleccion_2`...).
-- **Diseño Claymorphism Temático Nailong:**
-  - Interfaz cálida en tonos crema, amarillo pastel, ámbar y naranja mandarina con tarjetas Claymorphism en relieve.
-  - Insignias dinámicas de tipo, selector de carpetas («Ver stickers ❯») y botones de importación directa a WhatsApp.
-- **Descarga Directa en la Web:**
-  - Banner Claymorphism destacado en `#galeria` dentro de la web oficial para descargar `StickersNailong.apk` con 1 toque.
-  - Suite de pruebas automatizadas actualizada a 42 comprobaciones completas.
+#### v3.0.0 — App Android Oficial y «Mi Selección»
+- Estreno de la aplicación nativa oficial para Android (`StickersNailong.apk`).
+- 3 packs oficiales con los 82 stickers para añadir a WhatsApp (2 animados y 1 estático).
+- Creador personalizado «Mi Selección»: toca cualquier sticker para armar tu propio pack a medida.
+- Separación inteligente de stickers animados y estáticos con importación guiada.
+- Tarjetas táctiles Claymorphism y banner de descarga directa con 1 toque en la web.
 
-#### v3.0.1 — Pulido de UI, Ajuste Tipográfico y Limpieza de Inspecciones
-- **Ajuste Tipográfico en Botones:** Añadido `textAllCaps="false"` y tamaño calibrado en el botón «Ver stickers ❯» para evitar que el texto en mayúsculas forzadas salte a dos líneas y se corte en pantallas con escala de fuente grande.
-- **Encuadre de Título:** Reducción de padding en badges y ajuste a 16sp para que títulos como «Nailong animado 1» se muestren íntegros sin truncarse con puntos suspensivos.
-- **Limpieza de Inspecciones Lint:** Resolución de advertencias de márgenes bidireccionales RTL (`layout_marginLeft`/`layout_marginRight`), extracción de cadenas a recursos XML (`@string/my_selection_badge_title`) y etiquetas de compatibilidad de API para dejar Android Studio sin avisos en rojo.
+#### v3.0.1 — Ajustes Visuales y Tipográficos
+- Botones adaptados para evitar saltos de línea con fuentes grandes del sistema.
+- Títulos de los packs ampliados para mostrar el nombre completo sin cortes.
+- Compatibilidad visual y márgenes optimizados para todas las pantallas Android.
 
-#### v3.1.0 — UI Pulida, Tipografía Fredoka y Personalización de Packs
-- **Corrección Web Móvil:** Píldora del álbum fotográfico (`#galeria`) optimizada como bloque fluido (`inline-block rounded-2xl`) con ajuste de salto limpio en 2 líneas sin solapamiento de bordes.
-- **Tipografía Fredoka Integrada:** Incorporación nativa de la familia tipográfica Google Font **Fredoka** (`fredoka.xml` con pesos Regular, Medium, SemiBold y Bold) en la aplicación Android para dotar a botones, títulos, tarjetas y diálogos del mismo diseño divertido, redondeado y alegre de la web oficial.
-- **Feedback Táctil Instantáneo (Cero Lag):** Reemplazo de los Toasts encolados del sistema operativo por un **Banner/Píldora In-App Claymorphism reactivo** que actualiza el contador de selección en tiempo real (0 ms de demora) sin acumular colas ni mensajes atrasados.
-- **Cuadrícula de Stickers en Contenedor:** Integración de una tarjeta Claymorphism con fondo blanco (`#FFFFFF`), bordes redondeados (`20dp`) y perfil amarillo cálido (`#FDE047`) para separar visualmente la cuadrícula de stickers del fondo de la ventana.
-- **Eliminación del Botón «(i)»:** Supresión del botón de información de la barra de acciones superior en la vista de detalles para una navegación más limpia y despejada.
-- **Corrección de Textos Superpuestos:** Reestructuración de la barra inferior en detalles de pack para evitar que la indicación «Pack añadido a WhatsApp» y el texto de ayuda se dibujen en la misma posición.
-- **Diálogo Claymorphism con Renombrado Suave (Lápiz ✏️):** Nueva ventana de confirmación al importar «Mi Selección» que elimina el icono `⚠️` y las frases irrelevantes, permitiendo personalizar el nombre del pack libremente con un botón de lápiz temático; el nombre elegido se traslada automáticamente a WhatsApp.
-- **Mensaje de Éxito Celebratorio:** Diálogo emergente temático (*"🎉 ¡Pack añadido a WhatsApp! Tus stickers de Nailong ya están listos para usar en tus chats"*).
-- **Calibración del Icono de la App (Safe Zone):** Ajuste de escala al 72% y centrado en el lienzo del icono adaptativo (`ic_launcher_foreground.png`), resolviendo el zoom excesivo y asegurando que la carita completa de Nailong se vea redonda y nítida en el launcher sin recortes en la barbilla ni en la cabeza.
-- **Sincronización Web y Pruebas:** Binario `StickersNailong.apk` (24.6 MB) actualizado en web con insignia `v3.1.0 APK`, pie de página `v3.1.0` y suite de verificación ampliada a **43 comprobaciones completas**.
+#### v3.1.0 — Tipografía Fredoka, Renombrado y Mejoras Visuales
+- Tipografía oficial Fredoka integrada en toda la app para un estilo más tierno y redondeado.
+- Diálogo para renombrar tu pack de «Mi Selección» con botón de lápiz antes de exportarlo.
+- Aviso visual instantáneo al seleccionar stickers, sin esperas ni avisos acumulados.
+- Cuadrícula de stickers enmarcada en una tarjeta limpia con borde amarillo cálido.
+- Mensaje festivo de confirmación al añadir el pack a WhatsApp.
+- Icono de la app centrado y calibrado para lucir perfecto en cualquier lanzador de Android.
 
-#### v3.2.0 — Sección «Stickers» Unificada y Barra Móvil Corregida
-- **Muro de GIFs y álbum fusionados:** una sola sección con el banner de la app primero, el Visor Mágico como tira horizontal de 9 escenas y el álbum después. En móvil el Visor ocupa unos 200 px en vez de 9 tarjetas apiladas.
-- **Visor desde el álbum:** botón «Abrir en el Visor Mágico» en los stickers que son una de las 9 escenas.
-- **Botón «Descargar la App»** en el menú de los tres puntos (móvil) y «📲 App» en la barra de escritorio.
-- **Corrección del zoom/desborde en móvil:** barra superior compactada para que el botón del menú se vea entero en pantallas estrechas.
-- Suite de verificación ampliada a **44 comprobaciones** y pie de página `v3.2.0`.
+#### v3.2.0 — Sección de Stickers Unificada y Barra Móvil Optimizada
+- Sección de stickers unificada: app, tira horizontal del Visor Mágico y álbum Polaroid juntos.
+- Botón en el visor ampliado del álbum para abrir directamente las 9 escenas virales en el Visor Mágico.
+- Acceso directo a la descarga de la app en la barra superior y en el menú móvil.
+- Cabecera compactada para pantallas móviles estrechas sin desbordes laterales.
 
-#### v3.2.1 (Actual) — Corrección de Eventos Táctiles en Diálogo y Robustecimiento de ContentProvider
-- **Corrección de Eventos Táctiles en Diálogos:** Resuelto el problema por el cual al pulsar «Añadir a WhatsApp» en el diálogo de personalización de «Mi Selección», el menú de WhatsApp no se abría. La causa era la captura interna del click por parte del `TextView` hijo (que heredaba `clickable="true"` de `Widget.MaterialComponents.Button.TextButton`), impidiendo el disparo del listener del botón contenedor. Se ha configurado `android:clickable="false"` y se ha blindado la invocación enlazando el listener tanto al contenedor como a la vista hija.
-- **Robustecimiento de `StickerContentProvider`:**
-  - Implementación de `openFile(Uri, String)` para servir directamente los descriptores `ParcelFileDescriptor` en modo lectura sin crear pipes intermediarios.
-  - Ajuste en `openAssetFile` para devolver `AssetFileDescriptor.UNKNOWN_LENGTH` en archivos dinámicos generados en almacenamiento interno.
-  - Integración de detección del paquete solicitante (`com.whatsapp` / `com.whatsapp.w4b`) en `getPackForAllStickerPacks` para resolver positivamente cualquier verificación global de metadatos de WhatsApp manteniendo la lista principal de la app limpia.
-  - Paridad de esquema con valores por defecto en `androidPlayStoreLink` e `iosAppStoreLink`.
-- **Sincronización Web y Binario:** Recompilación del APK firmado `StickersNailong.apk` (24.6 MB, `versionCode 4`, `versionName "3.2.1"`), actualización de insignia `v3.2.1 APK`, pie de página `v3.2.1` y suite de verificación pasando las 44 pruebas al 100%.
+#### v3.2.1 (Actual) — Exportación a WhatsApp Fluida y Reorganización Web
+- Solucionada la apertura del menú de WhatsApp al exportar desde «Mi Selección».
+- Respuesta táctil inmediata al pulsar los botones en las ventanas de confirmación y éxito.
+- Entrega de archivos de stickers más rápida y directa a WhatsApp en cualquier dispositivo.
+- Reorganización de la web: sección del creador con Nailong ubicada al final de la página.
+- Paquete `StickersNailong.apk` actualizado y verificado al 100% con 44 pruebas de calidad.
 
 ---
 
