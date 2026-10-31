@@ -1,5 +1,9 @@
 # ¡El Mundo Mágico de Nailong (奶龙)! 🦖
 
+<p align="center">
+  <img src="Stickers%20Nailong/sticker_2.webp" alt="Nailong animado" width="200" />
+</p>
+
 Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de leche amarillo creado por *Seventh Impression*.
 
 🌐 **Enlace web en vivo:** [https://alvarolofra.github.io/Nailong/](https://alvarolofra.github.io/Nailong/)

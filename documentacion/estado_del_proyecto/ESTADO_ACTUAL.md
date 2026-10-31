@@ -2,15 +2,15 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 31/10/2026 — Sesión «Adopción de las pautas de la biblioteca central» (D-14) y división de `index.html` (D-15), sobre v3.2.1 (sin cambios visibles de producto).
-> **Rama activa:** `docs/adopcion-pautas-centrales` (subida a `origin`; `main` intacta hasta fusionar).
+> **Última actualización:** 31/10/2026 — Incorporación del sticker animado de Nailong (`sticker_2.webp`) en la cabecera de `README.md`.
+> **Rama activa:** `main` (sincronizada con `origin/main`).
 > **Versión actual de producción:** Web `v3.2.1` | Android APK `v3.2.1` (`versionCode 4`).
 
 ---
 
 ## 1. En una Frase
 
-La aplicación web y la aplicación nativa Android se encuentran plenamente sincronizadas en la versión **v3.2.1**: la sección del Creador ha sido reubicada al pie de la página, el botón de exportación de «Mi Selección» abre de forma fluida el menú nativo de WhatsApp en cualquier dispositivo Android, y el proyecto cuenta con 44/44 pruebas de verificación superadas al 100%.
+La web interactiva y la app nativa Android se encuentran sincronizadas en la versión **v3.2.1**, el front-end está limpiamente modularizado en `css/` y `js/` sin herramientas de build, y el repositorio de GitHub luce a Nailong animado en la cabecera de su README con 44/44 pruebas pasando al 100%.
 
 ---
 
@@ -18,7 +18,7 @@ La aplicación web y la aplicación nativa Android se encuentran plenamente sinc
 
 | Métrica / Concepto | Valor Verificado |
 |---|---|
-| **Punto único de entrada web** | `index.html` + `css/` + `js/` (SPA pura, 0 dependencias de compilación). |
+| **Punto único de entrada web** | `index.html` + `css/styles.css` + `js/` (10 ficheros modulares, 0 dependencias de compilación). |
 | **Banco de cromos coleccionables** | Exactamente 82 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador. |
 | **Packs oficiales preconfigurados en Android** | 3 packs: *Nailong animado 1* (30), *Nailong animado 2* (30) y *Nailong estático* (22). |
 | **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con bifurcación inteligente por tipo mixto. |
@@ -32,42 +32,35 @@ La aplicación web y la aplicación nativa Android se encuentran plenamente sinc
 
 ## 3. Qué Está Completado y Verificado
 
-- [x] **Web Interactiva:**
+- [x] **Web Interactiva y Modularización (D-15):**
+  - Marcado en `index.html` (≈1.060 líneas) + `css/styles.css` + 10 ficheros en `js/`.
   - Hero elástico interactivo con pancita y contador de Duangs.
   - Visor Mágico en tira horizontal integrada en la sección `#galeria`.
-  - Gran Álbum Polaroid con 82 cromos, paginación de 24 en 24 y persistencia de fotos en `localStorage`.
+  - Gran Álbum Polaroid con 82 cromos, paginación y persistencia de fotos en `localStorage`.
   - Laboratorio de Superpoderes con modo camaleón y lanzallamas en canvas.
-  - Minijuego "La Gran Comilona" a 60 FPS con modo pantalla completa y HUD integrado.
-  - **Reorganización:** Sección del creador (`#creador`) ubicada al final de la página (bajo el minijuego).
+  - Minijuego "La Gran Comilona" a 60 FPS con pantalla completa y HUD integrado.
+  - Sección del creador (`#creador`) ubicada al final de la página (bajo el minijuego).
   - Barra superior responsive adaptada a pantallas estrechas (320 px sin desborde horizontal).
 - [x] **Aplicación Nativa Android (`StickersNailong.apk`):**
   - Implementación de `StickerContentProvider` con permisos `com.whatsapp.sticker.READ`.
-  - Integración nativa de la familia tipográfica Google Font **Fredoka**.
-  - Píldora de feedback in-app instantáneo (0 ms de espera) sustituyendo Toasts del sistema.
-  - Cuadrícula de stickers enmarcada en tarjeta Claymorphism con borde `#FDE047`.
-  - Diálogo de renombrado suave de pack con botón de lápiz ✏️ (`dialog_import_selection.xml`).
-  - Diálogo celebratorio de éxito (`dialog_success_whatsapp.xml`).
-  - Corrección de captura de toques táctiles (`clickable="false"` y enlace dual de listeners).
-  - Sobrescritura de `openFile()` y bypass de pipes en `StickerContentProvider`.
-  - Icono del launcher calibrado al 72% de la *Safe Zone* de 108 dp.
-
----
-
-- [x] **División de `index.html` (D-15):** `index.html` (≈1.060 líneas) + `css/styles.css` + `js/` (10 ficheros + config de Tailwind), contenido idéntico al original; comprobado en navegador local sin errores de consola.
-- [x] **Material histórico (D-14 E):** `DeepResearch…md` y `PLAN_APP_STICKERS_WHATSAPP.md` en `archivo/`; `prueba_whatsapp/` eliminada.
-- [x] **Instrucciones de agente (D-14):** `AGENTS.md` canónico (~55 líneas) · `CLAUDE.md`/`GEMINI.md` reducidos a punteros · `CHANGELOG.md` y `documentacion/notas_tecnicas/00_mapa_de_codigo.md` creados con el contenido que antes inflaba `CLAUDE.md` · `CLAUDE.local.md` (ignorado) con la ruta de la biblioteca central · `.gitignore` nuevo · `verify_all.py` (tests 33 y 35) adaptado; sigue en 44/44.
+  - Integración nativa de tipografía Fredoka y feedback táctil in-app instantáneo.
+  - Diálogos Claymorphism de renombrado de selección y éxito.
+  - Corrección de consumo de toques táctiles y bypass de pipes en `openFile()`.
+- [x] **Vitrina Pública (`README.md`):**
+  - Incorporación del sticker animado `sticker_2.webp` bajo el título principal.
+  - Notas de parche redactadas en estilo directo, conciso y de cara al usuario.
+- [x] **Gobernanza y Documentación (D-14):**
+  - `AGENTS.md` canónico (< 60 líneas), `CLAUDE.md` y `GEMINI.md` como punteros sin duplicación.
+  - `CHANGELOG.md` independiente.
+  - Documentación modular completa en `documentacion/` con `00_INDICE.md`.
 
 ---
 
 ## 4. Qué Está Pendiente o Próximos Pasos
 
-- [ ] **Decidir el commit** de la rama `docs/adopcion-pautas-centrales` (código y documentación en commits separados) y su fusión en `main`.
-- [ ] **Fijar versiones CDN** (Tailwind sin versión, Font Awesome sin `integrity`) y decidir si `js/` pasa a módulos ES (D-15, abierta).
-- [ ] **Fusionar la rama en `main`** para publicar la división en GitHub Pages (hoy solo está en la rama).
-- [ ] `DOCUMENTACION.md` duplica a `documentacion/` y conserva cifras antiguas en su cuerpo (la suite lo exige); consolidarlo o retirarlo en una sesión propia.
-
+- [ ] Fijar versiones CDN (Tailwind sin versión, Font Awesome sin `integrity`) y valorar módulos ES si el proyecto crece (D-15, abierta).
 - [ ] Validación manual en dispositivo físico por parte del usuario de la exportación fluida a WhatsApp.
-- [ ] Exploración futura de empaquetado para Google Play Store según viabilidad.
+- [ ] Consolidar o retirar `DOCUMENTACION.md` en una sesión dedicada si se decide que la fuente viva en `documentacion/` lo reemplaza formalmente.
 
 ---
 
