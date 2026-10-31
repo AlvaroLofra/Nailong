@@ -469,8 +469,8 @@
                     <a href="#inicio" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">👋 ¡Hola!</a>
                     <a href="#historia" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🌟 ¿Quién es?</a>
                     <a href="#creador" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">💛 Creador</a>
-                    <a href="#muro-gifs" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🎬 Muro de GIFs</a>
-                    <a href="#galeria" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">📸 Álbum</a>
+                    <a href="#muro-gifs" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🎬 Visor Mágico</a>
+                    <a href="#galeria" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">📸 Stickers</a>
                     <a href="#soundboard" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🔊 Botonera</a>
                     <a href="#poderes" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">⚡ Poderes</a>
                     <a href="#minijuego" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🍗 Minijuego</a>
@@ -504,7 +504,7 @@
                 <a href="#inicio" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">👋 ¡Hola!</a>
                 <a href="#historia" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🌟 ¿Quién es Nailong?</a>
                 <a href="#creador" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">💛 El Creador & Nailong</a>
-                <a href="#muro-gifs" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🎬 Muro de GIFs</a>
+                <a href="#muro-gifs" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🎬 Visor Mágico</a>
                 <a href="#galeria" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">📸 Gran Álbum Polaroid</a>
                 <a href="#soundboard" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🔊 Botonera Musical (12)</a>
                 <a href="#poderes" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">⚡ Laboratorio de Poderes</a>
@@ -803,43 +803,16 @@
         </section>
 
         <!-- 4. MURO DE GIFS Y ANIMACIONES EN BUCLE REALES (9 ESCENAS VIRALES) -->
-        <section id="muro-gifs" class="space-y-10">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-item">
-                <div class="space-y-2">
-                    <span class="bg-nailong-yellow border-2 border-nailong-orange px-4 py-1 rounded-full font-display font-bold text-sm text-amber-950 inline-block">
-                        🎬 ANIMACIONES EN BUCLE REALES
-                    </span>
-                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-amber-950">
-                        Muro de <span class="text-nailong-orange">GIFs y Animaciones</span> de Nailong
-                    </h2>
-                    <p class="text-lg text-amber-900/85 font-semibold">
-                        ¡Haz clic en cualquier animación para abrirla en el <strong>Visor Mágico</strong>, cambiar su velocidad o estamparle stickers!
-                    </p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm font-bold text-amber-800 bg-white px-4 py-2 rounded-full border-2 border-nailong-yellow shadow-sm">
-                        ✨ 9 Escenas Virales Extraídas de sus Stickers
-                    </span>
-                </div>
-            </div>
-
-            <!-- Grid of 9 Real Looping GIF Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7" id="gif-wall-grid">
-                <!-- Dynamically populated with real animated webp stickers -->
-            </div>
-        </section>
-
-        <!-- 5. GRAN ÁLBUM DE FOTOS POLAROID (LAS 82 FOTOS Y CROMOS REALES) -->
-        <section id="galeria" class="space-y-10">
+        <section id="galeria" class="space-y-8">
             <div class="text-center max-w-3xl mx-auto space-y-3 reveal-item">
                 <span class="inline-block max-w-full bg-nailong-pink/30 text-rose-950 border-2 border-nailong-pink px-4 py-1.5 rounded-2xl sm:rounded-full font-display font-bold text-xs sm:text-sm text-center leading-snug shadow-sm">
-                    📸 COLECCIÓN COMPLETA DE FOTOS Y STICKERS
+                    📸 STICKERS, ANIMACIONES Y FOTOS
                 </span>
                 <h2 class="font-display font-bold text-3xl sm:text-5xl text-amber-950">
-                    Gran Álbum de Fotos de <span class="text-nailong-orange">Nailong (奶龙)</span>
+                    Stickers de <span class="text-nailong-orange">Nailong (奶龙)</span>
                 </h2>
                 <p class="text-lg text-amber-900/85 font-semibold">
-                    Explora los 82 stickers y fotos reales del muñeco: sus comilonas, caras divertidas, bailes virales y momentos con amigos. ¡O añade tus propias fotos!
+                    Llévate los 82 stickers a tu WhatsApp con la app, juega con las animaciones en el Visor Mágico y explora el álbum completo. ¡O añade tus propias fotos!
                 </p>
             </div>
 
@@ -874,6 +847,20 @@
                 </div>
             </div>
 
+            <!-- VISOR MÁGICO: tira horizontal con las 9 escenas animadas -->
+            <div id="muro-gifs" class="max-w-5xl mx-auto space-y-3 reveal-item scroll-mt-24">
+                <div class="flex flex-wrap items-end justify-between gap-2">
+                    <div>
+                        <span class="bg-nailong-yellow border-2 border-nailong-orange px-3 py-0.5 rounded-full font-display font-bold text-xs text-amber-950 inline-block">🎬 ANIMACIONES EN BUCLE</span>
+                        <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950 mt-1">Visor Mágico</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm font-semibold text-amber-900/85">Toca una escena para cambiar su velocidad o estamparle stickers 👉</p>
+                </div>
+                <div id="gif-wall-grid" class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
+                    <!-- Dynamically populated with real animated webp stickers -->
+                </div>
+            </div>
+
             <!-- BANNER DESTACADO WHATSAPP Y DESCARGA DIRECTA -->
             <div class="clay-card bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border-3 border-emerald-400 p-5 sm:p-7 text-center max-w-4xl mx-auto shadow-md reveal-item">
                 <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-emerald-900 font-display font-bold text-xl sm:text-3xl leading-snug">
@@ -885,6 +872,8 @@
                     Toca cualquiera de los 82 cromos auténticos para abrir el menú mágico: pulsa «Copiar Sticker» y pégalo en tu chat de WhatsApp (<strong class="text-emerald-800">iPhone / Android</strong>), o descárgalo directo en tu móvil ⭐
                 </p>
             </div>
+
+            <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950 text-center reveal-item">📸 Gran Álbum de Fotos y Cromos</h3>
 
             <!-- Filter Bar + Upload Button -->
             <div class="flex flex-wrap items-center justify-between gap-4 bg-white/90 p-4 rounded-3xl border-3 border-nailong-yellow shadow-sm reveal-item">
@@ -1282,6 +1271,9 @@
                     </button>
                     <button type="button" id="lb-whatsapp-btn" onclick="shareCurrentLightboxToWhatsApp()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-bold px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Enviar a WhatsApp como foto (para sticker usa Copiar Sticker)">
                         <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
+                    </button>
+                    <button type="button" id="lb-visor-btn" onclick="openVisorFromLightbox()" style="display:none" class="clay-btn bg-nailong-orange text-white font-display font-bold px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95">
+                        🔍 Abrir en el Visor Mágico
                     </button>
                     <a id="lb-download-btn" href="#" download="nailong_foto.webp" onclick="handleLightboxDownload(event)" class="clay-btn bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-transform hover:scale-105 active:scale-95">
                         <i class="fa-solid fa-download"></i> Descargar Foto
@@ -1944,37 +1936,12 @@
         function renderGifWall() {
             const grid = document.getElementById('gif-wall-grid');
             grid.innerHTML = FEATURED_GIFS.map((gif, index) => `
-                <div onclick="openMagicModal(${index})" class="clay-card p-5 cursor-pointer group flex flex-col justify-between reveal-item">
-                    <div class="relative h-60 rounded-2xl bg-gradient-to-br ${gif.bg} border-3 border-nailong-yellow flex items-center justify-center overflow-hidden shadow-inner p-3">
-                        <!-- Badges -->
-                        <span class="absolute top-3 left-3 bg-amber-950/80 text-nailong-yellow font-display font-bold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 z-10">
-                            <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
-                            GIF EN VIVO
-                        </span>
-                        <span class="absolute top-3 right-3 bg-white/90 text-amber-950 font-display font-bold text-xs px-3 py-1 rounded-full border border-nailong-yellow z-10 shadow-sm">
-                            ${gif.tag}
-                        </span>
-
-                        <!-- Real Animated Looping Image -->
-                        <div class="w-full h-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                            <img src="Stickers Nailong/sticker_${gif.id}.webp" alt="${gif.title}" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain">
-                        </div>
-
-                        <!-- Hover Prompt -->
-                        <div class="absolute bottom-2.5 right-2.5 bg-nailong-orange text-white text-xs font-display font-bold px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
-                            🔍 Abrir en Visor Mágico
-                        </div>
+                <button type="button" onclick="openMagicModal(${index})" class="shrink-0 snap-start w-32 sm:w-40 clay-card p-2 cursor-pointer group text-center" aria-label="Abrir en el Visor Mágico: ${gif.title}">
+                    <div class="aspect-square rounded-xl bg-gradient-to-br ${gif.bg} border-2 border-nailong-yellow flex items-center justify-center overflow-hidden p-1.5">
+                        <img src="Stickers Nailong/sticker_${gif.id}.webp" alt="${gif.title}" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-300">
                     </div>
-
-                    <div class="pt-4 space-y-1">
-                        <h3 class="font-display font-bold text-xl text-amber-950 group-hover:text-nailong-orange transition-colors">
-                            ${gif.title}
-                        </h3>
-                        <p class="text-amber-900/80 text-sm font-semibold">
-                            ${gif.desc}
-                        </p>
-                    </div>
-                </div>
+                    <span class="block pt-1.5 font-display font-bold text-[11px] sm:text-xs leading-tight text-amber-950 group-hover:text-nailong-orange transition-colors">${gif.title}</span>
+                </button>
             `).join('');
         }
 
@@ -2359,9 +2326,25 @@
                 }
             }
 
+            const visorBtn = document.getElementById('lb-visor-btn');
+            if (visorBtn) visorBtn.style.display = featuredGifIndexOf(item) >= 0 ? 'inline-flex' : 'none';
+
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             modal.style.display = 'flex';
+        }
+
+        // Posición del sticker en el Visor Mágico (-1 si no es una de sus 9 escenas)
+        function featuredGifIndexOf(item) {
+            if (!item || item.customUrl) return -1;
+            return FEATURED_GIFS.findIndex(g => g.id === item.id);
+        }
+
+        function openVisorFromLightbox() {
+            const idx = featuredGifIndexOf(displayedStickers[currentLightboxIndex]);
+            if (idx < 0) return;
+            closePhotoLightbox();
+            openMagicModal(idx);
         }
 
         function closePhotoLightbox() {

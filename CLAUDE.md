@@ -109,7 +109,7 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
    - Widget flotante en la esquina inferior con diálogos contextuales controlados por `requestAnimationFrame` según la posición del scroll.
 
 5. **Visor Mágico de Animaciones:**
-   - Galería de 9 escenas GIF virales.
+   - Tira horizontal de 9 escenas GIF virales dentro de la sección «Stickers» (`#galeria`, ancla `#muro-gifs`), justo debajo del banner de la app; el lightbox del álbum ofrece «Abrir en el Visor Mágico» para esas escenas.
    - Modal con control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento (swipe horizontal) y pegatinas arrastrables.
 
 6. **Gran Álbum Polaroid de Cromos:**
