@@ -99,7 +99,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.0.1: App Android Nativa Oficial, «Mi Selección» y Descarga Directa
+### 📌 Ciclo v3.0.0 – v3.1.0: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
 
 #### v3.0.0 — Lanzamiento de la App Oficial y Sistema «Mi Selección»
 - **App Nativa Android (`StickersNailong.apk`, 26.6 MB):**
@@ -120,11 +120,22 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
   - Banner Claymorphism destacado en `#galeria` dentro de la web oficial para descargar `StickersNailong.apk` con 1 toque.
   - Suite de pruebas automatizadas actualizada a 42 comprobaciones completas.
 
-#### v3.0.1 (Actual) — Pulido de UI, Ajuste Tipográfico y Limpieza de Inspecciones
+#### v3.0.1 — Pulido de UI, Ajuste Tipográfico y Limpieza de Inspecciones
 - **Ajuste Tipográfico en Botones:** Añadido `textAllCaps="false"` y tamaño calibrado en el botón «Ver stickers ❯» para evitar que el texto en mayúsculas forzadas salte a dos líneas y se corte en pantallas con escala de fuente grande.
 - **Encuadre de Título:** Reducción de padding en badges y ajuste a 16sp para que títulos como «Nailong animado 1» se muestren íntegros sin truncarse con puntos suspensivos.
 - **Limpieza de Inspecciones Lint:** Resolución de advertencias de márgenes bidireccionales RTL (`layout_marginLeft`/`layout_marginRight`), extracción de cadenas a recursos XML (`@string/my_selection_badge_title`) y etiquetas de compatibilidad de API para dejar Android Studio sin avisos en rojo.
-- **Sincronización Web y Documentación:** Actualizado el banner web a `v3.0.1 APK`, pie de página a `v3.0.1` y verificación con 42 comprobaciones completas.
+
+#### v3.1.0 (Actual) — UI Pulida, Tipografía Fredoka y Personalización de Packs
+- **Corrección Web Móvil:** Píldora del álbum fotográfico (`#galeria`) optimizada como bloque fluido (`inline-block rounded-2xl`) con ajuste de salto limpio en 2 líneas sin solapamiento de bordes.
+- **Tipografía Fredoka Integrada:** Incorporación nativa de la familia tipográfica Google Font **Fredoka** (`fredoka.xml` con pesos Regular, Medium, SemiBold y Bold) en la aplicación Android para dotar a botones, títulos, tarjetas y diálogos del mismo diseño divertido, redondeado y alegre de la web oficial.
+- **Feedback Táctil Instantáneo (Cero Lag):** Reemplazo de los Toasts encolados del sistema operativo por un **Banner/Píldora In-App Claymorphism reactivo** que actualiza el contador de selección en tiempo real (0 ms de demora) sin acumular colas ni mensajes atrasados.
+- **Cuadrícula de Stickers en Contenedor:** Integración de una tarjeta Claymorphism con fondo blanco (`#FFFFFF`), bordes redondeados (`20dp`) y perfil amarillo cálido (`#FDE047`) para separar visualmente la cuadrícula de stickers del fondo de la ventana.
+- **Eliminación del Botón «(i)»:** Supresión del botón de información de la barra de acciones superior en la vista de detalles para una navegación más limpia y despejada.
+- **Corrección de Textos Superpuestos:** Reestructuración de la barra inferior en detalles de pack para evitar que la indicación «Pack añadido a WhatsApp» y el texto de ayuda se dibujen en la misma posición.
+- **Diálogo Claymorphism con Renombrado Suave (Lápiz ✏️):** Nueva ventana de confirmación al importar «Mi Selección» que elimina el icono `⚠️` y las frases irrelevantes, permitiendo personalizar el nombre del pack libremente con un botón de lápiz temático; el nombre elegido se traslada automáticamente a WhatsApp.
+- **Mensaje de Éxito Celebratorio:** Diálogo emergente temático (*"🎉 ¡Pack añadido a WhatsApp! Tus stickers de Nailong ya están listos para usar en tus chats"*).
+- **Calibración del Icono de la App (Safe Zone):** Ajuste de escala al 72% y centrado en el lienzo del icono adaptativo (`ic_launcher_foreground.png`), resolviendo el zoom excesivo y asegurando que la carita completa de Nailong se vea redonda y nítida en el launcher sin recortes en la barbilla ni en la cabeza.
+- **Sincronización Web y Pruebas:** Binario `StickersNailong.apk` (24.6 MB) actualizado en web con insignia `v3.1.0 APK`, pie de página `v3.1.0` y suite de verificación ampliada a **43 comprobaciones completas**.
 
 ---
 

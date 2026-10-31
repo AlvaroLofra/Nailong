@@ -328,7 +328,7 @@ print("✔ v14 verified: all 82 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3\.0\.1<', html), "Footer must show the current version number (v3.0.1)!"
+assert re.search(r'id="app-version"[^>]*>v3\.1\.0<', html), "Footer must show the current version number (v3.1.0)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -339,12 +339,22 @@ assert "Añadir a favoritos" not in html, "The WhatsApp share button must not pr
 assert not os.path.exists('HANDOFF_WHATSAPP.md'), "Temporary WhatsApp handoff must be removed!"
 print("✔ v17 verified: clipboard sticker has transparent rounded corners (pasted as a WhatsApp sticker).")
 
-# Test 42: v3.0.1 - App Nativa Android Stickers Nailong (.apk) y Banner Claymorphism en la web
+# Test 42: v3.1.0 - App Nativa Android Stickers Nailong (.apk) y Banner Claymorphism en la web
 assert os.path.exists('StickersNailong.apk'), "StickersNailong.apk missing from web root!"
 assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailong.apk seems too small!"
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-print("✔ v3.0.1 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner.")
+assert 'v3.1.0 APK' in html, "Badge in index.html must show v3.1.0 APK!"
+print("✔ v3.1.0 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.1.0 APK badge.")
 
-print("\n=== ALL 42 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 43: v3.1.0 - Tipografia Fredoka y calibracion de icono adaptive en Android
+font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
+assert os.path.exists(font_path), "fredoka.xml font family resource missing in Android app!"
+for f_name in ['fredoka_regular.ttf', 'fredoka_medium.ttf', 'fredoka_semibold.ttf', 'fredoka_bold.ttf']:
+    assert os.path.exists(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font', f_name)), f"Font file {f_name} missing!"
+assert os.path.exists(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\layout\dialog_import_selection.xml'), "dialog_import_selection.xml missing!"
+assert os.path.exists(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\drawable\card_stickers_container.xml'), "card_stickers_container.xml missing!"
+print("✔ v3.1.0 verified: Fredoka typography family, custom dialog layout, and card container in Android app.")
+
+print("\n=== ALL 43 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

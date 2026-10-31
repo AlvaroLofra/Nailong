@@ -374,6 +374,22 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
   3. Resolver todas las inspecciones de Lint en `activity_sticker_pack_list.xml` y `sticker_packs_list_item.xml` añadiendo compatibilidad RTL API 15-17, extrayendo cadenas a `strings.xml` (`@string/my_selection_badge_title`) y anotando `@tools:targetApi="lollipop"`.
   4. Incrementar versión a `v3.0.1` (`versionCode 2`, `versionName "3.0.1"`) y sincronizar la web (`v3.0.1 APK`, pie de página y test 42 de `verify_all.py`).
 
+### 📌 ADR-11: UI Pulida, Tipografía Fredoka, Diálogo Claymorphism con Renombrado Suave y Calibración de Icono Adaptive (v3.1.0)
+- **Fecha:** 2026-10-31
+- **Estado:** Implementado / Aceptado
+- **Problema:** Se identificaron 6 áreas de mejora en la interfaz web y móvil: 1) El badge del álbum en web rompía con bordes cortados en móviles estrechos. 2) La cola de Toasts del sistema Android acumulaba retraso al seleccionar stickers rápido. 3) En la pantalla de detalles, «Pack añadido a WhatsApp» y el texto de ayuda inferior se superponían en la misma coordenada Y cuando el pack ya estaba añadido. 4) La cuadrícula de stickers flotaba sobre el fondo plano sin distinción visual de contenedor. 5) El botón `(i)` de información en la Toolbar carecía de utilidad. 6) El diálogo de aviso de WhatsApp mostraba frases redundantes, carecía de personalización de nombre de pack y el mensaje de éxito final era un Toast tosco de Android. 7) El icono del launcher aparecía con zoom excesivo (recorte en barbilla y frente) en máscaras circulares/squircles de Android.
+- **Decisión:**
+  1. **Web Móvil:** Badge de galería adaptado con `inline-block`, `rounded-2xl` y `leading-snug` para un salto limpio en 2 líneas sin fragmentación de bordes en pantallas móviles.
+  2. **Tipografía Fredoka:** Incorporación nativa de Google Font Fredoka (`res/font/fredoka.xml` con pesos 400, 500, 600 y 700) aplicada globalmente a temas, botones, títulos y diálogos en la app Android.
+  3. **Feedback Táctil In-App Instantáneo:** Sustituido el `Toast.makeText` encolado por un `inapp_toast_pill` Claymorphism reactivo con temporizador de desvanecimiento de 1000 ms que actualiza el contador de selección en tiempo real (0 ms de espera).
+  4. **Tarjeta Contenedora para Cuadrícula:** Creado `card_stickers_container.xml` (fondo blanco, radio de 20 dp y borde amarillo `#FDE047`) envolviendo la lista de stickers con separación nítida.
+  5. **Supresión del Botón «(i)»:** Eliminada la inflación de `toolbar.xml` en `StickerPackDetailsActivity.java`.
+  6. **Corrección de Textos Superpuestos:** Reestructurado el layout inferior en un `LinearLayout` vertical secuencial donde el badge de añadido (`badge_already_added.xml`) y el texto de ayuda guardan margen vertical garantizado.
+  7. **Diálogo de Importación Claymorphism con Lápiz:** Creado `dialog_import_selection.xml` con campo de texto editable y botón de lápiz ✏️ (`ic_edit_pencil.xml`) para renombrar suavemente el pack antes de enviarlo a WhatsApp, actualizando `DynamicPackManager.createSelectionPack` con el parámetro `customName`.
+  8. **Diálogo de Éxito:** Creado `dialog_success_whatsapp.xml` celebratorio con botón Claymorphism.
+  9. **Calibración del Icono Adaptive:** Modificado `generate_launcher_icons()` en `generar_assets.py` para aplicar un factor de escala del 72% centrado en la zona segura (*Safe Zone*) de 108 dp, evitando recortes de máscara circular en el launcher.
+  10. **Versionado y Pruebas:** Binario `StickersNailong.apk` (24.6 MB) recompilado con `versionCode 3`, `versionName "3.1.0"`, firmado y verificado con 43 tests superados al 100%.
+
 ---
 
 ## 7. Instrucciones de Verificación y Testing
@@ -381,11 +397,11 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 Para verificar la integridad completa del proyecto:
 
 ```bash
-# Ejecutar suite de pruebas unitarias y estructurales (42 tests)
+# Ejecutar suite de pruebas unitarias y estructurales (43 tests)
 python verify_all.py
 ```
 
 Salida esperada:
 ```text
-=== ALL 42 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
+=== ALL 43 VERIFICATION TESTS PASSED SUCCESSFULLY! ===
 ```

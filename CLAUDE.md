@@ -263,6 +263,20 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 
 ---
 
+### 📌 Versión 3.1.0 (v3.1.0) - UI Pulida, Tipografía Fredoka, Diálogo Claymorphism con Renombrado y Calibración de Icono
+- **Ajuste Responsivo Web Móvil:** Badge del álbum fotográfico (`#galeria`) optimizado como bloque fluido (`inline-block rounded-2xl`) con ajuste de salto limpio en 2 líneas sin solapamiento de bordes en pantallas estrechas.
+- **Tipografía Fredoka Nativamente Integrada:** Integración de la familia tipográfica oficial Fredoka (`res/font/fredoka.xml`, pesos 400, 500, 600 y 700) aplicada a toda la aplicación Android para unificar la estética divertida y redondeada con la web.
+- **Feedback Táctil Instantáneo In-App:** Supresión de colas de Toasts del sistema mediante un banner/píldora reactivo `inapp_toast_pill` en `StickerPackDetailsActivity` que actualiza el contador de selección en tiempo real (0 ms de espera).
+- **Cuadrícula en Tarjeta Contenedora:** Diseño de `card_stickers_container.xml` envolviendo la lista de stickers con fondo blanco y borde amarillo cálido `#FDE047`.
+- **Eliminación del Botón «(i)»:** Supresión de la acción y menú `toolbar.xml` en la pantalla de detalles.
+- **Corrección de Textos Superpuestos:** Reestructuración de la barra de acciones inferior para garantizar separación vertical nítida entre el badge de pack añadido y el texto de ayuda.
+- **Diálogo Claymorphism con Renombrado Suave (Lápiz ✏️):** Nueva interfaz `dialog_import_selection.xml` sin iconos de advertencia alarmistas, con campo editable y botón de lápiz temático para renombrar el pack dinámico antes de exportarlo a WhatsApp.
+- **Diálogo de Éxito Festivo:** Notificación `dialog_success_whatsapp.xml` celebratoria con estilo Claymorphism.
+- **Calibración de Icono Adaptive:** Modificación de `generate_launcher_icons()` para centrar el primer plano al 72% del lienzo de 108 dp, resolviendo el corte de barbilla y frente en máscaras circulares del launcher.
+- **Suite de Pruebas Ampliada a 43 Comprobaciones:** Actualizado `verify_all.py` a 43 tests automáticos superados al 100%.
+
+---
+
 ## 6. Comandos de Verificación y Testing
 
 Antes de realizar cualquier commit o push a la rama `main`, ejecutar siempre:
