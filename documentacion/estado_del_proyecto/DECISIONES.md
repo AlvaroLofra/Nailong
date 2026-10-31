@@ -23,6 +23,7 @@
 | **D-11** | UI pulida, tipografía Fredoka, diálogo Claymorphism con renombrado y calibración de icono adaptive | Tomada | 2026-10-31 |
 | **D-12** | Fusión del muro de GIFs con el álbum, botón de app en el menú y barra móvil sin desbordes | Tomada | 2026-10-31 |
 | **D-13** | Corrección de eventos táctiles en diálogo de exportación y robustecimiento de ContentProvider | Tomada | 2026-10-31 |
+| **D-14** | Adopción de las pautas de la biblioteca central: `AGENTS.md` canónico, changelog fuera de las instrucciones y auditoría con brechas abiertas | Tomada (A–C, E) · En curso (D) | 2026-10-31 |
 
 ---
 
@@ -163,3 +164,17 @@
   3. Sobrescribir `openFile` para devolver directamente el `ParcelFileDescriptor` y servir metadatos de packs dinámicos en consultas globales procedentes de WhatsApp.
   4. Sincronizar APK (`v3.2.1`, `versionCode 4`) y web (`v3.2.1`).
 - **Consecuencias:** Apertura inmediata y fiable del menú nativo de WhatsApp al confirmar la exportación de selecciones personalizadas.
+
+---
+
+## D-14 · Adopción de las pautas de la biblioteca central (instrucciones de agente, changelog y auditoría)
+- **Estado:** **Tomada** (partes A–C, 2026-10-31) · **Tomada** (partes A–C y E) · **Abierta/en curso** (parte D).
+- **Problema:** Una auditoría contra la biblioteca central (`GUIA_ARQUITECTURA_Y_CALIDAD_DE_SOFTWARE.md`, `ESTRATEGIA_LLM…`) detectó que `CLAUDE.md` y `GEMINI.md` eran dos copias idénticas de 320 líneas (forzadas por un test de `verify_all.py`), con el changelog completo dentro, una ruta absoluta de la máquina del usuario en un repositorio **público** y el prompt de arranque de la biblioteca incrustado. Un fichero de instrucciones largo se obedece peor, duplicarlo hace que diverjan y la ruta local no debía publicarse.
+- **Decisión (A–C, aplicada):**
+  - **A.** `AGENTS.md` es la fuente canónica (~55 líneas). `CLAUDE.md` solo importa `@AGENTS.md`; `GEMINI.md` apunta a él. Se sustituye el antiguo requisito «`CLAUDE.md` = `GEMINI.md` byte a byte» por comprobaciones de que son punteros, de que `AGENTS.md` < 200 líneas y de que no hay rutas locales versionadas (tests 33 y 35 de `verify_all.py`, que siguen siendo 44 en total).
+  - **B.** El historial de versiones pasa a `CHANGELOG.md` y el mapa de bloques de `index.html` a `documentacion/notas_tecnicas/00_mapa_de_codigo.md`, sin alterar su texto.
+  - **C.** La ruta de la biblioteca central y otros datos locales pasan a `CLAUDE.local.md`, ignorado por Git (`.gitignore` nuevo). Se conserva la regla «prohibido copiar ficheros de la biblioteca al proyecto sin autorización del usuario».
+- **Opciones descartadas:** mantener las dos copias sincronizadas con un test (frágil y obliga a editar dos veces); enlace simbólico `CLAUDE.md → AGENTS.md` (problemas de permisos en Windows); mantener todo en `CLAUDE.md` (Anthropic recomienda < 200 líneas).
+- **Abierta — D. Estructura de `index.html`:** el nivel del proyecto es **S** y D-02 fija un único `index.html`, hoy de ≈3.800 líneas (≈233 KB). La guía recomienda extraer a módulos (`<script type="module">`, CSS y datos en ficheros) a partir de ~1.500 líneas. Beneficio: menos coste de contexto para los agentes y menos riesgo al editar. Riesgo: tocar el 100 % del front, rutas de `verify_all.py` (varios tests leen `index.html`) y el despliegue en GitHub Pages. Mientras no se decida, rige D-02. Relacionado: Tailwind se carga desde `https://cdn.tailwindcss.com` sin versión fijada (su propio sitio lo desaconseja para producción) y Font Awesome sin `integrity`; ver D-04.
+- **Tomada — E (2026-10-31, a petición del usuario). Ficheros de trabajo en el repositorio:** `PLAN_APP_STICKERS_WHATSAPP.md` (su cabecera dice «no subirlo a git; borrarlo al terminar»), `DeepResearch Stickers Animados Web En WhatsApp.md` y `prueba_whatsapp/index.html` (página de prueba temporal) están versionados y no están referenciados en el índice. Resolución: `DeepResearch…md` y `PLAN_APP_STICKERS_WHATSAPP.md` pasan a `archivo/` (con su `README.md`; los agentes no lo leen salvo petición) y `prueba_whatsapp/` se elimina (nada la referencia; sigue en el historial de Git).
+- **Consecuencias:** instrucciones de agente cortas y sin duplicación; ninguna ruta local en el repositorio público; historial de versiones separado. Efecto colateral conocido: `DOCUMENTACION.md` mantiene el árbol de ficheros y algunas cifras desactualizadas (se corrigieron las del árbol en esta sesión); su consolidación o retirada queda para una sesión propia.

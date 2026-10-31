@@ -2,8 +2,8 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 31/10/2026 — Sesión v3.2.1: «Fix evento táctil WhatsApp, reorganización de sección Creador y estandarización documental».
-> **Rama activa:** `main` (sincronizada y al día con `origin/main`).
+> **Última actualización:** 31/10/2026 — Sesión «Adopción de las pautas de la biblioteca central» (D-14), sobre v3.2.1 (sin cambios de producto).
+> **Rama activa:** `docs/adopcion-pautas-centrales` (sin commitear; `main` intacta y sincronizada con `origin/main`).
 > **Versión actual de producción:** Web `v3.2.1` | Android APK `v3.2.1` (`versionCode 4`).
 
 ---
@@ -53,7 +53,15 @@ La aplicación web y la aplicación nativa Android se encuentran plenamente sinc
 
 ---
 
+- [x] **Instrucciones de agente (D-14):** `AGENTS.md` canónico (~55 líneas) · `CLAUDE.md`/`GEMINI.md` reducidos a punteros · `CHANGELOG.md` y `documentacion/notas_tecnicas/00_mapa_de_codigo.md` creados con el contenido que antes inflaba `CLAUDE.md` · `CLAUDE.local.md` (ignorado) con la ruta de la biblioteca central · `.gitignore` nuevo · `verify_all.py` (tests 33 y 35) adaptado; sigue en 44/44.
+
+---
+
 ## 4. Qué Está Pendiente o Próximos Pasos
+
+- [ ] **Decidir el commit** de la rama `docs/adopcion-pautas-centrales` (código y documentación en commits separados) y su fusión en `main`.
+- [ ] **D-14 parte D (abierta):** extraer `index.html` (≈3.800 líneas) a módulos y fijar versiones de las cargas CDN (Tailwind sin versión, Font Awesome sin `integrity`).
+- [ ] `DOCUMENTACION.md` duplica a `documentacion/` y conserva cifras antiguas en su cuerpo (la suite lo exige); consolidarlo o retirarlo en una sesión propia.
 
 - [ ] Validación manual en dispositivo físico por parte del usuario de la exportación fluida a WhatsApp.
 - [ ] Exploración futura de empaquetado para Google Play Store según viabilidad.
