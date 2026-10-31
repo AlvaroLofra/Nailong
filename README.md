@@ -99,7 +99,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.2.0: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
+### 📌 Ciclo v3.0.0 – v3.2.1: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
 
 #### v3.0.0 — Lanzamiento de la App Oficial y Sistema «Mi Selección»
 - **App Nativa Android (`StickersNailong.apk`, 26.6 MB):**
@@ -137,12 +137,21 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - **Calibración del Icono de la App (Safe Zone):** Ajuste de escala al 72% y centrado en el lienzo del icono adaptativo (`ic_launcher_foreground.png`), resolviendo el zoom excesivo y asegurando que la carita completa de Nailong se vea redonda y nítida en el launcher sin recortes en la barbilla ni en la cabeza.
 - **Sincronización Web y Pruebas:** Binario `StickersNailong.apk` (24.6 MB) actualizado en web con insignia `v3.1.0 APK`, pie de página `v3.1.0` y suite de verificación ampliada a **43 comprobaciones completas**.
 
-#### v3.2.0 (Actual) — Sección «Stickers» Unificada y Barra Móvil Corregida
+#### v3.2.0 — Sección «Stickers» Unificada y Barra Móvil Corregida
 - **Muro de GIFs y álbum fusionados:** una sola sección con el banner de la app primero, el Visor Mágico como tira horizontal de 9 escenas y el álbum después. En móvil el Visor ocupa unos 200 px en vez de 9 tarjetas apiladas.
 - **Visor desde el álbum:** botón «Abrir en el Visor Mágico» en los stickers que son una de las 9 escenas.
 - **Botón «Descargar la App»** en el menú de los tres puntos (móvil) y «📲 App» en la barra de escritorio.
 - **Corrección del zoom/desborde en móvil:** barra superior compactada para que el botón del menú se vea entero en pantallas estrechas.
 - Suite de verificación ampliada a **44 comprobaciones** y pie de página `v3.2.0`.
+
+#### v3.2.1 (Actual) — Corrección de Eventos Táctiles en Diálogo y Robustecimiento de ContentProvider
+- **Corrección de Eventos Táctiles en Diálogos:** Resuelto el problema por el cual al pulsar «Añadir a WhatsApp» en el diálogo de personalización de «Mi Selección», el menú de WhatsApp no se abría. La causa era la captura interna del click por parte del `TextView` hijo (que heredaba `clickable="true"` de `Widget.MaterialComponents.Button.TextButton`), impidiendo el disparo del listener del botón contenedor. Se ha configurado `android:clickable="false"` y se ha blindado la invocación enlazando el listener tanto al contenedor como a la vista hija.
+- **Robustecimiento de `StickerContentProvider`:**
+  - Implementación de `openFile(Uri, String)` para servir directamente los descriptores `ParcelFileDescriptor` en modo lectura sin crear pipes intermediarios.
+  - Ajuste en `openAssetFile` para devolver `AssetFileDescriptor.UNKNOWN_LENGTH` en archivos dinámicos generados en almacenamiento interno.
+  - Integración de detección del paquete solicitante (`com.whatsapp` / `com.whatsapp.w4b`) en `getPackForAllStickerPacks` para resolver positivamente cualquier verificación global de metadatos de WhatsApp manteniendo la lista principal de la app limpia.
+  - Paridad de esquema con valores por defecto en `androidPlayStoreLink` e `iosAppStoreLink`.
+- **Sincronización Web y Binario:** Recompilación del APK firmado `StickersNailong.apk` (24.6 MB, `versionCode 4`, `versionName "3.2.1"`), actualización de insignia `v3.2.1 APK`, pie de página `v3.2.1` y suite de verificación pasando las 44 pruebas al 100%.
 
 ---
 

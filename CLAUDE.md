@@ -286,6 +286,17 @@ El archivo `index.html` está estructurado en 14 bloques funcionales organizados
 
 ---
 
+### 📌 Versión 3.2.1 (v3.2.1) - Corrección de Eventos Táctiles en Diálogo y Robustecimiento de ContentProvider
+- **Corrección de Eventos Táctiles en Diálogos:** Resuelto el problema por el cual al pulsar «Añadir a WhatsApp» en `dialog_import_selection.xml`, no se abría el menú nativo de WhatsApp. La causa fue la captura interna del click por parte del `TextView` hijo (que heredaba `clickable="true"` de `Widget.MaterialComponents.Button.TextButton`), impidiendo el disparo del listener del botón contenedor. Se ha configurado `android:clickable="false"`, `android:focusable="false"` y se ha blindado la invocación enlazando el listener tanto al contenedor como a la vista hija en `StickerPackListActivity.java`.
+- **Robustecimiento de `StickerContentProvider`:**
+  - Sobrescritura de `openFile(Uri, String)` para servir directamente los descriptores `ParcelFileDescriptor` en modo lectura sin crear pipes intermediarios.
+  - Ajuste en `openAssetFile` para devolver `AssetFileDescriptor.UNKNOWN_LENGTH` en archivos dinámicos generados en almacenamiento interno.
+  - Detección del paquete solicitante (`com.whatsapp` / `com.whatsapp.w4b`) en `getPackForAllStickerPacks` para resolver positivamente cualquier verificación global de metadatos de WhatsApp manteniendo la lista principal de la app limpia.
+  - Paridad de esquema con valores por defecto vacíos en `androidPlayStoreLink` e `iosAppStoreLink` en `DynamicPackManager.java`.
+- **Sincronización Web y Binario:** Recompilación del APK firmado `StickersNailong.apk` (24.6 MB, `versionCode 4`, `versionName "3.2.1"`), actualización de insignia `v3.2.1 APK`, pie de página `v3.2.1` y suite de verificación pasando las 44 pruebas al 100%.
+
+---
+
 ## 6. Comandos de Verificación y Testing
 
 Antes de realizar cualquier commit o push a la rama `main`, ejecutar siempre:

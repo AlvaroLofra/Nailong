@@ -328,7 +328,7 @@ print("✔ v14 verified: all 82 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3\.2\.0<', html), "Footer must show the current version number (v3.2.0)!"
+assert re.search(r'id="app-version"[^>]*>v3\.2\.1<', html), "Footer must show the current version number (v3.2.1)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -345,10 +345,10 @@ assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailo
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-assert 'v3.1.0 APK' in html, "Badge in index.html must show v3.1.0 APK!"
-print("✔ v3.1.0 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.1.0 APK badge.")
+assert 'v3.2.1 APK' in html, "Badge in index.html must show v3.2.1 APK!"
+print("✔ v3.2.1 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.2.1 APK badge.")
 
-# Test 43: v3.1.0 - Tipografia Fredoka y calibracion de icono adaptive en Android
+# Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
 font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
 assert os.path.exists(font_path), "fredoka.xml font family resource missing in Android app!"
 for f_name in ['fredoka_regular.ttf', 'fredoka_medium.ttf', 'fredoka_semibold.ttf', 'fredoka_bold.ttf']:
