@@ -19,8 +19,25 @@ assert not os.path.exists('COMO_HOSTEAR.md'), "Obsolete COMO_HOSTEAR.md should b
 assert not os.path.exists('stickers_overview.png'), "Obsolete stickers_overview.png should be removed!"
 assert os.path.exists('Stickers Nailong'), "Stickers directory missing!"
 
+# index.html referencia css/ y js/ (D-15). `html` = codigo fuente completo (pagina + CSS + JS en orden de carga),
+# de modo que las comprobaciones siguientes buscan en todo el codigo sin importar en que fichero viva.
 with open('index.html', 'r', encoding='utf-8') as f:
-    html = f.read()
+    page_html = f.read()
+asset_refs = re.findall(r'(?:src|href)="((?:css|js)/[^"?]+)(?:\?[^"]*)?"', page_html)
+assert len(asset_refs) >= 3, "index.html must reference css/ and js/ files!"
+assert len(asset_refs) == len(set(asset_refs)), "Duplicate css/js references in index.html!"
+html = page_html
+for _ref in asset_refs:
+    assert os.path.exists(_ref), f"index.html references a missing file: {_ref}"
+    with open(_ref, 'r', encoding='utf-8') as f:
+        html += chr(10) + f.read()
+js_files = [r for r in asset_refs if r.endswith('.js')]
+assert [r for r in asset_refs if r.endswith('.css')], "styles.css reference missing in index.html!"
+for _f in os.listdir('js'):
+    assert f'js/{_f}' in asset_refs, f"js/{_f} exists but is not loaded by index.html!"
+for _f in os.listdir('css'):
+    assert f'css/{_f}' in asset_refs, f"css/{_f} exists but is not loaded by index.html!"
+assert re.search(r'<script>(.*?)</script>', page_html, re.DOTALL) is None, "No inline <script> allowed: keep JS in js/ (D-15)!"
 
 print("✔ Single definitive index.html verified with 0 duplicate HTML files and obsolete scripts cleaned.")
 
@@ -103,18 +120,10 @@ for tag in tags_to_check:
 print("✔ All structural HTML tags are strictly balanced.")
 
 # Test 12: Verify JavaScript Syntax via Node.js
-script_blocks = re.findall(r'<script>(.*?)</script>', html, re.DOTALL)
-assert len(script_blocks) >= 2, "Expected inline config and main script blocks in index.html"
-main_js = script_blocks[-1]
-with open('temp_check.js', 'w', encoding='utf-8') as f:
-    f.write(main_js)
-
-try:
-    res = subprocess.run(['node', '-c', 'temp_check.js'], capture_output=True, text=True, check=True)
-    print("✔ JavaScript syntax check passed with 0 errors via Node.js.")
-finally:
-    if os.path.exists('temp_check.js'):
-        os.remove('temp_check.js')
+assert len(js_files) >= 2, "Expected tailwind config and app scripts referenced from index.html"
+for _js in js_files:
+    subprocess.run(['node', '-c', _js], capture_output=True, text=True, check=True)
+print(f"✔ JavaScript syntax check passed with 0 errors via Node.js in {len(js_files)} files.")
 
 # Test 13: Verify Mobile Viewport & PWA Head Tags
 assert "viewport-fit=cover" in html, "viewport-fit=cover missing from meta viewport!"
