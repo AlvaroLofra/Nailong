@@ -244,20 +244,27 @@ assert "showDuangToast" in html, "showDuangToast function missing!"
 assert "{ id: 'sticker-options-modal', close: closeStickerOptionsModal }" in html, "sticker-options-modal missing in setupModalBackdrops!"
 print("✔ WhatsApp & iOS Sticker Integration verified: direct WhatsApp button, iOS Camera Roll save, blob download fallback, and clipboard copy.")
 
-# Test 33: Verify Synchronized Project Documentation (GEMINI.md & CLAUDE.md)
-gemini_content = open('GEMINI.md', 'r', encoding='utf-8').read()
+# Test 33: Verify agent instruction files (AGENTS.md canonical; CLAUDE.md and GEMINI.md are pointers - D-14)
+agents_content = open('AGENTS.md', 'r', encoding='utf-8').read()
 claude_content = open('CLAUDE.md', 'r', encoding='utf-8').read()
-assert gemini_content == claude_content, "GEMINI.md and CLAUDE.md must have 100% identical content!"
+gemini_content = open('GEMINI.md', 'r', encoding='utf-8').read()
+assert len(agents_content.splitlines()) < 200, "AGENTS.md must stay under 200 lines (move history to CHANGELOG.md)!"
+assert "@AGENTS.md" in claude_content and "AGENTS.md" in gemini_content, "CLAUDE.md and GEMINI.md must point to AGENTS.md!"
+assert len(claude_content.splitlines()) < 20 and len(gemini_content.splitlines()) < 20, "CLAUDE.md/GEMINI.md must be short pointers, not copies!"
+for name, content in (("AGENTS.md", agents_content), ("CLAUDE.md", claude_content), ("GEMINI.md", gemini_content)):
+    assert ("C:" + chr(92) + "Users") not in content, f"{name} is versioned: local absolute paths belong in CLAUDE.local.md!"
 assert os.path.exists('DOCUMENTACION.md'), "DOCUMENTACION.md missing!"
-print("✔ Project Documentation verified: GEMINI.md and CLAUDE.md are 100% synchronized and DOCUMENTACION.md is present.")
+assert os.path.exists('CHANGELOG.md'), "CHANGELOG.md missing!"
+gitignore = open('.gitignore', 'r', encoding='utf-8').read()
+assert "CLAUDE.local.md" in gitignore, "CLAUDE.local.md must be listed in .gitignore!"
+print("✔ Agent instructions verified: AGENTS.md is canonical (<200 lines), CLAUDE.md/GEMINI.md are pointers, no local paths versioned, CHANGELOG.md present.")
 
-# Test 35: Verify Central Library Governance Protocol & Architectural Decision Records (ADR)
+# Test 35: Verify Architectural Decision Records (ADR) and documentation index
 doc_content = open('DOCUMENTACION.md', 'r', encoding='utf-8').read()
-assert "Protocolo de Gobernanza y Conexión con la Biblioteca Central" in gemini_content, "Central Library protocol missing from GEMINI.md!"
-assert "00_INDICE_GENERAL.md" in gemini_content, "Cascade index missing from GEMINI.md!"
-assert "GUIA_MAESTRA_DESARROLLO_Y_PROYECTOS.md" in gemini_content, "Methodology reference missing from GEMINI.md!"
+assert "AGENTS.md" in open('documentacion/00_INDICE.md', 'r', encoding='utf-8').read(), "AGENTS.md missing from documentacion/00_INDICE.md!"
+assert "D-14" in open('documentacion/estado_del_proyecto/DECISIONES.md', 'r', encoding='utf-8').read(), "D-14 missing from DECISIONES.md!"
 assert "ADR-01: Descarga Universal en iOS (Safari) e Integración de Stickers para WhatsApp" in doc_content, "ADR-01 missing from DOCUMENTACION.md!"
-print("✔ Central Library Governance Protocol and ADR-01 verified in project documentation.")
+print("✔ Documentation index, decision log (D-14) and ADR-01 verified.")
 
 # Test 36: Verify Visual Polish, Lightbox Duang Physics & Mobile Hero Flow
 assert "triggerLightboxDuang" in html, "triggerLightboxDuang function missing!"
