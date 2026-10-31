@@ -91,7 +91,7 @@
                         } else if (pos < 2200) {
                             speech.textContent = '"¡Mira mis animaciones en el Visor Mágico! 🎬"';
                         } else if (pos < 3400) {
-                            speech.textContent = '"¡Tengo 82 cromos míos en el álbum! 📸"';
+                            speech.textContent = '"¡Tengo 80 cromos míos en el álbum! 📸"';
                         } else if (pos < 4400) {
                             speech.textContent = '"¡Toca la botonera para hacerme reír! 🔊"';
                         } else if (pos < 5400) {
