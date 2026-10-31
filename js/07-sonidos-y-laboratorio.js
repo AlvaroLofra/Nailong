@@ -2,18 +2,18 @@
            8. BOTONERA DE SONIDOS INTERACTIVA (12 SONIDOS REALES)
         ============================================================== */
         const SOUNDBOARD_TILES = [
-            { sticker: 'sticker_20.webp', name: '¡Duang Rebotón!', sound: 'duang', icon: '🍮' },
-            { sticker: 'sticker_6.webp', name: '¡Ñam Ñam Crujiente!', sound: 'chomp', icon: '🍗' },
-            { sticker: 'sticker_32.webp', name: 'Sorbito Refrescante', sound: 'pop', icon: '🧃' },
-            { sticker: 'sticker_10.webp', name: '¡Bleh Burlón!', sound: 'pop', icon: '🤪' },
-            { sticker: 'sticker_11.webp', name: 'Maracas Duang', sound: 'maracas', icon: '🪇' },
-            { sticker: 'sticker_34.webp', name: '¡Llamita Bebé!', sound: 'fire', icon: '🔥' },
-            { sticker: 'sticker_40.webp', name: 'Ronquidito Zzz', sound: 'sleep', icon: '😴' },
-            { sticker: 'sticker_14.webp', name: '¡Risa a Carcajadas!', sound: 'laugh', icon: '😆' },
-            { sticker: 'sticker_35.webp', name: '¡Capitán Pirata!', sound: 'fanfare', icon: '🏴‍☠️' },
-            { sticker: 'sticker_23.webp', name: '¡A Correr Rápido!', sound: 'duang', icon: '🏃' },
-            { sticker: 'sticker_30.webp', name: 'Xiao Qi & Colita', sound: 'pop', icon: '👦' },
-            { sticker: 'sticker_21.webp', name: '¡Fiesta Victoria!', sound: 'fanfare', icon: '🎉' }
+            { sticker: 'sticker_19.webp', name: '¡Duang Rebotón!', sound: 'duang', icon: '🍮' },
+            { sticker: 'sticker_11.webp', name: '¡Ñam Ñam Crujiente!', sound: 'chomp', icon: '🥟' },
+            { sticker: 'sticker_31.webp', name: 'Sorbito Refrescante', sound: 'pop', icon: '🧃' },
+            { sticker: 'sticker_9.webp', name: '¡Bleh Burlón!', sound: 'pop', icon: '🤪' },
+            { sticker: 'sticker_10.webp', name: 'Maracas Duang', sound: 'maracas', icon: '🪇' },
+            { sticker: 'sticker_33.webp', name: '¡Llamita Bebé!', sound: 'fire', icon: '🔥' },
+            { sticker: 'sticker_39.webp', name: 'Ronquidito Zzz', sound: 'sleep', icon: '😴' },
+            { sticker: 'sticker_13.webp', name: '¡Risa a Carcajadas!', sound: 'laugh', icon: '😆' },
+            { sticker: 'sticker_34.webp', name: '¡Capitán Pirata!', sound: 'fanfare', icon: '🏴‍☠️' },
+            { sticker: 'sticker_22.webp', name: '¡A Correr Rápido!', sound: 'duang', icon: '🏃' },
+            { sticker: 'sticker_29.webp', name: 'Xiao Qi & Colita', sound: 'pop', icon: '👦' },
+            { sticker: 'sticker_20.webp', name: '¡Fiesta Victoria!', sound: 'fanfare', icon: '🎉' }
         ];
 
         function renderSoundboard() {

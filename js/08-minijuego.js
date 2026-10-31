@@ -17,7 +17,7 @@
         const foodCtx = foodCanvas.getContext('2d');
 
         const playerSprite = new Image();
-        playerSprite.src = 'Stickers Nailong/sticker_10.webp';
+        playerSprite.src = 'Stickers Nailong/sticker_9.webp';
 
         function resizeGameCanvas() {
             const container = document.getElementById('game-container');

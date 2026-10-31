@@ -43,13 +43,13 @@ print("✔ Single definitive index.html verified with 0 duplicate HTML files and
 
 # Test 2: Verify all stickers and creator photos on disk
 sticker_files = sorted(os.listdir('Stickers Nailong'))
-for i in range(1, 83):
+for i in range(1, 81):
     expected_file = f'sticker_{i}.webp'
     assert expected_file in sticker_files, f"Missing sticker file: {expected_file}"
 assert 'creador_nailong.webp' in sticker_files, "Optimized creador_nailong.webp missing!"
 assert 'Foto nailong yo.jfif' not in sticker_files, "Obsolete uncompressed Foto nailong yo.jfif should be removed!"
-assert len(sticker_files) == 83, f"Expected exactly 83 sticker files (82 stickers + creador), found {len(sticker_files)}"
-print("✔ All 82 sticker files + optimized creator photo verified in 'Stickers Nailong/' (obsolete files cleanly removed).")
+assert len(sticker_files) == 81, f"Expected exactly 83 sticker files (82 stickers + creador), found {len(sticker_files)}"
+print("✔ All 80 sticker files + optimized creator photo verified in 'Stickers Nailong/' (obsolete files cleanly removed).")
 
 # Test 3: Check all image references in index.html resolve to real files
 static_img_refs = re.findall(r'Stickers Nailong/([a-zA-Z0-9_\.]+\.webp)', html)
@@ -69,10 +69,10 @@ print("✔ All dynamically templated sticker references (GIFs, Moods, Soundboard
 # Test 4: Verify ALL_STICKERS in JS array contains all 82 stickers + creator
 stickers_in_js = re.findall(r"file:\s*'sticker_(\d+)\.webp'", html)
 unique_js_stickers = sorted(set(int(x) for x in stickers_in_js))
-assert len(unique_js_stickers) == 82, f"Expected 82 stickers in ALL_STICKERS, found {len(unique_js_stickers)}"
-assert unique_js_stickers == list(range(1, 83)), f"Missing stickers in ALL_STICKERS: {set(range(1, 83)) - set(unique_js_stickers)}"
+assert len(unique_js_stickers) == 80, f"Expected 82 stickers in ALL_STICKERS, found {len(unique_js_stickers)}"
+assert unique_js_stickers == list(range(1, 81)), f"Missing stickers in ALL_STICKERS: {set(range(1, 83)) - set(unique_js_stickers)}"
 assert "creador_nailong.webp" in html, "Creator photo missing from ALL_STICKERS!"
-print("✔ ALL_STICKERS array accurately maps all 82 stickers (IDs 1 through 82) + creator photo.")
+print("✔ ALL_STICKERS array accurately maps all 80 stickers (IDs 1 through 80) + creator photo.")
 
 # Test 5: Verify SOUNDBOARD_TILES has 12 items
 soundboard_matches = re.findall(r"sticker:\s*'sticker_(\d+)\.webp',\s*name:\s*'([^']+)'", html)
@@ -322,14 +322,14 @@ from PIL import Image
 assert "item.id === 43" not in html, "item.id === 43 sentinel must be removed in favor of isCreatorItem!"
 assert "isCreatorItem" in html, "isCreatorItem helper function missing in index.html!"
 assert "GALLERY_STEP" in html, "GALLERY_STEP dynamic pagination constant missing in index.html!"
-for extra in range(83, 90):
+for extra in range(81, 90):
     assert not os.path.exists(f'Stickers Nailong/sticker_{extra}.webp'), f"Stray sticker_{extra}.webp found on disk!"
-for i in range(1, 83):
+for i in range(1, 81):
     assert os.path.exists(f'Stickers Nailong/sticker_{i}.webp'), f"Sticker gap detected at sticker_{i}.webp!"
-im60 = Image.open('Stickers Nailong/sticker_58.webp').convert('RGBA')
+im60 = Image.open('Stickers Nailong/sticker_56.webp').convert('RGBA')
 bbox = im60.getchannel('A').getbbox()
-assert bbox and (bbox[3] - bbox[1]) < (bbox[2] - bbox[0]), "sticker_58 (GEMESNYA recortado) must keep its cropped, wider-than-tall content!"
-print("✔ v13 verified: 82 continuous stickers, sticker_58 cropped, isCreatorItem decoupled from id 43, GALLERY_STEP active.")
+assert bbox and (bbox[3] - bbox[1]) < (bbox[2] - bbox[0]), "sticker_56 (GEMESNYA recortado) must keep its cropped, wider-than-tall content!"
+print("✔ v13 verified: 80 continuous stickers, sticker_56 cropped, isCreatorItem decoupled from id 43, GALLERY_STEP active.")
 
 # Test 39: v14 - TODOS los stickers cumplen el formato de WhatsApp (512x512, EXIF, peso) -> se envian como sticker
 import subprocess, sys
@@ -339,12 +339,12 @@ assert os.path.exists('normalizar_stickers.py'), "normalizar_stickers.py missing
 for _id, _file, _fr in re.findall(r"id:\s*(\d+),\s*file:\s*'(sticker_\d+\.webp)',\s*frames:\s*(\d+)", html):
     _n = getattr(Image.open(os.path.join('Stickers Nailong', _file)), 'n_frames', 1)
     assert _n == int(_fr), f"frames de {_file} en ALL_STICKERS ({_fr}) no coincide con el archivo ({_n}): actualizalo en index.html"
-print("✔ v14 verified: all 82 stickers are 512x512 WebP with WhatsApp EXIF and within size limits (sent as real stickers).")
+print("✔ v14 verified: all 80 stickers are 512x512 WebP with WhatsApp EXIF and within size limits (sent as real stickers).")
 
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3\.2\.1<', html), "Footer must show the current version number (v3.2.1)!"
+assert re.search(r'id="app-version"[^>]*>v3\.2\.2<', html), "Footer must show the current version number (v3.2.1)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -361,8 +361,8 @@ assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailo
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-assert 'v3.2.1 APK' in html, "Badge in index.html must show v3.2.1 APK!"
-print("✔ v3.2.1 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.2.1 APK badge.")
+assert 'v3.2.2 APK' in html, "Badge in index.html must show v3.2.1 APK!"
+print("✔ v3.2.2 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.2.1 APK badge.")
 
 # Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
 font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
