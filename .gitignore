@@ -16,3 +16,8 @@ desktop.ini
 # Python
 __pycache__/
 *.py[cod]
+
+# HyperFrames
+.hyperframes/
+.thumbnails/
+video-promo/renders/

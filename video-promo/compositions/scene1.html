@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+</head>
+<body>
+  <template>
+    <style>
+      #root {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 38%, #FFFDF0 0%, #FFF4BD 50%, #FFE66D 100%);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      .clay-badge {
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 8px 24px rgba(255, 138, 0, 0.22), inset 0 2px 5px rgba(255, 255, 255, 1);
+      }
+    </style>
+
+    <div data-hf-id="hf-dfts" id="root" data-composition-id="scene1" data-width="1080" data-height="1920">
+      
+      <!-- Fondo ambiental con nubes decorativas -->
+      <div data-hf-id="hf-vsgn" class="absolute inset-0 pointer-events-none opacity-40 z-0" data-layout-allow-overflow>
+        <div data-hf-id="hf-s63m" class="absolute top-[12%] -left-12 w-64 h-32 bg-white/70 rounded-full blur-xl" data-layout-allow-overflow></div>
+        <div data-hf-id="hf-24cb" class="absolute top-[35%] -right-16 w-80 h-36 bg-white/60 rounded-full blur-xl" data-layout-allow-overflow></div>
+      </div>
+
+      <div data-hf-id="hf-ss2n" class="relative w-full h-full flex flex-col items-center justify-between py-24 px-12 z-10">
+        
+        <!-- Badge Superior Flotante -->
+        <div data-hf-id="hf-sli2" id="e1-badge" class="clay-badge px-8 py-4 rounded-full flex items-center space-x-4 border-2 border-orange-300">
+          <span data-hf-id="hf-0brk" class="text-3xl">⭐</span>
+          <span data-hf-id="hf-zpan" class="text-3xl font-black text-amber-950 tracking-wider">¡WEB & APP INTERACTIVA!</span>
+        </div>
+
+        <!-- Avatar Central: Presente desde t=0s para que el primer fotograma sea viral y llamativo -->
+        <div data-hf-id="hf-zw8n" class="relative flex items-center justify-center my-auto">
+          <div data-hf-id="hf-vmqr" id="e1-aura" class="absolute w-[620px] h-[620px] rounded-full bg-orange-300/35 blur-3xl"></div>
+          
+          <div data-hf-id="hf-rmuo" id="e1-avatar-wrap" class="relative z-10 flex flex-col items-center p-3 bg-white/90 rounded-[48px] shadow-2xl border-4 border-white">
+            <img data-hf-id="hf-chqv" id="e1-avatar" 
+                 src="../assets/stickers/sticker_2.webp" 
+                 alt="Nailong Sonriendo" 
+                 class="w-[480px] h-[480px] object-cover rounded-[38px]" />
+          </div>
+        </div>
+
+        <!-- Titular Gancho Cinético -->
+        <div data-hf-id="hf-86j4" id="e1-title-container" class="text-center max-w-[920px]">
+          <h1 data-hf-id="hf-72ka" id="e1-title-1" class="text-6xl font-black text-amber-950 leading-tight tracking-tight">
+            ¿Conoces al dragón más tierno
+          </h1>
+          <h2 data-hf-id="hf-hwe6" id="e1-title-2" class="text-7xl font-black text-[#D94E00] mt-2 tracking-tight">
+            y viral de internet? 💛
+          </h2>
+          <p data-hf-id="hf-ih2l" id="e1-title-sub" class="text-3xl font-bold text-amber-950 mt-4">
+            ¡El fenómeno asiático que conquistó las redes!
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Badge y Avatar arrancan con presencia desde frame 0 (social thumbnail seguro)
+      tl.fromTo("#e1-badge", { y: -60, opacity: 0.7 }, { y: 0, opacity: 1, ease: "back.out(1.8)", duration: 0.6 }, 0);
+      tl.fromTo("#e1-avatar-wrap", { scale: 0.6, rotation: -12 }, { scale: 1, rotation: 0, ease: "back.out(2.4)", duration: 0.8 }, 0);
+      tl.fromTo("#e1-aura", { scale: 0.5, opacity: 0.3 }, { scale: 1, opacity: 1, duration: 0.8, ease: "power2.out" }, 0);
+
+      // Tipografía cinética escalonada entrando rápidamente para máxima legibilidad
+      tl.fromTo("#e1-title-1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, ease: "back.out(1.7)", duration: 0.5 }, 0.3);
+      tl.fromTo("#e1-title-2", { y: 50, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, ease: "back.out(2)", duration: 0.5 }, 0.5);
+      tl.fromTo("#e1-title-sub", { y: 30, opacity: 0 }, { y: 0, opacity: 1, ease: "power2.out", duration: 0.5 }, 0.7);
+
+      // Respiración elástica previa a la transición
+      tl.to("#e1-avatar-wrap", { scale: 1.07, yoyo: true, repeat: 1, duration: 0.45, ease: "sine.inOut" }, 1.8);
+
+      // Salida fluida de Escena 1
+      tl.to("#e1-title-container, #e1-badge", { y: -70, opacity: 0, duration: 0.35, ease: "power2.in" }, 3.1);
+      tl.to("#e1-avatar-wrap", { scale: 1.35, opacity: 0, duration: 0.35, ease: "power2.in" }, 3.1);
+
+      window.__timelines["scene1"] = tl;
+    </script>
+  </template>
+</body>
+</html>

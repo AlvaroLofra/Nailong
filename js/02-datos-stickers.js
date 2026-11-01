@@ -1,5 +1,5 @@
         /* ==============================================================
-           2. 80 STICKERS REAL METADATA
+           2. 96 STICKERS REAL METADATA
         ============================================================== */
         let ALL_STICKERS = [
             { id: 1, file: 'sticker_1.webp', frames: 1, title: 'Puchero de Colegio', cat: 'caritas', sound: 'duang', desc: 'Con su mochila de la escuela y lagrimitas cómicas porque prefiere quedarse en casa comiendo.'  },
@@ -81,6 +81,22 @@
             { id: 77, file: 'sticker_77.webp', frames: 24, title: '¡Sonrisa de Dientes Brillantes!', cat: 'caritas', sound: 'laugh', desc: 'Primer plano con los ojitos cerrados y una sonrisa enorme enseñando todos sus dientecitos de pura alegría.'  },
             { id: 78, file: 'sticker_78.webp', frames: 40, title: '¡Lengüetazo Gigante!', cat: 'caritas', sound: 'pop', desc: 'Junto al sofá sonríe de lado y, de repente, saca una lengua enorme. ¡Qué pillín!'  },
             { id: 79, file: 'sticker_79.webp', frames: 31, title: 'Susto de Medianoche', cat: 'caritas', sound: 'fanfare', desc: 'Se agarra los mofletes con las dos patitas y abre la boca de par en par: ¡no se esperaba eso de noche!'  },
-            { id: 80, file: 'sticker_80.webp', frames: 40, title: 'Ojos como Platos', cat: 'caritas', sound: 'pop', desc: 'Con los ojazos muy abiertos y la boquita en "o", se tapa la boca con las patitas: ¡ups, se le ha escapado!'  }
+            { id: 80, file: 'sticker_80.webp', frames: 40, title: 'Ojos como Platos', cat: 'caritas', sound: 'pop', desc: 'Con los ojazos muy abiertos y la boquita en "o", se tapa la boca con las patitas: ¡ups, se le ha escapado!'  },
+            { id: 81, file: 'sticker_81.webp', frames: 40, title: 'Siesta de Lado en la Camita', cat: 'caritas', sound: 'sleep', desc: 'Tumbado de lado descansando tras un buen banquete, con los ojitos entrecerrados y pura tranquilidad.'  },
+            { id: 82, file: 'sticker_82.webp', frames: 37, title: '¡Mira mi Colita Gordita!', cat: 'bailes', sound: 'duang', desc: 'De espaldas enseñando sus escamitas de dragón y girándose de repente para sonreír.'  },
+            { id: 83, file: 'sticker_83.webp', frames: 15, title: 'Asombro Curioso de Bebé Dragón', cat: 'caritas', sound: 'pop', desc: 'Con la boquita entreabierta y los ojazos verdes fijos mirando un nuevo invento misterioso.'  },
+            { id: 84, file: 'sticker_84.webp', frames: 28, title: 'Comiendo Chuches en Silencio', cat: 'comida', sound: 'chomp', desc: 'Con su bolsita de golosinas en las patitas, comiendo a escondidas con mirada pícara.'  },
+            { id: 85, file: 'sticker_85.webp', frames: 1, title: 'Castigado de Cara a la Pared', cat: 'caritas', sound: 'duang', desc: 'De espaldas contra la esquina de la habitación haciendo pucheros tras una travesura.'  },
+            { id: 86, file: 'sticker_86.webp', frames: 26, title: 'Curioso en la Hierba', cat: 'caritas', sound: 'pop', desc: 'Asomando su redonda cabecita entre el césped verde con una mirada dulce e inocente.'  },
+            { id: 87, file: 'sticker_87.webp', frames: 40, title: 'Pasmado en el Parque', cat: 'bailes', sound: 'fanfare', desc: 'De pie en el prado con las patitas abiertas y la boca en forma de "o", completamente alucinado.'  },
+            { id: 88, file: 'sticker_88.webp', frames: 28, title: '¡Ay, qué Locura!', cat: 'caritas', sound: 'pop', desc: 'Llevándose las dos patitas a la cabeza como diciendo: "¿Pero qué acaba de ocurrir aquí?".'  },
+            { id: 89, file: 'sticker_89.webp', frames: 1, title: 'Brazos Cruzados con Estilo', cat: 'caritas', sound: 'duang', desc: 'Con los brazos cruzados y una sonrisa de seguridad total: "Todo está bajo control".'  },
+            { id: 90, file: 'sticker_90.webp', frames: 42, title: 'Soñando con Nubes Dulces', cat: 'caritas', sound: 'sleep', desc: 'Mirando hacia el cielo azul soleado mientras imagina tartas gigantes voladoras.'  },
+            { id: 91, file: 'sticker_91.webp', frames: 41, title: 'DJ Nailong con Gafitas de Fiesta', cat: 'bailes', sound: 'maracas', desc: 'Con gafas moradas de sol bajo las luces de la pista de baile dándolo todo como una estrella.'  },
+            { id: 92, file: 'sticker_92.webp', frames: 32, title: 'Viaje Mágico en Autobús', cat: 'caritas', sound: 'pop', desc: 'Sentado junto a la ventanilla con destellos dorados mágicos a su alrededor, soñando despierto.'  },
+            { id: 93, file: 'sticker_93.webp', frames: 34, title: 'Sonrisa Pícara de Barriguita Llena', cat: 'comida', sound: 'laugh', desc: 'Enseñando los dientecitos con una sonrisa traviesa y tocándose la tripita bien saciada.'  },
+            { id: 94, file: 'sticker_94.webp', frames: 48, title: '¡Manzana Deliciosa!', cat: 'comida', sound: 'chomp', desc: 'Sosteniendo una manzana roja y abriendo la boca emocionado ante un snack tan rico y sano.'  },
+            { id: 95, file: 'sticker_95.webp', frames: 40, title: 'Columpio al Atardecer', cat: 'amigos', sound: 'duang', desc: 'Meciéndose despacito en el columpio del parque con las patitas colgando al caer la tarde.'  },
+            { id: 96, file: 'sticker_96.webp', frames: 23, title: 'El Chichón Travieso', cat: 'caritas', sound: 'duang', desc: 'Con un gracioso chichón en la cabecita y ojitos llorosos cómicos tras tropezar jugando.'  }
         ];
 
