@@ -14,13 +14,13 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ```text
 ├── index.html                   # Aplicación completa (HTML5, Tailwind CDN, CSS animaciones, JS modular)
 ├── manifest.json                # Manifiesto PWA para instalación en pantalla de inicio móvil
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (24.6 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (28.7 MB)
 ├── README.md                    # Descripción general y enlaces públicos
 ├── DOCUMENTACION.md             # Documentación exhaustiva de código, arquitectura y funcionamiento
 ├── AGENTS.md                    # Instrucciones canónicas para agentes de IA (CLAUDE.md y GEMINI.md son punteros, D-14)
 ├── CHANGELOG.md                 # Historial técnico de versiones
 ├── verify_all.py                # Suite de pruebas automatizadas en Python (44 tests unitarios y estructurales)
-└── Stickers Nailong/            # Directorio de recursos gráficos (82 cromos .webp + foto optimizada del creador)
+└── Stickers Nailong/            # Directorio de recursos gráficos (96 cromos .webp + foto optimizada del creador)
 ```
 
 ---

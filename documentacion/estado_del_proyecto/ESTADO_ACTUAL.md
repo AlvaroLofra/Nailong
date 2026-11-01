@@ -2,15 +2,15 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 31/10/2026 — Retiro de stickers duplicados (1/42 y 6/14), renumeración continua a 80 stickers y lanzamiento v3.2.3 (D-16).
+> **Última actualización:** 01/11/2026 — Incorporación de 16 nuevos stickers oficiales (80 → 96), 4º pack en app Android, tráiler oficial con HyperFrames y lanzamiento v3.3.0 (D-17).
 > **Rama activa:** `main` (sincronizada con `origin/main`).
-> **Versión actual de producción:** Web `v3.2.3` | Android APK `v3.2.3` (`versionCode 5`).
+> **Versión actual de producción:** Web `v3.3.0` | Android APK `v3.3.0` (`versionCode 6`).
 
 ---
 
 ## 1. En una Frase
 
-La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.2.3**, tras eliminar dos stickers duplicados redundantes, renumerar limpiamente el catálogo a 80 cromos oficiales continuos (59 animados y 21 estáticos) y superar las 44/44 pruebas de verificación al 100%.
+La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.3.0**, con un catálogo ampliado a 96 cromos oficiales (73 animados y 23 estáticos) distribuidos en 4 packs de WhatsApp, tráiler oficial promocional HyperFrames integrado con música original y las 44/44 pruebas de verificación superadas al 100%.
 
 ---
 
@@ -19,43 +19,51 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
 | Métrica / Concepto | Valor Verificado |
 |---|---|
 | **Punto único de entrada web** | `index.html` + `css/styles.css` + `js/` (10 ficheros modulares, 0 dependencias de compilación). |
-| **Banco de cromos coleccionables** | Exactamente 80 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador. |
-| **Packs oficiales preconfigurados en Android** | 3 packs: *Nailong animado 1* (29), *Nailong animado 2* (30) y *Nailong estático* (21). Total: 80 stickers. |
+| **Banco de cromos coleccionables** | Exactamente 96 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador. |
+| **Packs oficiales preconfigurados en Android** | 4 packs: *Nailong Animados 1* (30), *Nailong Animados 2* (30), *Nailong Animados 3* (13) y *Nailong Estáticos* (23). Total: 96 stickers. |
 | **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con bifurcación inteligente por tipo mixto. |
-| **Paquete nativo Android firmado** | `StickersNailong.apk` (20.3 MB / 21.315.677 bytes, firmado con esquemas v1, v2 y v3). |
+| **Paquete nativo Android firmado** | `StickersNailong.apk` (27.3 MB / 28.705.590 bytes, firmado con esquemas v1 y v2, targetSdk 34, versionCode 6, versionName 3.3.0). |
+| **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_oficial.mp4` (1080×1920, 30 fps, 17.0s, audio C-major pentatonic sintetizado). |
 | **Botonera de sonidos sintetizados** | 12 casillas con síntesis Web Audio en tiempo real (0 archivos `.mp3`/`.wav`). |
 | **Escenas virales en el Visor Mágico** | 9 animaciones WebP seleccionadas en bucle con control de velocidad (0.5x, 1x, 1.5x). |
 | **Suite de pruebas automatizadas (`verify_all.py`)** | **44 de 44 comprobaciones superadas con éxito (100%)**. |
-| **Suite de pruebas unitarias Android (`gradlew test`)** | **38 tareas completadas sin errores (BUILD SUCCESSFUL)**. |
+| **Auditoría de stickers (`normalizar_stickers.py --check`)** | **0 problemas en los 96 stickers (100% conformes con WhatsApp)**. |
 
 ---
 
 ## 3. Qué Está Completado y Verificado
 
-- [x] **Depuración de Catálogo y Renumeración Continua (D-16):**
-  - Detección y retiro de duplicados exactos: `sticker_42.webp` (idéntico a `sticker_1.webp`) y `sticker_6.webp` (duplicado de `sticker_14.webp`).
-  - Renumeración secuencial sin saltos: `sticker_1.webp`…`sticker_80.webp` + `creador_nailong.webp` (81 archivos).
-  - Remapeo completo de `ALL_STICKERS` en `js/02-datos-stickers.js` a 80 elementos.
-  - Sincronización de referencias en `heroMoods` (`js/03-hero.js`), `FEATURED_GIFS` (`js/05-visor-magico.js`), `SOUNDBOARD_TILES` (`js/07-sonidos-y-laboratorio.js`), sprite del minijuego (`js/08-minijuego.js`), favicons (`index.html` y `manifest.json`) y cache-busting `?v=3.2.2`.
-- [x] **Aplicación Nativa Android (`StickersNailong.apk`):**
-  - Ajuste de `generar_assets.py` con 80 stickers: Pack 1 (29 animados), Pack 2 (30 animados), Pack Estático (21 estáticos).
-  - Recompilación con Gradle (`versionCode 5`, `versionName "3.2.2"`), firmado con apksigner (esquemas v1, v2 y v3) y copia a la raíz web (20.3 MB).
-- [x] **Verificación Completa:**
-  - `verify_all.py` adaptado a 80 stickers pasando las 44/44 pruebas al 100%.
-  - `normalizar_stickers.py --check` validando 0 problemas en los 80 stickers.
-- [x] **Vitrina Pública y Documentación:**
-  - `README.md` actualizado con notas de parche directas para v3.2.3 y sticker animado en cabecera.
-  - `CHANGELOG.md`, `DECISIONES.md` (D-16), `00_INDICE.md` y guías sincronizadas.
+- [x] **Normalización e Integración de 16 Nuevos Stickers (D-17):**
+  - Procesamiento e importación de los archivos brutos de TikTok (antiguos 126–141) con `normalizar_stickers.py --import` hacia `sticker_81.webp`…`sticker_96.webp`.
+  - Normalización técnica garantizada: 512×512 píxeles, metadatos EXIF oficiales de WhatsApp (`sticker-pack-id`), pesos optimizados (≤500 KB animados, ≤100 KB estáticos).
+  - Eliminación de la carpeta temporal `Stickers Nailong/stickers_tiktok_temporal`.
+  - Catálogo completo en `js/02-datos-stickers.js` con nombres descriptivos, etiquetas de búsqueda, emociones y sonidos asignados.
+- [x] **Aplicación Nativa Android (`StickersNailong.apk` v3.3.0):**
+  - Reconfiguración de `generar_assets.py` con 4 packs que respetan el límite de WhatsApp: *Nailong Animados 1* (30), *Nailong Animados 2* (30), *Nailong Animados 3* (13) y *Nailong Estáticos* (23).
+  - Generación de `contents.json` y recursos adaptados.
+  - Actualización de `build.gradle` a `versionCode 6`, `versionName "3.3.0"`.
+  - Compilación exitosa con Gradle (`gradlew assembleDebug`), firmado y verificado con `apksigner` (esquemas v1 y v2).
+  - Copia sincronizada del binario resultante a la raíz web (`StickersNailong.apk`, 28.7 MB).
+- [x] **Tráiler Promocional HyperFrames (`video-promo/`):**
+  - Diagnóstico y solución definitiva del fotograma roto a los 6.2s: sustitución de cambio dinámico de atributo `src` por nodos pre-renderizados en el DOM con cambio instantáneo y determinista vía GSAP `tl.set()`.
+  - Síntesis de banda sonora original saltarina en Do Mayor (`nailong_theme.wav`, 17.0s) vinculada con `<audio id="bgm">`.
+  - Actualización de textos en escenas a 96 stickers y badge v3.3.0.
+  - Verificación con `npx hyperframes check` (0 errores en lint, layout, motion, contrast, craft).
+  - Renderizado completo a MP4 (1080×1920, 30 fps) con mezcla de audio impecable.
+  - Integración del reproductor en la web (`#video-promo-section`) y botón «Ver Tráiler 🎬» en el banner principal.
+- [x] **Web SPA y Verificación:**
+  - Sincronización de cache busters `?v=3.3.0`, textos y contadores a 96 cromos.
+  - Actualización de la suite `verify_all.py` (comprobación de 96 stickers correlativos y versión v3.3.0). Las 44 pruebas pasan en verde (100%).
 
 ---
 
 ## 4. Qué Está Pendiente o Próximos Pasos
 
 - [ ] Fijar versiones CDN (Tailwind sin versión, Font Awesome sin `integrity`) y valorar módulos ES si el proyecto crece (D-15, abierta).
-- [ ] Validación manual en dispositivo físico por parte del usuario de la exportación fluida a WhatsApp con los 3 nuevos packs oficiales.
+- [ ] Validación manual en dispositivo físico por parte del usuario de la exportación a WhatsApp de los 4 nuevos packs oficiales.
 
 ---
 
 ## 5. Bloqueos o Dudas Abiertas
 
-- **Ninguno:** Todos los tests pasan, el APK está firmado y compilado, y el repositorio web está sincronizado con GitHub Pages.
+Ninguno. La suite pasa al 100% y la sincronización entre web, Android APK y tráiler promocional está completada.

@@ -5,6 +5,29 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [3.3.0] — 2026-11-01
+Incorporación oficial de 16 nuevos cromos (80 → 96 stickers), partición en 4 packs oficiales de WhatsApp en la app Android nativa (`v3.3.0`), tráiler promocional oficial de lanzamiento animado con HyperFrames y banda sonora original.
+
+- **Stickers oficiales (96 cromos):**
+  - Incorporación y normalización técnica de 16 nuevos stickers procedentes de TikTok (antiguos 126–141) con identificadores secuenciales `sticker_81.webp` hasta `sticker_96.webp`.
+  - Normalización con `normalizar_stickers.py`: resolución 512×512, chunk EXIF oficial de WhatsApp (`sticker-pack-id`), pesos estrictos (≤500 KB animados, ≤100 KB estáticos).
+  - Eliminación definitiva del directorio temporal `Stickers Nailong/stickers_tiktok_temporal`.
+  - Catálogo completo en `js/02-datos-stickers.js` con nombres, emociones, descripciones y efectos sonoros temáticos en español.
+- **App Android Nativa (`StickersNailong.apk` v3.3.0):**
+  - Actualización de versión: `versionCode 6`, `versionName "3.3.0"`.
+  - Creación del 4º pack oficial para WhatsApp: `nailong_animados_3` (13 stickers animados), respetando el límite estricto de WhatsApp (máx. 30 por pack, sin mezclar animados y estáticos).
+  - Distribución final de los 96 stickers: *Nailong Animados 1* (30), *Nailong Animados 2* (30), *Nailong Animados 3* (13) y *Nailong Estáticos* (23).
+  - Recompilación con Gradle del binario firmado `StickersNailong.apk` (28.7 MB), verificado con `apksigner`.
+- **Tráiler Oficial de Lanzamiento con HyperFrames:**
+  - Corrección de renderizado en Escena 2 (sustitución de asignación dinámica de `src` por nodos pre-renderizados en el DOM con alternancia síncrona vía GSAP `tl.set()`), eliminando el fotograma roto a los 6.2s.
+  - Composición y síntesis de la banda sonora original `video-promo/assets/audio/nailong_theme.wav` (escala pentatónica de Do Mayor, 17.0s de duración) sincronizada mediante `<audio id="bgm">`.
+  - Actualización de métricas a 96 stickers en todas las escenas y badge de versión v3.3.0.
+  - Validación con `npx hyperframes check` (0 errores en lint, layout, motion, contrast, craft).
+  - Renderizado en MP4 (1080×1920 a 30 fps) en `video-promo/nailong_trailer_oficial.mp4`.
+  - Integración en la web mediante el bloque `#video-promo-section` con reproductor responsive y botón en el banner principal.
+- **Suite de Pruebas:**
+  - Actualización de `verify_all.py` para validar los 96 stickers correlativos sin huecos ni archivos huérfanos, y versionado v3.3.0. 44/44 pruebas superadas con éxito.
+
 ## [3.2.3] — 2026-10-31
 Última versión publicada. Corrección de la etiqueta del peso del APK en la web (20 MB).
 

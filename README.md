@@ -14,7 +14,8 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 - **Hero Interactivo & Contador Duang:** Pancita con físicas elásticas, efectos de sonido y 9 estados de ánimo en vivo.
 - **Visor Mágico de Animaciones:** Tira deslizable de 9 escenas GIF en bucle con control de velocidad y pegatinas arrastrables.
-- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero, Visor Mágico en tira y catálogo de 80 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
+- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero, Visor Mágico en tira y catálogo de 96 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
+- **Tráiler Oficial de Lanzamiento (HyperFrames):** Vídeo animado vertical 9:16 en alta definición con físicas elásticas Duang, banda sonora original y los 96 stickers en acción.
 - **Botonera Musical:** 12 casillas con efectos de caricatura sintetizados en tiempo real mediante la Web Audio API.
 - **Laboratorio de Superpoderes:** Ajuste de tamaño, modo camaleón con ciclo arcoíris y lanzamiento de llamaradas en canvas.
 - **Minijuego "La Gran Comilona":** Juego arcade en HTML5 Canvas con pantalla completa fluida, controles táctiles y teclado.
@@ -28,12 +29,12 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma para GitHub Pages)
 ├── manifest.json                # Manifiesto PWA para instalación en dispositivos móviles
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (20.3 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (28.7 MB)
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── AGENTS.md                    # Instrucciones de desarrollo para agentes de IA (CLAUDE.md y GEMINI.md apuntan a él)
 ├── CHANGELOG.md                 # Historial de versiones
 ├── verify_all.py                # Suite de pruebas automatizadas (44 verificaciones)
-└── Stickers Nailong/            # Banco de 80 cromos en WebP + foto optimizada del creador
+└── Stickers Nailong/            # Banco de 96 cromos en WebP + foto optimizada del creador
 ```
 
 ---
@@ -104,7 +105,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.2.3: App Android Nativa Oficial, «Mi Selección» y Experiencia Pulida
+### 📌 Ciclo v3.0.0 – v3.3.0: App Android Nativa Oficial, «Mi Selección», Vídeo Promocional y Expansión a 96 Stickers
 
 #### v3.0.0 — App Android Oficial y «Mi Selección»
 - Estreno de la aplicación nativa oficial para Android (`StickersNailong.apk`).
@@ -145,9 +146,15 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Sincronización de estados de ánimo, sonidos, Visor Mágico y minijuego en la web.
 - Actualización de la app Android (`StickersNailong.apk` v3.2.2) con los tres paquetes oficiales optimizados.
 
-#### v3.2.3 (Actual) — Corrección de Peso de APK y Cifras en la Web
+#### v3.2.3 — Corrección de Peso de APK y Cifras en la Web
 - Corrección de la etiqueta del botón de descarga del APK en la web oficial: muestra el peso real de 20 MB (en lugar del valor histórico de 26 MB).
 - Actualización de textos informativos: cifra ajustada a 80 stickers oficiales (59 animados + 21 estáticos) en el banner de la app y filtros del álbum.
+
+#### v3.3.0 (Actual) — Expansión a 96 Stickers, 4º Pack de WhatsApp y Tráiler Oficial HyperFrames
+- Expansión de la colección a 96 cromos auténticos con la incorporación oficial de 16 nuevos stickers.
+- App Android (`StickersNailong.apk` v3.3.0, 28.7 MB) con 4 packs oficiales para WhatsApp (73 animados + 23 estáticos) y soporte completo en «Mi Selección».
+- Estreno del Tráiler Oficial de Lanzamiento creado con HyperFrames: animación vertical en alta definición con música saltarina original y acceso directo en la web.
+- Sincronización completa de contadores, filtros y categorías en la web y verificación al 100%.
 
 ---
 
