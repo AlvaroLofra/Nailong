@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<body>
+  <template>
+    <style>
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      #root { position: absolute; inset: 0; overflow: hidden; }
+      #e2-linea1 { top: 190px; font-size: 140px; }
+      #e2-linea2 { top: 345px; font-size: 140px; }
+      #e2-carta { left: 220px; top: 540px; width: 640px; height: 640px; }
+      .e2-capa { position: absolute; inset: 16px; width: auto; height: auto; }
+      #e2-dedo {
+        position: absolute; left: 600px; top: 930px; width: 120px; height: 120px; border-radius: 50%;
+        background: #fff; border: 10px solid var(--naranja); box-shadow: 0 10px 0 rgba(217, 78, 0, 0.3);
+      }
+      .e2-mas {
+        position: absolute; width: 170px; height: 110px; border-radius: 55px; background: var(--naranja);
+        color: #fff; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 70px;
+        text-align: center; line-height: 110px; box-shadow: 0 8px 0 var(--naranja-osc);
+      }
+      #e2-destellos { position: absolute; inset: 0; }
+    </style>
+
+    <div id="root" data-composition-id="pancita" data-width="1080" data-height="1920">
+      <h1 id="e2-linea1" class="titulo">¡Tócame</h1>
+      <h1 id="e2-linea2" class="titulo">la pancita!</h1>
+
+      <!-- Nailong paseando con la barriga botando (19); tras el último toque, se ríe (13) -->
+      <div id="e2-carta" class="tarjeta">
+        <div id="e2-sprite-19" class="sprite e2-capa"></div>
+        <div id="e2-sprite-13" class="sprite e2-capa"></div>
+      </div>
+
+      <!-- Un dedito que toca la pancita tres veces -->
+      <div id="e2-dedo"></div>
+
+      <!-- Burbujas de contador -->
+      <div id="e2-mas1" class="e2-mas" style="left:180px;top:820px">+1</div>
+      <div id="e2-mas2" class="e2-mas" style="left:760px;top:760px">+2</div>
+      <div id="e2-mas3" class="e2-mas" style="left:200px;top:700px">+3</div>
+
+      <div id="e2-destellos" data-layout-ignore>
+        <svg class="estrella" style="left:150px;top:1100px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+        <svg class="estrella" style="left:840px;top:1060px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:860px;top:560px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const $ = (s) => document.querySelector(s);
+
+      nlSprite(tl, $("#e2-sprite-19"), 19, 0, 4);
+      nlSprite(tl, $("#e2-sprite-13"), 13, 3.05, 0.95);
+      tl.fromTo("#e2-sprite-13", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 3.05);
+
+      // La tarjeta llega rebotando mientras se abre la nube.
+      nlBotar(tl, $("#e2-carta"), 0.3, { desde: 900, caida: 0.3 });
+      nlLetras(tl, $("#e2-linea1"), 0.15, 0.045);
+      nlLetras(tl, $("#e2-linea2"), 0.45, 0.04);
+
+      // El dedo entra desde abajo a la derecha.
+      tl.fromTo("#e2-dedo", { x: 380, y: 700, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.45, ease: "back.out(1.4)" }, 0.45);
+
+      // Tres toques al ritmo (1 s, 2 s, 3 s): el dedo aprieta, la pancita se aplasta y sale una burbuja.
+      [1, 2, 3].forEach((t, i) => {
+        tl.fromTo("#e2-dedo", { y: 0, scale: 1 }, { y: 34, scale: 0.88, duration: 0.1, ease: "power2.in", immediateRender: false }, t - 0.1);
+        tl.fromTo("#e2-dedo", { y: 34, scale: 0.88 }, { y: 0, scale: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, t);
+        nlGelatina(tl, $("#e2-carta"), t, 1 + i * 0.25);
+        tl.fromTo("#e2-mas" + (i + 1), { scale: 0, y: 60, opacity: 1 },
+          { scale: 1, y: 0, duration: 0.35, ease: "back.out(3)" }, t);
+        tl.fromTo("#e2-mas" + (i + 1), { y: 0, opacity: 1 },
+          { y: -160, opacity: 0, duration: 0.6, ease: "power1.in", immediateRender: false }, t + 0.45);
+      });
+
+      // Tras el tercer toque el dedo se va y Nailong se ríe con estrellitas.
+      tl.fromTo("#e2-dedo", { x: 0, y: 0 }, { x: 420, y: 1100, duration: 0.4, ease: "power2.in", immediateRender: false }, 3.35);
+      nlDestellos(tl, $("#e2-destellos"), 3.05);
+
+      window.__timelines["pancita"] = tl;
+    </script>
+  </template>
+</body>
+</html>

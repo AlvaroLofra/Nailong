@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<body>
+  <template>
+    <style>
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      #root { position: absolute; inset: 0; overflow: hidden; }
+      #e4-linea1 { top: 180px; font-size: 118px; }
+      #e4-linea2 { top: 320px; font-size: 118px; }
+      #e4-libro { position: absolute; left: 45px; top: 520px; width: 990px; height: 720px; }
+      .e4-tapa-fondo { position: absolute; top: 0; width: 495px; height: 720px; background: var(--naranja); }
+      #e4-fondo-izq { left: 0; border-radius: 40px 0 0 40px; }
+      #e4-fondo-der { left: 495px; border-radius: 0 40px 40px 0; }
+      .e4-pagina {
+        position: absolute; top: 18px; width: 477px; height: 684px; background: var(--crema);
+        display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 34px 30px;
+      }
+      #e4-pag-izq { left: 18px; border-radius: 26px 6px 6px 26px; }
+      #e4-pag-der { left: 495px; border-radius: 6px 26px 26px 6px; }
+      .e4-hueco { position: relative; border: 5px dashed #FFC46B; border-radius: 26px; background: #fff; }
+      .e4-hueco img { position: absolute; left: 10px; top: 10px; width: calc(100% - 20px); height: calc(100% - 20px); object-fit: cover; border-radius: 18px; opacity: 0; }
+      #e4-hoja {
+        position: absolute; left: 495px; top: 18px; width: 477px; height: 684px; background: #FFF6D6;
+        border-radius: 6px 26px 26px 6px; backface-visibility: hidden;
+        background-image: repeating-linear-gradient(180deg, transparent 0 60px, #FFE6A8 60px 64px);
+      }
+      #e4-tapa {
+        position: absolute; left: 495px; top: 0; width: 495px; height: 720px; background: var(--naranja);
+        border-radius: 0 40px 40px 0; backface-visibility: hidden; box-shadow: inset 14px 0 0 var(--naranja-osc);
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+      }
+      #e4-tapa img { width: 290px; height: 290px; border-radius: 50%; border: 14px solid #fff; object-fit: cover; }
+      #e4-tapa-texto { font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 96px; color: #fff; }
+      #e4-tapa-sub { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 46px; color: var(--crema); }
+      #e4-sello {
+        position: absolute; left: 620px; top: 1000px; width: 400px; height: 400px; border-radius: 50%;
+        background: #FF5A5F; border: 14px solid #fff; box-shadow: 0 14px 0 rgba(160, 30, 40, 0.35);
+        display: flex; align-items: center; justify-content: center; text-align: center;
+        font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 60px; line-height: 1; color: #fff; z-index: 6;
+      }
+      #e4-destellos { position: absolute; inset: 0; z-index: 7; }
+    </style>
+
+    <div id="root" data-composition-id="album" data-width="1080" data-height="1920">
+      <h1 id="e4-linea1" class="titulo">¡Colecciónalos</h1>
+      <h1 id="e4-linea2" class="titulo">todos!</h1>
+
+      <div id="e4-libro">
+        <div id="e4-fondo-izq" class="e4-tapa-fondo"></div>
+        <div id="e4-fondo-der" class="e4-tapa-fondo"></div>
+        <div id="e4-pag-izq" class="e4-pagina"></div>
+        <div id="e4-pag-der" class="e4-pagina"></div>
+        <div id="e4-hoja"></div>
+        <div id="e4-tapa">
+          <img src="assets/stills/sticker_92.webp" alt="Nailong" />
+          <div id="e4-tapa-texto">Álbum</div>
+          <div id="e4-tapa-sub">96 cromos</div>
+        </div>
+      </div>
+
+      <div id="e4-sello">¡Completo!</div>
+
+      <div id="e4-destellos" data-layout-ignore>
+        <svg class="estrella" style="left:600px;top:1000px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+        <svg class="estrella" style="left:930px;top:1020px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:620px;top:1330px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:950px;top:1300px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const $ = (s) => document.querySelector(s);
+
+      // Cada página tiene 4 huecos; cada hueco guarda los cromos de cada pasada de página.
+      const IZQ = [[24, 25, 31, 60], [58, 72, 77, 79], [91, 1, 3, 4], [63, 64, 13, 10]];
+      const DER = [[75, 92, 10, 13], [20, 34, 44, 47], [77, 79, 91, 1], [3, 4, 63, 64]];
+      const montar = (pagina, juegos, lado) => {
+        for (let h = 0; h < 4; h++) {
+          const hueco = document.createElement("div");
+          hueco.className = "e4-hueco";
+          juegos.forEach((juego, j) => {
+            const img = document.createElement("img");
+            img.id = "e4-" + lado + "-" + j + "-" + h;
+            img.src = "assets/stills/sticker_" + juego[h] + ".webp";
+            img.alt = "";
+            hueco.appendChild(img);
+          });
+          pagina.appendChild(hueco);
+        }
+      };
+      montar($("#e4-pag-izq"), IZQ, "i");
+      montar($("#e4-pag-der"), DER, "d");
+
+      // Enseña la pasada j de un lado (los cromos entran con un botecito escalonado).
+      const pasada = (lado, j, t) => {
+        for (let h = 0; h < 4; h++) {
+          if (j > 0) tl.fromTo("#e4-" + lado + "-" + (j - 1) + "-" + h, { opacity: 1 }, { opacity: 0, duration: 0.01, immediateRender: false }, t);
+          tl.fromTo("#e4-" + lado + "-" + j + "-" + h, { opacity: 0, scale: 0.4 },
+            { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.5)" }, t + h * 0.04);
+        }
+      };
+
+      nlLetras(tl, $("#e4-linea1"), 0.05, 0.035);
+      nlLetras(tl, $("#e4-linea2"), 0.5, 0.04);
+
+      // 0–0,45 s: la tapa gira como la de un libro; la mitad izquierda aparece al pasar de 90°.
+      tl.fromTo("#e4-tapa", { rotationY: 0, transformPerspective: 2200, transformOrigin: "0% 50%" },
+        { rotationY: -180, duration: 0.45, ease: "power2.inOut" }, 0);
+      tl.fromTo(["#e4-fondo-izq", "#e4-pag-izq"], { opacity: 0 }, { opacity: 1, duration: 0.01 }, 0.22);
+      tl.fromTo("#e4-hoja", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 0.5);
+      pasada("d", 0, 0.05);
+      pasada("i", 0, 0.15);
+
+      // Tres pasadas de página (0,5 · 1,0 · 1,5 s), con su sonido de papel.
+      [0.5, 1.0, 1.5].forEach((t, k) => {
+        tl.fromTo("#e4-hoja", { rotationY: 0, transformPerspective: 2200, transformOrigin: "0% 50%" },
+          { rotationY: -180, duration: 0.42, ease: "power2.inOut", immediateRender: false }, t);
+        pasada("d", k + 1, t);
+        pasada("i", k + 1, t + 0.24);
+      });
+
+      // 3,0 s: sello de «¡Completo!» que cae de golpe, con campanita y estrellas.
+      tl.fromTo("#e4-sello", { scale: 2.6, rotation: -30, opacity: 0 },
+        { scale: 1, rotation: -12, opacity: 1, duration: 0.25, ease: "power3.in" }, 2.75);
+      tl.fromTo("#e4-sello", { scaleX: 1, scaleY: 1 },
+        { scaleX: 1.15, scaleY: 0.85, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, 3.0);
+      nlDestellos(tl, $("#e4-destellos"), 3.0);
+
+      window.__timelines["album"] = tl;
+    </script>
+  </template>
+</body>
+</html>

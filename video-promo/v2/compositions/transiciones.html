@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<body>
+  <template>
+    <style>
+      #root { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+      .tr-nube { position: absolute; left: 0; top: -100px; width: 1700px; height: 2120px; }
+      .tr-pancita { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    </style>
+
+    <div id="root" data-composition-id="transiciones" data-width="1080" data-height="1920">
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <!-- Muro de nube: núcleo blanco con bordes ondulados a ambos lados -->
+          <g id="tr-muro">
+            <g fill="#DCEFFF">
+              <rect x="190" y="0" width="1320" height="2120" />
+              <circle cx="190" cy="0" r="185" /><circle cx="190" cy="235" r="185" /><circle cx="190" cy="470" r="185" />
+              <circle cx="190" cy="705" r="185" /><circle cx="190" cy="940" r="185" /><circle cx="190" cy="1175" r="185" />
+              <circle cx="190" cy="1410" r="185" /><circle cx="190" cy="1645" r="185" /><circle cx="190" cy="1880" r="185" />
+              <circle cx="190" cy="2115" r="185" />
+              <circle cx="1510" cy="117" r="185" /><circle cx="1510" cy="352" r="185" /><circle cx="1510" cy="587" r="185" />
+              <circle cx="1510" cy="822" r="185" /><circle cx="1510" cy="1057" r="185" /><circle cx="1510" cy="1292" r="185" />
+              <circle cx="1510" cy="1527" r="185" /><circle cx="1510" cy="1762" r="185" /><circle cx="1510" cy="1997" r="185" />
+            </g>
+            <g fill="#FFFFFF">
+              <rect x="200" y="0" width="1300" height="2120" />
+              <circle cx="200" cy="0" r="170" /><circle cx="200" cy="235" r="170" /><circle cx="200" cy="470" r="170" />
+              <circle cx="200" cy="705" r="170" /><circle cx="200" cy="940" r="170" /><circle cx="200" cy="1175" r="170" />
+              <circle cx="200" cy="1410" r="170" /><circle cx="200" cy="1645" r="170" /><circle cx="200" cy="1880" r="170" />
+              <circle cx="200" cy="2115" r="170" />
+              <circle cx="1500" cy="117" r="170" /><circle cx="1500" cy="352" r="170" /><circle cx="1500" cy="587" r="170" />
+              <circle cx="1500" cy="822" r="170" /><circle cx="1500" cy="1057" r="170" /><circle cx="1500" cy="1292" r="170" />
+              <circle cx="1500" cy="1527" r="170" /><circle cx="1500" cy="1762" r="170" /><circle cx="1500" cy="1997" r="170" />
+            </g>
+          </g>
+          <mask id="tr-mascara-1"><rect width="1080" height="1920" fill="#fff" /><circle id="tr-hueco-1" cx="540" cy="960" r="0" fill="#000" /></mask>
+          <mask id="tr-mascara-2"><rect width="1080" height="1920" fill="#fff" /><circle id="tr-hueco-2" cx="540" cy="960" r="0" fill="#000" /></mask>
+          <mask id="tr-mascara-3"><rect width="1080" height="1920" fill="#fff" /><circle id="tr-hueco-3" cx="540" cy="960" r="0" fill="#000" /></mask>
+        </defs>
+      </svg>
+
+      <!-- Barridos de nube (3,5 s · 12 s · 20 s) -->
+      <svg id="tr-nube-1" class="tr-nube" viewBox="0 0 1700 2120" data-layout-ignore><use href="#tr-muro" /></svg>
+      <svg id="tr-nube-2" class="tr-nube" viewBox="0 0 1700 2120" data-layout-ignore><use href="#tr-muro" /></svg>
+      <svg id="tr-nube-3" class="tr-nube" viewBox="0 0 1700 2120" data-layout-ignore><use href="#tr-muro" /></svg>
+
+      <!-- Barridos de pancita (7,5 s · 16 s · 24 s): crece la pancita y se abre como un ojo de buey -->
+      <svg id="tr-pancita-1" class="tr-pancita" viewBox="0 0 1080 1920" data-layout-ignore>
+        <circle id="tr-disco-1" cx="540" cy="960" r="0" fill="#FFFBEA" stroke="#FFE66D" stroke-width="80" />
+        <g id="tr-abre-1">
+          <rect width="1080" height="1920" fill="#FFFBEA" mask="url(#tr-mascara-1)" />
+          <circle id="tr-aro-1" cx="540" cy="960" r="0" fill="none" stroke="#FFE66D" stroke-width="60" />
+        </g>
+      </svg>
+      <svg id="tr-pancita-2" class="tr-pancita" viewBox="0 0 1080 1920" data-layout-ignore>
+        <circle id="tr-disco-2" cx="540" cy="960" r="0" fill="#FFFBEA" stroke="#FFE66D" stroke-width="80" />
+        <g id="tr-abre-2">
+          <rect width="1080" height="1920" fill="#FFFBEA" mask="url(#tr-mascara-2)" />
+          <circle id="tr-aro-2" cx="540" cy="960" r="0" fill="none" stroke="#FFE66D" stroke-width="60" />
+        </g>
+      </svg>
+      <svg id="tr-pancita-3" class="tr-pancita" viewBox="0 0 1080 1920" data-layout-ignore>
+        <circle id="tr-disco-3" cx="540" cy="960" r="0" fill="#FFFBEA" stroke="#FFE66D" stroke-width="80" />
+        <g id="tr-abre-3">
+          <rect width="1080" height="1920" fill="#FFFBEA" mask="url(#tr-mascara-3)" />
+          <circle id="tr-aro-3" cx="540" cy="960" r="0" fill="none" stroke="#FFE66D" stroke-width="60" />
+        </g>
+      </svg>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Nube: cruza de derecha a izquierda en 0,7 s y tapa toda la pantalla justo en el corte.
+      [[1, 3.5], [2, 12], [3, 20]].forEach(([n, corte]) => {
+        tl.fromTo("#tr-nube-" + n, { x: 1080 }, { x: -1700, duration: 0.7, ease: "none" }, corte - 0.35);
+      });
+
+      // Pancita: el disco crece hasta tapar todo en el corte; luego se abre un hueco que revela la escena nueva.
+      [[1, 7.5], [2, 16], [3, 24]].forEach(([n, corte]) => {
+        tl.fromTo("#tr-disco-" + n, { attr: { r: 0 } }, { attr: { r: 1180 }, duration: 0.35, ease: "power2.in" }, corte - 0.35);
+        tl.fromTo("#tr-abre-" + n, { opacity: 0 }, { opacity: 1, duration: 0.01 }, corte);
+        tl.fromTo("#tr-disco-" + n, { opacity: 1 }, { opacity: 0, duration: 0.01, immediateRender: false }, corte);
+        tl.fromTo(["#tr-hueco-" + n, "#tr-aro-" + n], { attr: { r: 0 } }, { attr: { r: 1250 }, duration: 0.42, ease: "power2.out" }, corte);
+        tl.fromTo("#tr-abre-" + n, { opacity: 1 }, { opacity: 0, duration: 0.01, immediateRender: false }, corte + 0.43);
+      });
+
+      window.__timelines["transiciones"] = tl;
+    </script>
+  </template>
+</body>
+</html>

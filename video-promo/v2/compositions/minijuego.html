@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<body>
+  <template>
+    <style>
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      #root { position: absolute; inset: 0; overflow: hidden; }
+      #e5-titulo { top: 185px; font-size: 140px; }
+      #e5-panel {
+        position: absolute; left: 90px; top: 420px; width: 900px; height: 900px; border-radius: 56px;
+        border: 12px solid var(--naranja); background: linear-gradient(180deg, #DFF4FF 0%, #FFF8DC 100%);
+        box-shadow: 0 18px 0 rgba(217, 78, 0, 0.3); overflow: hidden;
+      }
+      #e5-cesped { position: absolute; left: 0; right: 0; bottom: 0; height: 110px; background: #9BE59B; }
+      #e5-nombre {
+        position: absolute; left: 0; right: 0; top: 26px; text-align: center;
+        font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 62px; color: var(--naranja-osc);
+      }
+      #e5-marcador {
+        position: absolute; right: 30px; top: 112px; width: 290px; height: 78px; border-radius: 39px;
+        background: #FFF4BD; border: 5px solid #FF9F1C;
+      }
+      .e5-puntos {
+        position: absolute; inset: 0; text-align: center; line-height: 68px;
+        font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 44px; color: #b45309; opacity: 0;
+      }
+      #e5-jugador { position: absolute; left: 0; top: 0; width: 300px; height: 300px; }
+      #e5-jugador .sprite { border-radius: 40px; background-color: transparent; }
+      .e5-comida { position: absolute; left: 0; top: 0; width: 150px; height: 150px; font-size: 128px; line-height: 150px; text-align: center; }
+      .e5-suma {
+        position: absolute; left: 0; top: 0; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 72px;
+        color: #fff; -webkit-text-stroke: 10px var(--naranja); paint-order: stroke fill;
+      }
+      #e5-destellos { position: absolute; inset: 0; }
+    </style>
+
+    <div id="root" data-composition-id="minijuego" data-width="1080" data-height="1920">
+      <h1 id="e5-titulo" class="titulo">¡Juega y gana!</h1>
+
+      <!-- Pantalla de «¡La Gran Comilona!» como en la web: Nailong (sticker 9) atrapa comida y esquiva bombas -->
+      <div id="e5-panel">
+        <div id="e5-cesped"></div>
+        <div id="e5-nombre">¡La Gran Comilona!</div>
+        <div id="e5-marcador">
+          <div id="e5-p0" class="e5-puntos">⭐ 0 pts</div>
+          <div id="e5-p1" class="e5-puntos">⭐ 15 pts</div>
+          <div id="e5-p2" class="e5-puntos">⭐ 35 pts</div>
+          <div id="e5-p3" class="e5-puntos">⭐ 45 pts</div>
+        </div>
+        <div id="e5-c1" class="e5-comida">🍗</div>
+        <div id="e5-c2" class="e5-comida">🍰</div>
+        <div id="e5-c3" class="e5-comida">🍦</div>
+        <div id="e5-bomba" class="e5-comida">💣</div>
+        <div id="e5-jugador"><div id="e5-sprite-9" class="sprite"></div></div>
+        <div id="e5-s1" class="e5-suma">+15</div>
+        <div id="e5-s2" class="e5-suma">+20</div>
+        <div id="e5-s3" class="e5-suma">+10</div>
+      </div>
+
+      <div id="e5-destellos" data-layout-ignore>
+        <svg class="estrella" style="left:60px;top:400px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+        <svg class="estrella" style="left:930px;top:380px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:40px;top:1260px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:950px;top:1240px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const $ = (s) => document.querySelector(s);
+      const SUELO = 470;           // altura (dentro del panel) donde se apoya Nailong
+      const BOCA = SUELO + 40;     // donde «se come» la comida
+
+      nlLetras(tl, $("#e5-titulo"), 0.1, 0.04);
+      nlSprite(tl, $("#e5-sprite-9"), 9, 0, 4);
+
+      // Nailong corre de lado a lado hasta cada bocado.
+      const pasos = [[0, 290], [0.5, 80], [1.5, 520], [2.5, 300]];
+      tl.fromTo("#e5-jugador", { x: 290, y: SUELO }, { x: 80, y: SUELO, duration: 0.42, ease: "power2.inOut" }, 0.05);
+      tl.fromTo("#e5-jugador", { x: 80 }, { x: 520, duration: 0.6, ease: "power2.inOut", immediateRender: false }, 0.75);
+      tl.fromTo("#e5-jugador", { x: 520 }, { x: 300, duration: 0.6, ease: "power2.inOut", immediateRender: false }, 1.75);
+
+      // Marcador: 0 → 15 → 35 → 45 puntos.
+      tl.fromTo("#e5-p0", { opacity: 1 }, { opacity: 1, duration: 0.01 }, 0);
+      // Cada comida cae justo hasta la boca a su segundo (0,5 · 1,5 · 2,5) y desaparece de un bocado.
+      [[1, 0.0, 0.5], [2, 0.6, 1.5], [3, 1.6, 2.5]].forEach(([n, sale, come]) => {
+        const x = pasos[n][1] + 75;
+        tl.fromTo("#e5-c" + n, { x: x, y: 200, scale: 0.3 }, { y: BOCA - 70, scale: 1, duration: come - sale, ease: "power1.in" }, sale);
+        tl.fromTo("#e5-c" + n, { opacity: 0 }, { opacity: 1, duration: 0.08 }, sale);
+        tl.fromTo("#e5-c" + n, { scale: 1 }, { scale: 0, duration: 0.1, ease: "power2.in", immediateRender: false }, come);
+        nlGelatina(tl, $("#e5-jugador"), come, 0.8);
+        tl.fromTo("#e5-s" + n, { x: pasos[n][1] + 70, y: SUELO - 40, scale: 0, opacity: 1 },
+          { y: SUELO - 160, scale: 1, duration: 0.35, ease: "back.out(2.5)" }, come);
+        tl.fromTo("#e5-s" + n, { opacity: 1 }, { opacity: 0, duration: 0.3, immediateRender: false }, come + 0.55);
+        tl.fromTo("#e5-p" + (n - 1), { opacity: 1 }, { opacity: 0, duration: 0.01, immediateRender: false }, come);
+        tl.fromTo("#e5-p" + n, { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)" }, come);
+      });
+
+      // Todo aparece bajo el marcador (como en el juego, que no tapa los puntos).
+      // La bomba pasa de largo, a la derecha de Nailong, y se pierde por abajo.
+      tl.fromTo("#e5-bomba", { x: 660, y: 200, scale: 0.3 }, { y: 1000, scale: 1, duration: 1.8, ease: "power1.in" }, 1.4);
+      tl.fromTo("#e5-bomba", { opacity: 0 }, { opacity: 1, duration: 0.08 }, 1.4);
+
+      nlDestellos(tl, $("#e5-destellos"), 2.9);
+      window.__timelines["minijuego"] = tl;
+    </script>
+  </template>
+</body>
+</html>

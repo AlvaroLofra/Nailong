@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<body>
+  <template>
+    <style>
+      #root { position: absolute; inset: 0; overflow: hidden; }
+      #fondo-cielo { position: absolute; inset: 0; background: linear-gradient(180deg, #8FD3FF 0%, #BDE6FF 45%, #FFF4C9 100%); }
+      .fondo-capa { position: absolute; left: 0; top: 0; width: 2600px; height: 1920px; }
+      .nube { position: absolute; }
+      .colina { position: absolute; border-radius: 50%; }
+    </style>
+
+    <div id="root" data-composition-id="fondo" data-width="1080" data-height="1920">
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <g id="fondo-nube">
+            <g fill="#DCEFFF" transform="translate(0 10)">
+              <circle cx="60" cy="75" r="40" /><circle cx="110" cy="55" r="50" /><circle cx="165" cy="78" r="38" />
+              <rect x="60" y="75" width="105" height="40" />
+            </g>
+            <g fill="#FFFFFF">
+              <circle cx="60" cy="75" r="40" /><circle cx="110" cy="55" r="50" /><circle cx="165" cy="78" r="38" />
+              <rect x="60" y="75" width="105" height="40" />
+            </g>
+          </g>
+        </defs>
+      </svg>
+      <div id="fondo-cielo"></div>
+
+      <!-- Tres capas de nubes: las lejanas pequeñas y lentas, las cercanas grandes y rápidas -->
+      <div id="fondo-lejos" class="fondo-capa" data-layout-ignore>
+        <svg class="nube" style="left:60px;top:230px;opacity:.6" width="220" height="130" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:620px;top:160px;opacity:.6" width="180" height="106" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:1150px;top:300px;opacity:.6" width="220" height="130" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:1650px;top:200px;opacity:.6" width="200" height="118" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+      </div>
+      <div id="fondo-medio" class="fondo-capa" data-layout-ignore>
+        <svg class="nube" style="left:-80px;top:780px;opacity:.85" width="380" height="225" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:760px;top:620px;opacity:.85" width="340" height="200" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:1300px;top:900px;opacity:.85" width="380" height="225" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:1900px;top:700px;opacity:.85" width="340" height="200" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+      </div>
+      <div id="fondo-cerca" class="fondo-capa" data-layout-ignore>
+        <svg class="nube" style="left:-120px;top:1430px" width="620" height="366" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:640px;top:1500px" width="560" height="330" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:1300px;top:1440px" width="620" height="366" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+        <svg class="nube" style="left:1950px;top:1520px" width="560" height="330" viewBox="0 0 220 130"><use href="#fondo-nube" /></svg>
+      </div>
+
+      <!-- Colinas al pie: el «suelo» donde aterriza todo -->
+      <div class="colina" style="left:-300px;top:1720px;width:1000px;height:520px;background:#9BE59B" data-layout-ignore></div>
+      <div class="colina" style="left:420px;top:1760px;width:1100px;height:520px;background:#86D886" data-layout-ignore></div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // Paralaje: cada capa avanza a su ritmo, de forma lineal, durante los 29 s.
+      tl.fromTo("#fondo-lejos", { x: 0 }, { x: -320, duration: 29, ease: "none" }, 0);
+      tl.fromTo("#fondo-medio", { x: 0 }, { x: -760, duration: 29, ease: "none" }, 0);
+      tl.fromTo("#fondo-cerca", { x: 0 }, { x: -1300, duration: 29, ease: "none" }, 0);
+      window.__timelines["fondo"] = tl;
+    </script>
+  </template>
+</body>
+</html>
