@@ -344,7 +344,7 @@ print("✔ v14 verified: all 96 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3.3.1<', html), "Footer must show the current version number (v3.3.1)!"
+assert re.search(r'id="app-version"[^>]*>v3.3.2<', html), "Footer must show the current version number (v3.3.2)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -361,8 +361,8 @@ assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailo
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-assert 'v3.3.1 APK' in html, "Badge in index.html must show v3.3.1 APK!"
-print("✔ v3.3.1 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.3.1 APK badge.")
+assert 'v3.3.2 APK' in html, "Badge in index.html must show v3.3.2 APK!"
+print("✔ v3.3.2 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.3.2 APK badge.")
 
 # Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
 font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
@@ -380,4 +380,18 @@ assert 'href="#android-app-banner"' in html and 'id="lb-visor-btn"' in html and 
 assert 'overflow-x: clip' in html and '@media (max-width: 359px)' in html, "Navbar overflow fix missing!"
 print("✔ v3.2.0 verified: GIF wall merged into stickers section (app banner, Visor strip, album), app button in nav, navbar fits narrow phones.")
 
-print("\n=== ALL 44 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 45: v3.3.2 - version.json (lo lee la app para avisar de versiones nuevas) coincide con la web y el APK
+with open('version.json', encoding='utf-8') as _vf:
+    _ver = json.load(_vf)
+_footer = re.search(r'id="app-version"[^>]*>v([\d.]+)<', html).group(1)
+assert _ver['versionName'] == _footer, f"version.json versionName ({_ver['versionName']}) must match the footer version (v{_footer})!"
+assert _ver['apkUrl'] == 'https://alvarolofra.github.io/Nailong/StickersNailong.apk', "version.json apkUrl must point to the official APK on GitHub Pages!"
+assert isinstance(_ver.get('notes'), list) and _ver['notes'], "version.json must include a non-empty notes list (shown in the app)!"
+with open(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app', 'build.gradle'), encoding='utf-8') as _gf:
+    _gradle = _gf.read()
+assert f"versionCode {_ver['versionCode']}" in _gradle and f'versionName "{_ver["versionName"]}"' in _gradle, "version.json must match versionCode/versionName in the Android build.gradle!"
+with open(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\java\com\example\samplestickerapp', 'UpdateChecker.java'), encoding='utf-8') as _uf:
+    assert '"https://alvarolofra.github.io/Nailong/version.json"' in _uf.read(), "UpdateChecker.java must read version.json from the official site!"
+print(f"✔ v3.3.2 verified: version.json ({_ver['versionName']}, code {_ver['versionCode']}) matches web footer and Android build.gradle.")
+
+print("\n=== ALL 45 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

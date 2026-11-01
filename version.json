@@ -1,0 +1,10 @@
+{
+  "versionCode": 8,
+  "versionName": "3.3.2",
+  "apkUrl": "https://alvarolofra.github.io/Nailong/StickersNailong.apk",
+  "notes": [
+    "Los packs animados se abren y se cierran con suavidad.",
+    "Los stickers siguen moviéndose sin saltos.",
+    "Tras actualizar, un aviso te recuerda pulsar «Actualizar» en WhatsApp."
+  ]
+}
