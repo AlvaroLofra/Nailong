@@ -19,7 +19,7 @@ El usuario dirige el desarrollo con agentes y no programa a mano: responde en **
 | Acción | Comando |
 |---|---|
 | Servir en local | `python -m http.server 8000` → <http://localhost:8000/> |
-| **Verificación completa (cambios medios/grandes; ver «Proporcionalidad»)** | `python verify_all.py` (44 comprobaciones; debe terminar sin error) |
+| **Verificación completa (cambios medios/grandes; ver «Proporcionalidad»)** | `python verify_all.py` (45 comprobaciones; debe terminar sin error) |
 | Normalizar / comprobar stickers | `python normalizar_stickers.py --check` |
 | Recompilar el APK | Ver `documentacion/guias_y_contexto/GUIA_DESARROLLO.md` (el código Android vive fuera de este repo) |
 
@@ -29,6 +29,7 @@ index.html            Marcado HTML. ÚNICO punto de entrada (carga css/ y js/)
 css/styles.css        Estilos propios (Tailwind va por CDN)
 js/                   JS vanilla en scripts clásicos numerados; se cargan en orden (01-audio … 10-inicio)
 manifest.json         PWA
+version.json          Versión publicada del APK + novedades (la app la consulta para avisar de actualizaciones)
 StickersNailong.apk   App Android firmada (binario; se versiona con la web)
 Stickers Nailong/     80 cromos WebP 512×512 (sticker_1..80) + creador_nailong.webp
 verify_all.py         Suite de verificación

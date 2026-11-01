@@ -31,12 +31,12 @@ Antes de realizar cualquier commit o entrega, es **obligatorio** verificar que l
 python verify_all.py
 ```
 
-### Qué valida la suite (44 comprobaciones):
+### Qué valida la suite (45 comprobaciones):
 1. Integridad del punto único de entrada (`index.html`) sin duplicados residuales.
 2. Presencia de los 96 stickers en `Stickers Nailong/` (`sticker_1.webp` a `sticker_96.webp`) y de `creador_nailong.webp`.
 3. Normalización estricta de stickers WebP (512×512, EXIF WhatsApp, límites de peso y duración).
 4. Presencia del binario APK Android (`StickersNailong.apk` > 20 MB).
-5. Sincronización de versiones visibles (v3.3.1 en web y footer).
+5. Sincronización de versiones visibles (v3.3.2 en web y footer).
 6. Elementos interactivos del DOM, canvas de minijuego, motor de audio y banner de descarga.
 
 ---
@@ -71,11 +71,18 @@ cd "C:\src\nailong_stickers_app\stickers\Android"
 # Compilar release con Gradle
 ./gradlew assembleRelease
 
-# Firmar con apksigner (esquemas v1 y v2)
-apksigner sign --ks "C:\src\nailong_stickers_app\keystore\nailong.keystore" \
-  --ks-pass pass:nailong123 \
-  --out "C:\src\nailong_stickers_app\StickersNailong.apk" \
-  app/build/outputs/apk/release/app-release-unsigned.apk
+# Alinear y firmar (build-tools 34.0.0 en %LOCALAPPDATA%\Android\Sdk\build-tools)
+# OJO: las versiones publicadas están firmadas con el keystore *debug* de esta máquina
+# (CN=Android Debug, SHA-256 04b83add…abb2). Hay que firmar SIEMPRE con esa misma clave;
+# si cambia, Android no deja instalar la actualización encima de la versión anterior.
+zipalign -f -p 4 app/build/outputs/apk/release/app-release-unsigned.apk aligned.apk
+apksigner sign --ks "%USERPROFILE%\.android\debug.keystore" \
+  --ks-pass pass:android --ks-key-alias androiddebugkey --key-pass pass:android \
+  --out "C:\src\nailong_stickers_app\StickersNailong.apk" aligned.apk
+apksigner verify --print-certs "C:\src\nailong_stickers_app\StickersNailong.apk"
+
+# Al publicar versión: actualizar version.json (versionCode, versionName y notes en lenguaje sencillo).
+# La app instalada lo consulta al abrirse y ofrece descargar el APK nuevo.
 
 # Copiar el binario firmado a la raíz de la web
 cp "C:\src\nailong_stickers_app\StickersNailong.apk" "C:\Users\Administrator\Documents\Claude Code\Misceláneo\Página Nailong\StickersNailong.apk"

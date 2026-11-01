@@ -5,6 +5,20 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [3.3.2] — 2026-11-01
+Los packs animados van fluidos y, tras actualizar, la app explica cómo refrescar el pack en WhatsApp sin borrarlo.
+
+- **App Android (`StickersNailong.apk` v3.3.2, `versionCode 8`):**
+  - Rendimiento: Fresco decodifica los fotogramas al tamaño de la celda (`setShouldDownscaleFrameToDrawableDimensions` + `setDownsampleEnabled` y `ResizeOptions`), no a 512×512. Antes, unos 25 animados a 512 px saturaban la CPU.
+  - Ya no se recargan todos los stickers al volver a la pantalla ni al marcar uno: solo se refresca el check (payload `PAYLOAD_SELECTION`) y la animación no se reinicia.
+  - Las animaciones se pausan en `onPause`, para que el botón atrás responda al momento, y se reanudan en `onResume`.
+  - Las miniaturas de la lista de packs también se decodifican a su tamaño real.
+  - Aviso nuevo (`dialog_update_tip.xml`): la primera vez que se abre tras una actualización, recuerda que en WhatsApp basta con pulsar «Actualizar» en el pack. No aparece en una instalación nueva.
+  - Avisos de versión nueva: al abrirse, la app lee `https://alvarolofra.github.io/Nailong/version.json` (`UpdateChecker`, 5 s de timeout, silencioso sin red). Si el `versionCode` es mayor, muestra un diálogo con la versión, las novedades y el botón «Descargar», que abre el APK en el navegador. Se añade el permiso `INTERNET`.
+  - Firmado con la misma clave que las versiones publicadas (keystore *debug* de la máquina), para que se instale encima sin desinstalar.
+- **Web:** versión `v3.3.2`, sufijos `?v=` y etiqueta del APK (26 MB).
+- **README:** el historial anida los parches (x.y.Z) dentro de su versión menor.
+
 ## [3.3.1] — 2026-11-01
 Corrección de la app Android: ya se ven los 4 packs a la vez, los stickers se animan dentro de cada pack y los packs animados quedan equilibrados.
 

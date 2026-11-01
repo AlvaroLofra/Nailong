@@ -2,7 +2,7 @@
 
 > **Subsistema:** Aplicación Android (`com.eva.nailongstickers`)  
 > **Ubicación del código fuente:** `C:\src\nailong_stickers_app\stickers\Android`  
-> **Binario de producción:** `StickersNailong.apk` (28.7 MB, v3.3.1, 96 stickers en 4 packs oficiales)
+> **Binario de producción:** `StickersNailong.apk` (26 MB, v3.3.2, 96 stickers en 4 packs oficiales)
 
 ---
 
@@ -125,3 +125,18 @@ ailong_stickers_app\generar_assets.py`, que exige cubrir los IDs 1..96 sin dupli
 - **Lista de packs:** `activity_sticker_pack_list.xml` y `sticker_packs_list_item.xml` tienen márgenes reducidos y los botones de «Mi Selección» se ocultan con 0 elementos, para que los 4 packs entren a la vez en pantalla (el cuarto quedaba cortado bajo el pliegue).
 - **Caché de WhatsApp:** si se reordena el contenido de un pack, hay que subir `IMAGE_DATA_VERSION` en `generar_assets.py` (hoy `'2'`).
 - **Comprobado en el emulador `Medium_Phone_API_37.0` (1080×2400):** los 4 packs visibles; el detalle del pack 1 muestra 25 stickers y las capturas separadas 0,7 s difieren (se mueven). **No comprobado:** la importación real a WhatsApp y el POCO X7 Pro.
+
+## Rendimiento de los packs animados y aviso de actualización (v3.3.2)
+- **Por qué iba lento:** cada sticker animado se decodificaba a 512×512 aunque la celda es mucho más pequeña, y `notifyDataSetChanged()` en `onResume` creaba controladores nuevos, así que todas las animaciones se reiniciaban a la vez.
+- **Fresco (`StickerApplication`):** `ImagePipelineConfig` con `setDownsampleEnabled(true)` y `experiment().setShouldDownscaleFrameToDrawableDimensions(true)`.
+- **`StickerPreviewAdapter`:** `ImageRequestBuilder` + `ResizeOptions(cellSize, cellSize)`. El controlador solo se cambia si cambia la URI (se guarda en el tag `R.id.sticker_preview`). `PAYLOAD_SELECTION` refresca solo el check. `setAnimationsRunning(bool)` pausa o reanuda los `Animatable` visibles.
+- **`StickerPackDetailsActivity`:** `onResume` → `refreshSelectionChecks()` + reanudar. `onPause` → pausar (el botón atrás ya no compite con unos 25 decodificadores).
+- **`StickerPackListAdapter`:** las miniaturas usan `ResizeOptions` con el tamaño del `ImageView`.
+- **Aviso tras actualizar (`StickerPackListActivity.maybeShowUpdateTip`):** guarda `last_version_code` en `nailong_app_prefs`. Si no existe (versiones ≤ 3.3.1), considera actualización cuando `firstInstallTime != lastUpdateTime`. Layout `dialog_update_tip.xml`, textos `update_tip_*` en `strings.xml`.
+- **Comprobado en el emulador:** actualizando de 3.3.1 a 3.3.2 sale el aviso, y al reabrir no se repite. El pack 1 se abre con los 25 stickers. **No comprobado:** la fluidez en un móvil real (el emulador usa GPU por software y no sirve para medirla; además, el equipo sufrió un pantallazo azul de la gráfica integrada durante la prueba), y el botón «Actualizar» dentro de WhatsApp.
+
+## Aviso de versión nueva (`UpdateChecker`, v3.3.2)
+- **Fuente:** `version.json` en la raíz de la web (GitHub Pages) con `versionCode`, `versionName`, `apkUrl` y `notes`. Se eligió la web y no la API de GitHub Releases porque el APK ya se publica ahí, no hay límite de peticiones y no hace falta crear releases.
+- **App:** `StickerPackListActivity.onCreate` llama a `UpdateChecker.check(this)` (AsyncTask, timeout de 5 s, `?t=` anti-caché). Solo se acepta un `apkUrl` HTTPS de `alvarolofra.github.io`. Si `versionCode` > `BuildConfig.VERSION_CODE`, sale `dialog_update_available.xml` con «Más tarde» y «Descargar» (`ACTION_VIEW` al APK: lo descarga el navegador y Android ofrece instalar encima). Sin red o con un error, no aparece nada.
+- **Por qué el navegador y no la instalación desde la propia app:** instalar desde la app exige el permiso `REQUEST_INSTALL_PACKAGES`, un `FileProvider` y gestionar la descarga. El navegador lo resuelve sin permisos extra y el usuario ve el proceso habitual de Android.
+- **Al publicar versión:** subir `versionCode`/`versionName` en `build.gradle` y en `version.json` y escribir las `notes` en lenguaje sencillo. `verify_all.py` (test 45) comprueba que coinciden con el pie de la web y con `build.gradle`.
