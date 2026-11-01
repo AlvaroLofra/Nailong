@@ -16,7 +16,19 @@ Los packs animados van fluidos y, tras actualizar, la app explica cómo refresca
   - Aviso nuevo (`dialog_update_tip.xml`): la primera vez que se abre tras una actualización, recuerda que en WhatsApp basta con pulsar «Actualizar» en el pack. No aparece en una instalación nueva.
   - Avisos de versión nueva: al abrirse, la app lee `https://alvarolofra.github.io/Nailong/version.json` (`UpdateChecker`, 5 s de timeout, silencioso sin red). Si el `versionCode` es mayor, muestra un diálogo con la versión, las novedades y el botón «Descargar», que abre el APK en el navegador. Se añade el permiso `INTERNET`.
   - Firmado con la misma clave que las versiones publicadas (keystore *debug* de la máquina), para que se instale encima sin desinstalar.
-- **Web:** versión `v3.3.2`, sufijos `?v=` y etiqueta del APK (26 MB).
+  - Número de versión pequeño al final de la lista de packs (sale de `BuildConfig.VERSION_NAME`, igual que el pie de la web).
+  - **Vistas previas ligeras (la causa real del lag):** aunque Fresco pintara pequeño, seguía descodificando cada fotograma a 512×512 (25 animados a la vez → CPU al 200 %). `generar_assets.py` crea ahora `assets/previews/<pack>/` con copias animadas de 192 px, que usan la cuadrícula y las miniaturas de la lista. WhatsApp y la vista ampliada siguen usando los originales.
+  - **Revisión a fondo (correcciones internas):**
+    - Arranque más rápido: la validación de los 96 stickers, que descodificaba todos los fotogramas, solo se ejecuta en debug y ya no se repite dos veces (`StickerPackLoader` + `EntryActivity`). El tamaño de cada sticker se lee del descriptor y no cargando ~22 MB en memoria.
+    - Volver a la lista de packs ya no reconstruye dos veces las 20 miniaturas (`notifyDataSetChanged` redundante en `onResume`).
+    - «Mi Selección» se crea y valida en segundo plano, con un aviso «Preparando tu pack…», en vez de congelar la pantalla. Si algo falla, se borra la carpeta a medias.
+    - La selección se guarda: sobrevive a que Android cierre la app mientras estás en WhatsApp. El estado del import de 2 packs también se conserva si la pantalla se recrea.
+    - Seguridad: el ContentProvider (exportado para WhatsApp) rechaza rutas que intenten salir de `selection_packs/` (`../`).
+    - Tocar la imagen de un sticker ya lo añade a «Mi Selección» (antes solo funcionaba el circulito: la imagen, al tener pulsación larga, se quedaba con el toque).
+    - Protegida una división entre cero al calcular las miniaturas por fila en pantallas muy estrechas.
+- **Web:** versión `v3.3.2`, sufijos `?v=` y etiqueta del APK (31 MB).
+  - Minijuego: el lienzo ya no se reasigna en cada `resize` si el tamaño no cambia (en móvil saltaba al hacer scroll) y el reloj de la partida se para con la pestaña en segundo plano.
+- **Mejoras visuales pendientes** anotadas en `documentacion/estado_del_proyecto/MEJORAS_PENDIENTES.md`.
 - **README:** el historial anida los parches (x.y.Z) dentro de su versión menor.
 
 ## [3.3.1] — 2026-11-01

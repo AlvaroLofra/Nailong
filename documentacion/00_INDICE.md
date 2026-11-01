@@ -34,7 +34,7 @@ Fuera de esta carpeta:
 | `../index.html` | Punto único de entrada de la SPA web (HTML5 + Tailwind CDN); carga `css/` y `js/`. |
 | `../css/` · `../js/` | Estilos y scripts de la web, divididos por bloque funcional (D-15; mapa en `notas_tecnicas/00_mapa_de_codigo.md`). |
 | `../archivo/` | Material histórico (investigación y plan antiguos). No se lee salvo petición. |
-| `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (26 MB, v3.3.2). |
+| `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (31 MB, v3.3.2). |
 | `../Stickers Nailong/` | Colección oficial de 96 cromos WebP normalizados + foto del creador. |
 | `../verify_all.py` | Suite de pruebas automatizadas (45 comprobaciones estructurales y funcionales). |
 | `../README.md` | Portada pública del proyecto con notas de parche directas para usuarios. |
@@ -59,6 +59,7 @@ Fuera de esta carpeta:
 |---|---|
 | Foto fija del proyecto hoy | [`estado_del_proyecto/ESTADO_ACTUAL.md`](estado_del_proyecto/ESTADO_ACTUAL.md) |
 | Historial de decisiones de arquitectura (ADRs) | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) |
+| Mejoras visuales/de interfaz pendientes | [`estado_del_proyecto/MEJORAS_PENDIENTES.md`](estado_del_proyecto/MEJORAS_PENDIENTES.md) |
 | Bitácoras de sesiones | [`estado_del_proyecto/bitacora_de_sesiones/`](estado_del_proyecto/bitacora_de_sesiones/) |
 | App Android nativa y `StickerContentProvider` | [`notas_tecnicas/01_app_android_whatsapp_stickers.md`](notas_tecnicas/01_app_android_whatsapp_stickers.md) |
 | Normalización de stickers WebP y metadatos WhatsApp | [`notas_tecnicas/02_normalizacion_stickers_webp.md`](notas_tecnicas/02_normalizacion_stickers_webp.md) |

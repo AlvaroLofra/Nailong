@@ -158,6 +158,8 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
     - Los packs animados se abren y se cierran con suavidad, y los stickers siguen moviéndose.
     - Tras actualizar la app, un aviso te recuerda que en WhatsApp basta con pulsar «Actualizar» en el pack: no hace falta borrarlo.
     - La app te avisa cuando hay una versión nueva, te cuenta qué trae y te deja descargarla con un toque.
+    - Ahora basta con tocar un sticker para añadirlo a «Mi Selección», y tu selección se guarda aunque cierres la app.
+    - El número de versión aparece abajo, igual que en la web.
 
 ---
 

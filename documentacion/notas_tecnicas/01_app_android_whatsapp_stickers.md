@@ -2,7 +2,7 @@
 
 > **Subsistema:** Aplicación Android (`com.eva.nailongstickers`)  
 > **Ubicación del código fuente:** `C:\src\nailong_stickers_app\stickers\Android`  
-> **Binario de producción:** `StickersNailong.apk` (26 MB, v3.3.2, 96 stickers en 4 packs oficiales)
+> **Binario de producción:** `StickersNailong.apk` (31 MB, v3.3.2, 96 stickers en 4 packs oficiales)
 
 ---
 
@@ -140,3 +140,11 @@ ailong_stickers_app\generar_assets.py`, que exige cubrir los IDs 1..96 sin dupli
 - **App:** `StickerPackListActivity.onCreate` llama a `UpdateChecker.check(this)` (AsyncTask, timeout de 5 s, `?t=` anti-caché). Solo se acepta un `apkUrl` HTTPS de `alvarolofra.github.io`. Si `versionCode` > `BuildConfig.VERSION_CODE`, sale `dialog_update_available.xml` con «Más tarde» y «Descargar» (`ACTION_VIEW` al APK: lo descarga el navegador y Android ofrece instalar encima). Sin red o con un error, no aparece nada.
 - **Por qué el navegador y no la instalación desde la propia app:** instalar desde la app exige el permiso `REQUEST_INSTALL_PACKAGES`, un `FileProvider` y gestionar la descarga. El navegador lo resuelve sin permisos extra y el usuario ve el proceso habitual de Android.
 - **Al publicar versión:** subir `versionCode`/`versionName` en `build.gradle` y en `version.json` y escribir las `notes` en lenguaje sencillo. `verify_all.py` (test 45) comprueba que coinciden con el pie de la web y con `build.gradle`.
+
+## Revisión a fondo (v3.3.2)
+- **Arranque:** `StickerPackLoader.fetchStickerPacks` valida con `StickerPackValidator` solo si `BuildConfig.DEBUG`; `EntryActivity` ya no repite la validación. Los tamaños se leen con `openAssetFileDescriptor().getLength()` (`fetchStickerAssetSize`), con lectura completa solo como respaldo.
+- **Lista:** `onResume` no llama a `notifyDataSetChanged()`; `WhiteListCheckAsyncTask.onPostExecute` ya refresca. `recalculateColumnCount` evita dividir entre cero con una sola miniatura por fila.
+- **Mi Selección:** `createPacksInBackground` (un `ExecutorService` de un hilo) crea y valida los packs fuera del hilo principal; si falla, `DynamicPackManager.deleteDynamicPack` borra lo creado. La selección se guarda en `nailong_dynamic_packs` → `current_selection` (JSON) en cada cambio y se recupera en `DynamicPackManager.init` desde `StickerApplication`. `pendingSecondPack*` e `isImportingSelection` van en `onSaveInstanceState`.
+- **Seguridad:** `getDynamicPackFile`/`getDynamicPackByIdentifier` comprueban con `getCanonicalPath` que la ruta queda dentro de `files/selection_packs/`.
+- **Versión visible:** `app_version_label` en `activity_sticker_pack_list.xml`, rellenado con `BuildConfig.VERSION_NAME`.
+- **Vistas previas (`assets/previews/<pack>/<fichero>`):** `generar_assets.py → generate_previews()` (192 px, WebP animado calidad 50) se ejecuta al final de `main()`, y también se puede lanzar sola: `python -c "import generar_assets as g; g.generate_previews()"`. `StickerPreviewAdapter.getGridUri` usa `asset:///previews/...` si existe y, si no, el original. `StickerPackListAdapter` hace lo mismo con las miniaturas de los packs animados. Medido en el emulador (RTX 3050 Ti) dentro del pack 1, en reposo: ver la bitácora.

@@ -22,7 +22,7 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
 | **Banco de cromos coleccionables** | Exactamente 96 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador. |
 | **Packs oficiales preconfigurados en Android** | 4 packs: *Nailong animado 1* (25), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23). Total: 96 stickers. |
 | **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con bifurcación inteligente por tipo mixto. |
-| **Paquete nativo Android firmado** | `StickersNailong.apk` (26 MB / 26.003.075 bytes, firmado con esquemas v1, v2 y v3 con la clave *debug* de la máquina, targetSdk 30, versionCode 8, versionName 3.3.2). |
+| **Paquete nativo Android firmado** | `StickersNailong.apk` (31 MB / 31.056.681 bytes, firmado con esquemas v1, v2 y v3 con la clave *debug* de la máquina, targetSdk 30, versionCode 8, versionName 3.3.2). |
 | **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_oficial.mp4` (1080×1920, 30 fps, 17.0s, audio C-major pentatonic sintetizado). |
 | **Botonera de sonidos sintetizados** | 12 casillas con síntesis Web Audio en tiempo real (0 archivos `.mp3`/`.wav`). |
 | **Escenas virales en el Visor Mágico** | 9 animaciones WebP seleccionadas en bucle con control de velocidad (0.5x, 1x, 1.5x). |
@@ -38,6 +38,7 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
   - Normalización técnica garantizada: 512×512 píxeles, metadatos EXIF oficiales de WhatsApp (`sticker-pack-id`), pesos optimizados (≤500 KB animados, ≤100 KB estáticos).
   - Eliminación de la carpeta temporal `Stickers Nailong/stickers_tiktok_temporal`.
   - Catálogo completo en `js/02-datos-stickers.js` con nombres descriptivos, etiquetas de búsqueda, emociones y sonidos asignados.
+- [x] **Revisión a fondo de app y web (v3.3.2):** arranque sin validación duplicada, lista sin recargas dobles, «Mi Selección» en segundo plano y persistente, ContentProvider protegido contra `../`, versión visible en la app y minijuego sin reasignar el lienzo. Mejoras visuales apuntadas en `MEJORAS_PENDIENTES.md`.
 - [x] **Avisos de versión nueva (v3.3.2):** la web publica `version.json`; la app lo consulta al abrirse y, si hay un `versionCode` mayor, muestra la versión y sus novedades con botón «Descargar» (abre el APK en el navegador). **No comprobado** con una versión mayor real publicada.
 - [x] **v3.3.2:** decodificación de los stickers animados al tamaño de la celda, sin reinicios de animación al volver o seleccionar, animaciones pausadas al salir y aviso único tras actualizar («pulsa Actualizar en WhatsApp»). Aviso probado en el emulador; **fluidez en un móvil real no comprobada**.
 - [x] **Corrección v3.3.1 (D-18):** packs animados equilibrados (25/24/24) + estático (23), los 4 packs caben en pantalla y los stickers se animan en bucle dentro de cada pack. Probado en emulador Android 37.
