@@ -27,6 +27,7 @@
 | **D-15** | `index.html` dividido en marcado + `css/styles.css` + 10 ficheros `js/` (scripts clásicos, sin build) | Tomada | 2026-10-31 |
 | **D-16** | Retiro de stickers duplicados (1/42 y 6/14), renumeración continua a 80 y lanzamiento v3.2.2 | Tomada | 2026-10-31 |
 | **D-17** | Incorporación de 16 nuevos stickers (80 → 96), 4º pack en app Android y tráiler HyperFrames | Tomada | 2026-11-01 |
+| **D-18** | Reparto equilibrado de packs animados (25/24/24), estáticos en un pack, 4 packs visibles y animación en la app (v3.3.1) | Tomada | 2026-11-01 |
 
 ---
 
@@ -217,3 +218,12 @@
   3. *Corrección y Renderizado de Tráiler HyperFrames:* Se diagnosticó que la manipulación dinámica en caliente del atributo `src` en `scene2.html` producía fallos de decodificación asíncrona en el motor headless de renderizado. Se resolvió creando ambos nodos (`#e2-dragon` y `#e2-dragon-party`) pre-renderizados en el DOM e intercambiando visibilidad de forma síncrona con GSAP `tl.set()`. Se compuso y sintetizó la banda sonora original `video-promo/assets/audio/nailong_theme.wav` (escala pentatónica de Do Mayor, 17.0s) vinculada con `<audio id="bgm">`. Se renderizó el tráiler final en MP4 (1080×1920, 30fps) y se integró en la web en `#video-promo-section`.
   4. *Sincronización Web y Verificación:* Actualización de contadores a 96, cache busters a `?v=3.3.0`, badges y footer a `v3.3.0`. Actualización de `verify_all.py` (comprobaciones de 96 stickers correlativos y versiones).
 - **Consecuencias:** Colección completa de 96 cromos auténticos funcionales en web y WhatsApp; app Android nativa con 4 packs; tráiler de lanzamiento impecable integrado en la web.
+
+---
+
+## D-18 · Packs equilibrados, 4 packs visibles y animación en la app Android (v3.3.1)
+- **Estado:** **Tomada** (2026-11-01, a petición del usuario).
+- **Problema:** (1) Los packs animados se llenaban por orden de llegada (30/30/13), quedando uno casi vacío. (2) En el móvil del usuario solo se veían 3 packs: el cuarto («Nailong estático») quedaba cortado bajo el pliegue de la pantalla; el APK sí lo traía. (3) Dentro de un pack, los stickers animados se veían quietos porque `setImageURI` de Fresco no reproduce la animación.
+- **Decisión:** estáticos juntos en un pack (23) y los 73 animados repartidos en orden numérico en 3 packs (25/24/24); reproducción automática en bucle con `setAutoPlayAnimations(true)`; lista de packs más compacta y «Mi Selección» sin botones cuando está vacía; `image_data_version` 1 → 2 para esquivar la caché de WhatsApp.
+- **Alternativas descartadas:** dividir por tema (comida y amigos son demasiado pequeñas); mover ficheros a subcarpetas (no aporta a la app y obligaría a tocar la web y `verify_all.py`).
+- **Consecuencias:** versión 3.3.1 / `versionCode 7`. Los stickers 5 y 14 (2 fotogramas) y 26 (5) siguen en packs animados por contar como animados. Pendiente: probar la importación en WhatsApp y en el POCO X7 Pro.

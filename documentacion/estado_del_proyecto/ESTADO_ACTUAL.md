@@ -2,15 +2,15 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 01/11/2026 — Incorporación de 16 nuevos stickers oficiales (80 → 96), 4º pack en app Android, tráiler oficial con HyperFrames y lanzamiento v3.3.0 (D-17).
+> **Última actualización:** 01/11/2026 (v3.3.1: packs equilibrados, 4 packs visibles y animación en la app) — Incorporación de 16 nuevos stickers oficiales (80 → 96), 4º pack en app Android, tráiler oficial con HyperFrames y lanzamiento v3.3.0 (D-17).
 > **Rama activa:** `main` (sincronizada con `origin/main`).
-> **Versión actual de producción:** Web `v3.3.0` | Android APK `v3.3.0` (`versionCode 6`).
+> **Versión actual de producción:** Web `v3.3.1` | Android APK `v3.3.1` (`versionCode 7`).
 
 ---
 
 ## 1. En una Frase
 
-La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.3.0**, con un catálogo ampliado a 96 cromos oficiales (73 animados y 23 estáticos) distribuidos en 4 packs de WhatsApp, tráiler oficial promocional HyperFrames integrado con música original y las 44/44 pruebas de verificación superadas al 100%.
+La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.3.1**, con un catálogo ampliado a 96 cromos oficiales (73 animados y 23 estáticos) distribuidos en 4 packs de WhatsApp, tráiler oficial promocional HyperFrames integrado con música original y las 44/44 pruebas de verificación superadas al 100%.
 
 ---
 
@@ -20,9 +20,9 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
 |---|---|
 | **Punto único de entrada web** | `index.html` + `css/styles.css` + `js/` (10 ficheros modulares, 0 dependencias de compilación). |
 | **Banco de cromos coleccionables** | Exactamente 96 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador. |
-| **Packs oficiales preconfigurados en Android** | 4 packs: *Nailong Animados 1* (30), *Nailong Animados 2* (30), *Nailong Animados 3* (13) y *Nailong Estáticos* (23). Total: 96 stickers. |
+| **Packs oficiales preconfigurados en Android** | 4 packs: *Nailong animado 1* (25), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23). Total: 96 stickers. |
 | **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con bifurcación inteligente por tipo mixto. |
-| **Paquete nativo Android firmado** | `StickersNailong.apk` (27.3 MB / 28.705.590 bytes, firmado con esquemas v1 y v2, targetSdk 34, versionCode 6, versionName 3.3.0). |
+| **Paquete nativo Android firmado** | `StickersNailong.apk` (28,7 MB / 28.713.969 bytes, firmado con esquemas v1 y v2, targetSdk 34, versionCode 7, versionName 3.3.1). |
 | **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_oficial.mp4` (1080×1920, 30 fps, 17.0s, audio C-major pentatonic sintetizado). |
 | **Botonera de sonidos sintetizados** | 12 casillas con síntesis Web Audio en tiempo real (0 archivos `.mp3`/`.wav`). |
 | **Escenas virales en el Visor Mágico** | 9 animaciones WebP seleccionadas en bucle con control de velocidad (0.5x, 1x, 1.5x). |
@@ -38,8 +38,9 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
   - Normalización técnica garantizada: 512×512 píxeles, metadatos EXIF oficiales de WhatsApp (`sticker-pack-id`), pesos optimizados (≤500 KB animados, ≤100 KB estáticos).
   - Eliminación de la carpeta temporal `Stickers Nailong/stickers_tiktok_temporal`.
   - Catálogo completo en `js/02-datos-stickers.js` con nombres descriptivos, etiquetas de búsqueda, emociones y sonidos asignados.
+- [x] **Corrección v3.3.1 (D-18):** packs animados equilibrados (25/24/24) + estático (23), los 4 packs caben en pantalla y los stickers se animan en bucle dentro de cada pack. Probado en emulador Android 37.
 - [x] **Aplicación Nativa Android (`StickersNailong.apk` v3.3.0):**
-  - Reconfiguración de `generar_assets.py` con 4 packs que respetan el límite de WhatsApp: *Nailong Animados 1* (30), *Nailong Animados 2* (30), *Nailong Animados 3* (13) y *Nailong Estáticos* (23).
+  - Reconfiguración de `generar_assets.py` con 4 packs que respetan el límite de WhatsApp: *Nailong animado 1* (25), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23).
   - Generación de `contents.json` y recursos adaptados.
   - Actualización de `build.gradle` a `versionCode 6`, `versionName "3.3.0"`.
   - Compilación exitosa con Gradle (`gradlew assembleDebug`), firmado y verificado con `apksigner` (esquemas v1 y v2).

@@ -34,7 +34,7 @@ Fuera de esta carpeta:
 | `../index.html` | Punto único de entrada de la SPA web (HTML5 + Tailwind CDN); carga `css/` y `js/`. |
 | `../css/` · `../js/` | Estilos y scripts de la web, divididos por bloque funcional (D-15; mapa en `notas_tecnicas/00_mapa_de_codigo.md`). |
 | `../archivo/` | Material histórico (investigación y plan antiguos). No se lee salvo petición. |
-| `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (28.7 MB, v3.3.0). |
+| `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (28.7 MB, v3.3.1). |
 | `../Stickers Nailong/` | Colección oficial de 96 cromos WebP normalizados + foto del creador. |
 | `../verify_all.py` | Suite de pruebas automatizadas (44 comprobaciones estructurales y funcionales). |
 | `../README.md` | Portada pública del proyecto con notas de parche directas para usuarios. |
@@ -42,7 +42,7 @@ Fuera de esta carpeta:
 | `../AGENTS.md` | Instrucciones canónicas para agentes de IA (< 200 líneas). |
 | `../CLAUDE.md` / `../GEMINI.md` | Punteros a `AGENTS.md` (sin copiar contenido). |
 | `../CLAUDE.local.md` | (No está en Git) Rutas y datos de la máquina del usuario, incl. la biblioteca central de pautas. |
-| `../CHANGELOG.md` | Historial técnico de versiones (v1.0.0 → v3.3.0). |
+| `../CHANGELOG.md` | Historial técnico de versiones (v1.0.0 → v3.3.1). |
 
 ---
 

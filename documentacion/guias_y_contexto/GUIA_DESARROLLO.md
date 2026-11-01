@@ -36,7 +36,7 @@ python verify_all.py
 2. Presencia de los 96 stickers en `Stickers Nailong/` (`sticker_1.webp` a `sticker_96.webp`) y de `creador_nailong.webp`.
 3. Normalización estricta de stickers WebP (512×512, EXIF WhatsApp, límites de peso y duración).
 4. Presencia del binario APK Android (`StickersNailong.apk` > 20 MB).
-5. Sincronización de versiones visibles (v3.3.0 en web y footer).
+5. Sincronización de versiones visibles (v3.3.1 en web y footer).
 6. Elementos interactivos del DOM, canvas de minijuego, motor de audio y banner de descarga.
 
 ---

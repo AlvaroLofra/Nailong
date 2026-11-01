@@ -5,6 +5,16 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [3.3.1] — 2026-11-01
+Corrección de la app Android: ya se ven los 4 packs a la vez, los stickers se animan dentro de cada pack y los packs animados quedan equilibrados.
+
+- **App Android (`StickersNailong.apk` v3.3.1, `versionCode 7`):**
+  - Los stickers animados se reproducen en bucle al abrir un pack (Fresco con `setAutoPlayAnimations`).
+  - Pantalla principal más compacta: el pack «Nailong estático» (el cuarto) quedaba cortado por debajo de los tres animados; ahora los 4 caben en pantalla. «Mi Selección» oculta sus botones mientras no haya nada seleccionado.
+  - Reparto equilibrado: *Nailong animado 1* (25), *animado 2* (24), *animado 3* (24) y *Nailong estático* (23). Los estáticos siguen en un solo pack.
+  - `image_data_version` pasa de 1 a 2 para que WhatsApp no conserve la versión antigua de los packs reordenados.
+- **Web:** solo cambia el número de versión (`v3.3.1`) y los sufijos `?v=` anti-caché.
+
 ## [3.3.0] — 2026-11-01
 Incorporación oficial de 16 nuevos cromos (80 → 96 stickers), partición en 4 packs oficiales de WhatsApp en la app Android nativa (`v3.3.0`), tráiler promocional oficial de lanzamiento animado con HyperFrames y banda sonora original.
 

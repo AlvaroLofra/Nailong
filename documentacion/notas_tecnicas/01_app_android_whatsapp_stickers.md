@@ -2,7 +2,7 @@
 
 > **Subsistema:** Aplicación Android (`com.eva.nailongstickers`)  
 > **Ubicación del código fuente:** `C:\src\nailong_stickers_app\stickers\Android`  
-> **Binario de producción:** `StickersNailong.apk` (28.7 MB, v3.3.0, 96 stickers en 4 packs oficiales)
+> **Binario de producción:** `StickersNailong.apk` (28.7 MB, v3.3.1, 96 stickers en 4 packs oficiales)
 
 ---
 
@@ -116,3 +116,12 @@ Al pulsar sobre el texto del botón, el `TextView` consumía el evento `MotionEv
        tvConfirmText.setOnClickListener(confirmListener);
    }
    ```
+
+
+## Reparto en packs oficiales y animación (v3.3.1)
+- **Reparto:** los estáticos van todos juntos en `nailong_estaticos` (23). Los 73 animados se dividen en orden de número en `nailong_animados_1` (25), `_2` (24) y `_3` (24). Se define en `PACKS` de `C:\src
+ailong_stickers_app\generar_assets.py`, que exige cubrir los IDs 1..96 sin duplicados.
+- **Animación en el detalle de un pack:** `StickerPreviewAdapter` crea un `DraweeController` de Fresco con `setAutoPlayAnimations(true)` (antes `setImageURI`, que muestra solo el primer fotograma).
+- **Lista de packs:** `activity_sticker_pack_list.xml` y `sticker_packs_list_item.xml` tienen márgenes reducidos y los botones de «Mi Selección» se ocultan con 0 elementos, para que los 4 packs entren a la vez en pantalla (el cuarto quedaba cortado bajo el pliegue).
+- **Caché de WhatsApp:** si se reordena el contenido de un pack, hay que subir `IMAGE_DATA_VERSION` en `generar_assets.py` (hoy `'2'`).
+- **Comprobado en el emulador `Medium_Phone_API_37.0` (1080×2400):** los 4 packs visibles; el detalle del pack 1 muestra 25 stickers y las capturas separadas 0,7 s difieren (se mueven). **No comprobado:** la importación real a WhatsApp y el POCO X7 Pro.

@@ -105,7 +105,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.3.0: App Android Nativa Oficial, «Mi Selección», Vídeo Promocional y Expansión a 96 Stickers
+### 📌 Ciclo v3.0.0 – v3.3.1: App Android Nativa Oficial, «Mi Selección», Vídeo Promocional y Expansión a 96 Stickers
 
 #### v3.0.0 — App Android Oficial y «Mi Selección»
 - Estreno de la aplicación nativa oficial para Android (`StickersNailong.apk`).
@@ -150,7 +150,11 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 - Corrección de la etiqueta del botón de descarga del APK en la web oficial: muestra el peso real de 20 MB (en lugar del valor histórico de 26 MB).
 - Actualización de textos informativos: cifra ajustada a 80 stickers oficiales (59 animados + 21 estáticos) en el banner de la app y filtros del álbum.
 
-#### v3.3.0 (Actual) — Expansión a 96 Stickers, 4º Pack de WhatsApp y Tráiler Oficial HyperFrames
+#### v3.3.1 (Actual) — La app muestra los 4 packs y anima los stickers
+- Ahora ves los 4 packs de un vistazo y, al abrir uno, los stickers animados se mueven en bucle.
+- Los stickers animados están repartidos por igual en 3 packs, y los estáticos van juntos en uno.
+
+#### v3.3.0 — Expansión a 96 Stickers, 4º Pack de WhatsApp y Tráiler Oficial HyperFrames
 - Expansión de la colección a 96 cromos auténticos con la incorporación oficial de 16 nuevos stickers.
 - App Android (`StickersNailong.apk` v3.3.0, 28.7 MB) con 4 packs oficiales para WhatsApp (73 animados + 23 estáticos) y soporte completo en «Mi Selección».
 - Estreno del Tráiler Oficial de Lanzamiento creado con HyperFrames: animación vertical en alta definición con música saltarina original y acceso directo en la web.
