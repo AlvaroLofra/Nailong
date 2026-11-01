@@ -12,6 +12,8 @@
         let scorePopups = [];
         let keysHeld = { left: false, right: false };
         let keyHoldFrames = 0;
+        // Si el jugador hace scroll y el juego deja de verse, la partida se pausa (ahorra batería y no pierde tiempo)
+        let gameInView = true;
 
         const foodCanvas = document.getElementById('food-game-canvas');
         const foodCtx = foodCanvas.getContext('2d');
@@ -218,6 +220,20 @@
             bindButton(dockRightBtn, 'right');
         }
 
+        function setupGameVisibilityPause() {
+            const container = document.getElementById('game-container');
+            if (!container || !('IntersectionObserver' in window)) return;
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(en => {
+                    gameInView = en.isIntersecting;
+                    if (gameInView && gameActive && !gameAnimId) {
+                        gameAnimId = requestAnimationFrame(gameLoop);
+                    }
+                });
+            }, { threshold: 0.2 });
+            obs.observe(container);
+        }
+
         function startMiniGame() {
             playSound('fanfare');
             resizeGameCanvas();
@@ -251,7 +267,7 @@
 
             gameTimerInterval = setInterval(() => {
                 // Con la pestaña en segundo plano la partida se congela: el reloj tampoco avanza.
-                if (document.hidden) return;
+                if (document.hidden || !gameInView) return;
                 gameTimeLeft--;
                 if (gameTimeLeft <= 0) {
                     endMiniGame();
@@ -291,6 +307,11 @@
 
         function gameLoop() {
             if (!gameActive) return;
+            if (!gameInView) {
+                // Se reanuda desde setupGameVisibilityPause al volver a verse
+                gameAnimId = null;
+                return;
+            }
 
             // Desplazamiento lineal constante y rápido (estilo arcade ágil)
             if (keysHeld.left || keysHeld.right) {

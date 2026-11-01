@@ -59,6 +59,64 @@
             sync();
         }
 
+        // Banner de la app: novedades y peso desde version.json (el mismo fichero que consulta la app)
+        const APP_SHARE_URL = 'https://alvarolofra.github.io/Nailong/#android-app-banner';
+
+        function setupAppBanner() {
+            const copyBtn = document.getElementById('apk-copy-link-btn');
+            if (copyBtn) copyBtn.addEventListener('click', shareAppLink);
+            // Con file:// fetch falla: se queda el texto fijo del HTML y el bloque de novedades oculto
+            fetch('version.json', { cache: 'no-cache' })
+                .then(r => r.ok ? r.json() : Promise.reject(r.status))
+                .then(info => {
+                    const size = document.getElementById('apk-size-label');
+                    if (size && info.sizeMB) size.textContent = `${Math.round(info.sizeMB)} MB`;
+                    const list = document.getElementById('apk-whats-new-list');
+                    const box = document.getElementById('apk-whats-new');
+                    if (!list || !box || !Array.isArray(info.notes) || !info.notes.length) return;
+                    document.getElementById('apk-whats-new-title').textContent = `Novedades de la v${info.versionName}`;
+                    list.replaceChildren(...info.notes.map(n => {
+                        const li = document.createElement('li');
+                        li.textContent = n;
+                        return li;
+                    }));
+                    box.classList.remove('hidden');
+                })
+                .catch(() => {});
+        }
+
+        async function shareAppLink() {
+            playSound('pop');
+            const label = document.getElementById('apk-copy-link-text');
+            const done = (text) => {
+                if (!label) return;
+                label.textContent = text;
+                setTimeout(() => { label.textContent = 'Copiar enlace'; }, 2500);
+            };
+            const shareData = { title: 'Stickers Nailong para WhatsApp', text: '¡Descarga la app de stickers de Nailong! 🦖', url: APP_SHARE_URL };
+            // En el móvil se abre el menú de compartir (WhatsApp incluido); en el ordenador se copia
+            if (navigator.share && window.matchMedia('(pointer: coarse)').matches) {
+                try { await navigator.share(shareData); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+            }
+            try {
+                await navigator.clipboard.writeText(APP_SHARE_URL);
+                done('✔ ¡Copiado!');
+                return;
+            } catch (e) {}
+            // Respaldo para navegadores sin permiso de portapapeles (igual que en el modal de compartir)
+            const ta = document.createElement('textarea');
+            ta.value = APP_SHARE_URL;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta);
+            if (ok) done('✔ ¡Copiado!');
+            else prompt('Copia este enlace:', APP_SHARE_URL);
+        }
+
         window.onload = function() {
             loadUserPhotosFromStorage();
             updateFilterCounts();
@@ -69,6 +127,8 @@
             setupScrollObserver();
             resizeGameCanvas();
             setupGameControls();
+            setupGameVisibilityPause();
+            setupAppBanner();
             setupModalSwipeGestures('magic-modal', nextMagicGif, prevMagicGif);
             setupModalSwipeGestures('photo-lightbox', nextLightboxPhoto, prevLightboxPhoto);
             setupModalBackdrops();

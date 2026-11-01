@@ -29,18 +29,18 @@
     <meta name="twitter:description" content="Página interactiva con 96 stickers reales, fotos, gifs animados, minijuego de comer pollo y sonidos duang-duang.">
     <meta name="twitter:image" content="Stickers Nailong/sticker_20.webp">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS (versión fijada, D-15: el CDN no envía CORS, así que no admite integrity) -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <!-- Google Fonts: Fredoka & Quicksand -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <script src="js/tailwind-config.js?v=3.3.2"></script>
+    <script src="js/tailwind-config.js?v=3.3.3"></script>
 
-    <link rel="stylesheet" href="css/styles.css?v=3.3.2">
+    <link rel="stylesheet" href="css/styles.css?v=3.3.3">
 </head>
 <body class="relative min-h-screen selection:bg-nailong-yellow selection:text-amber-950">
 
@@ -339,15 +339,15 @@
             <!-- BANNER DESTACADO APP OFICIAL ANDROID (.APK) -->
             <div id="android-app-banner" class="clay-card bg-gradient-to-r from-amber-50 via-yellow-100 to-orange-50 border-3 border-amber-400 p-5 sm:p-7 max-w-4xl mx-auto shadow-md reveal-item">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
-                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                    <div class="flex flex-col sm:flex-row items-center gap-4 min-w-0 flex-1">
                         <img src="Stickers Nailong/sticker_2.webp" alt="App Oficial Stickers Nailong" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border-2 border-amber-400 bg-white p-1 shadow-sm object-cover flex-shrink-0 animate-bounce">
                         <div class="space-y-1">
                             <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
                                 <span class="inline-block bg-nailong-orange text-white text-xs font-display font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
                                     🚀 ¡NUEVO! APP NATIVA ANDROID
                                 </span>
-                                <span class="text-xs font-bold bg-amber-200/90 text-amber-950 px-2.5 py-0.5 rounded-full border border-amber-400">
-                                    v3.3.2 APK
+                                <span id="apk-version-badge" class="text-xs font-bold bg-amber-200/90 text-amber-950 px-2.5 py-0.5 rounded-full border border-amber-400">
+                                    v3.3.3 APK
                                 </span>
                             </div>
                             <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">
@@ -356,17 +356,26 @@
                             <p class="text-xs sm:text-sm text-amber-900/85 font-semibold max-w-xl leading-relaxed">
                                 ¡Instala los <strong>96 stickers oficiales</strong> directamente en tu WhatsApp con 1 toque! Incluye los 4 packs completos (73 animados + 23 estáticos) y la carpeta <strong>«Mi Selección»</strong> para crear tus propios packs.
                             </p>
+                            <!-- Novedades: se rellenan desde version.json (lo mismo que enseña la app) -->
+                            <details id="apk-whats-new" class="hidden max-w-xl text-left text-xs sm:text-sm text-amber-900/90 font-semibold bg-white/60 border border-amber-300 rounded-2xl px-3 py-2 mt-2">
+                                <summary class="cursor-pointer font-display font-bold text-amber-950">🎁 <span id="apk-whats-new-title">Novedades</span></summary>
+                                <ul id="apk-whats-new-list" class="list-disc pl-5 pt-1 space-y-0.5"></ul>
+                            </details>
                         </div>
                     </div>
-                    <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto flex-shrink-0">
+                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center md:flex-col md:flex-nowrap items-stretch gap-3 w-full md:w-auto flex-shrink-0">
                         <a href="StickersNailong.apk" download="StickersNailong.apk" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-emerald-500 to-[#25D366] hover:from-emerald-600 hover:to-emerald-500 text-white font-display font-bold text-base sm:text-lg px-6 py-3.5 rounded-2xl shadow-lg border-2 border-emerald-300 transition-all hover:scale-105 active:scale-95">
                             <i class="fa-brands fa-android text-2xl"></i>
-                            <span>Descargar APK (31 MB)</span>
+                            <span>Descargar APK (<span id="apk-size-label">31 MB</span>)</span>
                         </a>
                         <a href="#video-promo-section" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-500 text-white font-display font-bold text-base sm:text-lg px-5 py-3.5 rounded-2xl shadow-lg border-2 border-amber-300 transition-all hover:scale-105 active:scale-95">
                             <i class="fa-solid fa-play text-xl"></i>
                             <span>Ver Tráiler 🎬</span>
                         </a>
+                        <button type="button" id="apk-copy-link-btn" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-amber-50 text-amber-950 font-display font-bold text-sm px-4 py-3 rounded-2xl shadow border-2 border-amber-300 transition-all hover:scale-105 active:scale-95" aria-label="Copiar el enlace de la app para compartirlo">
+                            <i class="fa-solid fa-link"></i>
+                            <span id="apk-copy-link-text">Copiar enlace</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -781,7 +790,7 @@
                     <span>🎉 ¡Lluvia de Pollo y Confeti!</span>
                 </button>
             </div>
-            <p id="app-version" class="pt-2 text-[10px] font-semibold text-amber-900/50">v3.3.2</p>
+            <p id="app-version" class="pt-2 text-[10px] font-semibold text-amber-900/50">v3.3.3</p>
         </div>
     </footer>
 
@@ -1079,15 +1088,15 @@
     </div>
 
     <!-- JAVASCRIPT: LOGIC, DATA, AUDIO SYNTHESIZER & MINIGAME -->
-    <script src="js/01-audio.js?v=3.3.2"></script>
-    <script src="js/02-datos-stickers.js?v=3.3.2"></script>
-    <script src="js/03-hero.js?v=3.3.2"></script>
-    <script src="js/04-navegacion.js?v=3.3.2"></script>
-    <script src="js/05-visor-magico.js?v=3.3.2"></script>
-    <script src="js/06-album-y-descargas.js?v=3.3.2"></script>
-    <script src="js/07-sonidos-y-laboratorio.js?v=3.3.2"></script>
-    <script src="js/08-minijuego.js?v=3.3.2"></script>
-    <script src="js/09-modo-fiesta.js?v=3.3.2"></script>
-    <script src="js/10-inicio.js?v=3.3.2"></script>
+    <script src="js/01-audio.js?v=3.3.3"></script>
+    <script src="js/02-datos-stickers.js?v=3.3.3"></script>
+    <script src="js/03-hero.js?v=3.3.3"></script>
+    <script src="js/04-navegacion.js?v=3.3.3"></script>
+    <script src="js/05-visor-magico.js?v=3.3.3"></script>
+    <script src="js/06-album-y-descargas.js?v=3.3.3"></script>
+    <script src="js/07-sonidos-y-laboratorio.js?v=3.3.3"></script>
+    <script src="js/08-minijuego.js?v=3.3.3"></script>
+    <script src="js/09-modo-fiesta.js?v=3.3.3"></script>
+    <script src="js/10-inicio.js?v=3.3.3"></script>
 </body>
 </html>

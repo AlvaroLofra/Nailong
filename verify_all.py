@@ -344,7 +344,7 @@ print("✔ v14 verified: all 96 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3.3.2<', html), "Footer must show the current version number (v3.3.2)!"
+assert re.search(r'id="app-version"[^>]*>v3.3.3<', html), "Footer must show the current version number (v3.3.3)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -361,8 +361,8 @@ assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailo
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-assert 'v3.3.2 APK' in html, "Badge in index.html must show v3.3.2 APK!"
-print("✔ v3.3.2 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.3.2 APK badge.")
+assert 'v3.3.3 APK' in html, "Badge in index.html must show v3.3.3 APK!"
+print("✔ v3.3.2 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.3.3 APK badge.")
 
 # Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
 font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
@@ -394,4 +394,13 @@ with open(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app\src\ma
     assert '"https://alvarolofra.github.io/Nailong/version.json"' in _uf.read(), "UpdateChecker.java must read version.json from the official site!"
 print(f"✔ v3.3.2 verified: version.json ({_ver['versionName']}, code {_ver['versionCode']}) matches web footer and Android build.gradle.")
 
-print("\n=== ALL 45 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 46: v3.3.3 - el peso del APK (etiqueta del banner y sizeMB de version.json) coincide con el fichero real
+_apk_mb = os.path.getsize('StickersNailong.apk') / 1e6
+assert abs(_ver.get('sizeMB', 0) - _apk_mb) < 0.15, f"version.json sizeMB ({_ver.get('sizeMB')}) must match StickersNailong.apk ({_apk_mb:.1f} MB)!"
+_label = re.search(r'id="apk-size-label">(\d+) MB<', html)
+assert _label and int(_label.group(1)) == round(_apk_mb), f"Download label must show the real APK size ({round(_apk_mb)} MB)!"
+assert re.match(r'^\d{4}-\d{2}-\d{2}$', _ver.get('date', '')), "version.json must include the publish date (YYYY-MM-DD)!"
+assert 'cdn.tailwindcss.com/3.' in html, "Tailwind CDN must be pinned to a fixed version (D-15)!"
+print(f"✔ v3.3.3 verified: APK size label and version.json sizeMB match the real file ({_apk_mb:.1f} MB); CDN pinned.")
+
+print("\n=== ALL 46 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

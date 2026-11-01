@@ -1,10 +1,13 @@
 {
-  "versionCode": 8,
-  "versionName": "3.3.2",
+  "versionCode": 9,
+  "versionName": "3.3.3",
+  "date": "2026-11-01",
+  "sizeMB": 31.1,
   "apkUrl": "https://alvarolofra.github.io/Nailong/StickersNailong.apk",
   "notes": [
-    "Los packs animados se abren y se cierran con suavidad.",
-    "Los stickers siguen moviéndose sin saltos.",
-    "Tras actualizar, un aviso te recuerda pulsar «Actualizar» en WhatsApp."
+    "Si cancelas al añadir un pack, ahora puedes reintentarlo con un toque.",
+    "Mantén pulsado un pack de «Mi Selección» para borrarlo.",
+    "Toca el número de versión para buscar actualizaciones.",
+    "Avisos más bonitos y una pista para ampliar los stickers."
   ]
 }
