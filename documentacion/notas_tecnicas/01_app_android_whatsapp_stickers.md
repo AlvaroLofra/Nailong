@@ -2,7 +2,7 @@
 
 > **Subsistema:** Aplicación Android (`com.eva.nailongstickers`)  
 > **Ubicación del código fuente:** `C:\src\nailong_stickers_app\stickers\Android`  
-> **Binario de producción:** `StickersNailong.apk` (20.3 MB)
+> **Binario de producción:** `StickersNailong.apk` (28.7 MB, v3.3.0, 96 stickers en 4 packs oficiales)
 
 ---
 

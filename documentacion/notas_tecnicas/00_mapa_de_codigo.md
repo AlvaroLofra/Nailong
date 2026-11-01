@@ -13,7 +13,7 @@
 | `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego | 370 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind (se carga justo tras el CDN) | 27 |
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 170 |
-| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (80 cromos) y datos | 90 |
+| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (96 cromos) y datos | 100 |
 | `js/03-hero.js` | 3 · Hero, contador Duang y estados de ánimo | 110 |
 | `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante | 110 |
 | `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 265 |
@@ -52,7 +52,7 @@ El código está estructurado en 14 bloques funcionales organizados:
    - Modal con control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento (swipe horizontal) y pegatinas arrastrables.
 
 6. **Gran Álbum Polaroid de Cromos:**
-   - 80 cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
+   - 96 cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
    - Sección especial del creador de la web con Nailong (`#creador`).
    - Subida de fotos del usuario con compresión en canvas y guardado persistente en `localStorage`.
 
