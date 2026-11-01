@@ -192,7 +192,7 @@
 - **Funciona en GitHub Pages:** es hosting estático y las rutas son relativas; no hay build ni cambios de despliegue. Comprobado en local con `python -m http.server`: 0 errores de consola, `ALL_STICKERS` = 82, álbum, lightbox y contador responden. **No comprobado:** el sitio ya publicado (la división solo está en la rama hasta fusionar en `main`).
 - **Opciones descartadas:** módulos ES (`import`/`export`): exigirían reescribir el ámbito global (los `onclick` del HTML y las funciones compartidas) con más riesgo y sin beneficio inmediato; un bundler (rompe la regla buildless).
 - **Consecuencias:** `verify_all.py` construye el «código fuente completo» concatenando `index.html` + `css/` + `js/` y falla si hay un fichero sin cargar, una referencia rota o un `<script>` inline; el chequeo de sintaxis con Node pasa a ser por fichero. Seguimos en 44 comprobaciones. Si más adelante se quiere ES Modules, será una decisión nueva.
-- **Abierta:** fijar versión de Tailwind (hoy `cdn.tailwindcss.com` sin versión) y `integrity` en Font Awesome.
+- **Resuelta en parte (2026-11-01, v3.3.3, con OK del usuario):** Tailwind fijado a `https://cdn.tailwindcss.com/3.4.17` (la misma versión que servía sin fijar; no admite `integrity` porque ese CDN no envía cabeceras CORS) y Font Awesome 6.5.1 con `integrity` SHA-512 + `crossorigin`. Se descarta compilar Tailwind (rompería «sin build»), así que el aviso de consola del CDN de Tailwind seguirá saliendo. **Sigue abierta:** convertir `js/` en módulos ES.
 
 ---
 

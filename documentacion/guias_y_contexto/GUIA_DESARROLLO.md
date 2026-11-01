@@ -31,12 +31,12 @@ Antes de realizar cualquier commit o entrega, es **obligatorio** verificar que l
 python verify_all.py
 ```
 
-### Qué valida la suite (45 comprobaciones):
+### Qué valida la suite (46 comprobaciones):
 1. Integridad del punto único de entrada (`index.html`) sin duplicados residuales.
 2. Presencia de los 96 stickers en `Stickers Nailong/` (`sticker_1.webp` a `sticker_96.webp`) y de `creador_nailong.webp`.
 3. Normalización estricta de stickers WebP (512×512, EXIF WhatsApp, límites de peso y duración).
 4. Presencia del binario APK Android (`StickersNailong.apk` > 20 MB).
-5. Sincronización de versiones visibles (v3.3.2 en web y footer).
+5. Sincronización de versiones visibles (v3.3.3 en web y footer) y del peso del APK (`version.json` → `sizeMB`, etiqueta del botón y fichero real).
 6. Elementos interactivos del DOM, canvas de minijuego, motor de audio y banner de descarga.
 
 ---
@@ -81,7 +81,8 @@ apksigner sign --ks "%USERPROFILE%\.android\debug.keystore" \
   --out "C:\src\nailong_stickers_app\StickersNailong.apk" aligned.apk
 apksigner verify --print-certs "C:\src\nailong_stickers_app\StickersNailong.apk"
 
-# Al publicar versión: actualizar version.json (versionCode, versionName y notes en lenguaje sencillo).
+# Al publicar versión: actualizar version.json (versionCode, versionName, date AAAA-MM-DD, sizeMB = bytes/1e6 con 1 decimal
+# y notes en lenguaje sencillo) y la etiqueta «Descargar APK (N MB)» de index.html. verify_all.py comprueba el peso.
 # La app instalada lo consulta al abrirse y ofrece descargar el APK nuevo.
 
 # Copiar el binario firmado a la raíz de la web

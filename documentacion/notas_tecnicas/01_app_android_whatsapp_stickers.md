@@ -148,3 +148,11 @@ ailong_stickers_app\generar_assets.py`, que exige cubrir los IDs 1..96 sin dupli
 - **Seguridad:** `getDynamicPackFile`/`getDynamicPackByIdentifier` comprueban con `getCanonicalPath` que la ruta queda dentro de `files/selection_packs/`.
 - **Versión visible:** `app_version_label` en `activity_sticker_pack_list.xml`, rellenado con `BuildConfig.VERSION_NAME`.
 - **Vistas previas (`assets/previews/<pack>/<fichero>`):** `generar_assets.py → generate_previews()` (192 px, WebP animado calidad 50) se ejecuta al final de `main()`, y también se puede lanzar sola: `python -c "import generar_assets as g; g.generate_previews()"`. `StickerPreviewAdapter.getGridUri` usa `asset:///previews/...` si existe y, si no, el original. `StickerPackListAdapter` hace lo mismo con las miniaturas de los packs animados. Medido en el emulador (RTX 3050 Ti) dentro del pack 1, en reposo: ver la bitácora.
+
+## Mejoras de interfaz (v3.3.3)
+- **Botones:** el tema es `Theme.MaterialComponents.Light`, que tiñe el fondo de todo `Button` con `colorPrimary` (amarillo). Cualquier `Button` con `android:background` propio necesita `app:backgroundTint="@null"`, o se verá amarillo.
+- **Lista de packs:** va en un `NestedScrollView` (con `ScrollView` el `RecyclerView` no volvía a medirse al añadir packs). Los packs de «Mi Selección» los añade `StickerPackListActivity.addSelectionPacksToList()` desde `DynamicPackManager.getDynamicPacks()`, ordenados por número; el ContentProvider solo se los enseña a WhatsApp. `refreshPackList()` notifica y vuelve a pedir el layout.
+- **Borrar:** pulsación larga en un pack `seleccion_N` (`DynamicPackManager.isSelectionPack`) → `dialog_delete_pack.xml` → `deleteDynamicPack`.
+- **Cancelar en WhatsApp:** `AddStickerPackActivity` guarda el último id/nombre enviado (también en `onSaveInstanceState`) y `StickerPackNotAddedMessageFragment` ofrece «Reintentar». `StickerPackListActivity.onActivityResult` solo da el import por bueno con `RESULT_OK`.
+- **UpdateChecker:** `UpdateInfo` añade `sizeMB`/`date` (`sizeText()`, `dateText()`). `Listener` tiene `onNoUpdate()` y `onCheckFailed()` por defecto; solo los usa la búsqueda manual (tocar `app_version_label`).
+- **Pistas únicas:** `nailong_app_prefs` → `last_version_code` (aviso tras actualizar) y `long_press_hint_shown` (pista de ampliar, en `StickerPackDetailsActivity`).

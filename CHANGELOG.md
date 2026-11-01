@@ -5,6 +5,33 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [3.3.3] — 2026-11-01
+Se aplican las mejoras de interfaz apuntadas en la revisión de la 3.3.2 (A1–A7, W1–W5) y se corrigen los fallos que salieron al probarlas.
+
+- **App Android (`StickersNailong.apk` v3.3.3, `versionCode 9`):**
+  - **A1:** al cancelar en WhatsApp ya no sale «actualiza WhatsApp», sino «El pack no se añadió» con los botones **Reintentar** y **Cerrar** (`StickerPackNotAddedMessageFragment.newInstance(id, nombre)`). Si no hay WhatsApp instalado, el aviso lo dice claro.
+  - **A2:** los packs de «Mi Selección» aparecen al final de la lista (también tras reiniciar la app) y se borran manteniéndolos pulsados, con un diálogo *clay* que avisa de que dejarán de funcionar en WhatsApp (`dialog_delete_pack.xml`, `DynamicPackManager.deleteDynamicPack`). Al crear uno, un aviso explica cómo borrarlo. Los packs oficiales no se pueden borrar.
+  - **A3:** el aviso de versión nueva muestra el peso y la fecha («31 MB · 1 nov 2026»). `version.json` añade `sizeMB` y `date`.
+  - **A4:** tocar el número de versión busca actualizaciones a mano: el número cambia a «Buscando actualizaciones…» y luego dice «Ya tienes la última versión ✨», «No se pudo comprobar» o abre el aviso de versión nueva (`UpdateChecker.Listener.onNoUpdate/onCheckFailed`).
+  - **A5:** el aviso «¡App actualizada!» enseña un Nailong animado (vista previa de 192 px) en vez del icono 🔄.
+  - **A6:** la primera vez que se abre un pack sale una pista: «Toca para elegir · mantén pulsado para ampliar».
+  - **A7:** «Preparando tu pack…» usa un diálogo *clay* con indicador de progreso naranja (`dialog_progress_clay.xml`).
+  - **Fallos encontrados al probar:**
+    - Los `Button` con fondo propio salían teñidos del amarillo del tema Material (`colorPrimary`): «Importar a WhatsApp» se veía amarillo con letras blancas y los botones de los diálogos nuevos, invisibles. Ahora llevan `app:backgroundTint="@null"` y muestran sus colores (verde, crema con borde).
+    - La lista de packs, dentro de un `ScrollView`, no crecía al añadir un pack (el quinto quedaba recortado). Pasa a `NestedScrollView`.
+    - Si se cancelaba en WhatsApp al importar «Mi Selección», la app vaciaba la selección y felicitaba igualmente. Ahora solo lo hace si WhatsApp confirma (`RESULT_OK`).
+    - La comprobación de WhatsApp sustituía la lista del adaptador por una copia, y añadir o borrar packs las desincronizaba.
+    - Las miniaturas de los packs de «Mi Selección» salían vacías (buscaban una vista previa que no existe). Además, ahora se ordenan por número (`seleccion_2` antes que `seleccion_10`).
+    - El subtítulo «Mi Selección: N / 30» usa el límite real (`MAX_STICKERS`).
+- **Web:**
+  - **W1:** el banner de la app muestra «Novedades de la v3.3.3», leídas de `version.json` (lo mismo que enseña la app).
+  - **W2:** el peso del botón «Descargar APK» sale de `version.json`; el test 46 de `verify_all.py` comprueba que la etiqueta, `sizeMB` y el fichero real coinciden.
+  - **W3 (D-15):** Tailwind fijado a `cdn.tailwindcss.com/3.4.17` (sin `integrity`: ese CDN no envía CORS) y Font Awesome 6.5.1 con `integrity` SHA-512.
+  - **W4:** el minijuego se pausa (dibujo y reloj) si haces scroll y deja de verse, y sigue al volver (`IntersectionObserver`).
+  - **W5:** botón «Copiar enlace» junto a la descarga: en móvil abre el menú de compartir; en ordenador copia el enlace (con respaldo para navegadores sin permiso de portapapeles).
+  - Banner reorganizado: en escritorio los tres botones van en columna para no estrujar el texto.
+- **Verificación:** `verify_all.py` pasa a 46 comprobaciones.
+
 ## [3.3.2] — 2026-11-01
 Los packs animados van fluidos y, tras actualizar, la app explica cómo refrescar el pack en WhatsApp sin borrarlo.
 

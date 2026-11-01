@@ -105,7 +105,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.3.2: App Android Nativa Oficial, «Mi Selección», Vídeo Promocional y Expansión a 96 Stickers
+### 📌 Ciclo v3.0.0 – v3.3.3: App Android Nativa Oficial, «Mi Selección», Vídeo Promocional y Expansión a 96 Stickers
 
 - **v3.0.0 — App Android Oficial y «Mi Selección»**
   - Estreno de la aplicación nativa oficial para Android (`StickersNailong.apk`).
@@ -154,12 +154,18 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
   - **v3.3.1 — La app muestra los 4 packs y anima los stickers**
     - Ahora ves los 4 packs de un vistazo y, al abrir uno, los stickers animados se mueven en bucle.
     - Los stickers animados están repartidos por igual en 3 packs, y los estáticos van juntos en uno.
-  - **v3.3.2 (Actual) — Packs animados más fluidos y aviso para actualizar en WhatsApp**
+  - **v3.3.2 — Packs animados más fluidos y aviso para actualizar en WhatsApp**
     - Los packs animados se abren y se cierran con suavidad, y los stickers siguen moviéndose.
     - Tras actualizar la app, un aviso te recuerda que en WhatsApp basta con pulsar «Actualizar» en el pack: no hace falta borrarlo.
     - La app te avisa cuando hay una versión nueva, te cuenta qué trae y te deja descargarla con un toque.
     - Ahora basta con tocar un sticker para añadirlo a «Mi Selección», y tu selección se guarda aunque cierres la app.
     - El número de versión aparece abajo, igual que en la web.
+  - **v3.3.3 (Actual) — Avisos más claros y packs propios que se pueden borrar**
+    - Si cancelas al añadir un pack, puedes reintentarlo con un toque.
+    - Tus packs de «Mi Selección» aparecen en la lista y se borran manteniéndolos pulsados.
+    - Toca el número de versión para buscar actualizaciones; el aviso te dice cuánto pesa la descarga.
+    - Botones con sus colores de verdad, una pista para ampliar los stickers y avisos más bonitos.
+    - En la web: novedades de la app, botón para copiar el enlace y minijuego que se pausa si dejas de verlo.
 
 ---
 
