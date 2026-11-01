@@ -26,6 +26,12 @@
             const oldWidth = foodCanvas.width || rect.width;
             const newWidth = Math.round(rect.width);
             const newHeight = Math.round(rect.height);
+            // En móvil, «resize» salta al mostrarse/ocultarse la barra del navegador: si el tamaño
+            // no cambia, no se reasigna el lienzo (reasignarlo lo borra y reserva memoria de nuevo).
+            if (foodCanvas.width === newWidth && foodCanvas.height === newHeight) {
+                if (!gameActive) playerX = foodCanvas.width / 2;
+                return;
+            }
 
             foodCanvas.width = newWidth;
             foodCanvas.height = newHeight;
@@ -244,6 +250,8 @@
             overlay.style.display = 'none';
 
             gameTimerInterval = setInterval(() => {
+                // Con la pestaña en segundo plano la partida se congela: el reloj tampoco avanza.
+                if (document.hidden) return;
                 gameTimeLeft--;
                 if (gameTimeLeft <= 0) {
                     endMiniGame();
