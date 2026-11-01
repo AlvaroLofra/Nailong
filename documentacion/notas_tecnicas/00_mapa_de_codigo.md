@@ -13,7 +13,7 @@
 | `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego | 370 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind (se carga justo tras el CDN) | 27 |
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 170 |
-| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (82 cromos) y datos | 90 |
+| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (80 cromos) y datos | 90 |
 | `js/03-hero.js` | 3 · Hero, contador Duang y estados de ánimo | 110 |
 | `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante | 110 |
 | `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 265 |
@@ -81,7 +81,7 @@ El código está estructurado en 14 bloques funcionales organizados:
 
 | Qué | Fichero · símbolo |
 |---|---|
-| Datos de los 82 cromos | `js/02-datos-stickers.js` · `ALL_STICKERS` |
+| Datos de los 80 cromos | `js/02-datos-stickers.js` · `ALL_STICKERS` |
 | Álbum paginado | `js/06-album-y-descargas.js` · `renderPolaroidGallery`, `GALLERY_PAGE_SIZE`, `GALLERY_STEP`, `showMoreGallery` |
 | Muro/tira de escenas y Visor Mágico | `js/05-visor-magico.js` y `js/06-…` · `renderGifWall`, `featuredGifIndexOf`, `openVisorFromLightbox` |
 | Descarga y compartir stickers | `js/06-album-y-descargas.js` · `forceDownloadSticker`, `shareStickerDirectToWhatsApp`, `copyStickerToClipboard`, `#sticker-options-modal` |
