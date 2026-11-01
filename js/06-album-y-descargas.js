@@ -1,12 +1,12 @@
         /* ==============================================================
-           7. GRAN ÁLBUM POLAROID (80 FOTOS REALES) + LIGHTBOX
+           7. GRAN ÁLBUM POLAROID (96 FOTOS REALES) + LIGHTBOX
         ============================================================== */
         let activeFilter = 'all';
         let currentLightboxIndex = 0;
         let displayedStickers = [];
 
         // Paginación progresiva: displayedStickers guarda la lista completa filtrada (el lightbox navega por ella);
-        // solo se pintan las primeras galleryVisibleCount tarjetas para no decodificar 80 WebP a la vez.
+        // solo se pintan las primeras galleryVisibleCount tarjetas para no decodificar 96 WebP a la vez.
         const GALLERY_PAGE_SIZE = 12;
         const GALLERY_STEP = 24;
         let galleryVisibleCount = GALLERY_PAGE_SIZE;
@@ -18,7 +18,7 @@
             if (filter === 'all') {
                 displayedStickers = [...ALL_STICKERS];
             } else if (filter === 'animated') {
-                displayedStickers = ALL_STICKERS.filter(s => s.frames > 2);
+                displayedStickers = ALL_STICKERS.filter(s => s.frames > 1);
             } else {
                 displayedStickers = ALL_STICKERS.filter(s => s.cat === filter);
             }
@@ -31,7 +31,7 @@
                 const seed = Number.isFinite(Number(item.id)) ? Number(item.id) : idx;
                 const pin = pinColors[seed % pinColors.length];
                 const tilt = tilts[seed % tilts.length];
-                const isAnim = item.frames > 2;
+                const isAnim = item.frames > 1;
                 const imgSrc = item.customUrl ? item.customUrl : `Stickers Nailong/${item.file}`;
 
                 return `
@@ -529,7 +529,7 @@
                 if (!btn) return;
                 let count;
                 if (key === 'all') count = ALL_STICKERS.length;
-                else if (key === 'animated') count = ALL_STICKERS.filter(st => st.frames > 2).length;
+                else if (key === 'animated') count = ALL_STICKERS.filter(st => st.frames > 1).length;
                 else count = ALL_STICKERS.filter(st => st.cat === key).length;
                 btn.textContent = `${FILTER_LABELS[key]} (${count})`;
             });
