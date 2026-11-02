@@ -33,7 +33,7 @@ Sitio web interactivo y animado dedicado a **Nailong**, el dragón de leche amar
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── AGENTS.md                    # Instrucciones de desarrollo para agentes de IA (CLAUDE.md y GEMINI.md apuntan a él)
 ├── CHANGELOG.md                 # Historial de versiones
-├── verify_all.py                # Suite de pruebas automatizadas (44 verificaciones)
+├── verify_all.py                # Suite de pruebas automatizadas (47 verificaciones)
 └── Stickers Nailong/            # Banco de 96 cromos en WebP + foto optimizada del creador
 ```
 
@@ -105,7 +105,7 @@ Sitio web interactivo y animado dedicado a **Nailong**, el dragón de leche amar
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.3.3: App Android Nativa Oficial, «Mi Selección», Vídeo Promocional y Expansión a 96 Stickers
+### 📌 Ciclo v3.0.0 – v3.4.0: App Android Nativa Oficial, «Mi Selección», Tráiler Oficial v2 y Expansión a 96 Stickers
 
 - **v3.0.0 — App Android Oficial y «Mi Selección»**
   - Estreno de la aplicación nativa oficial para Android (`StickersNailong.apk`).
@@ -160,13 +160,21 @@ Sitio web interactivo y animado dedicado a **Nailong**, el dragón de leche amar
     - La app te avisa cuando hay una versión nueva, te cuenta qué trae y te deja descargarla con un toque.
     - Ahora basta con tocar un sticker para añadirlo a «Mi Selección», y tu selección se guarda aunque cierres la app.
     - El número de versión aparece abajo, igual que en la web.
-  - **v3.3.3 (Actual) — Avisos más claros y packs propios que se pueden borrar**
+  - **v3.3.3 — Avisos más claros y packs propios que se pueden borrar**
     - Si cancelas al añadir un pack, puedes reintentarlo con un toque.
     - Tus packs de «Mi Selección» aparecen en la lista y se borran manteniéndolos pulsados.
     - Toca el número de versión para buscar actualizaciones; el aviso te dice cuánto pesa la descarga.
     - Botones con sus colores de verdad, una pista para ampliar los stickers y avisos más bonitos.
     - En la web: novedades de la app, botón para copiar el enlace y minijuego que se pausa si dejas de verlo.
 
+- **v3.4.0 (Actual) — Tráiler Oficial v2 con Demo de la App, Botonera Ampliada y Mejoras Web**
+  - **Tráiler oficial v2:** Nuevo vídeo animado de 32 segundos a 60 fps con una demo interactiva de la app en acción, selección de stickers individuales y envío directo a WhatsApp.
+  - **Efecto Ambilight en la web:** Al poner el tráiler a pantalla completa, la luz ambiental del vídeo se proyecta suavemente sobre el fondo en ordenadores sin recortes de imagen.
+  - **Botonera musical con 12 sonidos:** Nuevos efectos divertidos de caricatura sintetizados en tiempo real con Web Audio API (maracas, sorbo, burla, capitán pirata, colita alegre y carrera rápida).
+  - **Laboratorio interactivo de superpoderes:** Viste a Nailong con 6 disfraces (pirata, chef, astronauta...), activa la lluvia de muslitos crujientes y la gravedad cero espacial.
+  - **Minijuego calibrado:** Respuesta de las flechas del teclado suavizada para un control más cómodo y preciso.
+  - **Identificación del creador:** Firma de autoría «Desarrollado por Álvaro Lofra» añadida al pie de la web y a la pantalla principal de la app Android.
+
 ---
 
-*Hecho con cariño para todos los fans de Nailong (奶龙)* 💛
+*Hecho con cariño para todos los fans de Nailong* 💛
