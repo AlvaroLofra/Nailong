@@ -5,6 +5,26 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [3.4.1] — 2026-11-03
+Actualización terciaria: retiro y descatalogado del antiguo sticker 14 (generado por IA), renumeración correlativa sin saltos a 95 cromos oficiales y reequilibrio de los 4 packs de la app Android nativa.
+
+- **Catálogo de Stickers (`Stickers Nailong/`):**
+  - Retirado del catálogo oficial el antiguo `sticker_14.webp` (generado por IA y desalineado con la estética oficial). Conservado en disco con el nombre `descatalogado_sticker_14.webp`.
+  - Renumeración correlativa secuencial de los stickers 15 a 96 pasando a ser 14 a 95 (`sticker_1.webp` a `sticker_95.webp` + `creador_nailong.webp`), conformando exactamente 95 cromos activos sin saltos.
+- **Web:**
+  - Actualizado `js/02-datos-stickers.js` reflejando los 95 cromos reales y sus fotogramas exactos.
+  - Remapeadas las referencias en `js/03-hero.js` (estados de ánimo), `js/05-visor-magico.js` (`FEATURED_GIFS`), `js/07-sonidos-y-laboratorio.js` (`SOUNDBOARD_TILES`), `js/04-navegacion.js`, `js/06-album-y-descargas.js`, `manifest.json` e `index.html`.
+  - Actualizados contadores a 95 cromos, badge `v3.4.1 APK`, pie de página `v3.4.1` y cache-busters `?v=3.4.1`.
+- **App Android (`StickersNailong.apk` v3.4.1, `versionCode 11`):**
+  - Reajustados los 4 paquetes en `generar_assets.py`: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23), totalizando 95 stickers.
+  - Incrementado `IMAGE_DATA_VERSION = '3'` para forzar la actualización de caché en WhatsApp.
+  - Actualizado `build.gradle` con `versionCode 11` y `versionName "3.4.1"`.
+  - Recompilada en release con Gradle, alineada con `zipalign`, firmada con la clave debug oficial y copiada a la raíz web (`StickersNailong.apk`, 31.2 MB).
+  - Sincronizado `version.json` con fecha `2026-11-03`, código 11, versión 3.4.1 y 31.2 MB.
+- **Verificación:**
+  - `verify_all.py` adaptado a 95 stickers y v3.4.1: 47 de 47 pruebas superadas al 100%.
+  - `normalizar_stickers.py --check`: 95 de 95 stickers conformes con WhatsApp.
+
 ## [3.4.0] — 2026-11-02
 Evolución completa del tráiler oficial con HyperFrames, eliminación total de caracteres chinos en web, app y vídeo, incorporación del crédito «Desarrollado por Álvaro Lofra», mejoras en la botonera y laboratorio, y pantalla completa con luz ambiental.
 

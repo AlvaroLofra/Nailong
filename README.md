@@ -14,8 +14,8 @@ Sitio web interactivo y animado dedicado a **Nailong**, el dragón de leche amar
 
 - **Hero Interactivo & Contador Duang:** Pancita con físicas elásticas, efectos de sonido y 9 estados de ánimo en vivo.
 - **Visor Mágico de Animaciones:** Tira deslizable de 9 escenas GIF en bucle con control de velocidad y pegatinas arrastrables.
-- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero, Visor Mágico en tira y catálogo de 96 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
-- **Tráiler Oficial de Lanzamiento (HyperFrames):** Vídeo animado vertical 9:16 en alta definición con físicas elásticas Duang, banda sonora original y los 96 stickers en acción.
+- **Sección «Stickers» + Gran Álbum Polaroid:** descarga de la app Android primero, Visor Mágico en tira y catálogo de 95 cromos auténticos clasificados por categorías, visor a pantalla completa y subida de fotos del usuario con guardado persistente local.
+- **Tráiler Oficial de Lanzamiento (HyperFrames):** Vídeo animado vertical 9:16 en alta definición con físicas elásticas Duang, banda sonora original y los 95 stickers en acción.
 - **Botonera Musical:** 12 casillas con efectos de caricatura sintetizados en tiempo real mediante la Web Audio API.
 - **Laboratorio de Superpoderes:** Ajuste de tamaño, modo camaleón con ciclo arcoíris y lanzamiento de llamaradas en canvas.
 - **Minijuego "La Gran Comilona":** Juego arcade en HTML5 Canvas con pantalla completa fluida, controles táctiles y teclado.
@@ -29,12 +29,12 @@ Sitio web interactivo y animado dedicado a **Nailong**, el dragón de leche amar
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma para GitHub Pages)
 ├── manifest.json                # Manifiesto PWA para instalación en dispositivos móviles
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (31.1 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (31.2 MB)
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── AGENTS.md                    # Instrucciones de desarrollo para agentes de IA (CLAUDE.md y GEMINI.md apuntan a él)
 ├── CHANGELOG.md                 # Historial de versiones
 ├── verify_all.py                # Suite de pruebas automatizadas (47 verificaciones)
-└── Stickers Nailong/            # Banco de 96 cromos en WebP + foto optimizada del creador
+└── Stickers Nailong/            # Banco de 95 cromos en WebP + foto optimizada del creador
 ```
 
 ---
@@ -105,7 +105,7 @@ Sitio web interactivo y animado dedicado a **Nailong**, el dragón de leche amar
 
 ---
 
-### 📌 Ciclo v3.0.0 – v3.4.0: App Android Nativa Oficial, «Mi Selección», Tráiler Oficial v2 y Expansión a 96 Stickers
+### 📌 Ciclo v3.0.0 – v3.4.1: App Android Nativa Oficial, «Mi Selección», Tráiler Oficial v2 y Catálogo Depurado
 
 - **v3.0.0 — App Android Oficial y «Mi Selección»**
   - Estreno de la aplicación nativa oficial para Android (`StickersNailong.apk`).
@@ -167,13 +167,19 @@ Sitio web interactivo y animado dedicado a **Nailong**, el dragón de leche amar
     - Botones con sus colores de verdad, una pista para ampliar los stickers y avisos más bonitos.
     - En la web: novedades de la app, botón para copiar el enlace y minijuego que se pausa si dejas de verlo.
 
-- **v3.4.0 (Actual) — Tráiler Oficial v2 con Demo de la App, Botonera Ampliada y Mejoras Web**
+- **v3.4.0 — Tráiler Oficial v2 con Demo de la App, Botonera Ampliada y Mejoras Web**
   - **Tráiler oficial v2:** Nuevo vídeo animado de 32 segundos a 60 fps con una demo interactiva de la app en acción, selección de stickers individuales y envío directo a WhatsApp.
   - **Efecto Ambilight en la web:** Al poner el tráiler a pantalla completa, la luz ambiental del vídeo se proyecta suavemente sobre el fondo en ordenadores sin recortes de imagen.
   - **Botonera musical con 12 sonidos:** Nuevos efectos divertidos de caricatura sintetizados en tiempo real con Web Audio API (maracas, sorbo, burla, capitán pirata, colita alegre y carrera rápida).
   - **Laboratorio interactivo de superpoderes:** Viste a Nailong con 6 disfraces (pirata, chef, astronauta...), activa la lluvia de muslitos crujientes y la gravedad cero espacial.
   - **Minijuego calibrado:** Respuesta de las flechas del teclado suavizada para un control más cómodo y preciso.
   - **Identificación del creador:** Firma de autoría «Desarrollado por Álvaro Lofra» añadida al pie de la web y a la pantalla principal de la app Android.
+
+- **v3.4.1 (Actual) — Retiro del Sticker 14 y Renumeración Continua a 95 Cromos**
+  - **Catálogo depurado:** Retiro y descatalogado del antiguo sticker 14 (generado por IA y desalineado con la estética oficial de la serie).
+  - **Renumeración continua:** Reorganización correlativa sin saltos del 1 al 95 (`sticker_1.webp` a `sticker_95.webp`) preservando la foto del creador.
+  - **Packs de Android reequilibrados:** Los 4 packs de la app nativa quedan repartidos de forma equilibrada: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23), sumando los 95 cromos.
+  - **Sincronización total:** Sincronizados todos los componentes interactivos de la web, `version.json` (código 11), `StickersNailong.apk` (31.2 MB) y suite de pruebas superada al 100% (47/47).
 
 ---
 

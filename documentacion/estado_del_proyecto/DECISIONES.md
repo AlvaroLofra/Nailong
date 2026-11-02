@@ -28,6 +28,7 @@
 | **D-16** | Retiro de stickers duplicados (1/42 y 6/14), renumeración continua a 80 y lanzamiento v3.2.2 | Tomada | 2026-10-31 |
 | **D-17** | Incorporación de 16 nuevos stickers (80 → 96), 4º pack en app Android y tráiler HyperFrames | Tomada | 2026-11-01 |
 | **D-18** | Reparto equilibrado de packs animados (25/24/24), estáticos en un pack, 4 packs visibles y animación en la app (v3.3.1) | Tomada | 2026-11-01 |
+| **D-19** | Retiro de sticker 14 (IA), descatalogado, renumeración continua a 95 y actualización terciaria (v3.4.1) | Tomada | 2026-11-03 |
 
 ---
 
@@ -227,3 +228,15 @@
 - **Decisión:** estáticos juntos en un pack (23) y los 73 animados repartidos en orden numérico en 3 packs (25/24/24); reproducción automática en bucle con `setAutoPlayAnimations(true)`; lista de packs más compacta y «Mi Selección» sin botones cuando está vacía; `image_data_version` 1 → 2 para esquivar la caché de WhatsApp.
 - **Alternativas descartadas:** dividir por tema (comida y amigos son demasiado pequeñas); mover ficheros a subcarpetas (no aporta a la app y obligaría a tocar la web y `verify_all.py`).
 - **Consecuencias:** versión 3.3.1 / `versionCode 7`. Los stickers 5 y 14 (2 fotogramas) y 26 (5) siguen en packs animados por contar como animados. Pendiente: probar la importación en WhatsApp y en el POCO X7 Pro.
+
+---
+
+## D-19 · Retiro de sticker 14 (IA), descatalogado, renumeración continua a 95 y actualización terciaria (v3.4.1)
+- **Estado:** **Tomada** (2026-11-03, a petición del usuario).
+- **Problema:** El sticker número 14 del catálogo oficial (`sticker_14.webp`) fue identificado como una imagen generada por IA con contenido no acorde ni representativo del tono oficial e infantil de la serie *Seventh Impression*.
+- **Decisión:**
+  1. *Descatalogado sin eliminación física:* No borrar el archivo para preservar la trazabilidad, pero cambiar su nombre en `Stickers Nailong/` a `descatalogado_sticker_14.webp` para que quede formalmente fuera del catálogo activo.
+  2. *Renumeración continua (1 a 95):* Reasignar secuencialmente sin saltos todos los stickers posteriores: `sticker_15.webp` a `sticker_96.webp` pasan a ser `sticker_14.webp` a `sticker_95.webp` (95 cromos activos en total + `creador_nailong.webp`).
+  3. *Sincronización web:* Actualizar `js/02-datos-stickers.js` retirando la entrada 14 y ajustando los identificadores de 14 a 95; remapear los estados de ánimo en `js/03-hero.js`, `FEATURED_GIFS` en `js/05-visor-magico.js`, `SOUNDBOARD_TILES` en `js/07-sonidos-y-laboratorio.js`, `manifest.json`, disfraces y referencias en `index.html`. Actualizar contadores y cache-busters a `?v=3.4.1`.
+  4. *Reequilibrio de packs y app Android:* En `generar_assets.py`, reestructurar los paquetes a 95 stickers: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23). Incrementar `IMAGE_DATA_VERSION = '3'` para refrescar la caché de WhatsApp. Recompilar `StickersNailong.apk` (`versionCode 11`, `versionName "3.4.1"`, 31.2 MB), firmarlo y alojarlo en la web con badge `v3.4.1 APK` y pie `v3.4.1`.
+- **Consecuencias:** Catálogo 100% auténtico y depurado de contenido generado por IA; reparto perfecto de 24/24/24 stickers animados por pack cumpliendo estrictamente con WhatsApp; suite `verify_all.py` superada al 100% (47/47).
