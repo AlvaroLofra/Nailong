@@ -69,13 +69,13 @@
         }
 
         const moodData = {
-            happy: { sticker: 'sticker_18.webp', sound: 'laugh', speech: '¡Estoy súper feliz y saltarín hoy! 😄💛' },
-            popcorn: { sticker: 'sticker_18.webp', sound: 'chomp', speech: '¡Ñam ñam! ¡Devorando palomitas en el cine! 🍿✨' },
+            happy: { sticker: 'sticker_17.webp', sound: 'laugh', speech: '¡Estoy súper feliz y saltarín hoy! 😄💛' },
+            popcorn: { sticker: 'sticker_17.webp', sound: 'chomp', speech: '¡Ñam ñam! ¡Devorando palomitas en el cine! 🍿✨' },
             maracas: { sticker: 'sticker_10.webp', sound: 'maracas', speech: '¡Moviendo las caderas con mis maracas mágicas! 🪇💃' },
-            pirate: { sticker: 'sticker_34.webp', sound: 'fanfare', speech: '¡Al abordaje, grumetes! ¡Soy el Capitán Nailong! 🏴‍☠️' },
-            sleep: { sticker: 'sticker_39.webp', sound: 'sleep', speech: 'Zzz... soñando en mi hamaca con lagos de natillas... 😴🫧' },
-            scared: { sticker: 'sticker_22.webp', sound: 'duang', speech: '¡Socorro! ¡Xiao Qi me persigue con la esponja del baño! 🏃💨' },
-            drama: { sticker: 'sticker_23.webp', sound: 'duang', speech: '¡Hmpf! ¡Pues ahora no te doy de mi tarta favorita! 🥺💧' },
+            pirate: { sticker: 'sticker_33.webp', sound: 'fanfare', speech: '¡Al abordaje, grumetes! ¡Soy el Capitán Nailong! 🏴‍☠️' },
+            sleep: { sticker: 'sticker_38.webp', sound: 'sleep', speech: 'Zzz... soñando en mi hamaca con lagos de natillas... 😴🫧' },
+            scared: { sticker: 'sticker_21.webp', sound: 'duang', speech: '¡Socorro! ¡Xiao Qi me persigue con la esponja del baño! 🏃💨' },
+            drama: { sticker: 'sticker_22.webp', sound: 'duang', speech: '¡Hmpf! ¡Pues ahora no te doy de mi tarta favorita! 🥺💧' },
             pastry: { sticker: 'sticker_11.webp', sound: 'chomp', speech: '¡Ñam, masticando bollitos dulces a toda velocidad! 🥟😋' },
             chicken: { sticker: 'sticker_13.webp', sound: 'chomp', speech: '¡Mmm, qué delicia de muslito de pollo frito! ¡Mi comida favorita! 🍗😋' }
         };

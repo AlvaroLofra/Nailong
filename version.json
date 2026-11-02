@@ -1,14 +1,12 @@
 {
-  "versionCode": 10,
-  "versionName": "3.4.0",
-  "date": "2026-11-02",
-  "sizeMB": 31.1,
+  "versionCode": 11,
+  "versionName": "3.4.1",
+  "date": "2026-11-03",
+  "sizeMB": 31.2,
   "apkUrl": "https://alvarolofra.github.io/Nailong/StickersNailong.apk",
   "notes": [
-    "Nuevo tráiler animado oficial v2 con demo interactiva de la app.",
-    "Identificación del creador: Desarrollado por Álvaro Lofra.",
-    "Botonera musical mejorada con 12 sonidos únicos sintetizados.",
-    "Laboratorio con disfraces, lluvia de pollo y gravedad cero.",
-    "Control más suave y preciso de las flechas en el minijuego."
+    "Actualización terciaria de catálogo: retiro y descatalogado del sticker 14.",
+    "Renumeración correlativa continua a 95 stickers oficiales.",
+    "Packs oficiales reequilibrados: 3 packs animados (24 cada uno) y 1 estático (23)."
   ]
 }

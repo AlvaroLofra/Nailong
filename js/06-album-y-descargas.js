@@ -1,12 +1,12 @@
         /* ==============================================================
-           7. GRAN ÁLBUM POLAROID (96 FOTOS REALES) + LIGHTBOX
+           7. GRAN ÁLBUM POLAROID (95 FOTOS REALES) + LIGHTBOX
         ============================================================== */
         let activeFilter = 'all';
         let currentLightboxIndex = 0;
         let displayedStickers = [];
 
         // Paginación progresiva: displayedStickers guarda la lista completa filtrada (el lightbox navega por ella);
-        // solo se pintan las primeras galleryVisibleCount tarjetas para no decodificar 96 WebP a la vez.
+        // solo se pintan las primeras galleryVisibleCount tarjetas para no decodificar 95 WebP a la vez.
         const GALLERY_PAGE_SIZE = 12;
         const GALLERY_STEP = 24;
         let galleryVisibleCount = GALLERY_PAGE_SIZE;
