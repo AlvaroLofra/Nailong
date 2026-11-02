@@ -5,6 +5,30 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [3.4.0] — 2026-11-02
+Evolución completa del tráiler oficial con HyperFrames, eliminación total de caracteres chinos en web, app y vídeo, incorporación del crédito «Desarrollado por Álvaro Lofra», mejoras en la botonera y laboratorio, y pantalla completa con luz ambiental.
+
+- **Tráiler oficial v2 (`video-promo/nailong_trailer_v2.mp4`):**
+  - Consolidada la estructura de `video-promo/`: eliminados bocetos obsoletos y vídeos antiguos de v1; `v2` pasa a la raíz preservando `trailer-3d/` intacto.
+  - Mayor protagonismo a la app nativa: escena demo enriquecida (7.0s) mostrando la pantalla principal, pulsación del botón «+ Añadir» de un pack predeterminado, entrada a la carpeta, selección de 3 stickers individuales (con feedback visual de checks y contador dinámico `1/30` -> `2/30` -> `3/30`) e importación a WhatsApp.
+  - Conservado intacto el fragmento de la conversación de WhatsApp con Nailong riéndose (`sticker_72`) y doble check azul.
+  - Orden cronológico optimizado a 32s (16 compases a 120 BPM): Saludo -> Pancita -> Minijuego (inmediatamente tras "tócame la pancita") -> 96 stickers -> Álbum coleccionable -> App y WhatsApp -> Pantalla final.
+  - Fotograma 0 y portada actualizados con `sticker_2.webp`.
+  - Pantalla final con el crédito «Desarrollado por Álvaro Lofra» en tipografía Fredoka mediana.
+  - Fondo con decoraciones exteriores (burbujas y flores SVG) y transiciones elásticas nube/pancita.
+- **Web:**
+  - **Vídeo en pantalla completa sin cortes y luz ambiental:** reglas CSS (`object-fit: contain !important;`) para evitar recortes 16:9 en pantallas panorámicas. Contenedor con efecto ambilight en tiempo real (`#video-ambient-canvas`) y botón «📺 Pantalla Completa con Luz Ambiental».
+  - **Botonera musical:** 12 sonidos únicos sintetizados con Web Audio API (añadidos `slurp`, `bleh`, `pirate`, `run`, `tail`, `surprise`).
+  - **Laboratorio de superpoderes:** nuevos trajes interactivos (Alegre, Pirata, Superalas, Palomitas, Bailarín, Bebé), lluvia de muslitos de pollo crujiente (`feedLabChicken()`) y modo gravedad cero espacial (`toggleLabZeroGravity()`).
+  - **Minijuego:** velocidad de desplazamiento con las flechas del teclado suavizada a un ritmo arcade más cómodo y preciso (`Math.max(10, Math.round(foodCanvas.width * 0.013))`).
+  - **Pie de página:** añadido el crédito `v3.3.4 · Desarrollado por Álvaro Lofra`.
+  - **Eliminación de caracteres chinos:** supresión de `(奶龙)`, `(小七)`, `(暴暴龙)` en títulos, encabezados, metadatos, `manifest.json` y scripts JavaScript.
+- **App Android (`StickersNailong.apk` v3.3.4, `versionCode 10`):**
+  - Eliminación de todas las carpetas y recursos en chino (`values-zh-rCN`, `values-zh-rTW`, `contents.json` y `strings.xml`).
+  - Etiqueta de versión actualizada con autoría: `v3.3.4 · Desarrollado por Álvaro Lofra` en la pantalla principal.
+  - Recompilada con Gradle en release, alineada con `zipalign` y firmada con la clave debug oficial (`SHA-256: 04b83add...abb2`).
+  - Sincronizado `version.json` (31.1 MB, 2026-11-02).
+
 ## [3.3.3] — 2026-11-01
 Se aplican las mejoras de interfaz apuntadas en la revisión de la 3.3.2 (A1–A7, W1–W5) y se corrigen los fallos que salieron al probarlas.
 

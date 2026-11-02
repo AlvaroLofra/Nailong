@@ -1,6 +1,6 @@
-# 📖 Documentación Técnica Completa: ¡El Mundo Mágico de Nailong (奶龙)!
+# 📖 Documentación Técnica Completa: ¡El Mundo Mágico de Nailong!
 
-Sitio web interactivo de alto rendimiento para fans del entrañable dragón de leche amarillo **Nailong (奶龙)**, creado por *Seventh Impression*.
+Sitio web interactivo de alto rendimiento para fans del entrañable dragón de leche amarillo **Nailong**, creado por *Seventh Impression*.
 
 - **URL de Producción:** [https://alvarolofra.github.io/Nailong/](https://alvarolofra.github.io/Nailong/)
 - **Entrada Definitiva:** `index.html` (Single-Page Application sin dependencias de compilación externa).
@@ -14,12 +14,12 @@ El proyecto está diseñado bajo una arquitectura de **Single Page Application (
 ```text
 ├── index.html                   # Aplicación completa (HTML5, Tailwind CDN, CSS animaciones, JS modular)
 ├── manifest.json                # Manifiesto PWA para instalación en pantalla de inicio móvil
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (28.7 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (31.1 MB)
 ├── README.md                    # Descripción general y enlaces públicos
 ├── DOCUMENTACION.md             # Documentación exhaustiva de código, arquitectura y funcionamiento
 ├── AGENTS.md                    # Instrucciones canónicas para agentes de IA (CLAUDE.md y GEMINI.md son punteros, D-14)
 ├── CHANGELOG.md                 # Historial técnico de versiones
-├── verify_all.py                # Suite de pruebas automatizadas en Python (44 tests unitarios y estructurales)
+├── verify_all.py                # Suite de pruebas automatizadas en Python (47 tests unitarios y estructurales)
 └── Stickers Nailong/            # Directorio de recursos gráficos (96 cromos .webp + foto optimizada del creador)
 ```
 

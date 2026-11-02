@@ -1,10 +1,10 @@
-# ¡El Mundo Mágico de Nailong (奶龙)! 🦖
+# ¡El Mundo Mágico de Nailong! 🦖
 
 <p align="center">
   <img src="Stickers%20Nailong/sticker_2.webp" alt="Nailong animado" width="200" />
 </p>
 
-Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de leche amarillo creado por *Seventh Impression*.
+Sitio web interactivo y animado dedicado a **Nailong**, el dragón de leche amarillo creado por *Seventh Impression*.
 
 🌐 **Enlace web en vivo:** [https://alvarolofra.github.io/Nailong/](https://alvarolofra.github.io/Nailong/)
 
@@ -29,7 +29,7 @@ Sitio web interactivo y animado dedicado a **Nailong (奶龙)**, el dragón de l
 ```text
 ├── index.html                   # Aplicación web definitiva (SPA autónoma para GitHub Pages)
 ├── manifest.json                # Manifiesto PWA para instalación en dispositivos móviles
-├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (28.7 MB)
+├── StickersNailong.apk          # Paquete de instalación directa de la App Android nativa (31.1 MB)
 ├── DOCUMENTACION.md             # Documentación técnica de arquitectura, código y registros ADR
 ├── AGENTS.md                    # Instrucciones de desarrollo para agentes de IA (CLAUDE.md y GEMINI.md apuntan a él)
 ├── CHANGELOG.md                 # Historial de versiones
