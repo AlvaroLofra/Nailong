@@ -1,0 +1,183 @@
+/* Estilos inspirados en la interfaz moderna de WhatsApp adaptados a vertical 1080x1920 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  background-color: #0b141a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-viewport {
+  width: 1080px;
+  height: 1920px;
+  background-color: #EFEAE2;
+  background-image: radial-gradient(#d6cfc7 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Header WhatsApp */
+.wa-header {
+  height: 140px;
+  background-color: #008069;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+.wa-back-btn {
+  font-size: 48px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.wa-avatar-container {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #FFE66D;
+  margin-right: 24px;
+  border: 3px solid rgba(255,255,255,0.8);
+}
+
+.wa-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wa-contact-info {
+  flex: 1;
+}
+
+.wa-contact-name {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.wa-contact-status {
+  font-size: 24px;
+  color: #D1EBE5;
+}
+
+.wa-actions {
+  display: flex;
+  gap: 36px;
+  font-size: 36px;
+}
+
+/* Body / Mensajes */
+.wa-chat-body {
+  flex: 1;
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow: hidden;
+}
+
+.message-bubble {
+  max-width: 75%;
+  background-color: #FFFFFF;
+  padding: 24px 32px;
+  border-radius: 28px 28px 28px 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  position: relative;
+}
+
+.bubble-text {
+  font-size: 34px;
+  color: #111B21;
+  line-height: 1.35;
+}
+
+.bubble-time {
+  font-size: 20px;
+  color: #667781;
+  text-align: right;
+  margin-top: 8px;
+}
+
+.sticker-bubble {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sticker-wrapper {
+  width: 320px;
+  height: 320px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.18));
+}
+
+.sticker-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Footer Input Bar */
+.wa-input-bar {
+  height: 160px;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: transparent;
+}
+
+.wa-input-pill {
+  flex: 1;
+  height: 100px;
+  background-color: #FFFFFF;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  gap: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.wa-icon-pill {
+  font-size: 36px;
+}
+
+.wa-input-placeholder {
+  flex: 1;
+  font-size: 32px;
+  color: #8696A0;
+}
+
+.wa-mic-btn {
+  width: 100px;
+  height: 100px;
+  background-color: #00A884;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF;
+  font-size: 40px;
+  box-shadow: 0 6px 16px rgba(0,168,132,0.35);
+}

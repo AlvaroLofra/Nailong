@@ -1,0 +1,54 @@
+{
+  "proyecto": "Nailong presenta sus stickers",
+  "version": "1.0.0",
+  "formato": {
+    "ancho": 1080,
+    "alto": 1920,
+    "fps": 30,
+    "relacion_aspecto": "9:16",
+    "duracion_estimada_segundos": 22.0
+  },
+  "escenas": [
+    {
+      "id": 1,
+      "nombre": "Saludo y Gancho 3D",
+      "tiempo_inicio": 0.0,
+      "tiempo_fin": 4.5,
+      "visual": "Nailong en 3D (Eevee con fondo transparente) saluda efusivamente y rebota con su pancita crema.",
+      "locucion": "¡Hola! ¡Soy Nailong! ¿A que no sabes qué traigo hoy? ¡Por fin están listos mis stickers oficiales para WhatsApp!",
+      "sfx": ["campanita_intro.wav", "boing_duang.wav"],
+      "stickers": [2]
+    },
+    {
+      "id": 2,
+      "nombre": "Chat de WhatsApp Animado (HyperFrames)",
+      "tiempo_inicio": 4.5,
+      "tiempo_fin": 11.5,
+      "visual": "Mockup interactivo de WhatsApp donde caen con rebote y squash & stretch los stickers WebP animados reales.",
+      "locucion": "¡Noventa y seis stickers animados que bailan, comen sandía y hacen burlitas! ¡Mira cómo me muevo de verdad en tus chats!",
+      "sfx": ["pop_envio.wav", "maracas.wav", "nam_sandia.wav"],
+      "stickers": [19, 10, 13, 64, 72]
+    },
+    {
+      "id": 3,
+      "nombre": "La App Android y Mi Selección",
+      "tiempo_inicio": 11.5,
+      "tiempo_fin": 17.5,
+      "visual": "Pantalla de la app StickersNailong.apk mostrando los 4 packs temáticos y el selector interactivo de Mi Selección.",
+      "locucion": "Cuatro packs completos listos para instalar con un solo toque, o crea tus propios packs con Mi Selección. ¡Gratis y sin anuncios!",
+      "sfx": ["click_seleccion.wav", "exito_pack.wav"],
+      "stickers": [44, 25, 9, 34]
+    },
+    {
+      "id": 4,
+      "nombre": "Celebración 3D y Llamada a la Acción",
+      "tiempo_inicio": 17.5,
+      "tiempo_fin": 22.0,
+      "visual": "Nailong 3D bailando con confeti y destellos. Rótulo central con el enlace y botón de descarga APK.",
+      "locucion": "¡Descárgalos ya en alvarolofra.github.io/Nailong y llena tus chats de alegría! ¡Duang duang!",
+      "sfx": ["fanfarria_final.wav", "duang_cierre.wav"],
+      "stickers": [2, 58]
+    }
+  ],
+  "locucion_completa": "¡Hola! ¡Soy Nailong! ¿A que no sabes qué traigo hoy? ¡Por fin están listos mis stickers oficiales para WhatsApp! ¡Noventa y seis stickers animados que bailan, comen sandía y hacen burlitas! ¡Mira cómo me muevo de verdad en tus chats! Cuatro packs completos listos para instalar con un solo toque, o crea tus propios packs con Mi Selección. ¡Gratis y sin anuncios! ¡Descárgalos ya en alvarolofra.github.io/Nailong y llena tus chats de alegría! ¡Duang duang!"
+}

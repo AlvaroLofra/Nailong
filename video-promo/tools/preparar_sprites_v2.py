@@ -24,12 +24,12 @@ from PIL import Image, ImageSequence
 
 RAIZ = Path(__file__).resolve().parents[2]
 ORIGEN = RAIZ / "Stickers Nailong"
-DESTINO = RAIZ / "video-promo" / "v2" / "assets"
+DESTINO = RAIZ / "video-promo" / "assets"
 
 # Tamaño de cada casilla según lo grande que se vea el sticker en pantalla.
-PROTAGONISTAS = {58: 512, 92: 512, 19: 512, 13: 512, 44: 512, 72: 384, 9: 384}
+PROTAGONISTAS = {2: 512, 58: 512, 92: 512, 19: 512, 13: 512, 44: 512, 72: 384, 9: 384}
 LLUVIA = {n: 300 for n in (10, 20, 24, 47, 60, 63, 64, 77, 79, 87, 91)}
-FIJOS = [24, 25, 31, 60, 75, 92, 10, 13, 20, 34, 44, 47, 58, 63, 64, 72, 77, 79, 91, 1, 3, 4]
+FIJOS = [24, 25, 31, 60, 75, 92, 10, 13, 20, 34, 44, 47, 58, 63, 64, 72, 77, 79, 91, 1, 2, 3, 4, 5, 6, 8, 9, 11, 14]
 
 AYUDANTE = """
 // Avanza una hoja de fotogramas al ritmo del vídeo: el fotograma visible es

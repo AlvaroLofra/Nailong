@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
+  <title>Nailong WhatsApp Chat Animation</title>
+  <link rel="stylesheet" href="estilos_chat.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+  <div class="chat-viewport">
+    <!-- Header WhatsApp -->
+    <header class="wa-header">
+      <div class="wa-back-btn">←</div>
+      <div class="wa-avatar-container">
+        <img class="wa-avatar" src="../../../Stickers Nailong/sticker_2.webp" alt="Nailong Avatar">
+      </div>
+      <div class="wa-contact-info">
+        <div class="wa-contact-name">Nailong 奶龙 💛</div>
+        <div class="wa-contact-status">en línea</div>
+      </div>
+      <div class="wa-actions">
+        <span class="wa-icon">📹</span>
+        <span class="wa-icon">📞</span>
+        <span class="wa-icon">⋮</span>
+      </div>
+    </header>
+
+    <!-- Zona de Mensajes -->
+    <main class="wa-chat-body" id="chat-messages">
+      <!-- Mensaje de texto inicial -->
+      <div class="message-bubble received" id="msg-1">
+        <div class="bubble-text">¡Mira lo que te mando por fin a WhatsApp! 👇🎉</div>
+        <div class="bubble-time">12:00</div>
+      </div>
+
+      <!-- Sticker 1: Duang Saltarín -->
+      <div class="sticker-bubble received" id="msg-sticker-1">
+        <div class="sticker-wrapper">
+          <img src="../../../Stickers Nailong/sticker_19.webp" alt="Sticker 19 Duang" class="sticker-img">
+        </div>
+        <div class="bubble-time">12:00</div>
+      </div>
+
+      <!-- Sticker 2: Maracas Fiesta -->
+      <div class="sticker-bubble received" id="msg-sticker-2">
+        <div class="sticker-wrapper">
+          <img src="../../../Stickers Nailong/sticker_10.webp" alt="Sticker 10 Maracas" class="sticker-img">
+        </div>
+        <div class="bubble-time">12:01</div>
+      </div>
+
+      <!-- Sticker 3: Sandía Sabrosa -->
+      <div class="sticker-bubble received" id="msg-sticker-3">
+        <div class="sticker-wrapper">
+          <img src="../../../Stickers Nailong/sticker_64.webp" alt="Sticker 64 Sandia" class="sticker-img">
+        </div>
+        <div class="bubble-time">12:01</div>
+      </div>
+
+      <!-- Sticker 4: Risas -->
+      <div class="sticker-bubble received" id="msg-sticker-4">
+        <div class="sticker-wrapper">
+          <img src="../../../Stickers Nailong/sticker_13.webp" alt="Sticker 13 Risas" class="sticker-img">
+        </div>
+        <div class="bubble-time">12:02</div>
+      </div>
+    </main>
+
+    <!-- Footer Input Bar -->
+    <footer class="wa-input-bar">
+      <div class="wa-input-pill">
+        <span class="wa-icon-pill">😊</span>
+        <span class="wa-input-placeholder">Mensaje</span>
+        <span class="wa-icon-pill">📎</span>
+        <span class="wa-icon-pill">📷</span>
+      </div>
+      <div class="wa-mic-btn">
+        <span>🎤</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Animación determinista con GSAP para captura o Remotion
+    const tl = gsap.timeline({ defaults: { ease: "back.out(1.8)" } });
+    
+    // Entrada inicial
+    tl.from(".wa-header", { y: -100, opacity: 0, duration: 0.6 })
+      .from("#msg-1", { scale: 0, opacity: 0, duration: 0.5 }, "+=0.2")
+      .from("#msg-sticker-1", { scale: 0, rotation: -10, duration: 0.7 }, "+=0.3")
+      .from("#msg-sticker-2", { scale: 0, rotation: 10, duration: 0.7 }, "+=0.4")
+      .from("#msg-sticker-3", { scale: 0, rotation: -8, duration: 0.7 }, "+=0.4")
+      .from("#msg-sticker-4", { scale: 0, rotation: 12, duration: 0.7 }, "+=0.4");
+  </script>
+</body>
+</html>

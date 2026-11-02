@@ -186,7 +186,7 @@
             playSound('fanfare');
             const shareUrl = getLiveShareUrl();
             const shareData = {
-                title: '¡El Mundo Mágico de Nailong (奶龙)! 🦖✨',
+                title: '¡El Mundo Mágico de Nailong! 🦖✨',
                 text: '¡Mira la página fan interactiva de Nailong con fotos reales, stickers animados, sonidos duang y minijuego!',
                 url: shareUrl
             };

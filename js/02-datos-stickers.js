@@ -29,7 +29,7 @@
             { id: 25, file: 'sticker_25.webp', frames: 32, title: 'Paseo por la Colina', cat: 'bailes', sound: 'duang', desc: 'Caminando por el prado verde saludando a todos los vecinos del valle.'  },
             { id: 26, file: 'sticker_26.webp', frames: 5, title: 'Meneo de Caderas Sabrosón', cat: 'bailes', sound: 'maracas', desc: 'Bailando con las patitas arriba y meneando la pancita con mucho ritmo.'  },
             { id: 27, file: 'sticker_27.webp', frames: 1, title: 'Ojos Tiernos de Cachorrito', cat: 'caritas', sound: 'duang', desc: 'Apoyando la barbilla en la mesa pidiendo otro trozo de pollo con ojos irresistibles.'  },
-            { id: 28, file: 'sticker_28.webp', frames: 1, title: 'Bombloong (暴暴龙) el Rival', cat: 'amigos', sound: 'duang', desc: 'El dragón morado cascarrabias sacando la lengua con cara de pillo.'  },
+            { id: 28, file: 'sticker_28.webp', frames: 1, title: 'Bombloong el Rival', cat: 'amigos', sound: 'duang', desc: 'El dragón morado cascarrabias sacando la lengua con cara de pillo.'  },
             { id: 29, file: 'sticker_29.webp', frames: 33, title: 'Xiao Qi y la Colita de Nailong', cat: 'amigos', sound: 'duang', desc: 'El inventor Xiao Qi tirando de su colita mientras Nailong hace el vago en el suelo.'  },
             { id: 30, file: 'sticker_30.webp', frames: 36, title: 'Haciendo la Croqueta en el Césped', cat: 'bailes', sound: 'laugh', desc: 'Rodando feliz de lado a lado por el prado verde jugando al solecito.'  },
             { id: 31, file: 'sticker_31.webp', frames: 68, title: 'Relajo con Refresco Fresquito', cat: 'comida', sound: 'pop', desc: 'Sentado en el sofá disfrutando de su bebida fría con pajita.'  },

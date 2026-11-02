@@ -144,3 +144,105 @@
             }
         }
 
+        // Disfraces mágicos en el laboratorio
+        function setLabCostume(imgFile, labelName) {
+            playSound('pop');
+            const img = document.getElementById('lab-nailong-img');
+            const badge = document.getElementById('lab-status-badge');
+            if (img) {
+                img.src = 'Stickers Nailong/' + imgFile;
+                img.style.transform = 'scale(1.15)';
+                setTimeout(() => { img.style.transform = 'scale(1)'; }, 250);
+            }
+            if (badge) badge.textContent = '🎭 Disfraz: ' + labelName;
+        }
+
+        // Lluvia de muslitos de pollo crujiente
+        let labChickenAnimating = false;
+        let labChickenItems = [];
+
+        function feedLabChicken() {
+            playSound('chomp');
+            const canvas = document.getElementById('lab-fire-canvas');
+            if (!canvas) return;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            const badge = document.getElementById('lab-status-badge');
+            if (badge) badge.textContent = '🍗 ¡Lluvia de Pollo Crujiente!';
+
+            for (let i = 0; i < 15; i++) {
+                labChickenItems.push({
+                    x: Math.random() * (canvas.width - 60) + 30,
+                    y: -30 - Math.random() * 120,
+                    vy: 3 + Math.random() * 4,
+                    rotation: Math.random() * 360,
+                    vRot: (Math.random() - 0.5) * 8,
+                    size: 26 + Math.random() * 14,
+                    alpha: 1
+                });
+            }
+
+            const img = document.getElementById('lab-nailong-img');
+            if (img) {
+                img.style.transform = 'scale(1.28, 1.15)';
+                setTimeout(() => { img.style.transform = 'scale(1, 1)'; }, 800);
+            }
+
+            if (!labChickenAnimating) {
+                labChickenAnimating = true;
+                animateLabChicken();
+            }
+        }
+
+        function animateLabChicken() {
+            const canvas = document.getElementById('lab-fire-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            labChickenItems.forEach(item => {
+                item.y += item.vy;
+                item.rotation += item.vRot;
+                if (item.y > canvas.height * 0.7) {
+                    item.alpha -= 0.05;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, item.alpha);
+                ctx.translate(item.x, item.y);
+                ctx.rotate((item.rotation * Math.PI) / 180);
+                ctx.font = Math.round(item.size) + 'px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('🍗', 0, 0);
+                ctx.restore();
+            });
+
+            labChickenItems = labChickenItems.filter(item => item.alpha > 0.05 && item.y < canvas.height + 40);
+            if (labChickenItems.length > 0) {
+                requestAnimationFrame(animateLabChicken);
+            } else {
+                labChickenAnimating = false;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // Gravedad cero espacial
+        let labZeroGravityActive = false;
+        function toggleLabZeroGravity() {
+            const fig = document.getElementById('lab-nailong-figure');
+            const badge = document.getElementById('lab-status-badge');
+            labZeroGravityActive = !labZeroGravityActive;
+
+            if (labZeroGravityActive) {
+                playSound('duang');
+                if (fig) fig.classList.add('animate-float');
+                if (badge) badge.textContent = '🪐 ¡Modo Gravedad Cero Activo!';
+            } else {
+                playSound('pop');
+                if (fig) fig.classList.remove('animate-float');
+                if (badge) badge.textContent = '✨ Modo Normal';
+            }
+        }

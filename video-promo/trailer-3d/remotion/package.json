@@ -1,0 +1,19 @@
+{
+  "name": "nailong-trailer-3d-remotion",
+  "version": "1.0.0",
+  "description": "Ensamblador audiovisual Remotion para el tráiler híbrido 3D de Nailong",
+  "scripts": {
+    "start": "remotion preview src/index.ts",
+    "build": "remotion render src/index.ts NailongTrailer3D out/nailong_trailer_final.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}

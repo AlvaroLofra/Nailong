@@ -117,6 +117,69 @@
             else prompt('Copia este enlace:', APP_SHARE_URL);
         }
 
+        
+        /* ==============================================================
+           15. LUZ AMBIENTAL Y PANTALLA COMPLETA DEL TRÁILER (9:16)
+        ============================================================== */
+        let trailerAmbientTimer = null;
+
+        function setupTrailerAmbientLight() {
+            const video = document.getElementById('trailer-video');
+            const canvas = document.getElementById('video-ambient-canvas');
+            if (!video || !canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = 45;
+            canvas.height = 80;
+
+            const updateAmbientFrame = () => {
+                if (video.paused || video.ended || !video.videoWidth) return;
+                try {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                } catch (e) {}
+            };
+
+            video.addEventListener('play', () => {
+                if (trailerAmbientTimer) clearInterval(trailerAmbientTimer);
+                trailerAmbientTimer = setInterval(updateAmbientFrame, 60);
+            });
+
+            video.addEventListener('pause', () => {
+                if (trailerAmbientTimer) clearInterval(trailerAmbientTimer);
+                trailerAmbientTimer = null;
+            });
+
+            video.addEventListener('ended', () => {
+                if (trailerAmbientTimer) clearInterval(trailerAmbientTimer);
+                trailerAmbientTimer = null;
+            });
+
+            video.addEventListener('loadeddata', updateAmbientFrame);
+            video.addEventListener('seeked', updateAmbientFrame);
+        }
+
+        function toggleTrailerFullscreen() {
+            const container = document.getElementById('video-player-container');
+            if (!container) return;
+            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement || container.classList.contains('trailer-fullscreen-active'));
+            if (!isFs) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen().catch(() => container.classList.add('trailer-fullscreen-active'));
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else {
+                    container.classList.add('trailer-fullscreen-active');
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+                container.classList.remove('trailer-fullscreen-active');
+            }
+        }
+
         window.onload = function() {
             loadUserPhotosFromStorage();
             updateFilterCounts();
@@ -134,6 +197,7 @@
             setupModalBackdrops();
             setupScrollSpy();
             setupCompanionAutoHide();
+            setupTrailerAmbientLight();
             setupModalScrollLock();
             // El canvas de fiesta solo se dimensiona mientras hay confeti activo (ahorra VRAM en reposo)
             const initParty = () => {

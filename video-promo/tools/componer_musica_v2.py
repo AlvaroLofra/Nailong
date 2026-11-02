@@ -28,9 +28,9 @@ SR = 44100
 BPM = 120
 BEAT = 60 / BPM          # 0,5 s
 BAR = 4 * BEAT           # 2 s
-DURACION = 29.0
+DURACION = 32.0
 
-SALIDA = Path(__file__).resolve().parent.parent / "v2" / "assets" / "audio"
+SALIDA = Path(__file__).resolve().parent.parent / "assets" / "audio"
 
 
 # --------------------------------------------------------------------------
@@ -192,15 +192,15 @@ PUENTE = [("A5", .5), ("F5", .5), ("C5", .5), ("F5", .5), ("A5", .5), ("C6", .5)
 # Acordes por compás: (raíz del bajo, notas del colchón), en Do; t = segundo de inicio.
 ACORDES = [
     (4,  ["C3", ["C4", "E4", "G4"]]), (6,  ["G2", ["B3", "D4", "G4"]]),
-    (8,  ["C3", ["C4", "E4", "G4"]]), (10, ["A2", ["A3", "C4", "E4"]]),
-    (12, ["F2", ["A3", "C4", "F4"]]), (14, ["G2", ["B3", "D4", "G4"]]),
-    (16, ["F2", ["A3", "C4", "F4"]]), (18, ["G2", ["B3", "D4", "F4"]]),
+    (8,  ["F2", ["A3", "C4", "F4"]]), (10, ["G2", ["B3", "D4", "F4"]]),
+    (12, ["C3", ["C4", "E4", "G4"]]), (14, ["A2", ["A3", "C4", "E4"]]),
+    (16, ["F2", ["A3", "C4", "F4"]]), (18, ["G2", ["B3", "D4", "G4"]]),
 ]
-# En re mayor (todo +2 semitonos): Re, Si m, Sol–La (medio compás cada uno).
+# En re mayor (todo +2 semitonos): Re, Si m, Sol, La.
 # (inicio en s, duración en s, acorde)
 ACORDES_FINAL = [
     (20, 2, ["C3", ["C4", "E4", "G4"]]), (22, 2, ["A2", ["A3", "C4", "E4"]]),
-    (24, 1, ["F2", ["A3", "C4", "F4"]]), (25, 1, ["G2", ["B3", "D4", "G4"]]),
+    (24, 2, ["F2", ["A3", "C4", "F4"]]), (26, 1, ["G2", ["B3", "D4", "G4"]]),
 ]
 
 
@@ -244,46 +244,46 @@ def acompanamiento(p: Pista, t0: float, compases: float, raiz: str, notas: list[
 
 def componer() -> np.ndarray:
     p = Pista()
-    # Intro: solo caja de música (0–4 s).
+    # 1. Intro: solo caja de música (0–4 s).
     melodia(p, MOTIVO_INTRO, 0.0, caja_de_musica, 0.30, pan=0.1)
     p.poner(campanita(), 0.0, 0.10, -0.2)
 
-    # Estrofa (4–8 s).
+    # 2. Estrofa: Pancita (4–7.5 s).
     melodia(p, ESTROFA, 4.0, xilofono, 0.26, pan=-0.1)
     for t, (raiz, notas) in ACORDES[:2]:
         acompanamiento(p, t, 1, raiz, notas, 0, con_palmas=True, semilla=int(t * 10))
 
-    # Estribillo (8–16 s): xilófono + caja de música una octava arriba, muy suave.
-    melodia(p, ESTRIBILLO, 8.0, xilofono, 0.32)
-    melodia(p, ESTRIBILLO, 8.0, caja_de_musica, 0.07, transp=12, pan=0.35)
-    for t, (raiz, notas) in ACORDES[2:6]:
-        acompanamiento(p, t, 1, raiz, notas, 0, con_palmas=True, semilla=int(t * 10))
-    for k in range(16):                       # maracas en corcheas
-        p.poner(maraca(500 + k), 8.0 + k * BEAT + BEAT / 2, 0.10, 0.5)
-
-    # Puente (16–20 s): pizzicato ligero, sin palmas; subida hacia el estribillo final.
-    melodia(p, PUENTE, 16.0, pizzicato, 0.30, pan=0.15)
-    for t, (raiz, notas) in ACORDES[6:8]:
+    # 3. Minijuego (7.5–11.5 s): pizzicato ligero y juguetón.
+    melodia(p, PUENTE, 7.5, pizzicato, 0.30, pan=0.15)
+    for t, (raiz, notas) in ACORDES[2:4]:
         acompanamiento(p, t, 1, raiz, notas, 0, con_palmas=False, semilla=int(t * 10))
     for k, nom in enumerate(["G5", "A5", "B5", "C6", "D6", "E6", "F#6", "G6"]):   # escalita
-        p.poner(caja_de_musica(hz(nota(nom)), 0.12), 19.0 + k * 0.125, 0.10, 0.3)
+        p.poner(caja_de_musica(hz(nota(nom)), 0.12), 10.8 + k * 0.08, 0.10, 0.3)
 
-    # Estribillo final (20–26 s) un tono más alto.
+    # 4 y 5. Lluvia de 96 stickers y Álbum (11.5–20 s): estribillo completo.
+    melodia(p, ESTRIBILLO, 11.5, xilofono, 0.32)
+    melodia(p, ESTRIBILLO, 11.5, caja_de_musica, 0.07, transp=12, pan=0.35)
+    for t, (raiz, notas) in ACORDES[4:8]:
+        acompanamiento(p, t, 1, raiz, notas, 0, con_palmas=True, semilla=int(t * 10))
+    for k in range(16):                       # maracas en corcheas
+        p.poner(maraca(500 + k), 12.0 + k * BEAT + BEAT / 2, 0.10, 0.5)
+
+    # 6. Mini-Demo App y WhatsApp (20–27 s) un tono más alto (Re mayor).
     melodia(p, ESTRIBILLO_FINAL, 20.0, xilofono, 0.34, transp=2)
     melodia(p, ESTRIBILLO_FINAL, 20.0, caja_de_musica, 0.08, transp=14, pan=0.35)
     for t, segundos, (raiz, notas) in ACORDES_FINAL:
         acompanamiento(p, t, segundos / BAR, raiz, notas, 2, con_palmas=True, semilla=int(t * 10))
-    for k in range(12):
+    for k in range(14):
         p.poner(maraca(700 + k), 20.0 + k * BEAT + BEAT / 2, 0.10, 0.5)
 
-    # Final (26–29 s): acorde de Re mayor que se apaga + arpegio de campanitas.
+    # 7. Final (27–32 s): acorde de Re mayor que se apaga + arpegio de campanitas.
     final = [hz(nota(n) + 2) for n in ["C4", "E4", "G4", "C5"]]
-    p.poner(colchon(final, 2.8), 26.0, 0.10)
-    p.poner(bajo(hz(nota("C3") + 2), 2.5), 26.0, 0.30)
-    p.poner(bombo(), 26.0, 0.45)
-    p.poner(xilofono(hz(nota("C6") + 2), 2.0), 26.0, 0.30)
+    p.poner(colchon(final, 4.5), 27.0, 0.10)
+    p.poner(bajo(hz(nota("C3") + 2), 4.0), 27.0, 0.30)
+    p.poner(bombo(), 27.0, 0.45)
+    p.poner(xilofono(hz(nota("C6") + 2), 3.0), 27.0, 0.30)
     for k, nom in enumerate(["C6", "E6", "G6", "C7"]):
-        p.poner(campanita(hz(nota(nom) + 2), 2.2), 26.25 + k * 0.12, 0.08, -0.3 + 0.2 * k)
+        p.poner(campanita(hz(nota(nom) + 2), 3.0), 27.25 + k * 0.15, 0.08, -0.3 + 0.2 * k)
 
     mezcla = p.buf[: int(DURACION * SR)]
     mezcla = reverb(mezcla)

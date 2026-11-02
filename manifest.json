@@ -1,6 +1,6 @@
 {
-  "name": "¡El Mundo Mágico de Nailong! (奶龙)",
-  "short_name": "Nailong 奶龙",
+  "name": "¡El Mundo Mágico de Nailong!",
+  "short_name": "Nailong",
   "description": "Página interactiva oficial de fans de Nailong, el adorable dragón de leche amarillo.",
   "start_url": "./index.html",
   "scope": "./",

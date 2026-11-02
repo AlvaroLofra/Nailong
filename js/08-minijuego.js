@@ -313,10 +313,10 @@
                 return;
             }
 
-            // Desplazamiento lineal constante y rápido (estilo arcade ágil)
+            // Desplazamiento suave y controlado con flechas del teclado o botones táctiles
             if (keysHeld.left || keysHeld.right) {
-                // Velocidad lineal constante rápida (16px a resolución base, escalada proporcionalmente si pantalla completa)
-                const moveSpeed = Math.max(16, Math.round(foodCanvas.width * 0.02));
+                // Velocidad calibrada más suave y cómoda (10px a resolución base, escalada proporcionalmente)
+                const moveSpeed = Math.max(10, Math.round(foodCanvas.width * 0.013));
                 if (keysHeld.left && !keysHeld.right) {
                     playerX = Math.max(50, playerX - moveSpeed);
                 } else if (keysHeld.right && !keysHeld.left) {

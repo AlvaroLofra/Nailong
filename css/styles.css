@@ -366,3 +366,78 @@
                 opacity: 1;
             }
         }
+
+        /* ==============================================================
+           REPRODUCTOR DE VÍDEO (PANTALLA COMPLETA 9:16 Y LUZ AMBIENTAL)
+        ============================================================== */
+        /* Asegura que en fullscreen nativo del navegador el vídeo 9:16 nunca se recorte a 16:9 */
+        video:fullscreen,
+        video:-webkit-full-screen {
+            object-fit: contain !important;
+            background-color: #050505 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+        }
+
+        #video-player-container {
+            position: relative;
+            background: #000;
+        }
+
+        /* Canvas de luz ambiental (ambilight vivo) */
+        #video-ambient-canvas {
+            position: absolute;
+            inset: -25%;
+            width: 150%;
+            height: 150%;
+            filter: blur(45px) saturate(1.8) brightness(0.85);
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 40px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Pantalla completa enriquecida del contenedor */
+        #video-player-container:fullscreen,
+        #video-player-container:-webkit-full-screen,
+        #video-player-container.trailer-fullscreen-active {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #050505 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 999999 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+        }
+
+        #video-player-container:fullscreen #video-ambient-canvas,
+        #video-player-container:-webkit-full-screen #video-ambient-canvas,
+        #video-player-container.trailer-fullscreen-active #video-ambient-canvas {
+            display: block !important;
+            position: absolute !important;
+            inset: -30% !important;
+            width: 160% !important;
+            height: 160% !important;
+            filter: blur(80px) saturate(2.2) brightness(0.65) !important;
+            opacity: 0.95 !important;
+        }
+
+        #video-player-container:fullscreen video,
+        #video-player-container:-webkit-full-screen video,
+        #video-player-container.trailer-fullscreen-active video {
+            height: 94vh !important;
+            max-width: calc(94vh * 9 / 16) !important;
+            width: auto !important;
+            object-fit: contain !important;
+            border-radius: 20px !important;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.8) !important;
+            position: relative !important;
+            z-index: 2 !important;
+        }

@@ -17,7 +17,12 @@ desktop.ini
 __pycache__/
 *.py[cod]
 
-# HyperFrames
+# HyperFrames y Video Promo
 .hyperframes/
 .thumbnails/
 video-promo/renders/
+video-promo/trailer-3d/output/
+video-promo/trailer-3d/renders_inspect/
+video-promo/trailer-3d/remotion/out/
+video-promo/trailer-3d/remotion/node_modules/
+video-promo/trailer-3d/remotion/.remotion/

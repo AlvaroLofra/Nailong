@@ -216,7 +216,7 @@ print("✔ Party Mode Canvas verified: unconstrained layout rect allows full-scr
 
 # Test 27: Verify Minigame Keys State & Linear Fast Movement
 assert "let keysHeld = { left: false, right: false };" in html, "keysHeld variable missing or uninitialized!"
-assert "const moveSpeed = Math.max(16, Math.round(foodCanvas.width * 0.02));" in html, "Minigame fast linear speed calculation missing!"
+assert "const moveSpeed = Math.max(10, Math.round(foodCanvas.width * 0.013));" in html, "Minigame calibrated speed calculation missing!"
 print("✔ Minigame runtime keys & linear movement verified: keysHeld initialized, no ReferenceError, and fast linear arcade movement.")
 
 # Test 28: Verify Minigame Fullscreen Toggle
@@ -344,7 +344,7 @@ print("✔ v14 verified: all 96 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3.3.3<', html), "Footer must show the current version number (v3.3.3)!"
+assert re.search(r'id="app-version"[^>]*>v3.4.0<', html), "Footer must show the current version number (v3.3.3)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -361,8 +361,8 @@ assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailo
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-assert 'v3.3.3 APK' in html, "Badge in index.html must show v3.3.3 APK!"
-print("✔ v3.3.2 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.3.3 APK badge.")
+assert 'v3.4.0 APK' in html, "Badge in index.html must show v3.4.0 APK!"
+print("✔ v3.4.0 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.4.0 APK badge.")
 
 # Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
 font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
@@ -392,7 +392,7 @@ with open(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app', 'bui
 assert f"versionCode {_ver['versionCode']}" in _gradle and f'versionName "{_ver["versionName"]}"' in _gradle, "version.json must match versionCode/versionName in the Android build.gradle!"
 with open(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\java\com\example\samplestickerapp', 'UpdateChecker.java'), encoding='utf-8') as _uf:
     assert '"https://alvarolofra.github.io/Nailong/version.json"' in _uf.read(), "UpdateChecker.java must read version.json from the official site!"
-print(f"✔ v3.3.2 verified: version.json ({_ver['versionName']}, code {_ver['versionCode']}) matches web footer and Android build.gradle.")
+print(f"✔ v3.4.0 verified: version.json ({_ver['versionName']}, code {_ver['versionCode']}) matches web footer and Android build.gradle.")
 
 # Test 46: v3.3.3 - el peso del APK (etiqueta del banner y sizeMB de version.json) coincide con el fichero real
 _apk_mb = os.path.getsize('StickersNailong.apk') / 1e6
@@ -401,6 +401,32 @@ _label = re.search(r'id="apk-size-label">(\d+) MB<', html)
 assert _label and int(_label.group(1)) == round(_apk_mb), f"Download label must show the real APK size ({round(_apk_mb)} MB)!"
 assert re.match(r'^\d{4}-\d{2}-\d{2}$', _ver.get('date', '')), "version.json must include the publish date (YYYY-MM-DD)!"
 assert 'cdn.tailwindcss.com/3.' in html, "Tailwind CDN must be pinned to a fixed version (D-15)!"
-print(f"✔ v3.3.3 verified: APK size label and version.json sizeMB match the real file ({_apk_mb:.1f} MB); CDN pinned.")
+print(f"✔ v3.4.0 verified: APK size label and version.json sizeMB match the real file ({_apk_mb:.1f} MB); CDN pinned.")
 
-print("\n=== ALL 46 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+
+# Test 47: v3.4.0 - Cero caracteres chinos, credito Alvaro Lofra en web y app, velocidad minijuego y trailer v2
+import unicodedata
+for f_path in ['index.html', 'manifest.json', 'version.json'] + [os.path.join('js', js_f) for js_f in os.listdir('js') if js_f.endswith('.js')]:
+    with open(f_path, encoding='utf-8') as _check_f:
+        _txt = _check_f.read()
+    assert not re.search(r'[一-鿿]', _txt), f"Chinese characters detected in {f_path}!"
+
+# Creditos Alvaro Lofra
+assert "Desarrollado por Álvaro Lofra" in html, "Web footer must credit 'Desarrollado por Álvaro Lofra'!"
+act_file = os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\java\com\example\samplestickerapp', 'StickerPackListActivity.java')
+with open(act_file, encoding='utf-8') as _af:
+    assert "Desarrollado por Álvaro Lofra" in _af.read(), "Android StickerPackListActivity must credit 'Desarrollado por Álvaro Lofra'!"
+
+# Velocidad del minijuego suave
+with open(os.path.join('js', '08-minijuego.js'), encoding='utf-8') as _mj:
+    _mj_txt = _mj.read()
+assert "Math.round(foodCanvas.width * 0.013)" in _mj_txt, "Minigame arrow key speed must be calibrated to gentle speed!"
+
+# Trailer v2 y poster
+assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2.mp4')), "video-promo/nailong_trailer_v2.mp4 missing!"
+assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2_portada.webp')), "video-promo/nailong_trailer_v2_portada.webp missing!"
+assert 'video-ambient-canvas' in html, "video-ambient-canvas missing in index.html!"
+
+print("✔ v3.4.0 verified: zero Chinese chars, creator credit in web & app, trailer v2 with ambilight & minigame speed tuned.")
+
+print("\n=== ALL 47 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

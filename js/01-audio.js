@@ -162,6 +162,78 @@
                         o.start(now + idx * 0.1);
                         o.stop(now + idx * 0.1 + 0.28);
                     });
+                } else if (type === 'slurp') {
+                    // Funny straw slurp / drink sound
+                    const oscSlurp = audioCtx.createOscillator();
+                    const gainSlurp = audioCtx.createGain();
+                    oscSlurp.type = 'sine';
+                    oscSlurp.frequency.setValueAtTime(400, now);
+                    oscSlurp.frequency.linearRampToValueAtTime(800, now + 0.08);
+                    oscSlurp.frequency.exponentialRampToValueAtTime(250, now + 0.22);
+                    oscSlurp.frequency.exponentialRampToValueAtTime(650, now + 0.35);
+                    gainSlurp.gain.setValueAtTime(0.22, now);
+                    gainSlurp.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+                    oscSlurp.connect(gainSlurp);
+                    gainSlurp.connect(audioCtx.destination);
+                    oscSlurp.start(now);
+                    oscSlurp.stop(now + 0.36);
+                } else if (type === 'bleh') {
+                    // Comic tongue stick-out / raspberry
+                    [0, 0.07, 0.14].forEach((offset, idx) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.type = 'sawtooth';
+                        o.frequency.setValueAtTime(idx % 2 === 0 ? 190 : 260, now + offset);
+                        g.gain.setValueAtTime(0.25, now + offset);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.06);
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.start(now + offset);
+                        o.stop(now + offset + 0.06);
+                    });
+                } else if (type === 'pirate') {
+                    // Pirate cannonball boing / fanfare
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(140, now);
+                    osc.frequency.exponentialRampToValueAtTime(320, now + 0.1);
+                    osc.frequency.exponentialRampToValueAtTime(110, now + 0.35);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+                    osc.start(now);
+                    osc.stop(now + 0.38);
+                } else if (type === 'run') {
+                    // Cartoon rapid footsteps / skitter
+                    [0, 0.06, 0.12, 0.18, 0.24].forEach((offset, idx) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(380 + (idx % 2) * 120, now + offset);
+                        g.gain.setValueAtTime(0.2, now + offset);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.045);
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.start(now + offset);
+                        o.stop(now + offset + 0.045);
+                    });
+                } else if (type === 'tail') {
+                    // Elastic tail whoosh-boing
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(180, now + 0.15);
+                    osc.frequency.exponentialRampToValueAtTime(420, now + 0.28);
+                    gain.gain.setValueAtTime(0.26, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+                    osc.start(now);
+                    osc.stop(now + 0.32);
+                } else if (type === 'surprise') {
+                    // Comic curious surprise squeak
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(280, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+                    gain.gain.setValueAtTime(0.22, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+                    osc.start(now);
+                    osc.stop(now + 0.24);
                 }
             } catch (e) {
                 // Audio autoplay fallback

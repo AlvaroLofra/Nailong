@@ -1,0 +1,362 @@
+[
+  {
+    "word": "Hola,",
+    "fromMs": 30,
+    "toMs": 230
+  },
+  {
+    "word": "soy",
+    "fromMs": 310,
+    "toMs": 380
+  },
+  {
+    "word": "Nailong.",
+    "fromMs": 380,
+    "toMs": 760
+  },
+  {
+    "word": "¿A",
+    "fromMs": 760,
+    "toMs": 860
+  },
+  {
+    "word": "que",
+    "fromMs": 940,
+    "toMs": 990
+  },
+  {
+    "word": "no",
+    "fromMs": 1050,
+    "toMs": 1120
+  },
+  {
+    "word": "sabes",
+    "fromMs": 1120,
+    "toMs": 1350
+  },
+  {
+    "word": "qué",
+    "fromMs": 1350,
+    "toMs": 1530
+  },
+  {
+    "word": "traigo",
+    "fromMs": 1580,
+    "toMs": 1820
+  },
+  {
+    "word": "hoy?",
+    "fromMs": 1820,
+    "toMs": 2140
+  },
+  {
+    "word": "Por",
+    "fromMs": 2140,
+    "toMs": 2170
+  },
+  {
+    "word": "fin",
+    "fromMs": 2500,
+    "toMs": 2500
+  },
+  {
+    "word": "están",
+    "fromMs": 2530,
+    "toMs": 2870
+  },
+  {
+    "word": "listos",
+    "fromMs": 2950,
+    "toMs": 3230
+  },
+  {
+    "word": "mis",
+    "fromMs": 3230,
+    "toMs": 3400
+  },
+  {
+    "word": "stickers",
+    "fromMs": 3400,
+    "toMs": 3900
+  },
+  {
+    "word": "oficiales",
+    "fromMs": 3900,
+    "toMs": 4460
+  },
+  {
+    "word": "para",
+    "fromMs": 4550,
+    "toMs": 4630
+  },
+  {
+    "word": "WhatsApp.",
+    "fromMs": 4630,
+    "toMs": 5020
+  },
+  {
+    "word": "96",
+    "fromMs": 5540,
+    "toMs": 5540
+  },
+  {
+    "word": "stickers",
+    "fromMs": 5570,
+    "toMs": 5980
+  },
+  {
+    "word": "animados",
+    "fromMs": 5980,
+    "toMs": 6520
+  },
+  {
+    "word": "que",
+    "fromMs": 6520,
+    "toMs": 6720
+  },
+  {
+    "word": "bailan,",
+    "fromMs": 6720,
+    "toMs": 7250
+  },
+  {
+    "word": "comen",
+    "fromMs": 7250,
+    "toMs": 7590
+  },
+  {
+    "word": "sandía",
+    "fromMs": 7590,
+    "toMs": 8060
+  },
+  {
+    "word": "y",
+    "fromMs": 8070,
+    "toMs": 8120
+  },
+  {
+    "word": "hacen",
+    "fromMs": 8120,
+    "toMs": 8400
+  },
+  {
+    "word": "burlitas.",
+    "fromMs": 8490,
+    "toMs": 9270
+  },
+  {
+    "word": "Mira",
+    "fromMs": 9310,
+    "toMs": 9520
+  },
+  {
+    "word": "cómo",
+    "fromMs": 9600,
+    "toMs": 9860
+  },
+  {
+    "word": "me",
+    "fromMs": 9860,
+    "toMs": 9970
+  },
+  {
+    "word": "muevo",
+    "fromMs": 9990,
+    "toMs": 10280
+  },
+  {
+    "word": "de",
+    "fromMs": 10280,
+    "toMs": 10330
+  },
+  {
+    "word": "verdad",
+    "fromMs": 10410,
+    "toMs": 10600
+  },
+  {
+    "word": "en",
+    "fromMs": 10760,
+    "toMs": 10890
+  },
+  {
+    "word": "tus",
+    "fromMs": 11070,
+    "toMs": 11070
+  },
+  {
+    "word": "chats.",
+    "fromMs": 11110,
+    "toMs": 11620
+  },
+  {
+    "word": "4",
+    "fromMs": 11980,
+    "toMs": 11980
+  },
+  {
+    "word": "packs",
+    "fromMs": 12010,
+    "toMs": 12100
+  },
+  {
+    "word": "completos",
+    "fromMs": 12100,
+    "toMs": 12640
+  },
+  {
+    "word": "listos",
+    "fromMs": 12640,
+    "toMs": 12980
+  },
+  {
+    "word": "para",
+    "fromMs": 13050,
+    "toMs": 13240
+  },
+  {
+    "word": "instalar",
+    "fromMs": 13240,
+    "toMs": 13720
+  },
+  {
+    "word": "con",
+    "fromMs": 13720,
+    "toMs": 13900
+  },
+  {
+    "word": "un",
+    "fromMs": 13900,
+    "toMs": 14020
+  },
+  {
+    "word": "solo",
+    "fromMs": 14020,
+    "toMs": 14150
+  },
+  {
+    "word": "toque",
+    "fromMs": 14290,
+    "toMs": 14560
+  },
+  {
+    "word": "o",
+    "fromMs": 14560,
+    "toMs": 14600
+  },
+  {
+    "word": "crea",
+    "fromMs": 14680,
+    "toMs": 14830
+  },
+  {
+    "word": "tus",
+    "fromMs": 14930,
+    "toMs": 15040
+  },
+  {
+    "word": "propios",
+    "fromMs": 15040,
+    "toMs": 15460
+  },
+  {
+    "word": "packs",
+    "fromMs": 15460,
+    "toMs": 15760
+  },
+  {
+    "word": "con",
+    "fromMs": 15760,
+    "toMs": 15940
+  },
+  {
+    "word": "mi",
+    "fromMs": 15940,
+    "toMs": 16060
+  },
+  {
+    "word": "selección.",
+    "fromMs": 16060,
+    "toMs": 16960
+  },
+  {
+    "word": "Gratis",
+    "fromMs": 17440,
+    "toMs": 17440
+  },
+  {
+    "word": "y",
+    "fromMs": 17440,
+    "toMs": 17440
+  },
+  {
+    "word": "sin",
+    "fromMs": 17470,
+    "toMs": 17600
+  },
+  {
+    "word": "anuncios.",
+    "fromMs": 17600,
+    "toMs": 18290
+  },
+  {
+    "word": "Descárgalos",
+    "fromMs": 18380,
+    "toMs": 19070
+  },
+  {
+    "word": "ya",
+    "fromMs": 19070,
+    "toMs": 19200
+  },
+  {
+    "word": "en",
+    "fromMs": 19200,
+    "toMs": 19290
+  },
+  {
+    "word": "alvarolofra.github.io/Nailong",
+    "fromMs": 19330,
+    "toMs": 21550
+  },
+  {
+    "word": "y",
+    "fromMs": 21590,
+    "toMs": 21620
+  },
+  {
+    "word": "llena",
+    "fromMs": 21640,
+    "toMs": 21900
+  },
+  {
+    "word": "tus",
+    "fromMs": 21990,
+    "toMs": 22140
+  },
+  {
+    "word": "chats",
+    "fromMs": 22140,
+    "toMs": 22470
+  },
+  {
+    "word": "de",
+    "fromMs": 22470,
+    "toMs": 22500
+  },
+  {
+    "word": "alegría.",
+    "fromMs": 22670,
+    "toMs": 23540
+  },
+  {
+    "word": "Duang",
+    "fromMs": 23540,
+    "toMs": 23750
+  },
+  {
+    "word": "Duang.",
+    "fromMs": 23850,
+    "toMs": 24320
+  }
+]

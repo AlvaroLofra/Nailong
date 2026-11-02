@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<body>
+  <template>
+    <style>
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      #root { position: absolute; inset: 0; overflow: hidden; }
+      #e7-arcoiris { position: absolute; left: 40px; top: 470px; width: 1000px; height: 520px; }
+      #e7-titulo { top: 175px; font-size: 200px; }
+      #e7-carta { left: 280px; top: 490px; width: 520px; height: 520px; }
+      .e7-pildora {
+        position: absolute; border-radius: 60px; text-align: center; font-family: "Fredoka", sans-serif;
+      }
+      #e7-web {
+        left: 50px; top: 1055px; width: 980px; height: 114px; line-height: 114px; background: #fff;
+        font-weight: 700; font-size: 52px; color: var(--naranja-osc); box-shadow: 0 12px 0 rgba(217, 78, 0, 0.28);
+      }
+      #e7-gratis {
+        left: 160px; top: 1195px; width: 760px; height: 92px; line-height: 92px; background: var(--naranja);
+        font-weight: 600; font-size: 44px; color: #fff; box-shadow: 0 10px 0 var(--naranja-osc);
+      }
+      #e7-autor {
+        left: 180px; top: 1315px; width: 720px; height: 76px; line-height: 72px; background: rgba(255, 255, 255, 0.96);
+        border: 4px solid #FFD97D; font-weight: 600; font-size: 36px; color: var(--tinta);
+        box-shadow: 0 8px 0 rgba(217, 78, 0, 0.16);
+      }
+      #e7-destellos { position: absolute; inset: 0; }
+    </style>
+
+    <div id="root" data-composition-id="final" data-width="1080" data-height="1920">
+      <svg id="e7-arcoiris" viewBox="0 0 1000 520" data-layout-ignore>
+        <g fill="none" stroke-width="34" stroke-linecap="round">
+          <path id="e7-arco-1" d="M 30 500 A 470 470 0 0 1 970 500" stroke="#FF8FA3" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-2" d="M 64 500 A 436 436 0 0 1 936 500" stroke="#FFB86B" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-3" d="M 98 500 A 402 402 0 0 1 902 500" stroke="#FFE66D" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-4" d="M 132 500 A 368 368 0 0 1 868 500" stroke="#9BE59B" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-5" d="M 166 500 A 334 334 0 0 1 834 500" stroke="#8FD3FF" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-6" d="M 200 500 A 300 300 0 0 1 800 500" stroke="#C3A6FF" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+        </g>
+      </svg>
+
+      <!-- Nailong con los brazos arriba (sticker 44) da un salto de celebración -->
+      <div id="e7-carta" class="tarjeta"><div id="e7-sprite-44" class="sprite"></div></div>
+
+      <h1 id="e7-titulo" class="titulo">¡Juega ya!</h1>
+      <div id="e7-web" class="e7-pildora">alvarolofra.github.io/Nailong/</div>
+      <div id="e7-gratis" class="e7-pildora">Gratis · Web y app Android</div>
+      <div id="e7-autor" class="e7-pildora">Desarrollado por Álvaro Lofra</div>
+
+      <div id="e7-destellos" data-layout-ignore>
+        <svg class="estrella" style="left:150px;top:520px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+        <svg class="estrella" style="left:840px;top:500px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:110px;top:880px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:880px;top:860px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+        <svg class="estrella" style="left:500px;top:420px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const $ = (s) => document.querySelector(s);
+
+      nlSprite(tl, $("#e7-sprite-44"), 44, 0, 5);
+
+      // Salto con anticipación: se agacha, sale estirado (boing), cae y se aplasta al aterrizar.
+      tl.fromTo("#e7-carta", { y: 0, scaleX: 1, scaleY: 1, transformOrigin: "50% 100%" },
+        { scaleX: 1.16, scaleY: 0.8, duration: 0.14, ease: "power2.out" }, 0.3);
+      tl.fromTo("#e7-carta", { y: 0, scaleX: 1.16, scaleY: 0.8 },
+        { y: -170, scaleX: 0.9, scaleY: 1.14, duration: 0.3, ease: "power2.out", immediateRender: false }, 0.44);
+      tl.fromTo("#e7-carta", { y: -170, scaleX: 0.9, scaleY: 1.14 },
+        { y: 0, scaleX: 1, scaleY: 1, duration: 0.26, ease: "power2.in", immediateRender: false }, 0.74);
+      tl.fromTo("#e7-carta", { scaleX: 1, scaleY: 1 },
+        { scaleX: 1.2, scaleY: 0.82, duration: 0.07, ease: "power2.out", immediateRender: false }, 1.0);
+      tl.fromTo("#e7-carta", { scaleX: 1.2, scaleY: 0.82 },
+        { scaleX: 1, scaleY: 1, duration: 0.6, ease: "elastic.out(1.1, 0.35)", immediateRender: false }, 1.07);
+      nlDestellos(tl, $("#e7-destellos"), 0.7);
+
+      for (let i = 1; i <= 6; i++) {
+        tl.fromTo("#e7-arco-" + i, { attr: { "stroke-dashoffset": 1 } },
+          { attr: { "stroke-dashoffset": 0 }, duration: 0.8, ease: "power2.out" }, 0.45 + i * 0.06);
+      }
+
+      nlLetras(tl, $("#e7-titulo"), 1.0, 0.06);
+
+      // La dirección, el «Gratis» y el autor llegan botando y se quedan quietos
+      tl.fromTo("#e7-web", { scale: 0, rotation: -3 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.2)" }, 1.5);
+      tl.fromTo("#e7-gratis", { scale: 0, rotation: 3 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.2)" }, 1.75);
+      tl.fromTo("#e7-autor", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, 2.0);
+
+      // Respira tranquilo hasta el final.
+      nlRespirar(tl, $("#e7-carta"), 2.5, 2.5);
+
+      window.__timelines["final"] = tl;
+    </script>
+  </template>
+</body>
+</html>
