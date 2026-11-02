@@ -48,8 +48,9 @@ Fuera de esta carpeta:
 
 ## 📌 Regla de Redacción: Vitrina Pública vs. Base de Conocimiento
 
-- **Vitrina Pública (`README.md`):** Redacción directa, clara y concisa orientada al usuario final. Frases cortas sobre lo que el usuario ve, experimenta o recibe en cada versión, **sin justificaciones técnicas internas, sin código y sin explicaciones defensivas**.
+- **Vitrina Pública (`README.md`):** Redacción directa, clara y concisa orientada al usuario final. Frases cortas sobre lo que el usuario ve, experimenta o recibe en cada versión, **sin justificaciones técnicas internas, sin código y sin explicaciones defensivas**. Ver la guía canónica de obligado cumplimiento: [guias_y_contexto/GUIA_README.md](guias_y_contexto/GUIA_README.md).
 - **Base Técnica (`documentacion/` y `DOCUMENTACION.md`):** Registro de ingeniería riguroso, trazabilidad de código, causas raíz, alternativas descartadas y análisis de arquitectura.
+- **Historial Completo (CHANGELOG.md):** Todo el detalle técnico, versiones históricas y trazabilidad de ingeniería se conserva íntegramente aquí; el README.md no lo duplica.
 
 ---
 
@@ -59,6 +60,9 @@ Fuera de esta carpeta:
 |---|---|
 | Foto fija del proyecto hoy | [`estado_del_proyecto/ESTADO_ACTUAL.md`](estado_del_proyecto/ESTADO_ACTUAL.md) |
 | Historial de decisiones de arquitectura (ADRs) | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) |
+| Pautas de redacción del README (vitrina pública) | [guias_y_contexto/GUIA_README.md](guias_y_contexto/GUIA_README.md) |
+| Contexto narrativo, principios y paleta de diseño | [guias_y_contexto/CONTEXTO_PROYECTO.md](guias_y_contexto/CONTEXTO_PROYECTO.md) |
+| Guía operativa y compilación del APK | [guias_y_contexto/GUIA_DESARROLLO.md](guias_y_contexto/GUIA_DESARROLLO.md) |
 | Mejoras visuales/de interfaz pendientes | [`estado_del_proyecto/MEJORAS_PENDIENTES.md`](estado_del_proyecto/MEJORAS_PENDIENTES.md) |
 | Bitácoras de sesiones | [`estado_del_proyecto/bitacora_de_sesiones/`](estado_del_proyecto/bitacora_de_sesiones/) |
 | App Android nativa y `StickerContentProvider` | [`notas_tecnicas/01_app_android_whatsapp_stickers.md`](notas_tecnicas/01_app_android_whatsapp_stickers.md) |

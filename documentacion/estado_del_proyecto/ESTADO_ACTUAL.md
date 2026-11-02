@@ -2,7 +2,7 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 03/11/2026 (v3.4.1: actualización terciaria con retiro y descatalogado del antiguo sticker 14 generado por IA, renumeración continua a 95 cromos oficiales, reequilibrio de los 4 packs Android a 24/24/24/23, regeneración de assets, nuevo APK v3.4.1 versionCode 11 de 31.2 MB y verificación total 47/47).
+> **Última actualización:** 03/11/2026 (v3.4.1: guía canónica de estilo del README vitrina pública fijada en GUIA_README.md, saneamiento de README.md, preservación íntegra del historial técnico en CHANGELOG.md; previa v3.4.1 de retiro y descatalogado del antiguo sticker 14 generado por IA, renumeración continua a 95 cromos oficiales, reequilibrio de los 4 packs Android a 24/24/24/23, regeneración de assets, nuevo APK v3.4.1 versionCode 11 de 31.2 MB y verificación total 47/47).
 > **Rama activa:** `main`.
 > **Versión actual de producción:** Web `v3.4.1` | Android APK `v3.4.1` (`versionCode 11`).
 
@@ -47,6 +47,10 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
   - `build.gradle` actualizado con `versionCode 11` y `versionName "3.4.1"`.
   - Compilada en release con Gradle, alineada con `zipalign`, firmada con la clave debug oficial y copiada a la raíz de la web (`StickersNailong.apk`, 31.2 MB).
   - Sincronizado `version.json` con fecha `2026-11-03`, código 11, versión 3.4.1 y tamaño de 31.2 MB.
+- [x] **Guía canónica de estilo del README (GUIA_README.md):**
+  - Creada documentacion/guias_y_contexto/GUIA_README.md con la dicotomía estricta: README.md (vitrina pública y amigable), CHANGELOG.md (historial técnico completo preservado) y documentacion/ (base técnica).
+  - Regla 8 de AGENTS.md reforzada con mandato canónico obligatorio hacia la guía.
+  - README.md saneado eliminando árboles de directorios internos, jerga técnica y parches históricos acumulados, adoptando el estilo fresco de v1.0.0.
 - [x] **Verificación completa:**
   - `verify_all.py`: **47 de 47 pruebas superadas al 100%**.
   - `normalizar_stickers.py --check`: **95 de 95 stickers conformes**.

@@ -46,7 +46,7 @@ Mapa de qué vive en cada fichero de `js/` y `index.html`: `documentacion/notas_
 1. **Un solo `index.html`** como punto de entrada (D-02, D-15). No crear HTML secundarios ni variantes. El JS y el CSS viven en `js/` y `css/`; **ningún `<script>` inline** (lo comprueba `verify_all.py`).
 2. **Buildless.** Sin Webpack/Vite/frameworks con compilación. Tailwind por CDN en el `<head>`.
 3. **Audio sintetizado** con Web Audio API. No añadir `.mp3`/`.wav`.
-4. **Gráficos en WebP** dentro de `Stickers Nailong/`: exactamente 80 cromos numerados + imagen del creador. Para añadir stickers usa `normalizar_stickers.py --import` (WhatsApp exige 512×512, ≤100 KB estático / ≤500 KB animado, ≤10 s, EXIF `sticker-pack-id`).
+4. **Gráficos en WebP** dentro de `Stickers Nailong/`: exactamente 95 cromos numerados + imagen del creador. Para añadir stickers usa `normalizar_stickers.py --import` (WhatsApp exige 512×512, ≤100 KB estático / ≤500 KB animado, ≤10 s, EXIF `sticker-pack-id`).
 5. **Móvil obligatorio:** iPhone (Safari, Dynamic Island, `viewport-fit=cover`, safe-area) y Android (Chrome). Probar a 320–375 px y escritorio.
 6. **Rendimiento:** imágenes fuera de pantalla con `loading="lazy"`/`decoding="async"`, sin `drop-shadow` ni `backdrop-blur` sobre contenido animado, `prefers-reduced-motion` respetado, modales con `role="dialog" aria-modal="true"`.
 7. **Versión coherente:** al publicar, la versión debe coincidir en el pie de `index.html`, el banner del APK, `CHANGELOG.md`, `ESTADO_ACTUAL.md`, el sufijo `?v=` de las referencias a `css/` y `js/` en `index.html` (evita cachés viejas en GitHub Pages) y, si cambia el binario, el `versionName` del APK.
