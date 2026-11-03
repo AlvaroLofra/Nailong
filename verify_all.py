@@ -274,8 +274,25 @@ print("✔ Agent instructions verified: AGENTS.md is canonical (<200 lines), CLA
 doc_content = open('DOCUMENTACION.md', 'r', encoding='utf-8').read()
 assert "AGENTS.md" in open('documentacion/00_INDICE.md', 'r', encoding='utf-8').read(), "AGENTS.md missing from documentacion/00_INDICE.md!"
 assert "D-14" in open('documentacion/estado_del_proyecto/DECISIONES.md', 'r', encoding='utf-8').read(), "D-14 missing from DECISIONES.md!"
-assert "ADR-01: Descarga Universal en iOS (Safari) e Integración de Stickers para WhatsApp" in doc_content, "ADR-01 missing from DOCUMENTACION.md!"
-print("✔ Documentation index, decision log (D-14) and ADR-01 verified.")
+assert "documentacion/00_INDICE.md" in doc_content and len(doc_content.splitlines()) < 40, "DOCUMENTACION.md must stay a short pointer to documentacion/00_INDICE.md!"
+
+# Stale-figure guard: stable docs must not carry an outdated sticker/test count (AGENTS.md rule 10)
+_n_stickers = len([f for f in os.listdir('Stickers Nailong') if re.fullmatch(r'sticker_\d+\.webp', f)])
+_n_tests = int(re.search(r'ALL (\d+) VERIFICATION', open('verify_all.py', 'r', encoding='utf-8').read()).group(1))
+_stable_docs = ['AGENTS.md', 'README.md', 'DOCUMENTACION.md', 'documentacion/00_INDICE.md',
+                'documentacion/estado_del_proyecto/ESTADO_ACTUAL.md']
+for _d in ('guias_y_contexto', 'notas_tecnicas'):
+    _stable_docs += [f'documentacion/{_d}/{f}' for f in os.listdir(f'documentacion/{_d}') if f.endswith('.md')]
+for _path in _stable_docs:
+    _txt = open(_path, 'r', encoding='utf-8').read()
+    for _m in re.finditer(r'\b(\d+) (cromos|stickers)\b', _txt):
+        if 50 <= int(_m.group(1)) <= 200:
+            assert int(_m.group(1)) == _n_stickers, f"{_path}: stale sticker count '{_m.group(0)}' (real: {_n_stickers})!"
+    for _m in re.finditer(r'\b(\d+) (comprobaciones|tests|pruebas)\b', _txt):
+        assert int(_m.group(1)) == _n_tests, f"{_path}: stale test count '{_m.group(0)}' (real: {_n_tests})!"
+    for _m in re.finditer(r'sticker_(?:1\.\.)?(\d+)', '' if _path.endswith('ESTADO_ACTUAL.md') else _txt):  # ESTADO_ACTUAL narra la renumeración
+        assert int(_m.group(1)) <= _n_stickers, f"{_path}: reference to nonexistent '{_m.group(0)}' (max: {_n_stickers})!"
+print(f"✔ Documentation index, decision log (D-14), DOCUMENTACION.md pointer and no stale figures ({_n_stickers} stickers, {_n_tests} tests) verified.")
 
 # Test 36: Verify Visual Polish, Lightbox Duang Physics & Mobile Hero Flow
 assert "triggerLightboxDuang" in html, "triggerLightboxDuang function missing!"
