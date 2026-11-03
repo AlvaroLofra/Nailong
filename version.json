@@ -1,12 +1,13 @@
 {
-  "versionCode": 11,
-  "versionName": "3.4.1",
+  "versionCode": 12,
+  "versionName": "3.5.0",
   "date": "2026-11-03",
   "sizeMB": 31.2,
   "apkUrl": "https://alvarolofra.github.io/Nailong/StickersNailong.apk",
   "notes": [
-    "Actualización terciaria de catálogo: retiro y descatalogado del sticker 14.",
-    "Renumeración correlativa continua a 95 stickers oficiales.",
-    "Packs oficiales reequilibrados: 3 packs animados (24 cada uno) y 1 estático (23)."
+    "Zoom grande en el centro con animación suave al mantener pulsado cualquier sticker.",
+    "Nuevo botón «Ver (N) ❯» junto a «Vaciar» para revisar y gestionar tu selección antes de importar.",
+    "Tus packs de «Mi Selección» llevan ahora la etiqueta «⭐ Tuyo», fondo crema cálido y vistas previas ligeras.",
+    "En ordenador, «Copiar enlace» despliega también un código QR para descargar el APK directo en el móvil."
   ]
 }

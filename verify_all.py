@@ -363,7 +363,7 @@ print("✔ v14 verified: all 95 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3.4.1<', html), "Footer must show the current version number (v3.4.1)!"
+assert re.search(r'id="app-version"[^>]*>v3.5.0<', html), "Footer must show the current version number (v3.5.0)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -380,8 +380,8 @@ assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailo
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-assert 'v3.4.1 APK' in html, "Badge in index.html must show v3.4.0 APK!"
-print("✔ v3.4.1 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.4.1 APK badge.")
+assert 'v3.5.0 APK' in html, "Badge in index.html must show v3.5.0 APK!"
+print("✔ v3.5.0 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.5.0 APK badge.")
 
 # Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
 font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
@@ -448,4 +448,25 @@ assert 'video-ambient-canvas' in html, "video-ambient-canvas missing in index.ht
 
 print("✔ v3.4.1 verified: zero Chinese chars, creator credit in web & app, trailer v2 with ambilight & minigame speed tuned.")
 
-print("\n=== ALL 47 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 48: v3.5.0 - A8-A13, W6-W7, zoom grande centrado y revision de Mi Seleccion
+assert 'id="apk-qr-box"' in page_html and 'id="apk-qr-img"' in page_html, "W6: APK QR box missing in index.html!"
+assert 'StickersNailong.apk' in re.search(r'id="apk-qr-img"[^>]+', page_html).group(0), "W6: APK QR must point to StickersNailong.apk!"
+assert 'function toggleApkQrBox(' in html and 'function closeApkQrBox(' in html, "W6: toggleApkQrBox / closeApkQrBox missing in JS!"
+_asset_versions = re.findall(r'(?:src|href)="(?:css|js)/[^"?]+\?v=([^"]+)"', page_html)
+assert len(_asset_versions) == len(asset_refs) and all(v == _ver['versionName'] for v in _asset_versions), f"W7: all css/js references must carry ?v={_ver['versionName']}!"
+
+_android_java = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\java\com\example\samplestickerapp'
+_android_res = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res'
+assert "setOverlayColor" in open(os.path.join(_android_java, 'StickerPackListActivity.java'), encoding='utf-8').read(), "A8: RoundingParams with setOverlayColor missing in StickerPackListActivity!"
+assert "openCurrentSelectionReview" in open(os.path.join(_android_java, 'StickerPackListActivity.java'), encoding='utf-8').read(), "Selection review method missing in StickerPackListActivity!"
+assert "setColorFilter(android.graphics.Color.WHITE)" in open(os.path.join(_android_java, 'StickerPackListAdapter.java'), encoding='utf-8').read(), "A9: White tint on + icon missing in StickerPackListAdapter!"
+assert "@string/add_short_button" in open(os.path.join(_android_res, 'layout', 'dialog_import_selection.xml'), encoding='utf-8').read(), "A10: Short 'Añadir' button text missing in dialog_import_selection.xml!"
+assert "getSelectionPreviewFile" in open(os.path.join(_android_java, 'DynamicPackManager.java'), encoding='utf-8').read(), "A11: 192px preview support for selection packs missing in DynamicPackManager!"
+assert "sticker_pack_yours_badge" in open(os.path.join(_android_res, 'layout', 'sticker_packs_list_item.xml'), encoding='utf-8').read(), "A12: 'Tuyo' badge missing in sticker_packs_list_item.xml!"
+assert "nailong_yellow_creamy" in open(os.path.join(_android_res, 'drawable', 'btn_clay_secondary.xml'), encoding='utf-8').read(), "A13: Creamy yellow button background missing in btn_clay_secondary.xml!"
+assert "sticker_zoom_overlay" in open(os.path.join(_android_res, 'layout', 'activity_sticker_pack_details.xml'), encoding='utf-8').read(), "Full-screen zoom overlay missing in activity_sticker_pack_details.xml!"
+assert "OvershootInterpolator" in open(os.path.join(_android_java, 'StickerPreviewAdapter.java'), encoding='utf-8').read(), "Smooth center zoom transition animation missing in StickerPreviewAdapter!"
+assert "btn_view_selection" in open(os.path.join(_android_res, 'layout', 'activity_sticker_pack_list.xml'), encoding='utf-8').read(), "View selection button missing in activity_sticker_pack_list.xml!"
+print("✔ v3.5.0 verified: A8-A13, W6-W7, center zoom with transition & overlay, and 'Ver (N)' selection review active.")
+
+print("\n=== ALL 48 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

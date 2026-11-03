@@ -85,6 +85,26 @@
                 .catch(() => {});
         }
 
+        function toggleApkQrBox(forceOpen) {
+            const box = document.getElementById('apk-qr-box');
+            const img = document.getElementById('apk-qr-img');
+            if (!box) return;
+            const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : box.classList.contains('hidden');
+            if (shouldOpen) {
+                if (img && !img.getAttribute('src') && img.dataset.qrSrc) {
+                    img.setAttribute('src', img.dataset.qrSrc);
+                }
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+            }
+        }
+
+        function closeApkQrBox() {
+            playSound('pop');
+            toggleApkQrBox(false);
+        }
+
         async function shareAppLink() {
             playSound('pop');
             const label = document.getElementById('apk-copy-link-text');
@@ -94,10 +114,11 @@
                 setTimeout(() => { label.textContent = 'Copiar enlace'; }, 2500);
             };
             const shareData = { title: 'Stickers Nailong para WhatsApp', text: '¡Descarga la app de stickers de Nailong! 🦖', url: APP_SHARE_URL };
-            // En el móvil se abre el menú de compartir (WhatsApp incluido); en el ordenador se copia
+            // En el móvil se abre el menú de compartir (WhatsApp incluido); en el ordenador se copia y se muestra el QR directo al APK
             if (navigator.share && window.matchMedia('(pointer: coarse)').matches) {
                 try { await navigator.share(shareData); return; } catch (e) { if (e && e.name === 'AbortError') return; }
             }
+            toggleApkQrBox();
             try {
                 await navigator.clipboard.writeText(APP_SHARE_URL);
                 done('✔ ¡Copiado!');
