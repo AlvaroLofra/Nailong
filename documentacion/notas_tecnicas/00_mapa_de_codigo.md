@@ -19,7 +19,7 @@
 | `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 145 |
 | `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona» | 435 |
 | `js/09-modo-fiesta.js` | 11 · Modo Fiesta (confeti en canvas) | 310 |
-| `js/10-inicio.js` | 14 · Inicialización, scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace») y `window.onload` | 95 |
+| `js/10-inicio.js` | 14 · Inicialización, scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace» + tarjeta QR `#apk-qr-box` en escritorio) y `window.onload` | 120 |
 
 Reglas: son **scripts clásicos** que comparten el ámbito global (sin `import`/`export`), así que el **orden de carga importa** y es el de la tabla. Al añadir un fichero, regístralo en `index.html`; `verify_all.py` falla si hay un `.js`/`.css` sin cargar o una referencia rota.
 

@@ -98,7 +98,7 @@ El `README.md` debe constar **exclusivamente de las siguientes 6 secciones**, en
 | **Árbol de directorios de desarrollo** (`verify_all.py`, `DOCUMENTACION.md`, `AGENTS.md`) | En `documentacion/00_INDICE.md` o `AGENTS.md` |
 | **Historial de versiones antiguas** (v1.0 a versiones previas) | En `CHANGELOG.md` |
 | **Nombres de ficheros de código o variables** (`js/02-datos...`, `const`, `var`) | En `documentacion/notas_tecnicas/` |
-| **Resultados de tests o suites de verificación** (`47/47 pruebas superadas`, asserts) | En `documentacion/estado_del_proyecto/ESTADO_ACTUAL.md` |
+| **Resultados de tests o suites de verificación** (`N/N pruebas superadas`, asserts) | En `documentacion/estado_del_proyecto/ESTADO_ACTUAL.md` |
 | **Detalles internos de compilación/firma del APK** (keystores, zipalign, SHA-256, targetSdk) | En `documentacion/guias_y_contexto/GUIA_DESARROLLO.md` |
 | **Justificaciones defensivas o corrección de erratas mínimas** | En la bitácora de la sesión |
 

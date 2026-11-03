@@ -42,14 +42,15 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 ---
 
-## ✨ Novedades de la Versión (v3.4.1)
+## ✨ Novedades de la Versión (v3.5.0)
 
-- **Catálogo oficial de 95 stickers:** Colección depurada y numerada correlativamente, con exactamente 95 cromos de la serie original listos para coleccionar.
-- **Packs de Android reequilibrados:** Los 4 packs de la app nativa ahora vienen perfectamente repartidos (24, 24, 24 y 23 stickers) para que carguen a la velocidad del rayo en WhatsApp.
-- **Sincronización total:** Todos los juegos, estados de ánimo del Hero, disfraces del laboratorio y álbum de la web actualizados en armonía con la app.
+- **Zoom gigante en la app Android:** Mantén pulsado cualquier sticker dentro de un pack para verlo en grande en el centro de la pantalla con una animación elástica, y ciérralo tocando en cualquier parte o con su nuevo botón inferior.
+- **Revisa «Mi Selección» antes de importar:** Nuevo botón **«Ver»** junto al de **«Vaciar»** para repasar todos los stickers que llevas elegidos, ampliarlos o descartar alguno antes de mandarlos a WhatsApp.
+- **Packs personalizados con sello propio:** Tus packs creados con «Mi Selección» ahora lucen la insignia **«⭐ Tuyo»**, cargan sus animaciones con total suavidad y te recuerdan cómo borrarlos cuando quieras.
+- **Código QR directo para el APK en ordenador:** Al pulsar «Copiar enlace» en la web desde tu PC, se despliega al instante un código QR para que descargues la app apuntando con la cámara de tu móvil.
 
 > 📖 **Historial completo de versiones:**
-> Si quieres consultar todos los cambios técnicos, notas de arquitectura y el historial detallado desde la primera versión, visita el [**CHANGELOG.md**](CHANGELOG.md).
+> 👉 ¿Quieres ver el historial completo de cambios y detalles técnicos? Consulta el [**CHANGELOG.md**](CHANGELOG.md).
 
 ---
 

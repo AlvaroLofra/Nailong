@@ -45,7 +45,7 @@ Fuera de esta carpeta:
 | `../AGENTS.md` | Instrucciones canónicas para agentes de IA (< 200 líneas). |
 | `../CLAUDE.md` / `../GEMINI.md` | Punteros a `AGENTS.md` (sin copiar contenido). |
 | `../CLAUDE.local.md` | (No está en Git) Rutas y datos de la máquina del usuario, incl. la biblioteca central de pautas. |
-| `../CHANGELOG.md` | Historial técnico de versiones (v1.0.0 → v3.4.1). |
+| `../CHANGELOG.md` | Historial técnico de versiones (v1.0.0 → v3.5.0). |
 
 ---
 

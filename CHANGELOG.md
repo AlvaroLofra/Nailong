@@ -5,6 +5,31 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [3.5.0] — 2026-11-03
+Actualización secundaria (`v3.5.0`, `versionCode 12`): aplicación de las mejoras pendientes de interfaz y experiencia (`A8`–`A13`, `W6`–`W7`), nuevo zoom central con transición animada en los packs de la app Android y pantalla dedicada para revisar los stickers de «Mi Selección».
+
+- **App Android (`StickersNailong.apk` v3.5.0, `versionCode 12`):**
+  - **Zoom ampliado en el centro con transición (`StickerPackDetailsActivity`, `StickerPreviewAdapter`):**
+    - Al mantener pulsado cualquier sticker dentro de un pack, ahora se amplía en grande (`230dp × 230dp`) en el centro de la pantalla dentro de una tarjeta *clay* con animación elástica (`OvershootInterpolator`) desde su celda original hasta el centro.
+    - Capa superpuesta a pantalla completa (`#sticker_zoom_overlay`, `clickable="true"`, `focusable="true"`) que oscurece el fondo y bloquea los toques accidentales sobre la cuadrícula para que tocar fuera cierre el zoom sin seleccionar ni deseleccionar stickers.
+    - Añadido botón inferior explícito **«✕ Cerrar vista ampliada»** (`#btn_close_zoom`), cierre al tocar cualquier punto fuera de la tarjeta o con el botón Atrás del sistema, y banner fijo superior **«🔍 Mantén pulsado un sticker para hacer zoom · Toca para elegir»** (`#zoom_top_banner_hint_view`).
+  - **Revisión y botonera de «Mi Selección» (`activity_sticker_pack_list.xml`, `StickerPackListActivity`):**
+    - Nuevo botón **«Ver (N) ❯»** (`#btn_view_selection`, fondo crema con borde naranja `btn_clay_cream.xml`) situado junto a **«🗑️ Vaciar»** de izquierda a derecha en la fila superior, con **«Importar a WhatsApp»** a ancho completo debajo.
+    - El botón **«🗑️ Vaciar»** pasa a un tono rojizo/anaranjado de alerta (`btn_clay_danger.xml`).
+    - Al pulsar **«Ver (N) ❯»**, se abre la cuadrícula interactiva con los stickers seleccionados hasta el momento (`EXTRA_IS_CURRENT_SELECTION`), permitiendo hacerles zoom con pulsación larga o tocarlos para quitarlos de la selección en vivo.
+  - **Mejoras visuales y de rendimiento (`A8`–`A13`):**
+    - **A8:** Esquinas redondeadas reales en el WebP animado del diálogo «¡App actualizada!» (`dialog_update_tip.xml`) usando `RoundingParams.fromCornersRadius(20dp).setOverlayColor(#FFFDF0)` en Fresco.
+    - **A9:** El icono `+` del botón «Añadir» en la lista de packs se tiñe de blanco puro (`setColorFilter(Color.WHITE)`), destacando sobre el fondo verde WhatsApp.
+    - **A10:** El botón de confirmación de `dialog_import_selection.xml` pasa a **«Añadir»** (`14sp`) para que nunca se corte en pantallas estrechas.
+    - **A11:** Al crear un pack de «Mi Selección», `DynamicPackManager` copia también las vistas previas ligeras de 192 px desde `assets/previews/<pack>/<archivo>` a `files/selection_packs/<id>/previews/`, reduciendo el uso de CPU y memoria al mostrar packs personalizados.
+    - **A12:** Los packs creados con «Mi Selección» se distinguen en la lista principal con fondo crema cálido (`card_clay_selection.xml`), insignia naranja **«⭐ Tuyo»** (`badge_yours_clay.xml`) y el recordatorio discreto **«🗑️ Mantén pulsado para borrar este pack»**.
+    - **A13:** El botón «Ver stickers ❯» (`btn_clay_secondary.xml`) estrena un amarillo cremoso intermedio (`#FDE68A`, `nailong_yellow_creamy`) con mayor contraste sobre las tarjetas blancas.
+- **Web (`index.html`, `js/10-inicio.js`, `verify_all.py`):**
+  - **W6:** En ordenador, al pulsar **«Copiar enlace»** (`#apk-copy-link-btn`) en el banner del APK, además de copiar la URL al portapapeles se despliega una tarjeta *clay* (`#apk-qr-box`) con el código QR directo a `StickersNailong.apk` para escanearlo con la cámara del móvil.
+  - **W7:** El test 45 de `verify_all.py` ahora comprueba que todas las referencias locales a `css/styles.css` y `js/*.js` en `index.html` lleven exactamente el sufijo `?v=<versionName>` vigente (`?v=3.5.0`), más el nuevo test 48 que verifica la tarjeta QR del APK.
+- **Verificación:**
+  - `verify_all.py`: 48 de 48 pruebas superadas al 100%.
+
 ## [3.4.1] — 2026-11-03
 Actualización terciaria: retiro y descatalogado del antiguo sticker 14 (generado por IA), renumeración correlativa sin saltos a 95 cromos oficiales y reequilibrio de los 4 packs de la app Android nativa.
 

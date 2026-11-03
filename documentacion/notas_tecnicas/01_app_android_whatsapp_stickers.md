@@ -156,3 +156,20 @@ ailong_stickers_app\generar_assets.py`, que exige cubrir los IDs 1..96 sin dupli
 - **Cancelar en WhatsApp:** `AddStickerPackActivity` guarda el último id/nombre enviado (también en `onSaveInstanceState`) y `StickerPackNotAddedMessageFragment` ofrece «Reintentar». `StickerPackListActivity.onActivityResult` solo da el import por bueno con `RESULT_OK`.
 - **UpdateChecker:** `UpdateInfo` añade `sizeMB`/`date` (`sizeText()`, `dateText()`). `Listener` tiene `onNoUpdate()` y `onCheckFailed()` por defecto; solo los usa la búsqueda manual (tocar `app_version_label`).
 - **Pistas únicas:** `nailong_app_prefs` → `last_version_code` (aviso tras actualizar) y `long_press_hint_shown` (pista de ampliar, en `StickerPackDetailsActivity`).
+
+## Zoom central animado, revisión de «Mi Selección» y mejoras A8–A13 (v3.5.0)
+- **Zoom central con transición (`StickerPackDetailsActivity`, `StickerPreviewAdapter`):**
+  - Al mantener pulsado un sticker, `zoomSticker(Sticker, View anchorView, String sourcePackId)` muestra `#sticker_zoom_overlay` (`clickable="true"`, `focusable="true"`, fondo `#B31C1917`), bloqueando cualquier toque accidental sobre el `RecyclerView`.
+  - La tarjeta `#sticker_zoom_card` (`230dp × 230dp` para `#sticker_details_expanded_sticker`, con `RoundingParams.fromCornersRadius(18dp).setOverlayColor(#FFFDF0)`) calcula el desplazamiento entre el centro de `anchorView` y el centro del contenedor y anima `translationX`, `translationY`, `scaleX` y `scaleY` con `OvershootInterpolator(1.05f)` (240 ms al abrir, 160 ms al cerrar).
+  - Se cierra tocando cualquier zona fuera de la tarjeta, pulsando `#btn_close_zoom` («✕ Cerrar vista ampliada») o con el botón Atrás (`onBackPressed()`).
+  - En la parte superior del detalle aparece siempre el banner `#zoom_top_banner_hint_view` («🔍 Mantén pulsado un sticker para hacer zoom · Toca para elegir»).
+- **Revisión en vivo de «Mi Selección» (`EXTRA_IS_CURRENT_SELECTION`):**
+  - En `activity_sticker_pack_list.xml`, la botonera de «Mi Selección» agrupa en una fila superior «🗑️ Vaciar» (`btn_clay_danger.xml`, rojo suave) y «Ver (N) ❯» (`btn_clay_cream.xml`, crema con borde naranja), dejando «Importar a WhatsApp» debajo a ancho completo.
+  - Al pulsar «Ver (N) ❯», `StickerPackListActivity.openCurrentSelectionReview()` construye un `StickerPack` temporal en memoria con las referencias `packId/fileName` actuales y abre `StickerPackDetailsActivity` con `EXTRA_IS_CURRENT_SELECTION = true`. El usuario puede hacer zoom o tocar stickers para desmarcarlos en vivo; si vacía todos, la pantalla se cierra automáticamente.
+- **Mejoras A8–A13:**
+  - **A8:** `update_tip_image` usa `RoundingParams.fromCornersRadius(20dp).setOverlayColor(#FFFDF0).setBorder(#F59E0B, 2dp)` para redondear todos los fotogramas del WebP animado en Fresco.
+  - **A9:** El icono `+` del botón «Añadir» en cada fila se tiñe de blanco (`Color.WHITE`).
+  - **A10:** El botón de confirmación en `dialog_import_selection.xml` usa el texto corto «Añadir» (`14sp`).
+  - **A11:** `DynamicPackManager.createSinglePack` copia la miniatura animada de 192 px desde `assets/previews/<sourcePack>/<sourceFile>` a `files/selection_packs/<id>/previews/<targetFile>`, y `StickerPreviewAdapter` / `StickerPackListAdapter` la usan mediante `DynamicPackManager.getSelectionPreviewFile(...)`.
+  - **A12:** Las tarjetas de packs creados por el usuario muestran fondo crema (`card_clay_selection.xml`), la insignia «⭐ Tuyo» (`#sticker_pack_yours_badge`) y el aviso «🗑️ Mantén pulsado para borrar este pack» (`#sticker_pack_delete_hint`).
+  - **A13:** `btn_clay_secondary.xml` usa `@color/nailong_yellow_creamy` (`#FDE68A`) para destacar sobre el fondo blanco de las tarjetas de packs.
