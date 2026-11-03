@@ -1,8 +1,8 @@
 # Nota Técnica 01: App Android Nativa y WhatsApp Stickers ContentProvider
 
 > **Subsistema:** Aplicación Android (`com.eva.nailongstickers`)  
-> **Ubicación del código fuente:** `C:\src\nailong_stickers_app\stickers\Android`  
-> **Binario de producción:** `StickersNailong.apk` (31 MB, v3.3.2, 96 stickers en 4 packs oficiales)
+> **Ubicación del código fuente:** fuera de este repo; la ruta de esta máquina está en `CLAUDE.local.md` (subcarpeta `stickers\Android`)  
+> **Binario de producción:** `StickersNailong.apk` (versión, peso y nº de stickers vigentes: ver `ESTADO_ACTUAL.md`; 4 packs oficiales)
 
 ---
 

@@ -16,6 +16,9 @@
 | **4** | [`../AGENTS.md`](../AGENTS.md) | Reglas del proyecto, comandos, protocolo de sesión y decisiones abiertas. `CLAUDE.md` y `GEMINI.md` solo apuntan a él (D-14). |
 | **5** | [`guias_y_contexto/CONTEXTO_PROYECTO.md`](guias_y_contexto/CONTEXTO_PROYECTO.md) | Universo de Nailong, principios de diseño Claymorphism, paleta y requisitos clave. |
 | **6** | [`guias_y_contexto/GUIA_DESARROLLO.md`](guias_y_contexto/GUIA_DESARROLLO.md) | Flujo buildless, compilación y firma del APK Android, y suite `verify_all.py`. |
+| **7** | [`notas_tecnicas/00_mapa_de_codigo.md`](notas_tecnicas/00_mapa_de_codigo.md) | Qué vive en cada fichero de `js/` y `index.html` (antes de tocar código web). |
+| *Si tocas el README* | [`guias_y_contexto/GUIA_README.md`](guias_y_contexto/GUIA_README.md) | Guía de estilo obligatoria de la vitrina pública. |
+| *Ideas sin aplicar* | [`estado_del_proyecto/MEJORAS_PENDIENTES.md`](estado_del_proyecto/MEJORAS_PENDIENTES.md) | Mejoras visuales/de interfaz pendientes. |
 
 ---
 
@@ -34,11 +37,11 @@ Fuera de esta carpeta:
 | `../index.html` | Punto único de entrada de la SPA web (HTML5 + Tailwind CDN); carga `css/` y `js/`. |
 | `../css/` · `../js/` | Estilos y scripts de la web, divididos por bloque funcional (D-15; mapa en `notas_tecnicas/00_mapa_de_codigo.md`). |
 | `../archivo/` | Material histórico (investigación y plan antiguos). No se lee salvo petición. |
-| `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (31.2 MB, v3.4.1). |
-| `../Stickers Nailong/` | Colección oficial de 95 cromos WebP normalizados + foto del creador + 1 descatalogado. |
-| `../verify_all.py` | Suite de pruebas automatizadas (47 comprobaciones estructurales y funcionales). |
+| `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (versión y peso: `version.json`). |
+| `../Stickers Nailong/` | Colección oficial de cromos WebP normalizados (total en `ESTADO_ACTUAL.md`) + foto del creador + 1 descatalogado. |
+| `../verify_all.py` | Suite de pruebas automatizadas (estructurales y funcionales; nº actual en `ESTADO_ACTUAL.md`). |
 | `../README.md` | Portada pública del proyecto con notas de parche directas para usuarios. |
-| `../DOCUMENTACION.md` | Documentación técnica consolidada para compatibilidad con la suite de verificación. |
+| `../DOCUMENTACION.md` | Puntero a esta carpeta (lo exige la suite de verificación; no lleva contenido propio). |
 | `../AGENTS.md` | Instrucciones canónicas para agentes de IA (< 200 líneas). |
 | `../CLAUDE.md` / `../GEMINI.md` | Punteros a `AGENTS.md` (sin copiar contenido). |
 | `../CLAUDE.local.md` | (No está en Git) Rutas y datos de la máquina del usuario, incl. la biblioteca central de pautas. |

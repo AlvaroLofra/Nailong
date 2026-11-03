@@ -3,8 +3,6 @@
 > **Propósito:** saltar directamente al fichero correcto sin búsquedas ciegas. Desde D-15 (2026-10-31) el antiguo `index.html` de ≈3.800 líneas está dividido en marcado + CSS + 10 ficheros JS. Trasladado desde `CLAUDE.md`/`GEMINI.md` el 2026-10-31 (D-14).
 > **Mantenimiento:** si cambia la estructura de `index.html`, actualiza este mapa en la misma sesión. Para localizar una función: `grep -n "function nombre" js/*.js`.
 
-## Bloques funcionales
-
 ## Qué vive en cada fichero
 
 | Fichero | Contenido (bloques de la lista de abajo) | Líneas aprox. |
@@ -13,7 +11,7 @@
 | `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego | 370 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind (se carga justo tras el CDN) | 27 |
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 170 |
-| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (96 cromos) y datos | 100 |
+| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos) y datos | 100 |
 | `js/03-hero.js` | 3 · Hero, contador Duang y estados de ánimo | 110 |
 | `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante | 110 |
 | `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 265 |
@@ -52,7 +50,7 @@ El código está estructurado en 14 bloques funcionales organizados:
    - Modal con control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento (swipe horizontal) y pegatinas arrastrables.
 
 6. **Gran Álbum Polaroid de Cromos:**
-   - 96 cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
+   - Cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
    - Sección especial del creador de la web con Nailong (`#creador`).
    - Subida de fotos del usuario con compresión en canvas y guardado persistente en `localStorage`.
 
@@ -81,7 +79,7 @@ El código está estructurado en 14 bloques funcionales organizados:
 
 | Qué | Fichero · símbolo |
 |---|---|
-| Datos de los 80 cromos | `js/02-datos-stickers.js` · `ALL_STICKERS` |
+| Datos de los cromos | `js/02-datos-stickers.js` · `ALL_STICKERS` |
 | Álbum paginado | `js/06-album-y-descargas.js` · `renderPolaroidGallery`, `GALLERY_PAGE_SIZE`, `GALLERY_STEP`, `showMoreGallery` |
 | Muro/tira de escenas y Visor Mágico | `js/05-visor-magico.js` y `js/06-…` · `renderGifWall`, `featuredGifIndexOf`, `openVisorFromLightbox` |
 | Descarga y compartir stickers | `js/06-album-y-descargas.js` · `forceDownloadSticker`, `shareStickerDirectToWhatsApp`, `copyStickerToClipboard`, `#sticker-options-modal` |

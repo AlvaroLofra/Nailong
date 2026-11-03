@@ -2,7 +2,7 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 03/11/2026 (v3.4.1: guía canónica de estilo del README vitrina pública fijada en GUIA_README.md, saneamiento de README.md, preservación íntegra del historial técnico en CHANGELOG.md; previa v3.4.1 de retiro y descatalogado del antiguo sticker 14 generado por IA, renumeración continua a 95 cromos oficiales, reequilibrio de los 4 packs Android a 24/24/24/23, regeneración de assets, nuevo APK v3.4.1 versionCode 11 de 31.2 MB y verificación total 47/47).
+> **Última actualización:** 03/11/2026 (sin versión nueva, solo documentación: guía de estilo del README en `GUIA_README.md`, saneamiento de README.md, y revisión de pautas: `DOCUMENTACION.md` reducido a puntero, cifras obsoletas retiradas de las guías y test 35 que las detecta. Último release: v3.4.1, retiro del sticker 14 de IA, 95 cromos, packs 24/24/24/23, APK versionCode 11 de 31.2 MB).
 > **Rama activa:** `main`.
 > **Versión actual de producción:** Web `v3.4.1` | Android APK `v3.4.1` (`versionCode 11`).
 

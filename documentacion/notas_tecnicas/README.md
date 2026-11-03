@@ -8,6 +8,7 @@
 
 | Nota | Subsistema | Componentes Involucrados | Temas Clave |
 |---|---|---|---|
+| [`00_mapa_de_codigo.md`](00_mapa_de_codigo.md) | **Mapa de la web** | `index.html`, `css/`, `js/` | Qué vive en cada fichero y dónde está cada función, para no buscar a ciegas. |
 | [`01_app_android_whatsapp_stickers.md`](01_app_android_whatsapp_stickers.md) | **App Android Nativa** | `StickerContentProvider`, `DynamicPackManager`, Activities | ContentProvider, Intents de WhatsApp, Mi Selección, control de eventos táctiles. |
 | [`02_normalizacion_stickers_webp.md`](02_normalizacion_stickers_webp.md) | **Optimización Gráfica** | `normalizar_stickers.py`, `verify_all.py` | Especificación RIFF WebP, muxer binario de fotogramas, chunks EXIF, compresión. |
 | [`03_web_audio_sintetizado.md`](03_web_audio_sintetizado.md) | **Motor de Audio** | `index.html` (Web Audio API) | Síntesis algorítmica por osciladores, modulación FM/AM, ausencia de MP3/WAV. |
