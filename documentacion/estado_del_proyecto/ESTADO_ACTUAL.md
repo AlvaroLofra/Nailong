@@ -2,15 +2,15 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 03/11/2026 (v3.5.1: «Mi Selección» siempre en un único pack —los estáticos entran como animados de 2 fotogramas—, desaparece el diálogo de selección mixta, identificador único y número visible libre al nombrar los packs; APK versionCode 13 de 31.8 MB. Pendiente de probar en un WhatsApp real).
+> **Última actualización:** 03/11/2026 (v3.6.0: «Mi Selección» siempre en un único pack —los estáticos entran como animados de 2 fotogramas—, desaparece el diálogo de selección mixta, identificador único y número visible libre al nombrar los packs; APK versionCode 14 de 31.8 MB. Pendiente de probar en un WhatsApp real).
 > **Rama activa:** `main`.
-> **Versión actual de producción:** Web `v3.5.1` | Android APK `v3.5.1` (`versionCode 13`).
+> **Versión actual de producción:** Web `v3.6.0` | Android APK `v3.6.0` (`versionCode 14`).
 
 ---
 
 ## 1. En una Frase
 
-La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.5.1** (`versionCode 13`), con **95 cromos oficiales** en 4 packs equilibrados (24/24/24/23), mejoras visuales e interactivas (zoom grande centrado con animación, revisión de «Mi Selección», etiqueta «⭐ Tuyo», vistas previas de 192 px para packs personalizados y código QR de descarga en escritorio, y «Mi Selección» en un único pack con numeración libre), APK firmado de 31.8 MB y las **48 de 48 comprobaciones** superadas al 100%.
+La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.6.0** (`versionCode 14`), con **95 cromos oficiales** en 4 packs equilibrados (24/24/24/23), mejoras visuales e interactivas (zoom grande centrado con animación, revisión de «Mi Selección», etiqueta «⭐ Tuyo», vistas previas de 192 px para packs personalizados y código QR de descarga en escritorio, y «Mi Selección» en un único pack con numeración libre), APK firmado de 31.8 MB y las **48 de 48 comprobaciones** superadas al 100%.
 
 ---
 
@@ -22,7 +22,7 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
 | **Banco de cromos coleccionables** | Exactamente 95 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador + 1 sticker descatalogado fuera de catálogo. |
 | **Packs oficiales preconfigurados en Android** | 4 packs: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23). Total: 95 stickers. |
 | **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con vista de revisión («Ver (N) ❯»), vistas previas animadas de 192 px y un único pack por importación (si hay animados, los estáticos van como animados de 2 fotogramas). |
-| **Paquete nativo Android firmado** | `StickersNailong.apk` (31.8 MB / 31.820.990 bytes, firmado con clave *debug* oficial `SHA-256: 04b83add...abb2`, targetSdk 30, versionCode 13, versionName 3.5.1). |
+| **Paquete nativo Android firmado** | `StickersNailong.apk` (31.8 MB / 31.820.990 bytes, firmado con clave *debug* oficial `SHA-256: 04b83add...abb2`, targetSdk 30, versionCode 14, versionName 3.6.0). |
 | **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_v2.mp4` (1080×1920, 60 fps, 32.0s, 17.4 MB, audio y SFX sintetizados a 120 BPM). |
 | **Botonera de sonidos sintetizados** | 12 casillas con 12 sonidos únicos sintetizados con Web Audio API (`duang`, `chomp`, `slurp`, `bleh`, `maracas`, `fire`, `sleep`, `laugh`, `pirate`, `run`, `tail`, `fanfare`). |
 | **Laboratorio de superpoderes** | Tamaño dinámico, modo camaleón, 6 disfraces mágicos, llamitas, hinchado de tripita, lluvia de pollo crujiente y gravedad cero espacial. |
@@ -33,7 +33,7 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
 
 ## 3. Qué Está Completado y Verificado
 
-- [x] **«Mi Selección» en un único pack y numeración libre (v3.5.1, `versionCode 13`, ver D-20):**
+- [x] **«Mi Selección» en un único pack y numeración libre (v3.6.0, `versionCode 14`, ver D-20):**
   - Eliminados el diálogo de selección mixta y el flujo de «segundo pack»: «Importar a WhatsApp» abre directamente el diálogo de nombre.
   - 23 variantes animadas de 2 fotogramas de los estáticos (`generar_estaticos_animados.py`, 593 KB en total, todas conformes con los requisitos de WhatsApp según la tabla del script). Solo se usan si la selección incluye algún animado.
   - Identificador de pack único (`seleccion_<hora>`) y número visible libre («Mi Selección», «Mi Selección 2»…), que se libera al borrar.
@@ -47,7 +47,7 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
   - **A11:** Al crear un pack animado en «Mi Selección», se copian también las vistas previas ligeras de 192 px a `selection_packs/<id>/previews/` para que abrir el pack o mostrar sus miniaturas no descodifique a 512×512 px.
   - **A12:** Los packs creados por el usuario se distinguen en la lista con fondo crema cálido (`card_clay_selection`), insignia «⭐ Tuyo» y recordatorio «🗑️ Mantén pulsado para borrar este pack».
   - **A13:** El botón «Ver stickers ❯» usa un tono amarillo cremoso intermedio (`#FDE68A`, `nailong_yellow_creamy`) con mayor contraste sobre las tarjetas blancas.
-- [x] **Mejoras en la Web (`v3.5.0`, sufijos `?v=` ahora en `3.5.1`):**
+- [x] **Mejoras en la Web (`v3.5.0`, sufijos `?v=` ahora en `3.6.0`):**
   - **W6:** Al pulsar «Copiar enlace» en ordenador dentro del banner de la app, además de copiar la URL al portapapeles se despliega una tarjetita *clay* (`#apk-qr-box`) con el código QR apuntando a la descarga directa de `StickersNailong.apk`.
   - **W7:** Sufijos anti-caché `?v=` actualizados en todas las referencias a `css/` y `js/`, y blindados automáticamente con el test 48 de `verify_all.py`.
 - [x] **Verificación completa:**

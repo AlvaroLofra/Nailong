@@ -5,16 +5,16 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
-## [3.5.1] — 2026-11-03
-Actualización terciaria (`v3.5.1`, `versionCode 13`): «Mi Selección» importa siempre a UN solo pack y la numeración de los packs deja de acumularse (D-20).
+## [3.6.0] — 2026-11-03
+Actualización secundaria (`v3.6.0`, `versionCode 14`): «Mi Selección» importa siempre a UN solo pack y la numeración de los packs deja de acumularse (D-20).
 
-- **App Android (`StickersNailong.apk` v3.5.1, `versionCode 13`, 31.8 MB):**
+- **App Android (`StickersNailong.apk` v3.6.0, `versionCode 14`, 31.8 MB):**
   - Eliminado el diálogo de selección mixta (`importBothSubpacks`, `confirmImportBoth`, strings `mixed_selection_*` e `import_*_option`) y el flujo de «segundo pack». Con 3 o más stickers, «Importar a WhatsApp» abre directamente el diálogo de nombre.
   - Si la selección tiene algún animado, el pack es animado y cada estático se copia desde `assets/nailong_estaticos_animados/` (WebP de 2 fotogramas idénticos de 500 ms). Si todo es estático, el pack sigue siendo estático. Los 4 packs oficiales no cambian.
   - `DynamicPackManager`: identificador `seleccion_<hora en segundos>` (nunca se reutiliza); número visible = menor libre entre los packs existentes (`selection_number` en `metadata.json`, deducido del identificador en los antiguos); nombre propuesto «Mi Selección», «Mi Selección 2»…; eliminado `KEY_COUNTER`; orden de lista por creación.
   - Aviso en la tarjeta de selección cuando se mezclan tipos: los estáticos se verán quietos dentro del pack.
 - **Herramientas:** nuevo `generar_estaticos_animados.py` (genera y valida las 23 variantes; `--check` solo comprueba).
-- **Web:** `version.json`, pie, badge «v3.5.1 APK», etiqueta de peso (32 MB) y sufijos `?v=3.5.1`.
+- **Web:** `version.json`, pie, badge «v3.6.0 APK», etiqueta de peso (32 MB) y sufijos `?v=3.6.0`.
 - **Verificación:** `verify_all.py` 48/48. **No comprobado:** importación de un pack mixto en un WhatsApp real.
 
 ## [3.5.0] — 2026-11-03

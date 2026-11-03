@@ -42,7 +42,7 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 ---
 
-## ✨ Novedades de la Versión (v3.5.1)
+## ✨ Novedades de la Versión (v3.6.0)
 
 - **Tu selección, en un solo pack:** Elige los stickers que quieras, animados y estáticos mezclados, y la app los guarda juntos en un único pack. Ya no aparece la pantalla de «selección mixta».
 - **Importar es más rápido:** Pulsa **«Importar a WhatsApp»**, ponle nombre a tu pack y listo.
