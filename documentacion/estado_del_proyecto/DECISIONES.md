@@ -29,6 +29,7 @@
 | **D-17** | Incorporación de 16 nuevos stickers (80 → 96), 4º pack en app Android y tráiler HyperFrames | Tomada | 2026-11-01 |
 | **D-18** | Reparto equilibrado de packs animados (25/24/24), estáticos en un pack, 4 packs visibles y animación en la app (v3.3.1) | Tomada | 2026-11-01 |
 | **D-19** | Retiro de sticker 14 (IA), descatalogado, renumeración continua a 95 y actualización terciaria (v3.4.1) | Tomada | 2026-11-03 |
+| **D-20** | «Mi Selección» en un único pack (estáticos como animados de 2 fotogramas), identificador único y número visible libre (v3.5.1) | Tomada | 2026-11-03 |
 
 ---
 
@@ -240,3 +241,14 @@
   3. *Sincronización web:* Actualizar `js/02-datos-stickers.js` retirando la entrada 14 y ajustando los identificadores de 14 a 95; remapear los estados de ánimo en `js/03-hero.js`, `FEATURED_GIFS` en `js/05-visor-magico.js`, `SOUNDBOARD_TILES` en `js/07-sonidos-y-laboratorio.js`, `manifest.json`, disfraces y referencias en `index.html`. Actualizar contadores y cache-busters a `?v=3.4.1`.
   4. *Reequilibrio de packs y app Android:* En `generar_assets.py`, reestructurar los paquetes a 95 stickers: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23). Incrementar `IMAGE_DATA_VERSION = '3'` para refrescar la caché de WhatsApp. Recompilar `StickersNailong.apk` (`versionCode 11`, `versionName "3.4.1"`, 31.2 MB), firmarlo y alojarlo en la web con badge `v3.4.1 APK` y pie `v3.4.1`.
 - **Consecuencias:** Catálogo 100% auténtico y depurado de contenido generado por IA; reparto perfecto de 24/24/24 stickers animados por pack cumpliendo estrictamente con WhatsApp; suite `verify_all.py` superada al 100% (47/47).
+
+---
+
+## D-20 · «Mi Selección» en un único pack, identificador único y número visible libre (v3.5.1)
+- **Estado:** **Tomada** (2026-11-03, a petición del usuario).
+- **Problema:** (1) WhatsApp exige packs 100 % animados o 100 % estáticos, así que una selección mixta obligaba a un diálogo («animados, estáticos o ambos») y a crear 2 packs. (2) El contador `selection_counter` solo sumaba: tras borrar packs salían «Selección 10», «11»… sin haber más.
+- **Decisión:**
+  1. *Un solo pack:* si la selección tiene algún animado, el pack es animado y cada estático entra con su variante de 2 fotogramas idénticos de 500 ms (`assets/nailong_estaticos_animados/`, generada con `generar_estaticos_animados.py` reutilizando el muxer de `normalizar_stickers.py`). Si todo es estático, el pack sigue siendo estático. Los 4 packs oficiales no cambian. Desaparecen el diálogo de selección mixta y el flujo de «segundo pack».
+  2. *Identificador único, número visible libre:* el identificador es `seleccion_<hora en segundos>` y nunca se reutiliza; el número del nombre («Mi Selección», «Mi Selección 2»…) es el menor libre entre los packs que existen (`selection_number` en `metadata.json`; en packs antiguos se deduce de `seleccion_N`). Se elimina `KEY_COUNTER`.
+- **Alternativas descartadas:** mantener el diálogo de selección mixta (confuso para el usuario); reutilizar el número como identificador (WhatsApp podría confundir un pack nuevo con otro ya añadido que se borró solo en la app); guardar solo un contador menor (no resuelve el desfase tras borrar).
+- **Consecuencias:** versión 3.5.1 / `versionCode 13`; el APK crece unos 0,6 MB por las 23 variantes. El validador interno (`StickerPackValidator`) ya exige más de un fotograma en packs animados, así que cada pack mixto se valida al crearlo. **No comprobado:** importación de un pack mixto en un WhatsApp real (aceptación, estáticos quietos y envío); queda pendiente de probar en el móvil.

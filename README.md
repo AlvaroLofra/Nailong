@@ -33,7 +33,7 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 ## ¿Cómo conseguir los stickers para WhatsApp? 📲
 
 ### 🤖 En Android (App Oficial)
-1. Descarga el instalador directo [`StickersNailong.apk`](StickersNailong.apk) (31.2 MB).
+1. Descarga el instalador directo [`StickersNailong.apk`](StickersNailong.apk) (31.8 MB).
 2. Abre la app y pulsa **«+ Añadir a WhatsApp»** en cualquiera de los 4 packs oficiales (72 animados + 23 estáticos).
 3. ¿Quieres solo tus favoritos? Abre la sección **«Mi Selección»**, toca los stickers que más te gusten y pulsa **«Exportar a WhatsApp»**.
 
@@ -42,12 +42,12 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 ---
 
-## ✨ Novedades de la Versión (v3.5.0)
+## ✨ Novedades de la Versión (v3.5.1)
 
-- **Zoom gigante en la app Android:** Mantén pulsado cualquier sticker dentro de un pack para verlo en grande en el centro de la pantalla con una animación elástica, y ciérralo tocando en cualquier parte o con su nuevo botón inferior.
-- **Revisa «Mi Selección» antes de importar:** Nuevo botón **«Ver»** junto al de **«Vaciar»** para repasar todos los stickers que llevas elegidos, ampliarlos o descartar alguno antes de mandarlos a WhatsApp.
-- **Packs personalizados con sello propio:** Tus packs creados con «Mi Selección» ahora lucen la insignia **«⭐ Tuyo»**, cargan sus animaciones con total suavidad y te recuerdan cómo borrarlos cuando quieras.
-- **Código QR directo para el APK en ordenador:** Al pulsar «Copiar enlace» en la web desde tu PC, se despliega al instante un código QR para que descargues la app apuntando con la cámara de tu móvil.
+- **Tu selección, en un solo pack:** Elige los stickers que quieras, animados y estáticos mezclados, y la app los guarda juntos en un único pack. Ya no aparece la pantalla de «selección mixta».
+- **Importar es más rápido:** Pulsa **«Importar a WhatsApp»**, ponle nombre a tu pack y listo.
+- **Nombres ordenados:** Tus packs se llaman «Mi Selección», «Mi Selección 2»… y los números se liberan cuando borras un pack.
+- **Y de la versión anterior:** zoom gigante al mantener pulsado, botón **«Ver»** para revisar tu selección, etiqueta **«⭐ Tuyo»** y código QR en ordenador.
 
 > 📖 **Historial completo de versiones:**
 > 👉 ¿Quieres ver el historial completo de cambios y detalles técnicos? Consulta el [**CHANGELOG.md**](CHANGELOG.md).
