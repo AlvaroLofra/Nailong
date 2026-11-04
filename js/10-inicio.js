@@ -31,7 +31,7 @@
 
         // Resalta en la navbar la sección que se está viendo
         function setupScrollSpy() {
-            const ids = ['inicio', 'historia', 'creador', 'muro-gifs', 'galeria', 'soundboard', 'poderes', 'minijuego'];
+            const ids = ['inicio', 'historia', 'nailong-3d', 'creador', 'muro-gifs', 'galeria', 'soundboard', 'poderes', 'minijuego'];
             const links = document.querySelectorAll('#desktop-nav-links a[href^="#"]');
             if (!links.length || !('IntersectionObserver' in window)) return;
             const obs = new IntersectionObserver((entries) => {

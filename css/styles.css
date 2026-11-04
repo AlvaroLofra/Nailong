@@ -441,3 +441,43 @@
             position: relative !important;
             z-index: 2 !important;
         }
+
+        /* ---------- Nailong 3D (sección #nailong-3d, js/11 a js/14) ---------- */
+        .n3d-seccion.clay-card:hover { transform: none; }
+        .n3d-visor { touch-action: pan-y; -webkit-user-select: none; user-select: none; isolation: isolate; }
+        .n3d-visor canvas { display: block; outline: none; cursor: grab; -webkit-touch-callout: none; }
+        .n3d-visor canvas.n3d-arrastrando { cursor: grabbing; }
+        .n3d-visor:focus-visible { outline: 4px solid #FF9F1C; outline-offset: 3px; }
+        .n3d-carga { background: radial-gradient(circle at 50% 45%, rgba(255, 253, 242, 0.95), rgba(255, 240, 191, 0.85)); transition: opacity 0.4s; }
+        .n3d-listo .n3d-carga { opacity: 0; pointer-events: none; }
+        .n3d-huevo { font-size: 3.2rem; display: inline-block; animation: n3dHuevo 1.1s ease-in-out infinite; }
+        .n3d-error .n3d-huevo { animation: none; }
+        @keyframes n3dHuevo {
+            0%, 100% { transform: rotate(-9deg); }
+            50% { transform: rotate(9deg) translateY(-5px); }
+        }
+        .n3d-ayuda { text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85); }
+        .n3d-burbuja {
+            position: absolute; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none;
+            font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.05rem; color: #7c2d12;
+            background: #FFFFFF; border: 3px solid #FFD93D; border-radius: 9999px; padding: 0.1rem 0.75rem;
+            box-shadow: 0 6px 14px rgba(255, 159, 28, 0.3);
+            animation: n3dBurbuja 1.5s var(--spring) forwards;
+        }
+        .n3d-burbuja-zzz { color: #5b3f8c; border-color: #D9C8F2; }
+        @keyframes n3dBurbuja {
+            0% { opacity: 0; transform: translate(-50%, -30%) scale(0.6); }
+            15% { opacity: 1; transform: translate(-50%, -70%) scale(1.08); }
+            100% { opacity: 0; transform: translate(-50%, -190%) scale(1); }
+        }
+        .n3d-activo { background: #FFD93D !important; border-color: #FF9F1C !important; }
+        .n3d-visor:fullscreen { width: 100%; height: 100%; border-radius: 0; border-width: 0; }
+        .n3d-visor:-webkit-full-screen { width: 100%; height: 100%; border-radius: 0; border-width: 0; }
+        .n3d-visor.n3d-pantalla-css { position: fixed; inset: 0; z-index: 70; width: 100%; height: 100%; border-radius: 0; border-width: 0; }
+        .n3d-visor:fullscreen .n3d-dock, .n3d-visor:-webkit-full-screen .n3d-dock, .n3d-pantalla-css .n3d-dock { display: flex; }
+        .n3d-visor:fullscreen .n3d-barra, .n3d-pantalla-css .n3d-barra { top: max(0.75rem, env(safe-area-inset-top)); right: max(0.75rem, env(safe-area-inset-right)); }
+        .n3d-visor:fullscreen .n3d-ayuda, .n3d-pantalla-css .n3d-ayuda { bottom: max(0.75rem, env(safe-area-inset-bottom)); }
+        body.n3d-sin-scroll { overflow: hidden; }
+        @media (prefers-reduced-motion: reduce) {
+            .n3d-huevo, .n3d-burbuja { animation: none; }
+        }

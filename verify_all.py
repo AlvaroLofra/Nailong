@@ -469,4 +469,52 @@ assert "OvershootInterpolator" in open(os.path.join(_android_java, 'StickerPrevi
 assert "btn_view_selection" in open(os.path.join(_android_res, 'layout', 'activity_sticker_pack_list.xml'), encoding='utf-8').read(), "View selection button missing in activity_sticker_pack_list.xml!"
 print("✔ v3.5.0 verified: A8-A13, W6-W7, center zoom with transition & overlay, and 'Ver (N)' selection review active.")
 
-print("\n=== ALL 48 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 49: Nailong 3D - visor interactivo (js/11-14): carga perezosa de Three.js r147 con SRI y nucleo geometrico estanco y canonico
+_sec = page_html[page_html.index('id="nailong-3d"'):page_html.index('id="galeria"')] if 'id="nailong-3d"' in page_html else ''
+assert _sec and page_html.index('id="historia"') < page_html.index('id="nailong-3d"'), "3D section #nailong-3d must sit between #historia and #galeria!"
+assert 'id="nailong-3d-visor"' in _sec and 'id="nailong-3d-lienzo"' in _sec and 'role="img"' in _sec and 'aria-live="polite"' in _sec, "3D viewer, accessible canvas and live region missing!"
+assert page_html.count('href="#nailong-3d"') >= 2, "3D section must be linked from the desktop and mobile menus!"
+_n3d = ['js/11-nailong3d-geometria.js', 'js/12-nailong3d-escena.js', 'js/13-nailong3d-animacion.js', 'js/14-nailong3d-visor.js']
+assert [r for r in asset_refs if r in _n3d] == _n3d and asset_refs.index(_n3d[0]) > asset_refs.index('js/10-inicio.js'), "3D scripts must load in order after js/10-inicio.js!"
+_visor = open('js/14-nailong3d-visor.js', encoding='utf-8').read()
+assert "VERSION_THREE = '0.147.0'" in _visor and _visor.count("sri: 'sha384-") == 3, "Three.js must be pinned to r147 with SRI on every CDN script!"
+assert 'three@' not in page_html and 'three.min.js' not in page_html, "Three.js must be lazy-loaded by js/14 (never eagerly from index.html)!"
+for _clave in ('IntersectionObserver', 'visibilitychange', 'prefers-reduced-motion', 'GLTFExporter', 'binary: true', "'none' : 'pan-y'", 'new Worker('):
+    assert _clave in _visor, f"3D viewer must keep: {_clave}"
+_prueba_3d = r"""
+const fs = require('fs'), vm = require('vm');
+vm.runInThisContext(fs.readFileSync('js/11-nailong3d-geometria.js', 'utf8') + '\n;globalThis.__K = Nailong3DGeometria;');
+const K = globalThis.__K, m = K.generarMalla({ celda: 0.0105 });
+const P = m.posiciones, N = m.normales, C = m.colores, I = m.indices, J = m.huesoIndices, W = m.huesoPesos, nv = P.length / 3, nt = I.length / 3;
+let ymin = 1e9, ymax = -1e9, cab = 0, tor = 0, crema = 0, frente = 0, inv = 0, no2 = 0, pesosMal = 0;
+const brazos = new Set([K.H.brazoIzq, K.H.brazoDer]), cr = K.srgbALineal(K.COLORES.crema);
+for (let v = 0; v < nv; v++) {
+  const x = P[v*3], y = P[v*3+1];
+  ymin = Math.min(ymin, y); ymax = Math.max(ymax, y);
+  if (y > 0.62 && y < 0.68) cab = Math.max(cab, Math.abs(x));
+  if (y > 0.25 && y < 0.32 && !brazos.has(J[v*4])) tor = Math.max(tor, Math.abs(x));
+  if (N[v*3+2] > 0.3) { frente++; if (Math.abs(C[v*3]-cr[0]) + Math.abs(C[v*3+1]-cr[1]) + Math.abs(C[v*3+2]-cr[2]) < 0.05) crema++; }
+  if (Math.abs(W[v*4] + W[v*4+1] + W[v*4+2] + W[v*4+3] - 1) > 1e-3) pesosMal++;
+}
+const aristas = new Map();
+for (let t = 0; t < nt; t++) {
+  const a = I[t*3], b = I[t*3+1], c = I[t*3+2];
+  for (const [u, w] of [[a, b], [b, c], [c, a]]) { const k = u < w ? u * 4194304 + w : w * 4194304 + u; aristas.set(k, (aristas.get(k) || 0) + 1); }
+  const ux = P[b*3]-P[a*3], uy = P[b*3+1]-P[a*3+1], uz = P[b*3+2]-P[a*3+2], wx = P[c*3]-P[a*3], wy = P[c*3+1]-P[a*3+1], wz = P[c*3+2]-P[a*3+2];
+  if ((uy*wz-uz*wy)*(N[a*3]+N[b*3]+N[c*3]) + (uz*wx-ux*wz)*(N[a*3+1]+N[b*3+1]+N[c*3+1]) + (ux*wy-uy*wx)*(N[a*3+2]+N[b*3+2]+N[c*3+2]) < 0) inv++;
+}
+for (const n of aristas.values()) if (n !== 2) no2++;
+console.log(JSON.stringify({ vertices: nv, huecos: m.estadisticas.huecos, no2, inv, pesosMal, altura: ymax - ymin, suelo: ymin, cab: 2 * cab, tor: 2 * tor, pancita: crema / frente, huesos: K.HUESOS.length }));
+"""
+_res3d = subprocess.run(['node', '-e', _prueba_3d], capture_output=True, text=True, encoding='utf-8', timeout=180)
+assert _res3d.returncode == 0, "3D geometry kernel failed in Node: " + _res3d.stderr[-600:]
+_g = json.loads(_res3d.stdout)
+assert _g['huecos'] == 0 and _g['no2'] == 0, f"3D mesh must be watertight (every edge shared by 2 triangles): {_g}"
+assert _g['inv'] == 0 and _g['pesosMal'] == 0, f"3D mesh triangles must face outwards and skin weights must sum to 1: {_g}"
+assert 15000 < _g['vertices'] < 60000 and _g['huesos'] == 12, f"Unexpected 3D mesh density or skeleton: {_g}"
+assert abs(_g['altura'] - 1.0) < 0.02 and abs(_g['suelo']) < 0.002, f"Nailong 3D must be 1 unit tall standing on y=0: {_g}"
+assert 0.8 < _g['cab'] / _g['tor'] < 0.95 and 0.5 < _g['tor'] / _g['altura'] < 0.66, f"Head/torso proportions drifted from the stickers (86, 43): {_g}"
+assert 0.08 < _g['pancita'] < 0.3, f"Cream belly patch missing or oversized: {_g}"
+print(f"✔ Nailong 3D verified: lazy Three.js r147 with SRI, viewer in #nailong-3d, watertight {_g['vertices']}-vertex skinned mesh with canonical proportions.")
+
+print("\n=== ALL 49 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

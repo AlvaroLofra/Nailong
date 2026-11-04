@@ -166,14 +166,15 @@
             });
 
             // Fullscreen change listeners
+            // Solo cuenta la pantalla completa del propio minijuego (el visor 3D y el tráiler también la usan)
             document.addEventListener('fullscreenchange', () => {
-                const isFs = !!document.fullscreenElement;
+                const isFs = document.fullscreenElement === document.getElementById('game-container');
                 updateFullscreenUI(isFs);
                 setTimeout(resizeGameCanvas, 60);
                 setTimeout(resizeGameCanvas, 200);
             });
             document.addEventListener('webkitfullscreenchange', () => {
-                const isFs = !!document.webkitFullscreenElement;
+                const isFs = document.webkitFullscreenElement === document.getElementById('game-container');
                 updateFullscreenUI(isFs);
                 setTimeout(resizeGameCanvas, 60);
                 setTimeout(resizeGameCanvas, 200);

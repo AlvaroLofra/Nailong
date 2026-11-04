@@ -72,6 +72,7 @@
                     <a href="#android-app-banner" class="px-3.5 py-1.5 rounded-full bg-[#25D366] text-white hover:bg-emerald-600 transition-colors">📲 App</a>
                     <a href="#inicio" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">👋 ¡Hola!</a>
                     <a href="#historia" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🌟 ¿Quién es?</a>
+                    <a href="#nailong-3d" class="hidden xl:inline-block px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🧊 3D</a>
                     <a href="#muro-gifs" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🎬 Visor Mágico</a>
                     <a href="#galeria" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">📸 Stickers</a>
                     <a href="#soundboard" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🔊 Botonera</a>
@@ -107,6 +108,7 @@
                 <a href="#android-app-banner" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-[#25D366] text-white font-bold hover:bg-emerald-600 transition-colors flex items-center gap-2 shadow-sm"><i class="fa-brands fa-android"></i> 📲 Descargar la App (Android)</a>
                 <a href="#inicio" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">👋 ¡Hola!</a>
                 <a href="#historia" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🌟 ¿Quién es Nailong?</a>
+                <a href="#nailong-3d" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🧊 Nailong en 3D</a>
                 <a href="#muro-gifs" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🎬 Visor Mágico</a>
                 <a href="#galeria" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">📸 Gran Álbum Polaroid</a>
                 <a href="#soundboard" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🔊 Botonera Musical (12)</a>
@@ -318,6 +320,81 @@
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
                         Tiene tres características placas verdes en su espalda, puede cambiar de tamaño a voluntad, lanza llamitas de fuego mágico y su comida preferida en todo el universo son los muslitos de pollo crujientes.
                     </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3B. NAILONG EN 3D INTERACTIVO (Three.js bajo demanda: js/11 a js/14) -->
+        <section id="nailong-3d" class="reveal-item scroll-mt-24">
+            <div class="n3d-seccion clay-card p-4 sm:p-8 lg:p-10 border-4 border-nailong-yellow bg-gradient-to-br from-nailong-cream via-nailong-belly to-nailong-pale">
+                <div class="text-center max-w-2xl mx-auto mb-5 sm:mb-8 space-y-2">
+                    <span class="bg-nailong-orange text-white px-4 py-1 rounded-full font-display font-bold text-sm">🧊 NAILONG EN 3D</span>
+                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-amber-950">¡Achúchame en 3D!</h2>
+                    <p class="text-amber-900/85 font-semibold">Gíralo, acércate y hazle cosquillas: su pancita rebota, su cabeza pide mimos y su colita se mueve. ¡Cada zona tiene su reacción!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
+                    <!-- Visor -->
+                    <div class="lg:col-span-8">
+                        <div id="nailong-3d-visor" class="n3d-visor relative w-full h-[420px] sm:h-[520px] lg:h-[560px] rounded-[2rem] overflow-hidden border-4 border-white shadow-inner bg-gradient-to-b from-[#FFF8DE] via-[#FFF0BF] to-[#FFDB8F]" tabindex="0" role="region" aria-label="Visor 3D de Nailong. Flechas para girar, más y menos para acercar, Intro para hacerle cosquillas." aria-describedby="nailong-3d-ayuda">
+                            <canvas id="nailong-3d-lienzo" class="absolute inset-0 w-full h-full" role="img" aria-label="Nailong en 3D: dragón amarillo rechoncho con pancita crema, ojos verdes y tres placas en la espalda"></canvas>
+
+                            <div id="nailong-3d-carga" class="n3d-carga absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-6">
+                                <span class="n3d-huevo" aria-hidden="true">🥚</span>
+                                <p id="nailong-3d-carga-texto" class="font-display font-bold text-amber-950 text-lg">Nailong 3D aparecerá aquí</p>
+                                <button id="nailong-3d-cargar" type="button" class="hidden clay-btn clay-btn-yellow font-display font-bold px-5 py-2.5 text-sm">🔄 Cargar el 3D</button>
+                            </div>
+
+                            <div id="nailong-3d-burbujas" class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true"></div>
+
+                            <div class="n3d-barra absolute top-3 right-3 flex gap-2 z-10">
+                                <button id="nailong-3d-recentrar" type="button" class="w-10 h-10 rounded-full bg-white/95 border-2 border-nailong-yellow text-amber-900 shadow-md hover:scale-110 transition-transform" aria-label="Recentrar la cámara" title="Recentrar la cámara"><i class="fa-solid fa-crosshairs"></i></button>
+                                <button id="nailong-3d-pantalla" type="button" class="w-10 h-10 rounded-full bg-white/95 border-2 border-nailong-yellow text-amber-900 shadow-md hover:scale-110 transition-transform" aria-label="Ver a pantalla completa" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                            </div>
+
+                            <div class="n3d-dock hidden absolute inset-x-0 bottom-14 justify-center gap-2 z-10 px-3">
+                                <button type="button" data-n3d-accion="saludar" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Saludar">👋</button>
+                                <button type="button" data-n3d-accion="duang" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Duang">💛</button>
+                                <button type="button" data-n3d-accion="bailar" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Bailar">💃</button>
+                                <button type="button" data-n3d-accion="sorpresa" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Sorpresa">😮</button>
+                                <button type="button" data-n3d-accion="siesta" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Siesta">😴</button>
+                            </div>
+
+                            <p id="nailong-3d-ayuda" class="n3d-ayuda absolute bottom-3 inset-x-3 text-center text-[11px] sm:text-xs font-bold text-amber-900/90 pointer-events-none">
+                                <span class="sm:hidden">👆 Gira · 🤏 Acerca · 💛 Tócale la pancita</span>
+                                <span class="hidden sm:inline">👆 Arrastra para girar · 🤏 Pellizca o usa la rueda para acercarte · 💛 Toca su pancita</span>
+                            </p>
+                            <p id="nailong-3d-estado" class="sr-only" aria-live="polite"></p>
+                        </div>
+                    </div>
+
+                    <!-- Controles -->
+                    <div class="lg:col-span-4 space-y-4">
+                        <div class="bg-white/95 p-4 sm:p-5 rounded-3xl border-3 border-nailong-yellow shadow-md space-y-3">
+                            <p class="font-display font-bold text-amber-950">🎬 ¡Haz que Nailong…!</p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button type="button" data-n3d-accion="saludar" class="p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">👋 Salude</button>
+                                <button type="button" data-n3d-accion="duang" class="p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💛 ¡Duang!</button>
+                                <button type="button" data-n3d-accion="bailar" class="p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💃 Baile</button>
+                                <button type="button" data-n3d-accion="sorpresa" class="p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😮 Se sorprenda</button>
+                                <button type="button" data-n3d-accion="siesta" class="col-span-2 p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😴 Se eche una siesta (tócalo para despertarlo)</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/95 p-4 sm:p-5 rounded-3xl border-3 border-nailong-yellow shadow-md space-y-3">
+                            <p class="font-display font-bold text-amber-950">🎨 Estilo</p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button type="button" data-n3d-estilo="suave" aria-pressed="true" class="n3d-activo p-2.5 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">✨ Sticker 3D</button>
+                                <button type="button" data-n3d-estilo="toon" aria-pressed="false" class="p-2.5 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">🖍️ Dibujo animado</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/95 p-4 sm:p-5 rounded-3xl border-3 border-nailong-yellow shadow-md space-y-2.5">
+                            <button id="nailong-3d-foto" type="button" class="w-full p-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-sm shadow-sm transition-colors">📸 Guardar foto (PNG transparente)</button>
+                            <button id="nailong-3d-glb" type="button" class="w-full p-2.5 rounded-2xl bg-nailong-orange hover:bg-amber-600 text-white font-display font-bold text-sm shadow-sm transition-colors">⬇️ Descargar modelo 3D (.glb)</button>
+                            <p class="text-xs font-semibold text-amber-900/80 leading-relaxed">El modelo incluye esqueleto y animaciones (respirar, saludar, ¡duang!, bailar y sorpresa). Ábrelo en Blender, Unity, Godot o cualquier visor glTF.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1144,5 +1221,9 @@
     <script src="js/08-minijuego.js?v=3.6.0"></script>
     <script src="js/09-modo-fiesta.js?v=3.6.0"></script>
     <script src="js/10-inicio.js?v=3.6.0"></script>
+    <script src="js/11-nailong3d-geometria.js?v=3.6.0"></script>
+    <script src="js/12-nailong3d-escena.js?v=3.6.0"></script>
+    <script src="js/13-nailong3d-animacion.js?v=3.6.0"></script>
+    <script src="js/14-nailong3d-visor.js?v=3.6.0"></script>
 </body>
 </html>
