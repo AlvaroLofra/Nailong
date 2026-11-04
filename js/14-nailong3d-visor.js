@@ -570,6 +570,8 @@
                 S.contenedor = $('nailong-3d-visor');
                 S.lienzo = $('nailong-3d-lienzo');
                 if (!S.contenedor || !S.lienzo) return;
+                const sec = $('nailong-3d');
+                if (sec && (sec.hasAttribute('hidden') || sec.classList.contains('hidden') || sec.style.display === 'none' || (window.getComputedStyle && getComputedStyle(sec).display === 'none'))) return;
                 const mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
                 S.reducido = !!(mq && mq.matches);
                 if (mq && mq.addEventListener) mq.addEventListener('change', (e) => { S.reducido = e.matches; if (S.anim) S.anim.reducido = e.matches; });

@@ -443,6 +443,11 @@
         }
 
         /* ---------- Nailong 3D (sección #nailong-3d, js/11 a js/14) ---------- */
+        /* Oculto en la web mientras se perfecciona el modelo */
+        #nailong-3d,
+        a[href="#nailong-3d"] {
+            display: none !important;
+        }
         .n3d-seccion.clay-card:hover { transform: none; }
         .n3d-visor { touch-action: pan-y; -webkit-user-select: none; user-select: none; isolation: isolate; }
         .n3d-visor canvas { display: block; outline: none; cursor: grab; -webkit-touch-callout: none; }

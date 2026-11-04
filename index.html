@@ -72,7 +72,7 @@
                     <a href="#android-app-banner" class="px-3.5 py-1.5 rounded-full bg-[#25D366] text-white hover:bg-emerald-600 transition-colors">📲 App</a>
                     <a href="#inicio" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">👋 ¡Hola!</a>
                     <a href="#historia" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🌟 ¿Quién es?</a>
-                    <a href="#nailong-3d" class="hidden xl:inline-block px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🧊 3D</a>
+                    <a href="#nailong-3d" class="hidden px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors" aria-hidden="true" style="display: none !important;">🧊 3D</a>
                     <a href="#muro-gifs" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🎬 Visor Mágico</a>
                     <a href="#galeria" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">📸 Stickers</a>
                     <a href="#soundboard" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🔊 Botonera</a>
@@ -108,7 +108,7 @@
                 <a href="#android-app-banner" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-[#25D366] text-white font-bold hover:bg-emerald-600 transition-colors flex items-center gap-2 shadow-sm"><i class="fa-brands fa-android"></i> 📲 Descargar la App (Android)</a>
                 <a href="#inicio" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">👋 ¡Hola!</a>
                 <a href="#historia" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🌟 ¿Quién es Nailong?</a>
-                <a href="#nailong-3d" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🧊 Nailong en 3D</a>
+                <a href="#nailong-3d" onclick="toggleMobileMenu()" class="hidden px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2" aria-hidden="true" style="display: none !important;">🧊 Nailong en 3D</a>
                 <a href="#muro-gifs" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🎬 Visor Mágico</a>
                 <a href="#galeria" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">📸 Gran Álbum Polaroid</a>
                 <a href="#soundboard" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🔊 Botonera Musical (12)</a>
@@ -325,7 +325,7 @@
         </section>
 
         <!-- 3B. NAILONG EN 3D INTERACTIVO (Three.js bajo demanda: js/11 a js/14) -->
-        <section id="nailong-3d" class="reveal-item scroll-mt-24">
+        <section id="nailong-3d" class="hidden reveal-item scroll-mt-24" aria-hidden="true" style="display: none !important;">
             <div class="n3d-seccion clay-card p-4 sm:p-8 lg:p-10 border-4 border-nailong-yellow bg-gradient-to-br from-nailong-cream via-nailong-belly to-nailong-pale">
                 <div class="text-center max-w-2xl mx-auto mb-5 sm:mb-8 space-y-2">
                     <span class="bg-nailong-orange text-white px-4 py-1 rounded-full font-display font-bold text-sm">🧊 NAILONG EN 3D</span>
