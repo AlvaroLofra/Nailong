@@ -19,6 +19,7 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 ## Lo que puedes disfrutar ✨
 
 - **Pancita Elástica & Efecto Duang:** Haz clic o toca la pancita de Nailong para ver cómo rebota con físicas gelatinosas, escuchar sus sonidos y descubrir sus 9 estados de ánimo en vivo.
+- **Nailong en 3D:** Gíralo, acércate y hazle cosquillas: su pancita rebota, saluda, baila, se sorprende y hasta se echa la siesta. Elige estilo sticker o dibujo animado, guarda una foto o descárgate el modelo 3D.
 - **Colección Oficial de 95 Stickers:** Catálogo completo de 95 cromos auténticos clasificados por emociones, listos para explorar a pantalla completa, descargar o copiar.
 - **App Android Oficial para WhatsApp:** Añade los 4 packs completos a tu WhatsApp con un solo toque o arma tus propios paquetes personalizados con «Mi Selección».
 - **Visor Mágico de Animaciones:** Tira deslizable con 9 escenas animadas en bucle, control de velocidad y pegatinas interactivas que puedes mover por la pantalla.

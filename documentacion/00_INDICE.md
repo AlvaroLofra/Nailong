@@ -11,7 +11,7 @@
 | Paso | Documento | Para qué |
 |---|---|---|
 | **1** | [`estado_del_proyecto/ESTADO_ACTUAL.md`](estado_del_proyecto/ESTADO_ACTUAL.md) | Qué hay hecho, qué métricas tenemos y cuál es el estado del proyecto **ahora mismo**. |
-| **2** | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) | Registro de Decisiones de Arquitectura (D-01 a D-19): qué se decidió y por qué. |
+| **2** | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) | Registro de Decisiones de Arquitectura (D-01 a D-21): qué se decidió y por qué. |
 | **3** | Última entrada en [`estado_del_proyecto/bitacora_de_sesiones/`](estado_del_proyecto/bitacora_de_sesiones/) | Qué se hizo en la sesión más reciente y cómo retomar el trabajo. |
 | **4** | [`../AGENTS.md`](../AGENTS.md) | Reglas del proyecto, comandos, protocolo de sesión y decisiones abiertas. `CLAUDE.md` y `GEMINI.md` solo apuntan a él (D-14). |
 | **5** | [`guias_y_contexto/CONTEXTO_PROYECTO.md`](guias_y_contexto/CONTEXTO_PROYECTO.md) | Universo de Nailong, principios de diseño Claymorphism, paleta y requisitos clave. |
@@ -28,7 +28,7 @@
 |---|---|---|
 | `estado_del_proyecto/` | `ESTADO_ACTUAL.md` (se sobrescribe en cada sesión), `DECISIONES.md` (solo se añade) y `bitacora_de_sesiones/` (una bitácora por sesión). | **Sí, en cada sesión** |
 | `guias_y_contexto/` | Contexto narrativo, principios de diseño de interfaz y guía operativa de desarrollo. | Cuando cambie algo estable |
-| `notas_tecnicas/` | Una nota por subsistema técnico: WhatsApp ContentProvider, Muxer WebP, Web Audio y Canvas GPU. | Sí, al modificar componentes técnicos |
+| `notas_tecnicas/` | Una nota por subsistema técnico: WhatsApp ContentProvider, Muxer WebP, Web Audio, Canvas GPU y Nailong 3D. | Sí, al modificar componentes técnicos |
 
 Fuera de esta carpeta:
 
@@ -73,3 +73,4 @@ Fuera de esta carpeta:
 | Mapa de ficheros, bloques y funciones de la web (para no buscar a ciegas) | [`notas_tecnicas/00_mapa_de_codigo.md`](notas_tecnicas/00_mapa_de_codigo.md) |
 | Motor de audio sintetizado con Web Audio API | [`notas_tecnicas/03_web_audio_sintetizado.md`](notas_tecnicas/03_web_audio_sintetizado.md) |
 | Minijuego Canvas a 60 FPS y aceleración GPU | [`notas_tecnicas/04_minijuego_y_rendimiento_gpu.md`](notas_tecnicas/04_minijuego_y_rendimiento_gpu.md) |
+| Nailong 3D: modelo procedural, visor WebGL y exportación GLB | [`notas_tecnicas/05_nailong_3d.md`](notas_tecnicas/05_nailong_3d.md) |

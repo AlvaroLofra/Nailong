@@ -27,7 +27,7 @@ El usuario dirige el desarrollo con agentes y no programa a mano: responde en **
 ```text
 index.html            Marcado HTML. ÚNICO punto de entrada (carga css/ y js/)
 css/styles.css        Estilos propios (Tailwind va por CDN)
-js/                   JS vanilla en scripts clásicos numerados; se cargan en orden (01-audio … 10-inicio)
+js/                   JS vanilla en scripts clásicos numerados; se cargan en orden (01-audio … 10-inicio; 11–14 = visor 3D, D-21)
 manifest.json         PWA
 version.json          Versión publicada del APK, peso, fecha y novedades (la app y el banner de la web la leen)
 StickersNailong.apk   App Android firmada (binario; se versiona con la web)

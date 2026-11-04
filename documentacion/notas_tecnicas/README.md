@@ -13,3 +13,4 @@
 | [`02_normalizacion_stickers_webp.md`](02_normalizacion_stickers_webp.md) | **Optimización Gráfica** | `normalizar_stickers.py`, `verify_all.py` | Especificación RIFF WebP, muxer binario de fotogramas, chunks EXIF, compresión. |
 | [`03_web_audio_sintetizado.md`](03_web_audio_sintetizado.md) | **Motor de Audio** | `index.html` (Web Audio API) | Síntesis algorítmica por osciladores, modulación FM/AM, ausencia de MP3/WAV. |
 | [`04_minijuego_y_rendimiento_gpu.md`](04_minijuego_y_rendimiento_gpu.md) | **Renderizado GPU y Canvas** | `index.html` (Canvas 2D) | Ciclo de 60 FPS, rasterizado offscreen de emojis, pantalla completa y gestión de memoria. |
+| [`05_nailong_3d.md`](05_nailong_3d.md) | **Nailong 3D (WebGL)** | `js/11`–`js/14`, sección `#nailong-3d` | Anatomía canónica, SDF + Surface Nets, piel y esqueleto, muelles, carga perezosa de Three.js r147 y exportación GLB. |

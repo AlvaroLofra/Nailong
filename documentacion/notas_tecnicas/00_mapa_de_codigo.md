@@ -1,14 +1,14 @@
 # Mapa de código de la web (`index.html`, `css/`, `js/`)
 
-> **Propósito:** saltar directamente al fichero correcto sin búsquedas ciegas. Desde D-15 (2026-10-31) el antiguo `index.html` de ≈3.800 líneas está dividido en marcado + CSS + 10 ficheros JS. Trasladado desde `CLAUDE.md`/`GEMINI.md` el 2026-10-31 (D-14).
+> **Propósito:** saltar directamente al fichero correcto sin búsquedas ciegas. Desde D-15 (2026-10-31) el antiguo `index.html` de ≈3.800 líneas está dividido en marcado + CSS + ficheros JS numerados (10 originales y, desde la sesión del 2026-11-04, 4 más del visor 3D, D-21). Trasladado desde `CLAUDE.md`/`GEMINI.md` el 2026-10-31 (D-14).
 > **Mantenimiento:** si cambia la estructura de `index.html`, actualiza este mapa en la misma sesión. Para localizar una función: `grep -n "function nombre" js/*.js`.
 
 ## Qué vive en cada fichero
 
 | Fichero | Contenido (bloques de la lista de abajo) | Líneas aprox. |
 |---|---|---|
-| `index.html` | Marcado de todas las secciones; carga `css/` y `js/` (con `?v=` anti-caché) | 1.060 |
-| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego | 370 |
+| `index.html` | Marcado de todas las secciones; carga `css/` y `js/` (con `?v=` anti-caché) | 1.230 |
+| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego y del visor 3D (`.n3d-*`) | 480 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind (se carga justo tras el CDN) | 27 |
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 170 |
 | `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos) y datos | 100 |
@@ -19,7 +19,11 @@
 | `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 145 |
 | `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona» | 435 |
 | `js/09-modo-fiesta.js` | 11 · Modo Fiesta (confeti en canvas) | 310 |
-| `js/10-inicio.js` | 14 · Inicialización, scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace» + tarjeta QR `#apk-qr-box` en escritorio) y `window.onload` | 120 |
+| `js/10-inicio.js` | 14 · Inicialización, scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace» + tarjeta QR `#apk-qr-box` en escritorio) y `window.onload` | 240 |
+| `js/11-nailong3d-geometria.js` | 15 · Núcleo 3D sin dependencias: `ANATOMIA`, SDF, Surface Nets, pesos de piel, `trazarRayo` (también en Worker y Node) | 440 |
+| `js/12-nailong3d-escena.js` | 16 · Escena 3D: `SkinnedMesh`, ojos, párpados, boca, placas, garras, materiales suave/toon/exportar, estudio de luces | 525 |
+| `js/13-nailong3d-animacion.js` | 17 · Animación 3D: muelles, reposo, `ACCIONES`, reacciones por zona, horneado de clips | 380 |
+| `js/14-nailong3d-visor.js` | 18 · Visor 3D: carga perezosa de Three.js r147 (SRI), bucle, cámara, toques, botones, foto, GLB; se autoinicia | 620 |
 
 Reglas: son **scripts clásicos** que comparten el ámbito global (sin `import`/`export`), así que el **orden de carga importa** y es el de la tabla. Al añadir un fichero, regístralo en `index.html`; `verify_all.py` falla si hay un `.js`/`.css` sin cargar o una referencia rota.
 
@@ -75,6 +79,9 @@ El código está estructurado en 14 bloques funcionales organizados:
 11. **Compartir & Conectividad Social:**
     - Modal con código QR generado en tiempo real y enlace en vivo a GitHub Pages.
 
+12. **Nailong 3D (sección `#nailong-3d`, entre «¿Quién es?» y «Stickers»):**
+    - Modelo procedural fiel a los stickers, cámara orbital, reacciones por zona, acciones, estilo sticker/dibujo, foto PNG y descarga `.glb`. Detalle en `05_nailong_3d.md`.
+
 ## Anclas y puntos de entrada clave
 
 | Qué | Fichero · símbolo |
@@ -88,5 +95,6 @@ El código está estructurado en 14 bloques funcionales organizados:
 | Modo Fiesta | `js/09-modo-fiesta.js` · `#party-canvas` |
 | Modales y bloqueo de scroll | `js/10-inicio.js` · `setupModalBackdrops`, `setupModalScrollLock`, `body.modal-open` |
 | Arranque | `js/10-inicio.js` · `window.onload = function()` |
+| Nailong 3D | `js/11`…`js/14` · `Nailong3DGeometria`, `Nailong3DEscena`, `Nailong3DAnimacion`, `Nailong3DVisor` (autoinicio con `DOMContentLoaded`) |
 
 > Esta tabla se ha construido con los nombres que `verify_all.py` ya comprueba; el número de línea no se fija porque cambia con cada edición.

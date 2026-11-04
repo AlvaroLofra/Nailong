@@ -30,6 +30,7 @@
 | **D-18** | Reparto equilibrado de packs animados (25/24/24), estáticos en un pack, 4 packs visibles y animación en la app (v3.3.1) | Tomada | 2026-11-01 |
 | **D-19** | Retiro de sticker 14 (IA), descatalogado, renumeración continua a 95 y actualización terciaria (v3.4.1) | Tomada | 2026-11-03 |
 | **D-20** | «Mi Selección» en un único pack (estáticos como animados de 2 fotogramas), identificador único y número visible libre (v3.6.0) | Tomada | 2026-11-03 |
+| **D-21** | Nailong 3D: modelo procedural (SDF + Surface Nets) con piel y esqueleto, visor Three.js r147 cargado bajo demanda y exportación GLB | Tomada | 2026-11-04 |
 
 ---
 
@@ -252,3 +253,17 @@
   2. *Identificador único, número visible libre:* el identificador es `seleccion_<hora en segundos>` y nunca se reutiliza; el número del nombre («Mi Selección», «Mi Selección 2»…) es el menor libre entre los packs que existen (`selection_number` en `metadata.json`; en packs antiguos se deduce de `seleccion_N`). Se elimina `KEY_COUNTER`.
 - **Alternativas descartadas:** mantener el diálogo de selección mixta (confuso para el usuario); reutilizar el número como identificador (WhatsApp podría confundir un pack nuevo con otro ya añadido que se borró solo en la app); guardar solo un contador menor (no resuelve el desfase tras borrar).
 - **Consecuencias:** versión 3.6.0 / `versionCode 14`; el APK crece unos 0,6 MB por las 23 variantes. El validador interno (`StickerPackValidator`) ya exige más de un fotograma en packs animados, así que cada pack mixto se valida al crearlo. **No comprobado:** importación de un pack mixto en un WhatsApp real (aceptación, estáticos quietos y envío); queda pendiente de probar en el móvil.
+
+---
+
+## D-21 · Nailong 3D: modelo procedural, visor Three.js r147 bajo demanda y exportación GLB
+- **Estado:** **Tomada** (2026-11-04, a petición del usuario: modelo 3D interactivo fiel a los stickers, en la web y exportable a `.glb`).
+- **Problema:** No había ningún modelo 3D usable. El intento de Blender del tráiler (`video-promo/trailer-3d/blender/render_nailong_eevee.py`) juntaba esferas sueltas (costuras visibles) y tenía rasgos que no salen en los stickers (cuernos, coloretes, ojos negros). Además, la web es *buildless* con scripts clásicos (D-15) y no admite subcarpetas en `js/` ni `<script>` en línea (test 1).
+- **Decisión:**
+  1. *Modelo procedural, no un fichero de modelo:* campo de distancia con signo (elipsoides y conos redondeados con fusión suave) medido sobre los stickers 86, 43, 18, 20, 84, 52 y 31, mallado con Surface Nets en banda estrecha en una sola piel estanca, con pesos de piel calculados desde el propio campo y un esqueleto de 12 huesos. Accesorios (ojos con iris verde, párpados, boca, orificios nasales, 3 placas oliva, garras, almohadillas) anclados a la superficie con trazado de rayos.
+  2. *Three.js r147 como scripts clásicos, bajo demanda:* última versión con `build/three.min.js` y `examples/js/` (OrbitControls, GLTFExporter), así que no abre la decisión de módulos ES de D-15. Se carga desde jsDelivr con SRI (respaldo unpkg con el mismo SRI) solo cuando la sección se acerca a la pantalla; el exportador, solo al pulsar «Descargar». La malla se calcula en un Web Worker creado desde un Blob con el código del núcleo.
+  3. *Animación procedural con muelles a paso fijo:* un único animador mueve el visor y hornea los 5 clips del GLB.
+  4. *Ubicación y versión (decididas por el usuario):* sección `#nailong-3d` entre «¿Quién es?» y «Stickers»; **sin subir versión** (sigue v3.6.0, el CHANGELOG lo anota en «Sin publicar») para no hacer creer a la app que hay un APK nuevo; botón de descarga `.glb` público.
+- **Alternativas descartadas:** reutilizar el script de Blender (rasgos y costuras incorrectos, y exige Blender); un `.glb` precalculado en el repo (binario sin trazabilidad de las proporciones; el procedural se prueba en `verify_all.py`); Three.js moderno con `import()` y mapa de importación (abre D-15 y exige `<script type="importmap">` en línea); controles de cámara propios (OrbitControls está muy probado en táctil); compilar la geometría en el hilo principal (bloquearía el scroll ~0,4 s).
+- **Consecuencias:** cuatro ficheros nuevos `js/11`–`js/14` (cargados tras `js/10-inicio.js`, con `?v=` de la versión vigente), estilos `.n3d-*`, test 49 en `verify_all.py` y nota técnica `notas_tecnicas/05_nailong_3d.md`. El manejador de pantalla completa del minijuego pasa a mirar solo su propio contenedor (antes reaccionaba a cualquier elemento a pantalla completa). En el menú de escritorio el enlace «🧊 3D» se muestra desde 1280 px para no empeorar el ancho a 1024 px. **No comprobado:** rendimiento real en GPU de móvil (las pruebas usaron SwiftShader, que es CPU), Safari/iPhone real, gestos de dos dedos reales, la carga desde jsDelivr en producción y abrir el GLB en Blender/Unity/Godot.
+

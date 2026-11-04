@@ -5,6 +5,17 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [Sin publicar] — 2026-11-04
+Nueva sección web **Nailong en 3D** (D-21). No cambia la versión (sigue `v3.6.0`; ni `version.json` ni el APK cambian).
+
+- **Web (`index.html`, `css/styles.css`, nuevos `js/11-nailong3d-geometria.js`, `js/12-nailong3d-escena.js`, `js/13-nailong3d-animacion.js`, `js/14-nailong3d-visor.js`):**
+  - Sección `#nailong-3d` entre «¿Quién es?» y «Stickers», con enlace en el menú móvil y en el de escritorio (desde 1280 px) y en el *scrollspy*.
+  - Modelo procedural fiel a los stickers: SDF + Surface Nets en una sola malla estanca, piel con 12 huesos, ojos con iris verde, párpados, boca expresiva, 3 placas oliva, garras y almohadillas.
+  - Interacción: cámara orbital (táctil con `touch-action: pan-y`), mirada que sigue al puntero, respiración y parpadeo, reacciones por zona (pancita, cabeza, brazos, cola, pies) con abolladura elástica, acciones (saludar, ¡duang!, bailar, sorpresa, siesta), estilos «Sticker 3D» y «Dibujo animado», pantalla completa, foto PNG transparente y descarga `nailong_3d.glb` con 5 animaciones.
+  - Rendimiento: Three.js r147 por CDN con SRI y solo bajo demanda, malla generada en un Web Worker, bucle pausado fuera de pantalla o con la pestaña oculta, calidad y resolución adaptativas; respeta `prefers-reduced-motion`.
+  - `js/08-minijuego.js`: su `fullscreenchange` solo reacciona a la pantalla completa del propio minijuego. `js/10-inicio.js`: `nailong-3d` en el *scrollspy*.
+- **Verificación:** nuevo test 49 en `verify_all.py` (estructura, CDN fijada con SRI y prueba funcional del núcleo en Node: malla estanca y proporciones canónicas). **No comprobado:** GPU de móvil real, Safari/iPhone, carga desde jsDelivr en producción y abrir el GLB en Blender/Unity/Godot.
+
 ## [3.6.0] — 2026-11-03
 Actualización secundaria (`v3.6.0`, `versionCode 14`): «Mi Selección» importa siempre a UN solo pack y la numeración de los packs deja de acumularse (D-20).
 
