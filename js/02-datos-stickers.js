@@ -3,7 +3,7 @@
         ============================================================== */
         let ALL_STICKERS = [
             { id: 1, file: 'sticker_1.webp', frames: 1, title: 'Puchero de Colegio', cat: 'caritas', sound: 'duang', desc: 'Con su mochila de la escuela y lagrimitas cómicas porque prefiere quedarse en casa comiendo.'  },
-            { id: 2, file: 'sticker_2.webp', frames: 36, title: 'Sonrisa Radiante 3D', cat: 'bailes', sound: 'laugh', desc: 'Nailong hablando alegremente con sus grandes ojitos verdes llenos de curiosidad.'  },
+            { id: 2, clave: 'dragon-de-leche', file: 'sticker_2.webp', frames: 36, title: 'Sonrisa Radiante 3D', cat: 'bailes', sound: 'laugh', desc: 'Nailong hablando alegremente con sus grandes ojitos verdes llenos de curiosidad.'  },
             { id: 3, file: 'sticker_3.webp', frames: 1, title: 'Ceja Sospechosa', cat: 'caritas', sound: 'pop', desc: 'Levantando una ceja dudoso: "¿Seguro que no queda tarta en la nevera?"'  },
             { id: 4, file: 'sticker_4.webp', frames: 1, title: 'Escuchando Atento', cat: 'amigos', sound: 'pop', desc: 'Sentadito en silencio escuchando las explicaciones de los inventos de Xiao Qi.'  },
             { id: 5, file: 'sticker_5.webp', frames: 2, title: '¡Gran Sonrisa!', cat: 'caritas', sound: 'laugh', desc: 'Primer plano súper alegre con la boquita abierta llena de entusiasmo infantil.'  },
@@ -28,11 +28,11 @@
             { id: 24, file: 'sticker_24.webp', frames: 32, title: 'Paseo por la Colina', cat: 'bailes', sound: 'duang', desc: 'Caminando por el prado verde saludando a todos los vecinos del valle.'  },
             { id: 25, file: 'sticker_25.webp', frames: 5, title: 'Meneo de Caderas Sabrosón', cat: 'bailes', sound: 'maracas', desc: 'Bailando con las patitas arriba y meneando la pancita con mucho ritmo.'  },
             { id: 26, file: 'sticker_26.webp', frames: 1, title: 'Ojos Tiernos de Cachorrito', cat: 'caritas', sound: 'duang', desc: 'Apoyando la barbilla en la mesa pidiendo otro trozo de pollo con ojos irresistibles.'  },
-            { id: 27, file: 'sticker_27.webp', frames: 1, title: 'Bombloong el Rival', cat: 'amigos', sound: 'duang', desc: 'El dragón morado cascarrabias sacando la lengua con cara de pillo.'  },
-            { id: 28, file: 'sticker_28.webp', frames: 33, title: 'Xiao Qi y la Colita de Nailong', cat: 'amigos', sound: 'duang', desc: 'El inventor Xiao Qi tirando de su colita mientras Nailong hace el vago en el suelo.'  },
+            { id: 27, clave: 'bombloong', file: 'sticker_27.webp', frames: 1, title: 'Bombloong el Rival', cat: 'amigos', sound: 'duang', desc: 'El dragón morado cascarrabias sacando la lengua con cara de pillo.'  },
+            { id: 28, clave: 'xiao-qi-colita', file: 'sticker_28.webp', frames: 33, title: 'Xiao Qi y la Colita de Nailong', cat: 'amigos', sound: 'duang', desc: 'El inventor Xiao Qi tirando de su colita mientras Nailong hace el vago en el suelo.'  },
             { id: 29, file: 'sticker_29.webp', frames: 36, title: 'Haciendo la Croqueta en el Césped', cat: 'bailes', sound: 'laugh', desc: 'Rodando feliz de lado a lado por el prado verde jugando al solecito.'  },
             { id: 30, file: 'sticker_30.webp', frames: 68, title: 'Relajo con Refresco Fresquito', cat: 'comida', sound: 'pop', desc: 'Sentado en el sofá disfrutando de su bebida fría con pajita.'  },
-            { id: 31, file: 'sticker_31.webp', frames: 43, title: 'Las Tres Escamitas de la Espalda', cat: 'amigos', sound: 'pop', desc: 'Vista trasera mostrando sus tres adorables placas dorsales verdes de dragón.'  },
+            { id: 31, clave: 'escamitas-espalda', file: 'sticker_31.webp', frames: 43, title: 'Las Tres Escamitas de la Espalda', cat: 'amigos', sound: 'pop', desc: 'Vista trasera mostrando sus tres adorables placas dorsales verdes de dragón.'  },
             { id: 32, file: 'sticker_32.webp', frames: 1, title: 'Gasp Ofendido', cat: 'caritas', sound: 'duang', desc: '"¿Cómo que se ha acabado el pollo? ¡Eso es completamente inaceptable!".'  },
             { id: 33, file: 'sticker_33.webp', frames: 21, title: 'El Baile del Capitán Pirata', cat: 'bailes', sound: 'fanfare', desc: 'Bailando alegremente con su sombrero de dos picos y actitud corsaria.'  },
             { id: 34, file: 'sticker_34.webp', frames: 1, title: 'Mirada Esmeralda en la Playa', cat: 'bailes', sound: 'duang', desc: 'Retrato de relax veraniego en la tumbona con cielo azul y brisa fresca.'  },
@@ -99,3 +99,14 @@
             { id: 95, file: 'sticker_95.webp', frames: 23, title: 'El Chichón Travieso', cat: 'caritas', sound: 'duang', desc: 'Con un gracioso chichón en la cabecita y ojitos llorosos cómicos tras tropezar jugando.'  }
         ];
 
+        /* Imágenes fijadas por CLAVE, no por número (ver D-22).
+           En index.html se marcan con data-sticker="<clave>"; la clave viaja con su
+           cromo en ALL_STICKERS cuando se renumera, así que la imagen nunca se desplaza.
+           verify_all.py (test 51) comprueba que el src escrito coincide con su clave. */
+        function aplicarStickersFijos() {
+            document.querySelectorAll('img[data-sticker]').forEach(img => {
+                const s = ALL_STICKERS.find(x => x.clave === img.dataset.sticker);
+                if (s && !img.getAttribute('src').endsWith('/' + s.file)) img.src = 'Stickers Nailong/' + s.file;
+            });
+        }
+        aplicarStickersFijos();

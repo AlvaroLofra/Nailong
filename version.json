@@ -1,12 +1,11 @@
 {
-  "versionCode": 14,
-  "versionName": "3.6.0",
-  "date": "2026-11-03",
+  "versionCode": 15,
+  "versionName": "3.6.1",
+  "date": "2026-11-06",
   "sizeMB": 31.8,
   "apkUrl": "https://alvarolofra.github.io/Nailong/StickersNailong.apk",
   "notes": [
-    "Tu selección de «Mi Selección» va ahora siempre en un único pack, mezcles animados y estáticos.",
-    "Al importar solo eliges el nombre del pack y se añade a WhatsApp: desaparece la pantalla de «selección mixta».",
-    "Los packs se numeran bien: «Mi Selección», «Mi Selección 2»… y el número se libera al borrarlos."
+    "El sticker del Chef Pastelero vuelve a moverse en bucle sin pararse, también al verlo en grande.",
+    "Si ya tenías el pack «Nailong animado 1» en WhatsApp, se actualiza solo con el sticker arreglado."
   ]
 }

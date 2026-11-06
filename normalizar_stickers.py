@@ -58,6 +58,35 @@ def webp_chunks(path):
     return out
 
 
+LOOP_MSG = 'se reproduce un numero fijo de veces (contador de bucle del ANIM distinto de 0)'
+
+
+def anim_offset(b):
+    """Posicion del chunk ANIM dentro del WebP (None si es estatico)."""
+    i = 12
+    while i < len(b):
+        tag, size = b[i:i + 4], struct.unpack('<I', b[i + 4:i + 8])[0]
+        if tag == b'ANIM':
+            return i
+        i += 8 + size + (size & 1)
+    return None
+
+
+def loop_count(path):
+    """Veces que se repite la animacion segun el chunk ANIM (0 = bucle infinito; None = estatico)."""
+    b = open(path, 'rb').read()
+    i = anim_offset(b)
+    return None if i is None else struct.unpack('<H', b[i + 12:i + 14])[0]
+
+
+def fix_loop(path):
+    """Pone el contador de bucle a 0 (infinito) tocando solo esos 2 bytes: no re-codifica la imagen."""
+    b = bytearray(open(path, 'rb').read())
+    i = anim_offset(b)
+    b[i + 12:i + 14] = struct.pack('<H', 0)
+    open(path, 'wb').write(bytes(b))
+
+
 def problems(path, strict=True):
     """Lista de motivos por los que WhatsApp no tomaria el archivo como sticker.
     strict=False omite la estructura de fotogramas (stickers 1-42 originales, que ya funcionan)."""
@@ -71,6 +100,8 @@ def problems(path, strict=True):
         out.append('sin EXIF de WhatsApp')
     if kb > (MAX_ANIM_KB if n > 1 else MAX_STATIC_KB):
         out.append(f'pesa {kb:.0f} KB (limite {MAX_ANIM_KB if n > 1 else MAX_STATIC_KB})')
+    if n > 1 and loop_count(path) not in (None, 0):
+        out.append(LOOP_MSG)
     if strict and n > 1:
         out += structure_problems(path)
     return out
@@ -251,6 +282,9 @@ def main():
         bad += 1
         if check_only:
             print(f'sticker_{i}: ' + '; '.join(pr))
+        elif pr == [LOOP_MSG]:
+            fix_loop(p)   # solo el contador: arreglo sin perdida, tambien en los originales 1-42
+            print(f'sticker_{i} corregido ({LOOP_MSG}) -> bucle infinito')
         else:
             frames, kb = convert(p, p)
             print(f'sticker_{i} corregido ({"; ".join(pr)}) -> 512x512, {frames} fotogramas, {kb:.0f} KB')

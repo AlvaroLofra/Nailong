@@ -363,7 +363,7 @@ print("✔ v14 verified: all 95 stickers are 512x512 WebP with WhatsApp EXIF and
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v3.6.0<', html), "Footer must show the current version number (v3.6.0)!"
+assert re.search(r'id="app-version"[^>]*>v3.6.1<', html), "Footer must show the current version number (v3.6.1)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -380,8 +380,8 @@ assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailo
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-assert 'v3.6.0 APK' in html, "Badge in index.html must show v3.6.0 APK!"
-print("✔ v3.6.0 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.6.0 APK badge.")
+assert 'v3.6.1 APK' in html, "Badge in index.html must show v3.6.1 APK!"
+print("✔ v3.6.1 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v3.6.1 APK badge.")
 
 # Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
 font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
@@ -517,4 +517,40 @@ assert 0.8 < _g['cab'] / _g['tor'] < 0.95 and 0.5 < _g['tor'] / _g['altura'] < 0
 assert 0.08 < _g['pancita'] < 0.3, f"Cream belly patch missing or oversized: {_g}"
 print(f"✔ Nailong 3D verified: lazy Three.js r147 with SRI, viewer in #nailong-3d, watertight {_g['vertices']}-vertex skinned mesh with canonical proportions.")
 
-print("\n=== ALL 49 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 50: v3.6.1 - todos los stickers animados se repiten en bucle (contador del chunk ANIM = 0), en la web y en la app
+# (sticker_6 traia un 1: se reproducia una vez y se congelaba en la web, en el zoom de la app y en WhatsApp)
+import struct as _struct
+def _loop_count(_path):
+    with open(_path, 'rb') as _lf:
+        _b = _lf.read()
+    _i = 12
+    while _i < len(_b):
+        _tag, _size = _b[_i:_i + 4], _struct.unpack('<I', _b[_i + 4:_i + 8])[0]
+        if _tag == b'ANIM':
+            return _struct.unpack('<H', _b[_i + 12:_i + 14])[0]
+        _i += 8 + _size + (_size & 1)
+    return None
+_sin_bucle = [f for f in os.listdir('Stickers Nailong') if f.endswith('.webp') and _loop_count(os.path.join('Stickers Nailong', f)) not in (None, 0)]
+_assets_app = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\assets'
+assert os.path.isdir(_assets_app), f"Android assets folder missing: {_assets_app}"
+for _raiz, _dirs, _files in os.walk(_assets_app):
+    _sin_bucle += [os.path.join(_raiz, f) for f in _files if f.endswith('.webp') and _loop_count(os.path.join(_raiz, f)) not in (None, 0)]
+assert not _sin_bucle, f"Animated stickers must loop forever (ANIM loop count 0); fix with normalizar_stickers.py: {_sin_bucle}"
+print("✔ Sticker loops verified: every animated WebP in the web and the Android assets repeats forever.")
+
+# Test 51: v3.6.1 - las imagenes fijas de la web apuntan a su cromo por CLAVE (data-sticker), no solo por numero (D-22)
+# Al renumerar, la clave viaja con su cromo en ALL_STICKERS; el src escrito en index.html debe coincidir con ella.
+with open('js/02-datos-stickers.js', encoding='utf-8') as _df:
+    _datos = _df.read()
+_claves = dict(re.findall(r"clave: '([a-z0-9-]+)', file: '(sticker_\d+\.webp)'", _datos))
+assert len(_claves) == _datos.count("clave: '"), "Every 'clave' in ALL_STICKERS must be unique and followed by its file!"
+_fijas = re.findall(r'<img src="Stickers Nailong/(sticker_\d+\.webp)" data-sticker="([a-z0-9-]+)"', page_html)
+assert len(_fijas) == page_html.count('data-sticker="'), "Every data-sticker image must have its src right before data-sticker!"
+assert {k for _, k in _fijas} >= {'dragon-de-leche', 'xiao-qi-colita', 'bombloong', 'escamitas-espalda'}, "The 4 'Quién es Nailong' cards must use data-sticker keys!"
+for _file, _key in _fijas:
+    assert _key in _claves, f"data-sticker='{_key}' has no matching clave in ALL_STICKERS!"
+    assert _claves[_key] == _file, f"data-sticker='{_key}' points to {_file} but its clave belongs to {_claves[_key]} (renumbering drift)!"
+assert 'function aplicarStickersFijos' in _datos and 'aplicarStickersFijos();' in _datos, "The runtime resolver of data-sticker keys is missing!"
+print(f"✔ Fixed sticker images verified: {len(_fijas)} images resolved by stable key, none drifted after renumbering.")
+
+print("\n=== ALL 51 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
