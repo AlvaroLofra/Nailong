@@ -2,15 +2,15 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 04/11/2026 (nueva sección web **Nailong en 3D**, D-21, todavía «Sin publicar» y sin cambio de versión; antes, v3.6.0: «Mi Selección» en un único pack, pendiente de probar en un WhatsApp real).
-> **Rama activa:** `main` (el trabajo 3D está en la rama `claude/bold-brown-ainuog`, pendiente de fusionar).
-> **Versión actual de producción:** Web `v3.6.0` | Android APK `v3.6.0` (`versionCode 14`).
+> **Última actualización:** 06/11/2026 (v3.6.1: `sticker_6` vuelve a ir en bucle y las imágenes de «¿Quién es Nailong?» quedan fijadas por clave, D-22; la sección **Nailong en 3D**, D-21, sigue en el código pero oculta en la web mientras se perfecciona el modelo).
+> **Rama activa:** `main`.
+> **Versión actual:** Web `v3.6.1` | Android APK `v3.6.1` (`versionCode 15`). Sin commit ni push todavía en esta sesión.
 
 ---
 
 ## 1. En una Frase
 
-La web oficial y la app Android nativa se encuentran sincronizadas en la versión **v3.6.0** (`versionCode 14`), con **95 cromos oficiales** en 4 packs equilibrados (24/24/24/23) y APK firmado de 31.8 MB. Sobre esa versión, sin publicar todavía, la web estrena **Nailong en 3D**: modelo procedural fiel a los stickers, interactivo y exportable a `.glb`. `verify_all.py` tiene ahora **49 comprobaciones** (ver § 3 sobre lo que no se pudo ejecutar fuera del PC del usuario).
+La web oficial y la app Android nativa están sincronizadas en la versión **v3.6.1** (`versionCode 15`), con **95 cromos oficiales** en 4 packs equilibrados (24/24/24/23), todos los animados en bucle infinito, y APK firmado de 31.8 MB. El visor **Nailong en 3D** está en el código pero oculto. `verify_all.py` tiene **51 comprobaciones** y pasa completa en el PC del usuario.
 
 ---
 
@@ -23,17 +23,23 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
 | **Banco de cromos coleccionables** | Exactamente 95 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador + 1 sticker descatalogado fuera de catálogo. |
 | **Packs oficiales preconfigurados en Android** | 4 packs: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23). Total: 95 stickers. |
 | **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con vista de revisión («Ver (N) ❯»), vistas previas animadas de 192 px y un único pack por importación (si hay animados, los estáticos van como animados de 2 fotogramas). |
-| **Paquete nativo Android firmado** | `StickersNailong.apk` (31.8 MB / 31.820.990 bytes, firmado con clave *debug* oficial `SHA-256: 04b83add...abb2`, targetSdk 30, versionCode 14, versionName 3.6.0). |
+| **Paquete nativo Android firmado** | `StickersNailong.apk` (31.8 MB / 31.820.990 bytes, firmado con clave *debug* oficial `SHA-256: 04b83add...abb2`, targetSdk 30, versionCode 15, versionName 3.6.1). `image_data_version`: 4 en *Nailong animado 1*, 3 en el resto. |
+| **Imágenes fijas por clave (D-22)** | Las 4 tarjetas de «¿Quién es Nailong?» usan `data-sticker` (dragon-de-leche → 2, xiao-qi-colita → 28, bombloong → 27, escamitas-espalda → 31). El resto de referencias fijas sigue por número (W11 en `MEJORAS_PENDIENTES.md`). |
 | **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_v2.mp4` (1080×1920, 60 fps, 32.0s, 17.4 MB, audio y SFX sintetizados a 120 BPM). |
 | **Botonera de sonidos sintetizados** | 12 casillas con 12 sonidos únicos sintetizados con Web Audio API (`duang`, `chomp`, `slurp`, `bleh`, `maracas`, `fire`, `sleep`, `laugh`, `pirate`, `run`, `tail`, `fanfare`). |
 | **Laboratorio de superpoderes** | Tamaño dinámico, modo camaleón, 6 disfraces mágicos, llamitas, hinchado de tripita, lluvia de pollo crujiente y gravedad cero espacial. |
-| **Suite de pruebas automatizadas (`verify_all.py`)** | **49 comprobaciones.** En la sesión del 04/11 (contenedor Linux) pasaron todas salvo las aserciones que leen el código Android de `C:\src` (tests 43, 45, 47 y 48, en parte), que no existe allí: **pendiente de pasarla completa en el PC del usuario**. |
+| **Suite de pruebas automatizadas (`verify_all.py`)** | **51 comprobaciones**, todas en verde el 06/11 en el PC del usuario (incluidas las que leen el código Android de `C:\src`). |
 | **Auditoría de stickers (`normalizar_stickers.py --check`)** | **0 problemas en los 95 stickers (100% conformes con WhatsApp)**. |
 
 ---
 
 ## 3. Qué Está Completado y Verificado
 
+- [x] **v3.6.1 — bucle de `sticker_6` e imágenes fijas por clave (`versionCode 15`, ver D-22):**
+  - Causa del sticker congelado: el contador de bucle de su chunk `ANIM` valía 1. La cuadrícula de la app iba bien porque usa vistas previas generadas aparte con bucle 0; el zoom y WhatsApp usan el fichero original. Corregido a 0 sin re-codificar, en la web y en `assets/nailong_animados_1/03_sticker_6.webp` de la app.
+  - `normalizar_stickers.py` detecta y corrige este caso; test 50 lo vigila en la web y en los `assets/` de la app.
+  - «¿Quién es Nailong?» recupera las imágenes originales (identificadas comparando con el primer commit) y queda fijada por clave; test 51.
+  - **No comprobado:** la app instalada en un móvil (zoom en bucle) ni que WhatsApp refresque el pack *Nailong animado 1* ya añadido.
 - [x] **Nailong en 3D (sin publicar, D-21, nota técnica `05_nailong_3d.md`):**
   - Modelo procedural (SDF + Surface Nets) medido sobre los stickers: pera alta con papada, hocico, pancita crema, ojos con iris verde y párpados, 3 placas oliva, garras, almohadillas rosas y cola cónica. Malla estanca y proporciones vigiladas por el test 49.
   - Visor con cámara orbital, mirada, respiración, parpadeo, reacciones por zona con abolladura elástica, acciones (saludar, ¡duang!, bailar, sorpresa, siesta), estilo sticker/dibujo, pantalla completa, foto PNG y descarga `.glb`; carga perezosa, pausa fuera de pantalla, calidad adaptativa y `prefers-reduced-motion`.
@@ -57,5 +63,5 @@ La web oficial y la app Android nativa se encuentran sincronizadas en la versió
   - **W6:** Al pulsar «Copiar enlace» en ordenador dentro del banner de la app, además de copiar la URL al portapapeles se despliega una tarjetita *clay* (`#apk-qr-box`) con el código QR apuntando a la descarga directa de `StickersNailong.apk`.
   - **W7:** Sufijos anti-caché `?v=` actualizados en todas las referencias a `css/` y `js/`, y blindados automáticamente con el test 48 de `verify_all.py`.
 - [x] **Verificación:**
-  - `verify_all.py`: 49 comprobaciones; el 04/11 se ejecutaron en Linux todas salvo las aserciones con rutas `C:\src` (código Android fuera del repo). Falta ejecutarla completa en el PC del usuario.
+  - `verify_all.py`: 51 comprobaciones, todas en verde el 06/11 en el PC del usuario.
   - `normalizar_stickers.py --check`: **95 de 95 stickers conformes**.

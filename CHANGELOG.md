@@ -16,6 +16,14 @@ Nueva sección web **Nailong en 3D** (D-21). No cambia la versión (sigue `v3.6.
   - `js/08-minijuego.js`: su `fullscreenchange` solo reacciona a la pantalla completa del propio minijuego. `js/10-inicio.js`: `nailong-3d` en el *scrollspy*.
 - **Verificación:** nuevo test 49 en `verify_all.py` (estructura, CDN fijada con SRI y prueba funcional del núcleo en Node: malla estanca y proporciones canónicas). **No comprobado:** GPU de móvil real, Safari/iPhone, carga desde jsDelivr en producción y abrir el GLB en Blender/Unity/Godot.
 
+## [3.6.1] — 2026-11-06
+Actualización terciaria (`v3.6.1`, `versionCode 15`): `sticker_6` vuelve a ir en bucle y las imágenes de «¿Quién es Nailong?» quedan fijadas por clave (D-22).
+
+- **Stickers:** `sticker_6.webp` («Chef Pastelero Nailong») tenía el contador de bucle del chunk `ANIM` a 1, así que se reproducía una vez y se congelaba (web, zoom de la app y WhatsApp). Puesto a 0 (bucle infinito) sin re-codificar la imagen. `normalizar_stickers.py` detecta y corrige este caso en cualquier sticker animado.
+- **Web (`index.html`, `js/02-datos-stickers.js`):** las tarjetas de «¿Quién es Nailong?» vuelven a sus imágenes originales (Xiao Qi → 28, Bombloong → 27, Escamitas → 31; se habían desplazado en las renumeraciones). Ahora se marcan con `data-sticker="<clave>"` y su cromo lleva `clave` en `ALL_STICKERS`, así que no se mueven al renumerar; `aplicarStickersFijos()` corrige el `src` en ejecución. Sufijos `?v=3.6.1`, pie y banner `v3.6.1`.
+- **App Android (`StickersNailong.apk` v3.6.1, `versionCode 15`, 31.8 MB):** `03_sticker_6.webp` corregido e `image_data_version` 4 en el pack *Nailong animado 1* para que WhatsApp refresque el pack ya añadido. `version.json` actualizado.
+- **Verificación:** tests 50 (todos los animados de la web y de la app en bucle) y 51 (imágenes fijas coherentes con su clave) en `verify_all.py`. **No comprobado:** la app instalada en un móvil ni el sticker en un WhatsApp real.
+
 ## [3.6.0] — 2026-11-03
 Actualización secundaria (`v3.6.0`, `versionCode 14`): «Mi Selección» importa siempre a UN solo pack y la numeración de los packs deja de acumularse (D-20).
 

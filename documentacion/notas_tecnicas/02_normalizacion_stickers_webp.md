@@ -2,7 +2,7 @@
 
 > **Subsistema:** Normalizador gráfico de cromos  
 > **Script principal:** `normalizar_stickers.py`  
-> **Comprobación:** Test 39 en `verify_all.py`
+> **Comprobación:** Tests 39 y 50 en `verify_all.py`
 
 ---
 
@@ -46,3 +46,14 @@ Para resolver esta limitación, `normalizar_stickers.py` implementa un construct
    - Inyecta al final el chunk `EXIF` con el payload de metadatos de WhatsApp.
 4. **Verificación de peso dinámico:**
    Si el archivo resultante supera los 500 KB, el script reduce automáticamente la calidad de compresión (90 $\rightarrow$ 80 $\rightarrow$ 70) o decima fotogramas si la tasa de refresco lo permite hasta encajar exactamente dentro del umbral legal de WhatsApp.
+
+---
+
+## 4. Bucle infinito (contador del chunk `ANIM`, v3.6.1, D-22)
+
+Los bytes 4–5 del contenido del chunk `ANIM` guardan cuántas veces se repite la animación: **0 = para siempre**. Un sticker que llega de fuera con otro valor (como `sticker_6`, que traía un 1) se reproduce una vez y se congela en el navegador, en el zoom de la app (Fresco respeta el contador) y en WhatsApp.
+
+- `--check` lo informa como problema en cualquier animado, también en los originales 1–42.
+- Sin `--check`, si es el único problema, `fix_loop()` reescribe solo esos 2 bytes: la imagen no se re-codifica ni pierde calidad.
+- El test 50 lo comprueba en `Stickers Nailong/` y en `assets/` de la app (incluidas las vistas previas y las variantes animadas de los estáticos).
+- Si se cambia un sticker que ya está en la app, hay que subir `image_data_version` de su pack en `contents.json` para que WhatsApp lo refresque.

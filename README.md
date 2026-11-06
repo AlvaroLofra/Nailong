@@ -43,12 +43,11 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 ---
 
-## ✨ Novedades de la Versión (v3.6.0)
+## ✨ Novedades de la Versión (v3.6.1)
 
-- **Tu selección, en un solo pack:** Elige los stickers que quieras, animados y estáticos mezclados, y la app los guarda juntos en un único pack. Ya no aparece la pantalla de «selección mixta».
-- **Importar es más rápido:** Pulsa **«Importar a WhatsApp»**, ponle nombre a tu pack y listo.
-- **Nombres ordenados:** Tus packs se llaman «Mi Selección», «Mi Selección 2»… y los números se liberan cuando borras un pack.
-- **Y de la versión anterior:** zoom gigante al mantener pulsado, botón **«Ver»** para revisar tu selección, etiqueta **«⭐ Tuyo»** y código QR en ordenador.
+- **El Chef Pastelero vuelve a bailar:** Su sticker ya se mueve en bucle sin quedarse congelado, en la web, en la app y al verlo en grande.
+- **Cada personaje con su foto:** En «¿Quién es Nailong?», Xiao Qi, Bombloong y las escamitas vuelven a tener su imagen correcta.
+- **Y de la versión anterior:** tu selección de stickers va en un único pack, mezclando animados y estáticos.
 
 > 📖 **Historial completo de versiones:**
 > 👉 ¿Quieres ver el historial completo de cambios y detalles técnicos? Consulta el [**CHANGELOG.md**](CHANGELOG.md).

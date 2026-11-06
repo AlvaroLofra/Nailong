@@ -31,6 +31,7 @@
 | **D-19** | Retiro de sticker 14 (IA), descatalogado, renumeración continua a 95 y actualización terciaria (v3.4.1) | Tomada | 2026-11-03 |
 | **D-20** | «Mi Selección» en un único pack (estáticos como animados de 2 fotogramas), identificador único y número visible libre (v3.6.0) | Tomada | 2026-11-03 |
 | **D-21** | Nailong 3D: modelo procedural (SDF + Surface Nets) con piel y esqueleto, visor Three.js r147 cargado bajo demanda y exportación GLB | Tomada | 2026-11-04 |
+| **D-22** | Imágenes fijas de la web por clave estable (`data-sticker`) y stickers animados siempre en bucle infinito (v3.6.1) | Tomada | 2026-11-06 |
 
 ---
 
@@ -267,3 +268,13 @@
 - **Alternativas descartadas:** reutilizar el script de Blender (rasgos y costuras incorrectos, y exige Blender); un `.glb` precalculado en el repo (binario sin trazabilidad de las proporciones; el procedural se prueba en `verify_all.py`); Three.js moderno con `import()` y mapa de importación (abre D-15 y exige `<script type="importmap">` en línea); controles de cámara propios (OrbitControls está muy probado en táctil); compilar la geometría en el hilo principal (bloquearía el scroll ~0,4 s).
 - **Consecuencias:** cuatro ficheros nuevos `js/11`–`js/14` (cargados tras `js/10-inicio.js`, con `?v=` de la versión vigente), estilos `.n3d-*`, test 49 en `verify_all.py` y nota técnica `notas_tecnicas/05_nailong_3d.md`. El manejador de pantalla completa del minijuego pasa a mirar solo su propio contenedor (antes reaccionaba a cualquier elemento a pantalla completa). En el menú de escritorio el enlace «🧊 3D» se muestra desde 1280 px para no empeorar el ancho a 1024 px. **No comprobado:** rendimiento real en GPU de móvil (las pruebas usaron SwiftShader, que es CPU), Safari/iPhone real, gestos de dos dedos reales, la carga desde jsDelivr en producción y abrir el GLB en Blender/Unity/Godot.
 
+---
+
+## D-22 · Imágenes fijas por clave estable y stickers animados siempre en bucle (v3.6.1)
+- **Estado:** **Tomada** (2026-11-06, a petición del usuario).
+- **Problema:** (1) `sticker_6` se reproducía una sola vez y se congelaba en la web y en el zoom de la app: su chunk `ANIM` traía un contador de bucle 1 (el resto, 0 = infinito). La cuadrícula de la app no lo mostraba porque usa las vistas previas de 192 px, generadas aparte con bucle 0; el zoom y WhatsApp usan el fichero original. Nadie comprobaba ese contador. (2) Las 4 tarjetas de «¿Quién es Nailong?» apuntaban a `sticker_N.webp` por número; tras las renumeraciones de D-16 y D-19 quedaron desplazadas (Xiao Qi mostraba la croqueta, Bombloong a Xiao Qi y «Escamitas» el *gasp*), porque ninguna prueba ligaba la imagen a su texto.
+- **Decisión:**
+  1. *Bucle:* `normalizar_stickers.py` detecta un contador ≠ 0 en cualquier animado (también en los originales 1–42) y, si es el único problema, lo pone a 0 tocando solo esos 2 bytes (sin re-codificar). Test 50 de `verify_all.py`: todos los WebP animados de la web y de `assets/` de la app tienen bucle infinito.
+  2. *Clave estable:* los cromos usados fuera de la galería llevan `clave` en `ALL_STICKERS` (`js/02-datos-stickers.js`) y la imagen de `index.html` se marca con `data-sticker="<clave>"`. Al renumerar, la clave viaja con su cromo (igual que el título). `aplicarStickersFijos()` corrige el `src` en ejecución y el test 51 falla si el `src` escrito no coincide con el fichero de su clave. Se mantiene el `src` escrito para que la imagen cargue aunque falle el JS.
+- **Alternativas descartadas:** volver a corregir los números a mano (se desplazarían en la próxima renumeración); nombrar los ficheros por clave en vez de por número (rompe la numeración continua de D-05 y el álbum); dejar solo el `src` resuelto por JS (sin imagen si el script falla) o solo el test (avisa, pero no corrige en producción).
+- **Consecuencias:** versión terciaria 3.6.1 / `versionCode 15` (APK con el sticker corregido e `image_data_version` 4 del pack *Nailong animado 1* para que WhatsApp lo refresque). Por ahora solo las 4 tarjetas usan clave; pasar el resto de referencias fijas (hero, laboratorio, botonera…) queda en `MEJORAS_PENDIENTES.md` (W11). **No comprobado:** el sticker en un WhatsApp real ni la app instalada en un móvil.

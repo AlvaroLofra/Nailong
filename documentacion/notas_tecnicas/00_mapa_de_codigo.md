@@ -11,7 +11,7 @@
 | `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego y del visor 3D (`.n3d-*`) | 480 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind (se carga justo tras el CDN) | 27 |
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 170 |
-| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos) y datos | 100 |
+| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos; `clave` estable en los usados fuera del álbum) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22) | 100 |
 | `js/03-hero.js` | 3 · Hero, contador Duang y estados de ánimo | 110 |
 | `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante | 110 |
 | `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 265 |
