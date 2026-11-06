@@ -4,7 +4,7 @@
 >
 > **Última actualización:** 06/11/2026 (v3.6.1: `sticker_6` vuelve a ir en bucle y las imágenes de «¿Quién es Nailong?» quedan fijadas por clave, D-22; la sección **Nailong en 3D**, D-21, sigue en el código pero oculta en la web mientras se perfecciona el modelo).
 > **Rama activa:** `main`.
-> **Versión actual:** Web `v3.6.1` | Android APK `v3.6.1` (`versionCode 15`). Sin commit ni push todavía en esta sesión.
+> **Versión actual:** Web `v3.6.1` | Android APK `v3.6.1` (`versionCode 15`). Publicada en `main` (GitHub Pages) el 06/11/2026.
 
 ---
 
