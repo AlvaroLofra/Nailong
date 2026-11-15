@@ -319,7 +319,10 @@ assert "backdrop-blur" not in html, "backdrop-blur over animated content must be
 assert "GALLERY_PAGE_SIZE" in html and "showMoreGallery" in html and 'id="gallery-load-more"' in html, "Progressive album pagination missing!"
 onload_src = html[html.index("window.onload = function()"):]
 assert "loadUserPhotosFromStorage();" in onload_src, "loadUserPhotosFromStorage() must be called in window.onload!"
-assert "deleteUserPhoto('${item.id}', event)" in polaroid_src, "Delete button for user photos missing in album template!"
+assert "deleteUserPhoto('${escaparHtml(item.id)}', event)" in polaroid_src, "Delete button for user photos missing in album template!"
+# Los datos de las fotos del usuario (nombre de fichero, localStorage) no son de confianza: se escapan y se validan
+assert 'alt="${escaparHtml(item.title)}"' in polaroid_src and "${escaparHtml(item.desc)}" in polaroid_src, "User-provided text must be escaped in the album template!"
+assert "saved.filter(esFotoGuardadaValida)" in html, "Photos loaded from localStorage must be validated!"
 assert "Number.isFinite(Number(item.id))" in polaroid_src, "Pin/tilt seed must support string ids of user photos!"
 assert "43+" not in html and "Creador (5)" not in html, "Hardcoded filter counters (43+, Creador (5)) must be gone!"
 assert "function updateFilterCounts" in html, "Dynamic filter counters missing!"

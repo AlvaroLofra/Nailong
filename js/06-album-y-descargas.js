@@ -41,7 +41,7 @@
 
                         <!-- Sticker Photo Box -->
                         <div class="relative w-full h-36 sm:h-52 rounded-2xl bg-gradient-to-br from-amber-50 to-nailong-pale flex items-center justify-center p-2 sm:p-3 border-2 border-nailong-pale overflow-hidden shadow-inner group-hover:scale-105 transition-transform duration-300">
-                            <img src="${imgSrc}" alt="${item.title}" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain">
+                            <img src="${escaparHtml(imgSrc)}" alt="${escaparHtml(item.title)}" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain">
                             ${isAnim ? `
                                 <span class="absolute top-2 left-2 bg-amber-950/80 text-nailong-yellow text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow">
                                     <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
@@ -54,7 +54,7 @@
                                 </span>
                             ` : ''}
                             ${item.isUserPhoto ? `
-                                <button type="button" onclick="deleteUserPhoto('${item.id}', event)" aria-label="Borrar mi foto"
+                                <button type="button" onclick="deleteUserPhoto('${escaparHtml(item.id)}', event)" aria-label="Borrar mi foto"
                                         class="absolute top-2 right-2 z-20 w-10 h-10 rounded-full bg-white/95 border-2 border-rose-300 text-lg shadow flex items-center justify-center hover:bg-rose-100">🗑️</button>
                             ` : ''}
                         </div>
@@ -62,10 +62,10 @@
                         <div class="pt-3 space-y-1 text-center">
                             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">${item.customUrl ? 'CROMO PERSONAL' : `CROMO #${item.id}`}</span>
                             <h4 class="font-display font-bold text-sm sm:text-lg text-amber-950 leading-snug group-hover:text-nailong-orange transition-colors">
-                                ${item.title}
+                                ${escaparHtml(item.title)}
                             </h4>
                             <p class="text-[11px] sm:text-xs font-semibold text-amber-800/85 line-clamp-2">
-                                ${item.desc}
+                                ${escaparHtml(item.desc)}
                             </p>
                         </div>
                     </div>
@@ -475,13 +475,27 @@
 
         const USER_PHOTOS_STORAGE_KEY = 'nailong_saved_user_photos_v1';
 
+        // Los textos de las fotos del usuario (nombre de fichero) y lo guardado en localStorage no son de
+        // confianza: se escapan al pintarlos con innerHTML para que nunca se interpreten como HTML.
+        function escaparHtml(texto) {
+            return String(texto == null ? '' : texto).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        // Solo se aceptan fotos guardadas con la forma que crea esta página: id propio e imagen incrustada.
+        function esFotoGuardadaValida(photo) {
+            return Boolean(photo) && typeof photo === 'object'
+                && /^user_[A-Za-z0-9_]+$/.test(String(photo.id))
+                && typeof photo.customUrl === 'string' && photo.customUrl.startsWith('data:image/')
+                && typeof photo.title === 'string' && typeof photo.desc === 'string';
+        }
+
         function loadUserPhotosFromStorage() {
             try {
                 const raw = localStorage.getItem(USER_PHOTOS_STORAGE_KEY);
                 if (!raw) return;
                 const saved = JSON.parse(raw);
                 if (Array.isArray(saved) && saved.length > 0) {
-                    saved.forEach(photo => {
+                    saved.filter(esFotoGuardadaValida).forEach(photo => {
                         if (!ALL_STICKERS.some(s => String(s.id) === String(photo.id))) {
                             ALL_STICKERS.unshift(photo);
                         }
