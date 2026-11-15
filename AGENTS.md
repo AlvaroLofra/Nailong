@@ -21,6 +21,7 @@ El usuario dirige el desarrollo con agentes y no programa a mano: responde en **
 | Servir en local | `python -m http.server 8000` → <http://localhost:8000/> |
 | **Verificación completa (cambios medios/grandes; ver «Proporcionalidad»)** | `python verify_all.py` (debe terminar sin error; el nº de comprobaciones está en `ESTADO_ACTUAL.md`) |
 | Normalizar / comprobar stickers | `python normalizar_stickers.py --check` |
+| Separar descargas nuevas de repetidas | `python normalizar_stickers.py --clasificar CARPETA` (nota técnica 02 §5) |
 | Recompilar el APK | Ver `documentacion/guias_y_contexto/GUIA_DESARROLLO.md` (el código Android vive fuera de este repo) |
 
 ## Mapa del repositorio
@@ -33,7 +34,8 @@ version.json          Versión publicada del APK, peso, fecha y novedades (la ap
 StickersNailong.apk   App Android firmada (binario; se versiona con la web)
 Stickers Nailong/     Cromos WebP 512×512 numerados sticker_1..N (N en ESTADO_ACTUAL.md) + creador_nailong.webp + 1 descatalogado (fuera de catálogo)
 verify_all.py         Suite de verificación
-normalizar_stickers.py  Conversión/EXIF/muxer WebP de stickers
+normalizar_stickers.py  Conversión/EXIF/muxer WebP de stickers y detector de repetidos (`--clasificar`)
+herramientas/          Utilidades de apoyo: hojas de contacto de stickers, certificación 3D, registro de stickers ya vistos
 CHANGELOG.md          Historial de versiones
 README.md             Vitrina pública
 DOCUMENTACION.md      Puntero a documentacion/ (lo exige verify_all.py; no añadir contenido aquí)
@@ -48,7 +50,7 @@ Mapa de qué vive en cada fichero de `js/` y `index.html`: `documentacion/notas_
 3. **Audio sintetizado** con Web Audio API. No añadir `.mp3`/`.wav`.
 4. **Gráficos en WebP** dentro de `Stickers Nailong/`: cromos numerados de forma continua (sin saltos) + imagen del creador; el total vigente está en `ESTADO_ACTUAL.md`. Para añadir stickers usa `normalizar_stickers.py --import` (WhatsApp exige 512×512, ≤100 KB estático / ≤500 KB animado, ≤10 s, EXIF `sticker-pack-id`).
 5. **Móvil obligatorio:** iPhone (Safari, Dynamic Island, `viewport-fit=cover`, safe-area) y Android (Chrome). Probar a 320–375 px y escritorio.
-6. **Rendimiento:** imágenes fuera de pantalla con `loading="lazy"`/`decoding="async"`, sin `drop-shadow` ni `backdrop-blur` sobre contenido animado, `prefers-reduced-motion` respetado, modales con `role="dialog" aria-modal="true"`.
+6. **Rendimiento:** imágenes fuera de pantalla con `loading="lazy"`/`decoding="async"`, sin `drop-shadow` ni `backdrop-blur` sobre contenido animado, `prefers-reduced-motion` respetado, modales como `<dialog>` nativo abiertos con `showModal()` (D-23).
 7. **Versión coherente:** al publicar, la versión debe coincidir en el pie de `index.html`, el banner del APK, `CHANGELOG.md`, `ESTADO_ACTUAL.md`, el sufijo `?v=` de las referencias a `css/` y `js/` en `index.html` (evita cachés viejas en GitHub Pages) y, si cambia el binario, el `versionName` del APK.
    Los ficheros de `js/` son scripts clásicos que comparten el ámbito global: **no uses `import`/`export`** ni cambies el orden de carga sin comprobarlo.
 8. **README = vitrina pública** (frases cortas, para el usuario final, sin jerga técnica ni código). Lo técnico va en `documentacion/` y el historial en `CHANGELOG.md`. Antes de tocar el README lee `documentacion/guias_y_contexto/GUIA_README.md` (obligatoria).

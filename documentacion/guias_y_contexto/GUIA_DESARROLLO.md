@@ -49,9 +49,13 @@ Para incorporar nuevos stickers o comprobar el catálogo actual:
 # Validar el formato de todos los stickers existentes
 python normalizar_stickers.py --check
 
-# Importar y normalizar un nuevo lote de imágenes desde una carpeta externa
-python normalizar_stickers.py --import "ruta/a/carpeta_nuevos"
+# Separar las descargas en nuevos / repetidos / dudosos (no borra nada; crea _informe.html para revisarlas)
+python normalizar_stickers.py --clasificar "ruta/a/descargas"
+
+# Importar y normalizar los nuevos
+python normalizar_stickers.py --import "ruta/a/descargas/_nuevos"
 ```
+Detalle del detector de repetidos: `documentacion/notas_tecnicas/02_normalizacion_stickers_webp.md` §5.
 
 El script se encarga automáticamente de:
 - Escalar y centrar en lienzo transparente de 512×512 píxeles sin deformación.

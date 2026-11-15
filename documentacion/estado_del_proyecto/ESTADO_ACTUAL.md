@@ -2,7 +2,7 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 06/11/2026 (v3.6.1: `sticker_6` vuelve a ir en bucle y las imágenes de «¿Quién es Nailong?» quedan fijadas por clave, D-22; la sección **Nailong en 3D**, D-21, sigue en el código pero oculta en la web mientras se perfecciona el modelo).
+> **Última actualización:** 15/11/2026 (sin publicar: modales como `<dialog>` nativo (D-23), detector de stickers repetidos, textos del álbum revisados con fotogramas y auditoría de seguridad; lo publicado sigue siendo la v3.6.1).
 > **Rama activa:** `main`.
 > **Versión actual:** Web `v3.6.1` | Android APK `v3.6.1` (`versionCode 15`). Publicada en `main` (GitHub Pages) el 06/11/2026.
 
@@ -10,7 +10,7 @@
 
 ## 1. En una Frase
 
-La web oficial y la app Android nativa están sincronizadas en la versión **v3.6.1** (`versionCode 15`), con **95 cromos oficiales** en 4 packs equilibrados (24/24/24/23), todos los animados en bucle infinito, y APK firmado de 31.8 MB. El visor **Nailong en 3D** está en el código pero oculto. `verify_all.py` tiene **51 comprobaciones** y pasa completa en el PC del usuario.
+La web oficial y la app Android nativa están sincronizadas en la versión **v3.6.1** (`versionCode 15`), con **95 cromos oficiales** en 4 packs equilibrados (24/24/24/23), todos los animados en bucle infinito, y APK firmado de 31.8 MB. El visor **Nailong en 3D** está en el código pero oculto. `verify_all.py` tiene **52 comprobaciones** y pasa completa en el PC del usuario.
 
 ---
 
@@ -28,12 +28,20 @@ La web oficial y la app Android nativa están sincronizadas en la versión **v3.
 | **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_v2.mp4` (1080×1920, 60 fps, 32.0s, 17.4 MB, audio y SFX sintetizados a 120 BPM). |
 | **Botonera de sonidos sintetizados** | 12 casillas con 12 sonidos únicos sintetizados con Web Audio API (`duang`, `chomp`, `slurp`, `bleh`, `maracas`, `fire`, `sleep`, `laugh`, `pirate`, `run`, `tail`, `fanfare`). |
 | **Laboratorio de superpoderes** | Tamaño dinámico, modo camaleón, 6 disfraces mágicos, llamitas, hinchado de tripita, lluvia de pollo crujiente y gravedad cero espacial. |
-| **Suite de pruebas automatizadas (`verify_all.py`)** | **51 comprobaciones**, todas en verde el 06/11 en el PC del usuario (incluidas las que leen el código Android de `C:\src`). |
+| **Suite de pruebas automatizadas (`verify_all.py`)** | **52 comprobaciones**, todas en verde el 06/11 en el PC del usuario (incluidas las que leen el código Android de `C:\src`). |
 | **Auditoría de stickers (`normalizar_stickers.py --check`)** | **0 problemas en los 95 stickers (100% conformes con WhatsApp)**. |
 
 ---
 
 ## 3. Qué Está Completado y Verificado
+
+- [x] **Sesión del 15/11/2026 (en `main` local, sin publicar y sin cambio de versión):**
+  - **Web (D-23):** los 4 modales son `<dialog>` nativos (foco atrapado, fondo inerte, `Escape` por el evento `cancel`, foco devuelto); aparición suave; tráiler con `preload="none"`; barra de scroll con colores en Firefox. El aviso flotante se cuelga del modal abierto.
+  - **Detector de repetidos:** `normalizar_stickers.py --clasificar CARPETA` reparte las descargas en `_nuevos`, `_repetidos` y `_dudosos` y genera `_informe.html`; `--descartar` recuerda los que no se quieren (nota técnica 02 §5, test 52).
+  - **Textos:** revisados todos los stickers con `herramientas/hojas_contacto.py`; reescritas 41 fichas de `ALL_STICKERS` y 8 escenas del Visor Mágico. Tabla antes/después en la bitácora del 15/11.
+  - **Seguridad:** informe en `notas_tecnicas/06_auditoria_seguridad.md`; corregido el escapado de los nombres de las fotos del usuario en el álbum. Quedan decisiones del usuario (copia de la clave de firma, verificación en dos pasos en GitHub, copia del código de la app).
+  - **Al publicar:** subir versión y sufijos `?v=`; los textos de la app (`contents.json`) no se han tocado.
+  - **No comprobado:** Safari/iPhone, Firefox y lector de pantalla reales; el detector con descargas reales de TikTok.
 
 - [x] **v3.6.1 — bucle de `sticker_6` e imágenes fijas por clave (`versionCode 15`, ver D-22):**
   - Causa del sticker congelado: el contador de bucle de su chunk `ANIM` valía 1. La cuadrícula de la app iba bien porque usa vistas previas generadas aparte con bucle 0; el zoom y WhatsApp usan el fichero original. Corregido a 0 sin re-codificar, en la web y en `assets/nailong_animados_1/03_sticker_6.webp` de la app.
@@ -64,5 +72,5 @@ La web oficial y la app Android nativa están sincronizadas en la versión **v3.
   - **W6:** Al pulsar «Copiar enlace» en ordenador dentro del banner de la app, además de copiar la URL al portapapeles se despliega una tarjetita *clay* (`#apk-qr-box`) con el código QR apuntando a la descarga directa de `StickersNailong.apk`.
   - **W7:** Sufijos anti-caché `?v=` actualizados en todas las referencias a `css/` y `js/`, y blindados automáticamente con el test 48 de `verify_all.py`.
 - [x] **Verificación:**
-  - `verify_all.py`: 51 comprobaciones, todas en verde el 06/11 en el PC del usuario.
+  - `verify_all.py`: 52 comprobaciones, todas en verde el 06/11 en el PC del usuario.
   - `normalizar_stickers.py --check`: **95 de 95 stickers conformes**.

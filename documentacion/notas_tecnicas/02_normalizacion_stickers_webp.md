@@ -57,3 +57,30 @@ Los bytes 4–5 del contenido del chunk `ANIM` guardan cuántas veces se repite 
 - Sin `--check`, si es el único problema, `fix_loop()` reescribe solo esos 2 bytes: la imagen no se re-codifica ni pierde calidad.
 - El test 50 lo comprueba en `Stickers Nailong/` y en `assets/` de la app (incluidas las vistas previas y las variantes animadas de los estáticos).
 - Si se cambia un sticker que ya está en la app, hay que subir `image_data_version` de su pack en `contents.json` para que WhatsApp lo refresque.
+
+## 5. Detector de repetidos (`--clasificar` y `--descartar`, 2026-11-15)
+
+**Para qué:** al bajar stickers de TikTok se descargan todos una y otra vez; el detector separa los que ya están en la colección de los nuevos, sin llevar la cuenta a mano.
+
+```bash
+python normalizar_stickers.py --clasificar "ruta/a/descargas"     # reparte copias en _nuevos, _repetidos, _dudosos
+python normalizar_stickers.py --import "ruta/a/descargas/_nuevos" # añade los nuevos al catálogo
+python normalizar_stickers.py --descartar "ruta/a/uno.webp"       # «este no lo quiero»: no vuelve a salir como nuevo
+```
+
+- No borra ni mueve las descargas originales: las tres subcarpetas contienen **copias** y se rehacen en cada pasada.
+- `_informe.html` (dentro de la carpeta de descargas) muestra cada descarga junto al sticker con el que coincide. Los **dudosos** hay que mirarlos ahí y mover a `_nuevos` los que de verdad sean distintos.
+- Un sticker repetido dentro de la propia carpeta entra una sola vez en `_nuevos`.
+
+**Cómo compara (`firma()` y `distancia()`):**
+- Firma: hasta 8 fotogramas repartidos por la animación, llevados a 512×512 con `to_square()` (igual que al importar), transparencia rellena de blanco, reducidos a 32×32 en color.
+- Distancia: diferencia media de color (0 = idénticos), emparejando cada fotograma con el más parecido del otro sticker, en los dos sentidos. Un solo fotograma parecido no basta, así dos stickers de la misma escena no se confunden.
+- Umbrales (`UMBRAL_REPETIDO`, `UMBRAL_DUDOSO`): por debajo del primero, repetido; entre ambos, dudoso. Calibrados con el catálogo real; el margen medido se imprime en la salida del test del detector en `verify_all.py`.
+- Se compara contra el catálogo, los `descatalogado_*.webp` y los descartados.
+
+**Memoria entre pasadas:**
+- `herramientas/stickers_vistos.json`: huella exacta (SHA-256) de cada descarga ya reconocida como repetida o descartada. Una descarga idéntica se resuelve al instante.
+- `herramientas/stickers_descartados.npz`: firmas de los descartados, para reconocerlos aunque lleguen re-codificados.
+- Ambos ficheros se crean con el primer uso. Las firmas del catálogo se guardan en una caché de la carpeta temporal del sistema (la primera pasada tarda unos 20 s; las siguientes, casi nada).
+
+**No comprobado:** descargas reales de TikTok (las pruebas usan copias reducidas generadas aquí). Si un original real saliera como «dudoso» de forma habitual, hay que subir `UMBRAL_REPETIDO` sin superar el margen que vigila el test.

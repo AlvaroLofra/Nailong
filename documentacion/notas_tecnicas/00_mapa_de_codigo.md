@@ -86,14 +86,15 @@ El código está estructurado en 14 bloques funcionales organizados:
 
 | Qué | Fichero · símbolo |
 |---|---|
-| Datos de los cromos | `js/02-datos-stickers.js` · `ALL_STICKERS` |
+| Datos de los cromos | `js/02-datos-stickers.js` · `ALL_STICKERS` (revisar textos: `herramientas/hojas_contacto.py`) |
+| Fotos del usuario (datos no fiables) | `js/06-album-y-descargas.js` · `escaparHtml`, `esFotoGuardadaValida` |
 | Álbum paginado | `js/06-album-y-descargas.js` · `renderPolaroidGallery`, `GALLERY_PAGE_SIZE`, `GALLERY_STEP`, `showMoreGallery` |
 | Muro/tira de escenas y Visor Mágico | `js/05-visor-magico.js` y `js/06-…` · `renderGifWall`, `featuredGifIndexOf`, `openVisorFromLightbox` |
 | Descarga y compartir stickers | `js/06-album-y-descargas.js` · `forceDownloadSticker`, `shareStickerDirectToWhatsApp`, `copyStickerToClipboard`, `#sticker-options-modal` |
 | Audio | `js/01-audio.js`, `js/07-…` · `renderSoundboard`, `audioCtx` (osciladores Web Audio) |
 | Minijuego | `js/08-minijuego.js` · `#food-game-canvas`, `resizeGameCanvas`, `getEmojiSprite` |
 | Modo Fiesta | `js/09-modo-fiesta.js` · `#party-canvas` |
-| Modales y bloqueo de scroll | `js/10-inicio.js` · `setupModalBackdrops`, `setupModalScrollLock`, `body.modal-open` |
+| Modales (`<dialog>` nativo, D-23) y bloqueo de scroll | `js/05-visor-magico.js` · `abrirDialogo`, `cerrarDialogo`; `js/09-modo-fiesta.js` · `setupModalBackdrops` (clic fuera y evento `cancel`); `js/10-inicio.js` · `setupModalScrollLock`, `body.modal-open` |
 | Arranque | `js/10-inicio.js` · `window.onload = function()` |
 | Nailong 3D | `js/11`…`js/14` · `Nailong3DGeometria`, `Nailong3DEscena`, `Nailong3DAnimacion`, `Nailong3DVisor` (autoinicio con `DOMContentLoaded`) |
 

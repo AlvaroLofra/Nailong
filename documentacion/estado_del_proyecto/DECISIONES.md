@@ -32,6 +32,7 @@
 | **D-20** | «Mi Selección» en un único pack (estáticos como animados de 2 fotogramas), identificador único y número visible libre (v3.6.0) | Tomada | 2026-11-03 |
 | **D-21** | Nailong 3D: modelo procedural (SDF + Surface Nets) con piel y esqueleto, visor Three.js r147 cargado bajo demanda y exportación GLB | Tomada | 2026-11-04 |
 | **D-22** | Imágenes fijas de la web por clave estable (`data-sticker`) y stickers animados siempre en bucle infinito (v3.6.1) | Tomada | 2026-11-06 |
+| **D-23** | Modales como `<dialog>` nativo; resto de la modernización web del plugin aplicada solo donde aporta | Tomada | 2026-11-15 |
 
 ---
 
@@ -278,3 +279,21 @@
   2. *Clave estable:* los cromos usados fuera de la galería llevan `clave` en `ALL_STICKERS` (`js/02-datos-stickers.js`) y la imagen de `index.html` se marca con `data-sticker="<clave>"`. Al renumerar, la clave viaja con su cromo (igual que el título). `aplicarStickersFijos()` corrige el `src` en ejecución y el test 51 falla si el `src` escrito no coincide con el fichero de su clave. Se mantiene el `src` escrito para que la imagen cargue aunque falle el JS.
 - **Alternativas descartadas:** volver a corregir los números a mano (se desplazarían en la próxima renumeración); nombrar los ficheros por clave en vez de por número (rompe la numeración continua de D-05 y el álbum); dejar solo el `src` resuelto por JS (sin imagen si el script falla) o solo el test (avisa, pero no corrige en producción).
 - **Consecuencias:** versión terciaria 3.6.1 / `versionCode 15` (APK con el sticker corregido e `image_data_version` 4 del pack *Nailong animado 1* para que WhatsApp lo refresque). Por ahora solo las 4 tarjetas usan clave; pasar el resto de referencias fijas (hero, laboratorio, botonera…) queda en `MEJORAS_PENDIENTES.md` (W11). **No comprobado:** el sticker en un WhatsApp real ni la app instalada en un móvil.
+
+---
+
+## D-23 · Modales como `<dialog>` nativo y criba de la modernización web
+- **Estado:** **Tomada** (2026-11-15, a petición del usuario: «implementamos las que sean positivas solo»).
+- **Problema:** una auditoría automática (plugin *Modern Web Guidance*) propuso 9 cambios (W12–W20) sin comprobar qué hacía ya la página. Los modales cerraban con `Escape` y clic fuera, pero no atrapaban el foco ni lo devolvían al cerrar.
+- **Decisión:**
+  1. *W12:* los 4 modales son `<dialog>` abiertos con `showModal()`. El `<dialog>` ocupa toda la pantalla y sigue siendo el telón oscuro, de modo que el cierre por clic fuera no depende de `closedby` ni de `::backdrop`. La visibilidad la siguen mandando `hidden`/`flex` y `style.display`; `abrirDialogo()`/`cerrarDialogo()` solo añaden el comportamiento nativo. `Escape` se atiende en el evento `cancel`.
+  2. *Aviso flotante:* `showDuangToast()` cuelga el aviso del `<dialog>` abierto, porque la capa superior del navegador tapa todo lo demás.
+  3. *W14, W17, W19:* aparición con `@starting-style` (solo opacidad), tráiler con `preload="none"`, `scrollbar-color` solo en Firefox.
+- **Alternativas descartadas:**
+  - *W13 (bloqueo de scroll solo con CSS):* soporte muy reciente; habría que mantener el bloqueo actual como respaldo y no se eliminaría nada.
+  - *W15 (`content-visibility`):* medido en `#galeria`, el cálculo de diseño tarda lo mismo con y sin ella; añade riesgo de recortes y de saltos de ancla sin ganancia.
+  - *W16 (animaciones ligadas al scroll):* cambia la sensación (la aparición avanzaría y retrocedería con el dedo) y la animación actual ya es barata.
+  - *W18 (prioridades de carga):* ya estaba hecho (tiras con `loading="lazy"`, QR sin `src` hasta abrirse).
+  - *W19 tal como venía:* habría quitado la barra de scroll «gordita» en Chrome y Edge.
+  - *W20 (reescritura a `no-preference`):* sin efecto visible y con riesgo de regresiones.
+- **Consecuencias:** `verify_all.py` exige 4 `<dialog>` con `aria-labelledby`, `showModal()` y el evento `cancel`, y prohíbe escuchadores manuales de `Escape` para cerrar modales. La regla crítica 6 de `AGENTS.md` se actualiza. Todo lo que deba verse encima de un modal tiene que vivir dentro de él. Sin publicar ni cambio de versión.
