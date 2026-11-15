@@ -460,7 +460,9 @@ assert 'id="apk-qr-box"' in page_html and 'id="apk-qr-img"' in page_html, "W6: A
 assert 'StickersNailong.apk' in re.search(r'id="apk-qr-img"[^>]+', page_html).group(0), "W6: APK QR must point to StickersNailong.apk!"
 assert 'function toggleApkQrBox(' in html and 'function closeApkQrBox(' in html, "W6: toggleApkQrBox / closeApkQrBox missing in JS!"
 _asset_versions = re.findall(r'(?:src|href)="(?:css|js)/[^"?]+\?v=([^"]+)"', page_html)
-assert len(_asset_versions) == len(asset_refs) and all(v == _ver['versionName'] for v in _asset_versions), f"W7: all css/js references must carry ?v={_ver['versionName']}!"
+# El sufijo es la version publicada o, en revisiones solo de la web (el APK no cambia), <version>-webN.
+assert len(_asset_versions) == len(asset_refs) and len(set(_asset_versions)) == 1, "W7: all css/js references must carry the same ?v= suffix!"
+assert re.fullmatch(re.escape(_ver['versionName']) + r'(-web\d+)?', _asset_versions[0]), f"W7: ?v= must be {_ver['versionName']} or {_ver['versionName']}-webN (found {_asset_versions[0]})!"
 
 _android_java = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\java\com\example\samplestickerapp'
 _android_res = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res'
