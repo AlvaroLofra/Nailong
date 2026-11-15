@@ -2,7 +2,7 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 15/11/2026 (sin publicar: modales como `<dialog>` nativo (D-23), detector de stickers repetidos, textos del álbum revisados con fotogramas y auditoría de seguridad; lo publicado sigue siendo la v3.6.1).
+> **Última actualización:** 15/11/2026 (revisión web 1 de la v3.6.1 preparada en `main` local, **pendiente de `git push`**: modales como `<dialog>` nativo (D-23), textos del álbum revisados, escapado de fotos del usuario, detector de stickers repetidos y auditoría de seguridad; el APK no cambia).
 > **Rama activa:** `main`.
 > **Versión actual:** Web `v3.6.1` | Android APK `v3.6.1` (`versionCode 15`). Publicada en `main` (GitHub Pages) el 06/11/2026.
 
@@ -35,12 +35,12 @@ La web oficial y la app Android nativa están sincronizadas en la versión **v3.
 
 ## 3. Qué Está Completado y Verificado
 
-- [x] **Sesión del 15/11/2026 (en `main` local, sin publicar y sin cambio de versión):**
+- [x] **Sesión del 15/11/2026 (revisión web 1 de la v3.6.1, en `main` local, pendiente de `git push`):**
   - **Web (D-23):** los 4 modales son `<dialog>` nativos (foco atrapado, fondo inerte, `Escape` por el evento `cancel`, foco devuelto); aparición suave; tráiler con `preload="none"`; barra de scroll con colores en Firefox. El aviso flotante se cuelga del modal abierto.
   - **Detector de repetidos:** `normalizar_stickers.py --clasificar CARPETA` reparte las descargas en `_nuevos`, `_repetidos` y `_dudosos` y genera `_informe.html`; `--descartar` recuerda los que no se quieren (nota técnica 02 §5, test 52).
   - **Textos:** revisados todos los stickers con `herramientas/hojas_contacto.py`; reescritas 41 fichas de `ALL_STICKERS` y 8 escenas del Visor Mágico. Tabla antes/después en la bitácora del 15/11.
   - **Seguridad:** informe en `notas_tecnicas/06_auditoria_seguridad.md`; corregido el escapado de los nombres de las fotos del usuario en el álbum. Quedan decisiones del usuario (copia de la clave de firma, verificación en dos pasos en GitHub, copia del código de la app).
-  - **Al publicar:** subir versión y sufijos `?v=`; los textos de la app (`contents.json`) no se han tocado.
+  - **Publicación:** preparada como revisión solo de la web (`?v=3.6.1-web1`, versión visible y APK sin cambios; entrada en `CHANGELOG.md`). Falta el `git push`. Los textos de la app (`contents.json`) no se han tocado.
   - **No comprobado:** Safari/iPhone, Firefox y lector de pantalla reales; el detector con descargas reales de TikTok.
 
 - [x] **v3.6.1 — bucle de `sticker_6` e imágenes fijas por clave (`versionCode 15`, ver D-22):**

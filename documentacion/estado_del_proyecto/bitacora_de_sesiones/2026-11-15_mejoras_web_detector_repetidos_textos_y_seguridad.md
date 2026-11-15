@@ -36,7 +36,7 @@
 - La app en un móvil y la configuración de la cuenta de GitHub.
 
 ## Pendiente
-- **Nada publicado:** sin `git push` ni cambio de versión. Al publicar hay que subir versión y los sufijos `?v=` (si no, los navegadores seguirán con el JS antiguo en caché).
+- **Publicación preparada, falta el `git push`:** revisión solo de la web. La versión visible y el APK siguen en la v3.6.1; el sufijo anti-caché pasa a `?v=3.6.1-web1` para que los navegadores no sigan con el JS antiguo. `verify_all.py` y la regla 7 de `AGENTS.md` admiten ese sufijo `-webN`.
 - Los textos de la app Android (`contents.json`) no se han tocado.
 - Etiquetas del laboratorio y la botonera que no encajan con su imagen: siguen en W11.
 - Decisiones de seguridad H-2 a H-7 de la nota técnica 06.

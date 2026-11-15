@@ -5,6 +5,17 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [3.6.1 · revisión web 1] — 2026-11-15
+Revisión solo de la web: la versión visible sigue siendo `v3.6.1` y ni `version.json` ni el APK cambian (la app no avisará de actualización). El sufijo anti-caché pasa a `?v=3.6.1-web1`.
+
+- **Modales (`index.html`, `css/styles.css`, `js/05`, `js/06`, `js/09`, D-23):** los 4 modales son `<dialog>` nativos abiertos con `showModal()`: foco atrapado, fondo inerte, `Escape` por el evento `cancel` y foco devuelto al botón de origen. Aparición suave con `@starting-style`. El aviso flotante se muestra dentro del modal abierto.
+- **Carga y estilo:** tráiler con `preload="none"`; barra de scroll con los colores de Nailong en Firefox.
+- **Textos (`js/02-datos-stickers.js`, `js/05-visor-magico.js`):** 41 fichas del álbum y 8 escenas del Visor Mágico reescritas tras revisar varios fotogramas de cada sticker (`herramientas/hojas_contacto.py`).
+- **Seguridad (`js/06-album-y-descargas.js`):** los textos de las fotos que sube el usuario se escapan al pintarlos y lo cargado de `localStorage` se valida. Auditoría completa en `documentacion/notas_tecnicas/06_auditoria_seguridad.md`.
+- **Herramientas (`normalizar_stickers.py`):** `--clasificar` separa una carpeta de descargas en nuevos, repetidos y dudosos; `--descartar` recuerda los que no se quieren.
+- **Verificación:** test 52 (detector de repetidos) y comprobaciones nuevas de `<dialog>`, escapado y sufijo `-webN` en `verify_all.py`. **No comprobado:** Safari/iPhone, Firefox y lector de pantalla reales; el detector con descargas reales de TikTok.
+- **Incluye** el trabajo de fidelidad del modelo 3D (sigue oculto en la web).
+
 ## [Sin publicar] — 2026-11-04
 Nueva sección web **Nailong en 3D** (D-21). No cambia la versión (sigue `v3.6.0`; ni `version.json` ni el APK cambian).
 
