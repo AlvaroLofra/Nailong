@@ -11,6 +11,9 @@ Uso (desde la carpeta del proyecto):
   python normalizar_stickers.py --import DIR    # convierte los .webp/.gif/.png de DIR y los anade
                                                 # como sticker_(N+1).webp, sticker_(N+2).webp...
   python normalizar_stickers.py --check         # solo informa, no modifica nada
+  python normalizar_stickers.py --clasificar DIR  # separa las descargas de DIR en _nuevos / _repetidos /
+                                                # _dudosos (copias) y crea DIR/_informe.html para revisarlas
+  python normalizar_stickers.py --descartar F...  # apunta ficheros que no se quieren: no vuelven a salir como nuevos
 
 Tras --import imprime las lineas esqueleto para ALL_STICKERS de index.html
 (falta rellenar title / cat / sound / desc) y avisa de posibles duplicados.
@@ -218,23 +221,214 @@ def convert(src, dst):
         step += 1  # ultimo recurso: quitar fotogramas alternos
 
 
-def signature(path):
+# ---------------------------------------------------------------------------
+# Deteccion de repetidos
+# ---------------------------------------------------------------------------
+# Cada sticker se resume en una "firma": hasta 8 fotogramas repartidos por la animacion,
+# llevados a 512x512 (igual que al importar), con la transparencia rellena de blanco y
+# reducidos a 32x32 en color. La distancia entre dos firmas es la diferencia media de color
+# (0 = identicos, 255 = opuestos), emparejando cada fotograma con el mas parecido del otro.
+# Umbrales calibrados con el catalogo real (2026-11-15): una copia reducida a 240 px y
+# re-codificada de un sticker queda a <= 14 de su original; los dos stickers distintos mas
+# parecidos del catalogo quedan a 21. verify_all.py vigila que ese margen se mantenga.
+FIRMA_FOTOGRAMAS = 8
+FIRMA_LADO = 32
+UMBRAL_REPETIDO = 15       # por debajo: es el mismo sticker
+UMBRAL_DUDOSO = 20         # entre ambos: se parece mucho, lo decide una persona
+EXT_IMPORTABLES = ('.webp', '.gif', '.png', '.jpg', '.jpeg')
+REGISTRO_VISTOS = 'herramientas/stickers_vistos.json'          # huella exacta -> decision
+FIRMAS_DESCARTADOS = 'herramientas/stickers_descartados.npz'   # firmas de los que se decidio no incluir
+SALIDAS = ('_nuevos', '_repetidos', '_dudosos')
+
+
+def firma(path):
+    """Firma visual de un sticker (matriz fotogramas x 32 x 32 x 3)."""
     im = Image.open(path)
     n = getattr(im, 'n_frames', 1)
-    sigs = []
-    for k in range(0, n, max(1, n // 6)):
+    idx = sorted({round(i * (n - 1) / (FIRMA_FOTOGRAMAS - 1)) for i in range(FIRMA_FOTOGRAMAS)}) if n > 1 else [0]
+    out = []
+    for k in idx:
         im.seek(k)
-        sigs.append(np.array(im.convert('RGBA').resize((24, 24)).convert('L'), dtype=float))
-    return sigs
+        f = to_square(im.convert('RGBA'))
+        fondo = Image.new('RGBA', f.size, (255, 255, 255, 255))
+        fondo.alpha_composite(f)
+        out.append(np.asarray(fondo.convert('RGB').resize((FIRMA_LADO, FIRMA_LADO), Image.BILINEAR), dtype=np.float32))
+    return np.stack(out)
+
+
+def distancia(a, b):
+    """Distancia entre dos firmas, simetrica: media del mejor emparejamiento en ambos sentidos."""
+    d = np.abs(a[:, None] - b[None]).mean(axis=(2, 3, 4))
+    return float((d.min(axis=1).mean() + d.min(axis=0).mean()) / 2)
+
+
+def firmas_conocidas():
+    """Firmas de todo lo que ya se conoce: catalogo, descatalogados y descartados.
+    Las del catalogo se guardan en una cache temporal (se recalculan si cambia el fichero)."""
+    import tempfile
+    cache_path = os.path.join(tempfile.gettempdir(), 'nailong_firmas_cache.npz')
+    cache = {}
+    if os.path.exists(cache_path):
+        try:
+            with np.load(cache_path) as z:
+                cache = {k: z[k] for k in z.files}
+        except Exception:
+            cache = {}
+    conocidas, nueva_cache = {}, {}
+    for f in sorted(os.listdir(DIR)):
+        if not f.lower().endswith('.webp') or f.startswith('creador'):
+            continue
+        p = os.path.join(DIR, f)
+        st = os.stat(p)
+        clave = f'{f}|{st.st_size}|{int(st.st_mtime)}'
+        sig = cache[clave] if clave in cache else firma(p)
+        nueva_cache[clave] = sig
+        conocidas[f] = sig
+    try:
+        np.savez_compressed(cache_path, **nueva_cache)
+    except Exception:
+        pass
+    if os.path.exists(FIRMAS_DESCARTADOS):
+        with np.load(FIRMAS_DESCARTADOS) as z:
+            for k in z.files:
+                conocidas[f'descartado:{k}'] = z[k].astype(np.float32)
+    return conocidas
+
+
+def mas_parecido(sig, conocidas):
+    """(nombre, distancia) del conocido mas parecido, o (None, inf) si no hay ninguno."""
+    mejor, dmin = None, float('inf')
+    for nombre, otra in conocidas.items():
+        d = distancia(sig, otra)
+        if d < dmin:
+            mejor, dmin = nombre, d
+    return mejor, dmin
+
+
+def sha256(path):
+    import hashlib
+    return hashlib.sha256(open(path, 'rb').read()).hexdigest()
+
+
+def leer_registro():
+    if os.path.exists(REGISTRO_VISTOS):
+        return json.load(open(REGISTRO_VISTOS, encoding='utf-8'))
+    return {}
+
+
+def guardar_registro(reg):
+    os.makedirs(os.path.dirname(REGISTRO_VISTOS), exist_ok=True)
+    json.dump(reg, open(REGISTRO_VISTOS, 'w', encoding='utf-8'), ensure_ascii=False, indent=1, sort_keys=True)
+
+
+def clasificar(src_dir):
+    """Reparte las descargas de src_dir en _nuevos / _repetidos / _dudosos (copias; no borra los originales)."""
+    import html
+    import shutil
+    from pathlib import Path
+    files = sorted(f for f in os.listdir(src_dir)
+                   if f.lower().endswith(EXT_IMPORTABLES) and os.path.isfile(os.path.join(src_dir, f)))
+    if not files:
+        print(f'No hay imagenes ({", ".join(EXT_IMPORTABLES)}) en {src_dir}')
+        return
+    for sub in SALIDAS:   # las tres carpetas de salida se rehacen en cada pasada
+        shutil.rmtree(os.path.join(src_dir, sub), ignore_errors=True)
+        os.makedirs(os.path.join(src_dir, sub))
+    print(f'Comparando {len(files)} descargas con la coleccion...')
+    conocidas = firmas_conocidas()
+    registro = leer_registro()
+    filas, cuenta = [], dict.fromkeys(SALIDAS, 0)
+    for f in files:
+        p = os.path.join(src_dir, f)
+        h = sha256(p)
+        if h in registro:
+            destino, parecido, d = '_repetidos', registro[h], 0.0
+            motivo = 'descarga identica a una ya revisada'
+        else:
+            try:
+                sig = firma(p)
+            except Exception as e:
+                print(f'  {f}: no se pudo leer ({e}); se deja como dudoso')
+                destino, parecido, d, motivo = '_dudosos', None, float('inf'), 'no se pudo leer'
+                sig = None
+            if sig is not None:
+                parecido, d = mas_parecido(sig, conocidas)
+                if d < UMBRAL_REPETIDO:
+                    destino, motivo = '_repetidos', 'igual a uno que ya tienes'
+                    # Solo se apunta lo que coincide con la coleccion: un repetido dentro del propio
+                    # lote no, porque en la siguiente pasada se llevaria por delante al original.
+                    if not parecido.startswith('esta carpeta:'):
+                        registro[h] = parecido
+                    else:
+                        motivo = 'repetido dentro de esta misma carpeta'
+                elif d < UMBRAL_DUDOSO:
+                    destino, motivo = '_dudosos', 'se parece mucho: miralo en el informe'
+                else:
+                    destino, motivo = '_nuevos', 'no se parece a ninguno'
+                    conocidas[f'esta carpeta:{f}'] = sig   # asi un repetido dentro del lote solo entra una vez
+        shutil.copy2(p, os.path.join(src_dir, destino, f))
+        cuenta[destino] += 1
+        filas.append((destino, f, parecido, d, motivo))
+    guardar_registro(registro)
+
+    def ruta_conocido(nombre):
+        if nombre is None or nombre.startswith('descartado:'):
+            return None
+        if nombre.startswith('esta carpeta:'):
+            return nombre.split(':', 1)[1]
+        return Path(DIR, nombre).resolve().as_uri()
+
+    orden = {'_dudosos': 0, '_repetidos': 1, '_nuevos': 2}
+    trozos = []
+    for destino, f, parecido, d, motivo in sorted(filas, key=lambda r: (orden[r[0]], r[3])):
+        ruta = ruta_conocido(parecido)
+        img2 = f'<img src="{html.escape(ruta)}" loading="lazy">' if ruta and destino != '_nuevos' else ''
+        con = html.escape(parecido or '') if destino != '_nuevos' else ''
+        dist = '' if d in (0.0, float('inf')) else f'{d:.1f}'
+        trozos.append(f'<tr class="{destino[1:]}"><td>{destino[1:]}</td><td><img src="{html.escape(f)}" loading="lazy"><br>{html.escape(f)}</td>'
+                      f'<td>{img2}<br>{con}</td><td>{dist}</td><td>{html.escape(motivo)}</td></tr>')
+    informe = os.path.join(src_dir, '_informe.html')
+    open(informe, 'w', encoding='utf-8').write(
+        '<!doctype html><meta charset="utf-8"><title>Clasificacion de stickers</title>'
+        '<style>body{font-family:sans-serif;margin:16px}img{width:140px;height:140px;object-fit:contain;background:#eee}'
+        'td{padding:6px 12px;border-bottom:1px solid #ddd;text-align:center}.dudosos{background:#fff3cd}'
+        '.repetidos{background:#f1f1f1}.nuevos{background:#e6f6e6}</style>'
+        f'<h1>{cuenta["_nuevos"]} nuevos, {cuenta["_repetidos"]} repetidos, {cuenta["_dudosos"]} dudosos</h1>'
+        '<p>Distancia: 0 = identicos. Por debajo de '
+        f'{UMBRAL_REPETIDO} se da por repetido; entre {UMBRAL_REPETIDO} y {UMBRAL_DUDOSO}, dudoso.</p>'
+        '<table><tr><th>Resultado</th><th>Descarga</th><th>Se parece a</th><th>Distancia</th><th>Motivo</th></tr>'
+        + ''.join(trozos) + '</table>')
+    print(f'\n{cuenta["_nuevos"]} nuevos, {cuenta["_repetidos"]} repetidos, {cuenta["_dudosos"]} dudosos.')
+    print(f'Informe con las imagenes lado a lado: {informe}')
+    if cuenta['_dudosos']:
+        print('Dudosos: abre el informe y mueve a _nuevos los que de verdad sean distintos.')
+    print(f'Para anadir los nuevos:      python normalizar_stickers.py --import "{os.path.join(src_dir, "_nuevos")}"')
+    print('Para no volver a ver uno:    python normalizar_stickers.py --descartar RUTA_DEL_FICHERO')
+
+
+def descartar(paths):
+    """Apunta ficheros como 'no los quiero': no volveran a salir como nuevos (ni identicos ni re-codificados)."""
+    registro = leer_registro()
+    firmas = {}
+    if os.path.exists(FIRMAS_DESCARTADOS):
+        with np.load(FIRMAS_DESCARTADOS) as z:
+            firmas = {k: z[k] for k in z.files}
+    for p in paths:
+        h = sha256(p)
+        registro[h] = f'descartado:{os.path.basename(p)}'
+        firmas[h[:16]] = np.round(firma(p)).astype(np.uint8)
+        print(f'Descartado: {p}')
+    guardar_registro(registro)
+    np.savez_compressed(FIRMAS_DESCARTADOS, **firmas)
 
 
 def warn_duplicates(new_ids, all_ids):
-    sigs = {i: signature(f'{DIR}/sticker_{i}.webp') for i in all_ids}
+    sigs = {i: firma(f'{DIR}/sticker_{i}.webp') for i in all_ids}
     for a in new_ids:
         for b in all_ids:
             if a != b:
-                d = min(np.abs(x - y).mean() for x in sigs[a] for y in sigs[b])
-                if d < 8:
+                d = distancia(sigs[a], sigs[b])
+                if d < UMBRAL_DUDOSO:
                     print(f'  AVISO posible duplicado: sticker_{a} ~ sticker_{b} (distancia {d:.1f})')
 
 
@@ -249,6 +443,12 @@ def sticker_ids():
 
 def main():
     args = sys.argv[1:]
+    if '--clasificar' in args:
+        clasificar(args[args.index('--clasificar') + 1])
+        return
+    if '--descartar' in args:
+        descartar(args[args.index('--descartar') + 1:])
+        return
     check_only = '--check' in args
     ids = sticker_ids()
     gaps = [i for i in range(1, max(ids) + 1) if i not in ids]
@@ -257,7 +457,7 @@ def main():
 
     if '--import' in args:
         src_dir = args[args.index('--import') + 1]
-        files = sorted(f for f in os.listdir(src_dir) if f.lower().endswith(('.webp', '.gif', '.png')))
+        files = sorted(f for f in os.listdir(src_dir) if f.lower().endswith(EXT_IMPORTABLES))
         nxt, added = max(ids) + 1, []
         for f in files:
             dst = f'{DIR}/sticker_{nxt}.webp'

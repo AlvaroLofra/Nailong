@@ -557,4 +557,28 @@ for _file, _key in _fijas:
 assert 'function aplicarStickersFijos' in _datos and 'aplicarStickersFijos();' in _datos, "The runtime resolver of data-sticker keys is missing!"
 print(f"✔ Fixed sticker images verified: {len(_fijas)} images resolved by stable key, none drifted after renumbering.")
 
-print("\n=== ALL 51 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+# Test 52: detector de stickers repetidos (normalizar_stickers.py --clasificar)
+# Dos garantias: ningun par de stickers distintos del catalogo se confunde entre si (ni como dudoso),
+# y una copia reducida a 240 px (como llega de TikTok) de un sticker se reconoce como repetida.
+import itertools as _it
+import tempfile as _tmp
+import normalizar_stickers as _ns
+from PIL import Image as _Img
+_firmas = {k: v for k, v in _ns.firmas_conocidas().items() if re.fullmatch(r'sticker_\d+\.webp', k)}
+_dmin, _pa, _pb = min((_ns.distancia(_firmas[a], _firmas[b]), a, b) for a, b in _it.combinations(sorted(_firmas), 2))
+assert _dmin >= _ns.UMBRAL_DUDOSO, f"{_pa} y {_pb} se parecen demasiado (distancia {_dmin:.1f} < {_ns.UMBRAL_DUDOSO}): o son el mismo sticker o hay que recalibrar los umbrales"
+assert _ns.UMBRAL_REPETIDO < _ns.UMBRAL_DUDOSO, "UMBRAL_REPETIDO must be below UMBRAL_DUDOSO!"
+with _tmp.TemporaryDirectory() as _d:
+    for _name in ('sticker_1.webp', 'sticker_2.webp', 'sticker_52.webp'):
+        _im = _Img.open(f'Stickers Nailong/{_name}')
+        _fr = []
+        for _k in range(getattr(_im, 'n_frames', 1)):
+            _im.seek(_k)
+            _fr.append(_im.convert('RGBA').resize((240, 240)))
+        _copia = os.path.join(_d, _name.replace('.webp', '.png'))
+        _fr[0].save(_copia, save_all=len(_fr) > 1, append_images=_fr[1:], duration=60, disposal=0, blend=0)
+        _cerca, _dc = _ns.mas_parecido(_ns.firma(_copia), _firmas)
+        assert _cerca == _name and _dc < _ns.UMBRAL_REPETIDO, f"Una copia a 240 px de {_name} deberia salir como repetida de si misma (salio {_cerca}, distancia {_dc:.1f})"
+print(f"✔ Duplicate detector verified: closest distinct pair at {_dmin:.1f} (>= {_ns.UMBRAL_DUDOSO}), 240 px copies recognised as repeats.")
+
+print("\n=== ALL 52 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
