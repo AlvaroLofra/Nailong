@@ -7,7 +7,7 @@
             const G = Nailong3DGeometria;
 
             /* ---------- Materiales ---------- */
-            // Abolladura elástica al tocar: gaussiana en el espacio de reposo, con corrección de normal.
+            // Relieve elástico gomoso al tocar: onda elástica concéntrica amortiguada con gradiente normal exacto.
             const GLSL_TOQUE_CABECERA = `
                 uniform vec4 uToque[4];
                 uniform float uToqueRadio;
@@ -15,18 +15,30 @@
             const GLSL_TOQUE_NORMAL = `
                 #include <beginnormal_vertex>
                 for (int i = 0; i < 4; i++) {
-                    vec3 dd = position - uToque[i].xyz;
-                    float f = exp(-dot(dd, dd) / (uToqueRadio * uToqueRadio));
-                    vec3 ddt = dd - dot(dd, normal) * normal;
-                    objectNormal -= 2.0 * uToque[i].w * f * ddt / (uToqueRadio * uToqueRadio);
+                    if (abs(uToque[i].w) > 0.0001) {
+                        vec3 dd = position - uToque[i].xyz;
+                        float d = length(dd);
+                        float r2Onda = uToqueRadio * uToqueRadio * 0.35;
+                        float env = exp(-0.5 * (d * d) / r2Onda);
+                        float cOnda = cos(d * 48.0);
+                        float sinc = d > 1e-4 ? sin(d * 48.0) / d : 48.0;
+                        float grad = uToque[i].w * env * (cOnda / r2Onda + 48.0 * sinc);
+                        vec3 ddt = dd - dot(dd, normal) * normal;
+                        objectNormal -= grad * ddt;
+                    }
                 }
                 objectNormal = normalize(objectNormal);
             `;
             const GLSL_TOQUE_POSICION = `
                 #include <begin_vertex>
                 for (int i = 0; i < 4; i++) {
-                    vec3 dd = position - uToque[i].xyz;
-                    transformed -= normal * uToque[i].w * exp(-dot(dd, dd) / (uToqueRadio * uToqueRadio));
+                    if (abs(uToque[i].w) > 0.0001) {
+                        vec3 dd = position - uToque[i].xyz;
+                        float d = length(dd);
+                        float r2Onda = uToqueRadio * uToqueRadio * 0.35;
+                        float onda = exp(-0.5 * (d * d) / r2Onda) * cos(d * 48.0) * uToque[i].w;
+                        transformed -= normal * onda;
+                    }
                 }
             `;
 
@@ -37,6 +49,30 @@
                 };
             }
 
+            const GLSL_PIEL_SUAVE_FRAG = `
+                #include <tonemapping_fragment>
+                {
+                    vec3 nV = normalize(vNormal);
+                    vec3 vDir = normalize(vViewPosition);
+                    float ndv = clamp(dot(nV, vDir), 0.0, 1.0);
+                    float fresnel = pow(1.0 - ndv, 2.6);
+                    float luma = dot(gl_FragColor.rgb, vec3(0.299, 0.587, 0.114));
+                    // Backlight translucency y wrap-around cálido miel/ámbar en luz rasante o contraluz (nuca, crestas, colita, papada)
+                    float penumbra = smoothstep(0.06, 0.38, luma) * (1.0 - smoothstep(0.34, 0.72, luma));
+                    float wrapAround = pow(1.0 - ndv, 2.2) * (0.35 + 0.65 * smoothstep(0.04, 0.50, luma));
+                    vec3 sssMiel = vec3(1.0, 0.58, 0.12);
+                    gl_FragColor.rgb += sssMiel * (penumbra * 0.22 + wrapAround * 0.18);
+                    // Borde Fresnel aterciopelado dorado que realza la piel suave de dragón de leche
+                    vec3 rimDorado = vec3(1.0, 0.88, 0.45);
+                    gl_FragColor.rgb += rimDorado * (fresnel * 0.20);
+                    // Levanta las sombras profundas evitando cualquier gris o suciedad sin perder el color crema/amarillo original
+                    float sombra = 1.0 - smoothstep(0.05, 0.46, luma);
+                    gl_FragColor.r = min(1.0, gl_FragColor.r + sombra * 0.08);
+                    gl_FragColor.g = min(0.98, gl_FragColor.g * (1.0 - sombra * 0.02) + sombra * 0.045);
+                    gl_FragColor.b = min(0.92, max(gl_FragColor.b * (1.0 - sombra * 0.14), 0.02 * sombra));
+                }
+            `;
+
             function inyectarToque(material, uniformes, extra) {
                 material.onBeforeCompile = (shader) => {
                     shader.uniforms.uToque = uniformes.uToque;
@@ -46,12 +82,15 @@
                         .replace('#include <beginnormal_vertex>', GLSL_TOQUE_NORMAL)
                         .replace('#include <begin_vertex>', GLSL_TOQUE_POSICION)
                         .replace('#include <skinning_vertex>', '#include <skinning_vertex>\n' + (extra && extra.trasPiel || ''));
+                    if (extra && extra.pielSuave) {
+                        shader.fragmentShader = shader.fragmentShader.replace('#include <tonemapping_fragment>', GLSL_PIEL_SUAVE_FRAG);
+                    }
                 };
                 material.customProgramCacheKey = () => 'nailong-toque-' + (extra ? extra.clave : 'base');
             }
 
             function rampaToon(THREE) {
-                const tonos = [120, 190, 235, 255];
+                const tonos = [162, 196, 226, 248];
                 const datos = new Uint8Array(tonos.length * 4);
                 tonos.forEach((t, i) => { datos.set([t, t, t, 255], i * 4); });
                 const tex = new THREE.DataTexture(datos, tonos.length, 1, THREE.RGBAFormat);
@@ -65,8 +104,8 @@
                 const C = G.COLORES;
                 const rampa = rampaToon(THREE);
                 const suave = (color, extra) => new THREE.MeshPhysicalMaterial(Object.assign({
-                    color: new THREE.Color(color), roughness: 0.6, metalness: 0,
-                    sheen: 0.45, sheenRoughness: 0.7, sheenColor: new THREE.Color('#FFE9B8'), envMapIntensity: 0.5
+                    color: new THREE.Color(color), roughness: 0.74, metalness: 0,
+                    sheen: 0.45, sheenRoughness: 0.72, sheenColor: new THREE.Color('#FFE8A8'), envMapIntensity: 0.26
                 }, extra || {}));
                 const toon = (color, extra) => new THREE.MeshToonMaterial(Object.assign({ color: new THREE.Color(color), gradientMap: rampa }, extra || {}));
 
@@ -74,28 +113,30 @@
                     suave: {
                         cuerpo: suave('#FFFFFF', { vertexColors: true }),
                         parpado: suave('#FFFFFF', { vertexColors: true }),
-                        placa: suave(C.oliva, { roughness: 0.55, sheen: 0.3 }),
-                        garra: suave(C.garra, { roughness: 0.35, sheen: 0.1, clearcoat: 0.3 }),
-                        rosa: suave(C.rosa, { roughness: 0.6 }),
+                        placa: suave(C.oliva, { roughness: 0.62, sheen: 0.22, envMapIntensity: 0.20 }),
+                        garra: suave(C.garra, { roughness: 0.56, sheen: 0.06, clearcoat: 0.08, envMapIntensity: 0.14 }),
+                        rosa: suave(C.rosa, { roughness: 0.84, sheen: 0.06, envMapIntensity: 0.12 }),
                         nariz: suave('#3A2414', { roughness: 0.5, sheen: 0 }),
-                        boca: suave('#FFFFFF', { vertexColors: true, roughness: 0.45, sheen: 0, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }),
-                        ojo: new THREE.MeshPhysicalMaterial({ map: texOjo, roughness: 0.22, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.0 }),
-                        brillo: new THREE.MeshBasicMaterial({ color: 0xffffff })
+                        boca: suave('#FFFFFF', { vertexColors: true, roughness: 0.52, sheen: 0.28, sheenRoughness: 0.60, sheenColor: new THREE.Color('#FFB4BE'), envMapIntensity: 0.16, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -28 }),
+                        ojo: new THREE.MeshPhysicalMaterial({ map: texOjo, roughness: 0.16, clearcoat: 1.0, clearcoatRoughness: 0.03, envMapIntensity: 0.75 }),
+                        brillo: new THREE.MeshBasicMaterial({ color: 0xffffff, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -2 })
                     },
                     toon: {
-                        cuerpo: toon('#FFFFFF', { vertexColors: true }),
-                        parpado: toon('#FFFFFF', { vertexColors: true }),
-                        placa: toon(C.oliva),
-                        garra: toon(C.garra),
+                        cuerpo: toon('#EAE0D0', { vertexColors: true }),
+                        parpado: toon('#EAE0D0', { vertexColors: true }),
+                        placa: toon('#7C8430'),
+                        garra: toon('#56321A'),
                         rosa: toon(C.rosa),
                         nariz: toon('#3A2414'),
-                        boca: toon('#FFFFFF', { vertexColors: true, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }),
-                        ojo: new THREE.MeshToonMaterial({ map: texOjo, gradientMap: rampa }),
-                        brillo: new THREE.MeshBasicMaterial({ color: 0xffffff })
+                        boca: toon('#E6DCD4', { vertexColors: true, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -28 }),
+                        ojo: new THREE.MeshToonMaterial({ color: new THREE.Color('#E8E4DC'), map: texOjo, gradientMap: rampa }),
+                        brillo: new THREE.MeshBasicMaterial({ color: 0xffffff, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -2 })
                     }
                 };
-                inyectarToque(m.suave.cuerpo, uniformes);
-                inyectarToque(m.toon.cuerpo, uniformes);
+                inyectarToque(m.suave.cuerpo, uniformes, { clave: 'piel-suave', pielSuave: true });
+                inyectarToque(m.suave.parpado, uniformes, { clave: 'parpado-suave', pielSuave: true });
+                inyectarToque(m.toon.cuerpo, uniformes, { clave: 'piel-toon', pielSuave: false });
+                inyectarToque(m.toon.parpado, uniformes, { clave: 'parpado-toon', pielSuave: false });
                 // Para el GLB: PBR estándar (sin extensiones vacías) con los mismos colores y texturas
                 m.exportar = {};
                 Object.keys(m.suave).forEach((k) => {
@@ -107,8 +148,8 @@
                 });
                 ['suave', 'toon', 'exportar'].forEach((est) => Object.keys(m[est]).forEach((k) => { m[est][k].name = 'Nailong_' + k; }));
                 // Contorno de dibujo animado: casco invertido empujado por la normal tras la piel
-                const contorno = new THREE.MeshBasicMaterial({ color: new THREE.Color('#5E3A12'), side: THREE.BackSide });
-                const grosor = { value: 0.0055 };
+                const contorno = new THREE.MeshBasicMaterial({ color: new THREE.Color('#4A2808'), side: THREE.BackSide });
+                const grosor = { value: 0.0048 };
                 inyectarToque(contorno, uniformes, {
                     clave: 'contorno', uniforms: { uGrosor: grosor }, cabecera: 'uniform float uGrosor;\n',
                     trasPiel: 'transformed += normalize(objectNormal) * uGrosor;'
@@ -118,7 +159,7 @@
                 return m;
             }
 
-            /* ---------- Textura del ojo (iris verde de los stickers, pintado por píxel sobre la esfera) ---------- */
+            /* ---------- Textura del ojo (iris verde bosque con medialuna esmeralda y pupila grande de los stickers) ---------- */
             function crearTexturaOjo(THREE) {
                 const W = 512, Hh = 256;
                 const lienzo = document.createElement('canvas');
@@ -126,37 +167,84 @@
                 const ctx = lienzo.getContext('2d');
                 const img = ctx.createImageData(W, Hh);
                 const hex = (h) => { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
-                const C = G.COLORES;
-                const cPupila = hex(C.pupila), cIris = hex(C.iris), cAro = hex(C.irisAro), cClaro = hex(C.irisClaro), cEsclera = hex(C.esclera);
+                const cPupila = [0, 0, 0];
+                const cIris = hex('#1F682A');
+                const cAro = hex('#0E3014');
+                const cEsmeralda = hex('#82D448');
+                const cClaro = hex('#9AE858');
+                const cEsclera = hex('#FFFFFF');
                 const mezcla = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
                 const sat = (x) => Math.min(Math.max(x, 0), 1);
-                const ANG_IRIS = 0.88, PUPILA = 0.50;
+                const smooth = (e0, e1, x) => { const t = sat((x - e0) / (e1 - e0)); return t * t * (3 - 2 * t); };
+                const ANG_IRIS = 0.90, PUPILA = 0.67;
+
                 for (let py = 0; py < Hh; py++) {
                     const th = (py + 0.5) / Hh * Math.PI;
+                    const sinTh = Math.sin(th), cosTh = Math.cos(th);
                     for (let px = 0; px < W; px++) {
                         const ph = (px + 0.5) / W * Math.PI * 2;
-                        const dx = -Math.cos(ph) * Math.sin(th), dy = Math.cos(th), dz = Math.sin(ph) * Math.sin(th);
-                        const r = Math.acos(Math.max(-1, Math.min(1, dz))) / ANG_IRIS;
+                        const dx = -Math.cos(ph) * sinTh, dy = cosTh, dz = Math.sin(ph) * sinTh;
+                        const ang = Math.acos(Math.max(-1, Math.min(1, dz)));
+                        const r = ang / ANG_IRIS;
                         const az = Math.atan2(dy, dx);
                         let c;
-                        if (r < 1.0) {
-                            const fibras = 0.5 + 0.5 * Math.sin(az * 37 + Math.sin(az * 7) * 2.0);
-                            c = mezcla(cClaro, cIris, sat((r - PUPILA) / 0.22));
-                            c = mezcla(c, cAro, sat((r - 0.78) / 0.2));
-                            c = mezcla(c, mezcla(c, cAro, 0.55), fibras * 0.25 * sat((r - PUPILA) / 0.1));
-                            c = mezcla(c, cPupila, sat((PUPILA + 0.025 - r) / 0.05));
+                        if (r < 1.05) {
+                            const dyNorm = -dy / Math.sin(ANG_IRIS);
+                            // Medialuna esmeralda inferior luminosa (#82D448) característica de sticker_2, 47 y 50
+                            const crescentH = smooth(-0.15, 0.85, dyNorm);
+                            const crescentR = 1.0 - smooth(0.0, 0.22, Math.abs(r - 0.80));
+                            const crescent = Math.pow(crescentH * crescentR, 0.88);
+
+                            // Fibras radiales vivas sobre el iris verde bosque profundo (#1F682A)
+                            const fibra1 = Math.sin(az * 36.0 + Math.sin(az * 6.0) * 1.5);
+                            const fibra2 = Math.cos(az * 18.0);
+                            const fibra3 = Math.sin(az * 72.0) * 0.15;
+                            const fibras = 0.5 + 0.32 * fibra1 + 0.14 * fibra2 + fibra3;
+                            const cCrescent = mezcla(cEsmeralda, cClaro, fibras * 0.45);
+                            let cIrisBase = mezcla(cIris, cCrescent, crescent * 0.92);
+
+                            // Modulación de fibras en la zona del iris entre pupila y anillo exterior
+                            const tIrisZone = smooth(PUPILA - 0.02, 0.92, r);
+                            const fVar = (fibras - 0.5) * 0.28 * tIrisZone;
+                            cIrisBase = mezcla(cIrisBase, fVar > 0 ? cClaro : cAro, Math.abs(fVar));
+
+                            // Anillo exterior verde bosque profundo
+                            const tAroExt = smooth(0.78, 0.98, r);
+                            c = mezcla(cIrisBase, cAro, tAroExt * 0.95);
+
+                            // Sombra superior del párpado sobre el iris
+                            const sombraSup = smooth(-0.10, 0.80, -dyNorm) * 0.40;
+                            c = mezcla(c, cAro, sombraSup);
+
+                            // Pupila negra nítida (PUPILA = 0.67) con antialiasing suave continuo
+                            const tPupila = smooth(PUPILA + 0.012, PUPILA - 0.012, r);
+                            c = mezcla(c, cPupila, tPupila);
+
+                            // Transición antialiased limpia libre de artefactos en el borde del iris (r=1.0) hacia la esclera
+                            if (r > 0.96) {
+                                const tBorde = smooth(0.96, 1.03, r);
+                                const cEscleraBase = mezcla(cEsclera, [238, 228, 216], smooth(1.0, 1.6, r) * 0.45);
+                                c = mezcla(c, cEscleraBase, tBorde);
+                            }
                         } else {
-                            c = mezcla(cAro, cEsclera, sat((r - 1.0) / 0.07));
-                            c = mezcla(c, [236, 232, 226], sat((r - 1.6) / 1.2) * 0.6);
+                            // Sombreado esférico cálido hacia la periferia evitando aspecto plano en 3/4 y perfil
+                            const falloffEsclera = smooth(1.05, 1.70, r);
+                            c = mezcla(cEsclera, [236, 226, 212], falloffEsclera * 0.50);
+                            c = mezcla(c, [216, 202, 186], smooth(1.30, 1.90, r) * 0.35);
                         }
                         const o = (py * W + px) * 4;
-                        img.data[o] = c[0]; img.data[o + 1] = c[1]; img.data[o + 2] = c[2]; img.data[o + 3] = 255;
+                        img.data[o] = Math.round(c[0]);
+                        img.data[o + 1] = Math.round(c[1]);
+                        img.data[o + 2] = Math.round(c[2]);
+                        img.data[o + 3] = 255;
                     }
                 }
                 ctx.putImageData(img, 0, 0);
                 const tex = new THREE.CanvasTexture(lienzo);
                 tex.encoding = THREE.sRGBEncoding;
-                tex.anisotropy = 4;
+                tex.anisotropy = 8;
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.ClampToEdgeWrapping;
                 return tex;
             }
 
@@ -173,15 +261,15 @@
             }
 
             // Busca la superficie disparando un rayo desde fuera hacia un punto interior
-            function impacto(desde, hacia) {
+            function impacto(desde, hacia, tMax) {
                 const d = [hacia[0] - desde[0], hacia[1] - desde[1], hacia[2] - desde[2]];
-                return G.trazarRayo(desde[0], desde[1], desde[2], d[0], d[1], d[2], 4);
+                return G.trazarRayo(desde[0], desde[1], desde[2], d[0], d[1], d[2], tMax || 4);
             }
 
-            // Botón/garra/placa: elipsoide orientado según la normal y hundido una fracción de su grosor
+            // Botón/garra/placa: geometría orientada según la normal y hundida una fracción de su grosor
             function bulto(THREE, geo, material, hit, radios, hundido, inclinar) {
                 const n = v3(THREE, hit.n);
-                const dir = inclinar ? n.clone().lerp(inclinar, 0.35).normalize() : n;
+                const dir = inclinar ? n.clone().lerp(inclinar, 0.38).normalize() : n;
                 const malla = new THREE.Mesh(geo, material);
                 malla.scale.set(radios[0], radios[1], radios[2]);
                 malla.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
@@ -189,15 +277,15 @@
                 return { malla, p };
             }
 
-            /* ---------- Boca: calcomanía curvada que se adapta al hocico ---------- */
+            /* ---------- Boca 3D: cavidad bucal en «D» hundida con interior oscuro, lengua volumétrica 3D y dientes superiores ---------- */
             function crearBoca(THREE, material, hueso) {
-                const N_U = 28, N_S = 10;
-                const ancla = impacto([0, 0.646, 1.2], [0, 0.646, 0.0]);
+                const N_U = 36, N_S = 18;
+                const ancla = impacto([0, 0.610, 1.2], [0, 0.610, 0.0]);
                 const O = v3(THREE, ancla.p), n = v3(THREE, ancla.n);
                 const T = new THREE.Vector3(0, 1, 0).cross(n).normalize();
                 const B = n.clone().cross(T).normalize();
                 // Mapa de altura del hocico: posición y normal de la superficie en una rejilla tangente
-                const MU = 41, MV = 25, EU = 0.085, EV = 0.06;
+                const MU = 45, MV = 29, EU = 0.095, EV = 0.075;
                 const mapa = new Float32Array(MU * MV * 6);
                 for (let j = 0; j < MV; j++) for (let i = 0; i < MU; i++) {
                     const u = (i / (MU - 1) * 2 - 1) * EU, v = (j / (MV - 1) * 2 - 1) * EV;
@@ -237,37 +325,64 @@
                 malla.position.set(0, 0, 0);
 
                 const lin = (h) => G.srgbALineal(h);
-                const cBoca = lin(G.COLORES.boca), cLengua = lin(G.COLORES.lengua), cDientes = lin(G.COLORES.dientes);
+                const cBoca = lin('#5A181F'), cBocaSombra = lin('#380C10'), cLengua = lin(G.COLORES.lengua), cLenguaLuz = lin('#FFAAB6'), cDientes = lin(G.COLORES.dientes), cPiel = lin(G.COLORES.amarillo), cLabioSombra = lin('#DF8E14');
                 const base = hueso.userData.reposoMundo;
                 const tmp = new Float32Array(6);
-                const forma = { ancho: 0.05, abierta: 0.4, sonrisa: 0.6, redonda: 0, dientes: 0.3, lengua: 1 };
+                const forma = { ancho: 0.072, abierta: 0.50, sonrisa: 0.65, redonda: 0, dientes: 0.42, lengua: 1 };
+                const sstep = (e0, e1, x) => { const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1); return t * t * (3 - 2 * t); };
 
                 function actualizar(f) {
                     Object.assign(forma, f || {});
-                    const ancho = forma.ancho * (1 - forma.redonda * 0.42);
-                    const abre = Math.max(0, forma.abierta);
+                    const ancho = forma.ancho * (1 - forma.redonda * 0.44);
+                    const abre = Math.max(0.05, forma.abierta);
                     for (let s = 0; s < N_S; s++) for (let iu = 0; iu < N_U; iu++) {
                         const un = iu / (N_U - 1) * 2 - 1;          // -1..1 a lo ancho
                         const sn = s / (N_S - 1);                     // 0 (labio inferior) .. 1 (superior)
-                        const perfil = Math.pow(Math.max(0, 1 - un * un), 0.5 + 0.3 * (1 - forma.redonda));
-                        const centro = forma.sonrisa * (un * un - 0.35) * 0.024 * (1 - forma.redonda);
-                        const alto = abre * 0.042 * (0.55 + 0.45 * forma.redonda) * perfil;
-                        const sup = centro + Math.max(alto * (0.45 + 0.25 * forma.redonda), 0.0017 * perfil + 0.0006);
-                        const inf = centro - Math.max(alto, 0.0017 * perfil + 0.0006);
+                        const u2 = un * un;
+                        const perfil = Math.pow(Math.max(0, 1 - u2), 0.45 + 0.25 * (1 - forma.redonda));
+                        // En sonrisa (sticker_2, 19), el labio superior describe un arco suave y el inferior baja en cuenco redondeado «D»
+                        const arcoSup = forma.sonrisa * (u2 - 0.35) * 0.015 * (1 - forma.redonda);
+                        const alto = abre * 0.088 * (0.66 + 0.34 * forma.redonda) * perfil;
+                        const sup = arcoSup + Math.max(alto * (0.24 + 0.38 * forma.redonda), 0.0024 * perfil);
+                        const inf = arcoSup - Math.max(alto * (0.96 - 0.24 * forma.redonda), 0.0024 * perfil);
                         const u = un * ancho, v = inf + (sup - inf) * sn;
                         muestrear(u, v, tmp);
+
+                        const distBorde = Math.min(sn, 1 - sn) * 2 * perfil;
+                        const tCavidad = sstep(0.04, 0.14, distBorde);
+                        // Lengua redondeada con volumen 3D real en la mitad inferior de la cavidad (sticker_2, 19, 5)
+                        const domoLengua = Math.max(0, 1 - Math.pow(un / 0.84, 2)) * sstep(0.70, 0.42, sn) * sstep(0.04, 0.16, sn);
+                        const tLengua = forma.lengua * sstep(0.08, 0.22, abre) * domoLengua;
+                        // Apoya sobre la superficie del SDF con domo volumétrico 3D prominente en la lengua
+                        const elev = 0.00065 + 0.0022 * tLengua * tCavidad;
                         const k = s * N_U + iu;
-                        pos[k * 3] = tmp[0] + tmp[3] * 0.0012 - base.x;
-                        pos[k * 3 + 1] = tmp[1] + tmp[4] * 0.0012 - base.y;
-                        pos[k * 3 + 2] = tmp[2] + tmp[5] * 0.0012 - base.z;
-                        nor[k * 3] = tmp[3]; nor[k * 3 + 1] = tmp[4]; nor[k * 3 + 2] = tmp[5];
-                        // Interior oscuro, lengua rosa abajo y dientes arriba cuando abre
-                        const tLengua = forma.lengua * Math.min(1, abre * 2.2) * Math.max(0, 1 - sn / 0.42) * Math.max(0, 1 - Math.pow(Math.abs(un) / 0.78, 2));
-                        const tDientes = forma.dientes * Math.min(1, abre * 2) * (sn > 0.78 ? 1 : 0) * (Math.abs(un) < 0.7 ? 1 : 0);
+                        pos[k * 3] = tmp[0] + tmp[3] * elev - base.x;
+                        pos[k * 3 + 1] = tmp[1] + tmp[4] * elev - base.y;
+                        pos[k * 3 + 2] = tmp[2] + tmp[5] * elev - base.z;
+
+                        // Normales 3D: labio curvado hacia la cavidad y domo esférico para la lengua
+                        const rollY = (sn < 0.5 ? -1 : 1) * (1 - tCavidad) * 0.40 + tLengua * (0.45 - (sn - 0.28) * 1.8);
+                        const rollX = -un * 0.42 * tLengua;
+                        let nx = tmp[3] + T.x * rollX + B.x * rollY;
+                        let ny = tmp[4] + T.y * rollX + B.y * rollY;
+                        let nz = tmp[5] + T.z * rollX + B.z * rollY;
+                        const nl = Math.hypot(nx, ny, nz) || 1;
+                        nor[k * 3] = nx / nl; nor[k * 3 + 1] = ny / nl; nor[k * 3 + 2] = nz / nl;
+
+                        const luzLengua = sstep(0.14, 0.48, sn) * Math.max(0, 1 - Math.pow(un / 0.50, 2));
+                        // Banda dental superior blanca limpia (#FFFFFF) visible en sonrisas amplias (sticker_19, 5, 21)
+                        const techoDientes = 0.80 - 0.05 * u2;
+                        const visDientes = sstep(0.08, 0.35, forma.dientes);
+                        const tDientes = visDientes * sstep(0.12, 0.28, abre) * sstep(techoDientes - 0.16, techoDientes - 0.05, sn) * sstep(0.98, 0.90, sn) * sstep(0.78, 0.58, Math.abs(un));
+                        const tSombraSup = sstep(0.54, 0.92, sn);
+                        const tSombraLabio = sstep(0.0, 0.08, distBorde) * (1 - tCavidad);
                         for (let c = 0; c < 3; c++) {
-                            let v0 = cBoca[c] + (cLengua[c] - cBoca[c]) * Math.min(1, tLengua * 1.6);
-                            v0 = v0 + (cDientes[c] - v0) * tDientes;
-                            col[k * 3 + c] = v0;
+                            let cav = cBoca[c] + (cBocaSombra[c] - cBoca[c]) * tSombraSup;
+                            const lenC = cLengua[c] + (cLenguaLuz[c] - cLengua[c]) * luzLengua * 0.60;
+                            cav = cav + (lenC - cav) * Math.min(1, tLengua * 1.25);
+                            cav = cav + (cDientes[c] - cav) * tDientes;
+                            const labio = cPiel[c] + (cLabioSombra[c] - cPiel[c]) * (0.45 * tSombraLabio + 0.25 * tCavidad);
+                            col[k * 3 + c] = labio + (cav - labio) * tCavidad;
                         }
                     }
                     geo.attributes.position.needsUpdate = true;
@@ -278,31 +393,48 @@
                 return { malla, actualizar, forma };
             }
 
-            /* ---------- Ojos, párpados y brillos ---------- */
+            /* ---------- Ojos, párpados integrados al ras de piel y brillos ---------- */
             function crearOjos(THREE, mats, hueso) {
                 const O = G.OJO;
                 const geoGlobo = new THREE.SphereGeometry(O.r, 48, 32);
-                const rp = O.r + 0.0026;
+                const rp = O.r + 0.0006;
                 const geoSup = new THREE.SphereGeometry(rp, 48, 16, 0, Math.PI * 2, 0, Math.PI / 2);
                 const geoInf = new THREE.SphereGeometry(rp, 48, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
-                // Borde del párpado algo más oscuro: al cerrar el ojo se lee la «rayita» de las pestañas
-                const cPiel = G.srgbALineal(G.COLORES.amarillo), cBorde = G.srgbALineal('#A86A14');
+                // Párpado del mismo color amarillo de la piel, con línea ámbar sutil solo en el filo al cerrar
+                const cPiel = G.srgbALineal(G.COLORES.amarillo), cBorde = G.srgbALineal('#D68618');
                 [geoSup, geoInf].forEach((geo) => {
                     const p = geo.attributes.position, col = new Float32Array(p.count * 3);
                     for (let i = 0; i < p.count; i++) {
-                        const t = Math.min(1, Math.abs(p.getY(i)) / (rp * 0.16));
+                        const t = Math.min(1, Math.abs(p.getY(i)) / (rp * 0.04));
                         for (let c = 0; c < 3; c++) col[i * 3 + c] = cBorde[c] + (cPiel[c] - cBorde[c]) * t * t * (3 - 2 * t);
                     }
                     geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
                 });
-                const geoBrillo = new THREE.CircleGeometry(1, 20);
+
+                // Geometría del brillo curvada esféricamente para offset radial uniforme exacto sobre el globo ocular
+                function crearGeoBrillo(radioEsfera, radioBrillo, offset) {
+                    const geo = new THREE.CircleGeometry(radioBrillo, 24);
+                    const pos = geo.attributes.position;
+                    const R = radioEsfera + offset;
+                    for (let i = 0; i < pos.count; i++) {
+                        const x = pos.getX(i), y = pos.getY(i);
+                        const r2 = x * x + y * y;
+                        pos.setZ(i, Math.sqrt(Math.max(0, R * R - r2)) - R);
+                    }
+                    geo.computeVertexNormals();
+                    return geo;
+                }
+
+                // Offset calibrado: 0.00028 por encima de la córnea (evita Z-fighting) y por debajo del párpado (0.0006)
+                const offsetBrillo = 0.00028;
                 const ojos = [];
                 [1, -1].forEach((lado) => {
                     const centro = new THREE.Vector3(O.x * lado, O.y, O.z);
                     const pivote = new THREE.Object3D();
                     adjuntar(pivote, hueso, centro);
-                    // Ojos ligeramente abiertos hacia fuera, como en los stickers
-                    pivote.rotation.y = 0.12 * lado;
+                    // Mirada centrada hacia el espectador, dejando la medialuna de esclera blanca en el lado exterior (sticker_2, 47, 50)
+                    pivote.rotation.y = -0.07 * lado;
+                    pivote.rotation.x = 0.02;
                     const globo = new THREE.Mesh(geoGlobo, mats.ojo); globo.userData.mat = 'ojo';
                     const sup = new THREE.Mesh(geoSup, mats.parpado); sup.userData.mat = 'parpado';
                     const inf = new THREE.Mesh(geoInf, mats.parpado); inf.userData.mat = 'parpado';
@@ -310,16 +442,17 @@
                     pivote.name = 'Nailong_ojo' + sufijo; globo.name = 'Nailong_globo' + sufijo;
                     sup.name = 'Nailong_parpadoSup' + sufijo; inf.name = 'Nailong_parpadoInf' + sufijo;
                     pivote.add(globo, sup, inf);
-                    // Brillos fijos respecto a la cabeza (reflejo de la luz principal)
-                    [[0.36, 0.42, 0.0085], [-0.28, -0.22, 0.0042]].forEach(([bx, by, br]) => {
+                    // Doble brillo especular nítido: círculo principal arriba a la derecha y secundario menor abajo a la izquierda (sticker_2, 47)
+                    [[0.18, 0.25, 0.0125], [-0.24, -0.26, 0.0042]].forEach(([bx, by, br]) => {
                         const d = new THREE.Vector3(bx, by, Math.sqrt(Math.max(0, 1 - bx * bx - by * by))).normalize();
-                        const b = new THREE.Mesh(geoBrillo, mats.brillo); b.userData.mat = 'brillo';
-                        b.scale.setScalar(br);
-                        b.position.copy(d).multiplyScalar(O.r + 0.0009);
+                        const geoB = crearGeoBrillo(O.r, br, offsetBrillo);
+                        const b = new THREE.Mesh(geoB, mats.brillo); b.userData.mat = 'brillo';
+                        b.position.copy(d).multiplyScalar(O.r + offsetBrillo);
                         b.lookAt(d.clone().multiplyScalar(2));
+                        b.renderOrder = 3;
                         pivote.add(b);
                     });
-                    ojos.push({ lado, pivote, globo, sup, inf });
+                    ojos.push({ lado, globo, pivote, sup, inf });
                 });
                 return ojos;
             }
@@ -391,54 +524,64 @@
                 const ojos = crearOjos(THREE, M.suave, cabeza);
                 const boca = crearBoca(THREE, M.suave.boca, cabeza);
                 const esfera = new THREE.SphereGeometry(1, 28, 18);
+                // Geometría de garrita cónica redondeada (más afilada pero tierna en la punta +z, sticker 19, 52, 86)
+                const geoGarra = new THREE.SphereGeometry(1, 24, 16);
+                {
+                    const gp = geoGarra.attributes.position;
+                    for (let i = 0; i < gp.count; i++) {
+                        const z = gp.getZ(i);
+                        const s = z > 0 ? 1 - 0.42 * Math.pow(z, 1.3) : 1;
+                        gp.setX(i, gp.getX(i) * s);
+                        gp.setY(i, gp.getY(i) * s);
+                    }
+                    geoGarra.computeVertexNormals();
+                }
 
-                const poner = (hueso, matClave, hit, radios, hundido, inclinar, sombra) => {
+                const poner = (hueso, matClave, hit, radios, hundido, inclinar, sombra, geoEsp) => {
                     if (!hit) return null;
-                    const { malla: m, p } = bulto(THREE, esfera, M.suave[matClave], hit, radios, hundido, inclinar);
+                    const { malla: m, p } = bulto(THREE, geoEsp || esfera, M.suave[matClave], hit, radios, hundido, inclinar);
                     m.userData.mat = matClave;
                     m.castShadow = !!sombra;
                     adjuntar(m, hueso, p, m.quaternion.clone());
                     return m;
                 };
 
-                // Orificios nasales (sticker 30, 47)
-                [1, -1].forEach((l) => poner(cabeza, 'nariz', impacto([0.026 * l, 0.706, 1.2], [0.026 * l, 0.706, 0]), [0.007, 0.0048, 0.0045], 0.6));
-
-                // 3 placas dorsales oliva por la línea media de la nuca (sticker 31, 52, 84)
+                // 3 placas dorsales oliva redondeadas y prominentes en la parte posterior de la cabeza y nuca alineadas con la curvatura espinal (sticker 31, 52, 84)
                 const cc = G.ANATOMIA.craneo.c;
-                [[0.12, 0.036, 0.32], [0.70, 0.058, 0.36], [1.16, 0.054, 0.36]].forEach(([ang, r, hund]) => {
+                [[0.65, 0.046, 0.28], [1.05, 0.054, 0.28], [1.45, 0.044, 0.28]].forEach(([ang, r, hund]) => {
                     const dir = [0, Math.cos(ang), -Math.sin(ang)];
                     const hit = impacto([cc[0] + dir[0], cc[1] + dir[1], cc[2] + dir[2]], cc);
-                    poner(cabeza, 'placa', hit, [r * 0.92, r, r * 0.62], hund, null, true);
+                    poner(cabeza, 'placa', hit, [r * 0.78, r * 1.04, r * 0.86], hund, null, true);
                 });
 
-                // Manos: 3 garritas marrones en la punta y almohadilla rosa en la palma (sticker 86, 43, 52)
+                // Manos: almohadilla rosa en la cara palmar interna (sticker 52) y 3 garritas cónicas marrones en la punta orientadas hacia la pancita (sticker 86, 2, 19)
                 const An = G.ANATOMIA;
                 [1, -1].forEach((l) => {
                     const hueso = l > 0 ? porNombre.brazoIzq : porNombre.brazoDer;
                     const a = new THREE.Vector3(An.brazo.a[0] * l, An.brazo.a[1], An.brazo.a[2]);
                     const b = new THREE.Vector3(An.brazo.b[0] * l, An.brazo.b[1], An.brazo.b[2]);
                     const eje = b.clone().sub(a).normalize();
-                    const palma = new THREE.Vector3(0, 0, 1).addScaledVector(eje, -eje.z).normalize();
-                    const lado = eje.clone().cross(palma).normalize();
+                    const palma = new THREE.Vector3(-0.78 * l, -0.32, 0.54).normalize();
+                    const arriba = new THREE.Vector3(-0.42 * l, 0.58, 0.70).normalize();
                     const c = new THREE.Vector3(An.mano.c[0] * l, An.mano.c[1], An.mano.c[2]);
-                    [-0.5, 0, 0.5].forEach((ang) => {
-                        const d = eje.clone().multiplyScalar(Math.cos(ang)).addScaledVector(lado, Math.sin(ang)).addScaledVector(palma, 0.35).normalize();
-                        const desde = c.clone().addScaledVector(d, 0.3);
-                        poner(hueso, 'garra', impacto([desde.x, desde.y, desde.z], [c.x, c.y, c.z]), [0.0105, 0.0095, 0.019], 0.42, palma);
+                    const dirPalma = new THREE.Vector3(-0.70 * l, -0.20, 0.68).normalize();
+                    const desdePalma = c.clone().addScaledVector(dirPalma, 0.12);
+                    poner(hueso, 'rosa', impacto([desdePalma.x, desdePalma.y, desdePalma.z], [c.x, c.y, c.z], 0.20), [0.022, 0.024, 0.007], 0.46);
+                    [-0.44, 0, 0.44].forEach((ang) => {
+                        const d = palma.clone().multiplyScalar(0.66).addScaledVector(eje, 0.52).addScaledVector(arriba, 0.50 * Math.sin(ang)).normalize();
+                        const desde = c.clone().addScaledVector(d, 0.092);
+                        poner(hueso, 'garra', impacto([desde.x, desde.y, desde.z], [c.x, c.y, c.z], 0.15), [0.0125, 0.0115, 0.022], 0.38, d, false, geoGarra);
                     });
-                    const desdeP = c.clone().addScaledVector(palma, 0.3).addScaledVector(eje, -0.012);
-                    poner(hueso, 'rosa', impacto([desdeP.x, desdeP.y, desdeP.z], [c.x, c.y, c.z]), [0.028, 0.032, 0.0075], 0.45);
                 });
 
-                // Pies: 3 uñas marrones delante (sticker 86, 43, 10)
+                // Pies: 3 uñitas marrones cónicas rechonchas delante orientadas hacia la pancita (sticker 86, 43, 30)
                 [1, -1].forEach((l) => {
                     const hueso = l > 0 ? porNombre.piernaIzq : porNombre.piernaDer;
                     const c = new THREE.Vector3(An.pie.c[0] * l, An.pie.c[1] + 0.004, An.pie.c[2]);
-                    [-0.42, 0, 0.42].forEach((ang) => {
-                        const d = new THREE.Vector3(Math.sin(ang) + 0.12 * l, -0.18, Math.cos(ang)).normalize();
-                        const desde = c.clone().addScaledVector(d, 0.3);
-                        poner(hueso, 'garra', impacto([desde.x, desde.y, desde.z], [c.x, c.y, c.z]), [0.0125, 0.0105, 0.016], 0.45, new THREE.Vector3(0, -0.4, 1).normalize());
+                    [-0.40, 0, 0.40].forEach((ang) => {
+                        const d = new THREE.Vector3(Math.sin(ang) * 0.85 + 0.08 * l, -0.16, Math.cos(ang)).normalize();
+                        const desde = c.clone().addScaledVector(d, 0.16);
+                        poner(hueso, 'garra', impacto([desde.x, desde.y, desde.z], [c.x, c.y, c.z], 0.25), [0.0155, 0.0130, 0.020], 0.42, new THREE.Vector3(Math.sin(ang) * 0.3, -0.25, 1).normalize(), false, geoGarra);
                     });
                 });
 
@@ -456,33 +599,35 @@
                 return modelo;
             }
 
-            /* ---------- Estudio: entorno PMREM, luces suaves y suelo con sombra ---------- */
+            /* ---------- Estudio: entorno PMREM cálido, luces suaves equilibradas y suelo con sombra ---------- */
             function crearEstudio(THREE, renderer, escena, calidad) {
-                // Entorno de estudio propio (cúpula cálida + cajas de luz) para reflejos suaves
+                // Entorno de estudio propio (cúpula cálida + cajas de luz suaves) para reflejos sedosos sin quemar
                 const env = new THREE.Scene();
                 const cupula = new THREE.Mesh(new THREE.SphereGeometry(10, 32, 16), new THREE.ShaderMaterial({
                     side: THREE.BackSide, depthWrite: false,
                     vertexShader: 'varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
-                    fragmentShader: 'varying vec3 vP; void main(){ float h = normalize(vP).y; vec3 arriba = vec3(1.0,0.97,0.9); vec3 abajo = vec3(0.75,0.52,0.24); gl_FragColor = vec4(mix(abajo, arriba, smoothstep(-0.35, 0.6, h)) * 0.9, 1.0); }'
+                    fragmentShader: 'varying vec3 vP; void main(){ float h = normalize(vP).y; vec3 arriba = vec3(1.0, 0.96, 0.88); vec3 abajo = vec3(0.88, 0.60, 0.24); gl_FragColor = vec4(mix(abajo, arriba, smoothstep(-0.35, 0.65, h)) * 0.88, 1.0); }'
                 }));
                 env.add(cupula);
-                const caja = (pos, esc, int) => {
-                    const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: new THREE.Color(int, int, int * 0.96), side: THREE.DoubleSide }));
+                const caja = (pos, esc, int, col) => {
+                    const c = col || new THREE.Color(int, int * 0.96, int * 0.88);
+                    const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: c, side: THREE.DoubleSide }));
                     m.position.set(pos[0], pos[1], pos[2]); m.scale.set(esc[0], esc[1], 1); m.lookAt(0, 0.5, 0);
                     env.add(m);
                 };
-                caja([3, 4, 4], [3.5, 2.5], 4.0);
-                caja([-4, 2, 3], [2.5, 3.5], 1.6);
-                caja([0, 3, -5], [5, 2], 2.2);
+                caja([3, 4, 4], [3.6, 2.8], 2.8);
+                caja([-4, 2, 3], [2.8, 3.6], 1.3);
+                caja([0, 3.5, -5], [5.2, 2.4], 1.6);
+                caja([0, -2, 2], [4.0, 3.0], 0.6, new THREE.Color(0.70, 0.48, 0.24));
                 const pmrem = new THREE.PMREMGenerator(renderer);
-                const envTex = pmrem.fromScene(env, 0.035).texture;
+                const envTex = pmrem.fromScene(env, 0.04).texture;
                 escena.environment = envTex;
                 pmrem.dispose();
 
-                const hemi = new THREE.HemisphereLight(0xFFF6E5, 0xD98E3A, 0.32);
+                const hemi = new THREE.HemisphereLight(0xFFF7E6, 0xE08820, 0.36);
                 escena.add(hemi);
-                const clave = new THREE.DirectionalLight(0xFFF1DC, 1.05);
-                clave.position.set(1.4, 2.6, 2.2);
+                const clave = new THREE.DirectionalLight(0xFFF2DC, 0.86);
+                clave.position.set(1.3, 2.5, 2.4);
                 clave.castShadow = true;
                 const tam = calidad === 'baja' ? 1024 : 2048;
                 clave.shadow.mapSize.set(tam, tam);
@@ -494,15 +639,15 @@
                 clave.shadow.radius = 4;
                 clave.target.position.set(0, 0.45, 0);
                 escena.add(clave, clave.target);
-                const relleno = new THREE.DirectionalLight(0xFFE7C2, 0.3);
-                relleno.position.set(-2.2, 1.0, 1.6);
+                const relleno = new THREE.DirectionalLight(0xFFE4B6, 0.32);
+                relleno.position.set(-2.2, 1.1, 1.8);
                 escena.add(relleno);
-                const contra = new THREE.DirectionalLight(0xFFFFFF, 0.55);
+                const contra = new THREE.DirectionalLight(0xFFF6D6, 0.44);
                 contra.position.set(-0.6, 1.8, -2.6);
                 escena.add(contra);
 
                 // Suelo: sombra real + sombra de contacto difusa
-                const suelo = new THREE.Mesh(new THREE.CircleGeometry(1.6, 48), new THREE.ShadowMaterial({ opacity: 0.16 }));
+                const suelo = new THREE.Mesh(new THREE.CircleGeometry(1.6, 48), new THREE.ShadowMaterial({ opacity: 0.14 }));
                 suelo.rotation.x = -Math.PI / 2;
                 suelo.receiveShadow = true;
                 escena.add(suelo);
@@ -510,14 +655,14 @@
                 lienzo.width = lienzo.height = 128;
                 const ctx = lienzo.getContext('2d');
                 const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-                grad.addColorStop(0, 'rgba(120,70,10,0.42)');
-                grad.addColorStop(0.55, 'rgba(120,70,10,0.16)');
-                grad.addColorStop(1, 'rgba(120,70,10,0)');
+                grad.addColorStop(0, 'rgba(130,75,12,0.38)');
+                grad.addColorStop(0.55, 'rgba(130,75,12,0.14)');
+                grad.addColorStop(1, 'rgba(130,75,12,0)');
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, 128, 128);
-                const contacto = new THREE.Mesh(new THREE.PlaneGeometry(1.05, 0.95), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(lienzo), transparent: true, depthWrite: false }));
+                const contacto = new THREE.Mesh(new THREE.PlaneGeometry(1.02, 0.92), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(lienzo), transparent: true, depthWrite: false }));
                 contacto.rotation.x = -Math.PI / 2;
-                contacto.position.set(0, 0.002, -0.05);
+                contacto.position.set(0, 0.002, -0.04);
                 contacto.renderOrder = -1;
                 escena.add(contacto);
                 return { hemi, clave, relleno, contra, suelo, contacto, envTex };

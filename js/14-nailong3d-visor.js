@@ -565,13 +565,35 @@
                 });
             }
 
+            function esActivo3D() {
+                try {
+                    const s = window.location.search || '';
+                    const h = window.location.hash || '';
+                    if (/[\?&]3d(=[^\&]*)?(&|$)/i.test(s)) return true;
+                    if (/#.*3d/i.test(h)) return true;
+                    if (typeof localStorage !== 'undefined' && localStorage.getItem('nailong_3d') === '1') return true;
+                } catch (_) {}
+                return false;
+            }
+
             /* ---------- Inicio: carga perezosa y pausa fuera de pantalla ---------- */
             function iniciar() {
                 S.contenedor = $('nailong-3d-visor');
                 S.lienzo = $('nailong-3d-lienzo');
                 if (!S.contenedor || !S.lienzo) return;
                 const sec = $('nailong-3d');
-                if (sec && (sec.hasAttribute('hidden') || sec.classList.contains('hidden') || sec.style.display === 'none' || (window.getComputedStyle && getComputedStyle(sec).display === 'none'))) return;
+                const esSecreto3D = esActivo3D();
+                if (esSecreto3D) {
+                    document.body.classList.add('n3d-ver');
+                    try {
+                        if (typeof localStorage !== 'undefined') localStorage.setItem('nailong_3d', '1');
+                    } catch (_) {}
+                    if (sec && (window.location.hash.toLowerCase().includes('3d') || window.location.search.toLowerCase().includes('3d'))) {
+                        setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
+                    }
+                } else {
+                    return;
+                }
                 const mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
                 S.reducido = !!(mq && mq.matches);
                 if (mq && mq.addEventListener) mq.addEventListener('change', (e) => { S.reducido = e.matches; if (S.anim) S.anim.reducido = e.matches; });
@@ -590,7 +612,10 @@
                 window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.pantallaCSS) pantallaCompleta(); });
                 document.addEventListener('visibilitychange', () => { if (document.hidden) pausar(); else reanudar(); });
 
-                if ('IntersectionObserver' in window) {
+                if (esSecreto3D) {
+                    S.visible = true;
+                    arrancar();
+                } else if ('IntersectionObserver' in window) {
                     // Se descarga cuando falta poco para verlo…
                     const cerca = new IntersectionObserver((entradas) => {
                         if (entradas.some((e) => e.isIntersecting)) { cerca.disconnect(); arrancar(); }
@@ -618,5 +643,10 @@
             };
         })();
 
+        window.addEventListener('hashchange', () => {
+            if (!document.body.classList.contains('n3d-ver')) {
+                Nailong3DVisor.iniciar();
+            }
+        });
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', Nailong3DVisor.iniciar);
         else Nailong3DVisor.iniciar();

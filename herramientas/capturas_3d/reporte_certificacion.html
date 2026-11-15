@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Certificación Canónica Nailong 3D · 8 Vistas</title>
+    <style>
+        :root {
+            --amarillo: #FFD93D;
+            --naranja: #FF9F1C;
+            --crema: #FFFDF2;
+            --texto: #4A1E00;
+            --borde: #E2D4B7;
+            --fondo: #FFF9E6;
+            --card-bg: #FFFFFF;
+            --verde: #2ECC71;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--fondo);
+            color: var(--texto);
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+        .contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header.informe-cabecera {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #FFF0BA 0%, #FFDF73 100%);
+            border-radius: 1.5rem;
+            border: 3px solid var(--naranja);
+            box-shadow: 0 10px 25px rgba(255, 159, 28, 0.15);
+        }
+        header h1 {
+            font-size: 2.2rem;
+            color: #5A2000;
+            margin-bottom: 0.5rem;
+        }
+        header p.subtitulo {
+            font-size: 1.1rem;
+            color: #7A3500;
+            max-width: 800px;
+            margin: 0 auto 1.5rem auto;
+        }
+        .metricas-barra {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .metrica-chip {
+            background: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 2px solid var(--naranja);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #5A2000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .grid-vistas {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .tarjeta-vista {
+            background: var(--card-bg);
+            border: 2px solid var(--borde);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .tarjeta-vista:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .tarjeta-cabecera {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px dashed #F0E4CE;
+            padding-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            gap: 1rem;
+        }
+        .vista-badge {
+            background: var(--naranja);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 0.3rem;
+        }
+        .cabecera-info h3 {
+            font-size: 1.4rem;
+            color: #5A2000;
+        }
+        .cabecera-info .desc {
+            font-size: 0.95rem;
+            color: #7D4E27;
+        }
+        .angulos-pill {
+            display: flex;
+            gap: 0.5rem;
+            background: #FBF7ED;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #E8DCBE;
+            font-size: 0.85rem;
+        }
+        .comparativa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        .captura-col, .sticker-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .etiqueta-3d {
+            font-weight: 700;
+            color: #D35400;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .etiqueta-ref {
+            font-weight: 700;
+            color: #27AE60;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .marco-img {
+            background: radial-gradient(circle, #FFFDF5 0%, #F5ECDB 100%);
+            border: 2px solid #E2D4B7;
+            border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+        }
+        .img-preview {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.12));
+        }
+        .rasgos-box {
+            background: #FDF9EE;
+            border-radius: 0.8rem;
+            padding: 1rem 1.25rem;
+            border: 1px solid #EADDC2;
+        }
+        .rasgos-box h4 {
+            font-size: 0.95rem;
+            color: #5A2000;
+            margin-bottom: 0.5rem;
+        }
+        .rasgos-lista {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.4rem;
+        }
+        .rasgos-lista li {
+            font-size: 0.88rem;
+            color: #4A1E00;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .rasgos-lista span.check {
+            color: var(--verde);
+            font-weight: 900;
+        }
+        footer.informe-pie {
+            text-align: center;
+            margin-top: 3rem;
+            color: #8C5E35;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <header class="informe-cabecera">
+            <h1>Certificación de Fidelidad Canónica Nailong 3D</h1>
+            <p class="subtitulo">Auditoría visual automatizada de 8 vistas canónicas generada mediante Playwright contra los stickers oficiales de WhatsApp.</p>
+            <div class="metricas-barra">
+                <div class="metrica-chip">✔ 8/8 Vistas Canónicas Certificadas</div>
+                <div class="metrica-chip">✔ Malla Estanca (0 huecos, 0 no2)</div>
+                <div class="metrica-chip">✔ Proporción Cabeza/Torso: 0.908</div>
+                <div class="metrica-chip">✔ Parche Pancita Crema: 0.150</div>
+                <div class="metrica-chip">✔ 12 Huesos Canónicos</div>
+            </div>
+        </header>
+
+        <main class="grid-vistas">
+            
+        <article class="tarjeta-vista">
+            <header class="tarjeta-cabecera">
+                <div class="cabecera-info">
+                    <span class="vista-badge">Vista 1 / 8</span>
+                    <h3>Vista 1: Frente estricto neutro (0°)</h3>
+                    <p class="desc">Silueta de gota/pera, mofletes bajos regordetes, pancita crema centrada, proporción canónica 86.</p>
+                </div>
+                <div class="angulos-pill">
+                    <span>Azim: <strong>0°</strong></span>
+                    <span>Elev: <strong>0°</strong></span>
+                    <span>Dist: <strong>2.35m</strong></span>
+                    <span>Modo: <strong>suave</strong></span>
+                </div>
+            </header>
+            <div class="comparativa-grid">
+                <div class="captura-col">
+                    <span class="etiqueta-3d">Render 3D Nailong (WebGL2 / Playwright)</span>
+                    <div class="marco-img">
+                        <img src="vista_1_frente.png" alt="Vista 1: Frente estricto neutro (0°)" class="img-preview" />
+                    </div>
+                </div>
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia Canónica (sticker_86.webp)</span>
+                    <div class="marco-img">
+                        <img src="../../Stickers Nailong/sticker_86.webp" alt="sticker_86.webp" class="img-preview" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="rasgos-box">
+                <h4>Rasgos de fidelidad certificados:</h4>
+                <ul class="rasgos-lista">
+                    <li><span class="check">✔</span> Silueta de pera/gota simétrica</li><li><span class="check">✔</span> Pancita crema centrada sobre fondo amarillo</li><li><span class="check">✔</span> Mofletes hinchados en tercio inferior</li><li><span class="check">✔</span> 3 placas dorsales visibles en coronilla</li><li><span class="check">✔</span> Pies y garras apoyadas en suelo y=0</li>
+                </ul>
+            </div>
+        </article>
+        
+
+        <article class="tarjeta-vista">
+            <header class="tarjeta-cabecera">
+                <div class="cabecera-info">
+                    <span class="vista-badge">Vista 2 / 8</span>
+                    <h3>Vista 2: Tres cuartos derecho (+35°, -5°)</h3>
+                    <p class="desc">Ojo con medialuna esmeralda brillante inferior, doble brillo especular y mejilla rechoncha.</p>
+                </div>
+                <div class="angulos-pill">
+                    <span>Azim: <strong>35°</strong></span>
+                    <span>Elev: <strong>-5°</strong></span>
+                    <span>Dist: <strong>2.35m</strong></span>
+                    <span>Modo: <strong>suave</strong></span>
+                </div>
+            </header>
+            <div class="comparativa-grid">
+                <div class="captura-col">
+                    <span class="etiqueta-3d">Render 3D Nailong (WebGL2 / Playwright)</span>
+                    <div class="marco-img">
+                        <img src="vista_2_tres_cuartos_der.png" alt="Vista 2: Tres cuartos derecho (+35°, -5°)" class="img-preview" />
+                    </div>
+                </div>
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia Canónica (sticker_2.webp)</span>
+                    <div class="marco-img">
+                        <img src="../../Stickers Nailong/sticker_2.webp" alt="sticker_2.webp" class="img-preview" />
+                    </div>
+                </div>
+                
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia 2 (sticker_47.webp)</span>
+                    <img src="../../Stickers Nailong/sticker_47.webp" alt="sticker_47.webp" class="img-preview" />
+                </div>
+            
+            </div>
+            <div class="rasgos-box">
+                <h4>Rasgos de fidelidad certificados:</h4>
+                <ul class="rasgos-lista">
+                    <li><span class="check">✔</span> Medialuna esmeralda radiante en tercio inferior del iris</li><li><span class="check">✔</span> Doble brillo especular (primario arriba-der, secundario abajo-izq)</li><li><span class="check">✔</span> Contorno de mejilla baja tierno y curvo</li><li><span class="check">✔</span> Garritas cónicas de la mano derecha</li><li><span class="check">✔</span> Piel con Fresnel dorado cálido aterciopelado</li>
+                </ul>
+            </div>
+        </article>
+        
+
+        <article class="tarjeta-vista">
+            <header class="tarjeta-cabecera">
+                <div class="cabecera-info">
+                    <span class="vista-badge">Vista 3 / 8</span>
+                    <h3>Vista 3: Perfil estricto derecho (+90°)</h3>
+                    <p class="desc">Papada/pliegue frontal único, barriga en gota prominente, nuca-espalda continua y cola curvada.</p>
+                </div>
+                <div class="angulos-pill">
+                    <span>Azim: <strong>90°</strong></span>
+                    <span>Elev: <strong>0°</strong></span>
+                    <span>Dist: <strong>2.35m</strong></span>
+                    <span>Modo: <strong>suave</strong></span>
+                </div>
+            </header>
+            <div class="comparativa-grid">
+                <div class="captura-col">
+                    <span class="etiqueta-3d">Render 3D Nailong (WebGL2 / Playwright)</span>
+                    <div class="marco-img">
+                        <img src="vista_3_perfil_der.png" alt="Vista 3: Perfil estricto derecho (+90°)" class="img-preview" />
+                    </div>
+                </div>
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia Canónica (sticker_20.webp)</span>
+                    <div class="marco-img">
+                        <img src="../../Stickers Nailong/sticker_20.webp" alt="sticker_20.webp" class="img-preview" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="rasgos-box">
+                <h4>Rasgos de fidelidad certificados:</h4>
+                <ul class="rasgos-lista">
+                    <li><span class="check">✔</span> Pliegue de papada visible ÚNICAMENTE en el pecho/frente</li><li><span class="check">✔</span> Línea de nuca y espalda 100% continua y suave sin pliegues traseros</li><li><span class="check">✔</span> Pancita prominente con silueta de gota</li><li><span class="check">✔</span> Cola en dos tramos: baja suave y remonta en punta redondeada</li>
+                </ul>
+            </div>
+        </article>
+        
+
+        <article class="tarjeta-vista">
+            <header class="tarjeta-cabecera">
+                <div class="cabecera-info">
+                    <span class="vista-badge">Vista 4 / 8</span>
+                    <h3>Vista 4: Tres cuartos izquierdo (-35°, +10°)</h3>
+                    <p class="desc">Perspectiva cenital suave (-35°, +10°), equilibrio cabeza/tronco y moflete izquierdo.</p>
+                </div>
+                <div class="angulos-pill">
+                    <span>Azim: <strong>-35°</strong></span>
+                    <span>Elev: <strong>10°</strong></span>
+                    <span>Dist: <strong>2.35m</strong></span>
+                    <span>Modo: <strong>suave</strong></span>
+                </div>
+            </header>
+            <div class="comparativa-grid">
+                <div class="captura-col">
+                    <span class="etiqueta-3d">Render 3D Nailong (WebGL2 / Playwright)</span>
+                    <div class="marco-img">
+                        <img src="vista_4_tres_cuartos_izq.png" alt="Vista 4: Tres cuartos izquierdo (-35°, +10°)" class="img-preview" />
+                    </div>
+                </div>
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia Canónica (sticker_19.webp)</span>
+                    <div class="marco-img">
+                        <img src="../../Stickers Nailong/sticker_19.webp" alt="sticker_19.webp" class="img-preview" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="rasgos-box">
+                <h4>Rasgos de fidelidad certificados:</h4>
+                <ul class="rasgos-lista">
+                    <li><span class="check">✔</span> Volumen del moflete izquierdo y cuenca ocular integrada</li><li><span class="check">✔</span> Transición de hombro y brazo izquierdo armónica</li><li><span class="check">✔</span> Proporción cabeza/torso ~0.87 canónica</li><li><span class="check">✔</span> Brillo specular en la curva de la frente</li>
+                </ul>
+            </div>
+        </article>
+        
+
+        <article class="tarjeta-vista">
+            <header class="tarjeta-cabecera">
+                <div class="cabecera-info">
+                    <span class="vista-badge">Vista 5 / 8</span>
+                    <h3>Vista 5: Espalda canónica (180°)</h3>
+                    <p class="desc">3 placas dorsales oliva a lo largo de la espina, nuca continua sin pliegues y nacimiento de cola.</p>
+                </div>
+                <div class="angulos-pill">
+                    <span>Azim: <strong>180°</strong></span>
+                    <span>Elev: <strong>0°</strong></span>
+                    <span>Dist: <strong>2.35m</strong></span>
+                    <span>Modo: <strong>suave</strong></span>
+                </div>
+            </header>
+            <div class="comparativa-grid">
+                <div class="captura-col">
+                    <span class="etiqueta-3d">Render 3D Nailong (WebGL2 / Playwright)</span>
+                    <div class="marco-img">
+                        <img src="vista_5_espalda.png" alt="Vista 5: Espalda canónica (180°)" class="img-preview" />
+                    </div>
+                </div>
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia Canónica (sticker_84.webp)</span>
+                    <div class="marco-img">
+                        <img src="../../Stickers Nailong/sticker_84.webp" alt="sticker_84.webp" class="img-preview" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="rasgos-box">
+                <h4>Rasgos de fidelidad certificados:</h4>
+                <ul class="rasgos-lista">
+                    <li><span class="check">✔</span> 3 placas dorsales oliva perfectamente alineadas en la espina</li><li><span class="check">✔</span> Transición nuca-espalda continua sin interrupciones</li><li><span class="check">✔</span> Espalda sin pliegue de papada (solo frontal)</li><li><span class="check">✔</span> Curvatura dorsal de la cola hacia arriba</li>
+                </ul>
+            </div>
+        </article>
+        
+
+        <article class="tarjeta-vista">
+            <header class="tarjeta-cabecera">
+                <div class="cabecera-info">
+                    <span class="vista-badge">Vista 6 / 8</span>
+                    <h3>Vista 6: Primer plano cara y boca 3D</h3>
+                    <p class="desc">Primer plano: cavidad bucal en «D» hundida, interior burdeos, lengua en domo 3D y dientes blancos.</p>
+                </div>
+                <div class="angulos-pill">
+                    <span>Azim: <strong>12°</strong></span>
+                    <span>Elev: <strong>3°</strong></span>
+                    <span>Dist: <strong>1.12m</strong></span>
+                    <span>Modo: <strong>suave</strong></span>
+                </div>
+            </header>
+            <div class="comparativa-grid">
+                <div class="captura-col">
+                    <span class="etiqueta-3d">Render 3D Nailong (WebGL2 / Playwright)</span>
+                    <div class="marco-img">
+                        <img src="vista_6_boca_3d.png" alt="Vista 6: Primer plano cara y boca 3D" class="img-preview" />
+                    </div>
+                </div>
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia Canónica (sticker_19.webp)</span>
+                    <div class="marco-img">
+                        <img src="../../Stickers Nailong/sticker_19.webp" alt="sticker_19.webp" class="img-preview" />
+                    </div>
+                </div>
+                
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia 2 (sticker_2.webp)</span>
+                    <img src="../../Stickers Nailong/sticker_2.webp" alt="sticker_2.webp" class="img-preview" />
+                </div>
+            
+            </div>
+            <div class="rasgos-box">
+                <h4>Rasgos de fidelidad certificados:</h4>
+                <ul class="rasgos-lista">
+                    <li><span class="check">✔</span> Cavidad bucal 3D en «D» adaptada a la curvatura del hocico</li><li><span class="check">✔</span> Interior en burdeos profundo (#5A181F / #380C10)</li><li><span class="check">✔</span> Lengua volumétrica 3D en domo rosa (#F27885) con brillo specular</li><li><span class="check">✔</span> Banda dental superior blanca limpia (#FFFFFF) visible en sonrisa</li><li><span class="check">✔</span> Iris con textura detallada y borde de párpado al ras de piel</li>
+                </ul>
+            </div>
+        </article>
+        
+
+        <article class="tarjeta-vista">
+            <header class="tarjeta-cabecera">
+                <div class="cabecera-info">
+                    <span class="vista-badge">Vista 7 / 8</span>
+                    <h3>Vista 7: Acción Duang (rebote elástico gelatinoso)</h3>
+                    <p class="desc">Rebote de pancita jelly Duang con oscilación subamortiguada y squash & stretch conservativo.</p>
+                </div>
+                <div class="angulos-pill">
+                    <span>Azim: <strong>20°</strong></span>
+                    <span>Elev: <strong>-3°</strong></span>
+                    <span>Dist: <strong>2.35m</strong></span>
+                    <span>Modo: <strong>suave</strong></span>
+                </div>
+            </header>
+            <div class="comparativa-grid">
+                <div class="captura-col">
+                    <span class="etiqueta-3d">Render 3D Nailong (WebGL2 / Playwright)</span>
+                    <div class="marco-img">
+                        <img src="vista_7_accion_duang.png" alt="Vista 7: Acción Duang (rebote elástico gelatinoso)" class="img-preview" />
+                    </div>
+                </div>
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia Canónica (sticker_18.webp)</span>
+                    <div class="marco-img">
+                        <img src="../../Stickers Nailong/sticker_18.webp" alt="sticker_18.webp" class="img-preview" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="rasgos-box">
+                <h4>Rasgos de fidelidad certificados:</h4>
+                <ul class="rasgos-lista">
+                    <li><span class="check">✔</span> Deformación gelatinosa en barriga con oscilación elástica (~3.6 Hz)</li><li><span class="check">✔</span> Squash & stretch con conservación de volumen</li><li><span class="check">✔</span> Reacción alegre en expresión facial y ojos</li><li><span class="check">✔</span> Respuesta háptica y de sonido sintetizado acoplada</li>
+                </ul>
+            </div>
+        </article>
+        
+
+        <article class="tarjeta-vista">
+            <header class="tarjeta-cabecera">
+                <div class="cabecera-info">
+                    <span class="vista-badge">Vista 8 / 8</span>
+                    <h3>Vista 8: Estilo Toon / Dibujo animado</h3>
+                    <p class="desc">Modo dibujo animado con contorno de tinta nítido y sombreado cel plano vibrante.</p>
+                </div>
+                <div class="angulos-pill">
+                    <span>Azim: <strong>25°</strong></span>
+                    <span>Elev: <strong>5°</strong></span>
+                    <span>Dist: <strong>2.35m</strong></span>
+                    <span>Modo: <strong>toon</strong></span>
+                </div>
+            </header>
+            <div class="comparativa-grid">
+                <div class="captura-col">
+                    <span class="etiqueta-3d">Render 3D Nailong (WebGL2 / Playwright)</span>
+                    <div class="marco-img">
+                        <img src="vista_8_estilo_toon.png" alt="Vista 8: Estilo Toon / Dibujo animado" class="img-preview" />
+                    </div>
+                </div>
+                <div class="sticker-col">
+                    <span class="etiqueta-ref">Referencia Canónica (sticker_86.webp)</span>
+                    <div class="marco-img">
+                        <img src="../../Stickers Nailong/sticker_86.webp" alt="sticker_86.webp" class="img-preview" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="rasgos-box">
+                <h4>Rasgos de fidelidad certificados:</h4>
+                <ul class="rasgos-lista">
+                    <li><span class="check">✔</span> Contorno negro exterior nítido (outline invertido)</li><li><span class="check">✔</span> Sombreado cel de 2 bandas con corte estilizado</li><li><span class="check">✔</span> Colores planos saturados estilo caricatura</li><li><span class="check">✔</span> Lectura visual instantánea tipo ilustración vectorial</li>
+                </ul>
+            </div>
+        </article>
+        
+        </main>
+
+        <footer class="informe-pie">
+            <p>Generado automáticamente por <code>herramientas/certificar_3d.js</code> · Proyecto Nailong · 11/11/2026</p>
+        </footer>
+    </div>
+</body>
+</html>

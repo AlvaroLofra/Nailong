@@ -443,9 +443,9 @@
         }
 
         /* ---------- Nailong 3D (sección #nailong-3d, js/11 a js/14) ---------- */
-        /* Oculto en la web mientras se perfecciona el modelo */
-        #nailong-3d,
-        a[href="#nailong-3d"] {
+        /* Oculto en la web pública por defecto; desbloqueable con ?3d=1 */
+        body:not(.n3d-ver) #nailong-3d,
+        body:not(.n3d-ver) a[href="#nailong-3d"] {
             display: none !important;
         }
         .n3d-seccion.clay-card:hover { transform: none; }
