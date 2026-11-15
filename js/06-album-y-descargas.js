@@ -147,6 +147,7 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             modal.style.display = 'flex';
+            abrirDialogo(modal);
         }
 
         // Posición del sticker en el Visor Mágico (-1 si no es una de sus 9 escenas)
@@ -168,6 +169,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
             modal.style.display = 'none';
+            cerrarDialogo(modal);
         }
 
         function nextLightboxPhoto() {
@@ -188,22 +190,13 @@
             if (lb && !lb.classList.contains('hidden') && lb.style.display !== 'none') {
                 if (e.key === 'ArrowRight') nextLightboxPhoto();
                 if (e.key === 'ArrowLeft') prevLightboxPhoto();
-                if (e.key === 'Escape') closePhotoLightbox();
             }
             const modal = document.getElementById('magic-modal');
             if (modal && !modal.classList.contains('hidden') && modal.style.display !== 'none') {
                 if (e.key === 'ArrowRight') nextMagicGif();
                 if (e.key === 'ArrowLeft') prevMagicGif();
-                if (e.key === 'Escape') closeMagicModal();
             }
-            const sm = document.getElementById('share-modal');
-            if (sm && !sm.classList.contains('hidden') && sm.style.display !== 'none') {
-                if (e.key === 'Escape') closeShareModal();
-            }
-            const som = document.getElementById('sticker-options-modal');
-            if (som && !som.classList.contains('hidden') && som.style.display !== 'none') {
-                if (e.key === 'Escape') closeStickerOptionsModal();
-            }
+            // Escape lo gestiona el evento «cancel» de cada <dialog> (setupModalBackdrops)
         });
 
         /* ==============================================================
@@ -214,6 +207,11 @@
             const toast = document.getElementById('duang-toast');
             const toastText = document.getElementById('duang-toast-text');
             if (!toast || !toastText) return;
+            // Un <dialog> abierto se pinta por encima de toda la página: el aviso se cuelga del
+            // modal que esté arriba (el último en el HTML) para que no quede tapado.
+            const abiertos = document.querySelectorAll('dialog[open]');
+            const destino = abiertos.length ? abiertos[abiertos.length - 1] : document.body;
+            if (toast.parentElement !== destino) destino.appendChild(toast);
             toastText.textContent = msg;
             toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
             toast.classList.add('opacity-100', 'translate-y-0');
@@ -240,6 +238,7 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             modal.style.display = 'flex';
+            abrirDialogo(modal);
         }
 
         function closeStickerOptionsModal() {
@@ -249,6 +248,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
             modal.style.display = 'none';
+            cerrarDialogo(modal);
         }
 
         function handleModalDownload(event) {

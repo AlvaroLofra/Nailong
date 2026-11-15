@@ -147,6 +147,7 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             modal.style.display = 'flex';
+            abrirDialogo(modal);
 
             const shareUrl = getLiveShareUrl();
             const urlText = document.getElementById('share-url-text');
@@ -180,6 +181,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
             modal.style.display = 'none';
+            cerrarDialogo(modal);
         }
 
         async function triggerNativeShare() {
@@ -306,6 +308,11 @@
                     if (e.target === el) {
                         close();
                     }
+                });
+                // Escape o gesto «atrás»: el <dialog> avisa con «cancel»; se cierra por la vía de siempre
+                el.addEventListener('cancel', (e) => {
+                    e.preventDefault();
+                    close();
                 });
             });
         }

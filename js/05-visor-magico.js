@@ -28,6 +28,17 @@
         /* ==============================================================
            6. VISOR MÁGICO MODAL CON VELOCIDAD Y STICKERS ARRASTRABLES
         ============================================================== */
+        /* Los 4 modales son <dialog> nativos: showModal() atrapa el foco, deja inerte el fondo y
+           devuelve el foco al cerrar. La visibilidad sigue mandándola hidden/flex + style.display,
+           así el resto del código (flechas, bloqueo de scroll) no cambia. */
+        function abrirDialogo(modal) {
+            if (modal && typeof modal.showModal === 'function' && !modal.open) modal.showModal();
+        }
+
+        function cerrarDialogo(modal) {
+            if (modal && typeof modal.close === 'function' && modal.open) modal.close();
+        }
+
         let currentModalGifIndex = 0;
         let currentModalSpeed = 'normal';
 
@@ -52,6 +63,7 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             modal.style.display = 'flex';
+            abrirDialogo(modal);
         }
 
         function closeMagicModal() {
@@ -60,6 +72,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
             modal.style.display = 'none';
+            cerrarDialogo(modal);
         }
 
         function nextMagicGif() {
@@ -261,5 +274,6 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             modal.style.display = 'flex';
+            abrirDialogo(modal);
         }
 

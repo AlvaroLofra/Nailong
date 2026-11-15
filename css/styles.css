@@ -231,6 +231,32 @@
             overflow: hidden;
         }
 
+        /* Los modales son <dialog> nativos a pantalla completa: el propio <dialog> hace de telón
+           oscuro (clic fuera = cerrar), así que se anulan la caja y el telón que pone el navegador. */
+        dialog {
+            margin: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            max-height: none;
+            color: inherit;
+            overflow: hidden;
+        }
+        dialog::backdrop {
+            background: transparent;
+        }
+        /* Aparición suave al abrir (solo opacidad: un transform descolocaría el aviso flotante) */
+        @media (prefers-reduced-motion: no-preference) {
+            dialog[open] {
+                opacity: 1;
+                transition: opacity 0.18s ease-out;
+            }
+            @starting-style {
+                dialog[open] { opacity: 0; }
+            }
+        }
+
         /* La mascota se oculta en móvil mientras se juega al minijuego */
         @media (max-width: 639px) {
             #floating-companion.companion-hidden-by-game {
@@ -271,6 +297,12 @@
         .reveal-item.visible {
             opacity: 1;
             transform: none;
+        }
+
+        /* Firefox no entiende ::-webkit-scrollbar: allí la barra toma al menos los colores de Nailong.
+           Solo para Firefox, porque en Chrome/Edge esta propiedad desactivaría la barra gordita de abajo. */
+        @supports (-moz-appearance: none) {
+            html { scrollbar-color: #FFD93D #FFF9DB; }
         }
 
         /* Custom Chubby Scrollbar */

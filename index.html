@@ -473,7 +473,7 @@
                 <div class="flex flex-col sm:flex-row items-center gap-6">
                     <div id="video-player-container" class="w-48 sm:w-56 h-80 sm:h-96 flex-shrink-0 rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black flex items-center justify-center relative group">
                         <canvas id="video-ambient-canvas" aria-hidden="true"></canvas>
-                        <video id="trailer-video" src="video-promo/nailong_trailer_v2.mp4" poster="video-promo/nailong_trailer_v2_portada.webp" controls playsinline preload="metadata" class="w-full h-full object-contain relative z-10 bg-black"></video>
+                        <video id="trailer-video" src="video-promo/nailong_trailer_v2.mp4" poster="video-promo/nailong_trailer_v2_portada.webp" controls playsinline preload="none" class="w-full h-full object-contain relative z-10 bg-black"></video>
                     </div>
                     <div class="space-y-3 text-center sm:text-left flex-1">
                         <span class="inline-block bg-nailong-orange text-white text-xs font-display font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
@@ -918,7 +918,7 @@
     </footer>
 
     <!-- MODAL VISOR MÁGICO DE GIFS Y ANIMACIONES -->
-    <div id="magic-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" class="fixed inset-0 bg-amber-950/80 z-50 hidden items-center justify-center p-3 sm:p-4">
+    <dialog id="magic-modal" aria-labelledby="modal-title" class="fixed inset-0 bg-amber-950/80 z-50 hidden items-center justify-center p-3 sm:p-4">
         <div class="clay-card max-w-2xl w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-4 sm:p-8 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
             <button onclick="closeMagicModal()" aria-label="Cerrar" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm">
@@ -1000,10 +1000,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </dialog>
 
     <!-- MODAL LIGHTBOX FOTOS DEL ÁLBUM -->
-    <div id="photo-lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
+    <dialog id="photo-lightbox" aria-labelledby="lb-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
         <div class="clay-card max-w-2xl lg:max-w-3xl w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-4 sm:p-7 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
             <button onclick="closePhotoLightbox()" aria-label="Cerrar" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
@@ -1060,10 +1060,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </dialog>
 
     <!-- MODAL OPCIONES DE GUARDAR STICKER Y WHATSAPP -->
-    <div id="sticker-options-modal" role="dialog" aria-modal="true" aria-labelledby="sticker-opt-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
+    <dialog id="sticker-options-modal" aria-labelledby="sticker-opt-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
         <div class="clay-card max-w-lg w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-5 sm:p-7 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
             <button onclick="closeStickerOptionsModal()" aria-label="Cerrar" class="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
@@ -1135,10 +1135,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </dialog>
 
         <!-- MODAL COMPARTIR CON AMIGOS -->
-    <div id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
+    <dialog id="share-modal" aria-labelledby="share-modal-title" class="fixed inset-0 bg-amber-950/85 z-50 hidden items-center justify-center p-3 sm:p-4">
         <div class="clay-card max-w-lg w-full max-h-[90vh] max-h-[92dvh] overflow-y-auto overscroll-contain p-5 sm:p-8 relative bg-nailong-cream border-4 border-nailong-yellow animate-duang">
             <!-- Close Button -->
             <button onclick="closeShareModal()" aria-label="Cerrar" class="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xl flex items-center justify-center border-2 border-rose-300 transition-transform hover:scale-110 z-30 shadow-sm" title="Cerrar">
@@ -1203,7 +1203,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </dialog>
 
     <!-- DUANG TOAST NOTIFICATION -->
     <div id="duang-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] max-w-sm w-[90%] sm:w-auto px-5 py-2.5 rounded-full bg-amber-950/95 text-white font-display font-bold text-xs sm:text-sm text-center border-2 border-nailong-yellow shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4">

@@ -329,7 +329,11 @@ assert "getEmojiSprite(item.emoji, 34)" in html, "Minigame must draw emoji sprit
 assert 'id="party-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full" style="display: none;"' in html, "Party canvas must start hidden!"
 assert "canvas.style.display = 'none'" in html, "Party canvas must be hidden again when confetti ends!"
 assert "@media (prefers-reduced-motion: reduce)" in html, "prefers-reduced-motion support missing!"
-assert html.count('role="dialog" aria-modal="true"') == 4, "The 4 modals must declare role=dialog and aria-modal!"
+_dialogs = re.findall(r'<dialog id="([\w-]+)" aria-labelledby="[\w-]+"', html)
+assert sorted(_dialogs) == ['magic-modal', 'photo-lightbox', 'share-modal', 'sticker-options-modal'], f"The 4 modals must be native <dialog> elements with aria-labelledby (found {_dialogs})!"
+assert html.count('</dialog>') == 4, "Each <dialog> must be closed!"
+assert "modal.showModal()" in html and "addEventListener('cancel'" in html, "Modals must open with showModal() and handle the cancel (Escape) event!"
+assert "e.key === 'Escape') close" not in html.replace("closeGame", ""), "Escape must be handled by the dialog cancel event, not by manual keydown handlers!"
 assert "setupModalScrollLock" in html and "body.modal-open" in html, "Body scroll lock for modals missing!"
 assert "setupScrollSpy" in html and "flashCompanionSpeech" in html, "Scrollspy and mobile companion behavior missing!"
 drag_src = html[html.index("function makeStickerDraggable"):html.index("function makeStickerDraggable") + 4000]
