@@ -2,15 +2,15 @@
            5. MURO DE 9 GIFS/ANIMACIONES REALES
         ============================================================== */
         const FEATURED_GIFS = [
-            { id: 17, tag: 'GLOTÓN 🍿', title: 'Cine & Palomitas a Granel', desc: 'Nailong en el cine devorando un cubo entero de palomitas a toda máquina.', bg: 'from-amber-100 to-yellow-100' },
-            { id: 10, tag: 'RITMO 🪇', title: 'El Baile de las Maracas Duang', desc: 'Moviendo las caderas y haciendo música alegre con maracas de colores.', bg: 'from-yellow-100 to-pink-100' },
-            { id: 33, tag: 'AVENTURA 🏴‍☠️', title: 'Capitán Pirata Nailong', desc: 'Con su sombrero corsario y patitas en alto bailando al timón del barco.', bg: 'from-sky-100 to-teal-100' },
-            { id: 21, tag: 'ESCAPE 🏃', title: '¡A Correr! ¡Hora del Baño!', desc: 'Huyendo despavorido a toda prisa con carita de susto porque no le gusta el agua fría.', bg: 'from-orange-100 to-amber-100' },
+            { id: 17, tag: 'GLOTÓN 🍿', title: 'Palomitas & Risas en el Sofá', desc: 'Nailong en el sofá con su caja de palomitas, riéndose tanto que acaba revolcándose.', bg: 'from-amber-100 to-yellow-100' },
+            { id: 10, tag: 'ARCOÍRIS 🌈', title: 'El Baile Arcoíris Duang', desc: 'Bailando con una bola de colores en cada patita mientras cambia de color como un camaleón.', bg: 'from-yellow-100 to-pink-100' },
+            { id: 33, tag: 'FIESTA 🦁', title: 'Baile con Gorro de León', desc: 'Con la lengua fuera y un gorro blanco y peludo de la danza del león, bailando sin parar.', bg: 'from-sky-100 to-teal-100' },
+            { id: 21, tag: 'ESCAPE 🏃', title: '¡A Correr! ¡Sálvese Quien Pueda!', desc: 'Huyendo despavorido por el bosque con la boca abierta y carita de susto.', bg: 'from-orange-100 to-amber-100' },
             { id: 29, tag: 'RELAX 🍃', title: 'Haciendo la Croqueta en el Césped', desc: 'Rodando feliz de lado a lado por el prado verde jugando al solecito.', bg: 'from-emerald-100 to-lime-100' },
-            { id: 38, tag: 'DORMILÓN 🍼', title: 'Dulce Siesta en la Hamaca', desc: 'Meciéndose plácidamente en su cuna colgante soñando con montañas de nata.', bg: 'from-blue-100 to-sky-100' },
-            { id: 13, tag: 'SABROSO 😋', title: '¡Mmm, Lamiéndose los Bigotes!', desc: 'Saboreando el manjar más delicioso del mundo tras acabarse un muslito crujiente.', bg: 'from-rose-100 to-amber-100' },
-            { id: 11, tag: 'MASTICANDO 🥟', title: 'El Monstruo de los Bollitos', desc: 'Masticando bollitos al vapor sin parar a velocidad supersónica.', bg: 'from-yellow-100 to-orange-100' },
-            { id: 39, tag: 'ALEGRÍA 🕺', title: '¡Saltitos de Pura Victoria!', desc: 'El baile viral dando botes de pura felicidad cuando la merienda está servida.', bg: 'from-purple-100 to-pink-100' }
+            { id: 38, tag: 'DORMILÓN 🍼', title: 'Dulce Siesta en la Hamaca', desc: 'Durmiendo plácidamente en su hamaca blanca, soñando con montañas de nata.', bg: 'from-blue-100 to-sky-100' },
+            { id: 13, tag: 'RISAS 😝', title: '¡Carcajadas con la Lengua Fuera!', desc: 'Riendo con la boca abierta, la lengua fuera y los ojos en blanco mientras saluda con la patita.', bg: 'from-rose-100 to-amber-100' },
+            { id: 11, tag: 'PUCHERO 🥺', title: 'Morritos Mirando al Cielo', desc: 'Se incorpora poco a poco y se queda mirando hacia arriba con la boquita torcida en un puchero.', bg: 'from-yellow-100 to-orange-100' },
+            { id: 39, tag: 'ALEGRÍA 🕺', title: '¡Baile de Pura Alegría!', desc: 'El baile viral por toda la casa con los brazos en alto cuando la merienda está servida.', bg: 'from-purple-100 to-pink-100' }
         ];
 
         function renderGifWall() {
