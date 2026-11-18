@@ -3,14 +3,13 @@
 > Lista viva de ideas **no aplicadas**.
 > - Las A1–A7 y W1–W5 de la revisión de la v3.3.2 se aplicaron en la **v3.3.3** (ver `CHANGELOG.md`).
 > - Las A8–A13 y W6–W7 (junto con el zoom grande centrado con transición y el botón «Ver (N) ❯» para revisar «Mi Selección») se aplicaron en la **v3.5.0** (ver `CHANGELOG.md`).
+> - Las mejoras **W9** (frases del muñeco acompañante detectando la sección visible en viewport + frase para `#nailong-3d`) y **W10** (enlace `🧊 3D` y barra de navegación compacta desde `1024 px`) se aplicaron en la **v4.0.0** (ver `CHANGELOG.md` y D-24).
 
 ## Web
 
 | # | Qué | Por qué | Esfuerzo |
 |---|---|---|---|
 | W8 | El aviso de Tailwind en la consola sigue saliendo. | Es propio del CDN; quitarlo exigiría compilar Tailwind (rompe «sin build», D-15). | Medio |
-| W9 | Las frases del muñeco acompañante (`js/04-navegacion.js`) dependen de umbrales fijos de scroll en píxeles; con la sección 3D nueva quedan desplazadas (p. ej. habla del Visor Mágico estando en el 3D). | Pasar a detectar la sección visible (como el *scrollspy*) y añadir una frase para el 3D. | Bajo |
-| W10 | A 1024–1100 px el menú de escritorio ya no cabía antes de la sección 3D (con la fuente de respaldo del entorno de pruebas; no comprobado con Fredoka real). | Compactar el menú en `lg` o pasar algún enlace a un submenú. | Bajo |
 | W11 | Pasar a clave estable (`data-sticker`, D-22) el resto de imágenes fijadas por número: hero y muñeco acompañante (`index.html`, `js/03-hero.js`), disfraces del laboratorio y botonera (`js/07-sonidos-y-laboratorio.js`), visor mágico (`js/05-visor-magico.js`), favicon y `og:image`. Revisar antes con el usuario las que no encajan con su etiqueta: «Bailarín» → 6 (Chef Pastelero), «Superalas» → 90 (DJ con gafitas), «Palomitas» → 55 (Dino disfrazado), «¡Llamita Bebé!» → 32 (*gasp* ofendido). | Así ninguna imagen se desplaza en la próxima renumeración; hoy solo «¿Quién es Nailong?» está protegida. | Bajo–medio |
 
 ### Modernización web (plugin `Modern Web Guidance`): cerrada el 2026-11-15

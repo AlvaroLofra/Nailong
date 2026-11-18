@@ -2,15 +2,15 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 15/11/2026 (revisión web 1 de la v3.6.1 preparada en `main` local, **pendiente de `git push`**: modales como `<dialog>` nativo (D-23), textos del álbum revisados, escapado de fotos del usuario, detector de stickers repetidos y auditoría de seguridad; el APK no cambia).
+> **Última actualización:** 18/11/2026 (lanzamiento **v4.0.0** preparado en `main` local, **pendiente de `git push`**: 127 stickers tras incorporar 32 nuevos de TikTok —incluido el rescate de `sticker_127.webp`—, 5.º pack oficial en Android, estreno público de **Nailong en 3D**, mejoras `W9` y `W10`, y APK firmado de 42.9 MB).
 > **Rama activa:** `main`.
-> **Versión actual:** Web `v3.6.1` | Android APK `v3.6.1` (`versionCode 15`). Publicada en `main` (GitHub Pages) el 06/11/2026.
+> **Versión actual:** Web `v4.0.0` | Android APK `v4.0.0` (`versionCode 16`). Pendiente de `git push` a `main` (GitHub Pages).
 
 ---
 
 ## 1. En una Frase
 
-La web oficial y la app Android nativa están sincronizadas en la versión **v3.6.1** (`versionCode 15`), con **95 cromos oficiales** en 4 packs equilibrados (24/24/24/23), todos los animados en bucle infinito, y APK firmado de 31.8 MB. El visor **Nailong en 3D** está en el código pero oculto. `verify_all.py` tiene **52 comprobaciones** y pasa completa en el PC del usuario.
+La web oficial y la app Android nativa suben a la versión **v4.0.0** (`versionCode 16`), con **127 cromos oficiales** (98 animados en 4 packs 24/24/24/26 + 29 estáticos en 1 pack = 5 packs oficiales), estreno oficial de **Nailong en 3D** visible para todos con carga perezosa, mejoras `W9`/`W10` y APK firmado de 42.9 MB. `verify_all.py` tiene **52 comprobaciones** adaptadas a 127 stickers y `v4.0.0`.
 
 ---
 
@@ -18,59 +18,37 @@ La web oficial y la app Android nativa están sincronizadas en la versión **v3.
 
 | Métrica / Concepto | Valor Verificado |
 |---|---|
-| **Punto único de entrada web** | `index.html` + `css/styles.css` + `js/` (14 ficheros modulares más `tailwind-config.js`, 0 dependencias de compilación). |
-| **Nailong 3D (sin publicar)** | Sección `#nailong-3d`; malla procedural estanca de ≈41 k vértices (≈27 k en móvil) generada en ≈0,3–0,5 s en un Web Worker, piel de 12 huesos, 5 acciones, 2 estilos; Three.js r147 por CDN con SRI solo bajo demanda; GLB de ≈3,1 MB con 5 clips. |
-| **Banco de cromos coleccionables** | Exactamente 95 stickers WebP (512×512 con chunk EXIF WhatsApp) + 1 foto optimizada del creador + 1 sticker descatalogado fuera de catálogo. |
-| **Packs oficiales preconfigurados en Android** | 4 packs: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24) y *Nailong estático* (23). Total: 95 stickers. |
-| **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con vista de revisión («Ver (N) ❯»), vistas previas animadas de 192 px y un único pack por importación (si hay animados, los estáticos van como animados de 2 fotogramas). |
-| **Paquete nativo Android firmado** | `StickersNailong.apk` (31.8 MB / 31.820.990 bytes, firmado con clave *debug* oficial `SHA-256: 04b83add...abb2`, targetSdk 30, versionCode 15, versionName 3.6.1). `image_data_version`: 4 en *Nailong animado 1*, 3 en el resto. |
-| **Imágenes fijas por clave (D-22)** | Las 4 tarjetas de «¿Quién es Nailong?» usan `data-sticker` (dragon-de-leche → 2, xiao-qi-colita → 28, bombloong → 27, escamitas-espalda → 31). El resto de referencias fijas sigue por número (W11 en `MEJORAS_PENDIENTES.md`). |
-| **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_v2.mp4` (1080×1920, 60 fps, 32.0s, 17.4 MB, audio y SFX sintetizados a 120 BPM). |
+| **Punto único de entrada web** | `index.html` + `css/styles.css` + `js/` (14 ficheros modulares más `tailwind-config.js`, 0 dependencias de compilación, todos con `?v=4.0.0`). |
+| **Nailong 3D (publicado en v4.0.0)** | Sección `#nailong-3d` visible para todos (enlace `🧊 3D` desde `lg` y menú móvil); malla procedural estanca de ≈41 k vértices (≈27 k en móvil) generada en ≈0,3–0,5 s en un Web Worker, piel de 12 huesos, 5 acciones, 2 estilos; Three.js r147 por CDN con SRI bajo demanda (`IntersectionObserver` a 600 px) y pausa fuera de pantalla; GLB con 5 clips. |
+| **Banco de cromos coleccionables** | Exactamente 127 stickers WebP (512×512 con chunk EXIF WhatsApp: 98 animados + 29 estáticos) + 1 foto optimizada del creador + 1 sticker descatalogado fuera de catálogo (129 archivos en `Stickers Nailong/`). |
+| **Packs oficiales preconfigurados en Android** | 5 packs: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24), *Nailong animado 4* (26) y *Nailong estático* (29). Total: 127 stickers. |
+| **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con vista de revisión («Ver (N) ❯»), 98 vistas previas animadas de 192 px (7.0 MB), 29 variantes animadas de los estáticos en `nailong_estaticos_animados` (683.94 KB) y un único pack por importación. |
+| **Paquete nativo Android firmado** | `StickersNailong.apk` (42.9 MB / 42.874.074 bytes, firmado con clave *debug* oficial `SHA-256: 04b83add...abb2`, targetSdk 30, versionCode 16, versionName 4.0.0). `IMAGE_DATA_VERSION: '4'` en los 5 packs. |
+| **Imágenes fijas por clave (D-22)** | Las 4 tarjetas de «¿Quién es Nailong?» usan `data-sticker` (`dragon-de-leche` → 2, `xiao-qi-colita` → 28, `bombloong` → 27, `escamitas-espalda` → 31). El resto de referencias fijas sigue por número (W11 en `MEJORAS_PENDIENTES.md`). |
+| **Herramientas de clasificación TikTok** | `herramientas/descargar_tiktok_consola.js` (prioriza `document.images`, `credentials: 'omit'`, resumen limpio), `herramientas/stickers_vistos.json` (61 entradas: 3 descartes históricos + 57 repetidos mapeados + 1 rescatado como `sticker_127.webp`) y `herramientas/stickers_descartados.npz` (3 descartes). |
+| **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_v2.mp4` (1080×1920, 60 fps, 32.0s, 17.4 MB, `preload="none"`, audio y SFX sintetizados a 120 BPM). |
 | **Botonera de sonidos sintetizados** | 12 casillas con 12 sonidos únicos sintetizados con Web Audio API (`duang`, `chomp`, `slurp`, `bleh`, `maracas`, `fire`, `sleep`, `laugh`, `pirate`, `run`, `tail`, `fanfare`). |
 | **Laboratorio de superpoderes** | Tamaño dinámico, modo camaleón, 6 disfraces mágicos, llamitas, hinchado de tripita, lluvia de pollo crujiente y gravedad cero espacial. |
-| **Suite de pruebas automatizadas (`verify_all.py`)** | **52 comprobaciones**, todas en verde el 06/11 en el PC del usuario (incluidas las que leen el código Android de `C:\src`). |
-| **Auditoría de stickers (`normalizar_stickers.py --check`)** | **0 problemas en los 95 stickers (100% conformes con WhatsApp)**. |
+| **Suite de pruebas automatizadas (`verify_all.py`)** | **52 comprobaciones**, actualizadas para 127 stickers y `v4.0.0` (incluidas las que leen el código Android de `C:\src`). |
+| **Auditoría de stickers (`normalizar_stickers.py --check`)** | **0 problemas en los 127 stickers (100% conformes con WhatsApp)**; distancia visual mínima en `1..127` = `21.46` (0 pares `< 20`). |
 
 ---
 
 ## 3. Qué Está Completado y Verificado
 
-- [x] **Sesión del 15/11/2026 (revisión web 1 de la v3.6.1, en `main` local, pendiente de `git push`):**
-  - **Web (D-23):** los 4 modales son `<dialog>` nativos (foco atrapado, fondo inerte, `Escape` por el evento `cancel`, foco devuelto); aparición suave; tráiler con `preload="none"`; barra de scroll con colores en Firefox. El aviso flotante se cuelga del modal abierto.
-  - **Detector de repetidos:** `normalizar_stickers.py --clasificar CARPETA` reparte las descargas en `_nuevos`, `_repetidos` y `_dudosos` y genera `_informe.html`; `--descartar` recuerda los que no se quieren (nota técnica 02 §5, test 52).
-  - **Textos:** revisados todos los stickers con `herramientas/hojas_contacto.py`; reescritas 41 fichas de `ALL_STICKERS` y 8 escenas del Visor Mágico. Tabla antes/después en la bitácora del 15/11.
-  - **Seguridad:** informe en `notas_tecnicas/06_auditoria_seguridad.md`; corregido el escapado de los nombres de las fotos del usuario en el álbum. Quedan decisiones del usuario (copia de la clave de firma, verificación en dos pasos en GitHub, copia del código de la app).
-  - **Publicación:** preparada como revisión solo de la web (`?v=3.6.1-web1`, versión visible y APK sin cambios; entrada en `CHANGELOG.md`). Falta el `git push`. Los textos de la app (`contents.json`) no se han tocado.
-  - **No comprobado:** Safari/iPhone, Firefox y lector de pantalla reales; el detector con descargas reales de TikTok.
+- [x] **Sesión del 18/11/2026 — Lanzamiento `v4.0.0` (127 stickers, 5.º pack Android y estreno de Nailong 3D, en `main` local, pendiente de `git push`):**
+  - **Catálogo de stickers (`96..127`, D-24):** clasificados 92 archivos descargados de TikTok: 32 nuevos incorporados en orden cronológico (`26` animados + `6` estáticos: `96`, `97`, `111`, `115`, `120`, `125`), 57 repetidos registrados por SHA-256 en `herramientas/stickers_vistos.json` y 3 descartes históricos registrados en `herramientas/stickers_descartados.npz` (61 entradas totales en `stickers_vistos.json` tras rescatar `062` como `sticker_127.webp`). Recortados limpiamente desde los originales 6 cromos con subtítulos, marcas o bandas (`104` 6% inf., `105` 10% inf., `106` 10.4% inf., `120` 18 px sup./inf., `121` 7% inf., `127` ~8% / 26 px inf. para quitar `@bubu.yuni`); conservados intactos `111`, `117` y `125`. Metadatos completos en `js/02-datos-stickers.js` y mejorado `herramientas/descargar_tiktok_consola.js`.
+  - **Web y Nailong 3D (`W9`, `W10`):** eliminada la regla `body:not(.n3d-ver)` en `css/styles.css` y el uso de `localStorage` en `js/14-nailong3d-visor.js` para mostrar Nailong 3D a todos con carga perezosa (`rootMargin: '600px 0px'`) y pausa fuera de pantalla (arranque inmediato con `?3d=1`/`#nailong-3d`). En `index.html`, enlace `🧊 3D` visible desde `lg` y menú compactado en `1024–1536 px` (`W10`). En `js/04-navegacion.js`, frases del muñeco por sección visible en viewport (`COMPANION_SECTION_PHRASES` con `getBoundingClientRect().top`, `W9`) y nueva frase 3D. Contadores a `127`, badge `v4.0.0 APK`, pie `v4.0.0`, etiqueta `43 MB` y 16 sufijos `?v=4.0.0`.
+  - **App Android (`StickersNailong.apk` v4.0.0, `versionCode 16`):** 5 packs cronológicos en `generar_assets.py` (24/24/24/26 + 29 estáticos), `IMAGE_DATA_VERSION = '4'`, 29 variantes en `nailong_estaticos_animados` (`generar_estaticos_animados.py --check`: `29/29 OK`, `683.94 KB`), 98 vistas previas de 192 px (`7.0 MB`), compilado release, alineado, firmado (`04b83add...abb2`), copiado a raíz (`42.874.074 bytes` / `42.9 MB`) y sincronizado con `version.json`.
+  - **Documentación y pruebas:** `verify_all.py` actualizado a 127 stickers y `v4.0.0`; actualizados `README.md`, `GUIA_README.md`, `CHANGELOG.md`, `DECISIONES.md` (D-24), `MEJORAS_PENDIENTES.md`, `01_app_android_whatsapp_stickers.md`, `00_mapa_de_codigo.md`, `00_INDICE.md` y bitácora del `18/11`.
+  - **Comprobado en código, stickers y APK:** `normalizar_stickers.py --check` (`127/127` sin problemas), distancia mínima `21.46` (`sticker_127` a `37.60`), `generar_estaticos_animados.py --check` (`29/29`), `apksigner verify --print-certs`, `node -c`, balance HTML, Playwright en Chromium (SwiftShader) para barra de navegación `320–1536 px`, carga perezosa 3D y frases W9 (en `126`), y suite `verify_all.py` (**52 comprobaciones**).
+- [x] **Sesión del 15/11/2026 (revisión web 1 — modales `<dialog>` D-23, textos, escapado de fotos, `--clasificar` y auditoría de seguridad):** consolidada en `main` junto con `v4.0.0` (detalle en `bitacora_de_sesiones/2026-11-15_...` y `notas_tecnicas/06_auditoria_seguridad.md`).
 
-- [x] **v3.6.1 — bucle de `sticker_6` e imágenes fijas por clave (`versionCode 15`, ver D-22):**
-  - Causa del sticker congelado: el contador de bucle de su chunk `ANIM` valía 1. La cuadrícula de la app iba bien porque usa vistas previas generadas aparte con bucle 0; el zoom y WhatsApp usan el fichero original. Corregido a 0 sin re-codificar, en la web y en `assets/nailong_animados_1/03_sticker_6.webp` de la app.
-  - `normalizar_stickers.py` detecta y corrige este caso; test 50 lo vigila en la web y en los `assets/` de la app.
-  - «¿Quién es Nailong?» recupera las imágenes originales (identificadas comparando con el primer commit) y queda fijada por clave; test 51.
-  - **No comprobado:** la app instalada en un móvil (zoom en bucle) ni que WhatsApp refresque el pack *Nailong animado 1* ya añadido.
-- [x] **Nailong en 3D (sin publicar, D-21, nota técnica `05_nailong_3d.md`):**
-  - Modelo procedural (SDF + Surface Nets) reconstruido con acabado de **Claymorphism cinematográfico Seventh Impression**: silueta de gota/pera con mofletes llenos y espalda continua, hocico liso integrado, boca 3D en «D» con interior burdeos profundo (#5A181F), lengua rosada en domo y dientes superiores, ojos grandes encastrados al ras de la piel con iris verde esmeralda y doble brillo flotante sin Z-fighting, 3 placas oliva en la nuca, garras cónicas marrones en manos y pies, cola corta curvada de 2 tramos y sombreado subsuperficial cálido (SSS ámbar/miel en contraluz). Malla estanca y proporciones vigiladas por el test 49 (26.234 vértices, 0 huecos).
-  - Cinemática orgánica y *Duang Physics*: Squash & Stretch con conservación estricta de volumen, triple rebote elástico a 4.2 Hz acoplado a la pancita, micro-sacadas biométricas suaves en reposo, respiración bifásica desfasada y 5 poses canónicas afinadas al milímetro (`saludar` con inclinación de 12°, `duang`, `bailar`, `sorpresa` con uñitas en mejillas y `siesta` con zzz).
-  - Visor interactivo con reacciones táctiles diferenciadas y onda elástica en el shader, estilo sticker/dibujo (Toon suave con contorno sepia), pantalla completa, foto PNG y descarga `.glb`; carga perezosa, pausa fuera de pantalla, calidad adaptativa y `prefers-reduced-motion`. Se mantiene oculto en la web (`hidden` en `#nailong-3d` y enlaces de menú) por defecto y se activa en local mediante `?3d=1`.
-  - Certificación Playwright de 8 vistas multi-ángulo en Chromium acelerado (`herramientas/certificar_3d.js`) aprobada y contrastada contra los stickers canónicos (86, 2, 47, 20, 19, 84, 18, 38).
-  - **No comprobado:** 60 fps en una GPU de móvil real, Safari/iPhone, gestos reales de dos dedos, la carga desde jsDelivr en producción y abrir el GLB en Blender/Unity/Godot.
-- [x] **«Mi Selección» en un único pack y numeración libre (v3.6.0, `versionCode 14`, ver D-20):**
-  - Eliminados el diálogo de selección mixta y el flujo de «segundo pack»: «Importar a WhatsApp» abre directamente el diálogo de nombre.
-  - 23 variantes animadas de 2 fotogramas de los estáticos (`generar_estaticos_animados.py`, 593 KB en total, todas conformes con los requisitos de WhatsApp según la tabla del script). Solo se usan si la selección incluye algún animado.
-  - Identificador de pack único (`seleccion_<hora>`) y número visible libre («Mi Selección», «Mi Selección 2»…), que se libera al borrar.
-  - **No comprobado:** importar un pack mixto en un WhatsApp real (aceptación, estáticos quietos, envío) ni ejecutar la app en emulador/móvil tras este cambio; solo compila, firma y pasa `verify_all.py`.
-- [x] **Mejoras de interfaz y rendimiento en la App Android (`StickersNailong.apk` v3.5.0, `versionCode 12`):**
-  - **Zoom grande centrado con transición suave:** Al mantener pulsado un sticker dentro de un pack, viaja con animación elástica (`OvershootInterpolator`) desde su celda hasta el centro de la pantalla (230×230 dp) sobre un overlay completo (`#sticker_zoom_overlay`) que bloquea toques accidentales a la cuadrícula inferior, incluye el botón «✕ Cerrar vista ampliada» y permite salir tocando en cualquier parte. Además, un banner superior fijo recuerda que mantener pulsado amplía el sticker.
-  - **Revisión de «Mi Selección» («Ver (N) ❯»):** En la tarjeta «Mi Selección», los botones «🗑️ Vaciar» (en tono rojizo clay) y «Ver (N) ❯» (en crema con texto naranja) se sitúan juntos de izquierda a derecha, con «Importar a WhatsApp» debajo. «Ver (N) ❯» abre la cuadrícula de los stickers seleccionados para revisarlos, ampliarlos con zoom o desmarcarlos.
-  - **A8:** Esquinas redondeadas (`RoundingParams` con `setOverlayColor("#FFFDF0")`) en el Nailong animado del aviso «¡App actualizada!».
-  - **A9:** Icono «+» teñido de blanco nítido sobre el botón verde «Añadir a WhatsApp».
-  - **A10:** Botón del diálogo «Personaliza tu pack» acortado a «Añadir» (14sp) para evitar recortes en pantallas estrechas.
-  - **A11:** Al crear un pack animado en «Mi Selección», se copian también las vistas previas ligeras de 192 px a `selection_packs/<id>/previews/` para que abrir el pack o mostrar sus miniaturas no descodifique a 512×512 px.
-  - **A12:** Los packs creados por el usuario se distinguen en la lista con fondo crema cálido (`card_clay_selection`), insignia «⭐ Tuyo» y recordatorio «🗑️ Mantén pulsado para borrar este pack».
-  - **A13:** El botón «Ver stickers ❯» usa un tono amarillo cremoso intermedio (`#FDE68A`, `nailong_yellow_creamy`) con mayor contraste sobre las tarjetas blancas.
-- [x] **Mejoras en la Web (`v3.5.0`, sufijos `?v=` ahora en `3.6.0`):**
-  - **W6:** Al pulsar «Copiar enlace» en ordenador dentro del banner de la app, además de copiar la URL al portapapeles se despliega una tarjetita *clay* (`#apk-qr-box`) con el código QR apuntando a la descarga directa de `StickersNailong.apk`.
-  - **W7:** Sufijos anti-caché `?v=` actualizados en todas las referencias a `css/` y `js/`, y blindados automáticamente con el test 48 de `verify_all.py`.
-- [x] **Verificación:**
-  - `verify_all.py`: 52 comprobaciones, todas en verde el 06/11 en el PC del usuario.
-  - `normalizar_stickers.py --check`: **95 de 95 stickers conformes**.
+---
+
+## 4. No Comprobado (Pendiente de Validación Real)
+
+- **App `v4.0.0` y 5.º pack en móvil real y WhatsApp:** instalación del APK actualizado encima de versiones anteriores, aceptación de los 5 packs (incluido *Nailong animado 4* y los 29 estáticos) y envío real de stickers en WhatsApp; importación real de packs mixtos de «Mi Selección».
+- **Navegadores y dispositivos reales:** Safari en iPhone, Firefox real y lector de pantalla (navegación, `<dialog>` nativos y región `aria-live` del visor 3D).
+- **Rendimiento 3D y red en producción:** 60 fps reales en GPU móvil, gestos táctiles reales de dos dedos, carga de Three.js desde jsDelivr/unpkg tras el `git push` a GitHub Pages y apertura del `.glb` exportado en Blender/Unity/Godot.
+- **Seguridad y operación externa:** configuración de 2FA/accesos en GitHub y copia de seguridad externa de la clave de firma y de `C:\src\nailong_stickers_app` (`notas_tecnicas/06_auditoria_seguridad.md`, H-2 a H-7).

@@ -13,7 +13,7 @@
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 170 |
 | `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos; `clave` estable en los usados fuera del álbum) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22) | 100 |
 | `js/03-hero.js` | 3 · Hero, contador Duang y estados de ánimo | 110 |
-| `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante | 110 |
+| `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante (`COMPANION_SECTION_PHRASES`, W9) | 126 |
 | `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 265 |
 | `js/06-album-y-descargas.js` | 7–7B · Álbum polaroid, lightbox, descarga/WhatsApp/portapapeles | 600 |
 | `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 145 |
@@ -23,7 +23,7 @@
 | `js/11-nailong3d-geometria.js` | 15 · Núcleo 3D sin dependencias: `ANATOMIA`, SDF, Surface Nets, pesos de piel, `trazarRayo` (también en Worker y Node) | 440 |
 | `js/12-nailong3d-escena.js` | 16 · Escena 3D: `SkinnedMesh`, ojos, párpados, boca, placas, garras, materiales suave/toon/exportar, estudio de luces | 525 |
 | `js/13-nailong3d-animacion.js` | 17 · Animación 3D: muelles, reposo, `ACCIONES`, reacciones por zona, horneado de clips | 380 |
-| `js/14-nailong3d-visor.js` | 18 · Visor 3D: carga perezosa de Three.js r147 (SRI), bucle, cámara, toques, botones, foto, GLB; se autoinicia | 620 |
+| `js/14-nailong3d-visor.js` | 18 · Visor 3D: carga perezosa de Three.js r147 (SRI), bucle, cámara, toques, botones, foto, GLB; se autoinicia | 646 |
 
 Reglas: son **scripts clásicos** que comparten el ámbito global (sin `import`/`export`), así que el **orden de carga importa** y es el de la tabla. Al añadir un fichero, regístralo en `index.html`; `verify_all.py` falla si hay un `.js`/`.css` sin cargar o una referencia rota.
 
@@ -38,6 +38,7 @@ El código está estructurado en 14 bloques funcionales organizados:
 
 2. **Cabecera Flotante ("Nube de Leche"):**
    - Logotipo con el sticker animado 3D de sonrisa radiante (`sticker_2.webp`) llenando el círculo mediante zoom calibrado (`scale-110 object-center`).
+   - Enlaces de escritorio compactados desde `lg` (1024 px, mejora W10), incluido `🧊 3D` visible para todos desde `v4.0.0`.
    - Botón de compartir con amigos (modal con enlace y código QR).
    - Botón de silenciar audio global.
    - Botón de Modo Fiesta para activar lluvia de confeti.
@@ -47,7 +48,7 @@ El código está estructurado en 14 bloques funcionales organizados:
    - Pancita interactiva con contador reactivo, generación de burbujas flotantes y alternancia dinámica de estados de ánimo.
 
 4. **Muñeco Acompañante Flotante:**
-   - Widget flotante en la esquina inferior con diálogos contextuales controlados por `requestAnimationFrame` según la posición del scroll.
+   - Widget flotante en la esquina inferior con diálogos contextuales controlados por `requestAnimationFrame` según la sección visible en viewport (`COMPANION_SECTION_PHRASES` con `getBoundingClientRect().top`, mejora W9, incluida la frase de `#nailong-3d`).
 
 5. **Visor Mágico de Animaciones:**
    - Tira horizontal de 9 escenas GIF virales dentro de la sección «Stickers» (`#galeria`, ancla `#muro-gifs`), justo debajo del banner de la app; el lightbox del álbum ofrece «Abrir en el Visor Mágico» para esas escenas.
@@ -79,7 +80,8 @@ El código está estructurado en 14 bloques funcionales organizados:
 11. **Compartir & Conectividad Social:**
     - Modal con código QR generado en tiempo real y enlace en vivo a GitHub Pages.
 
-12. **Nailong 3D (sección `#nailong-3d`, entre «¿Quién es?» y «Stickers»):**
+12. **Nailong 3D (sección `#nailong-3d`, entre «¿Quién es?» y «Stickers», publicada en v4.0.0):**
+    - Visible para todos por defecto (`n3d-ver`), con carga perezosa a 600 px (`IntersectionObserver`), pausa fuera de pantalla y arranque inmediato con `?3d=1`/`#nailong-3d`.
     - Modelo procedural fiel a los stickers, cámara orbital, reacciones por zona, acciones, estilo sticker/dibujo, foto PNG y descarga `.glb`. Detalle en `05_nailong_3d.md`.
 
 ## Anclas y puntos de entrada clave

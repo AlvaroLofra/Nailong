@@ -11,7 +11,7 @@
 | Paso | Documento | Para qué |
 |---|---|---|
 | **1** | [`estado_del_proyecto/ESTADO_ACTUAL.md`](estado_del_proyecto/ESTADO_ACTUAL.md) | Qué hay hecho, qué métricas tenemos y cuál es el estado del proyecto **ahora mismo**. |
-| **2** | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) | Registro de Decisiones de Arquitectura (D-01 a D-21): qué se decidió y por qué. |
+| **2** | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) | Registro de Decisiones de Arquitectura (D-01 a D-24): qué se decidió y por qué. |
 | **3** | Última entrada en [`estado_del_proyecto/bitacora_de_sesiones/`](estado_del_proyecto/bitacora_de_sesiones/) | Qué se hizo en la sesión más reciente y cómo retomar el trabajo. |
 | **4** | [`../AGENTS.md`](../AGENTS.md) | Reglas del proyecto, comandos, protocolo de sesión y decisiones abiertas. `CLAUDE.md` y `GEMINI.md` solo apuntan a él (D-14). |
 | **5** | [`guias_y_contexto/CONTEXTO_PROYECTO.md`](guias_y_contexto/CONTEXTO_PROYECTO.md) | Universo de Nailong, principios de diseño Claymorphism, paleta y requisitos clave. |
@@ -40,12 +40,13 @@ Fuera de esta carpeta:
 | `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (versión y peso: `version.json`). |
 | `../Stickers Nailong/` | Colección oficial de cromos WebP normalizados (total en `ESTADO_ACTUAL.md`) + foto del creador + 1 descatalogado. |
 | `../verify_all.py` | Suite de pruebas automatizadas (estructurales y funcionales; nº actual en `ESTADO_ACTUAL.md`). |
+| `../herramientas/descargar_tiktok_consola.js` | Capturador de stickers de TikTok Web para la consola del navegador (respaldo de huellas y descartes en `herramientas/`). |
 | `../README.md` | Portada pública del proyecto con notas de parche directas para usuarios. |
 | `../DOCUMENTACION.md` | Puntero a esta carpeta (lo exige la suite de verificación; no lleva contenido propio). |
 | `../AGENTS.md` | Instrucciones canónicas para agentes de IA (< 200 líneas). |
 | `../CLAUDE.md` / `../GEMINI.md` | Punteros a `AGENTS.md` (sin copiar contenido). |
 | `../CLAUDE.local.md` | (No está en Git) Rutas y datos de la máquina del usuario, incl. la biblioteca central de pautas. |
-| `../CHANGELOG.md` | Historial técnico de versiones (v1.0.0 → v3.6.0). |
+| `../CHANGELOG.md` | Historial técnico de versiones (v1.0.0 → v4.0.0). |
 
 ---
 

@@ -65,7 +65,7 @@ El `README.md` debe constar **exclusivamente de las siguientes 6 secciones**, en
 ### 3. Características Principales (Lo que puedes disfrutar)
 * Lista con viñetas destacando las grandes atracciones de la web:
   - **Hero Interactivo & Contador Duang:** Tocar la pancita elástica y ver sus estados de ánimo.
-  - **Colección de 95 Stickers Oficiales:** Cromos auténticos clasificados por estados de ánimo, listos para ver, descargar o copiar.
+  - **Colección de 127 Stickers Oficiales:** Cromos auténticos clasificados por estados de ánimo, listos para ver, descargar o copiar.
   - **App Android Nativa para WhatsApp:** Instalación de packs con 1 toque o creador personalizado «Mi Selección».
   - **Visor Mágico de Animaciones:** Tira horizontal con escenas en bucle y pegatinas interactivas.
   - **Tráiler Oficial Animado:** Vídeo musical con físicas elásticas Duang.
@@ -75,7 +75,7 @@ El `README.md` debe constar **exclusivamente de las siguientes 6 secciones**, en
   - **Rincón del Creador:** Dedicatoria especial y foto junto a Nailong.
 
 ### 4. ¿Cómo conseguir los stickers para WhatsApp?
-* **En Android (App Oficial):** Enlace directo a `StickersNailong.apk` explicando que con 1 toque se añaden los 4 packs oficiales a WhatsApp.
+* **En Android (App Oficial):** Enlace directo a `StickersNailong.apk` explicando que con 1 toque se añaden los 5 packs oficiales a WhatsApp.
 * **En iPhone / PC (Web Oficial):** Explicación de que desde la web se pueden guardar en el Carrete de iOS o copiar directamente con esquinas transparentes para pegar en chats.
 
 ### 5. ✨ Novedades de la Versión (vX.X.X)
@@ -108,7 +108,7 @@ El `README.md` debe constar **exclusivamente de las siguientes 6 secciones**, en
 
 Cada vez que un agente o desarrollador publique una nueva versión del proyecto y deba tocar el `README.md`:
 
-1. **Revisar cifras públicas:** Si cambió el número de stickers (ej. 95), la cantidad de sonidos (ej. 12) o el peso del APK (ej. 31.2 MB), actualízalos en la descripción y características.
+1. **Revisar cifras públicas:** Si cambió el número de stickers (ej. 126), la cantidad de sonidos (ej. 12) o el peso del APK (ej. 42.4 MB), actualízalos en la descripción y características.
 2. **Reemplazar el bloque de novedades:** Sustituye el bloque de la sección 5 por las novedades de la versión que se está lanzando. Redáctalas en 3–4 viñetas simples, con lenguaje entusiasta y comprensible para cualquier persona.
 3. **Mudar el detalle al Changelog:** Todo el detalle técnico, nombres de archivos, causas raíz y verificaciones van directamente a `CHANGELOG.md`.
 4. **Verificación final del README:** Léelo de arriba a abajo. Si contiene una sola palabra de jerga de programador, una ruta interna de archivos o un resultado de tests, bórralo o reescríbelo antes de dar la tarea por completada.

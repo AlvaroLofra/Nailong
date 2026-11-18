@@ -2,7 +2,7 @@
 
 > **Subsistema:** Aplicación Android (`com.eva.nailongstickers`)  
 > **Ubicación del código fuente:** fuera de este repo; la ruta de esta máquina está en `CLAUDE.local.md` (subcarpeta `stickers\Android`)  
-> **Binario de producción:** `StickersNailong.apk` (versión, peso y nº de stickers vigentes: ver `ESTADO_ACTUAL.md`; 4 packs oficiales)
+> **Binario de producción:** `StickersNailong.apk` (versión, peso y nº de stickers vigentes: ver `ESTADO_ACTUAL.md`; 5 packs oficiales)
 
 ---
 
@@ -118,12 +118,11 @@ Al pulsar sobre el texto del botón, el `TextView` consumía el evento `MotionEv
    ```
 
 
-## Reparto en packs oficiales y animación (v3.3.1)
-- **Reparto:** los estáticos van todos juntos en `nailong_estaticos` (23). Los 73 animados se dividen en orden de número en `nailong_animados_1` (25), `_2` (24) y `_3` (24). Se define en `PACKS` de `C:\src
-ailong_stickers_app\generar_assets.py`, que exige cubrir los IDs 1..96 sin duplicados.
+## Reparto en packs oficiales y animación (v3.3.1 → v4.0.0)
+- **Reparto (5 packs oficiales desde v4.0.0):** los estáticos van todos juntos en `nailong_estaticos` (29; en `assets/` se normalizan a WebP estático puro los IDs `34`, `35` y `37`). Los 98 animados se dividen en orden cronológico en `nailong_animados_1` (24), `nailong_animados_2` (24), `nailong_animados_3` (24) y `nailong_animados_4` (26, con los nuevos animados entre `98` y `127`). Se define en `PACKS` de `C:\src\nailong_stickers_app\generar_assets.py`, que exige cubrir exactamente los IDs `1..127` sin duplicados (127 stickers en total).
 - **Animación en el detalle de un pack:** `StickerPreviewAdapter` crea un `DraweeController` de Fresco con `setAutoPlayAnimations(true)` (antes `setImageURI`, que muestra solo el primer fotograma).
-- **Lista de packs:** `activity_sticker_pack_list.xml` y `sticker_packs_list_item.xml` tienen márgenes reducidos y los botones de «Mi Selección» se ocultan con 0 elementos, para que los 4 packs entren a la vez en pantalla (el cuarto quedaba cortado bajo el pliegue).
-- **Caché de WhatsApp:** si se reordena el contenido de un pack, hay que subir `IMAGE_DATA_VERSION` en `generar_assets.py` (hoy `'2'`).
+- **Lista de packs:** `activity_sticker_pack_list.xml` y `sticker_packs_list_item.xml` tienen márgenes reducidos y los botones de «Mi Selección» se ocultan con 0 elementos para aprovechar la pantalla (con los 5 packs actuales el conjunto se desplaza dentro del `NestedScrollView`).
+- **Caché de WhatsApp:** si se reordena o modifica el contenido de un pack, hay que subir `IMAGE_DATA_VERSION` en `generar_assets.py` (hoy `'4'`).
 - **Comprobado en el emulador `Medium_Phone_API_37.0` (1080×2400):** los 4 packs visibles; el detalle del pack 1 muestra 25 stickers y las capturas separadas 0,7 s difieren (se mueven). **No comprobado:** la importación real a WhatsApp y el POCO X7 Pro.
 
 ## Rendimiento de los packs animados y aviso de actualización (v3.3.2)
@@ -174,9 +173,9 @@ ailong_stickers_app\generar_assets.py`, que exige cubrir los IDs 1..96 sin dupli
   - **A12:** Las tarjetas de packs creados por el usuario muestran fondo crema (`card_clay_selection.xml`), la insignia «⭐ Tuyo» (`#sticker_pack_yours_badge`) y el aviso «🗑️ Mantén pulsado para borrar este pack» (`#sticker_pack_delete_hint`).
   - **A13:** `btn_clay_secondary.xml` usa `@color/nailong_yellow_creamy` (`#FDE68A`) para destacar sobre el fondo blanco de las tarjetas de packs.
 
-## «Mi Selección» en un único pack y numeración libre (v3.6.0)
+## «Mi Selección» en un único pack y numeración libre (v3.6.0, actualizado a 29 estáticos en v4.0.0)
 - **Un solo pack siempre:** `StickerPackListActivity.importSelection()` toma toda la selección. Si hay algún animado el pack es animado; si todo es estático, estático. Desaparecen el diálogo de selección mixta, `importBothSubpacks` y el flujo de «segundo pack» (strings `mixed_selection_*` e `import_*_option` retiradas).
-- **Estáticos dentro de un pack animado:** `DynamicPackManager.createSelectionPack` sustituye `nailong_estaticos/<f>` por `nailong_estaticos_animados/<f>` (WebP de 2 fotogramas idénticos de 500 ms, 512×512, EXIF de WhatsApp, 11–64 KB, 0,58 MB en total). Se generan con `generar_estaticos_animados.py` (en este repo; lee la ruta de la app desde `CLAUDE.local.md` y admite `--check`). Esa carpeta no está en `contents.json`: no es un pack oficial. No tienen vista previa de 192 px; se descodifican a 512 px, que con 2 fotogramas es ligero.
+- **Estáticos dentro de un pack animado:** `DynamicPackManager.createSelectionPack` sustituye `nailong_estaticos/<f>` por `nailong_estaticos_animados/<f>` (29 variantes WebP de 2 fotogramas idénticos de 500 ms, 512×512, EXIF de WhatsApp, 11,7–64,1 KB cada una, **683,94 KB / 0,67 MB** en total). Se generan con `generar_estaticos_animados.py` (en este repo; lee la ruta de la app desde `CLAUDE.local.md` y admite `--check`). Esa carpeta no está en `contents.json`: no es un pack oficial. No tienen vista previa de 192 px; se descodifican a 512 px, que con 2 fotogramas es ligero.
 - **Validación:** `StickerPackValidator` rechaza en un pack animado cualquier sticker de un solo fotograma, así que todo pack mixto se valida al crearlo. La aceptación en un WhatsApp real **no está comprobada**.
 - **Identificador y número:** el identificador es `seleccion_<hora en segundos>` (nunca se reutiliza, para que WhatsApp no confunda un pack nuevo con uno ya añadido y borrado solo en la app). El número del nombre sale de `nextFreeSelectionNumber`: el menor libre (desde 1) entre los packs existentes, guardado como `selection_number` en `metadata.json`; en los packs antiguos (`seleccion_1`, `_2`…) se deduce del identificador. Nombre por defecto: «Mi Selección», «Mi Selección 2»… (`suggestDefaultName`). El orden de la lista es por creación (`selectionOrder`).
 
