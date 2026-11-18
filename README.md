@@ -20,7 +20,7 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 - **Pancita Elástica & Efecto Duang:** Haz clic o toca la pancita de Nailong para ver cómo rebota con físicas gelatinosas, escuchar sus sonidos y descubrir sus 9 estados de ánimo en vivo.
 - **Nailong en 3D:** Gíralo, acércate y hazle cosquillas: su pancita rebota, saluda, baila, se sorprende y hasta se echa la siesta. Elige estilo sticker o dibujo animado, guarda una foto o descárgate el modelo 3D.
-- **Colección Oficial de 127 Stickers:** Catálogo completo de 127 cromos auténticos clasificados por emociones, listos para explorar a pantalla completa, descargar o copiar.
+- **Colección Oficial de 126 Stickers:** Catálogo completo de 126 cromos auténticos clasificados por emociones, listos para explorar a pantalla completa, descargar o copiar.
 - **App Android Oficial para WhatsApp:** Añade los 5 packs completos a tu WhatsApp con un solo toque o arma tus propios paquetes personalizados con «Mi Selección».
 - **Visor Mágico de Animaciones:** Tira deslizable con 9 escenas animadas en bucle, control de velocidad y pegatinas interactivas que puedes mover por la pantalla.
 - **Tráiler Oficial de Lanzamiento:** Vídeo animado en alta definición a 60 fps con banda sonora original, físicas elásticas y efecto de luz ambiental.
@@ -34,8 +34,8 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 ## ¿Cómo conseguir los stickers para WhatsApp? 📲
 
 ### 🤖 En Android (App Oficial)
-1. Descarga el instalador directo [`StickersNailong.apk`](StickersNailong.apk) (42.9 MB).
-2. Abre la app y pulsa **«+ Añadir a WhatsApp»** en cualquiera de los 5 packs oficiales (98 animados + 29 estáticos).
+1. Descarga el instalador directo [`StickersNailong.apk`](StickersNailong.apk) (41.7 MB).
+2. Abre la app y pulsa **«+ Añadir a WhatsApp»** en cualquiera de los 5 packs oficiales (97 animados + 29 estáticos).
 3. ¿Quieres solo tus favoritos? Abre la sección **«Mi Selección»**, toca los stickers que más te gusten y pulsa **«Exportar a WhatsApp»**.
 
 ### 🍏 En iPhone y Ordenador (Web Oficial)
@@ -45,9 +45,9 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 ## ✨ Novedades de la Versión (v4.0.0)
 
-*¡Gran estreno de Nailong en 3D y 32 nuevos stickers para tu colección!*
+*¡Gran estreno de Nailong en 3D y 31 nuevos stickers para tu colección!*
 
-- **32 nuevos stickers de Nailong:** La colección sube hasta **127 cromos** llenos de nuevas caras, bailes, disfraces y travesuras en la web y en Android.
+- **31 nuevos stickers de Nailong:** La colección sube hasta **126 cromos** llenos de nuevas caras, bailes, disfraces y travesuras en la web y en Android.
 - **5.º pack «Nailong animado 4» en la app:** Disfruta en WhatsApp de un nuevo paquete con las últimas animaciones y 6 nuevos stickers estáticos sumados al pack estático.
 - **Estreno oficial de Nailong en 3D:** Ya visible para todos en la web para girarlo, hacerle cosquillas en su pancita elástica, guardar una foto o descargar su figura en 3D.
 - **Paseo más cómodo por la página:** El mini Nailong acompañante comenta justo la zona que estás viendo y el menú superior encaja limpio en cualquier pantalla.

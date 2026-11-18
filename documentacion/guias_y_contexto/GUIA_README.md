@@ -65,7 +65,7 @@ El `README.md` debe constar **exclusivamente de las siguientes 6 secciones**, en
 ### 3. Características Principales (Lo que puedes disfrutar)
 * Lista con viñetas destacando las grandes atracciones de la web:
   - **Hero Interactivo & Contador Duang:** Tocar la pancita elástica y ver sus estados de ánimo.
-  - **Colección de 127 Stickers Oficiales:** Cromos auténticos clasificados por estados de ánimo, listos para ver, descargar o copiar.
+  - **Colección de 126 Stickers Oficiales:** Cromos auténticos clasificados por estados de ánimo, listos para ver, descargar o copiar.
   - **App Android Nativa para WhatsApp:** Instalación de packs con 1 toque o creador personalizado «Mi Selección».
   - **Visor Mágico de Animaciones:** Tira horizontal con escenas en bucle y pegatinas interactivas.
   - **Tráiler Oficial Animado:** Vídeo musical con físicas elásticas Duang.
