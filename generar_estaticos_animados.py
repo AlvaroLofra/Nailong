@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Genera variantes animadas (2 fotogramas idénticos) para los 23 stickers estáticos de Nailong.
+"""Genera variantes animadas (2 fotogramas idénticos) para los 29 stickers estáticos de Nailong.
 
 Permite que en «Mi Selección», si el usuario mezcla stickers animados y estáticos,
 todos los stickers seleccionados puedan empaquetarse en un ÚNICO pack animado
@@ -121,8 +121,8 @@ def generate(app_dir=None, check_only=False):
         raise RuntimeError(f"No existe la carpeta de origen: {src_dir}")
 
     files = sorted([f for f in os.listdir(src_dir) if f.endswith('.webp')])
-    if len(files) != 23:
-        print(f"AVISO: Se esperaban 23 stickers estáticos, encontrados {len(files)}.")
+    if len(files) != 29:
+        print(f"AVISO: Se esperaban 29 stickers estáticos, encontrados {len(files)}.")
 
     os.makedirs(dst_dir, exist_ok=True)
     results = []
@@ -175,7 +175,7 @@ def print_table(results, total_bytes, dst_dir):
 
     print("-" * 90)
     if all_passed:
-        print("✔ TODOS LOS 23 STICKERS CUMPLEN EL 100% DE REQUISITOS TÉCNICOS DE WHATSAPP.")
+        print(f"✔ TODOS LOS {len(results)} STICKERS CUMPLEN EL 100% DE REQUISITOS TÉCNICOS DE WHATSAPP.")
     else:
         print("❌ AL MENOS UN STICKER NO HA SUPERADO LAS COMPROBACIONES.")
     print("=" * 90 + "\n")

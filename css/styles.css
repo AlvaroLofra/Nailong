@@ -474,12 +474,7 @@
             z-index: 2 !important;
         }
 
-        /* ---------- Nailong 3D (sección #nailong-3d, js/11 a js/14) ---------- */
-        /* Oculto en la web pública por defecto; desbloqueable con ?3d=1 */
-        body:not(.n3d-ver) #nailong-3d,
-        body:not(.n3d-ver) a[href="#nailong-3d"] {
-            display: none !important;
-        }
+        /* ---------- Nailong 3D (sección #nailong-3d, js/11 a js/14, visible para todos) ---------- */
         .n3d-seccion.clay-card:hover { transform: none; }
         .n3d-visor { touch-action: pan-y; -webkit-user-select: none; user-select: none; isolation: isolate; }
         .n3d-visor canvas { display: block; outline: none; cursor: grab; -webkit-touch-callout: none; }

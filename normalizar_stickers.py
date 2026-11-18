@@ -466,7 +466,7 @@ def main():
             added.append((nxt, frames))
             nxt += 1
         if added:
-            print('\nAnadir a ALL_STICKERS en index.html (rellenar title/cat/sound/desc) y subir los contadores 74->N:')
+            print('\nAnadir a ALL_STICKERS en js/02-datos-stickers.js (rellenar title/cat/sound/desc) y subir los contadores 74->N:')
             for i, fr in added:
                 print(f"{{ id: {i}, file: 'sticker_{i}.webp', frames: {fr}, title: 'TODO', cat: 'caritas', sound: 'pop', desc: 'TODO' }},")
             print()

@@ -571,28 +571,22 @@
                     const h = window.location.hash || '';
                     if (/[\?&]3d(=[^\&]*)?(&|$)/i.test(s)) return true;
                     if (/#.*3d/i.test(h)) return true;
-                    if (typeof localStorage !== 'undefined' && localStorage.getItem('nailong_3d') === '1') return true;
                 } catch (_) {}
                 return false;
             }
 
             /* ---------- Inicio: carga perezosa y pausa fuera de pantalla ---------- */
             function iniciar() {
+                if (S.iniciado) return;
                 S.contenedor = $('nailong-3d-visor');
                 S.lienzo = $('nailong-3d-lienzo');
                 if (!S.contenedor || !S.lienzo) return;
+                S.iniciado = true;
+                document.body.classList.add('n3d-ver');
                 const sec = $('nailong-3d');
-                const esSecreto3D = esActivo3D();
-                if (esSecreto3D) {
-                    document.body.classList.add('n3d-ver');
-                    try {
-                        if (typeof localStorage !== 'undefined') localStorage.setItem('nailong_3d', '1');
-                    } catch (_) {}
-                    if (sec && (window.location.hash.toLowerCase().includes('3d') || window.location.search.toLowerCase().includes('3d'))) {
-                        setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
-                    }
-                } else {
-                    return;
+                const esInmediato3D = esActivo3D();
+                if (esInmediato3D && sec && (window.location.hash.toLowerCase().includes('3d') || window.location.search.toLowerCase().includes('3d'))) {
+                    setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
                 }
                 const mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
                 S.reducido = !!(mq && mq.matches);
@@ -612,7 +606,7 @@
                 window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.pantallaCSS) pantallaCompleta(); });
                 document.addEventListener('visibilitychange', () => { if (document.hidden) pausar(); else reanudar(); });
 
-                if (esSecreto3D) {
+                if (esInmediato3D) {
                     S.visible = true;
                     arrancar();
                 } else if ('IntersectionObserver' in window) {

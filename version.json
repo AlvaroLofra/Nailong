@@ -1,11 +1,12 @@
 {
-  "versionCode": 15,
-  "versionName": "3.6.1",
-  "date": "2026-11-06",
-  "sizeMB": 31.8,
+  "versionCode": 16,
+  "versionName": "4.0.0",
+  "date": "2026-11-18",
+  "sizeMB": 42.9,
   "apkUrl": "https://alvarolofra.github.io/Nailong/StickersNailong.apk",
   "notes": [
-    "El sticker del Chef Pastelero vuelve a moverse en bucle sin pararse, también al verlo en grande.",
-    "Si ya tenías el pack «Nailong animado 1» en WhatsApp, se actualiza solo con el sticker arreglado."
+    "¡32 nuevos stickers de Nailong! La colección sube a 127 stickers repartidos en 5 packs (4 animados y 1 estático).",
+    "Nuevo pack «Nailong animado 4» con las últimas animaciones y 6 nuevos stickers estáticos.",
+    "En la web ya puedes jugar con el nuevo Nailong en 3D interactivo: gíralo, hazle cosquillas y descarga el modelo."
   ]
 }

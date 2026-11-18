@@ -22,11 +22,11 @@
     <!-- Social Media & Messaging Rich Previews (WhatsApp, Telegram, iMessage, Discord, Twitter) -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="¡El Mundo Mágico de Nailong! 🦖✨">
-    <meta property="og:description" content="Página interactiva con 95 stickers reales, fotos, gifs animados, minijuego de comer pollo y sonidos duang-duang.">
+    <meta property="og:description" content="Página interactiva con 127 stickers reales, fotos, gifs animados, minijuego de comer pollo y sonidos duang-duang.">
     <meta property="og:image" content="Stickers Nailong/sticker_19.webp">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="¡El Mundo Mágico de Nailong! 🦖✨">
-    <meta name="twitter:description" content="Página interactiva con 95 stickers reales, fotos, gifs animados, minijuego de comer pollo y sonidos duang-duang.">
+    <meta name="twitter:description" content="Página interactiva con 127 stickers reales, fotos, gifs animados, minijuego de comer pollo y sonidos duang-duang.">
     <meta name="twitter:image" content="Stickers Nailong/sticker_19.webp">
 
     <!-- Tailwind CSS (versión fijada, D-15: el CDN no envía CORS, así que no admite integrity) -->
@@ -38,9 +38,9 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <script src="js/tailwind-config.js?v=3.6.1-web1"></script>
+    <script src="js/tailwind-config.js?v=4.0.0"></script>
 
-    <link rel="stylesheet" href="css/styles.css?v=3.6.1-web1">
+    <link rel="stylesheet" href="css/styles.css?v=4.0.0">
 </head>
 <body class="relative min-h-screen selection:bg-nailong-yellow selection:text-amber-950">
 
@@ -51,53 +51,53 @@
     <canvas id="party-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full" style="display: none;"></canvas>
 
     <!-- 1. FLOATING NAVBAR ("NUBE DE LECHE") -->
-    <header class="sticky top-2 sm:top-3 z-40 px-2 sm:px-6 pt-[max(0.5rem,env(safe-area-inset-top))]">
-        <nav class="max-w-7xl mx-auto bg-white/95 border-3 sm:border-4 border-nailong-yellow rounded-2xl sm:rounded-3xl lg:rounded-full px-3 sm:px-4 py-2 sm:py-2.5 shadow-lg transition-all duration-300">
+    <header class="sticky top-2 sm:top-3 z-40 px-2 sm:px-6 lg:px-3 pt-[max(0.5rem,env(safe-area-inset-top))]">
+        <nav class="max-w-7xl 2xl:max-w-[88rem] mx-auto bg-white/95 border-3 sm:border-4 border-nailong-yellow rounded-2xl sm:rounded-3xl lg:rounded-full px-3 sm:px-4 lg:px-2.5 xl:px-3.5 py-2 sm:py-2.5 shadow-lg transition-all duration-300">
             <div class="flex items-center justify-between gap-1.5 sm:gap-2">
                 <!-- Brand Logo with Real Walking Nailong -->
-                <a href="#inicio" class="flex items-center gap-2 sm:gap-3 group shrink-0" title="Volver al inicio">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-nailong-yellow border-2 border-nailong-orange shadow-inner flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform relative">
+                <a href="#inicio" class="flex items-center gap-2 sm:gap-3 lg:gap-2 xl:gap-2.5 group shrink-0" title="Volver al inicio">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-10 lg:h-10 xl:w-11 xl:h-11 rounded-full bg-nailong-yellow border-2 border-nailong-orange shadow-inner flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform relative">
                         <img src="Stickers Nailong/sticker_2.webp" alt="Nailong sonrisa radiante 3D" class="w-full h-full object-cover object-center">
                     </div>
                     <div>
-                        <span class="font-display font-bold text-base sm:text-2xl text-amber-950 tracking-tight block leading-none whitespace-nowrap">
+                        <span class="font-display font-bold text-base sm:text-2xl lg:text-lg xl:text-xl text-amber-950 tracking-tight block leading-none whitespace-nowrap">
                             Nailong <span class="text-nailong-orange text-lg font-semibold">✨</span>
                         </span>
-                        <span class="hidden sm:block text-xs font-bold text-amber-600">¡El Dragón de Leche! 🍼</span>
+                        <span class="hidden sm:block lg:hidden xl:block text-[11px] 2xl:text-xs font-bold text-amber-600 whitespace-nowrap">¡El Dragón de Leche! 🍼</span>
                     </div>
                 </a>
 
                 <!-- Desktop Navigation Links -->
-                <div id="desktop-nav-links" class="hidden lg:flex items-center gap-1 xl:gap-2 font-display text-sm xl:text-base font-semibold text-amber-900">
-                    <a href="#android-app-banner" class="px-3.5 py-1.5 rounded-full bg-[#25D366] text-white hover:bg-emerald-600 transition-colors">📲 App</a>
-                    <a href="#inicio" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">👋 ¡Hola!</a>
-                    <a href="#historia" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🌟 ¿Quién es?</a>
-                    <a href="#nailong-3d" class="hidden xl:inline-block px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🧊 3D</a>
-                    <a href="#muro-gifs" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🎬 Visor Mágico</a>
-                    <a href="#galeria" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">📸 Stickers</a>
-                    <a href="#soundboard" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🔊 Botonera</a>
-                    <a href="#poderes" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">⚡ Poderes</a>
-                    <a href="#minijuego" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">🍗 Minijuego</a>
-                    <a href="#creador" class="px-3.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors">💛 Creador</a>
+                <div id="desktop-nav-links" class="hidden lg:flex items-center lg:gap-0.5 xl:gap-0.5 2xl:gap-1 font-display text-[11px] xl:text-xs 2xl:text-[13px] font-semibold text-amber-900 whitespace-nowrap">
+                    <a href="#android-app-banner" class="px-2 2xl:px-2.5 py-1.5 rounded-full bg-[#25D366] text-white hover:bg-emerald-600 transition-colors whitespace-nowrap">📲 App</a>
+                    <a href="#inicio" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">👋 ¡Hola!</a>
+                    <a href="#historia" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">🌟 <span class="hidden xl:inline">¿Quién es?</span><span class="xl:hidden">Historia</span></a>
+                    <a href="#nailong-3d" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">🧊 3D</a>
+                    <a href="#muro-gifs" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">🎬 Visor<span class="hidden xl:inline"> Mágico</span></a>
+                    <a href="#galeria" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">📸 Stickers</a>
+                    <a href="#soundboard" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">🔊 Botonera</a>
+                    <a href="#poderes" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">⚡ Poderes</a>
+                    <a href="#minijuego" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">🍗 Minijuego</a>
+                    <a href="#creador" class="px-1.5 py-1.5 rounded-full hover:bg-nailong-pale transition-colors whitespace-nowrap">💛 Creador</a>
                 </div>
 
                 <!-- Action Buttons: Share, Audio Mute, Pet Toggle, Party Mode & Mobile Menu -->
-                <div class="flex items-center gap-1.5 sm:gap-2">
-                    <button id="share-toggle-btn" onclick="openShareModal()" title="Compartir con Amigos" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-900 hover:bg-nailong-yellow transition-all shadow-sm">
+                <div class="flex items-center gap-1.5 sm:gap-2 lg:gap-1.5 shrink-0">
+                    <button id="share-toggle-btn" onclick="openShareModal()" title="Compartir con Amigos" class="w-9 h-9 sm:w-11 sm:h-11 lg:w-9 lg:h-9 xl:w-10 xl:h-10 shrink-0 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-900 hover:bg-nailong-yellow transition-all shadow-sm">
                         <i class="fa-solid fa-share-nodes text-sm sm:text-base"></i>
                     </button>
-                    <button id="sound-toggle-btn" onclick="toggleAudioMute()" title="Activar/Silenciar Sonidos" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-800 hover:bg-nailong-yellow transition-all shadow-sm">
+                    <button id="sound-toggle-btn" onclick="toggleAudioMute()" title="Activar/Silenciar Sonidos" class="w-9 h-9 sm:w-11 sm:h-11 lg:w-9 lg:h-9 xl:w-10 xl:h-10 shrink-0 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-800 hover:bg-nailong-yellow transition-all shadow-sm">
                         <i id="sound-icon" class="fa-solid fa-volume-high text-sm sm:text-base"></i>
                     </button>
-                    <button id="companion-toggle-btn" onclick="toggleCompanion()" title="Mascota flotante" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-nailong-belly border-2 border-nailong-yellow hidden sm:flex items-center justify-center text-amber-800 hover:bg-nailong-yellow transition-all shadow-sm">
+                    <button id="companion-toggle-btn" onclick="toggleCompanion()" title="Mascota flotante" class="w-9 h-9 sm:w-11 sm:h-11 lg:w-9 lg:h-9 xl:w-10 xl:h-10 shrink-0 rounded-full bg-nailong-belly border-2 border-nailong-yellow hidden sm:flex items-center justify-center text-amber-800 hover:bg-nailong-yellow transition-all shadow-sm">
                         <span class="text-sm sm:text-lg">🦖</span>
                     </button>
-                    <button id="party-mode-btn" onclick="triggerPartyMode()" title="¡Fiesta Duang!" class="clay-btn bg-nailong-orange text-white font-display font-bold px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-base flex items-center gap-1 sm:gap-2">
+                    <button id="party-mode-btn" onclick="triggerPartyMode()" title="¡Fiesta Duang!" class="clay-btn bg-nailong-orange text-white font-display font-bold px-2.5 sm:px-4 lg:px-2.5 xl:px-3.5 py-1.5 sm:py-2 text-xs sm:text-base lg:text-xs xl:text-sm flex items-center gap-1 sm:gap-1.5 whitespace-nowrap shrink-0">
                         <span>🎉</span>
-                        <span class="hidden sm:inline">¡Fiesta Duang!</span>
+                        <span class="hidden sm:inline lg:hidden xl:inline">¡Fiesta Duang!</span>
                     </button>
                     <!-- Mobile Hamburger Button -->
-                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menú de Navegación" class="lg:hidden w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-900 hover:bg-nailong-yellow transition-all shadow-sm">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" title="Menú de Navegación" class="lg:hidden w-9 h-9 sm:w-11 sm:h-11 shrink-0 rounded-full bg-nailong-belly border-2 border-nailong-yellow flex items-center justify-center text-amber-900 hover:bg-nailong-yellow transition-all shadow-sm">
                         <i id="mobile-menu-icon" class="fa-solid fa-bars text-sm sm:text-base"></i>
                     </button>
                 </div>
@@ -409,7 +409,7 @@
                     Stickers de <span class="text-nailong-orange">Nailong</span>
                 </h2>
                 <p class="text-lg text-amber-900/85 font-semibold">
-                    Llévate los 95 stickers a tu WhatsApp con la app, juega con las animaciones en el Visor Mágico y explora el álbum completo. ¡O añade tus propias fotos!
+                    Llévate los 127 stickers a tu WhatsApp con la app, juega con las animaciones en el Visor Mágico y explora el álbum completo. ¡O añade tus propias fotos!
                 </p>
             </div>
 
@@ -424,14 +424,14 @@
                                     🚀 ¡NUEVO! APP NATIVA ANDROID
                                 </span>
                                 <span id="apk-version-badge" class="text-xs font-bold bg-amber-200/90 text-amber-950 px-2.5 py-0.5 rounded-full border border-amber-400">
-                                    v3.6.1 APK
+                                    v4.0.0 APK
                                 </span>
                             </div>
                             <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">
                                 Stickers Nailong Oficial para WhatsApp
                             </h3>
                             <p class="text-xs sm:text-sm text-amber-900/85 font-semibold max-w-xl leading-relaxed">
-                                ¡Instala los <strong>95 stickers oficiales</strong> directamente en tu WhatsApp con 1 toque! Incluye los 4 packs completos (72 animados + 23 estáticos) y la carpeta <strong>«Mi Selección»</strong> para crear tus propios packs.
+                                ¡Instala los <strong>127 stickers oficiales</strong> directamente en tu WhatsApp con 1 toque! Incluye los 5 packs completos (98 animados + 29 estáticos) y la carpeta <strong>«Mi Selección»</strong> para crear tus propios packs.
                             </p>
                             <!-- Novedades: se rellenan desde version.json (lo mismo que enseña la app) -->
                             <details id="apk-whats-new" class="hidden max-w-xl text-left text-xs sm:text-sm text-amber-900/90 font-semibold bg-white/60 border border-amber-300 rounded-2xl px-3 py-2 mt-2">
@@ -443,7 +443,7 @@
                     <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center md:flex-col md:flex-nowrap items-stretch gap-3 w-full md:w-auto flex-shrink-0">
                         <a href="StickersNailong.apk" download="StickersNailong.apk" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-emerald-500 to-[#25D366] hover:from-emerald-600 hover:to-emerald-500 text-white font-display font-bold text-base sm:text-lg px-6 py-3.5 rounded-2xl shadow-lg border-2 border-emerald-300 transition-all hover:scale-105 active:scale-95">
                             <i class="fa-brands fa-android text-2xl"></i>
-                            <span>Descargar APK (<span id="apk-size-label">32 MB</span>)</span>
+                            <span>Descargar APK (<span id="apk-size-label">43 MB</span>)</span>
                         </a>
                         <a href="#video-promo-section" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-500 text-white font-display font-bold text-base sm:text-lg px-5 py-3.5 rounded-2xl shadow-lg border-2 border-amber-300 transition-all hover:scale-105 active:scale-95">
                             <i class="fa-solid fa-play text-xl"></i>
@@ -483,7 +483,7 @@
                             ¡El Mundo Mágico de Nailong en Movimiento!
                         </h3>
                         <p class="text-xs sm:text-sm text-amber-900/85 font-semibold leading-relaxed">
-                            Disfruta del tráiler animado oficial creado con <strong>HyperFrames</strong>: físicas elásticas <em>Duang</em>, los 95 stickers de WhatsApp, minijuego arcade y música saltarina original.
+                            Disfruta del tráiler animado oficial creado con <strong>HyperFrames</strong>: físicas elásticas <em>Duang</em>, los 127 stickers de WhatsApp, minijuego arcade y música saltarina original.
                         </p>
                         <div class="flex flex-wrap gap-2 justify-center sm:justify-start pt-1">
                             <span class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">📱 Vertical 9:16</span>
@@ -521,7 +521,7 @@
                     <i class="fa-solid fa-cloud-arrow-down text-emerald-600 text-2xl sm:text-3xl"></i>
                 </div>
                 <p class="text-xs sm:text-base text-emerald-950/85 font-semibold mt-2.5 max-w-2xl mx-auto leading-relaxed">
-                    Toca cualquiera de los 95 cromos auténticos para abrir el menú mágico: pulsa «Copiar Sticker» y pégalo en tu chat de WhatsApp (<strong class="text-emerald-800">iPhone / Android</strong>), o descárgalo directo en tu móvil ⭐
+                    Toca cualquiera de los 127 cromos auténticos para abrir el menú mágico: pulsa «Copiar Sticker» y pégalo en tu chat de WhatsApp (<strong class="text-emerald-800">iPhone / Android</strong>), o descárgalo directo en tu móvil ⭐
                 </p>
             </div>
 
@@ -531,7 +531,7 @@
             <div class="flex flex-wrap items-center justify-between gap-4 bg-white/90 p-4 rounded-3xl border-3 border-nailong-yellow shadow-sm reveal-item">
                 <div class="flex flex-wrap items-center gap-2" id="gallery-filters">
                     <button onclick="filterGallery('all', this)" data-filter="all" class="gallery-filter-btn bg-nailong-yellow text-amber-950 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-amber-500 shadow-sm transition-all">
-                        ✨ Todas las Fotos (95)
+                        ✨ Todas las Fotos (127)
                     </button>
                     <button onclick="filterGallery('animated', this)" data-filter="animated" class="gallery-filter-btn bg-white hover:bg-nailong-pale text-amber-900 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-nailong-yellow transition-all">
                         🎬 En Movimiento (73)
@@ -913,7 +913,7 @@
                     <span>🎉 ¡Lluvia de Pollo y Confeti!</span>
                 </button>
             </div>
-            <p class="pt-2 text-xs font-semibold text-amber-900/60"><span id="app-version">v3.6.1</span> · Desarrollado por Álvaro Lofra</p>
+            <p class="pt-2 text-xs font-semibold text-amber-900/60"><span id="app-version">v4.0.0</span> · Desarrollado por Álvaro Lofra</p>
         </div>
     </footer>
 
@@ -1154,7 +1154,7 @@
                         ¡El Mundo Mágico de Nailong!
                     </h3>
                     <p class="text-amber-900/90 font-semibold text-xs sm:text-sm">
-                        Pásale la página a tus amigos para que jueguen al minijuego, toquen la pancita rebotona y vean los 95 stickers reales desde su iPhone, Android o PC.
+                        Pásale la página a tus amigos para que jueguen al minijuego, toquen la pancita rebotona y vean los 127 stickers reales desde su iPhone, Android o PC.
                     </p>
                 </div>
 
@@ -1211,19 +1211,19 @@
     </div>
 
     <!-- JAVASCRIPT: LOGIC, DATA, AUDIO SYNTHESIZER & MINIGAME -->
-    <script src="js/01-audio.js?v=3.6.1-web1"></script>
-    <script src="js/02-datos-stickers.js?v=3.6.1-web1"></script>
-    <script src="js/03-hero.js?v=3.6.1-web1"></script>
-    <script src="js/04-navegacion.js?v=3.6.1-web1"></script>
-    <script src="js/05-visor-magico.js?v=3.6.1-web1"></script>
-    <script src="js/06-album-y-descargas.js?v=3.6.1-web1"></script>
-    <script src="js/07-sonidos-y-laboratorio.js?v=3.6.1-web1"></script>
-    <script src="js/08-minijuego.js?v=3.6.1-web1"></script>
-    <script src="js/09-modo-fiesta.js?v=3.6.1-web1"></script>
-    <script src="js/10-inicio.js?v=3.6.1-web1"></script>
-    <script src="js/11-nailong3d-geometria.js?v=3.6.1-web1"></script>
-    <script src="js/12-nailong3d-escena.js?v=3.6.1-web1"></script>
-    <script src="js/13-nailong3d-animacion.js?v=3.6.1-web1"></script>
-    <script src="js/14-nailong3d-visor.js?v=3.6.1-web1"></script>
+    <script src="js/01-audio.js?v=4.0.0"></script>
+    <script src="js/02-datos-stickers.js?v=4.0.0"></script>
+    <script src="js/03-hero.js?v=4.0.0"></script>
+    <script src="js/04-navegacion.js?v=4.0.0"></script>
+    <script src="js/05-visor-magico.js?v=4.0.0"></script>
+    <script src="js/06-album-y-descargas.js?v=4.0.0"></script>
+    <script src="js/07-sonidos-y-laboratorio.js?v=4.0.0"></script>
+    <script src="js/08-minijuego.js?v=4.0.0"></script>
+    <script src="js/09-modo-fiesta.js?v=4.0.0"></script>
+    <script src="js/10-inicio.js?v=4.0.0"></script>
+    <script src="js/11-nailong3d-geometria.js?v=4.0.0"></script>
+    <script src="js/12-nailong3d-escena.js?v=4.0.0"></script>
+    <script src="js/13-nailong3d-animacion.js?v=4.0.0"></script>
+    <script src="js/14-nailong3d-visor.js?v=4.0.0"></script>
 </body>
 </html>

@@ -58,6 +58,7 @@
                     entries.forEach(en => comp.classList.toggle('companion-hidden-by-game', en.isIntersecting));
                 }, { threshold: 0.25 }).observe(game);
             }
+            updateCompanionScrollSpeech(false);
             flashCompanionSpeech(4000);
         }
 
@@ -75,32 +76,48 @@
             setTimeout(() => speech.classList.remove('scale-110'), 250);
         }
 
-        // Contextual Speech as user scrolls (Optimizado con rAF para scroll a 60fps constante)
+        // Frases del muñeco según la sección visible en pantalla (W9, rAF a 60fps)
+        const COMPANION_SECTION_PHRASES = [
+            { id: 'minijuego', text: '"¡Vamos a comer muslos de pollo al juego! 🍗"' },
+            { id: 'poderes', text: '"¡Lánzame llamitas en el laboratorio! 🔥"' },
+            { id: 'soundboard', text: '"¡Toca la botonera para hacerme reír! 🔊"' },
+            { id: 'polaroid-grid', text: '"¡Tengo 127 cromos míos en el álbum! 📸"' },
+            { id: 'muro-gifs', text: '"¡Mira mis animaciones en el Visor Mágico! 🎬"', requireVisibleBand: true },
+            { id: 'galeria', text: '"¡Tengo 127 cromos míos en el álbum! 📸"' },
+            { id: 'nailong-3d', text: '"¡Gírame en 3D y hazme cosquillas en la pancita! 🧊"' },
+            { id: 'historia', text: '"¡Ese de la foto es mi amigo Xiao Qi! 🌟"' },
+            { id: 'inicio', text: '"¡Tócame para un Duang! 💛"' }
+        ];
+
+        function getCompanionScrollPhrase() {
+            const triggerY = window.innerHeight * 0.42;
+            for (const entry of COMPANION_SECTION_PHRASES) {
+                const el = document.getElementById(entry.id);
+                if (!el) continue;
+                const rect = el.getBoundingClientRect();
+                if (rect.height === 0 && rect.width === 0) continue;
+                if (entry.requireVisibleBand && rect.bottom < triggerY * 0.5) continue;
+                if (rect.top <= triggerY) return entry.text;
+            }
+            return COMPANION_SECTION_PHRASES[COMPANION_SECTION_PHRASES.length - 1].text;
+        }
+
+        function updateCompanionScrollSpeech(shouldFlash = true) {
+            const speech = document.getElementById('companion-speech');
+            if (!speech) return;
+            const speechBefore = speech.textContent;
+            const nextSpeech = getCompanionScrollPhrase();
+            if (nextSpeech !== speechBefore) {
+                speech.textContent = nextSpeech;
+                if (shouldFlash) flashCompanionSpeech(4000);
+            }
+        }
+
         let companionScrollTicking = false;
         window.addEventListener('scroll', () => {
             if (!companionScrollTicking) {
                 requestAnimationFrame(() => {
-                    const pos = window.scrollY;
-                    const speech = document.getElementById('companion-speech');
-                    if (speech) {
-                        const speechBefore = speech.textContent;
-                        if (pos < 600) {
-                            speech.textContent = '"¡Tócame para un Duang! 💛"';
-                        } else if (pos < 1300) {
-                            speech.textContent = '"¡Ese de la foto es mi amigo Xiao Qi! 🌟"';
-                        } else if (pos < 2200) {
-                            speech.textContent = '"¡Mira mis animaciones en el Visor Mágico! 🎬"';
-                        } else if (pos < 3400) {
-                            speech.textContent = '"¡Tengo 95 cromos míos en el álbum! 📸"';
-                        } else if (pos < 4400) {
-                            speech.textContent = '"¡Toca la botonera para hacerme reír! 🔊"';
-                        } else if (pos < 5400) {
-                            speech.textContent = '"¡Lánzame llamitas en el laboratorio! 🔥"';
-                        } else {
-                            speech.textContent = '"¡Vamos a comer muslos de pollo al juego! 🍗"';
-                        }
-                        if (speech.textContent !== speechBefore) flashCompanionSpeech(4000);
-                    }
+                    updateCompanionScrollSpeech(true);
                     companionScrollTicking = false;
                 });
                 companionScrollTicking = true;
