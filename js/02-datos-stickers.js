@@ -1,5 +1,5 @@
         /* ==============================================================
-           2. 127 STICKERS REAL METADATA
+           2. 126 STICKERS REAL METADATA
         ============================================================== */
         let ALL_STICKERS = [
             { id: 1, file: 'sticker_1.webp', frames: 1, title: 'Puchero de Colegio', cat: 'caritas', sound: 'duang', desc: 'Con su mochila de la escuela y lagrimitas cómicas porque prefiere quedarse en casa comiendo.'  },
@@ -127,8 +127,7 @@
             { id: 123, file: 'sticker_123.webp', frames: 70, title: 'Enfadado Subiendo la Ventanilla', cat: 'caritas', sound: 'duang', desc: 'Dentro del coche mira de reojo muy serio mientras la ventanilla tintada va subiendo hasta taparlo por completo.'  },
             { id: 124, file: 'sticker_124.webp', frames: 40, title: 'Bailecito Relajado con Ojos Entornados', cat: 'bailes', sound: 'maracas', desc: 'Se balancea con ritmo moviendo un brazo tras otro y los ojos entornados en plan relajado.'  },
             { id: 125, file: 'sticker_125.webp', frames: 1, title: 'Camisa Celeste Muy Formal', cat: 'caritas', sound: 'pop', desc: 'Con su camisa celeste de flores abotonada y expresión muy seria mirando al frente.'  },
-            { id: 126, file: 'sticker_126.webp', frames: 23, title: '¡Ñam, Hierba Fresca del Prado!', cat: 'comida', sound: 'chomp', desc: 'Sentado en el césped abre la boca para comerse un manojo de hierba verde y termina masticando tan contento.'  },
-            { id: 127, file: 'sticker_127.webp', frames: 40, title: '¡Ohhh! Cabecita Ladeada', cat: 'caritas', sound: 'pop', desc: 'Mira muy atento ladeando la cabecita con los ojazos verdes abiertos y la boquita en forma de "o" de pura curiosidad.'  }
+            { id: 126, file: 'sticker_126.webp', frames: 23, title: '¡Ñam, Hierba Fresca del Prado!', cat: 'comida', sound: 'chomp', desc: 'Sentado en el césped abre la boca para comerse un manojo de hierba verde y termina masticando tan contento.'  }
         ];
 
         /* Imágenes fijadas por CLAVE, no por número (ver D-22).

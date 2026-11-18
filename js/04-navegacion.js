@@ -81,9 +81,9 @@
             { id: 'minijuego', text: '"¡Vamos a comer muslos de pollo al juego! 🍗"' },
             { id: 'poderes', text: '"¡Lánzame llamitas en el laboratorio! 🔥"' },
             { id: 'soundboard', text: '"¡Toca la botonera para hacerme reír! 🔊"' },
-            { id: 'polaroid-grid', text: '"¡Tengo 127 cromos míos en el álbum! 📸"' },
+            { id: 'polaroid-grid', text: '"¡Tengo 126 cromos míos en el álbum! 📸"' },
             { id: 'muro-gifs', text: '"¡Mira mis animaciones en el Visor Mágico! 🎬"', requireVisibleBand: true },
-            { id: 'galeria', text: '"¡Tengo 127 cromos míos en el álbum! 📸"' },
+            { id: 'galeria', text: '"¡Tengo 126 cromos míos en el álbum! 📸"' },
             { id: 'nailong-3d', text: '"¡Gírame en 3D y hazme cosquillas en la pancita! 🧊"' },
             { id: 'historia', text: '"¡Ese de la foto es mi amigo Xiao Qi! 🌟"' },
             { id: 'inicio', text: '"¡Tócame para un Duang! 💛"' }
