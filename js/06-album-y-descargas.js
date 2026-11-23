@@ -7,7 +7,8 @@
 
         // Paginación progresiva: displayedStickers guarda la lista completa filtrada (el lightbox navega por ella);
         // solo se pintan las primeras galleryVisibleCount tarjetas para no decodificar 126 WebP a la vez.
-        const GALLERY_PAGE_SIZE = 12;
+        // Primera página corta para que la página no se alargue: 6 cromos en móvil (3 filas de 2) y 8 en escritorio (2 filas de 4)
+        const GALLERY_PAGE_SIZE = window.innerWidth < 640 ? 6 : 8;
         const GALLERY_STEP = 24;
         let galleryVisibleCount = GALLERY_PAGE_SIZE;
 
@@ -40,7 +41,7 @@
                         <div class="w-5 h-5 rounded-full ${pin} border-2 border-white shadow mx-auto -mt-6 mb-2"></div>
 
                         <!-- Sticker Photo Box -->
-                        <div class="relative w-full h-36 sm:h-52 rounded-2xl bg-gradient-to-br from-amber-50 to-nailong-pale flex items-center justify-center p-2 sm:p-3 border-2 border-nailong-pale overflow-hidden shadow-inner group-hover:scale-105 transition-transform duration-300">
+                        <div class="relative w-full h-32 sm:h-48 rounded-2xl bg-gradient-to-br from-amber-50 to-nailong-pale flex items-center justify-center p-2 sm:p-3 border-2 border-nailong-pale overflow-hidden shadow-inner group-hover:scale-105 transition-transform duration-300">
                             <img src="${escaparHtml(imgSrc)}" alt="${escaparHtml(item.title)}" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain">
                             ${isAnim ? `
                                 <span class="absolute top-2 left-2 bg-amber-950/80 text-nailong-yellow text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow">
@@ -59,12 +60,12 @@
                             ` : ''}
                         </div>
 
-                        <div class="pt-3 space-y-1 text-center">
+                        <div class="pt-2 sm:pt-3 space-y-0.5 sm:space-y-1 text-center">
                             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">${item.customUrl ? 'CROMO PERSONAL' : `CROMO #${item.id}`}</span>
-                            <h4 class="font-display font-bold text-sm sm:text-lg text-amber-950 leading-snug group-hover:text-nailong-orange transition-colors">
+                            <h4 class="font-display font-bold text-sm sm:text-lg text-amber-950 leading-snug line-clamp-1 sm:line-clamp-none group-hover:text-nailong-orange transition-colors">
                                 ${escaparHtml(item.title)}
                             </h4>
-                            <p class="text-[11px] sm:text-xs font-semibold text-amber-800/85 line-clamp-2">
+                            <p class="max-sm:hidden text-xs font-semibold text-amber-800/85 line-clamp-2">
                                 ${escaparHtml(item.desc)}
                             </p>
                         </div>

@@ -19,13 +19,14 @@
         function renderSoundboard() {
             const grid = document.getElementById('soundboard-grid');
             grid.innerHTML = SOUNDBOARD_TILES.map((tile, i) => `
-                <button onclick="playTileSound('${tile.sound}', this)" class="sound-tile clay-card p-4 sm:p-5 flex flex-col items-center justify-between text-center bg-white/95 hover:bg-nailong-belly border-3 border-nailong-yellow transition-all group">
-                    <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-nailong-pale p-2 flex items-center justify-center overflow-hidden mb-2 shadow-inner group-hover:scale-110 transition-transform">
+                <button onclick="playTileSound('${tile.sound}', this)" class="sound-tile clay-card !rounded-3xl p-2 sm:p-5 flex flex-col items-center justify-start sm:justify-between text-center bg-white/95 hover:bg-nailong-belly border-3 border-nailong-yellow transition-all group">
+                    <div class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-2xl bg-nailong-pale p-1.5 sm:p-2 flex items-center justify-center overflow-hidden mb-1 sm:mb-2 shadow-inner group-hover:scale-110 transition-transform">
                         <img src="Stickers Nailong/${tile.sticker}" alt="${tile.name}" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                        <span class="sm:hidden absolute -bottom-0.5 -right-0.5 text-base leading-none" aria-hidden="true">${tile.icon}</span>
                     </div>
                     <div>
-                        <span class="text-xl mb-1 block">${tile.icon}</span>
-                        <h4 class="font-display font-bold text-sm sm:text-base text-amber-950">${tile.name}</h4>
+                        <span class="hidden sm:block text-xl mb-1">${tile.icon}</span>
+                        <h4 class="font-display font-bold text-[11px] sm:text-base text-amber-950 leading-tight">${tile.name}</h4>
                     </div>
                 </button>
             `).join('');
@@ -44,6 +45,18 @@
         /* ==============================================================
            9. LABORATORIO DE SUPERPODERES CON NAILONG REAL
         ============================================================== */
+        // Pestañas del laboratorio: solo se ve un grupo de controles a la vez (tamaño, color o disfraces)
+        function mostrarPestanaLab(nombre) {
+            playSound('pop');
+            document.querySelectorAll('#poderes .lab-tab').forEach(tab => {
+                const activa = tab.id === `lab-tab-${nombre}`;
+                tab.setAttribute('aria-selected', activa ? 'true' : 'false');
+            });
+            document.querySelectorAll('#poderes .lab-panel').forEach(panel => {
+                panel.classList.toggle('hidden', panel.id !== `lab-panel-${nombre}`);
+            });
+        }
+
         function updatePowerSize(val) {
             const fig = document.getElementById('lab-nailong-figure');
             const label = document.getElementById('power-size-label');

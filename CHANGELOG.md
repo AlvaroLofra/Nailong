@@ -5,6 +5,41 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [4.0.0 · revisión web 1] — 2026-11-23 (sin publicar)
+Revisión solo de la web, centrada en el móvil. La versión visible sigue siendo `v4.0.0`; `version.json` y el APK no cambian. El sufijo anti-caché pasa a `?v=4.0.0-web1`.
+
+Medido en Chromium: la página pasa de **18,7 a 9,2 pantallas** en móvil (375×812) y de **11 a 9,1** en escritorio (1440×900).
+
+- **Navegación (`index.html`, `css/styles.css`, `js/04-navegacion.js`, `js/10-inicio.js`):**
+  - Nueva **barra de accesos fija abajo** (`#bottom-nav`, solo `< lg`) con Inicio, 3D, Stickers, Jugar y Más. «Más» abre el menú de siempre.
+  - La barra respeta la zona segura del iPhone y marca la zona visible reutilizando `setupScrollSpy`.
+  - El muñeco acompañante y el aviso flotante suben para no quedar tapados por la barra.
+  - El menú móvil tiene altura máxima y scroll propio.
+  - Las anclas dejan sitio a la cabecera fija (`scroll-margin-top`).
+- **Secciones compactadas (sobre todo en móvil):**
+  - **Inicio:** texto corto y el «Tip» solo en tablet o escritorio.
+  - **¿Quién es?:** carrusel horizontal con `scroll-snap` (`.carrusel-movil`).
+  - **3D:** acciones en una fila de chips deslizable; estilo, foto y `.glb` en una sola fila; la explicación del `.glb` va plegada en `<details>`.
+  - **Stickers:**
+    - Banner de la app compacto.
+    - El **tráiler pasa a un `<details>` plegado** con miniatura. El botón «Tráiler» lo despliega con `abrirTrailer()`, y al plegarlo el vídeo se pausa (`setupTrailerFold`).
+    - Aviso de WhatsApp en una línea.
+    - Álbum con **6 cromos iniciales en móvil y 8 en escritorio** (`GALLERY_PAGE_SIZE`) y tarjetas más bajas.
+  - **Botonera:** 3 columnas en móvil y 6 en escritorio ancho.
+  - **Laboratorio:** la vista previa queda arriba en móvil y los controles van en **pestañas** (Tamaño · Color · Disfraces) con `mostrarPestanaLab()`; los cuatro poderes siguen siempre visibles.
+  - **Minijuego:** el lienzo de escritorio es algo más bajo (`lg:h-[580px]`).
+  - **Creador y pie:** texto recortado en móvil.
+- **Nailong 3D más fiel a la serie (`js/11`, `js/12`, `js/13`, `js/14`; detalle en la nota técnica 05):**
+  - **Ojos:** más pequeños, separados, laterales y saltones. Iris verde bosque con aro lima y anillo blanco, y párpado superior caído por defecto, la mirada «perezosa» de la serie.
+  - **Cabeza:** forma de pulgar con el morro adelantado y sin escalón de cuello.
+  - **Boca:** pequeña y casi recta cerrada; abierta, una «D» grande con lengua y 6 dientecitos.
+  - **Piel:** amarillo mostaza mate con pelusilla aterciopelada (mejora 3D1). Pancita crema más baja y difusa, y rubor casi invisible.
+  - **Detalles:** sin almohadillas rosas, uñitas cónicas marrón oscuro y placas oliva-marrón desde la coronilla hasta la nuca.
+  - **Expresiones (mejora 3D2):** reposo relajado; nuevas acciones **😆 Risa** (ojos «^ ^» y lengua fuera) y **😱 Grito** (boca enorme), con botón propio y sus clips en el GLB (ahora 7).
+- **Estilo común:** menos espacio entre secciones, títulos `h2` algo más pequeños en móvil y tarjetas «clay» que no se levantan en pantallas táctiles (`@media (hover: none)`).
+- **Verificación:** `verify_all.py` pasa entero (52 comprobaciones) saltando solo las que leen el código Android de `C:\src`, que no existe en este equipo. Sin desbordes horizontales a 320, 375, 768 y 1440 px, y sin errores en la consola.
+- **No comprobado:** Safari en iPhone real (zona segura con la barra inferior) y Android real.
+
 ## [4.0.0] — 2026-11-18
 Lanzamiento mayor (`v4.0.0`, `versionCode 16`, D-24): incorporación de 31 nuevos stickers de TikTok (**126** en total), nuevo 5.º pack oficial en la app Android (*Nailong animado 4*), estreno oficial de **Nailong en 3D** para todos los usuarios y aplicación de las mejoras `W9` y `W10`. Consolida también para despliegue en producción el trabajo de la revisión web del 15/11 (`3.6.1 · revisión web 1`: modales `<dialog>` D-23, textos fieles, escapado de fotos del usuario, detector `--clasificar` y mejoras de fidelidad del modelo 3D) que figuraba pendiente de `git push` en `ESTADO_ACTUAL.md`.
 

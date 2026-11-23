@@ -98,6 +98,10 @@ El código está estructurado en 14 bloques funcionales organizados:
 | Modo Fiesta | `js/09-modo-fiesta.js` · `#party-canvas` |
 | Modales (`<dialog>` nativo, D-23) y bloqueo de scroll | `js/05-visor-magico.js` · `abrirDialogo`, `cerrarDialogo`; `js/09-modo-fiesta.js` · `setupModalBackdrops` (clic fuera y evento `cancel`); `js/10-inicio.js` · `setupModalScrollLock`, `body.modal-open` |
 | Arranque | `js/10-inicio.js` · `window.onload = function()` |
+| Barra de accesos inferior (móvil, `< lg`) | `index.html` · `#bottom-nav` (`data-secciones`); `css/styles.css` · `.bottom-nav-item`; `js/10-inicio.js` · `setupScrollSpy` (marca la zona activa); `js/04-navegacion.js` · `openMobileMenuFromBottom` |
+| Tráiler plegable | `index.html` · `<details id="video-promo-section">`; `js/10-inicio.js` · `abrirTrailer`, `setupTrailerFold` |
+| Pestañas del laboratorio | `index.html` · `.lab-tab` / `.lab-panel`; `js/07-sonidos-y-laboratorio.js` · `mostrarPestanaLab` |
+| Carruseles de móvil | `css/styles.css` · `.carrusel-movil` («¿Quién es?»), `.carrusel-chips` (acciones 3D) |
 | Nailong 3D | `js/11`…`js/14` · `Nailong3DGeometria`, `Nailong3DEscena`, `Nailong3DAnimacion`, `Nailong3DVisor` (autoinicio con `DOMContentLoaded`) |
 
 > Esta tabla se ha construido con los nombres que `verify_all.py` ya comprueba; el número de línea no se fija porque cambia con cada edición.

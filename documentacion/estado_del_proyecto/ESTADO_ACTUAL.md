@@ -2,9 +2,9 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 18/11/2026 (lanzamiento **v4.0.0** ajustado en `main` local, **pendiente de `git push`**: 126 stickers tras incorporar 31 nuevos de TikTok y mantener descartado `tiktok_1714_062` por ser duplicado vertical de `sticker_68.webp`, 5.º pack oficial en Android, estreno público de **Nailong en 3D**, mejoras `W9` y `W10`, y APK firmado de 41.7 MB).
+> **Última actualización:** 23/11/2026. **Rediseño web móvil-primero** (`4.0.0 · revisión web 1`, sin commit): barra de accesos inferior y secciones compactadas. Móvil pasa de 18,7 a 9,2 pantallas; escritorio, de 11 a 9,1. Además, **Nailong 3D más fiel a la serie**: ojos, boca, piel y placas nuevos, y expresiones de risa y grito. Sigue pendiente el `git push` de la v4.0.0 del 18/11.
 > **Rama activa:** `main`.
-> **Versión actual:** Web `v4.0.0` | Android APK `v4.0.0` (`versionCode 16`). Pendiente de `git push` a `main` (GitHub Pages).
+> **Versión actual:** Web `v4.0.0` (sufijo anti-caché `?v=4.0.0-web1`) | Android APK `v4.0.0` (`versionCode 16`). Pendiente de commit y `git push` a `main` (GitHub Pages).
 
 ---
 
@@ -18,8 +18,9 @@ La web oficial y la app Android nativa están en la versión **v4.0.0** (`versio
 
 | Métrica / Concepto | Valor Verificado |
 |---|---|
-| **Punto único de entrada web** | `index.html` + `css/styles.css` + `js/` (14 ficheros modulares más `tailwind-config.js`, 0 dependencias de compilación, todos con `?v=4.0.0`). |
-| **Nailong 3D (publicado en v4.0.0)** | Sección `#nailong-3d` visible para todos (enlace `🧊 3D` desde `lg` y menú móvil); malla procedural estanca de ≈41 k vértices (≈27 k en móvil) generada en ≈0,3–0,5 s en un Web Worker, piel de 12 huesos, 5 acciones, 2 estilos; Three.js r147 por CDN con SRI bajo demanda (`IntersectionObserver` a 600 px) y pausa fuera de pantalla; GLB con 5 clips. |
+| **Punto único de entrada web** | `index.html` + `css/styles.css` + `js/` (14 ficheros modulares más `tailwind-config.js`, 0 dependencias de compilación, todos con `?v=4.0.0-web1`). |
+| **Diseño móvil (revisión web 1)** | Barra de accesos fija abajo (`#bottom-nav`, `< lg`), carruseles en «¿Quién es?» y acciones 3D, tráiler plegado en `<details>`, álbum con 6 cromos iniciales en móvil y 8 en escritorio, botonera de 3 columnas y laboratorio con pestañas. Altura medida: 9,2 pantallas en móvil (375×812) y 9,1 en escritorio (1440×900). |
+| **Nailong 3D (publicado en v4.0.0)** | Sección `#nailong-3d` visible para todos (enlace `🧊 3D` desde `lg` y menú móvil); malla procedural estanca de ≈41 k vértices (≈27 k en móvil) generada en ≈0,3–0,5 s en un Web Worker, piel de 12 huesos, 7 acciones (con risa y grito), 2 estilos, ojos con párpado caído y piel aterciopelada; Three.js r147 por CDN con SRI bajo demanda (`IntersectionObserver` a 600 px) y pausa fuera de pantalla; GLB con 7 clips. |
 | **Banco de cromos coleccionables** | Exactamente 126 stickers WebP (512×512 con chunk EXIF WhatsApp: 97 animados + 29 estáticos) + 1 foto optimizada del creador + 1 sticker descatalogado fuera de catálogo (128 archivos en `Stickers Nailong/`). |
 | **Packs oficiales preconfigurados en Android** | 5 packs: *Nailong animado 1* (24), *Nailong animado 2* (24), *Nailong animado 3* (24), *Nailong animado 4* (25) y *Nailong estático* (29). Total: 126 stickers. |
 | **Generador dinámico «Mi Selección»** | Mínimo 3 y máximo 30 stickers por lote, con vista de revisión («Ver (N) ❯»), 97 vistas previas animadas de 192 px (6.9 MB), 29 variantes animadas de los estáticos en `nailong_estaticos_animados` (683.94 KB) y un único pack por importación. |
@@ -36,6 +37,11 @@ La web oficial y la app Android nativa están en la versión **v4.0.0** (`versio
 
 ## 3. Qué Está Completado y Verificado
 
+- [x] **Sesión del 23/11/2026 — Rediseño web móvil-primero (sin commit):** barra inferior, secciones compactadas y tráiler plegable (detalle en `CHANGELOG.md` y en la bitácora `2026-11-23_rediseno_web_movil_y_3d.md`).
+  - Verificado en el navegador integrado: sin desbordes a 320, 375, 768 y 1440 px, y consola sin errores.
+  - `verify_all.py` pasa entero saltando solo las líneas que leen `C:\src`, que no existe en este equipo.
+  - **Nailong 3D más fiel a la serie** (nota técnica 05): mismas proporciones del test 49, nuevas acciones `risa` y `grito` con botón y GLB con 7 clips.
+
 - [x] **Sesión del 18/11/2026 — Lanzamiento `v4.0.0` (126 stickers, 5.º pack Android y estreno de Nailong 3D, en `main` local, pendiente de `git push`):**
   - **Catálogo de stickers (`96..126`, D-24):** clasificados 92 archivos descargados de TikTok: 31 nuevos incorporados en orden cronológico (`25` animados + `6` estáticos: `96`, `97`, `111`, `115`, `120`, `125`), 57 repetidos registrados por SHA-256 en `herramientas/stickers_vistos.json` y 4 descartes históricos registrados en `herramientas/stickers_descartados.npz` (`062` —duplicado vertical `240×320` de `sticker_68.webp` con `@bubu.yuni`—, `063`, `082`, `089`). Recortados limpiamente desde los originales 5 cromos con subtítulos o bandas (`104` 6% inf., `105` 10% inf., `106` 10.4% inf., `120` 18 px sup./inf., `121` 7% inf.); conservados intactos `111`, `117` y `125`. Metadatos completos en `js/02-datos-stickers.js` y mejorado `herramientas/descargar_tiktok_consola.js`.
   - **Web y Nailong 3D (`W9`, `W10`):** eliminada la regla `body:not(.n3d-ver)` en `css/styles.css` y el uso de `localStorage` en `js/14-nailong3d-visor.js` para mostrar Nailong 3D a todos con carga perezosa (`rootMargin: '600px 0px'`) y pausa fuera de pantalla (arranque inmediato con `?3d=1`/`#nailong-3d`). En `index.html`, enlace `🧊 3D` visible desde `lg` y menú compactado en `1024–1536 px` (`W10`). En `js/04-navegacion.js`, frases del muñeco por sección visible en viewport (`COMPANION_SECTION_PHRASES` con `getBoundingClientRect().top`, `W9`) y nueva frase 3D. Contadores a `126`, badge `v4.0.0 APK`, pie `v4.0.0`, etiqueta `42 MB` y 16 sufijos `?v=4.0.0`.
@@ -47,6 +53,9 @@ La web oficial y la app Android nativa están en la versión **v4.0.0** (`versio
 ---
 
 ## 4. No Comprobado (Pendiente de Validación Real)
+
+- **Rediseño móvil en dispositivos reales:** barra inferior con la zona segura del iPhone (Safari), carruseles táctiles y pestañas del laboratorio en Android real.
+- **`verify_all.py` completo en este equipo:** falta el código Android en `C:\src\nailong_stickers_app`, así que las comprobaciones que lo leen no se pueden ejecutar aquí.
 
 - **App `v4.0.0` y 5.º pack en móvil real y WhatsApp:** verificación final en WhatsApp tras retirar el duplicado del pack 4 e importación real de packs mixtos de «Mi Selección».
 - **Navegadores y dispositivos reales:** Safari en iPhone, Firefox real y lector de pantalla (navegación, `<dialog>` nativos y región `aria-live` del visor 3D).

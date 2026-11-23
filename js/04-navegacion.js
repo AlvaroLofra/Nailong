@@ -14,6 +14,11 @@
             }
         }
 
+        // Botón «Más» de la barra inferior: abre o cierra el menú completo de la cabecera (que es fija y siempre está a la vista)
+        function openMobileMenuFromBottom() {
+            toggleMobileMenu();
+        }
+
         let companionVisible = true;
         let companionPokes = 0;
         const companionPhrases = [

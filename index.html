@@ -38,9 +38,9 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <script src="js/tailwind-config.js?v=4.0.0"></script>
+    <script src="js/tailwind-config.js?v=4.0.0-web1"></script>
 
-    <link rel="stylesheet" href="css/styles.css?v=4.0.0">
+    <link rel="stylesheet" href="css/styles.css?v=4.0.0-web1">
 </head>
 <body class="relative min-h-screen selection:bg-nailong-yellow selection:text-amber-950">
 
@@ -104,7 +104,7 @@
             </div>
 
             <!-- Mobile Menu Dropdown -->
-            <div id="mobile-menu" class="hidden lg:hidden pt-3 mt-2 border-t-2 border-nailong-pale flex flex-col gap-1.5 font-display text-sm font-semibold text-amber-900">
+            <div id="mobile-menu" class="hidden lg:hidden max-h-[calc(100dvh-10rem)] overflow-y-auto overscroll-contain pt-3 mt-2 border-t-2 border-nailong-pale flex flex-col gap-1.5 font-display text-sm font-semibold text-amber-900">
                 <a href="#android-app-banner" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-[#25D366] text-white font-bold hover:bg-emerald-600 transition-colors flex items-center gap-2 shadow-sm"><i class="fa-brands fa-android"></i> 📲 Descargar la App (Android)</a>
                 <a href="#inicio" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">👋 ¡Hola!</a>
                 <a href="#historia" onclick="toggleMobileMenu()" class="px-4 py-2 rounded-2xl bg-nailong-pale/70 hover:bg-nailong-yellow transition-colors flex items-center gap-2">🌟 ¿Quién es Nailong?</a>
@@ -128,6 +128,17 @@
             </div>
         </nav>
     </header>
+
+    <!-- BARRA DE ACCESOS FIJA EN MÓVIL Y TABLETA (< lg): atajos a las zonas principales -->
+    <nav id="bottom-nav" class="lg:hidden fixed inset-x-0 bottom-0 z-40 bg-white/95 border-t-2 border-nailong-yellow shadow-[0_-6px_18px_rgba(255,159,28,0.18)]" aria-label="Accesos rápidos">
+        <div class="max-w-xl mx-auto grid grid-cols-5 font-display font-bold text-[11px] text-amber-900">
+            <a href="#inicio" data-secciones="inicio historia" class="bottom-nav-item"><span class="text-xl leading-none" aria-hidden="true">🏠</span><span>Inicio</span></a>
+            <a href="#nailong-3d" data-secciones="nailong-3d" class="bottom-nav-item"><span class="text-xl leading-none" aria-hidden="true">🧊</span><span>3D</span></a>
+            <a href="#galeria" data-secciones="galeria muro-gifs" class="bottom-nav-item"><span class="text-xl leading-none" aria-hidden="true">📸</span><span>Stickers</span></a>
+            <a href="#soundboard" data-secciones="soundboard poderes minijuego" class="bottom-nav-item"><span class="text-xl leading-none" aria-hidden="true">🎮</span><span>Jugar</span></a>
+            <button type="button" onclick="openMobileMenuFromBottom()" class="bottom-nav-item" aria-controls="mobile-menu"><span class="text-xl leading-none" aria-hidden="true">☰</span><span>Más</span></button>
+        </div>
+    </nav>
 
     <!-- FLOATING INTERACTIVE COMPANION ("MINI NAILONG FLOTANTE") -->
     <div id="floating-companion" class="fixed z-40 flex flex-col items-end pointer-events-auto transition-all duration-300" style="bottom: max(1.25rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem)); right: max(0.75rem, calc(env(safe-area-inset-right, 0px) + 0.75rem));">
@@ -153,7 +164,7 @@
     </div>
 
     <!-- MAIN WRAPPER -->
-    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24 space-y-28">
+    <main class="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-12 sm:pb-20 space-y-12 sm:space-y-16 lg:space-y-14">
 
         <!-- 2. HERO SECTION INTERACTIVA CON EL NAILONG REAL -->
         <section id="inicio" class="pt-2">
@@ -162,10 +173,10 @@
                 <div class="absolute -top-12 -left-12 w-56 h-56 bg-nailong-yellow/30 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-nailong-pink/30 rounded-full blur-3xl pointer-events-none"></div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-center">
                     <!-- 1. Encabezado e Introducción -->
-                    <div class="lg:col-span-6 lg:row-start-1 space-y-4 text-center lg:text-left">
-                        <div class="inline-flex items-center gap-2 bg-nailong-yellow/50 border-2 border-nailong-orange px-4 py-1.5 rounded-full text-amber-950 font-display font-bold text-sm shadow-sm">
+                    <div class="lg:col-span-6 lg:row-start-1 space-y-2.5 sm:space-y-4 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 bg-nailong-yellow/50 border-2 border-nailong-orange px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-amber-950 font-display font-bold text-xs sm:text-sm shadow-sm">
                             <span class="animate-bounce">🍼</span> ¡El dinosaurio amarillo más famoso de China!
                         </div>
 
@@ -173,8 +184,8 @@
                             ¡Hola! Soy <span class="text-nailong-orange underline decoration-wavy decoration-nailong-yellow">Nailong</span> 🦖✨
                         </h1>
 
-                        <p class="text-lg sm:text-xl text-amber-900/95 font-semibold leading-relaxed">
-                            Vengo del Planeta Dragón, tengo 3 añitos, huelo a leche calentita y mi barriguita redonda rebota haciendo <span class="bg-nailong-yellow px-2.5 py-0.5 rounded-lg font-display font-bold text-amber-950">¡DUANG~ DUANG!</span> ¡Haz clic en mi pancita para hacerme cosquillas!
+                        <p class="text-base sm:text-xl text-amber-900/95 font-semibold leading-relaxed">
+                            <span class="hidden sm:inline">Vengo del Planeta Dragón, tengo 3 añitos, huelo a leche calentita y mi</span><span class="sm:hidden">Tengo 3 añitos y mi</span> barriguita redonda rebota haciendo <span class="bg-nailong-yellow px-2 sm:px-2.5 py-0.5 rounded-lg font-display font-bold text-amber-950 whitespace-nowrap">¡DUANG~ DUANG!</span> <span class="hidden sm:inline">¡Haz clic en mi pancita para hacerme cosquillas!</span>
                         </p>
                     </div>
 
@@ -190,7 +201,7 @@
                         <div id="belly-particles" class="absolute inset-0 pointer-events-none z-20"></div>
 
                         <!-- Interactive Nailong Stage (Compact in mobile, giant in desktop) -->
-                        <div id="hero-nailong-wrapper" class="relative cursor-pointer select-none animate-float w-52 h-52 sm:w-64 sm:h-64 lg:w-96 lg:h-96 max-w-full flex items-center justify-center" onclick="pokeHeroBelly(event)" title="¡Tócame para hacer Duang!">
+                        <div id="hero-nailong-wrapper" class="relative cursor-pointer select-none animate-float w-48 h-48 sm:w-64 sm:h-64 lg:w-96 lg:h-96 max-w-full flex items-center justify-center" onclick="pokeHeroBelly(event)" title="¡Tócame para hacer Duang!">
                             <!-- Soft Ground Glow Shadow -->
                             <div class="absolute bottom-3 sm:bottom-4 w-48 sm:w-64 h-8 sm:h-12 bg-amber-900/15 rounded-full blur-md"></div>
                             
@@ -198,15 +209,15 @@
                             <img id="hero-nailong-img" fetchpriority="high" src="Stickers Nailong/sticker_19.webp" alt="Nailong animado real" class="w-full h-full object-contain drop-shadow-2xl transition-all duration-300">
                         </div>
 
-                        <p class="mt-2.5 sm:mt-3 text-[11px] sm:text-sm font-bold text-amber-900/85 bg-nailong-pale/80 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full border border-nailong-yellow">
+                        <p class="hidden sm:block mt-3 text-sm font-bold text-amber-900/85 bg-nailong-pale/80 px-4 py-1.5 rounded-full border border-nailong-yellow">
                             💡 Tip: ¡Haz clic varias veces seguidas en su pancita para ver cómo rebota!
                         </p>
                     </div>
 
                     <!-- 3. Selector de Estados de Ánimo con Stickers Reales -->
                     <div class="lg:col-span-6 lg:col-start-1 lg:row-start-2 space-y-2.5 text-center lg:text-left">
-                        <p class="font-display font-bold text-amber-950 text-base flex items-center justify-center lg:justify-start gap-2">
-                            <span>✨ Cambia mi estado de ánimo en vivo:</span>
+                        <p class="font-display font-bold text-amber-950 text-sm sm:text-base flex items-center justify-center lg:justify-start gap-2">
+                            <span>✨ Cambia mi estado de ánimo:</span>
                         </p>
                         <div class="flex flex-wrap justify-center lg:justify-start gap-2" id="hero-mood-buttons">
                             <button onclick="setHeroMood('happy', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-nailong-yellow border-2 border-amber-500 text-amber-950 shadow-sm hover:scale-105 transition-all">
@@ -240,16 +251,16 @@
                     </div>
 
                     <!-- 4. Contador de Pancita y Botón de Exploración -->
-                    <div class="lg:col-span-6 lg:col-start-1 lg:row-start-3 pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
-                        <div class="bg-white border-3 border-nailong-orange rounded-3xl px-5 py-3 shadow-md flex items-center gap-3">
-                            <span class="text-3xl animate-bounce">👉</span>
+                    <div class="lg:col-span-6 lg:col-start-1 lg:row-start-3 sm:pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                        <div class="bg-white border-2 border-nailong-orange rounded-3xl px-4 sm:px-5 py-2 sm:py-3 shadow-md flex items-center gap-3">
+                            <span class="text-2xl sm:text-3xl animate-bounce">👉</span>
                             <div class="text-left">
-                                <span class="text-xs uppercase tracking-wider font-bold text-amber-700 block">Cosquillas en su pancita</span>
-                                <span id="belly-counter" class="font-display font-bold text-2xl text-nailong-orange">0 ¡Duangs!</span>
+                                <span class="text-[10px] sm:text-xs uppercase tracking-wider font-bold text-amber-700 block">Cosquillas en su pancita</span>
+                                <span id="belly-counter" class="font-display font-bold text-xl sm:text-2xl text-nailong-orange">0 ¡Duangs!</span>
                             </div>
                         </div>
 
-                        <a href="#muro-gifs" class="clay-btn clay-btn-yellow font-display font-bold px-6 py-3.5 text-base flex items-center gap-2">
+                        <a href="#muro-gifs" class="hidden sm:flex clay-btn clay-btn-yellow font-display font-bold px-6 py-3.5 text-base items-center gap-2">
                             <span>Ver GIFs y Fotos Reales</span>
                             <i class="fa-solid fa-arrow-down animate-bounce"></i>
                         </a>
@@ -259,81 +270,82 @@
         </section>
 
         <!-- 3. SECCIÓN "¿QUIÉN ES NAILONG?" (EL UNIVERSO DEL DIBUJO ANIMADO CHINO) -->
-        <section id="historia" class="space-y-10">
+        <section id="historia" class="space-y-5 sm:space-y-10">
             <div class="text-center max-w-3xl mx-auto space-y-3 reveal-item">
                 <span class="bg-nailong-orange/20 text-amber-900 border-2 border-nailong-orange px-4 py-1 rounded-full font-display font-bold text-sm">
                     🌟 CONOCE SU HISTORIA REAL
                 </span>
-                <h2 class="font-display font-bold text-3xl sm:text-5xl text-amber-950">
+                <h2 class="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-amber-950">
                     ¿Quién es <span class="text-nailong-orange">Nailong</span>?
                 </h2>
-                <p class="text-lg text-amber-900/90 font-semibold">
+                <p class="hidden sm:block text-lg text-amber-900/90 font-semibold">
                     Conoce al personaje de animación 3D creado por <strong>Seventh Impression</strong> que arrasa en China y el mundo entero con sus memes, cortos y travesuras.
                 </p>
             </div>
 
             <!-- 4 Illustrated Story Cards with REAL Character Photos/Stickers -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="carrusel-movil md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 reveal-item" aria-label="Personajes: desliza para ver más">
                 <!-- Card 1: Nailong El Dragón de Leche -->
-                <div class="clay-card p-6 flex flex-col items-center text-center space-y-4 reveal-item">
-                    <div class="w-32 h-32 rounded-3xl bg-nailong-pale border-3 border-nailong-yellow flex items-center justify-center shadow-inner overflow-hidden p-2 group-hover:scale-105 transition-transform">
+                <div class="clay-card p-5 sm:p-6 flex flex-col items-center text-center space-y-3 sm:space-y-4">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-nailong-pale border-3 border-nailong-yellow flex items-center justify-center shadow-inner overflow-hidden p-2 group-hover:scale-105 transition-transform">
                         <img src="Stickers Nailong/sticker_2.webp" data-sticker="dragon-de-leche" alt="Nailong Bebé" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-nailong-yellow px-3 py-0.5 rounded-full font-display font-bold text-xs text-amber-950">3 AÑITOS DE EDAD</span>
-                    <h3 class="font-display font-bold text-2xl text-amber-950">El Dragón de Leche</h3>
+                    <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">El Dragón de Leche</h3>
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
                         Su nombre <strong>Nailong</strong> significa <em>"Dragón de Leche"</em> por su color amarillo cremoso y su piel suave. Cayó de su nave espacial a la Tierra, es súper glotón y su tripita es de goma elástica.
                     </p>
                 </div>
 
                 <!-- Card 2: Xiao Qi (El Niño Inventor) -->
-                <div class="clay-card p-6 flex flex-col items-center text-center space-y-4 reveal-item">
-                    <div class="w-32 h-32 rounded-3xl bg-nailong-sky/50 border-3 border-nailong-sky flex items-center justify-center shadow-inner overflow-hidden p-2">
+                <div class="clay-card p-5 sm:p-6 flex flex-col items-center text-center space-y-3 sm:space-y-4">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-nailong-sky/50 border-3 border-nailong-sky flex items-center justify-center shadow-inner overflow-hidden p-2">
                         <img src="Stickers Nailong/sticker_28.webp" data-sticker="xiao-qi-colita" alt="Xiao Qi tirando de Nailong" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-nailong-sky px-3 py-0.5 rounded-full font-display font-bold text-xs text-sky-950">MEJOR AMIGO HUMANO</span>
-                    <h3 class="font-display font-bold text-2xl text-amber-950">Xiao Qi</h3>
+                    <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">Xiao Qi</h3>
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
                         Un niño genio e inventor de gran corazón. Adoptó a Nailong tras su llegada a la Tierra, inventa máquinas para sus aventuras y siempre tiene que tirar de su colita cuando Nailong se pone perezoso.
                     </p>
                 </div>
 
                 <!-- Card 3: Bombloong (El Rival Morado) -->
-                <div class="clay-card p-6 flex flex-col items-center text-center space-y-4 reveal-item">
-                    <div class="w-32 h-32 rounded-3xl bg-purple-100 border-3 border-purple-300 flex items-center justify-center shadow-inner overflow-hidden p-2">
+                <div class="clay-card p-5 sm:p-6 flex flex-col items-center text-center space-y-3 sm:space-y-4">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-purple-100 border-3 border-purple-300 flex items-center justify-center shadow-inner overflow-hidden p-2">
                         <img src="Stickers Nailong/sticker_27.webp" data-sticker="bombloong" alt="Bombloong dragón morado" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-purple-200 px-3 py-0.5 rounded-full font-display font-bold text-xs text-purple-950">RIVAL CASCARRABIAS</span>
-                    <h3 class="font-display font-bold text-2xl text-amber-950">Bombloong</h3>
+                    <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">Bombloong</h3>
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
                         El dragón morado gruñón que siempre intenta ganarle a Nailong y crear travesuras. ¡Pero la pancita rebotona y la buena suerte de Nailong siempre hacen que los planes de Bombloong fracasen con risas!
                     </p>
                 </div>
 
                 <!-- Card 4: Los Superpoderes y Amor por el Pollo -->
-                <div class="clay-card p-6 flex flex-col items-center text-center space-y-4 reveal-item">
-                    <div class="w-32 h-32 rounded-3xl bg-nailong-softpink/40 border-3 border-nailong-pink flex items-center justify-center shadow-inner overflow-hidden p-2">
+                <div class="clay-card p-5 sm:p-6 flex flex-col items-center text-center space-y-3 sm:space-y-4">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-nailong-softpink/40 border-3 border-nailong-pink flex items-center justify-center shadow-inner overflow-hidden p-2">
                         <img src="Stickers Nailong/sticker_31.webp" data-sticker="escamitas-espalda" alt="Escamas verdes de Nailong" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-nailong-pink/40 px-3 py-0.5 rounded-full font-display font-bold text-xs text-rose-950">CURIOSIDADES</span>
-                    <h3 class="font-display font-bold text-2xl text-amber-950">¡Poderes y Escamitas!</h3>
+                    <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">¡Poderes y Escamitas!</h3>
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
                         Tiene tres características placas verdes en su espalda, puede cambiar de tamaño a voluntad, lanza llamitas de fuego mágico y su comida preferida en todo el universo son los muslitos de pollo crujientes.
                     </p>
                 </div>
             </div>
+            <p class="md:hidden -mt-2 text-center text-xs font-bold text-amber-800/80" aria-hidden="true">👈 Desliza para conocer a todos 👉</p>
         </section>
 
         <!-- 3B. NAILONG EN 3D INTERACTIVO (Three.js bajo demanda: js/11 a js/14) -->
         <section id="nailong-3d" class="reveal-item scroll-mt-24">
-            <div class="n3d-seccion clay-card p-4 sm:p-8 lg:p-10 border-4 border-nailong-yellow bg-gradient-to-br from-nailong-cream via-nailong-belly to-nailong-pale">
-                <div class="text-center max-w-2xl mx-auto mb-5 sm:mb-8 space-y-2">
-                    <span class="bg-nailong-orange text-white px-4 py-1 rounded-full font-display font-bold text-sm">🧊 NAILONG EN 3D</span>
-                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-amber-950">¡Achúchame en 3D!</h2>
-                    <p class="text-amber-900/85 font-semibold">Gíralo, acércate y hazle cosquillas: su pancita rebota, su cabeza pide mimos y su colita se mueve. ¡Cada zona tiene su reacción!</p>
+            <div class="n3d-seccion clay-card p-3 sm:p-8 lg:p-10 border-4 border-nailong-yellow bg-gradient-to-br from-nailong-cream via-nailong-belly to-nailong-pale">
+                <div class="text-center max-w-2xl mx-auto mb-3 sm:mb-8 space-y-2">
+                    <span class="bg-nailong-orange text-white px-4 py-1 rounded-full font-display font-bold text-xs sm:text-sm">🧊 NAILONG EN 3D</span>
+                    <h2 class="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-amber-950">¡Achúchame en 3D!</h2>
+                    <p class="hidden sm:block text-amber-900/85 font-semibold">Gíralo, acércate y hazle cosquillas: su pancita rebota, su cabeza pide mimos y su colita se mueve. ¡Cada zona tiene su reacción!</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-5 lg:gap-6 items-start">
                     <!-- Visor -->
                     <div class="lg:col-span-8">
                         <div id="nailong-3d-visor" class="n3d-visor relative w-full h-[420px] sm:h-[520px] lg:h-[560px] rounded-[2rem] overflow-hidden border-4 border-white shadow-inner bg-gradient-to-b from-[#FFF8DE] via-[#FFF0BF] to-[#FFDB8F]" tabindex="0" role="region" aria-label="Visor 3D de Nailong. Flechas para girar, más y menos para acercar, Intro para hacerle cosquillas." aria-describedby="nailong-3d-ayuda">
@@ -352,7 +364,7 @@
                                 <button id="nailong-3d-pantalla" type="button" class="w-10 h-10 rounded-full bg-white/95 border-2 border-nailong-yellow text-amber-900 shadow-md hover:scale-110 transition-transform" aria-label="Ver a pantalla completa" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
                             </div>
 
-                            <div class="n3d-dock hidden absolute inset-x-0 bottom-14 justify-center gap-2 z-10 px-3">
+                            <div class="n3d-dock hidden absolute inset-x-0 bottom-14 justify-center gap-1.5 sm:gap-2 z-10 px-2">
                                 <button type="button" data-n3d-accion="saludar" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Saludar">👋</button>
                                 <button type="button" data-n3d-accion="duang" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Duang">💛</button>
                                 <button type="button" data-n3d-accion="bailar" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Bailar">💃</button>
@@ -369,30 +381,32 @@
                     </div>
 
                     <!-- Controles -->
-                    <div class="lg:col-span-4 space-y-4">
-                        <div class="bg-white/95 p-4 sm:p-5 rounded-3xl border-3 border-nailong-yellow shadow-md space-y-3">
-                            <p class="font-display font-bold text-amber-950">🎬 ¡Haz que Nailong…!</p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button type="button" data-n3d-accion="saludar" class="p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">👋 Salude</button>
-                                <button type="button" data-n3d-accion="duang" class="p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💛 ¡Duang!</button>
-                                <button type="button" data-n3d-accion="bailar" class="p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💃 Baile</button>
-                                <button type="button" data-n3d-accion="sorpresa" class="p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😮 Se sorprenda</button>
-                                <button type="button" data-n3d-accion="siesta" class="col-span-2 p-2.5 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😴 Se eche una siesta (tócalo para despertarlo)</button>
+                    <div class="lg:col-span-4 space-y-3 lg:space-y-4">
+                        <!-- Acciones: fila deslizable de chips en móvil, rejilla en escritorio -->
+                        <div class="lg:bg-white/95 lg:p-5 lg:rounded-3xl lg:border-2 lg:border-nailong-yellow lg:shadow-md space-y-2 lg:space-y-3">
+                            <p class="hidden lg:block font-display font-bold text-amber-950">🎬 ¡Haz que Nailong…!</p>
+                            <div class="carrusel-chips flex lg:grid lg:grid-cols-2 gap-2 overflow-x-auto lg:overflow-visible -mx-3 px-3 lg:mx-0 lg:px-0 pb-1 lg:pb-0">
+                                <button type="button" data-n3d-accion="saludar" class="shrink-0 whitespace-nowrap px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">👋 Salude</button>
+                                <button type="button" data-n3d-accion="duang" class="shrink-0 whitespace-nowrap px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💛 ¡Duang!</button>
+                                <button type="button" data-n3d-accion="bailar" class="shrink-0 whitespace-nowrap px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💃 Baile</button>
+                                <button type="button" data-n3d-accion="sorpresa" class="shrink-0 whitespace-nowrap px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😮 Sorpresa</button>
+                                <button type="button" data-n3d-accion="siesta" class="shrink-0 whitespace-nowrap lg:col-span-2 px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform" title="Tócalo para despertarlo">😴 Siesta</button>
                             </div>
                         </div>
 
-                        <div class="bg-white/95 p-4 sm:p-5 rounded-3xl border-3 border-nailong-yellow shadow-md space-y-3">
-                            <p class="font-display font-bold text-amber-950">🎨 Estilo</p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button type="button" data-n3d-estilo="suave" aria-pressed="true" class="n3d-activo p-2.5 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">✨ Sticker 3D</button>
-                                <button type="button" data-n3d-estilo="toon" aria-pressed="false" class="p-2.5 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">🖍️ Dibujo animado</button>
+                        <!-- Estilo, foto y modelo: una fila compacta -->
+                        <div class="bg-white/95 p-2.5 sm:p-4 lg:p-5 rounded-3xl border-2 border-nailong-yellow shadow-md space-y-2 lg:space-y-3">
+                            <p class="hidden lg:block font-display font-bold text-amber-950">🎨 Estilo y descargas</p>
+                            <div class="grid grid-cols-4 lg:grid-cols-2 gap-2">
+                                <button type="button" data-n3d-estilo="suave" aria-pressed="true" class="n3d-activo p-2 lg:p-2.5 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-xs lg:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform leading-tight">✨ Sticker<span class="hidden lg:inline"> 3D</span></button>
+                                <button type="button" data-n3d-estilo="toon" aria-pressed="false" class="p-2 lg:p-2.5 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-xs lg:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform leading-tight">🖍️ Dibujo<span class="hidden lg:inline"> animado</span></button>
+                                <button id="nailong-3d-foto" type="button" class="p-2 lg:p-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-xs lg:text-sm shadow-sm transition-colors leading-tight" title="Guardar foto (PNG transparente)">📸 Foto<span class="hidden lg:inline"> PNG</span></button>
+                                <button id="nailong-3d-glb" type="button" class="p-2 lg:p-2.5 rounded-2xl bg-nailong-orange hover:bg-amber-600 text-white font-display font-bold text-xs lg:text-sm shadow-sm transition-colors leading-tight" title="Descargar modelo 3D (.glb)">⬇️ .glb<span class="hidden lg:inline"> 3D</span></button>
                             </div>
-                        </div>
-
-                        <div class="bg-white/95 p-4 sm:p-5 rounded-3xl border-3 border-nailong-yellow shadow-md space-y-2.5">
-                            <button id="nailong-3d-foto" type="button" class="w-full p-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-sm shadow-sm transition-colors">📸 Guardar foto (PNG transparente)</button>
-                            <button id="nailong-3d-glb" type="button" class="w-full p-2.5 rounded-2xl bg-nailong-orange hover:bg-amber-600 text-white font-display font-bold text-sm shadow-sm transition-colors">⬇️ Descargar modelo 3D (.glb)</button>
-                            <p class="text-xs font-semibold text-amber-900/80 leading-relaxed">El modelo incluye esqueleto y animaciones (respirar, saludar, ¡duang!, bailar y sorpresa). Ábrelo en Blender, Unity, Godot o cualquier visor glTF.</p>
+                            <details class="text-xs font-semibold text-amber-900/80 leading-relaxed">
+                                <summary class="cursor-pointer font-bold text-amber-900">¿Qué es el modelo .glb?</summary>
+                                <p class="pt-1">El modelo incluye esqueleto y animaciones (respirar, saludar, ¡duang!, bailar y sorpresa). Ábrelo en Blender, Unity, Godot o cualquier visor glTF.</p>
+                            </details>
                         </div>
                     </div>
                 </div>
@@ -400,37 +414,40 @@
         </section>
 
         <!-- 4. MURO DE GIFS Y ANIMACIONES EN BUCLE REALES (9 ESCENAS VIRALES) -->
-        <section id="galeria" class="space-y-8">
-            <div class="text-center max-w-3xl mx-auto space-y-3 reveal-item">
+        <section id="galeria" class="space-y-5 sm:space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3 reveal-item">
                 <span class="inline-block max-w-full bg-nailong-pink/30 text-rose-950 border-2 border-nailong-pink px-4 py-1.5 rounded-2xl sm:rounded-full font-display font-bold text-xs sm:text-sm text-center leading-snug shadow-sm">
                     📸 STICKERS, ANIMACIONES Y FOTOS
                 </span>
-                <h2 class="font-display font-bold text-3xl sm:text-5xl text-amber-950">
+                <h2 class="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-amber-950">
                     Stickers de <span class="text-nailong-orange">Nailong</span>
                 </h2>
-                <p class="text-lg text-amber-900/85 font-semibold">
+                <p class="hidden sm:block text-lg text-amber-900/85 font-semibold">
                     Llévate los 126 stickers a tu WhatsApp con la app, juega con las animaciones en el Visor Mágico y explora el álbum completo. ¡O añade tus propias fotos!
                 </p>
             </div>
 
+            <!-- App y tráiler (el tráiler va plegado) -->
+            <div class="max-w-4xl mx-auto space-y-4 sm:space-y-5">
             <!-- BANNER DESTACADO APP OFICIAL ANDROID (.APK) -->
-            <div id="android-app-banner" class="clay-card bg-gradient-to-r from-amber-50 via-yellow-100 to-orange-50 border-3 border-amber-400 p-5 sm:p-7 max-w-4xl mx-auto shadow-md reveal-item">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
-                    <div class="flex flex-col sm:flex-row items-center gap-4 min-w-0 flex-1">
-                        <img src="Stickers Nailong/sticker_2.webp" alt="App Oficial Stickers Nailong" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border-2 border-amber-400 bg-white p-1 shadow-sm object-cover flex-shrink-0 animate-bounce">
-                        <div class="space-y-1">
-                            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                                <span class="inline-block bg-nailong-orange text-white text-xs font-display font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
-                                    🚀 ¡NUEVO! APP NATIVA ANDROID
+            <div id="android-app-banner" class="clay-card bg-gradient-to-r from-amber-50 via-yellow-100 to-orange-50 border-3 border-amber-400 p-4 sm:p-7 w-full shadow-md reveal-item">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-5 text-left">
+                    <div class="flex flex-row items-center gap-3 sm:gap-4 min-w-0 flex-1 w-full">
+                        <img src="Stickers Nailong/sticker_2.webp" alt="App Oficial Stickers Nailong" class="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl border-2 border-amber-400 bg-white p-1 shadow-sm object-cover flex-shrink-0 self-start sm:self-center">
+                        <div class="space-y-1 min-w-0">
+                            <div class="flex flex-wrap items-center justify-start gap-1.5 sm:gap-2">
+                                <span class="inline-block bg-nailong-orange text-white text-[10px] sm:text-xs font-display font-bold px-2.5 sm:px-3 py-0.5 rounded-full uppercase tracking-wider">
+                                    🚀 App Android
                                 </span>
-                                <span id="apk-version-badge" class="text-xs font-bold bg-amber-200/90 text-amber-950 px-2.5 py-0.5 rounded-full border border-amber-400">
+                                <span id="apk-version-badge" class="text-[10px] sm:text-xs font-bold bg-amber-200/90 text-amber-950 px-2 sm:px-2.5 py-0.5 rounded-full border border-amber-400">
                                     v4.0.0 APK
                                 </span>
                             </div>
-                            <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">
+                            <h3 class="font-display font-bold text-lg sm:text-2xl text-amber-950 leading-tight">
                                 Stickers Nailong Oficial para WhatsApp
                             </h3>
-                            <p class="text-xs sm:text-sm text-amber-900/85 font-semibold max-w-xl leading-relaxed">
+                            <p class="sm:hidden text-xs text-amber-900/85 font-semibold leading-snug">Los <strong>126 stickers</strong> en 5 packs, con 1 toque.</p>
+                            <p class="hidden sm:block text-sm text-amber-900/85 font-semibold max-w-xl leading-relaxed">
                                 ¡Instala los <strong>126 stickers oficiales</strong> directamente en tu WhatsApp con 1 toque! Incluye los 5 packs completos (97 animados + 29 estáticos) y la carpeta <strong>«Mi Selección»</strong> para crear tus propios packs.
                             </p>
                             <!-- Novedades: se rellenan desde version.json (lo mismo que enseña la app) -->
@@ -440,21 +457,21 @@
                             </details>
                         </div>
                     </div>
-                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center md:flex-col md:flex-nowrap items-stretch gap-3 w-full md:w-auto flex-shrink-0">
-                        <a href="StickersNailong.apk" download="StickersNailong.apk" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-emerald-500 to-[#25D366] hover:from-emerald-600 hover:to-emerald-500 text-white font-display font-bold text-base sm:text-lg px-6 py-3.5 rounded-2xl shadow-lg border-2 border-emerald-300 transition-all hover:scale-105 active:scale-95">
+                    <div class="grid grid-cols-2 sm:flex sm:flex-row sm:flex-wrap sm:justify-center md:flex-col md:flex-nowrap items-stretch gap-2 sm:gap-3 w-full md:w-auto flex-shrink-0">
+                        <a href="StickersNailong.apk" download="StickersNailong.apk" class="col-span-2 clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-emerald-500 to-[#25D366] hover:from-emerald-600 hover:to-emerald-500 text-white font-display font-bold text-base sm:text-lg px-5 sm:px-6 py-3 sm:py-3.5 rounded-2xl shadow-lg border-2 border-emerald-300 transition-all hover:scale-105 active:scale-95">
                             <i class="fa-brands fa-android text-2xl"></i>
                             <span>Descargar APK (<span id="apk-size-label">42 MB</span>)</span>
                         </a>
-                        <a href="#video-promo-section" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-500 text-white font-display font-bold text-base sm:text-lg px-5 py-3.5 rounded-2xl shadow-lg border-2 border-amber-300 transition-all hover:scale-105 active:scale-95">
-                            <i class="fa-solid fa-play text-xl"></i>
-                            <span>Ver Tráiler 🎬</span>
+                        <a href="#video-promo-section" onclick="abrirTrailer()" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-500 text-white font-display font-bold text-sm sm:text-lg px-3 sm:px-5 py-2.5 sm:py-3.5 rounded-2xl shadow-lg border-2 border-amber-300 transition-all hover:scale-105 active:scale-95">
+                            <i class="fa-solid fa-play text-base sm:text-xl"></i>
+                            <span>Tráiler 🎬</span>
                         </a>
-                        <button type="button" id="apk-copy-link-btn" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-amber-50 text-amber-950 font-display font-bold text-sm px-4 py-3 rounded-2xl shadow border-2 border-amber-300 transition-all hover:scale-105 active:scale-95" aria-label="Copiar el enlace de la app para compartirlo">
+                        <button type="button" id="apk-copy-link-btn" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-amber-50 text-amber-950 font-display font-bold text-sm px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl shadow border-2 border-amber-300 transition-all hover:scale-105 active:scale-95" aria-label="Copiar el enlace de la app para compartirlo">
                             <i class="fa-solid fa-link"></i>
                             <span id="apk-copy-link-text">Copiar enlace</span>
                         </button>
                         <!-- W6: En ordenador, al copiar el enlace se despliega un código QR hacia la descarga directa del APK -->
-                        <div id="apk-qr-box" class="hidden clay-card bg-white/95 border-2 border-amber-300 rounded-2xl p-3 text-center shadow-md space-y-1.5 max-w-[210px] mx-auto animate-duang">
+                        <div id="apk-qr-box" class="hidden col-span-2 clay-card bg-white/95 border-2 border-amber-300 rounded-2xl p-3 text-center shadow-md space-y-1.5 max-w-[210px] mx-auto animate-duang">
                             <div class="flex items-center justify-between gap-2 px-1">
                                 <span class="font-display font-bold text-[11px] text-amber-950">📱 Descarga directa APK</span>
                                 <button type="button" onclick="closeApkQrBox()" aria-label="Cerrar código QR" class="text-amber-700 hover:text-rose-600 font-bold text-xs px-1">✕</button>
@@ -468,20 +485,25 @@
                 </div>
             </div>
 
-            <!-- TRÁILER OFICIAL DE LANZAMIENTO - HyperFrames -->
-            <div id="video-promo-section" class="clay-card bg-gradient-to-br from-amber-50 via-yellow-100 to-orange-100 border-3 border-nailong-orange p-5 sm:p-7 max-w-4xl mx-auto shadow-md reveal-item scroll-mt-24">
-                <div class="flex flex-col sm:flex-row items-center gap-6">
+            <!-- TRÁILER OFICIAL DE LANZAMIENTO - HyperFrames (plegado: se despliega al tocarlo) -->
+            <details id="video-promo-section" class="clay-card bg-gradient-to-br from-amber-50 via-yellow-100 to-orange-100 border-3 border-nailong-orange p-3 sm:p-5 w-full shadow-md reveal-item scroll-mt-24">
+                <summary class="trailer-resumen cursor-pointer flex items-center gap-3 sm:gap-4 select-none">
+                    <span class="trailer-cerrado relative w-12 h-20 sm:w-14 sm:h-24 shrink-0 rounded-xl overflow-hidden border-2 border-white shadow-md bg-black">
+                        <img src="video-promo/nailong_trailer_v2_portada.webp" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
+                        <span class="absolute inset-0 flex items-center justify-center text-white text-lg"><i class="fa-solid fa-play"></i></span>
+                    </span>
+                    <span class="flex-1 min-w-0">
+                        <span class="inline-block bg-nailong-orange text-white text-[10px] sm:text-xs font-display font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">🎬 Tráiler oficial</span>
+                        <span class="block font-display font-bold text-base sm:text-2xl text-amber-950 leading-tight mt-1">¡El Mundo Mágico de Nailong en Movimiento!</span>
+                    </span>
+                    <span class="shrink-0 w-9 h-9 rounded-full bg-white border-2 border-nailong-orange text-amber-900 flex items-center justify-center" aria-hidden="true"><i class="trailer-flecha fa-solid fa-chevron-down transition-transform"></i></span>
+                </summary>
+                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-4">
                     <div id="video-player-container" class="w-48 sm:w-56 h-80 sm:h-96 flex-shrink-0 rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black flex items-center justify-center relative group">
                         <canvas id="video-ambient-canvas" aria-hidden="true"></canvas>
                         <video id="trailer-video" src="video-promo/nailong_trailer_v2.mp4" poster="video-promo/nailong_trailer_v2_portada.webp" controls playsinline preload="none" class="w-full h-full object-contain relative z-10 bg-black"></video>
                     </div>
                     <div class="space-y-3 text-center sm:text-left flex-1">
-                        <span class="inline-block bg-nailong-orange text-white text-xs font-display font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                            🎬 TRÁILER OFICIAL DE LANZAMIENTO
-                        </span>
-                        <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950">
-                            ¡El Mundo Mágico de Nailong en Movimiento!
-                        </h3>
                         <p class="text-xs sm:text-sm text-amber-900/85 font-semibold leading-relaxed">
                             Disfruta del tráiler animado oficial creado con <strong>HyperFrames</strong>: físicas elásticas <em>Duang</em>, los 126 stickers de WhatsApp, minijuego arcade y música saltarina original.
                         </p>
@@ -497,6 +519,7 @@
                         </div>
                     </div>
                 </div>
+            </details>
             </div>
 
             <!-- VISOR MÁGICO: tira horizontal con las 9 escenas animadas -->
@@ -506,7 +529,7 @@
                         <span class="bg-nailong-yellow border-2 border-nailong-orange px-3 py-0.5 rounded-full font-display font-bold text-xs text-amber-950 inline-block">🎬 ANIMACIONES EN BUCLE</span>
                         <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950 mt-1">Visor Mágico</h3>
                     </div>
-                    <p class="text-xs sm:text-sm font-semibold text-amber-900/85">Toca una escena para cambiar su velocidad o estamparle stickers 👉</p>
+                    <p class="hidden sm:block text-sm font-semibold text-amber-900/85">Toca una escena para cambiar su velocidad o estamparle stickers 👉</p>
                 </div>
                 <div id="gif-wall-grid" class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
                     <!-- Dynamically populated with real animated webp stickers -->
@@ -514,21 +537,21 @@
             </div>
 
             <!-- BANNER DESTACADO WHATSAPP Y DESCARGA DIRECTA -->
-            <div class="clay-card bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border-3 border-emerald-400 p-5 sm:p-7 text-center max-w-4xl mx-auto shadow-md reveal-item">
-                <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-emerald-900 font-display font-bold text-xl sm:text-3xl leading-snug">
-                    <i class="fa-brands fa-whatsapp text-3xl sm:text-4xl text-[#25D366] animate-bounce"></i>
-                    <span>¡Haz clic en cualquier sticker para copiarlo y pegarlo en WhatsApp como sticker!</span>
-                    <i class="fa-solid fa-cloud-arrow-down text-emerald-600 text-2xl sm:text-3xl"></i>
+            <div class="clay-card bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border-3 border-emerald-400 p-3 sm:p-6 text-left sm:text-center max-w-4xl mx-auto shadow-md reveal-item">
+                <div class="flex items-center sm:justify-center gap-2.5 sm:gap-3 text-emerald-900 font-display font-bold text-sm sm:text-2xl leading-snug">
+                    <i class="fa-brands fa-whatsapp text-3xl sm:text-4xl text-[#25D366] shrink-0"></i>
+                    <span>Toca cualquier cromo para copiarlo y pegarlo en WhatsApp como sticker</span>
+                    <i class="hidden sm:inline fa-solid fa-cloud-arrow-down text-emerald-600 text-2xl sm:text-3xl"></i>
                 </div>
-                <p class="text-xs sm:text-base text-emerald-950/85 font-semibold mt-2.5 max-w-2xl mx-auto leading-relaxed">
+                <p class="hidden sm:block lg:hidden text-base text-emerald-950/85 font-semibold mt-2.5 max-w-2xl mx-auto leading-relaxed">
                     Toca cualquiera de los 126 cromos auténticos para abrir el menú mágico: pulsa «Copiar Sticker» y pégalo en tu chat de WhatsApp (<strong class="text-emerald-800">iPhone / Android</strong>), o descárgalo directo en tu móvil ⭐
                 </p>
             </div>
 
-            <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950 text-center reveal-item">📸 Gran Álbum de Fotos y Cromos</h3>
+            <h3 class="font-display font-bold text-xl sm:text-3xl text-amber-950 text-center reveal-item">📸 Gran Álbum de Cromos</h3>
 
             <!-- Filter Bar + Upload Button -->
-            <div class="flex flex-wrap items-center justify-between gap-4 bg-white/90 p-4 rounded-3xl border-3 border-nailong-yellow shadow-sm reveal-item">
+            <div class="flex flex-wrap items-center justify-between gap-2 sm:gap-4 bg-white/90 p-2.5 sm:p-4 rounded-3xl border-3 border-nailong-yellow shadow-sm reveal-item">
                 <div class="flex flex-wrap items-center gap-2" id="gallery-filters">
                     <button onclick="filterGallery('all', this)" data-filter="all" class="gallery-filter-btn bg-nailong-yellow text-amber-950 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-amber-500 shadow-sm transition-all">
                         ✨ Todas las Fotos (126)
@@ -551,14 +574,14 @@
                 </div>
 
                 <!-- Upload Custom Photo/GIF -->
-                <div>
-                    <div class="flex flex-col items-end">
+                <div class="w-full sm:w-auto">
+                    <div class="flex flex-col items-stretch sm:items-end">
                         <input type="file" id="user-photo-upload" accept="image/*" multiple class="hidden" onchange="handleUserPhotoUpload(event)">
-                        <button onclick="document.getElementById('user-photo-upload').click()" class="clay-btn bg-nailong-orange text-white font-display font-bold px-5 py-2.5 text-sm flex items-center gap-2">
+                        <button onclick="document.getElementById('user-photo-upload').click()" class="clay-btn bg-nailong-orange text-white font-display font-bold px-5 py-2 sm:py-2.5 text-sm flex items-center justify-center gap-2">
                             <i class="fa-solid fa-camera-retro"></i>
-                            <span>📸 ¡Añade tu Foto o Cromo!</span>
+                            <span>¡Añade tu Foto o Cromo!</span>
                         </button>
-                        <span class="text-[10px] sm:text-[11px] font-bold text-amber-800 mt-1 flex items-center gap-1">
+                        <span class="hidden sm:flex text-[11px] font-bold text-amber-800 mt-1 items-center gap-1">
                             <i class="fa-solid fa-cloud-arrow-up text-nailong-orange"></i>
                             <span>Se guardan automáticamente en tu navegador</span>
                         </span>
@@ -567,31 +590,31 @@
             </div>
 
             <!-- Polaroid Grid -->
-            <div id="polaroid-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-7 pt-2">
+            <div id="polaroid-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-5 sm:gap-7 pt-3">
                 <!-- Dynamically populated with the real sticker cards (paginated) -->
             </div>
-            <div id="gallery-load-more-wrap" class="text-center mt-8 hidden">
+            <div id="gallery-load-more-wrap" class="text-center mt-5 sm:mt-8 hidden">
                 <button id="gallery-load-more" type="button" onclick="showMoreGallery()" class="clay-btn bg-nailong-yellow text-amber-950 font-display font-bold px-6 py-4 rounded-3xl text-base sm:text-lg border-3 border-amber-500 min-h-[48px]">🦖 ¡Ver más cromos de Nailong!</button>
             </div>
         </section>
 
         <!-- 6. BOTONERA DE SONIDOS INTERACTIVA ("SOUNDBOARD DUANG") -->
         <section id="soundboard" class="reveal-item">
-            <div class="clay-card p-6 sm:p-10 lg:p-12 border-4 border-nailong-yellow bg-gradient-to-br from-nailong-cream via-nailong-belly to-amber-50">
-                <div class="text-center max-w-2xl mx-auto mb-8 space-y-2">
-                    <span class="bg-nailong-orange text-white px-4 py-1 rounded-full font-display font-bold text-sm">
-                        🔊 BOTONERA DE SONIDOS & CARITAS
+            <div class="clay-card p-3 sm:p-8 lg:p-10 border-4 border-nailong-yellow bg-gradient-to-br from-nailong-cream via-nailong-belly to-amber-50">
+                <div class="text-center max-w-2xl mx-auto mb-4 sm:mb-8 space-y-2">
+                    <span class="bg-nailong-orange text-white px-4 py-1 rounded-full font-display font-bold text-xs sm:text-sm">
+                        🔊 BOTONERA DE SONIDOS
                     </span>
-                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-amber-950">
+                    <h2 class="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-amber-950">
                         ¡La Botonera Musical de Nailong!
                     </h2>
-                    <p class="text-amber-900/85 font-semibold">
+                    <p class="hidden sm:block text-amber-900/85 font-semibold">
                         Haz clic en cada carita de Nailong para escuchar sus divertidos sonidos y expresiones de la serie.
                     </p>
                 </div>
 
                 <!-- Sound Tiles Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6" id="soundboard-grid">
+                <div class="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-5" id="soundboard-grid">
                     <!-- Populated by JavaScript with sound buttons -->
                 </div>
             </div>
@@ -599,26 +622,31 @@
 
         <!-- 7. LABORATORIO DE SUPERPODERES CON NAILONG REAL -->
         <section id="poderes" class="reveal-item">
-            <div class="clay-card p-6 sm:p-10 lg:p-12 bg-gradient-to-br from-nailong-cream via-nailong-belly to-nailong-pale">
-                <div class="text-center max-w-2xl mx-auto mb-8 space-y-2">
-                    <span class="bg-nailong-orange text-white px-4 py-1 rounded-full font-display font-bold text-sm">
+            <div class="clay-card p-3 sm:p-8 lg:p-10 bg-gradient-to-br from-nailong-cream via-nailong-belly to-nailong-pale">
+                <div class="text-center max-w-2xl mx-auto mb-4 sm:mb-8 space-y-2">
+                    <span class="bg-nailong-orange text-white px-4 py-1 rounded-full font-display font-bold text-xs sm:text-sm">
                         ⚡ LABORATORIO INTERACTIVO
                     </span>
-                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-amber-950">
+                    <h2 class="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-amber-950">
                         ¡Prueba los Súper Poderes de Nailong!
                     </h2>
-                    <p class="text-amber-900/85 font-semibold">
+                    <p class="hidden sm:block text-amber-900/85 font-semibold">
                         Cambia su tamaño de chiquitito a gigante, transfórmalo en un dragón camaleón de colores y lanza llamitas mágicas desde su boca.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                    <!-- Controls Panel -->
-                    <div class="lg:col-span-5 space-y-6 bg-white/95 p-6 rounded-3xl border-3 border-nailong-yellow shadow-md">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-6 lg:gap-8 items-center">
+                    <!-- Controls Panel: pestañas (tamaño, color, disfraces) + poderes siempre visibles -->
+                    <div class="order-2 lg:order-1 lg:col-span-5 space-y-3 sm:space-y-4 bg-white/95 p-3 sm:p-5 rounded-3xl border-2 border-nailong-yellow shadow-md">
+                        <div class="grid grid-cols-3 gap-1.5 sm:gap-2" role="tablist" aria-label="Poderes del laboratorio">
+                            <button type="button" role="tab" id="lab-tab-tamano" aria-controls="lab-panel-tamano" aria-selected="true" onclick="mostrarPestanaLab('tamano')" class="lab-tab px-2 py-2 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-900 transition-colors">📏 Tamaño</button>
+                            <button type="button" role="tab" id="lab-tab-color" aria-controls="lab-panel-color" aria-selected="false" onclick="mostrarPestanaLab('color')" class="lab-tab px-2 py-2 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-900 transition-colors">🎨 Color</button>
+                            <button type="button" role="tab" id="lab-tab-disfraz" aria-controls="lab-panel-disfraz" aria-selected="false" onclick="mostrarPestanaLab('disfraz')" class="lab-tab px-2 py-2 rounded-2xl bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-900 transition-colors">🎭 Disfraces</button>
+                        </div>
                         <!-- Power 1: Size Slider -->
-                        <div class="space-y-2">
+                        <div id="lab-panel-tamano" role="tabpanel" aria-labelledby="lab-tab-tamano" class="lab-panel space-y-2">
                             <div class="flex justify-between font-display font-bold text-amber-950">
-                                <span>📏 1. Poder de Tamaño:</span>
+                                <span class="text-sm sm:text-base">📏 Poder de tamaño:</span>
                                 <span id="power-size-label" class="text-nailong-orange">Normal (100%)</span>
                             </div>
                             <input id="power-size-slider" type="range" min="50" max="155" value="100" oninput="updatePowerSize(this.value)" class="w-full h-4 bg-nailong-pale rounded-lg appearance-none cursor-pointer accent-nailong-orange border-2 border-nailong-yellow">
@@ -630,9 +658,9 @@
                         </div>
 
                         <!-- Power 2: Chameleon Color Changer -->
-                        <div class="space-y-2.5">
-                            <span class="font-display font-bold text-amber-950 block">🎨 2. Modo Camaleón (Cambia su Color):</span>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5">
+                        <div id="lab-panel-color" role="tabpanel" aria-labelledby="lab-tab-color" class="lab-panel hidden space-y-2.5">
+                            <span class="font-display font-bold text-amber-950 block text-sm sm:text-base">🎨 Modo Camaleón (cambia su color):</span>
+                            <div class="grid grid-cols-3 gap-2 sm:gap-2.5">
                                 <button onclick="setLabColor('0deg', 'Amarillo Leche')" class="p-2.5 rounded-2xl bg-[#FFD93D] border-2 border-amber-600 font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
                                     💛 Amarillo
                                 </button>
@@ -655,8 +683,8 @@
                         </div>
 
                         <!-- Power 3: Costumes -->
-                        <div class="space-y-2">
-                            <span class="font-display font-bold text-amber-950 block text-sm">🎭 3. Disfraces Mágicos:</span>
+                        <div id="lab-panel-disfraz" role="tabpanel" aria-labelledby="lab-tab-disfraz" class="lab-panel hidden space-y-2">
+                            <span class="font-display font-bold text-amber-950 block text-sm">🎭 Disfraces mágicos:</span>
                             <div class="grid grid-cols-3 gap-2">
                                 <button onclick="setLabCostume('sticker_19.webp', 'Alegre')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
                                     😄 Alegre
@@ -680,7 +708,7 @@
                         </div>
 
                         <!-- Power 4: Acciones Especiales (4 poderes) -->
-                        <div class="pt-1 grid grid-cols-2 gap-2.5">
+                        <div class="pt-2 border-t-2 border-nailong-pale grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-2 sm:gap-2.5">
                             <button onclick="shootLabFire()" class="clay-btn bg-gradient-to-r from-nailong-orange to-rose-500 text-white font-display font-bold py-3 px-3 text-xs sm:text-sm flex items-center justify-center gap-1.5">
                                 <span>🔥</span><span>¡Llamitas!</span>
                             </button>
@@ -697,9 +725,9 @@
                     </div>
 
                     <!-- Lab Stage Preview with Real Nailong & Particle Canvas -->
-                    <div class="lg:col-span-7 relative h-80 sm:h-96 bg-gradient-to-b from-sky-100/90 to-nailong-belly rounded-3xl border-4 border-nailong-yellow overflow-hidden flex items-center justify-center shadow-inner">
+                    <div class="order-1 lg:order-2 lg:col-span-7 relative h-64 sm:h-96 bg-gradient-to-b from-sky-100/90 to-nailong-belly rounded-3xl border-4 border-nailong-yellow overflow-hidden flex items-center justify-center shadow-inner">
                         <!-- Stage Status Badge -->
-                        <div id="lab-status-badge" class="absolute top-4 left-4 z-20 bg-white/90 border-2 border-nailong-yellow px-4 py-1.5 rounded-full font-display font-bold text-sm text-amber-900 shadow-sm">
+                        <div id="lab-status-badge" class="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-white/90 border-2 border-nailong-yellow px-3 sm:px-4 py-1 sm:py-1.5 rounded-full font-display font-bold text-xs sm:text-sm text-amber-900 shadow-sm">
                             ✨ Color: Amarillo Leche
                         </div>
 
@@ -707,7 +735,7 @@
                         <canvas id="lab-fire-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
 
                         <!-- Real Transparent Nailong Lab Avatar -->
-                        <div id="lab-nailong-figure" class="transition-transform duration-300 ease-out relative z-0 w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
+                        <div id="lab-nailong-figure" class="transition-transform duration-300 ease-out relative z-0 w-44 h-44 sm:w-80 sm:h-80 flex items-center justify-center">
                             <img id="lab-nailong-img" src="Stickers Nailong/sticker_19.webp" alt="Nailong en el laboratorio" loading="lazy" decoding="async" class="w-full h-full object-contain drop-shadow-xl select-none">
                         </div>
                     </div>
@@ -717,16 +745,16 @@
 
         <!-- 8. MINIJUEGO: "¡LA GRAN COMILONA DE NAILONG!" -->
         <section id="minijuego" class="reveal-item">
-            <div class="clay-card p-4 sm:p-10 border-4 border-nailong-orange">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+            <div class="clay-card p-3 sm:p-8 border-4 border-nailong-orange">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 mb-3 sm:mb-6 text-center md:text-left">
                     <div>
-                        <span class="bg-nailong-yellow px-4 py-1 rounded-full font-display font-bold text-sm text-amber-950">
+                        <span class="bg-nailong-yellow px-4 py-1 rounded-full font-display font-bold text-xs sm:text-sm text-amber-950">
                             🎮 MINIJUEGO INTERACTIVO
                         </span>
-                        <h2 class="font-display font-bold text-3xl sm:text-4xl text-amber-950 mt-1">
+                        <h2 class="font-display font-bold text-2xl sm:text-4xl text-amber-950 mt-1">
                             🍗 ¡La Gran Comilona de Nailong!
                         </h2>
-                        <p class="text-amber-900/85 font-semibold text-sm sm:text-base">
+                        <p class="hidden sm:block text-amber-900/85 font-semibold text-sm sm:text-base">
                             Mueve el ratón, las teclas ← / → o desliza tu dedo para que Nailong atrape muslitos de pollo 🍗, pasteles 🍰 y biberones 🍼. ¡Esquiva las bombas de Bombloong 💣!
                         </p>
                     </div>
@@ -748,7 +776,7 @@
                 </div>
 
                 <!-- Responsive Game Canvas Container -->
-                <div id="game-container" class="relative w-full h-[460px] sm:h-[540px] md:h-[600px] lg:h-[660px] bg-gradient-to-b from-sky-200 via-sky-100 to-amber-100 rounded-3xl border-4 border-nailong-yellow overflow-hidden shadow-inner cursor-ew-resize touch-none select-none">
+                <div id="game-container" class="relative w-full h-[460px] sm:h-[540px] md:h-[560px] lg:h-[580px] bg-gradient-to-b from-sky-200 via-sky-100 to-amber-100 rounded-3xl border-4 border-nailong-yellow overflow-hidden shadow-inner cursor-ew-resize touch-none select-none">
                     <canvas id="food-game-canvas" class="w-full h-full block"></canvas>
 
                     <!-- Floating Fullscreen / Exit Fullscreen Button inside Game -->
@@ -807,28 +835,28 @@
 
         <!-- SECCIÓN ESPECIAL: EL CREADOR DE LA PÁGINA CON NAILONG -->
         <section id="creador" class="reveal-item">
-            <div class="clay-card p-6 sm:p-10 lg:p-12 relative overflow-hidden bg-gradient-to-br from-amber-50 via-nailong-cream to-yellow-50 border-4 border-nailong-yellow">
+            <div class="clay-card p-4 sm:p-8 lg:p-10 relative overflow-hidden bg-gradient-to-br from-amber-50 via-nailong-cream to-yellow-50 border-4 border-nailong-yellow">
                 <!-- Ambient Glows -->
                 <div class="absolute -top-10 -right-10 w-48 h-48 bg-nailong-yellow/30 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-nailong-orange/20 rounded-full blur-3xl pointer-events-none"></div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-center">
                     <!-- Left: Text & Badges -->
-                    <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+                    <div class="lg:col-span-7 space-y-3 sm:space-y-5 text-center lg:text-left">
                         <div class="inline-flex items-center gap-2 bg-nailong-yellow/60 border-2 border-nailong-orange px-4 py-1.5 rounded-full text-amber-950 font-display font-bold text-xs sm:text-sm shadow-sm">
                             <span class="text-base animate-bounce">🌟</span> ¡MOMENTO ESPECIAL DE LA COMUNIDAD!
                         </div>
 
-                        <h2 class="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-amber-950 leading-tight">
+                        <h2 class="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-amber-950 leading-tight">
                             ¡Aquí tenemos al <span class="text-nailong-orange underline decoration-wavy decoration-nailong-yellow">creador de la página</span> con Nailong! 🦖💛
                         </h2>
 
-                        <p class="text-base sm:text-lg text-amber-900/90 font-semibold leading-relaxed">
+                        <p class="text-sm sm:text-lg text-amber-900/90 font-semibold leading-relaxed line-clamp-3 sm:line-clamp-none">
                             ¡Mirad qué amigables son juntos! El creador de este rincón mágico conoció en persona al dragón de leche más famoso del universo. Nailong estaba tan contento con la visita que no paraba de sonreír, dar saltitos y pedir un poquito de pollo frito crujiente. ¡Una amistad mágica para siempre!
                         </p>
 
                         <!-- Highlights / Mini Perks -->
-                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
+                        <div class="hidden sm:flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
                             <div class="bg-white/90 border-2 border-nailong-yellow px-4 py-2 rounded-2xl flex items-center gap-2 shadow-xs">
                                 <span class="text-xl">🤝</span>
                                 <span class="text-xs sm:text-sm font-bold text-amber-950">¡Amigos Inseparables!</span>
@@ -844,11 +872,11 @@
                         </div>
 
                         <!-- Interactive Buttons -->
-                        <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
-                            <button onclick="triggerPartyMode(); playSound('fanfare');" class="clay-btn bg-nailong-orange text-white font-display font-bold px-6 py-3 text-sm sm:text-base flex items-center gap-2">
+                        <div class="sm:pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                            <button onclick="triggerPartyMode(); playSound('fanfare');" class="clay-btn bg-nailong-orange text-white font-display font-bold px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base flex items-center gap-2">
                                 <span>🎉 ¡Celebrar con Confeti!</span>
                             </button>
-                            <button onclick="openCreatorLightbox()" class="clay-btn clay-btn-yellow font-display font-bold px-5 py-3 text-sm sm:text-base flex items-center gap-2">
+                            <button onclick="openCreatorLightbox()" class="clay-btn clay-btn-yellow font-display font-bold px-5 py-2.5 sm:py-3 text-sm sm:text-base flex items-center gap-2">
                                 <i class="fa-solid fa-expand text-amber-950"></i>
                                 <span>Ver Foto Completa</span>
                             </button>
@@ -862,14 +890,14 @@
                             <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-20 w-28 h-7 bg-nailong-pale/90 border border-amber-300 rounded-xs shadow-xs transform -rotate-2 pointer-events-none opacity-85"></div>
                             
                             <!-- Polaroid Frame -->
-                            <div class="bg-white p-4 pb-6 rounded-3xl shadow-2xl border-4 border-amber-200 transform hover:scale-102 hover:-rotate-1 transition-all duration-300 max-w-xs sm:max-w-sm">
-                                <div class="w-64 h-80 sm:w-72 sm:h-96 rounded-2xl overflow-hidden bg-amber-50 relative border-2 border-amber-100 flex items-center justify-center">
+                            <div class="bg-white p-3 sm:p-4 pb-4 sm:pb-6 rounded-3xl shadow-2xl border-4 border-amber-200 transform hover:scale-102 hover:-rotate-1 transition-all duration-300 max-w-xs sm:max-w-sm">
+                                <div class="w-52 h-64 sm:w-72 sm:h-96 rounded-2xl overflow-hidden bg-amber-50 relative border-2 border-amber-100 flex items-center justify-center">
                                     <img src="Stickers Nailong/creador_nailong.webp" alt="El creador de la página con Nailong" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     <span class="absolute top-3 left-3 bg-nailong-yellow border-2 border-amber-500 text-amber-950 font-display font-bold text-xs px-3 py-1 rounded-full shadow-sm">
                                         🌟 Creador & Nailong
                                     </span>
                                 </div>
-                                <div class="pt-4 text-center">
+                                <div class="pt-3 sm:pt-4 text-center">
                                     <p class="font-display font-bold text-amber-950 text-base sm:text-lg">
                                         ¡Nailong & Creador! 🦖💛
                                     </p>
@@ -892,14 +920,14 @@
     </main>
 
     <!-- FOOTER DULCE -->
-    <footer class="bg-nailong-pale/95 border-t-4 border-nailong-yellow py-12 pb-[max(3rem,calc(env(safe-area-inset-bottom,0px)+2rem))] px-4 text-center relative z-10">
+    <footer class="bg-nailong-pale/95 border-t-4 border-nailong-yellow py-8 sm:py-12 pb-[max(2rem,calc(env(safe-area-inset-bottom,0px)+1.5rem))] px-4 text-center relative z-10">
         <div class="max-w-4xl mx-auto space-y-4">
-            <div class="flex justify-center items-center gap-3 font-display font-bold text-2xl sm:text-3xl text-amber-950">
+            <div class="flex justify-center items-center gap-3 font-display font-bold text-xl sm:text-3xl text-amber-950">
                 <img src="Stickers Nailong/sticker_2.webp" alt="Nailong mini" loading="lazy" decoding="async" class="w-10 h-10 object-contain">
                 <span>Nailong Fan Club Oficial</span>
                 <img src="Stickers Nailong/sticker_19.webp" alt="Nailong mini 2" loading="lazy" decoding="async" class="w-10 h-10 object-contain">
             </div>
-            <p class="text-amber-900/85 font-semibold text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            <p class="text-amber-900/85 font-semibold text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
                 Página web inmersiva dedicada a <strong>Nailong (Nailoong)</strong>, el entrañable dragón de leche amarillo creado por Xie Chengen y Seventh Impression. Realizada con fotos y stickers auténticos para todos sus pequeños fans.
             </p>
             <div class="pt-3 flex flex-wrap justify-center gap-3">
@@ -1211,19 +1239,19 @@
     </div>
 
     <!-- JAVASCRIPT: LOGIC, DATA, AUDIO SYNTHESIZER & MINIGAME -->
-    <script src="js/01-audio.js?v=4.0.0"></script>
-    <script src="js/02-datos-stickers.js?v=4.0.0"></script>
-    <script src="js/03-hero.js?v=4.0.0"></script>
-    <script src="js/04-navegacion.js?v=4.0.0"></script>
-    <script src="js/05-visor-magico.js?v=4.0.0"></script>
-    <script src="js/06-album-y-descargas.js?v=4.0.0"></script>
-    <script src="js/07-sonidos-y-laboratorio.js?v=4.0.0"></script>
-    <script src="js/08-minijuego.js?v=4.0.0"></script>
-    <script src="js/09-modo-fiesta.js?v=4.0.0"></script>
-    <script src="js/10-inicio.js?v=4.0.0"></script>
-    <script src="js/11-nailong3d-geometria.js?v=4.0.0"></script>
-    <script src="js/12-nailong3d-escena.js?v=4.0.0"></script>
-    <script src="js/13-nailong3d-animacion.js?v=4.0.0"></script>
-    <script src="js/14-nailong3d-visor.js?v=4.0.0"></script>
+    <script src="js/01-audio.js?v=4.0.0-web1"></script>
+    <script src="js/02-datos-stickers.js?v=4.0.0-web1"></script>
+    <script src="js/03-hero.js?v=4.0.0-web1"></script>
+    <script src="js/04-navegacion.js?v=4.0.0-web1"></script>
+    <script src="js/05-visor-magico.js?v=4.0.0-web1"></script>
+    <script src="js/06-album-y-descargas.js?v=4.0.0-web1"></script>
+    <script src="js/07-sonidos-y-laboratorio.js?v=4.0.0-web1"></script>
+    <script src="js/08-minijuego.js?v=4.0.0-web1"></script>
+    <script src="js/09-modo-fiesta.js?v=4.0.0-web1"></script>
+    <script src="js/10-inicio.js?v=4.0.0-web1"></script>
+    <script src="js/11-nailong3d-geometria.js?v=4.0.0-web1"></script>
+    <script src="js/12-nailong3d-escena.js?v=4.0.0-web1"></script>
+    <script src="js/13-nailong3d-animacion.js?v=4.0.0-web1"></script>
+    <script src="js/14-nailong3d-visor.js?v=4.0.0-web1"></script>
 </body>
 </html>

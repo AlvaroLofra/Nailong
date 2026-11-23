@@ -29,16 +29,21 @@
             document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
         }
 
-        // Resalta en la navbar la sección que se está viendo
+        // Resalta en la navbar (y en la barra inferior del móvil) la sección que se está viendo
         function setupScrollSpy() {
             const ids = ['inicio', 'historia', 'nailong-3d', 'creador', 'muro-gifs', 'galeria', 'soundboard', 'poderes', 'minijuego'];
             const links = document.querySelectorAll('#desktop-nav-links a[href^="#"]');
-            if (!links.length || !('IntersectionObserver' in window)) return;
+            const bottomLinks = document.querySelectorAll('#bottom-nav [data-secciones]');
+            if (!(links.length || bottomLinks.length) || !('IntersectionObserver' in window)) return;
             const obs = new IntersectionObserver((entries) => {
                 entries.forEach(en => {
                     if (!en.isIntersecting) return;
                     links.forEach(a => {
                         if (a.getAttribute('href') === '#' + en.target.id) a.setAttribute('aria-current', 'true');
+                        else a.removeAttribute('aria-current');
+                    });
+                    bottomLinks.forEach(a => {
+                        if (a.dataset.secciones.split(' ').includes(en.target.id)) a.setAttribute('aria-current', 'true');
                         else a.removeAttribute('aria-current');
                     });
                 });
@@ -179,6 +184,20 @@
             video.addEventListener('seeked', updateAmbientFrame);
         }
 
+        // El tráiler vive plegado en un <details>: el botón «Tráiler» del banner lo despliega antes de saltar a él
+        function abrirTrailer() {
+            const box = document.getElementById('video-promo-section');
+            if (box) box.open = true;
+        }
+
+        // Al plegar el tráiler, se pausa el vídeo para que no siga sonando oculto
+        function setupTrailerFold() {
+            const box = document.getElementById('video-promo-section');
+            const video = document.getElementById('trailer-video');
+            if (!box || !video) return;
+            box.addEventListener('toggle', () => { if (!box.open && !video.paused) video.pause(); });
+        }
+
         function toggleTrailerFullscreen() {
             const container = document.getElementById('video-player-container');
             if (!container) return;
@@ -219,6 +238,7 @@
             setupScrollSpy();
             setupCompanionAutoHide();
             setupTrailerAmbientLight();
+            setupTrailerFold();
             setupModalScrollLock();
             // El canvas de fiesta solo se dimensiona mientras hay confeti activo (ahorra VRAM en reposo)
             const initParty = () => {
