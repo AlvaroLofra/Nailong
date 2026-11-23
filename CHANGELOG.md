@@ -29,13 +29,7 @@ Medido en Chromium: la página pasa de **18,7 a 9,2 pantallas** en móvil (375×
   - **Laboratorio:** la vista previa queda arriba en móvil y los controles van en **pestañas** (Tamaño · Color · Disfraces) con `mostrarPestanaLab()`; los cuatro poderes siguen siempre visibles.
   - **Minijuego:** el lienzo de escritorio es algo más bajo (`lg:h-[580px]`).
   - **Creador y pie:** texto recortado en móvil.
-- **Nailong 3D más fiel a la serie (`js/11`, `js/12`, `js/13`, `js/14`; detalle en la nota técnica 05):**
-  - **Ojos:** más pequeños, separados, laterales y saltones. Iris verde bosque con aro lima y anillo blanco, y párpado superior caído por defecto, la mirada «perezosa» de la serie.
-  - **Cabeza:** forma de pulgar con el morro adelantado y sin escalón de cuello.
-  - **Boca:** pequeña y casi recta cerrada; abierta, una «D» grande con lengua y 6 dientecitos.
-  - **Piel:** amarillo mostaza mate con pelusilla aterciopelada (mejora 3D1). Pancita crema más baja y difusa, y rubor casi invisible.
-  - **Detalles:** sin almohadillas rosas, uñitas cónicas marrón oscuro y placas oliva-marrón desde la coronilla hasta la nuca.
-  - **Expresiones (mejora 3D2):** reposo relajado; nuevas acciones **😆 Risa** (ojos «^ ^» y lengua fuera) y **😱 Grito** (boca enorme), con botón propio y sus clips en el GLB (ahora 7).
+- **Nailong 3D:** sin cambios en el modelo. Una versión más fiel a la serie (ojos, boca, piel, placas y acciones de risa y grito) queda guardada en la rama `nailong-3d-fiel`, sin publicar, hasta que se decida adoptarla.
 - **Estilo común:** menos espacio entre secciones, títulos `h2` algo más pequeños en móvil y tarjetas «clay» que no se levantan en pantallas táctiles (`@media (hover: none)`).
 - **Verificación:** `verify_all.py` pasa entero (52 comprobaciones) saltando solo las que leen el código Android de `C:\src`, que no existe en este equipo. Sin desbordes horizontales a 320, 375, 768 y 1440 px, y sin errores en la consola.
 - **No comprobado:** Safari en iPhone real (zona segura con la barra inferior) y Android real.

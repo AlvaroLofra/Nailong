@@ -47,6 +47,10 @@ Se hizo en una sesión aparte («Nailong 3D más fiel a la serie»), sobre `js/1
 - **Expresiones:** se añaden las acciones `risa` y `grito`.
 - **Proporciones del test 49:** se mantienen (cab/tor 0,916; tor/alt 0,599), así que no hubo que tocar el test.
 - **Integración en esta sesión:** botones 😆 Risa y 😱 Grito en la fila de acciones y en el dock de pantalla completa; `NOMBRES` y `SONIDOS` en `js/14`; y los clips `risa` y `grito` en `exportarGLB`. El GLB exportado trae 7 clips (comprobado leyendo su JSON en el navegador).
+- **Decisión del usuario (mismo día):** se guarda el diseño nuevo, pero **de momento se mantiene el 3D anterior**.
+  - La rama `nailong-3d-fiel` lo contiene todo: web nueva, 3D nuevo y su documentación.
+  - `main` lleva la web nueva con `js/11`–`js/14` y la nota 05 como estaban, sin los botones Risa y Grito.
+  - Para adoptar el 3D nuevo más adelante: `git checkout nailong-3d-fiel -- js/11-nailong3d-geometria.js js/12-nailong3d-escena.js js/13-nailong3d-animacion.js js/14-nailong3d-visor.js documentacion/notas_tecnicas/05_nailong_3d.md`, más los botones de `index.html`.
 
 ## Verificación
 - **`verify_all.py`:** en este equipo se detiene en el test 43 porque no existe `C:\src\nailong_stickers_app`, el código Android. Ejecutado saltando solo las líneas que leen ese código, pasan las 52 comprobaciones.
