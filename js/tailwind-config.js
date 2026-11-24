@@ -19,8 +19,8 @@
                         }
                     },
                     fontFamily: {
-                        display: ['Fredoka', 'sans-serif'],
-                        body: ['Quicksand', 'sans-serif']
+                        display: ['Fredoka', 'Fredoka-Fallback', 'sans-serif'],
+                        body: ['Quicksand', 'Quicksand-Fallback', 'sans-serif']
                     }
                 }
             }

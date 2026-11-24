@@ -1,11 +1,91 @@
         /* ==============================================================
            14. INITIALIZATION, PARTICLES & SCROLL OBSERVER
         ============================================================== */
+        const PARTICLES_PAUSED_STORAGE_KEY = 'nailong_particles_paused_v1';
+        let bgParticlesPaused = false;
+        let bgParticlesCreated = false;
+
+        function prefersReducedMotion() {
+            return Boolean(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        }
+
+        function readSavedParticlesPaused() {
+            try {
+                return sessionStorage.getItem(PARTICLES_PAUSED_STORAGE_KEY) === '1';
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function saveParticlesPaused(paused) {
+            try {
+                sessionStorage.setItem(PARTICLES_PAUSED_STORAGE_KEY, paused ? '1' : '0');
+            } catch (e) {}
+        }
+
+        function syncParticlesToggleUI() {
+            const paused = bgParticlesPaused || prefersReducedMotion();
+            document.body.classList.toggle('particles-paused', paused);
+            const btn = document.getElementById('particles-toggle-btn');
+            const icon = document.getElementById('particles-icon');
+            if (btn) {
+                btn.setAttribute('aria-pressed', paused ? 'true' : 'false');
+                const label = paused ? 'Reanudar partículas de fondo' : 'Pausar partículas de fondo';
+                btn.setAttribute('aria-label', label);
+                btn.setAttribute('title', label);
+                btn.classList.toggle('bg-amber-200', paused);
+                btn.classList.toggle('border-amber-500', paused);
+                btn.classList.toggle('bg-nailong-belly', !paused);
+                btn.classList.toggle('border-nailong-yellow', !paused);
+            }
+            if (icon) {
+                icon.className = paused
+                    ? 'fa-solid fa-play text-xs sm:text-sm'
+                    : 'fa-solid fa-wand-magic-sparkles text-sm sm:text-base';
+            }
+            const mobileStatus = document.getElementById('mobile-particles-status');
+            if (mobileStatus) {
+                mobileStatus.textContent = paused ? 'Pausadas' : 'Activas';
+                mobileStatus.className = paused
+                    ? 'text-xs bg-amber-200 text-amber-950 px-2 py-0.5 rounded-full font-bold'
+                    : 'text-xs bg-nailong-pale text-amber-950 px-2 py-0.5 rounded-full font-bold';
+            }
+        }
+
+        function initParticlesToggleState() {
+            bgParticlesPaused = prefersReducedMotion() || readSavedParticlesPaused();
+            syncParticlesToggleUI();
+        }
+
+        function toggleBackgroundParticles() {
+            if (typeof playSound === 'function') playSound('pop');
+            if (prefersReducedMotion()) {
+                bgParticlesPaused = true;
+                syncParticlesToggleUI();
+                if (typeof showDuangToast === 'function') {
+                    showDuangToast('Tu dispositivo tiene activado el movimiento reducido.');
+                }
+                return;
+            }
+            bgParticlesPaused = !bgParticlesPaused;
+            saveParticlesPaused(bgParticlesPaused);
+            if (!bgParticlesPaused && !bgParticlesCreated) {
+                createBackgroundFloatingParticles();
+            }
+            syncParticlesToggleUI();
+        }
+
         function createBackgroundFloatingParticles() {
             const container = document.getElementById('bg-particles');
+            if (!container || bgParticlesCreated) return;
+            if (prefersReducedMotion()) {
+                bgParticlesPaused = true;
+                syncParticlesToggleUI();
+                return;
+            }
             const items = ['⭐', '🫧', '🍗', '✨', '🍼', '💛', '🍰'];
-            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             const particleCount = window.innerWidth < 640 ? 10 : 18;
+            const frag = document.createDocumentFragment();
             for (let i = 0; i < particleCount; i++) {
                 const el = document.createElement('div');
                 el.className = 'bg-particle text-xl sm:text-2xl select-none';
@@ -13,8 +93,11 @@
                 el.style.left = `${Math.random() * 95}vw`;
                 el.style.animationDuration = `${14 + Math.random() * 18}s`;
                 el.style.animationDelay = `-${Math.random() * 20}s`;
-                container.appendChild(el);
+                frag.appendChild(el);
             }
+            container.appendChild(frag);
+            bgParticlesCreated = true;
+            syncParticlesToggleUI();
         }
 
         function setupScrollObserver() {
@@ -220,26 +303,48 @@
             }
         }
 
+        // W27: difiere tareas fuera del primer pantallazo sin bloquear la interacción inicial
+        function diferirArranque(fn, timeout) {
+            if (typeof window.requestIdleCallback === 'function') {
+                window.requestIdleCallback(fn, { timeout: timeout || 800 });
+            } else {
+                setTimeout(fn, 1);
+            }
+        }
+
         window.onload = function() {
-            loadUserPhotosFromStorage();
-            updateFilterCounts();
-            renderGifWall();
-            renderPolaroidGallery('all');
-            renderSoundboard();
-            createBackgroundFloatingParticles();
+            // Inmediato: visible en el primer pantallazo y gestores globales ligeros
+            initParticlesToggleState();
             setupScrollObserver();
-            resizeGameCanvas();
-            setupGameControls();
-            setupGameVisibilityPause();
-            setupAppBanner();
-            setupModalSwipeGestures('magic-modal', nextMagicGif, prevMagicGif);
-            setupModalSwipeGestures('photo-lightbox', nextLightboxPhoto, prevLightboxPhoto);
-            setupModalBackdrops();
             setupScrollSpy();
             setupCompanionAutoHide();
-            setupTrailerAmbientLight();
-            setupTrailerFold();
+            setupModalBackdrops();
             setupModalScrollLock();
+
+            // Diferido por bloques para no bloquear el hilo principal al arrancar (W27)
+            diferirArranque(() => {
+                loadUserPhotosFromStorage();
+                updateFilterCounts();
+                renderGifWall();
+                renderPolaroidGallery('all');
+            }, 350);
+
+            diferirArranque(() => {
+                renderSoundboard();
+                setupAppBanner();
+                createBackgroundFloatingParticles();
+            }, 600);
+
+            diferirArranque(() => {
+                resizeGameCanvas();
+                setupGameControls();
+                setupGameVisibilityPause();
+                setupModalSwipeGestures('magic-modal', nextMagicGif, prevMagicGif);
+                setupModalSwipeGestures('photo-lightbox', nextLightboxPhoto, prevLightboxPhoto);
+                setupTrailerAmbientLight();
+                setupTrailerFold();
+            }, 900);
+
             // El canvas de fiesta solo se dimensiona mientras hay confeti activo (ahorra VRAM en reposo)
             const initParty = () => {
                 const pc = document.getElementById('party-canvas');

@@ -55,7 +55,7 @@
             const badge = document.createElement('div');
             const emojis = ['💛', '✨', '🍗', '💖', '🍼', '🍮', '¡DUANG!'];
             const pick = emojis[Math.floor(Math.random() * emojis.length)];
-            badge.className = 'absolute font-display font-bold text-xl sm:text-2xl text-nailong-orange pointer-events-none transition-all duration-700 select-none';
+            badge.className = 'absolute font-display font-bold text-xl sm:text-2xl text-[#C2410C] pointer-events-none transition-all duration-700 select-none';
             badge.style.left = `${30 + Math.random() * 40}%`;
             badge.style.top = `${35 + Math.random() * 25}%`;
             badge.textContent = pick;

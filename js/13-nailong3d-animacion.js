@@ -14,6 +14,7 @@
                 saltoY: [0, 9, 0.85], aplastar: [1, 4.2, 0.30], incX: [0, 3.2, 0.45], incZ: [0, 3.2, 0.42], girY: [0, 2.4, 0.8],
                 cadZ: [0, 3, 0.6], cabX: [0, 3, 0.55], cabY: [0, 2.6, 0.7], cabZ: [0, 3, 0.5],
                 bIX: [0, 3.4, 0.6], bIY: [0, 3.4, 0.6], bIZ: [0, 3.4, 0.55], bDX: [0, 3.4, 0.6], bDY: [0, 3.4, 0.6], bDZ: [0, 3.4, 0.55],
+                cIX: [0, 4.0, 0.6], cIZ: [0, 4.0, 0.58], cDX: [0, 4.0, 0.6], cDZ: [0, 4.0, 0.58],
                 pIX: [0, 5, 0.7], pDX: [0, 5, 0.7], colaY: [0, 3.5, 0.35], colaX: [0, 3, 0.6],
                 barriga: [0, 4.2, 0.24], pecho: [0, 3, 0.5],
                 parpSup: [0.98, 9, 0.9], parpInf: [-0.98, 9, 0.9], parpInclina: [0, 6.2, 0.84], guiñoDer: [0, 8.5, 0.86],
@@ -22,8 +23,9 @@
                 bocaPuchero: [0, 6, 0.85], bocaDientes: [0, 6, 0.9], bocaLengua: [1, 7, 0.85], bocaFuera: [0, 6.5, 0.78],
                 cejaSubir: [0, 6, 0.82], cejaFruncir: [0, 6, 0.82], cejaTriste: [0, 6, 0.82], pomulo: [0, 6, 0.82]
             };
-            // Pose visible de los brazos: descansando junto a la pancita con las garritas hacia dentro
-            const BRAZO_NEUTRO = { x: -0.18, y: 0.36, z: -0.38 };
+            // Pose de reposo desde la pose A abierta: hombro relajado con hueco axilar visible y codo flexionado hacia la cintura (13, 14)
+            const BRAZO_NEUTRO = { x: -0.04, y: -0.04, z: -0.36 };
+            const CODO_NEUTRO = { x: -0.08, y: -0.24, z: -0.30 };
             const PARPADO_CERRADO = -0.04;
 
             function aleatorio(semilla) {   // mulberry32: reproducible al hornear
@@ -59,7 +61,7 @@
                         const caida = 0.34;
                         if (t < caida) {
                             const u = t / caida;
-                            return { saltoY: 0.40 * (1 - u * u), aplastar: 1.07, bIZ: 0.45, bDZ: -0.45, parpSup: 1.06, cejaSubir: 0.45, bocaAbre: 0.32, bocaSonrisa: 0.8 };
+                            return { saltoY: 0.40 * (1 - u * u), aplastar: 1.07, bIZ: 0.54, bDZ: -0.54, cIZ: 0.22, cDZ: -0.22, parpSup: 1.06, cejaSubir: 0.45, bocaAbre: 0.32, bocaSonrisa: 0.8 };
                         }
                         if (!A.marcas.aterriza) {
                             A.marcas.aterriza = true;
@@ -94,11 +96,13 @@
                             incZ: (izq ? -0.06 : 0.06) * sube
                         };
                         if (izq) {
-                            r.bIZ = 1.48 * sube + ola; r.bIX = -0.24 * sube; r.bIY = -0.28 * sube;
-                            r.bDZ = 0.08 * sube; r.bDX = -0.14 * sube;
+                            r.bIZ = 0.90 * sube + ola * 0.40; r.bIX = -0.06 * sube; r.bIY = 0.30 * sube;
+                            r.cIZ = 0.34 * sube + ola * 0.62; r.cIX = 0.08 * sube;
+                            r.bDZ = 0.04 * sube; r.bDX = -0.08 * sube; r.cDZ = 0.04 * sube;
                         } else {
-                            r.bDZ = -1.48 * sube - ola; r.bDX = -0.24 * sube; r.bDY = 0.28 * sube;
-                            r.bIZ = -0.08 * sube; r.bIX = -0.14 * sube;
+                            r.bDZ = -0.90 * sube - ola * 0.40; r.bDX = -0.06 * sube; r.bDY = -0.30 * sube;
+                            r.cDZ = -0.34 * sube - ola * 0.62; r.cDX = 0.08 * sube;
+                            r.bIZ = -0.04 * sube; r.bIX = -0.08 * sube; r.cIZ = -0.04 * sube;
                         }
                         r.colaY = Math.sin(t * TAU * 1.5) * 0.35 * sube;
                         return r;
@@ -113,7 +117,8 @@
                             return {
                                 aplastar: 1.0 - 0.25 * suave(u),
                                 barriga: 0.65 * suave(u),
-                                bIZ: -0.20 * suave(u), bDZ: 0.20 * suave(u), bIX: -0.26 * suave(u), bDX: -0.26 * suave(u),
+                                bIZ: -0.12 * suave(u), bDZ: 0.12 * suave(u), bIX: 0.08 * suave(u), bDX: 0.08 * suave(u),
+                                cIZ: -0.14 * suave(u), cDZ: 0.14 * suave(u),
                                 bocaRedonda: 0.72 * suave(u), bocaAbre: 0.26 * suave(u), cejaSubir: 0.38 * suave(u),
                                 parpSup: 1.02, cabX: 0.08 * suave(u)
                             };
@@ -125,7 +130,9 @@
                                 saltoY: A.reducido ? 0.03 : 0.18 * 4 * u * (1 - u),
                                 aplastar: 1.0 + 0.22 * Math.sin(u * Math.PI),
                                 barriga: -0.42 * Math.sin(u * Math.PI),
-                                bIZ: 1.05 * Math.sin(u * Math.PI), bDZ: -1.05 * Math.sin(u * Math.PI), bIX: -0.30, bDX: -0.30,
+                                bIZ: 0.96 * Math.sin(u * Math.PI), bDZ: -0.96 * Math.sin(u * Math.PI), bIX: -0.18, bDX: -0.18,
+                                cIZ: 0.24 * Math.sin(u * Math.PI), cDZ: -0.24 * Math.sin(u * Math.PI),
+                                pIX: (A.reducido ? -0.08 : -0.24) * Math.sin(u * Math.PI), pDX: (A.reducido ? -0.08 : -0.24) * Math.sin(u * Math.PI),
                                 bocaAbre: 0.72, bocaSonrisa: 0.94, bocaDientes: 0.75, pomulo: 0.68, cejaSubir: 0.55,
                                 parpSup: 1.06, parpInf: -0.94, ojoAbre: 1.05, colaX: -0.30 * Math.sin(u * Math.PI)
                             };
@@ -139,12 +146,12 @@
                         if (t >= 0.66 && t < 0.90) {
                             const u2 = (t - 0.66) / 0.24;
                             if (!A.marcas.cae2 && t > 0.86) { A.marcas.cae2 = true; A.impulso('aplastar', -2.2); A.impulso('barriga', 2.8); }
-                            return { saltoY: (A.reducido ? 0.01 : 0.052) * 4 * u2 * (1 - u2), aplastar: 1.08, bIZ: 0.44, bDZ: -0.44, bocaAbre: 0.54, bocaSonrisa: 0.92, bocaDientes: 0.72, ojoRisa: 0.24, parpInf: -0.72, parpSup: 0.92, pomulo: 0.72 };
+                            return { saltoY: (A.reducido ? 0.01 : 0.052) * 4 * u2 * (1 - u2), aplastar: 1.08, bIZ: 0.40, bDZ: -0.40, cIZ: 0.14, cDZ: -0.14, bocaAbre: 0.54, bocaSonrisa: 0.92, bocaDientes: 0.72, ojoRisa: 0.24, parpInf: -0.72, parpSup: 0.92, pomulo: 0.72 };
                         }
                         if (t >= 0.90 && t < 1.14) {
                             const u3 = (t - 0.90) / 0.24;
                             if (!A.marcas.cae3 && t > 1.10) { A.marcas.cae3 = true; A.impulso('aplastar', -1.2); A.impulso('barriga', 1.6); }
-                            return { saltoY: (A.reducido ? 0.004 : 0.020) * 4 * u3 * (1 - u3), aplastar: 1.04, bIZ: 0.22, bDZ: -0.22, bocaAbre: 0.38 * fade, bocaSonrisa: 0.42 + 0.50 * fade, bocaDientes: 0.65 * fade, pomulo: 0.60 * fade, parpInf: -0.98 + 0.24 * fade };
+                            return { saltoY: (A.reducido ? 0.004 : 0.020) * 4 * u3 * (1 - u3), aplastar: 1.04, bIZ: 0.20, bDZ: -0.20, cIZ: 0.08, cDZ: -0.08, bocaAbre: 0.38 * fade, bocaSonrisa: 0.42 + 0.50 * fade, bocaDientes: 0.65 * fade, pomulo: 0.60 * fade, parpInf: -0.98 + 0.24 * fade };
                         }
                         return { bocaAbre: 0.02 + 0.26 * fade, bocaSonrisa: 0.42 + 0.46 * fade, bocaDientes: 0.50 * fade, pomulo: 0.45 * fade };
                     }
@@ -165,14 +172,16 @@
                             cadZ: -Math.sin(fase) * 0.18 * env,
                             cabZ: Math.sin(fase + 0.6) * 0.18 * env,
                             cabX: -0.07 * golpe * env,
-                            bIZ: (1.05 + Math.sin(fase) * 0.70) * env,
-                            bDZ: -(1.05 - Math.sin(fase) * 0.70) * env,
-                            bIX: (-0.34 + Math.cos(fase) * 0.14) * env,
-                            bDX: (-0.34 - Math.cos(fase) * 0.14) * env,
-                            pIX: Math.max(0, Math.sin(fase)) * -0.38 * env,
-                            pDX: Math.max(0, -Math.sin(fase)) * -0.38 * env,
-                            colaY: Math.sin(fase * 2) * 0.68 * env,
-                            colaX: -0.14 * env,
+                            bIZ: (0.86 + Math.sin(fase) * 0.52) * env,
+                            bDZ: -(0.86 - Math.sin(fase) * 0.52) * env,
+                            bIX: (-0.18 + Math.cos(fase) * 0.12) * env,
+                            bDX: (-0.18 - Math.cos(fase) * 0.12) * env,
+                            cIZ: (0.18 + Math.sin(fase) * 0.28) * env,
+                            cDZ: -(0.18 - Math.sin(fase) * 0.28) * env,
+                            pIX: Math.max(0, Math.sin(fase)) * (A.reducido ? -0.08 : -0.30) * env,
+                            pDX: Math.max(0, -Math.sin(fase)) * (A.reducido ? -0.08 : -0.30) * env,
+                            colaY: Math.sin(fase * 2) * 0.50 * env,
+                            colaX: -0.10 * env,
                             parpSup: 0.98 - 0.06 * env,
                             parpInf: -0.98 + 0.32 * env,
                             ojoRisa: 0.18 * golpe * env,
@@ -198,8 +207,10 @@
                         return {
                             saltoY: A.reducido ? 0 : 0.036 * campana(t, 0, 0.28),
                             incX: -0.06 * env,
-                            bIX: -0.46 * env, bIY: -0.68 * env, bIZ: 1.14 * env + temblor,
-                            bDX: -0.46 * env, bDY: 0.68 * env, bDZ: -1.14 * env - temblor,
+                            bIX: -0.18 * env, bIY: -0.32 * env, bIZ: 0.86 * env + temblor,
+                            bDX: -0.18 * env, bDY: 0.32 * env, bDZ: -0.86 * env - temblor,
+                            cIX: -0.18 * env, cIZ: 0.48 * env,
+                            cDX: -0.18 * env, cDZ: -0.48 * env,
                             parpSup: 0.98 + 0.10 * env,
                             parpInf: -0.98 - 0.06 * env,
                             cejaSubir: 0.80 * env,
@@ -224,7 +235,8 @@
                             parpSup: 0.98 + (PARPADO_CERRADO - 0.98) * env,
                             parpInf: -0.98 + (PARPADO_CERRADO + 0.04 + 0.98) * env,
                             cabX: 0.16 * env, cabZ: 0.22 * env, incZ: 0.06 * env,
-                            bIZ: -0.10 * env, bDZ: 0.10 * env, bIX: 0.16 * env, bDX: 0.16 * env,
+                            bIZ: -0.04 * env, bDZ: 0.04 * env, bIX: 0.08 * env, bDX: 0.08 * env,
+                            cIZ: -0.08 * env, cDZ: 0.08 * env,
                             bocaAbre: 0.02 + (0.12 + ronquido) * env,
                             bocaRedonda: 0.82 * env,
                             bocaSonrisa: 0.42 * (1 - env)
@@ -259,7 +271,8 @@
                             bocaSonrisa: 0.42 + 0.68 * env,
                             bocaDientes: 0.95 * env,
                             bocaLengua: 0.85,
-                            bIZ: 0.26 * env, bDZ: -0.26 * env, bIX: -0.22 * env, bDX: -0.22 * env,
+                            bIZ: 0.28 * env, bDZ: -0.28 * env, bIX: -0.12 * env, bDX: -0.12 * env,
+                            cIZ: 0.14 * env, cDZ: -0.14 * env,
                             colaY: Math.sin(t * TAU * 2.4) * 0.42 * env
                         };
                     }
@@ -291,8 +304,9 @@
                             bocaSonrisa: 0.42 + 0.58 * env,
                             bocaDientes: 0.95 * env,
                             bocaFuera: 0,
-                            bIZ: (0.85 + 0.25 * risa) * env, bDZ: -(0.85 + 0.25 * risa) * env,
-                            bIX: -0.32 * env, bDX: -0.32 * env,
+                            bIZ: (0.76 + 0.20 * risa) * env, bDZ: -(0.76 + 0.20 * risa) * env,
+                            bIX: -0.18 * env, bDX: -0.18 * env,
+                            cIZ: (0.24 + 0.14 * risa) * env, cDZ: -(0.24 + 0.14 * risa) * env,
                             colaY: Math.sin(t * TAU * 3.5) * 0.50 * env
                         };
                     }
@@ -322,8 +336,9 @@
                             bocaSonrisa: 0.42 + 0.42 * env,
                             bocaDientes: 0.32 * env,
                             bocaFuera: (0.88 + meneoLengua) * env,
-                            bDX: -0.44 * env, bDY: 0.62 * env, bDZ: -1.08 * env,
-                            bIZ: 0.22 * env,
+                            bDX: -0.18 * env, bDY: 0.26 * env, bDZ: -0.90 * env,
+                            cDX: -0.14 * env, cDZ: -0.36 * env,
+                            bIZ: 0.24 * env, cIZ: 0.10 * env,
                             colaY: Math.sin(t * TAU * 3.2) * 0.52 * env
                         };
                     }
@@ -351,8 +366,10 @@
                             bocaAbre: 0.02,
                             bocaPuchero: (0.92 + puch) * env,
                             bocaSonrisa: 0.42 * (1 - env) - 0.24 * env,
-                            bIX: -0.36 * env, bIY: -0.34 * env, bIZ: 0.26 * env,
-                            bDX: -0.36 * env, bDY: 0.34 * env, bDZ: -0.26 * env,
+                            bIX: -0.18 * env, bIY: -0.22 * env, bIZ: 0.14 * env,
+                            bDX: -0.18 * env, bDY: 0.22 * env, bDZ: -0.14 * env,
+                            cIX: -0.18 * env, cIZ: 0.18 * env,
+                            cDX: -0.18 * env, cDZ: -0.18 * env,
                             colaX: 0.18 * env
                         };
                     }
@@ -380,8 +397,10 @@
                             pomulo: 0.30 * env,
                             bocaAbre: 0.02,
                             bocaSonrisa: 0.42 + 0.28 * env,
-                            bIX: -0.44 * env, bIY: -0.40 * env, bIZ: 0.30 * env,
-                            bDX: -0.44 * env, bDY: 0.40 * env, bDZ: -0.30 * env
+                            bIX: -0.18 * env, bIY: -0.18 * env, bIZ: 0.22 * env,
+                            bDX: -0.18 * env, bDY: 0.18 * env, bDZ: -0.22 * env,
+                            cIX: -0.16 * env, cIZ: 0.22 * env,
+                            cDX: -0.16 * env, cDZ: -0.22 * env
                         };
                     }
                 },
@@ -410,9 +429,10 @@
                             bocaRedonda: 0.36 * env,
                             bocaSonrisa: 0.42 * (1 - env),
                             bocaDientes: 0.78 * env,
-                            bIZ: 1.30 * env + temblor, bDZ: -1.30 * env - temblor,
-                            bIX: -0.34 * env, bDX: -0.34 * env,
-                            colaX: -0.26 * env
+                            bIZ: 1.06 * env + temblor, bDZ: -1.06 * env - temblor,
+                            bIX: -0.18 * env, bDX: -0.18 * env,
+                            cIZ: 0.22 * env, cDZ: -0.22 * env,
+                            colaX: -0.20 * env
                         };
                     }
                 },
@@ -428,7 +448,7 @@
                             parpSup: 0.98 + (-0.05 - 0.98) * env, parpInf: -0.98 + (0.04 + 0.98) * env,
                             ojoRisa: 0.56 * env, pomulo: 0.75 * env,
                             bocaAbre: 0.02 + 0.26 * env, bocaSonrisa: 0.42 + 0.52 * env, bocaDientes: 0.65 * env,
-                            bIZ: 0.20 * env, bDZ: -0.20 * env, colaY: Math.sin(t * TAU * 2.8) * 0.38 * env
+                            bIZ: 0.22 * env, bDZ: -0.22 * env, cIZ: 0.12 * env, cDZ: -0.12 * env, colaY: Math.sin(t * TAU * 2.8) * 0.38 * env
                         };
                     }
                 },
@@ -444,7 +464,8 @@
                         return {
                             parpSup: 0.98 - 0.08 * env, parpInf: -0.98 + 0.38 * env, ojoRisa: 0.28 * env, pomulo: 0.75 * env,
                             bocaAbre: 0.02 + 0.46 * env, bocaSonrisa: 0.42 + 0.54 * env, bocaDientes: 0.80 * env,
-                            bIZ: -0.16 * env, bDZ: 0.16 * env, bIX: -0.26 * env, bDX: -0.26 * env,
+                            bIZ: -0.06 * env, bDZ: 0.06 * env, bIX: -0.14 * env, bDX: -0.14 * env,
+                            cIX: -0.14 * env, cDX: -0.14 * env,
                             cabZ: 0.08 * Math.sin(t * TAU * 2.2) * env, cabX: -0.06 * env
                         };
                     }
@@ -455,7 +476,7 @@
                         if (!A.marcas.cola) { A.marcas.cola = true; A.impulso('barriga', 1.4); }
                         const env = campana(t, 0, 1.15);
                         return {
-                            colaY: Math.sin(t * TAU * 4.5) * 0.78 * env, colaX: -0.22 * env + Math.sin(t * TAU * 2.25) * 0.10 * env,
+                            colaY: Math.sin(t * TAU * 4.5) * 0.56 * env, colaX: -0.14 * env + Math.sin(t * TAU * 2.25) * 0.08 * env,
                             girY: 0.22 * env, cabY: 0.52 * env, cabZ: -0.10 * env, cabX: -0.06 * env,
                             cejaSubir: 0.35 * env, pomulo: 0.55 * env,
                             parpInf: -0.98 + 0.30 * env, bocaAbre: 0.02 + 0.28 * env, bocaSonrisa: 0.42 + 0.50 * env, bocaDientes: 0.65 * env
@@ -466,10 +487,11 @@
                     duracion: 0.95,
                     f(t, o, A) {
                         if (t < 0.42) {
-                            const u = t / 0.42, cosquilleo = Math.sin(t * TAU * 9) * 0.12;
+                            const u = t / 0.42, arco = Math.sin(u * Math.PI), cosquilleo = Math.sin(t * TAU * 9) * (A.reducido ? 0.04 : 0.10) * arco;
+                            const baseP = (A.reducido ? -0.08 : -0.30) * arco;
                             return {
-                                saltoY: A.reducido ? 0 : 0.075 * 4 * u * (1 - u), pIX: -0.38 + cosquilleo, pDX: -0.38 - cosquilleo,
-                                aplastar: 1.06, bIZ: 0.42, bDZ: -0.42, cejaSubir: 0.45, pomulo: 0.68,
+                                saltoY: A.reducido ? 0 : 0.075 * 4 * u * (1 - u), pIX: baseP + cosquilleo, pDX: baseP - cosquilleo,
+                                aplastar: 1.06, bIZ: 0.44, bDZ: -0.44, cIZ: 0.18, cDZ: -0.18, cejaSubir: 0.45, pomulo: 0.68,
                                 bocaAbre: 0.54, bocaSonrisa: 0.92, bocaDientes: 0.75, parpInf: -0.68
                             };
                         }
@@ -483,7 +505,7 @@
                     f(t, o, A) {
                         if (!A.marcas.ok) { A.marcas.ok = true; A.impulso('aplastar', 1.6); A.impulso('cabX', -1.4); }
                         const env = campana(t, 0, 1.0);
-                        return { parpSup: 0.98 + 0.08 * env, cejaSubir: 0.45 * env, ojoAbre: 1 + 0.05 * env, bocaRedonda: 0.72 * env, bocaAbre: 0.02 + 0.40 * env, bIZ: 0.38 * env, bDZ: -0.38 * env };
+                        return { parpSup: 0.98 + 0.08 * env, cejaSubir: 0.45 * env, ojoAbre: 1 + 0.05 * env, bocaRedonda: 0.72 * env, bocaAbre: 0.02 + 0.40 * env, bIZ: 0.36 * env, bDZ: -0.36 * env, cIZ: 0.14 * env, cDZ: -0.14 * env };
                     }
                 },
                 mirarAlrededor: {
@@ -634,24 +656,41 @@
                     huesos.barriga.scale.set(1 + b * 0.60, 1 + b * 0.35, 1 + b);
                     huesos.barriga.position.set(R(huesos.barriga).p.x, R(huesos.barriga).p.y + b * 0.006, R(huesos.barriga).p.z + b * 0.024);
 
-                    const vaivenZ = 0.028 * respBelly * amp * ocio;
-                    const vaivenX = -0.012 * respPecho * amp * ocio;
-                    const alzaI = Math.max(0, g('bIZ') - 0.35), alzaD = Math.max(0, -g('bDZ') - 0.35);
-                    huesos.brazoIzq.position.set(R(huesos.brazoIzq).p.x - alzaI * 0.042, R(huesos.brazoIzq).p.y + alzaI * 0.038, R(huesos.brazoIzq).p.z + alzaI * 0.054);
-                    huesos.brazoDer.position.set(R(huesos.brazoDer).p.x + alzaD * 0.042, R(huesos.brazoDer).p.y + alzaD * 0.038, R(huesos.brazoDer).p.z + alzaD * 0.054);
+                    const vaivenZ = 0.024 * respBelly * amp * ocio;
+                    const vaivenX = -0.010 * respPecho * amp * ocio;
+                    // Hombros anclados en su pivote de reposo (sin desplazamiento lineal al alzar: cero efecto aleta)
+                    huesos.brazoIzq.position.copy(R(huesos.brazoIzq).p);
+                    huesos.brazoDer.position.copy(R(huesos.brazoDer).p);
                     huesos.brazoIzq.rotation.set(BRAZO_NEUTRO.x + g('bIX') + vaivenX, BRAZO_NEUTRO.y + g('bIY'), BRAZO_NEUTRO.z + g('bIZ') + vaivenZ);
                     huesos.brazoDer.rotation.set(BRAZO_NEUTRO.x + g('bDX') + vaivenX, -BRAZO_NEUTRO.y + g('bDY'), -BRAZO_NEUTRO.z + g('bDZ') - vaivenZ);
+                    if (huesos.codoIzq && huesos.codoDer) {
+                        const vaivenCodoZ = 0.014 * respPecho * amp * ocio;
+                        huesos.codoIzq.position.copy(R(huesos.codoIzq).p);
+                        huesos.codoDer.position.copy(R(huesos.codoDer).p);
+                        huesos.codoIzq.rotation.set(CODO_NEUTRO.x + g('cIX'), CODO_NEUTRO.y, CODO_NEUTRO.z + g('cIZ') + vaivenCodoZ);
+                        huesos.codoDer.rotation.set(CODO_NEUTRO.x + g('cDX'), -CODO_NEUTRO.y, -CODO_NEUTRO.z + g('cDZ') - vaivenCodoZ);
+                    }
 
                     huesos.piernaIzq.rotation.set(g('pIX'), 0, 0);
                     huesos.piernaDer.rotation.set(g('pDX'), 0, 0);
 
-                    const vaivenColaResp = 0.038 * Math.sin(faseResp - 0.65) * amp * ocio;
-                    const meneoY = (0.065 * Math.sin(t * TAU / 3.2) + vaivenColaResp) * amp * ocio;
-                    const meneoX = (0.025 * Math.sin(t * TAU / 4.1 + 0.8) + 0.015 * respPecho) * amp * ocio;
-                    const puntaY = (0.090 * Math.sin(t * TAU / 3.2 - 0.65) + vaivenColaResp * 1.25) * amp * ocio;
-                    const puntaX = (0.035 * Math.sin(t * TAU / 4.1 + 0.3) + 0.020 * respPecho) * amp * ocio;
-                    huesos.cola.rotation.set(g('colaX') + meneoX, g('colaY') + meneoY, 0);
-                    huesos.colaPunta.rotation.set(g('colaX') * 0.5 + puntaX, (g('colaY') + meneoY) * 0.75 + puntaY, 0);
+                    // Cola larga en cadena de 3 huesos (cola -> colaMedia -> colaPunta) con desfase progresivo y sin atravesar suelo ni piernas
+                    const vaivenColaResp = 0.026 * Math.sin(faseResp - 0.55) * amp * ocio;
+                    const meneoY = (0.044 * Math.sin(t * TAU / 3.2) + vaivenColaResp) * amp * ocio;
+                    const meneoX = (0.016 * Math.sin(t * TAU / 4.1 + 0.8) + 0.010 * respPecho) * amp * ocio;
+                    const mediaY = (0.060 * Math.sin(t * TAU / 3.2 - 0.55) + vaivenColaResp * 1.15) * amp * ocio;
+                    const mediaX = (0.022 * Math.sin(t * TAU / 4.1 + 0.3) + 0.012 * respPecho) * amp * ocio;
+                    const puntaY = (0.076 * Math.sin(t * TAU / 3.2 - 1.10) + vaivenColaResp * 1.30) * amp * ocio;
+                    const puntaX = (0.028 * Math.sin(t * TAU / 4.1 - 0.2) + 0.014 * respPecho) * amp * ocio;
+                    const cX = g('colaX'), cY = g('colaY');
+                    huesos.cola.position.copy(R(huesos.cola).p);
+                    huesos.cola.rotation.set(cX * 0.52 + meneoX, cY * 0.48 + meneoY, 0);
+                    if (huesos.colaMedia) {
+                        huesos.colaMedia.position.copy(R(huesos.colaMedia).p);
+                        huesos.colaMedia.rotation.set(cX * 0.34 + mediaX, cY * 0.40 + mediaY, 0);
+                    }
+                    huesos.colaPunta.position.copy(R(huesos.colaPunta).p);
+                    huesos.colaPunta.rotation.set(cX * 0.24 + puntaX, cY * 0.34 + puntaY, 0);
 
                     // Ojos, párpados volumétricos con inclinación/arco y AO dinámico
                     const sup = g('parpSup'), inf = g('parpInf');
@@ -786,7 +825,7 @@
                     tocar(region, punto, o) {
                         let pt = punto;
                         if (!pt && (region === 'pancita' || region === 'cuerpo')) pt = { x: 0, y: 0.28, z: 0.14 };
-                        else if (!pt && region === 'cabeza') pt = { x: 0, y: 0.68, z: 0.08 };
+                        else if (!pt && region === 'cabeza') pt = { x: 0, y: 0.70, z: 0.14 };
                         else if (!pt && region === 'pie') pt = { x: 0.08, y: 0.04, z: 0.08 };
                         else if (!pt && region === 'cola') pt = { x: 0, y: 0.18, z: -0.22 };
                         if (pt) {
@@ -853,5 +892,5 @@
                 return new THREE.AnimationClip(nombre, duracion, pistas);
             }
 
-            return { crear, hornear, ACCIONES, CANALES, BRAZO_NEUTRO };
+            return { crear, hornear, ACCIONES, CANALES, BRAZO_NEUTRO, CODO_NEUTRO };
         })();

@@ -35,15 +35,18 @@ with open('index.html', 'r', encoding='utf-8') as f:
 asset_refs = re.findall(r'(?:src|href)="((?:css|js)/[^"?]+)(?:\?[^"]*)?"', page_html)
 assert len(asset_refs) >= 3, "index.html must reference css/ and js/ files!"
 assert len(asset_refs) == len(set(asset_refs)), "Duplicate css/js references in index.html!"
+# W25: js/11-13 se cargan bajo demanda desde js/14; se incluyen igual en `html` y `js_files` para comprobar sintaxis y etiquetas
+lazy_3d_js = ['js/11-nailong3d-geometria.js', 'js/12-nailong3d-escena.js', 'js/13-nailong3d-animacion.js']
+all_asset_refs = asset_refs + [r for r in lazy_3d_js if r not in asset_refs]
 html = page_html
-for _ref in asset_refs:
-    assert os.path.exists(_ref), f"index.html references a missing file: {_ref}"
+for _ref in all_asset_refs:
+    assert os.path.exists(_ref), f"Missing asset file: {_ref}"
     with open(_ref, 'r', encoding='utf-8') as f:
         html += chr(10) + f.read()
-js_files = [r for r in asset_refs if r.endswith('.js')]
+js_files = [r for r in all_asset_refs if r.endswith('.js')]
 assert [r for r in asset_refs if r.endswith('.css')], "styles.css reference missing in index.html!"
 for _f in os.listdir('js'):
-    assert f'js/{_f}' in asset_refs, f"js/{_f} exists but is not loaded by index.html!"
+    assert f'js/{_f}' in all_asset_refs, f"js/{_f} exists but is neither loaded by index.html nor lazy-loaded by js/14!"
 for _f in os.listdir('css'):
     assert f'css/{_f}' in asset_refs, f"css/{_f} exists but is not loaded by index.html!"
 assert re.search(r'<script>(.*?)</script>', page_html, re.DOTALL) is None, "No inline <script> allowed: keep JS in js/ (D-15)!"
@@ -500,28 +503,72 @@ _sec = page_html[page_html.index('id="nailong-3d"'):page_html.index('id="galeria
 assert _sec and page_html.index('id="historia"') < page_html.index('id="nailong-3d"'), "3D section #nailong-3d must sit between #historia and #galeria!"
 assert 'id="nailong-3d-visor"' in _sec and 'id="nailong-3d-lienzo"' in _sec and 'role="img"' in _sec and 'aria-live="polite"' in _sec, "3D viewer, accessible canvas and live region missing!"
 assert page_html.count('href="#nailong-3d"') >= 2, "3D section must be linked from the desktop and mobile menus!"
-_n3d = ['js/11-nailong3d-geometria.js', 'js/12-nailong3d-escena.js', 'js/13-nailong3d-animacion.js', 'js/14-nailong3d-visor.js']
-assert [r for r in asset_refs if r in _n3d] == _n3d and asset_refs.index(_n3d[0]) > asset_refs.index('js/10-inicio.js'), "3D scripts must load in order after js/10-inicio.js!"
+_n3d_lazy = ['js/11-nailong3d-geometria.js', 'js/12-nailong3d-escena.js', 'js/13-nailong3d-animacion.js']
+assert 'js/14-nailong3d-visor.js' in asset_refs and asset_refs.index('js/14-nailong3d-visor.js') > asset_refs.index('js/10-inicio.js'), "js/14-nailong3d-visor.js must load after js/10-inicio.js!"
+assert not any(r in asset_refs for r in _n3d_lazy), "W25: js/11-13 must be lazy-loaded by js/14, not eagerly from index.html!"
 _visor = open('js/14-nailong3d-visor.js', encoding='utf-8').read()
+assert all(r in _visor for r in _n3d_lazy) and [_visor.index(r) for r in _n3d_lazy] == sorted(_visor.index(r) for r in _n3d_lazy), "W25: js/14 must lazy-load js/11, js/12, js/13 in strict order!"
+assert 'id="nailong-3d-sticker"' in _sec and 'exportarStickerWebP' in _visor and 'sticker-pack-id' in _visor, "3D3: 512x512 WebP sticker button and WhatsApp EXIF exporter missing!"
 assert "VERSION_THREE = '0.147.0'" in _visor and _visor.count("sri: 'sha384-") == 3, "Three.js must be pinned to r147 with SRI on every CDN script!"
 assert 'three@' not in page_html and 'three.min.js' not in page_html, "Three.js must be lazy-loaded by js/14 (never eagerly from index.html)!"
 for _clave in ('IntersectionObserver', 'visibilitychange', 'prefers-reduced-motion', 'GLTFExporter', 'binary: true', "'none' : 'pan-y'", 'new Worker('):
     assert _clave in _visor, f"3D viewer must keep: {_clave}"
 _prueba_3d = r"""
 const fs = require('fs'), vm = require('vm');
-vm.runInThisContext(fs.readFileSync('js/11-nailong3d-geometria.js', 'utf8') + '\n;globalThis.__K = Nailong3DGeometria;');
+const src11 = fs.readFileSync('js/11-nailong3d-geometria.js', 'utf8');
+vm.runInThisContext(src11.replace(/return\s*\{\s*VERSION:\s*(\d+),/, 'return { dTorso, dCabeza, dBrazo, dPierna, dCola, VERSION: $1,') + '\n;globalThis.__K = Nailong3DGeometria;');
 const K = globalThis.__K, m = K.generarMalla({ celda: 0.0105 });
 const P = m.posiciones, N = m.normales, C = m.colores, I = m.indices, J = m.huesoIndices, W = m.huesoPesos, nv = P.length / 3, nt = I.length / 3;
 let ymin = 1e9, ymax = -1e9, cab = 0, tor = 0, crema = 0, frente = 0, inv = 0, no2 = 0, pesosMal = 0;
-const brazos = new Set([K.H.brazoIzq, K.H.brazoDer]), cr = K.srgbALineal(K.COLORES.crema);
+let torZMin = 1e9, torZMax = -1e9, p50YMin = 1e9, p15XMin = 1e9, p15XMax = -1e9;
+const brazos = new Set([K.H.brazoIzq, K.H.brazoDer, K.H.codoIzq, K.H.codoDer]);
+const sinTorso = new Set([K.H.brazoIzq, K.H.brazoDer, K.H.codoIzq, K.H.codoDer, K.H.cola, K.H.colaMedia, K.H.colaPunta, K.H.piernaIzq, K.H.piernaDer]);
+const am = K.srgbALineal(K.COLORES.amarillo), cr = K.srgbALineal(K.COLORES.crema);
 for (let v = 0; v < nv; v++) {
-  const x = P[v*3], y = P[v*3+1];
+  const x = P[v*3], y = P[v*3+1], z = P[v*3+2];
   ymin = Math.min(ymin, y); ymax = Math.max(ymax, y);
   if (y > 0.62 && y < 0.68) cab = Math.max(cab, Math.abs(x));
   if (y > 0.25 && y < 0.32 && !brazos.has(J[v*4])) tor = Math.max(tor, Math.abs(x));
+  if (y > 0.22 && y < 0.36 && !sinTorso.has(J[v*4])) { torZMin = Math.min(torZMin, z); torZMax = Math.max(torZMax, z); }
   if (N[v*3+2] > 0.3) { frente++; if (Math.abs(C[v*3]-cr[0]) + Math.abs(C[v*3+1]-cr[1]) + Math.abs(C[v*3+2]-cr[2]) < 0.05) crema++; }
+  if (z > 0) {
+    const f = Math.min((C[v*3+1]-am[1])/(cr[1]-am[1]), (C[v*3+2]-am[2])/(cr[2]-am[2]));
+    if (f >= 0.5) p50YMin = Math.min(p50YMin, y);
+    if (f >= 0.15) { p15XMin = Math.min(p15XMin, x); p15XMax = Math.max(p15XMax, x); }
+  }
   if (Math.abs(W[v*4] + W[v*4+1] + W[v*4+2] + W[v*4+3] - 1) > 1e-3) pesosMal++;
 }
+let piernaVis = 0, entrepiernaY = 0;
+for (let y = 0; y <= 0.45; y += 0.001) { if (!piernaVis && K.dTorso(K.ANATOMIA.pierna.a[0], y, K.ANATOMIA.pierna.a[2]) < 0) piernaVis = y; if (!entrepiernaY && K.sdf(0, y, K.ANATOMIA.pierna.a[2]) < 0) entrepiernaY = y; }
+const br = K.ANATOMIA.brazo, ptsB = br.codo ? [br.a, br.codo, br.b] : [br.a, br.b], radsB = br.codo ? [br.ra, br.rc, br.rb] : [br.ra, br.rb];
+let sumRL = 0, sumL = 0, sAcum = 0, sSalida = null, sPunta = 0;
+const sinBrazos = (x, y, z) => { const ax = Math.abs(x); return Math.min(K.dTorso(ax, y, z), K.dCabeza(ax, y, z), K.dPierna(ax, y, z), K.dPierna(-ax, y, z)); };
+for (let i = 0; i < ptsB.length - 1; i++) {
+  const p0 = ptsB[i], p1 = ptsB[i+1], dx = p1[0]-p0[0], dy = p1[1]-p0[1], dz = p1[2]-p0[2], L = Math.hypot(dx, dy, dz);
+  sumRL += ((radsB[i] + radsB[i+1]) / 2) * L; sumL += L;
+  const ux = dx/L, uy = dy/L, uz = dz/L, maxT = (i === ptsB.length - 2) ? L + 0.45 : L;
+  for (let t = 0; t <= maxT; t += 0.001) {
+    const px = p0[0]+ux*t, py = p0[1]+uy*t, pz = p0[2]+uz*t, s = sAcum + t;
+    if (sSalida === null && sinBrazos(px, py, pz) > 0) sSalida = s;
+    if (K.dBrazo(px, py, pz) < 0) sPunta = Math.max(sPunta, s);
+  }
+  sAcum += L;
+}
+const brazoLibre = sSalida !== null ? Math.max(0, sPunta - sSalida) : 0, brazoDiam = sumL > 0 ? 2 * (sumRL / sumL) : 0;
+let zEspalda = null, zColaPunta = 0;
+for (let z = 0; z >= -0.6; z -= 0.001) { if (K.dTorso(0, K.ANATOMIA.cola.a[1], z) > 0) { zEspalda = z; break; } }
+for (let z = -0.15; z >= -0.8; z -= 0.002) { for (let y = 0.02; y <= 0.45; y += 0.004) { if (K.dCola(0, y, z) < 0) { zColaPunta = Math.min(zColaPunta, z); break; } } }
+const colaSobresale = zEspalda !== null ? zEspalda - zColaPunta : 0;
+let cXMax = 0, cYMin = 1e9, cYMax = -1e9, cZMin = 1e9, cZMax = -1e9, tZMaxSdf = -1e9;
+for (let x = 0; x <= 0.32; x += 0.006) for (let y = 0.46; y <= 1.04; y += 0.006) for (let z = -0.28; z <= 0.40; z += 0.006) {
+  if (K.dCabeza(x, y, z) < 0) { if (x > cXMax) cXMax = x; if (y < cYMin) cYMin = y; if (y > cYMax) cYMax = y; if (z < cZMin) cZMin = z; if (z > cZMax) cZMax = z; }
+}
+for (let y = 0.14; y <= 0.44; y += 0.006) for (let z = 0.14; z <= 0.30; z += 0.002) { if (K.dTorso(0, y, z) < 0 && z > tZMaxSdf) tZMaxSdf = z; }
+const cabAlto = cYMax - cYMin, cabAncho = 2 * cXMax, cabFondo = cZMax - cZMin, cabVoladizo = cZMax - tZMaxSdf;
+const yCor = cYMax - 0.16 * cabAlto;
+let corX = 0;
+for (let x = 0; x <= 0.30; x += 0.002) for (let z = -0.25; z <= 0.35; z += 0.006) { if (K.dCabeza(x, yCor, z) < 0 && x > corX) corX = x; }
+const cabCoronilla = cabAncho > 0 ? (2 * corX) / cabAncho : 0;
 const aristas = new Map();
 for (let t = 0; t < nt; t++) {
   const a = I[t*3], b = I[t*3+1], c = I[t*3+2];
@@ -530,17 +577,25 @@ for (let t = 0; t < nt; t++) {
   if ((uy*wz-uz*wy)*(N[a*3]+N[b*3]+N[c*3]) + (uz*wx-ux*wz)*(N[a*3+1]+N[b*3+1]+N[c*3+1]) + (ux*wy-uy*wx)*(N[a*3+2]+N[b*3+2]+N[c*3+2]) < 0) inv++;
 }
 for (const n of aristas.values()) if (n !== 2) no2++;
-console.log(JSON.stringify({ vertices: nv, huecos: m.estadisticas.huecos, no2, inv, pesosMal, altura: ymax - ymin, suelo: ymin, cab: 2 * cab, tor: 2 * tor, pancita: crema / frente, huesos: K.HUESOS.length }));
+console.log(JSON.stringify({ vertices: nv, huecos: m.estadisticas.huecos, no2, inv, pesosMal, altura: ymax - ymin, suelo: ymin, cab: 2 * cab, tor: 2 * tor, torFondo: torZMax - torZMin, barrigaZ: torZMax, pancita: crema / frente, pancitaYMin: p50YMin, pancitaHaloAncho: p15XMax - p15XMin, piernaVis, entrepiernaY, brazoLibre, brazoDiam, hombroY: br.a[1], hombroZ: br.a[2], tieneCodo: !!(br.codo && K.H.codoIzq !== undefined && K.H.codoDer !== undefined), colaSobresale, colaRaizY: K.ANATOMIA.cola.a[1], colaRadioPunta: K.ANATOMIA.cola.rb, tieneColaMedia: K.H.colaMedia !== undefined, cabVoladizo, cabFondo, cabAncho, cabCoronilla, cabAlto, huesos: K.HUESOS.length }));
 """
 _res3d = subprocess.run(['node', '-e', _prueba_3d], capture_output=True, text=True, encoding='utf-8', timeout=180)
 assert _res3d.returncode == 0, "3D geometry kernel failed in Node: " + _res3d.stderr[-600:]
 _g = json.loads(_res3d.stdout)
 assert _g['huecos'] == 0 and _g['no2'] == 0, f"3D mesh must be watertight (every edge shared by 2 triangles): {_g}"
 assert _g['inv'] == 0 and _g['pesosMal'] == 0, f"3D mesh triangles must face outwards and skin weights must sum to 1: {_g}"
-assert 15000 < _g['vertices'] < 60000 and _g['huesos'] == 12, f"Unexpected 3D mesh density or skeleton: {_g}"
+assert 15000 < _g['vertices'] < 60000 and _g['huesos'] == 15, f"Unexpected 3D mesh density or skeleton: {_g}"
 assert abs(_g['altura'] - 1.0) < 0.02 and abs(_g['suelo']) < 0.002, f"Nailong 3D must be 1 unit tall standing on y=0: {_g}"
-assert 0.8 < _g['cab'] / _g['tor'] < 0.95 and 0.5 < _g['tor'] / _g['altura'] < 0.66, f"Head/torso proportions drifted from the stickers (86, 43): {_g}"
-assert 0.08 < _g['pancita'] < 0.3, f"Cream belly patch missing or oversized: {_g}"
+# 3D6-3D10: proporciones completas de la serie (21/21 OK)
+assert 0.85 <= _g['cab'] / _g['tor'] <= 1.00 and 0.46 < _g['tor'] / _g['altura'] < 0.56, f"Head/torso proportions drifted from 3D10 canonical targets: {_g}"
+assert 0.37 <= _g['torFondo'] <= 0.43 and 0.19 <= _g['barrigaZ'] <= 0.23, f"3D6 torso depth or belly front Z out of target range: {_g}"
+assert 0.08 < _g['pancita'] < 0.3 and _g['pancitaYMin'] >= 0.07 and _g['pancitaHaloAncho'] <= 0.41, f"3D6 cream belly patch missing, touching floor or with halo: {_g}"
+assert 0.12 <= _g['piernaVis'] <= 0.145 and _g['entrepiernaY'] >= 0.07, f"3D7 visible leg height or crotch gap out of target range: {_g}"
+assert 0.20 <= _g['brazoLibre'] <= 0.24 and 0.10 <= _g['brazoDiam'] <= 0.12, f"3D8 arm free length or diameter out of target range: {_g}"
+assert 0.47 <= _g['hombroY'] <= 0.50 and -0.05 <= _g['hombroZ'] <= -0.02 and _g['tieneCodo'], f"3D8 shoulder Y/Z or elbow rig out of target range: {_g}"
+assert 0.25 <= _g['colaSobresale'] <= 0.32 and 0.15 <= _g['colaRaizY'] <= 0.18 and _g['colaRadioPunta'] <= 0.04 and _g['tieneColaMedia'], f"3D9 long tail or colaMedia out of target range: {_g}"
+assert 0.095 <= _g['cabVoladizo'] <= 0.145 and 0.475 <= _g['cabFondo'] <= 0.505, f"3D10 head overhang (H1) or depth (H2) out of target range: {_g}"
+assert 0.465 <= _g['cabAncho'] <= 0.505 and _g['cabCoronilla'] >= 0.75 and 0.465 <= _g['cabAlto'] <= 0.505, f"3D10 head width (H3), crown ratio (H4) or height (H5) out of target range: {_g}"
 print(f"✔ Nailong 3D verified: lazy Three.js r147 with SRI, viewer in #nailong-3d, watertight {_g['vertices']}-vertex skinned mesh with canonical proportions.")
 
 # Test 50: v3.6.1 - todos los stickers animados se repiten en bucle (contador del chunk ANIM = 0), en la web y en la app

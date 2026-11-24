@@ -50,7 +50,7 @@
                                 </span>
                             ` : ''}
                             ${item.customUrl ? `
-                                <span class="absolute top-2 left-2 bg-nailong-orange text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+                                <span class="absolute top-2 left-2 bg-nailong-orange text-amber-950 text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
                                     🌟 ¡TU FOTO!
                                 </span>
                             ` : ''}
@@ -62,7 +62,7 @@
 
                         <div class="pt-2 sm:pt-3 space-y-0.5 sm:space-y-1 text-center">
                             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">${item.customUrl ? 'CROMO PERSONAL' : `CROMO #${item.id}`}</span>
-                            <h4 class="font-display font-bold text-sm sm:text-lg text-amber-950 leading-snug line-clamp-1 sm:line-clamp-none group-hover:text-nailong-orange transition-colors">
+                            <h4 class="font-display font-bold text-sm sm:text-lg text-amber-950 leading-snug line-clamp-1 sm:line-clamp-none group-hover:text-[#C2410C] transition-colors">
                                 ${escaparHtml(item.title)}
                             </h4>
                             <p class="max-sm:hidden text-xs font-semibold text-amber-800/85 line-clamp-2">

@@ -20,7 +20,7 @@
                     <div class="aspect-square rounded-xl bg-gradient-to-br ${gif.bg} border-2 border-nailong-yellow flex items-center justify-center overflow-hidden p-1.5">
                         <img src="Stickers Nailong/sticker_${gif.id}.webp" alt="${gif.title}" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-300">
                     </div>
-                    <span class="block pt-1.5 font-display font-bold text-[11px] sm:text-xs leading-tight text-amber-950 group-hover:text-nailong-orange transition-colors">${gif.title}</span>
+                    <span class="block pt-1.5 font-display font-bold text-[11px] sm:text-xs leading-tight text-amber-950 group-hover:text-[#C2410C] transition-colors">${gif.title}</span>
                 </button>
             `).join('');
         }
@@ -99,7 +99,7 @@
                 b.className = 'px-2.5 sm:px-3 py-1 rounded-full font-bold text-xs bg-nailong-pale hover:bg-nailong-yellow text-amber-950 transition-all';
             });
             if (btnEl) {
-                btnEl.className = 'px-2.5 sm:px-3 py-1 rounded-full font-bold text-xs bg-nailong-orange text-white shadow-sm scale-105 transition-all';
+                btnEl.className = 'px-2.5 sm:px-3 py-1 rounded-full font-bold text-xs bg-nailong-orange text-amber-950 shadow-sm scale-105 transition-all';
             }
 
             if (mode === 'slow') {
@@ -244,7 +244,7 @@
                 const badge = document.createElement('div');
                 const emojis = ['🍮 ¡DUANG!', '✨', '💛', '🎉', '🦖', '🍗', '⭐'];
                 const pick = emojis[Math.floor(Math.random() * emojis.length)];
-                badge.className = 'absolute font-display font-bold text-xl sm:text-2xl text-nailong-orange pointer-events-none transition-all duration-700 select-none drop-shadow-md z-30';
+                badge.className = 'absolute font-display font-bold text-xl sm:text-2xl text-[#C2410C] pointer-events-none transition-all duration-700 select-none drop-shadow-md z-30';
                 badge.style.left = `${30 + Math.random() * 40}%`;
                 badge.style.top = `${35 + Math.random() * 25}%`;
                 badge.textContent = pick;

@@ -419,9 +419,9 @@
                 };
             }
 
-            // Caída suave y compartida de la mandíbula (siempre por encima de y = 0.515 para no alterar jamás el cuello)
+            // Caída suave y compartida de la mandíbula (siempre por encima de y = 0.522 para no alterar jamás el cuello)
             function pesoMandibula(y) {
-                return sstep(0.618, 0.560, y) * sstep(0.515, 0.545, y);
+                return sstep(0.628, 0.570, y) * sstep(0.522, 0.554, y);
             }
 
             /* ---------- Deformador facial 3D sutil sobre la malla del cuerpo (cejas, pómulos, mandíbula y bolsillo oral) ---------- */
@@ -432,7 +432,7 @@
                 const indices = [];
                 let minIdx = nv, maxIdx = 0;
                 for (let v = 0; v < nv; v++) {
-                    if (posAttr.getY(v) > 0.515 && posAttr.getZ(v) > -0.015) {
+                    if (posAttr.getY(v) > 0.520 && posAttr.getZ(v) > 0.015) {
                         indices.push(v);
                         if (v < minIdx) minIdx = v;
                         if (v > maxIdx) maxIdx = v;
@@ -480,10 +480,10 @@
                         let dx = 0, dy = 0, dz = 0, dnx = 0, dny = 0, dnz = 0;
 
                         // 1) Cejas suaves sobre la frente (solo activas en expresiones, 0 en reposo)
-                        if (y > 0.74 && z > 0.05) {
-                            const wCeja = Math.exp(-Math.pow((ax - 0.112) / 0.075, 2) - Math.pow((y - 0.795) / 0.042, 2)) * sstep(0.05, 0.15, z);
+                        if (y > 0.745 && z > 0.08) {
+                            const wCeja = Math.exp(-Math.pow((ax - 0.104) / 0.072, 2) - Math.pow((y - 0.800) / 0.042, 2)) * sstep(0.08, 0.18, z);
                             if (wCeja > 0.002) {
-                                const tInt = sstep(0.15, 0.05, ax);
+                                const tInt = sstep(0.14, 0.05, ax);
                                 const movY = wCeja * (cSub * 0.012 + cTri * (0.014 * tInt - 0.005 * (1 - tInt)) - cFru * (0.014 * tInt + 0.002));
                                 const movZ = wCeja * (cSub * 0.003 + cFru * 0.005 * tInt + cTri * 0.003 * tInt);
                                 const movX = -sx * wCeja * cFru * 0.005 * tInt;
@@ -493,9 +493,9 @@
                         }
 
                         // 2) Pómulos rechonchos altos (alejados de las comisuras para no atravesar jamás Nailong_boca)
-                        if (pom > 0.01 && y > 0.635 && y < 0.745 && z > 0.06) {
-                            const wPom = Math.exp(-Math.pow((ax - 0.156) / 0.054, 2) - Math.pow((y - 0.678) / 0.036, 2))
-                                * sstep(0.635, 0.670, y) * sstep(0.06, 0.16, z);
+                        if (pom > 0.01 && y > 0.640 && y < 0.750 && z > 0.09) {
+                            const wPom = Math.exp(-Math.pow((ax - 0.140) / 0.052, 2) - Math.pow((y - 0.684) / 0.036, 2))
+                                * sstep(0.640, 0.676, y) * sstep(0.09, 0.19, z);
                             dy += wPom * pom * 0.008;
                             dx += sx * wPom * pom * 0.004;
                             dz += wPom * pom * 0.003;
@@ -504,8 +504,8 @@
 
                         // 3) Mandíbula suave y bolsillo oral cóncavo estricto dentro del perímetro labial
                         const u = uvBoca[k * 3], vb = uvBoca[k * 3 + 1], prof = uvBoca[k * 3 + 2];
-                        if (y < 0.685 && z > 0.04) {
-                            const wJaw = pesoMandibula(y) * sstep(0.04, 0.16, z) * Math.exp(-Math.pow(ax / 0.20, 2));
+                        if (y < 0.695 && z > 0.07) {
+                            const wJaw = pesoMandibula(y) * sstep(0.07, 0.19, z) * Math.exp(-Math.pow(ax / 0.185, 2));
                             dy -= wJaw * bajadaJaw;
                             dz -= wJaw * bajadaJaw * 0.22;
 
@@ -613,7 +613,7 @@
             }
 
             function crearBoca(THREE, mats, hueso, caraRef) {
-                const ancla = impacto([0, 0.626, 1.2], [0, 0.626, 0.0]);
+                const ancla = impacto([0, 0.634, 1.2], [0, 0.634, 0.04]);
                 const O = v3(THREE, ancla.p), N = v3(THREE, ancla.n);
                 const T = new THREE.Vector3(0, 1, 0).cross(N).normalize();
                 const B = N.clone().cross(T).normalize();
@@ -727,7 +727,7 @@
                             muestrear(u, v, tmp);
 
                             // Misma ley de caída mandibular que crearCaraDeformable para un sellado 100 % exacto
-                            const wJaw = pesoMandibula(tmp[1]) * sstep(0.04, 0.16, tmp[2]) * Math.exp(-Math.pow(tmp[0] / 0.20, 2));
+                            const wJaw = pesoMandibula(tmp[1]) * sstep(0.07, 0.19, tmp[2]) * Math.exp(-Math.pow(tmp[0] / 0.185, 2));
                             const caidaY = -wJaw * bajadaJaw;
                             const caidaZ = -wJaw * bajadaJaw * 0.22;
 
@@ -760,7 +760,7 @@
                     // Vértice central del fondo de la cavidad
                     muestrear(0, centroV0, tmp);
                     const elevC = 0.0014 - profMax;
-                    const wJawC = pesoMandibula(tmp[1]) * sstep(0.04, 0.16, tmp[2]);
+                    const wJawC = pesoMandibula(tmp[1]) * sstep(0.07, 0.19, tmp[2]);
                     pos[iCentro * 3] = tmp[0] + tmp[3] * elevC - base.x;
                     pos[iCentro * 3 + 1] = tmp[1] + tmp[4] * elevC - wJawC * bajadaJaw - base.y;
                     pos[iCentro * 3 + 2] = tmp[2] + tmp[5] * elevC - wJawC * bajadaJaw * 0.22 - base.z;
@@ -782,7 +782,7 @@
                         const escAncho = (P.ancho / 0.036) * 0.78;
                         const visD = Math.max(forma.dientes || 0, sstep(0.48, 0.95, P.abre) * 0.90);
                         muestrear(0, L0.sup - 0.0018, tmp);
-                        const wJawS = pesoMandibula(tmp[1]) * sstep(0.04, 0.16, tmp[2]);
+                        const wJawS = pesoMandibula(tmp[1]) * sstep(0.07, 0.19, tmp[2]);
                         dientesSup.quaternion.copy(quatBoca);
                         dientesSup.scale.set(escAncho, 0.80 + 0.36 * visD, Math.min(1.18, escAncho * 0.95));
                         dientesSup.position.set(tmp[0] - base.x, tmp[1] - wJawS * bajadaJaw - base.y, tmp[2] - wJawS * bajadaJaw * 0.22 - base.z)
@@ -790,7 +790,7 @@
 
                         if (dientesInf.visible) {
                             muestrear(0, L0.inf + 0.0036, tmp);
-                            const wJawI = pesoMandibula(tmp[1]) * sstep(0.04, 0.16, tmp[2]);
+                            const wJawI = pesoMandibula(tmp[1]) * sstep(0.07, 0.19, tmp[2]);
                             dientesInf.quaternion.copy(quatBoca);
                             dientesInf.scale.set(escAncho * 0.88, 0.75 + 0.30 * visD, Math.min(1.12, escAncho * 0.90));
                             dientesInf.position.set(tmp[0] - base.x, tmp[1] - wJawI * bajadaJaw - base.y, tmp[2] - wJawI * bajadaJaw * 0.22 - base.z)
@@ -804,7 +804,7 @@
                     lengua.visible = mostrarLengua;
                     if (mostrarLengua) {
                         muestrear(0, L0.inf + 0.006, tmp);
-                        const wJawL = pesoMandibula(tmp[1]) * sstep(0.04, 0.16, tmp[2]);
+                        const wJawL = pesoMandibula(tmp[1]) * sstep(0.07, 0.19, tmp[2]);
                         lengua.quaternion.copy(quatBoca);
                         if (fuera > 0.08) {
                             lengua.rotateX(0.36 + 0.28 * fuera);
@@ -989,7 +989,7 @@
                 const texOjo = crearTexturaOjo(THREE);
                 const M = crearMateriales(THREE, texOjo, uniformes);
 
-                // Esqueleto de 12 huesos
+                // Esqueleto de 15 huesos (incluye codoIzq/codoDer y colaMedia)
                 const huesos = G.HUESOS.map((h) => {
                     const b = new THREE.Bone();
                     b.name = h.nombre;
@@ -1093,28 +1093,28 @@
 
                 // 3 escamitas dorsales verde-oliva en la nuca/trasera de la cabeza: arriba pequeña, centro mayor, abajo mediana (captura 10)
                 const cc = G.ANATOMIA.craneo.c;
-                [[0.72, 0.032, 0.46], [1.16, 0.044, 0.46], [1.58, 0.036, 0.46]].forEach(([ang, r, hund]) => {
+                [[0.76, 0.032, 0.46], [1.18, 0.044, 0.46], [1.58, 0.036, 0.46]].forEach(([ang, r, hund]) => {
                     const dir = [0, Math.cos(ang), -Math.sin(ang)];
                     const hit = impacto([cc[0] + dir[0], cc[1] + dir[1], cc[2] + dir[2]], cc);
                     poner(cabeza, 'placa', hit, [r * 0.88, r * 1.04, r * 0.72], hund, null, true, geoPlaca);
                 });
 
-                // Manos: 3 garritas cortitas y redondeadas en el borde interno de la manopla (capturas 08, 12 y 13)
+                // Manos: 3 garritas cortitas y redondeadas adjuntas al codo siguiendo el eje del antebrazo (capturas 03, 08, 12 y 13)
                 const An = G.ANATOMIA;
                 [1, -1].forEach((l) => {
-                    const hueso = l > 0 ? porNombre.brazoIzq : porNombre.brazoDer;
-                    const a = new THREE.Vector3(An.brazo.a[0] * l, An.brazo.a[1], An.brazo.a[2]);
-                    const b = new THREE.Vector3(An.brazo.b[0] * l, An.brazo.b[1], An.brazo.b[2]);
-                    const eje = b.clone().sub(a).normalize();
-                    const palma = new THREE.Vector3(-0.76 * l, -0.26, 0.58).normalize();
-                    const abanico = new THREE.Vector3(-0.30 * l, 0.64, 0.70).normalize();
+                    const hueso = l > 0 ? porNombre.codoIzq : porNombre.codoDer;
+                    const codo = new THREE.Vector3(An.brazo.codo[0] * l, An.brazo.codo[1], An.brazo.codo[2]);
                     const c = new THREE.Vector3(An.mano.c[0] * l, An.mano.c[1], An.mano.c[2]);
-                    [-0.56, 0, 0.56].forEach((ang) => {
-                        const d = palma.clone().multiplyScalar(0.62 * Math.cos(ang * 0.45))
-                            .addScaledVector(eje, 0.50)
-                            .addScaledVector(abanico, 0.64 * Math.sin(ang)).normalize();
+                    const eje = c.clone().sub(codo).normalize();
+                    const refPalma = new THREE.Vector3(-0.22 * l, -0.24, 0.94);
+                    const palma = refPalma.addScaledVector(eje, -refPalma.dot(eje)).normalize();
+                    const abanico = new THREE.Vector3().crossVectors(palma, eje).normalize();
+                    [-0.50, 0, 0.50].forEach((ang) => {
+                        const d = eje.clone().multiplyScalar(0.80 * Math.cos(ang * 0.45))
+                            .addScaledVector(palma, 0.22)
+                            .addScaledVector(abanico, 0.56 * Math.sin(ang)).normalize();
                         const desde = c.clone().addScaledVector(d, 0.11);
-                        poner(hueso, 'garra', impacto([desde.x, desde.y, desde.z], [c.x, c.y, c.z], 0.18), [0.0122, 0.0112, 0.0170], 0.46, d, false, geoGarra);
+                        poner(hueso, 'garra', impacto([desde.x, desde.y, desde.z], [c.x, c.y, c.z], 0.18), [0.0115, 0.0105, 0.0155], 0.46, d, false, geoGarra);
                     });
                 });
 
@@ -1175,7 +1175,7 @@
                 clave.castShadow = true;
                 const tam = calidad === 'baja' ? 1024 : 2048;
                 clave.shadow.mapSize.set(tam, tam);
-                Object.assign(clave.shadow.camera, { left: -0.75, right: 0.75, top: 0.9, bottom: -0.8, near: 0.5, far: 7 });
+                Object.assign(clave.shadow.camera, { left: -0.92, right: 0.92, top: 1.0, bottom: -0.92, near: 0.5, far: 7 });
                 clave.shadow.camera.updateProjectionMatrix();
                 clave.shadow.bias = -0.0006;
                 clave.shadow.normalBias = 0.012;
@@ -1206,9 +1206,9 @@
                 grad.addColorStop(1, 'rgba(130,78,16,0)');
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, 128, 128);
-                const contacto = new THREE.Mesh(new THREE.PlaneGeometry(1.02, 0.92), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(lienzo), transparent: true, depthWrite: false }));
+                const contacto = new THREE.Mesh(new THREE.PlaneGeometry(1.04, 1.12), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(lienzo), transparent: true, depthWrite: false }));
                 contacto.rotation.x = -Math.PI / 2;
-                contacto.position.set(0, 0.002, -0.04);
+                contacto.position.set(0, 0.002, -0.09);
                 contacto.renderOrder = -1;
                 escena.add(contacto);
                 return { hemi, clave, relleno, contra, suelo, contacto, envTex };
