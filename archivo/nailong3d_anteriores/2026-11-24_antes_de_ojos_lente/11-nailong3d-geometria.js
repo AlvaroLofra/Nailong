@@ -1,0 +1,598 @@
+        /* ==============================================================
+           15. NAILONG 3D · NÚCLEO GEOMÉTRICO (SDF + SURFACE NETS)
+           Sin dependencias (ni Three.js ni DOM): se ejecuta en un Web Worker,
+           en el hilo principal o en Node (verify_all.py lo prueba allí).
+           Idea: Nailong se describe como una «niebla» de formas (elipsoides y
+           conos redondeados) que se funden con unión suave; después se extrae
+           la superficie con Surface Nets en una sola malla estanca, sin costuras.
+           Ejes: y arriba, z hacia delante (cara), x hacia su izquierda. Altura 1.
+        ============================================================== */
+        function crearKernelGeometriaNailong() {
+            'use strict';
+
+            // Proporciones canónicas medidas sobre las 15 capturas reales de la serie de Seventh Impression (altura total = 1):
+            // frente 08 / 13 / 15 · perfil 05 / 09 · tres cuartos 06 / 07 / 11 / 14 · espalda 10 · primer plano 12.
+            const ANATOMIA = {
+                craneo:   { c: [0, 0.764, 0.044], r: [0.222, 0.216, 0.210], rotX: -0.22 }, // bóveda craneal inclinada en judía con nuca continua a la espalda (05, 08, 12)
+                frente:   { c: [0, 0.808, 0.092], r: [0.216, 0.160, 0.172], rotX: -0.14 }, // coronilla ancha y sienes llenas sin repisa supraciliar (08, 12, 13)
+                mofletes: { c: [0, 0.646, 0.096], r: [0.223, 0.140, 0.194], rotX: -0.16 }, // mofletes redondos y llenos a la altura de la boca, fundidos sin falda lateral (08, 13, 14, 18, 26; 3D12)
+                hocico:   { c: [0, 0.642, 0.182], r: [0.164, 0.110, 0.136], rotX: 0.16 },  // morro y mandíbula convexos adelantados sobre el pecho (05, 06, 12, 14)
+                // 3D12 · Silueta frontal en «campana» (01, 08, 13, 18, 19, 24-26): escala del ancho (eje x) de la cabeza según la altura y.
+                // Estrecha de los ojos a la coronilla y deja los mofletes como la parte más ancha; al tocar solo x, el perfil lateral, la nuca y las placas no cambian.
+                perfilCabeza: { y: [0.56, 0.66, 0.76, 0.85, 0.93, 1.0], s: [1.025, 0.995, 0.952, 0.92, 0.955, 0.975] },
+                pecho:    { c: [0, 0.456, -0.028], r: [0.162, 0.164, 0.158] },   // torso superior recogido para separar claramente cabeza, cuello y hombros (08, 13)
+                caderas:  { c: [0, 0.298, -0.018], r: [0.242, 0.194, 0.174] },   // cuerpo de pera/gota recogido y alto para liberar piernas y entrepierna (05, 13, 14)
+                barriga:  { c: [0, 0.284, 0.034],  r: [0.204, 0.176, 0.172] },   // pancita redonda recogida con frente en z~0.20-0.21 y fondo alto (05, 07, 13)
+                // Pose de generación en «A» abierta (~40° respecto al costado) con codo ergonómico hacia delante y manopla algo más ancha que la muñeca (3D8)
+                brazo:    { a: [0.156, 0.490, -0.038], codo: [0.246, 0.454, -0.022], b: [0.310, 0.412, 0.018], ra: 0.059, rc: 0.054, rb: 0.050 },
+                mano:     { c: [0.320, 0.405, 0.024], r: [0.055, 0.057, 0.055] },
+                pierna:   { a: [0.148, 0.192, -0.006], b: [0.152, 0.052, 0.004], ra: 0.088, rb: 0.074 },
+                pie:      { c: [0.152, 0.040, 0.020], r: [0.082, 0.044, 0.088] },
+                // Cola larga en 3 tramos casi horizontal que nace baja en la espalda y se afina en curva suave hasta punta roma (09, 11, 14; 3D9)
+                cola:     { a: [0, 0.168, -0.138], m1: [0, 0.142, -0.240], m2: [0, 0.148, -0.328], b: [0, 0.178, -0.398], ra: 0.106, rm1: 0.072, rm2: 0.048, rb: 0.030 },
+                // Ojos grandes, redondos y bien encastrados en la sien para evitar esclerótica saliente en 3/4 y perfil (05, 08, 12)
+                ojo:      { x: 0.097, y: 0.734, r: 0.062, hundido: 0.85, giro: 0.12 },
+                k: {        // radios de fusión polinómica: cuello nítido delante y en costados, continuo en la nuca trasera; axila limpia
+                    cabeza: 0.104, frente: 0.096, hocico: 0.088,
+                    torso: 0.112, barriga: 0.074, cuello: 0.038, cuelloEspalda: 0.118,
+                    hombro: 0.042, axila: 0.020, codo: 0.024, brazo: 0.042, mano: 0.018,
+                    pierna: 0.036, pie: 0.030, cola: 0.056, cuenca: 0.024, planta: 0.022
+                },
+                pancita: { cy: 0.288, rx: 0.172, ry: 0.181, nucleo: 0.95, falda: 1.07 } // núcleo crema nítido sin halo ni envolvimiento lateral (05, 13)
+            };
+
+            // Paleta canónica Seventh Impression en sRGB (amarillo mantequilla cálido, crema, oliva dorsal, garra marrón-oliva y almohadilla rosa)
+            const COLORES = {
+                amarillo: '#F8C52C', crema: '#FAF0C8', oliva: '#8A9244', garra: '#6B573E',
+                rosa: '#F5A6AE', iris: '#1E7028', irisAro: '#0D2E13', irisClaro: '#70DE46',
+                pupila: '#080B08', esclera: '#FFFFFF', boca: '#481219', lengua: '#E86878', dientes: '#FAF7F0'
+            };
+
+            // Esqueleto de 15 huesos (posición de reposo, padre). Los índices son los de la piel.
+            const HUESOS = [
+                { nombre: 'raiz',     p: [0, 0, 0],                 padre: -1 },
+                { nombre: 'cadera',   p: [0, 0.180, -0.016],        padre: 0 },
+                { nombre: 'tronco',   p: [0, 0.320, -0.016],        padre: 1 },
+                { nombre: 'pecho',    p: [0, 0.452, -0.014],        padre: 2 },
+                { nombre: 'cabeza',   p: [0, 0.556, 0.022],         padre: 3 },
+                { nombre: 'barriga',  p: [0, 0.284, -0.068],        padre: 2 },
+                { nombre: 'brazoIzq', p: ANATOMIA.brazo.a.slice(),  padre: 3 },
+                { nombre: 'brazoDer', p: [-ANATOMIA.brazo.a[0], ANATOMIA.brazo.a[1], ANATOMIA.brazo.a[2]], padre: 3 },
+                { nombre: 'piernaIzq', p: ANATOMIA.pierna.a.slice(), padre: 1 },
+                { nombre: 'piernaDer', p: [-ANATOMIA.pierna.a[0], ANATOMIA.pierna.a[1], ANATOMIA.pierna.a[2]], padre: 1 },
+                { nombre: 'cola',      p: ANATOMIA.cola.a.slice(),   padre: 1 },
+                { nombre: 'colaMedia', p: ANATOMIA.cola.m1.slice(),  padre: 10 },
+                { nombre: 'colaPunta', p: ANATOMIA.cola.m2.slice(),  padre: 11 },
+                { nombre: 'codoIzq',   p: ANATOMIA.brazo.codo.slice(), padre: 6 },
+                { nombre: 'codoDer',   p: [-ANATOMIA.brazo.codo[0], ANATOMIA.brazo.codo[1], ANATOMIA.brazo.codo[2]], padre: 7 }
+            ];
+            const H = {};
+            HUESOS.forEach((h, i) => { H[h.nombre] = i; });
+
+            /* ---------- Primitivas con constantes precalculadas ---------- */
+            function elipsoide(def, espejo) {
+                const cx = espejo ? -def.c[0] : def.c[0];
+                const rotX = def.rotX || 0;
+                return { cx, cy: def.c[1], cz: def.c[2], rx: def.r[0], ry: def.r[1], rz: def.r[2],
+                    ix: 1 / def.r[0], iy: 1 / def.r[1], iz: 1 / def.r[2], rmin: Math.min(def.r[0], def.r[1], def.r[2]),
+                    rot: rotX !== 0, cosX: Math.cos(rotX), sinX: Math.sin(rotX) };
+            }
+            function conoRedondo(def, espejo) {
+                const s = espejo ? -1 : 1;
+                const ax = def.a[0] * s, ay = def.a[1], az = def.a[2];
+                const bx = def.b[0] * s, by = def.b[1], bz = def.b[2];
+                const bax = bx - ax, bay = by - ay, baz = bz - az;
+                const l2 = bax * bax + bay * bay + baz * baz;
+                const rr = def.ra - def.rb;
+                return { ax, ay, az, bax, bay, baz, l2, rr, a2: l2 - rr * rr, il2: 1 / l2, r1: def.ra, r2: def.rb };
+            }
+            function dElip(x, y, z, e) {
+                let dy = y - e.cy, dz = z - e.cz;
+                if (e.rot) {
+                    const ry = dy * e.cosX + dz * e.sinX;
+                    dz = -dy * e.sinX + dz * e.cosX;
+                    dy = ry;
+                }
+                const px = (x - e.cx) * e.ix, py = dy * e.iy, pz = dz * e.iz;
+                const k0 = Math.sqrt(px * px + py * py + pz * pz);
+                const qx = px * e.ix, qy = py * e.iy, qz = pz * e.iz;
+                const k1 = Math.sqrt(qx * qx + qy * qy + qz * qz);
+                return k1 > 1e-9 ? k0 * (k0 - 1) / k1 : -e.rmin;
+            }
+            // Cono redondeado de Inigo Quilez (una sola raíz cuadrada)
+            function dCono(x, y, z, c) {
+                const pax = x - c.ax, pay = y - c.ay, paz = z - c.az;
+                const yy = pax * c.bax + pay * c.bay + paz * c.baz;
+                const zz = yy - c.l2;
+                const wx = pax * c.l2 - c.bax * yy, wy = pay * c.l2 - c.bay * yy, wz = paz * c.l2 - c.baz * yy;
+                const x2 = wx * wx + wy * wy + wz * wz;
+                const y2 = yy * yy * c.l2, z2 = zz * zz * c.l2;
+                const k = Math.sign(c.rr) * c.rr * c.rr * x2;
+                if (Math.sign(zz) * c.a2 * z2 > k) return Math.sqrt(x2 + z2) * c.il2 - c.r2;
+                if (Math.sign(yy) * c.a2 * y2 < k) return Math.sqrt(x2 + y2) * c.il2 - c.r1;
+                return (Math.sqrt(x2 * c.a2 * c.il2) + yy * c.rr) * c.il2 - c.r1;
+            }
+            // Unión y diferencia suaves (polinómicas)
+            function smin(a, b, k) {
+                const h = Math.max(k - Math.abs(a - b), 0) / k;
+                return Math.min(a, b) - h * h * k * 0.25;
+            }
+            function smax(a, b, k) {
+                const h = Math.max(k - Math.abs(a - b), 0) / k;
+                return Math.max(a, b) + h * h * k * 0.25;
+            }
+            function suavizar(e0, e1, x) {
+                const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
+                return t * t * (3 - 2 * t);
+            }
+
+            const A = ANATOMIA, K = ANATOMIA.k;
+            const P = {
+                craneo: elipsoide(A.craneo), frente: elipsoide(A.frente),
+                mofletes: elipsoide(A.mofletes), hocico: elipsoide(A.hocico),
+                pecho: elipsoide(A.pecho), caderas: elipsoide(A.caderas), barriga: elipsoide(A.barriga),
+                brazo: conoRedondo(A.brazo),
+                brazo1: conoRedondo({ a: A.brazo.a, b: A.brazo.codo, ra: A.brazo.ra, rb: A.brazo.rc }),
+                brazo2: conoRedondo({ a: A.brazo.codo, b: A.brazo.b, ra: A.brazo.rc, rb: A.brazo.rb }),
+                mano: elipsoide(A.mano),
+                pierna: conoRedondo(A.pierna), pie: elipsoide(A.pie),
+                cola: conoRedondo(A.cola),
+                cola1: conoRedondo({ a: A.cola.a, b: A.cola.m1, ra: A.cola.ra, rb: A.cola.rm1 }),
+                cola2: conoRedondo({ a: A.cola.m1, b: A.cola.m2, ra: A.cola.rm1, rb: A.cola.rm2 }),
+                cola3: conoRedondo({ a: A.cola.m2, b: A.cola.b, ra: A.cola.rm2, rb: A.cola.rb })
+            };
+
+            // Cabeza completamente lisa y redonda (sin bulto nasal, sin arco supraciliar saliente ni hoyuelos fijos)
+            function dCabezaBase(ax, y, z) {   // ax ya en valor absoluto
+                let d = dElip(ax, y, z, P.craneo);
+                d = smin(d, dElip(ax, y, z, P.mofletes), K.cabeza);
+                d = smin(d, dElip(ax, y, z, P.frente), K.frente);
+                return smin(d, dElip(ax, y, z, P.hocico), K.hocico);
+            }
+
+            // 3D12 · Curva suave (Hermite monótona, sin rebotes) de la escala en x de la cabeza según la altura
+            const PERFIL_X = (function (def) {
+                if (!def || !def.y || !def.s || def.y.length < 2 || def.y.length !== def.s.length) return null;
+                const pts = def.y.map((y, i) => [y, def.s[i]]).sort((a, b) => a[0] - b[0]);
+                const n = pts.length, ys = pts.map(p => p[0]), ss = pts.map(p => p[1]);
+                const h = [], dl = [], m = new Array(n);
+                for (let i = 0; i < n - 1; i++) { h.push(ys[i + 1] - ys[i]); dl.push((ss[i + 1] - ss[i]) / h[i]); }
+                m[0] = dl[0]; m[n - 1] = dl[n - 2];
+                for (let i = 1; i < n - 1; i++) {
+                    if (dl[i - 1] * dl[i] <= 0) { m[i] = 0; continue; }
+                    const w1 = 2 * h[i] + h[i - 1], w2 = h[i] + 2 * h[i - 1];
+                    m[i] = (w1 + w2) / (w1 / dl[i - 1] + w2 / dl[i]);
+                }
+                return { n, ys, ss, h, m, sMax: Math.max(1, ...ss) };
+            })(A.perfilCabeza);
+            function escalaCabezaX(y) {
+                const C = PERFIL_X;
+                if (!C) return 1;
+                if (y <= C.ys[0]) return C.ss[0];
+                if (y >= C.ys[C.n - 1]) return C.ss[C.n - 1];
+                let i = 0;
+                while (y > C.ys[i + 1]) i++;
+                const t = (y - C.ys[i]) / C.h[i], t2 = t * t, t3 = t2 * t;
+                return (2 * t3 - 3 * t2 + 1) * C.ss[i] + (t3 - 2 * t2 + t) * C.h[i] * C.m[i] + (3 * t2 - 2 * t3) * C.ss[i + 1] + (t3 - t2) * C.h[i] * C.m[i + 1];
+            }
+            // Cabeza final: se escala solo el eje x (la distancia se corrige a la baja donde estrecha para no saltarse la piel)
+            function dCabeza(ax, y, z) {
+                if (!PERFIL_X) return dCabezaBase(ax, y, z);
+                const s = escalaCabezaX(y);
+                const d = dCabezaBase(ax / s, y, z);
+                return s < 1 ? d * s : d;
+            }
+
+            // Posición del globo ocular: se apoya en la superficie lisa de la cara y se encastra siguiendo su giro suave
+            const OJO = (function () {
+                let z = 0.6;
+                for (let i = 0; i < 200; i++) {
+                    const d = dCabeza(A.ojo.x, A.ojo.y, z);
+                    if (d < 1e-5) break;
+                    z -= Math.max(d, 1e-4);
+                }
+                const giro = A.ojo.giro || 0.08;
+                const sg = Math.sin(giro), cg = Math.cos(giro);
+                const h = A.ojo.r * A.ojo.hundido;
+                return { x: A.ojo.x - sg * h, y: A.ojo.y, z: z - cg * h, r: A.ojo.r, giro, sg, cg };
+            })();
+            // Cuenca redonda C-infinito desplazada hacia delante para abrir ventana tierna frontal y arropar la sien en perfil
+            const R_CUENCA = OJO.r * 0.88;
+            const ESCALA_RUBOR = escalaCabezaX(0.664);   // el rubor acompaña al moflete si la cara se ensancha
+
+            function dTorso(x, y, z) {
+                let d = dElip(x, y, z, P.caderas);
+                d = smin(d, dElip(x, y, z, P.pecho), K.torso);
+                return smin(d, dElip(x, y, z, P.barriga), K.barriga);
+            }
+            function dBrazo(x, y, z) {
+                const d1 = dCono(x, y, z, P.brazo1);
+                const d2 = dCono(x, y, z, P.brazo2);
+                return smin(smin(d1, d2, K.codo), dElip(x, y, z, P.mano), K.mano);
+            }
+            function dPierna(x, y, z) { return smin(dCono(x, y, z, P.pierna), dElip(x, y, z, P.pie), K.pie); }
+            function dCola(x, y, z) {
+                return smin(smin(dCono(x, y, z, P.cola1), dCono(x, y, z, P.cola2), 0.038), dCono(x, y, z, P.cola3), 0.026);
+            }
+
+            // Esferas envolventes por parte para descartar evaluaciones lejanas sin alterar el campo
+            function esferaEnvolvente(elips, conos) {
+                const s = [];
+                elips.forEach(e => s.push([e.c[0], e.c[1], e.c[2], Math.max(e.r[0], e.r[1], e.r[2])]));
+                conos.forEach(c => {
+                    s.push([c.a[0], c.a[1], c.a[2], c.ra]);
+                    if (c.codo) s.push([c.codo[0], c.codo[1], c.codo[2], c.rc || c.ra]);
+                    if (c.m1) s.push([c.m1[0], c.m1[1], c.m1[2], c.rm1 || c.ra]);
+                    if (c.m) s.push([c.m[0], c.m[1], c.m[2], c.rm || c.ra]);
+                    if (c.m2) s.push([c.m2[0], c.m2[1], c.m2[2], c.rm2 || c.rb]);
+                    s.push([c.b[0], c.b[1], c.b[2], c.rb]);
+                });
+                const mn = [0, 1, 2].map(i => Math.min(...s.map(q => q[i] - q[3])));
+                const mx = [0, 1, 2].map(i => Math.max(...s.map(q => q[i] + q[3])));
+                const c = [0, 1, 2].map(i => (mn[i] + mx[i]) / 2);
+                const r = Math.max(...s.map(q => Math.hypot(q[0] - c[0], q[1] - c[1], q[2] - c[2]) + q[3]));
+                return { x: c[0], y: c[1], z: c[2], r };
+            }
+            const ENV = {
+                cabeza: esferaEnvolvente([A.craneo, A.frente, A.mofletes, A.hocico], []),
+                torso: esferaEnvolvente([A.caderas, A.pecho, A.barriga], []),
+                brazo: esferaEnvolvente([A.mano], [A.brazo]),
+                pierna: esferaEnvolvente([A.pie], [A.pierna]),
+                cola: esferaEnvolvente([], [A.cola])
+            };
+            if (PERFIL_X) ENV.cabeza.r *= PERFIL_X.sMax;   // la cabeza ensanchada sigue dentro de su esfera envolvente
+            function cota(e, x, y, z) {
+                const dx = x - e.x, dy = y - e.y, dz = z - e.z;
+                return Math.sqrt(dx * dx + dy * dy + dz * dz) - e.r;
+            }
+
+            // Campo de distancia completo del cuerpo (simétrico en x)
+            function sdf(x, y, z) {
+                const ax = x < 0 ? -x : x;
+                // Unión cabeza-torso: cuello nítido en frente y costados (overhang de barbilla + cintura clara), diagonal continua en la nuca trasera
+                const tEspalda = suavizar(-0.02, -0.15, z) * suavizar(0.22, 0.08, ax);
+                const kCuello = K.cuello + (K.cuelloEspalda - K.cuello) * tEspalda;
+                const cT = cota(ENV.torso, ax, y, z), cC = cota(ENV.cabeza, ax, y, z);
+                let d;
+                if (cT < cC) { d = dTorso(ax, y, z); if (cC < d + kCuello) d = smin(d, dCabeza(ax, y, z), kCuello); }
+                else { d = dCabeza(ax, y, z); if (cT < d + kCuello) d = smin(dTorso(ax, y, z), d, kCuello); }
+                const kHombroMax = K.hombro || K.brazo;
+                if (cota(ENV.brazo, ax, y, z) < d + kHombroMax) {
+                    // Unión direccional en hombro: redonda por arriba, nítida en la axila (cero membrana lateral)
+                    const tAxila = suavizar(A.brazo.a[1] + 0.032, A.brazo.a[1] - 0.032, y);
+                    const kHombro = kHombroMax + ((K.axila || 0.016) - kHombroMax) * tAxila;
+                    d = smin(d, dBrazo(ax, y, z), kHombro);
+                }
+                if (cota(ENV.pierna, ax, y, z) < d + K.pierna) d = smin(d, dPierna(ax, y, z), K.pierna);
+                if (cota(ENV.cola, ax, y, z) < d + K.cola) d = smin(d, dCola(ax, y, z), K.cola);
+
+                // Cuenca ocular redonda C-infinito en la sien (abre ventana grande y dulce al frente sin pico lateral en perfil)
+                const dx0 = ax - OJO.x, dz0 = z - OJO.z;
+                const ex = dx0 * OJO.cg - dz0 * OJO.sg;
+                const ez = dx0 * OJO.sg + dz0 * OJO.cg - 0.17 * OJO.r;
+                const ey0 = y - OJO.y;
+                const ey = ey0 * (ey0 < 0 ? 1.03 : 1.00);
+                const rxOjo = OJO.r * 0.86;
+                const ryOjo = OJO.r * 0.90;
+                const r2d = Math.hypot(ex / rxOjo, ey / ryOjo) * rxOjo;
+                const s = R_CUENCA - Math.sqrt(r2d * r2d + ez * ez + 1e-6);
+                if (s > d - K.cuenca) d = smax(d, s, K.cuenca);
+
+                return y < K.planta - d ? smax(d, -y, K.planta) : d;
+            }
+
+            // Distancias por grupo (para los pesos de la piel). Orden: cabeza, torso, brazoI, brazoD, piernaI, piernaD, cola
+            function sdfGrupos(x, y, z, out) {
+                const ax = x < 0 ? -x : x;
+                out[0] = dCabeza(ax, y, z);
+                out[1] = dTorso(ax, y, z);
+                out[2] = dBrazo(x, y, z);
+                out[3] = dBrazo(-x, y, z);
+                out[4] = dPierna(x, y, z);
+                out[5] = dPierna(-x, y, z);
+                out[6] = dCola(ax, y, z);
+                return out;
+            }
+
+            // Gradiente por tetraedro (4 evaluaciones)
+            function gradiente(x, y, z, e, out) {
+                const a = sdf(x + e, y - e, z - e), b = sdf(x - e, y - e, z + e);
+                const c = sdf(x - e, y + e, z - e), d = sdf(x + e, y + e, z + e);
+                out[0] = a - b - c + d; out[1] = -a - b + c + d; out[2] = -a + b - c + d;
+                const l = Math.hypot(out[0], out[1], out[2]) || 1;
+                out[0] /= l; out[1] /= l; out[2] /= l;
+                return out;
+            }
+
+            // Proyecta un punto sobre la superficie y devuelve punto + normal
+            function anclarEnSuperficie(x, y, z) {
+                const g = [0, 0, 0];
+                for (let i = 0; i < 12; i++) {
+                    const d = sdf(x, y, z);
+                    gradiente(x, y, z, 0.0015, g);
+                    x -= d * g[0]; y -= d * g[1]; z -= d * g[2];
+                    if (Math.abs(d) < 2e-6) break;
+                }
+                gradiente(x, y, z, 0.0015, g);
+                return { p: [x, y, z], n: [g[0], g[1], g[2]] };
+            }
+
+            // Lanza un rayo desde fuera (sphere tracing). Devuelve el punto de impacto o null.
+            function trazarRayo(ox, oy, oz, dx, dy, dz, tMax) {
+                const l = Math.hypot(dx, dy, dz); dx /= l; dy /= l; dz /= l;
+                let t = 0;
+                for (let i = 0; i < 256 && t < (tMax || 3); i++) {
+                    const d = sdf(ox + dx * t, oy + dy * t, oz + dz * t);
+                    if (d < 1e-5) return anclarEnSuperficie(ox + dx * t, oy + dy * t, oz + dz * t);
+                    t += Math.max(d * 0.9, 1e-4);
+                }
+                return null;
+            }
+
+            function srgbALineal(hex) {
+                const n = parseInt(hex.slice(1), 16);
+                return [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(v => {
+                    v /= 255;
+                    return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+                });
+            }
+
+            function limites(margen) {
+                const mn = [Infinity, Infinity, Infinity], mx = [-Infinity, -Infinity, -Infinity];
+                const añadir = (x, y, z, r) => {
+                    [x, -x].forEach(xx => {
+                        const v = [xx, y, z];
+                        for (let i = 0; i < 3; i++) { mn[i] = Math.min(mn[i], v[i] - r); mx[i] = Math.max(mx[i], v[i] + r); }
+                    });
+                };
+                [A.craneo, A.frente, A.mofletes, A.hocico, A.pecho, A.caderas, A.barriga, A.mano, A.pie].forEach(e =>
+                    añadir(e.c[0], e.c[1], e.c[2], Math.max(e.r[0], e.r[1], e.r[2])));
+                [A.brazo, A.pierna, A.cola].forEach(c => {
+                    añadir(c.a[0], c.a[1], c.a[2], c.ra);
+                    if (c.codo) añadir(c.codo[0], c.codo[1], c.codo[2], c.rc || c.ra);
+                    if (c.m1) añadir(c.m1[0], c.m1[1], c.m1[2], c.rm1 || c.ra);
+                    if (c.m) añadir(c.m[0], c.m[1], c.m[2], c.rm || c.ra);
+                    if (c.m2) añadir(c.m2[0], c.m2[1], c.m2[2], c.rm2 || c.rb);
+                    añadir(c.b[0], c.b[1], c.b[2], c.rb);
+                });
+                mn[1] = Math.max(mn[1], 0);
+                for (let i = 0; i < 3; i++) { mn[i] -= margen; mx[i] += margen; }
+                return { mn, mx };
+            }
+
+            /* ---------- Surface Nets en banda estrecha ---------- */
+            const ESQUINAS = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]];
+            const ARISTAS = [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]];
+
+            function generarMalla(opciones) {
+                const t0 = Date.now();
+                const h = (opciones && opciones.celda) || 0.0075;
+                const conColor = !(opciones && opciones.sinColor);
+                const F = 4;                         // celdas finas por celda gruesa
+                const HG = h * F;
+                const lim = limites(2.5 * HG);
+                const ncx = Math.ceil((lim.mx[0] - lim.mn[0]) / HG), ncy = Math.ceil((lim.mx[1] - lim.mn[1]) / HG), ncz = Math.ceil((lim.mx[2] - lim.mn[2]) / HG);
+                const ox = lim.mn[0], oy = lim.mn[1], oz = lim.mn[2];
+                const gx = ncx + 1, gy = ncy + 1, gz = ncz + 1;
+                const gruesa = new Float32Array(gx * gy * gz);
+                for (let k = 0; k < gz; k++) for (let j = 0; j < gy; j++) for (let i = 0; i < gx; i++)
+                    gruesa[i + gx * (j + gy * k)] = sdf(ox + i * HG, oy + j * HG, oz + k * HG);
+
+                const nx = ncx * F + 1, ny = ncy * F + 1, nz = ncz * F + 1;
+                const fina = new Float32Array(nx * ny * nz).fill(NaN);
+                const banda = 2.2 * HG;
+                const cercana = new Uint8Array(ncx * ncy * ncz);
+                let evaluados = 0;
+                for (let ck = 0; ck < ncz; ck++) for (let cj = 0; cj < ncy; cj++) for (let ci = 0; ci < ncx; ci++) {
+                    let minAbs = Infinity;
+                    for (let c = 0; c < 8; c++) {
+                        const v = gruesa[(ci + ESQUINAS[c][0]) + gx * ((cj + ESQUINAS[c][1]) + gy * (ck + ESQUINAS[c][2]))];
+                        minAbs = Math.min(minAbs, Math.abs(v));
+                    }
+                    if (minAbs > banda) continue;
+                    cercana[ci + ncx * (cj + ncy * ck)] = 1;
+                    for (let k = ck * F; k <= ck * F + F; k++) for (let j = cj * F; j <= cj * F + F; j++) for (let i = ci * F; i <= ci * F + F; i++) {
+                        const idx = i + nx * (j + ny * k);
+                        if (fina[idx] === fina[idx]) continue;   // ya evaluado (no es NaN)
+                        fina[idx] = sdf(ox + i * h, oy + j * h, oz + k * h);
+                        evaluados++;
+                    }
+                }
+
+                // 1) Un vértice por celda que corta la superficie (media de los cruces en sus aristas)
+                const celdaVert = new Int32Array((nx - 1) * (ny - 1) * (nz - 1)).fill(-1);
+                const pos = [], celdas = [];
+                const val = new Float64Array(8);
+                for (let ck = 0; ck < ncz; ck++) for (let cj = 0; cj < ncy; cj++) for (let ci = 0; ci < ncx; ci++) {
+                    if (!cercana[ci + ncx * (cj + ncy * ck)]) continue;
+                    for (let k = ck * F; k < ck * F + F; k++) for (let j = cj * F; j < cj * F + F; j++) for (let i = ci * F; i < ci * F + F; i++) {
+                        let mascara = 0;
+                        for (let c = 0; c < 8; c++) {
+                            const v = fina[(i + ESQUINAS[c][0]) + nx * ((j + ESQUINAS[c][1]) + ny * (k + ESQUINAS[c][2]))];
+                            val[c] = v;
+                            if (v < 0) mascara |= (1 << c);
+                        }
+                        if (mascara === 0 || mascara === 255) continue;
+                        let sx = 0, sy = 0, sz = 0, n = 0;
+                        for (let e = 0; e < 12; e++) {
+                            const a = ARISTAS[e][0], b = ARISTAS[e][1];
+                            if (((mascara >> a) & 1) === ((mascara >> b) & 1)) continue;
+                            const t = val[a] / (val[a] - val[b]);
+                            sx += ESQUINAS[a][0] + t * (ESQUINAS[b][0] - ESQUINAS[a][0]);
+                            sy += ESQUINAS[a][1] + t * (ESQUINAS[b][1] - ESQUINAS[a][1]);
+                            sz += ESQUINAS[a][2] + t * (ESQUINAS[b][2] - ESQUINAS[a][2]);
+                            n++;
+                        }
+                        celdaVert[i + (nx - 1) * (j + (ny - 1) * k)] = pos.length / 3;
+                        pos.push(ox + (i + sx / n) * h, oy + (j + sy / n) * h, oz + (k + sz / n) * h);
+                        celdas.push(i, j, k);
+                    }
+                }
+
+                // 2) Un cuadrilátero por cada arista de la rejilla que cruza la superficie
+                const cnx = nx - 1, cny = ny - 1;
+                const cv = (i, j, k) => celdaVert[i + cnx * (j + cny * k)];
+                const ind = [];
+                let huecos = 0;
+                const dist2 = (a, b) => {
+                    const dx = pos[a * 3] - pos[b * 3], dy = pos[a * 3 + 1] - pos[b * 3 + 1], dz = pos[a * 3 + 2] - pos[b * 3 + 2];
+                    return dx * dx + dy * dy + dz * dz;
+                };
+                const quad = (a, b, c, d, dentro) => {
+                    if (a < 0 || b < 0 || c < 0 || d < 0) { huecos++; return; }
+                    if (!dentro) { const t = b; b = d; d = t; }
+                    const d1 = dist2(a, c), d2 = dist2(b, d);
+                    if (d1 <= d2) ind.push(a, b, c, a, c, d);
+                    else ind.push(a, b, d, b, c, d);
+                };
+                for (let v = 0; v < celdas.length / 3; v++) {
+                    const i = celdas[v * 3], j = celdas[v * 3 + 1], k = celdas[v * 3 + 2];
+                    const v0 = fina[i + nx * (j + ny * k)];
+                    const dentro = v0 < 0;
+                    if (j > 0 && k > 0 && (fina[(i + 1) + nx * (j + ny * k)] < 0) !== dentro)
+                        quad(v, cv(i, j - 1, k), cv(i, j - 1, k - 1), cv(i, j, k - 1), dentro);
+                    if (k > 0 && i > 0 && (fina[i + nx * ((j + 1) + ny * k)] < 0) !== dentro)
+                        quad(v, cv(i, j, k - 1), cv(i - 1, j, k - 1), cv(i - 1, j, k), dentro);
+                    if (i > 0 && j > 0 && (fina[i + nx * (j + ny * (k + 1))] < 0) !== dentro)
+                        quad(v, cv(i - 1, j, k), cv(i - 1, j - 1, k), cv(i, j - 1, k), dentro);
+                }
+
+                // 3) Proyección exacta sobre la superficie y normales desde el gradiente
+                const nv = pos.length / 3;
+                const posiciones = new Float32Array(nv * 3), normales = new Float32Array(nv * 3);
+                const g = [0, 0, 0], eg = h * 0.35;
+                for (let v = 0; v < nv; v++) {
+                    let x = pos[v * 3], y = pos[v * 3 + 1], z = pos[v * 3 + 2];
+                    const x0 = x, y0 = y, z0 = z;
+                    const d = sdf(x, y, z);
+                    gradiente(x, y, z, eg, g);
+                    x -= d * g[0]; y -= d * g[1]; z -= d * g[2];
+                    const mx = x - x0, my = y - y0, mz = z - z0, m = Math.hypot(mx, my, mz), tope = 0.6 * h;
+                    if (m > tope) { x = x0 + mx * tope / m; y = y0 + my * tope / m; z = z0 + mz * tope / m; }
+                    gradiente(x, y, z, eg, g);
+                    posiciones[v * 3] = x; posiciones[v * 3 + 1] = y; posiciones[v * 3 + 2] = z;
+                    normales[v * 3] = g[0]; normales[v * 3 + 1] = g[1]; normales[v * 3 + 2] = g[2];
+                }
+
+                // 4) Pesos de piel (4 huesos por vértice) y color por vértice
+                const huesoIndices = new Uint16Array(nv * 4), huesoPesos = new Float32Array(nv * 4);
+                const colores = conColor ? new Float32Array(nv * 3) : null;
+                const cAmarillo = srgbALineal(COLORES.amarillo);
+                const cCrema = srgbALineal(COLORES.crema);
+                const cRubor = srgbALineal('#FF9E64');
+                const cRosa = srgbALineal(COLORES.rosa);
+                const dg = new Float64Array(7), w = new Float64Array(HUESOS.length);
+                const tau = 0.022, tauBrazo = 0.013;
+                const cola = P.cola;
+                const pz = A.pancita;
+                const mc = A.mano.c, pc = A.pie.c;
+                // Ejes anatómicos del brazo (hombro -> codo -> muñeca/mano) para pesos del codo y cara palmar relativa a mano.c
+                const codoP = A.brazo.codo;
+                const u1L = Math.hypot(codoP[0] - A.brazo.a[0], codoP[1] - A.brazo.a[1], codoP[2] - A.brazo.a[2]);
+                const u1X = (codoP[0] - A.brazo.a[0]) / u1L, u1Y = (codoP[1] - A.brazo.a[1]) / u1L, u1Z = (codoP[2] - A.brazo.a[2]) / u1L;
+                const u2L = Math.hypot(mc[0] - codoP[0], mc[1] - codoP[1], mc[2] - codoP[2]);
+                const u2X = (mc[0] - codoP[0]) / u2L, u2Y = (mc[1] - codoP[1]) / u2L, u2Z = (mc[2] - codoP[2]) / u2L;
+                const bisL = Math.hypot(u1X + u2X, u1Y + u2Y, u1Z + u2Z) || 1;
+                const bisX = (u1X + u2X) / bisL, bisY = (u1Y + u2Y) / bisL, bisZ = (u1Z + u2Z) / bisL;
+                // Cara palmar ortogonal al eje del antebrazo (hacia delante-interior-ligeramente abajo; sin umbral duro de Y)
+                const refDot = -0.22 * u2X - 0.24 * u2Y + 0.94 * u2Z;
+                const pRawX = -0.22 - refDot * u2X, pRawY = -0.24 - refDot * u2Y, pRawZ = 0.94 - refDot * u2Z;
+                const palmaL = Math.hypot(pRawX, pRawY, pRawZ) || 1;
+                const palmaX = pRawX / palmaL, palmaY = pRawY / palmaL, palmaZ = pRawZ / palmaL;
+                for (let v = 0; v < nv; v++) {
+                    const x = posiciones[v * 3], y = posiciones[v * 3 + 1], z = posiciones[v * 3 + 2];
+                    const ax = Math.abs(x);
+                    sdfGrupos(x, y, z, dg);
+                    let dmin = Infinity;
+                    for (let q = 0; q < 7; q++) dmin = Math.min(dmin, dg[q]);
+                    const s = [];
+                    let st = 0;
+                    const flanco = suavizar(A.brazo.a[1], A.brazo.a[1] - 0.042, y);
+                    for (let q = 0; q < 7; q++) {
+                        const tq = (q === 2 || q === 3) ? tauBrazo : tau;
+                        let sq = Math.exp(-Math.max(0, dg[q] - dmin) / tq);
+                        // Escudo axilar: el costado del torso bajo la axila nunca recibe peso del brazo (cero efecto aleta)
+                        if (q === 2 || q === 3) {
+                            const enTorso = suavizar(0.002, 0.016, dg[q] - dg[1]);
+                            sq *= (1 - flanco * enTorso);
+                        }
+                        s[q] = sq;
+                        st += sq;
+                    }
+                    for (let q = 0; q < 7; q++) s[q] /= st;
+                    w.fill(0);
+                    w[H.cabeza] = s[0];
+                    // Torso: cadera -> tronco -> pecho según la altura; la pancita con su propio hueso elástico
+                    const bC = HUESOS[H.cadera].p[1], bT = HUESOS[H.tronco].p[1], bP = HUESOS[H.pecho].p[1];
+                    let wc = 0, wt = 0, wp = 0;
+                    if (y <= bC) wc = 1;
+                    else if (y <= bT) { wt = (y - bC) / (bT - bC); wc = 1 - wt; }
+                    else if (y <= bP) { wp = (y - bT) / (bP - bT); wt = 1 - wp; }
+                    else wp = 1;
+                    const eb = Math.pow(x / 0.210, 2) + Math.pow((y - 0.284) / 0.176, 2) + Math.pow((z - 0.10) / 0.16, 2);
+                    const mb = suavizar(1.0, 0.3, eb) * (z > 0 ? 1 : 0) * 0.85;
+                    w[H.barriga] = s[1] * mb;
+                    w[H.cadera] = s[1] * (1 - mb) * wc; w[H.tronco] = s[1] * (1 - mb) * wt; w[H.pecho] = s[1] * (1 - mb) * wp;
+                    // Brazos en 2 tramos (hombro -> codo -> mano): la manopla y garras quedan 100 % en codoIzq/codoDer
+                    const projCodo = (ax - codoP[0]) * bisX + (y - codoP[1]) * bisY + (z - codoP[2]) * bisZ;
+                    const tCodo = suavizar(-0.026, 0.026, projCodo);
+                    w[H.brazoIzq] = s[2] * (1 - tCodo); w[H.codoIzq] = s[2] * tCodo;
+                    w[H.brazoDer] = s[3] * (1 - tCodo); w[H.codoDer] = s[3] * tCodo;
+                    w[H.piernaIzq] = s[4]; w[H.piernaDer] = s[5];
+                    // Cola en 3 tramos (cola -> colaMedia -> colaPunta): curva orgánica sin pliegues
+                    const tColaM = suavizar(A.cola.m1[2] + 0.042, A.cola.m1[2] - 0.042, z);
+                    const tColaP = suavizar(A.cola.m2[2] + 0.040, A.cola.m2[2] - 0.040, z);
+                    w[H.cola] = s[6] * (1 - tColaM);
+                    w[H.colaMedia] = s[6] * tColaM * (1 - tColaP);
+                    w[H.colaPunta] = s[6] * tColaM * tColaP;
+                    // Los 4 mayores, normalizados
+                    const orden = [];
+                    for (let b = 0; b < w.length; b++) if (w[b] > 1e-4) orden.push(b);
+                    orden.sort((a, b) => w[b] - w[a]);
+                    let suma = 0;
+                    for (let q = 0; q < 4 && q < orden.length; q++) suma += w[orden[q]];
+                    for (let q = 0; q < 4; q++) {
+                        if (q < orden.length) { huesoIndices[v * 4 + q] = orden[q]; huesoPesos[v * 4 + q] = w[orden[q]] / suma; }
+                    }
+                    if (colores) {
+                        const nxN = normales[v * 3], nyN = normales[v * 3 + 1], nzN = normales[v * 3 + 2];
+                        // Pancita: óvalo frontal crema nítido sin halo ni envolvimiento por los costados (05, 13, 14)
+                        const e2 = Math.hypot(x / pz.rx, (y - pz.cy) / pz.ry);
+                        const mPancita = suavizar(pz.falda, pz.nucleo, e2) * suavizar(0.28, 0.52, nzN) * suavizar(0.19, 0.16, ax) * suavizar(0.45, 0.75, s[1]) * (z > 0.04 ? 1 : 0);
+                        // Rubor melocotón tierno en los mofletes bajo el extremo exterior del ojo (06, 08, 12)
+                        const dBlush = Math.hypot((ax - 0.130 * ESCALA_RUBOR) / 0.068, (y - 0.664) / 0.052, (z - 0.214) / 0.088);
+                        const rBlush = suavizar(1.0, 0.16, dBlush) * (z > 0.08 ? 0.15 : 0) * s[0];
+                        // Almohadilla palmar rosa pálido relativa a mano.c y al eje del antebrazo (sin umbral duro de Y; 03, 11, 15)
+                        const sMano = s[2] + s[3];
+                        const sx = x >= 0 ? 1 : -1;
+                        const dotPalma = nxN * (palmaX * sx) + nyN * palmaY + nzN * palmaZ;
+                        const distEjeMano = (ax - mc[0]) * u2X + (y - mc[1]) * u2Y + (z - mc[2]) * u2Z;
+                        const dPalma = Math.hypot((ax - (mc[0] + palmaX * 0.052)) / 0.041, (y - (mc[1] + palmaY * 0.052)) / 0.039, (z - (mc[2] + palmaZ * 0.052)) / 0.041);
+                        const rPalma = suavizar(1.0, 0.24, dPalma) * suavizar(0.30, 0.68, dotPalma) * suavizar(-0.028, -0.004, distEjeMano) * suavizar(0.55, 0.88, sMano) * 0.90;
+                        // Almohadilla plantar rosa pálido bajo la suela plana de los pies (15)
+                        const dSuela = Math.hypot((ax - pc[0]) / 0.050, (z - pc[2] + 0.004) / 0.056);
+                        const rPlanta = suavizar(1.0, 0.32, dSuela) * suavizar(-0.62, -0.90, nyN) * (y < 0.014 ? 0.74 : 0);
+                        const rRosa = Math.max(rPalma, rPlanta);
+                        for (let c = 0; c < 3; c++) {
+                            let col = cAmarillo[c] + (cRubor[c] - cAmarillo[c]) * rBlush;
+                            col += (cRosa[c] - col) * rRosa;
+                            col += (cCrema[c] - col) * mPancita;
+                            colores[v * 3 + c] = col;
+                        }
+                    }
+                }
+
+                const indices = new Uint32Array(ind);
+                return {
+                    posiciones, normales, colores, indices, huesoIndices, huesoPesos,
+                    estadisticas: { vertices: nv, triangulos: indices.length / 3, celda: h, evaluaciones: evaluados + gx * gy * gz, huecos, ms: Date.now() - t0 }
+                };
+            }
+
+            return {
+                VERSION: 3, ANATOMIA, COLORES, HUESOS, H, OJO,
+                sdf, anclarEnSuperficie, trazarRayo, generarMalla, srgbALineal
+            };
+        }
+
+        const Nailong3DGeometria = crearKernelGeometriaNailong();
