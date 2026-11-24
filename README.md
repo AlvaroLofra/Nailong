@@ -19,7 +19,7 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 ## Lo que puedes disfrutar ✨
 
 - **Pancita Elástica & Efecto Duang:** Haz clic o toca la pancita de Nailong para ver cómo rebota con físicas gelatinosas, escuchar sus sonidos y descubrir sus 9 estados de ánimo en vivo.
-- **Nailong en 3D:** Gíralo, acércate y hazle cosquillas: su pancita rebota, saluda, baila, se sorprende y hasta se echa la siesta. Elige estilo sticker o dibujo animado, guarda una foto o descárgate el modelo 3D.
+- **Nailong en 3D:** Gíralo, acércate y hazle cosquillas: su pancita rebota, saluda, baila, se sorprende y hasta se echa la siesta. Ponle sus caritas de la serie, elige estilo sticker o dibujo animado, guarda una foto, crea tu sticker 3D o descárgate el modelo.
 - **Colección Oficial de 126 Stickers:** Catálogo completo de 126 cromos auténticos clasificados por emociones, listos para explorar a pantalla completa, descargar o copiar.
 - **App Android Oficial para WhatsApp:** Añade los 5 packs completos a tu WhatsApp con un solo toque o arma tus propios paquetes personalizados con «Mi Selección».
 - **Visor Mágico de Animaciones:** Tira deslizable con 9 escenas animadas en bucle, control de velocidad y pegatinas interactivas que puedes mover por la pantalla.
@@ -43,14 +43,16 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 ---
 
-## ✨ Novedades de la Versión (v4.0.0)
+## ✨ Novedades de la Versión (v4.1.0)
 
-*¡Gran estreno de Nailong en 3D y 31 nuevos stickers para tu colección!*
+*¡Nailong 3D igualito al de la serie y una web más cómoda en el móvil!*
 
-- **31 nuevos stickers de Nailong:** La colección sube hasta **126 cromos** llenos de nuevas caras, bailes, disfraces y travesuras en la web y en Android.
-- **5.º pack «Nailong animado 4» en la app:** Disfruta en WhatsApp de un nuevo paquete con las últimas animaciones y 6 nuevos stickers estáticos sumados al pack estático.
-- **Estreno oficial de Nailong en 3D:** Ya visible para todos en la web para girarlo, hacerle cosquillas en su pancita elástica, guardar una foto o descargar su figura en 3D.
-- **Paseo más cómodo por la página:** El mini Nailong acompañante comenta justo la zona que estás viendo y el menú superior encaja limpio en cualquier pantalla.
+- **Nailong 3D más fiel que nunca:** Cara redondita en forma de campana, cuello y hombros marcados, brazos con codo, colita larga y ojos lisos a ras de la cara, sin ojos saltones.
+- **Caritas de la serie:** Ponle cara de Sonrisón, Carcajada, ¡Bleh!, Puchero, Pillo o ¡Susto!, además de saludar, bailar o echarse la siesta.
+- **Tu propio sticker 3D:** Guarda a Nailong en la pose que más te guste como sticker listo para WhatsApp.
+- **Sin gastar batería de más:** Nailong 3D duerme en su huevo hasta que pulsas «Ver a Nailong en 3D», y puedes ocultarlo cuando quieras.
+- **Más cómoda en el móvil:** Barra de accesos abajo, secciones más compactas y un menú superior que encaja en cualquier pantalla.
+- **La app Android sigue igual:** No hace falta actualizarla; mantiene sus 5 packs oficiales.
 
 > 📖 **Historial completo de versiones:**
 > 👉 ¿Quieres ver el historial completo de cambios y detalles técnicos? Consulta el [**CHANGELOG.md**](CHANGELOG.md).

@@ -35,6 +35,9 @@
 | **D-23** | Modales como `<dialog>` nativo; resto de la modernización web del plugin aplicada solo donde aporta | Tomada | 2026-11-15 |
 | **D-24** | Expansión a 126 stickers (31 nuevos de TikTok), 5.º pack oficial en Android y lanzamiento público de Nailong 3D (v4.0.0) | Tomada | 2026-11-18 |
 | **D-25** | Capturas de la serie solo en local, ficheros de más de 400 líneas aceptados y parte Android de `verify_all.py` declarada «no comprobada» si falta | Tomada | 2026-11-24 |
+| **D-26** | Nailong 3D apagado por defecto: se carga solo al pulsar «Ver a Nailong en 3D» y «Ocultar» libera la tarjeta gráfica | Tomada | 2026-11-24 |
+| **D-27** | La web lleva su propia versión (4.1.0) y `version.json`/APK solo suben con un APK nuevo (sigue 4.0.0) | Tomada | 2026-11-25 |
+| **D-28** | Ojos «lente» a ras de la cara (`3D13`), cara «V1 afinada» y versiones anteriores del 3D guardadas en `archivo/` | Tomada | 2026-11-25 |
 
 ---
 
@@ -329,3 +332,36 @@
   3. La ruta Android pasa a `ANDROID_SRC` (sobrescribible con `NAILONG_ANDROID_SRC`). Si no existe, la parte Android de los tests 43, 45, 47, 48 y 50 se salta y se lista como **NO COMPROBADO** al final.
 - **Alternativas descartadas:** subir las capturas al repositorio público (riesgo de derechos de autor); dividir ahora `js/12` (riesgo alto, sin beneficio inmediato); quitar las comprobaciones Android (se perderían en el equipo que sí tiene la app).
 - **Consecuencias:** quien clone el repositorio no verá las capturas; el catálogo vive en el equipo del usuario. `verify_all.py` termina siempre y dice qué no pudo comprobar. **Confirmación:** `python verify_all.py` en verde y `git status` sin `referencias_nailong_serie/`.
+
+---
+
+## D-26 · Nailong 3D apagado por defecto: se carga solo al pulsarlo y «Ocultar» libera la tarjeta gráfica
+- **Estado:** **Tomada** (2026-11-24, a petición del usuario). Modifica el disparador de carga de D-24 (3) y de la mejora `W25`; el resto de D-21 sigue vigente.
+- **Contexto y problema:** tras el re-esculpido `3D5`–`3D10` el visor pesa más (malla de ~23.000–35.000 vértices generada en un Worker, sombras suaves y *shader mochi*). Se descargaba y arrancaba solo al acercarse a `#nailong-3d` (`IntersectionObserver` a 600 px) o al pulsar el enlace `🧊 3D`, así que cualquier visita que pasara por la sección pagaba Three.js, la generación de la malla y un contexto WebGL, aunque no quisiera ver el 3D. En móvil esto puede calentar el teléfono y gastar batería, y es la causa probable de `W29` (toques lentos mientras arrancaba el visor).
+- **Decisión:**
+  1. El visor arranca **apagado**: muestra «Nailong 3D duerme en su huevo» y el botón «🐣 Ver a Nailong en 3D». No se descarga Three.js ni `js/11`–`js/13`, no se genera la malla y no se crea WebGL (0 CPU/GPU).
+  2. Se enciende al pulsar ese botón o cualquier botón del panel (acciones, caritas, estilo, foto, sticker, `.glb`), que ya pasaban por `cuandoListo()`. `?3d=1` y `?3d=debug` lo siguen encendiendo al cargar (herramientas de captura y depuración); el enlace `#nailong-3d` solo lleva a la sección.
+  3. Nuevo botón «Ocultar» (`#nailong-3d-ocultar`, ojo tachado) que llama a `apagar()`: para el bucle, suelta `ResizeObserver` y oyentes, libera geometrías y materiales, hace `renderer.dispose()` + `forceContextLoss()` (la GPU se libera ya, sin esperar al recolector) y cambia el `<canvas>` por uno limpio para poder volver a encenderlo. Se conserva el estilo elegido.
+  4. Siempre empieza apagado: no se recuerda la elección entre visitas.
+- **Alternativas descartadas:** mantener la carga por proximidad (no cumple el objetivo de no gastar nada si no se usa); ocultar la sección entera (se pierde el punto de entrada al 3D); recordar la preferencia en `localStorage` (no pedido; se puede añadir si el usuario lo quiere); solo pausar el bucle al ocultar (seguiría ocupando memoria de GPU).
+- **Consecuencias:** la web es más ligera al cargar y al hacer scroll; ver el 3D cuesta un clic más. `verify_all.py` (test 49) comprueba los dos botones, que no vuelva la precarga por cercanía (`rootMargin`) y que se libere la GPU (`forceContextLoss`). Resuelve en principio `W29` (**no comprobado en un móvil real**). **Confirmación:** en el navegador, 0 peticiones a Three.js y a `js/11`–`js/13` con la sección en pantalla hasta pulsar el botón, encendido en ~0,5 s, contexto WebGL perdido tras «Ocultar» y 0 errores en consola.
+
+## D-27 · La web lleva su propia versión y `version.json`/APK solo suben con un APK nuevo
+- **Estado:** **Tomada** (2026-11-25, a petición del usuario: publicar la web como versión 4.1). Sustituye la parte de la regla 7 de `AGENTS.md` que obligaba a que la versión de la web y la del APK coincidieran siempre.
+- **Contexto y problema:** el usuario quería publicar la web como 4.1 (Nailong 3D fiel a la serie, ojos a ras, 3D bajo demanda, rediseño móvil), pero el APK no cambia y su código fuente no está en este equipo. La app Android lee `version.json` para avisar de versiones nuevas: si `version.json` pasara a 4.1.0 sin APK nuevo, la app podría pedir actualizar sin fin (y al descargar recibiría el mismo 4.0.0). La regla anterior solo permitía publicarla como `4.0.0-web3`.
+- **Decisión:**
+  1. **Versión de la web:** pie de `index.html` (`#app-version`), `CHANGELOG.md`, `ESTADO_ACTUAL.md` y sufijo `?v=` de `css/` y `js/`. Pasa a **4.1.0**. En retoques sin versión nueva el sufijo es `<versión>-webN`.
+  2. **Versión de la app:** `version.json`, banner «vX APK» de la web y `versionName` del APK. Sigue en **4.0.0** (`versionCode 16`) y solo sube cuando se publica un APK nuevo.
+  3. La web nunca va por detrás de la app.
+- **Alternativas descartadas:** `4.0.0-web3` (cumplía la regla anterior, pero no es lo que pidió el usuario); 4.1.0 en todo, incluido `version.json` (riesgo de avisos de actualización sin fin en la app, **no comprobable** sin el código Android).
+- **Consecuencias:** `verify_all.py` adapta tres pruebas en el mismo cambio (regla 9): el test 40 exige `v4.1.0` en el pie; el test 45 compara `version.json` con el banner del APK (y con `build.gradle` si está el código Android) y exige que la web no vaya por detrás; `W7` compara el sufijo `?v=` con la versión del pie. La app y su aviso de actualizaciones no cambian.
+
+## D-28 · Ojos «lente» a ras de la cara (`3D13`), cara «V1 afinada» y versiones anteriores del 3D guardadas
+- **Estado:** **Tomada** (2026-11-25, aprobada por el usuario con láminas antes/después). Completa D-21 y la mejora `3D12`.
+- **Contexto y problema:** el usuario veía los ojos «muy saltones, muy fuera del muñeco», cuando en la serie son lisos y sin relieve. Medido: el globo (bola de 62 mm en un Nailong de 1 m) asomaba hasta 12,7 mm de la piel, porque es mucho más curvo que la cara en ese punto (radio horizontal ~230 mm y casi plano en vertical) y su eje miraba al frente mientras la cara mira 24° hacia la sien y 17° hacia arriba; por el lado de la nariz quedaba en un hoyo. Además prefería la cara «V1» a la «V3» aplicada en `3D12`.
+- **Decisión:**
+  1. **Ojo «lente»:** el mismo globo esférico (textura, párpados, brillo y mirada intactos) se lleva con un marco afín `z' = a·x + b·y + lente·z` (aplastado al 25 % e inclinado como la piel) que se descompone en giro · escala · giro (SVD) para que todos los nodos sean TRS válidos en glTF. La piel se vacía con una ventana elíptica a lo largo del eje del ojo, con el fondo bajo la lente y el borde redondeado (`K.cuenca`). Material sin barniz ni reflejo de entorno fuerte (la pupila no se vela de gris).
+  2. **Cara «V1 afinada»:** piezas de V1 (cráneo y frente más estrechos, mofletes llenos) con mofletes 3 mm más estrechos y la curva `perfilCabeza` solo en la coronilla (+1,5 %) y en la papada (+3,5-4,5 %).
+  3. **Copias de seguridad** del 3D anterior (cara V3 con ojos de bola) y del publicado en la 4.0.0 en `archivo/nailong3d_anteriores/`, con instrucciones para restaurarlos.
+- **Alternativas descartadas:** hundir la bola (variante A: para no asomar hay que hundirla 6 mm más y el ojo se ve pequeño y metido en un agujero); orientar la lente según la normal de la piel (el iris resbalaría hasta 20 mm al mirar al frente); deformar la geometría del globo (rompería el parpadeo y la mirada, que giran el globo); un selector en la web entre el modelo nuevo y el anterior (el usuario prefirió dejar solo el nuevo y guardar el anterior).
+- **Consecuencias:** el globo nunca sobresale (0,5 mm bajo la piel en reposo, +0,5 mm como mucho con los ojos muy abiertos), no rompe el contorno de 3/4 ni de perfil, y el tamaño visible, la altura y la posición del iris se mantienen. Queda un pliegue suave de ~6 mm arriba y abajo del ojo (la cara es plana en vertical y la lente es redonda). Las medidas de la cara usan como referencia el centro de los píxeles verdes del iris, que con la lente se ilumina por igual y baja 3 px: por eso la papada se llenó un poco (F4 vuelve a 0,890, más cerca de la serie). Detalle en el Anexo F de `PLAN_FIDELIDAD_NAILONG_3D.md` y en la nota técnica 05.

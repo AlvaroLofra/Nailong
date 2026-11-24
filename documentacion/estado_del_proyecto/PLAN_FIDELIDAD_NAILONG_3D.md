@@ -518,3 +518,49 @@ if __name__ == "__main__":
 ```
 
 Nota del equipo del usuario: en Git Bash, `python` puede abrir la Microsoft Store. Usa PowerShell o la ruta completa del intérprete.
+
+---
+
+## Anexo E · Mejora `3D12`: forma frontal de la cara (24/11/2026, sesión Claude Code)
+
+**Petición del usuario:** la cara «es un poco más regordita por los mofletes y se va haciendo más pequeña por la frente hacia arriba, con una forma bastante regular y redondita» (capturas `01`, `03`, `06`, `08`, `12`, `13`; después añadió `16`–`26`, sobre todo de frente). La parte trasera de la cabeza debía quedar igual.
+
+**Cómo se midió:** `herramientas/perfil_cara.py` mide el ancho de la cabeza a cada altura con el mismo método en el render frontal (`capturar_3d_cdp.js --cara`, vista `cara_frente`) y en las capturas frontales limpias `08`, `13`, `18` y `26` (en `19`, `21`, `24` y `25` el fondo amarillo o el recorte falsean la silueta). La altura va en «alturas de ojo» (`k = 0` coronilla, `k = 1` iris) y el ancho, dividido por el máximo de cada cabeza.
+
+| Medida | Serie (media) | Antes | V1 (solo piezas) | V2 (solo curva) | V3 | **V1 afinada + ojos «lente» (aplicada, 25/11)** |
+|---|---|---|---|---|---|---|
+| `F1` altura del ancho máximo (`k`) | `1,267` | `0,829` ✗ | `1,286` | `1,314` | `1,292` | **`1,261`** |
+| `F2` ancho en la frente (`k = 0,5`) | `0,855` | `0,907` ✗ | `0,854` | `0,854` | `0,854` | **`0,874`** |
+| `F3` ancho sobre los ojos (`k = 0,8`) | `0,946` | `0,994` ✗ | `0,953` | `0,946` | `0,949` | **`0,965`** (al límite) |
+| `F4` ancho bajo los mofletes (`k = 1,7`) | `0,928` | `0,826` ✗ | `0,888` | `0,918` | `0,918` | **`0,890`** |
+| `O1` separación de ojos / ancho | `0,468` | `0,478` | `0,465` | `0,474` | `0,475` | **`0,454`** |
+| Métricas de proporción (§3.2) | — | 21/21 | 19/21 (`H4 = 0,748`, `H6 = 0,979`) | 21/21 | 21/21 | **21/21** |
+
+- **Diagnóstico:** la cabeza era más ancha a la altura de las sienes y los ojos (un «cuadrado redondeado») y la serie lo es en los mofletes, a la altura de la boca (una «campana»). Ojos y boca ya estaban en su sitio.
+- **V1** cambiaba solo radios de `craneo`, `frente` y `mofletes`: forma suave, pero tocaba la coronilla (`H4`) y el ancho de mejillas frente al torso (`H6`).
+- **V2** escalaba solo el eje x con una curva por alturas: cumplía todo, pero el ensanche brusco de la papada dejaba una marca horizontal en el moflete vista de 3/4.
+- **V3** (aplicada el 24/11 y sustituida el 25/11) combina las dos: curva `perfilCabeza` suave que solo estrecha de los ojos hacia arriba (`y = [0,56 … 1,0]`, `s = [1,025 … 0,92 … 0,975]`), mofletes algo más llenos y bajos, y ojos 3 mm más juntos. El perfil lateral, la nuca y las placas no cambian por construcción; la papada baja 1 cm (`H5 0,490 → 0,500`, dentro de rango).
+- **V1 afinada (aplicada el 25/11, D-28):** el usuario prefirió V1 «por poco». Para que pase 21/21 sin perder su forma: mofletes 3 mm más estrechos (`r[0] = 0,226`, `k.cabeza = 0,104`) para `H6 = 0,967`, y `perfilCabeza` solo en la coronilla (`1,015`) para `H4 = 0,771`. Estrechar más los mofletes (`0,223–0,224`, lo que pedía el redondeo de `H3`) la convertía en un «cuadrado redondeado» y la alejaba de V1.
+- **Ojos «lente» y referencia de altura:** con los ojos nuevos (`3D13`, Anexo F) el iris se ilumina por igual y el centro de sus píxeles verdes, que `perfil_cara.py` usa como línea de los ojos, baja 3 px aunque el iris está en el mismo sitio (cajas idénticas ±1 px). La silueta de la cabeza es idéntica píxel a píxel, pero todas las `F` se recalculan con esa línea más baja: `F4` bajaba a `0,862` ✗. Se llenó la papada (`perfilCabeza` `1,035–1,045` bajo `y = 0,58`), que es justo lo que le faltaba frente a la serie (`0,928`), y `F4` vuelve a `0,890`. `O1` baja a `0,454` por el mismo efecto (con las cajas del iris, la separación solo cambia un 1,8 %).
+- **Reproducir:** `py -3 herramientas/evaluar_3d.py --etiqueta <nombre> --expresiones --cara`; para comparar variantes, `perfil_cara.py --renders <dirA> <dirB> <dirC> --etiquetas …`. La variante V3 con ojos de bola queda guardada en `archivo/nailong3d_anteriores/2026-11-24_antes_de_ojos_lente/`.
+
+---
+
+## Anexo F · Mejora `3D13`: ojos lisos y a ras de la cara (25/11/2026, sesión Claude Code)
+
+**Petición del usuario:** «los ojos están como muy saltones, muy fuera del muñeco, cuando el real tiene los ojos muy lisos y sin relieve». Referencias: de frente `08`, `18`, `19`, `21`, `24`, `25`; 3/4 y primer plano `03`, `06`, `12`, `16`, `22`, `23`; perfil `05`, `09`.
+
+**Medido antes de tocar (`herramientas/medir_ojos_3d.js`, en un Nailong de 1 m):**
+
+| Qué | Antes (bola) | A · bola hundida (`hundido = 1,1`) | **B · lente (aplicada)** |
+|---|---|---|---|
+| Lo que sobresale el globo de la piel lisa | `12,7 mm` ✗ | `0,6 mm` | **`−0,5 mm`** (por debajo; `+0,5 mm` con los ojos muy abiertos) |
+| Rompe el contorno en 3/4 y de perfil | Sí ✗ | No | **No** |
+| Tamaño visible (ancho × alto / ancho de cabeza) | `0,225 × 0,217` | menor ✗ (metido en un agujero) | **`0,230 × 0,217`** (+2 %) |
+| Borde de la piel junto al ojo | hoyo de 12–20 mm por la nariz y abajo | más hondo ✗ | **0,7–1 mm a los lados; pliegue suave de ~6 mm arriba y abajo** |
+
+- **Causas confirmadas:** (1) el globo es una bola de 62 mm, mucho más curva que la cara en ese punto (radio horizontal ~230 mm, casi plana en vertical: con esa curvatura ninguna bola puede quedar a ras y verse igual de grande); (2) su eje miraba casi al frente (`giro = 0,12`) mientras la piel mira 24° hacia la sien y 17° hacia arriba, así que asomaba por arriba-sien y quedaba hundida por la nariz y abajo; (3) la cuenca esférica dejaba ver el costado de la bola; (4) el barniz y el reflejo de entorno, en una superficie casi plana, velaban la pupila de gris.
+- **Solución (D-28):** el mismo globo esférico (textura, párpados, brillo, parpadeo, mirada y caritas sin cambios) se lleva a una lente con `z' = a·x + b·y + lente·z` (`lente = 0,25`, pendiente `a`, `b` de la piel lisa con `inclinar = [1, 0,8]`, frente 1,6 mm bajo la piel). En `js/12`, `marcoOjo` descompone ese marco en giro · escala · giro (SVD) para que cada nodo sea un TRS válido en glTF. En `js/11`, la piel se vacía con una ventana elíptica (`abertura = [0,61, 0,68]·r`, `centro = [0,12, 0,10]·r`) entre un fondo bajo la lente y un techo sobre la piel, con borde redondeado `K.cuenca = 0,024` (con `0,016` el borde salía en dientes de sierra). El material del ojo pasa a `roughness 0,45`, sin barniz, `envMapIntensity 0,12` y `specularIntensity 0,25`.
+- **Descartado:** orientar la lente según la normal de la piel (el iris resbalaría ~20 mm al mirar al frente), deformar la geometría del globo (rompería mirada y parpadeo) y la variante A.
+- **Comprobado:** `evaluar_3d.py --etiqueta 3d13_ojos_lente --expresiones --cara` (24 vistas, 0 errores de consola/WebGL, 21/21 y 5/5), 12 primeros planos `--ojos` (parpadeo a medio cerrar, carcajada `^ ^`, guiño de burla, puchero, susto, siesta y sonrisón sin atravesamientos), estilo «dibujo animado» y láminas `3d13_ojos_lente/lamina_ojos_antes_despues.png` (local, D-25). Visto bueno del usuario el 25/11.
+- **Pendiente menor:** en estilo «dibujo animado», el ojo del fondo hace una muesca diminuta en la línea de contorno; y los ojos del modelo siguen siendo ~17 % más grandes que los de las capturas frontales (`08`, `13`, `26`), algo que no se tocó porque el usuario no lo pidió.

@@ -19,7 +19,7 @@
 | **7** | [`notas_tecnicas/00_mapa_de_codigo.md`](notas_tecnicas/00_mapa_de_codigo.md) | Qué vive en cada fichero de `js/` y `index.html` (antes de tocar código web). |
 | *Si tocas el README* | [`guias_y_contexto/GUIA_README.md`](guias_y_contexto/GUIA_README.md) | Guía de estilo obligatoria de la vitrina pública. |
 | *Ideas sin aplicar* | [`estado_del_proyecto/MEJORAS_PENDIENTES.md`](estado_del_proyecto/MEJORAS_PENDIENTES.md) | Mejoras visuales/de interfaz pendientes. |
-| *Si tocas Nailong 3D* | [`estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md`](estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md) | Plan por fases de fidelidad a la serie (`3D5`–`3D10` completadas con 21/21 OK; `3D11` opcional tras revisión del usuario). Léelo junto a la nota técnica 05. |
+| *Si tocas Nailong 3D* | [`estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md`](estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md) | Plan por fases de fidelidad a la serie (`3D5`–`3D10` completadas con 21/21 OK; forma frontal de la cara `3D12` en el Anexo E; `3D11` opcional tras revisión del usuario). Léelo junto a la nota técnica 05. |
 
 ---
 
@@ -38,7 +38,7 @@ Fuera de esta carpeta:
 |---|---|
 | `../index.html` | Punto único de entrada de la SPA web (HTML5 + Tailwind CDN); carga `css/`, `js/01`–`js/10` y `js/14` (`js/11`–`js/13` bajo demanda, W25). |
 | `../css/` · `../js/` | Estilos y scripts de la web, divididos por bloque funcional (D-15; mapa en `notas_tecnicas/00_mapa_de_codigo.md`). |
-| `../archivo/` | Material histórico (investigación y plan antiguos). No se lee salvo petición. |
+| `../archivo/` | Material histórico (investigación y plan antiguos) y copias del Nailong 3D anterior a la 4.1 (`nailong3d_anteriores/`, para restaurarlo si se quiere). No se lee salvo petición. |
 | `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (versión y peso: `version.json`). |
 | `../Stickers Nailong/` | Colección oficial de cromos WebP normalizados (total en `ESTADO_ACTUAL.md`) + foto del creador + 1 descatalogado. |
 | `../verify_all.py` | Suite de pruebas automatizadas (estructurales y funcionales; nº actual en `ESTADO_ACTUAL.md`). |

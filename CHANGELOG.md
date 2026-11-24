@@ -5,7 +5,20 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
-## [4.0.0 · revisión web 2] — 2026-11-24 (sin publicar)
+## [4.1.0] — 2026-11-25
+Versión de la **web** (D-27): publica en GitHub Pages las revisiones web 1 y 2 (abajo, hasta ahora sin publicar) y los cambios de este día. La app Android no cambia: `version.json` y el APK siguen en `4.0.0` (`versionCode 16`), así que no pide actualizar. El pie pasa a `v4.1.0` y los sufijos anti-caché de `css/` y `js/` a `?v=4.1.0`.
+
+- **Ojos lisos y a ras de la cara (`3D13`, D-28, `js/11`, `js/12`):** los ojos dejan de ser «saltones». Antes el globo era una bola de 62 mm que asomaba hasta 12,7 mm de la piel (más que el ojo de la serie) y se salía del contorno de 3/4 y de perfil.
+  - El mismo globo (textura, párpados, brillo, parpadeo y mirada intactos) se convierte en una **«lente»**: aplastado al 25 % e inclinado como la piel con un marco afín (giro · escala · giro, SVD), válido también en el `.glb`.
+  - La piel se abre con una **ventana elíptica** (`ANATOMIA.ojo.abertura`/`centro`) que deja el iris tocando el borde de la nariz y el de abajo y el blanco hacia la sien, como en las capturas `08`, `13` y `26`.
+  - Material del ojo sin barniz ni reflejo fuerte: pupila negra con un único brillo.
+  - Medido: el globo nunca sobresale (0,5 mm bajo la piel en reposo; +0,5 mm como mucho con los ojos muy abiertos), tamaño visible +2 %, misma altura y misma posición del iris. Variante A (hundir la bola) descartada: el ojo quedaba pequeño y metido en un agujero.
+- **Cara «V1 afinada» (`3D12`, `js/11`):** sustituye a la variante V3 por preferencia del usuario. Cráneo y frente más estrechos que los mofletes (campana suave, sin «hombros» en la coronilla), mofletes 3 mm más estrechos que V1, coronilla 1,5 % más llena y papada 3,5-4,5 % más llena (`perfilCabeza`). 21/21 métricas de proporción y 5/5 medidas de la cara.
+- **Copias del Nailong anterior (`archivo/nailong3d_anteriores/`):** el 3D de justo antes (cara V3 con ojos de bola) y el publicado en la 4.0.0, con instrucciones para restaurarlos.
+- **Versión de la web independiente (D-27, `AGENTS.md` regla 7, `verify_all.py` tests 40, 45 y `W7`).**
+- **Verificación:** `verify_all.py` en verde (52 comprobaciones; la parte Android, «no comprobada» en este equipo), `evaluar_3d.py --expresiones --cara` (24 vistas, 0 errores de consola/WebGL, 21/21 y 5/5) y láminas antes/después de los ojos.
+
+## [4.0.0 · revisión web 2] — 2026-11-24 (publicada en 4.1.0)
 Rediseño integral de **Nailong 3D** para acercarlo fielmente al CGI oficial de *Seventh Impression* (tomando como referencia los 126 stickers y los *Shorts* de `@Nailoongofficial`). Revisión solo de la web: la versión visible sigue en `v4.0.0`, `version.json` y el APK no cambian, y los 16 sufijos anti-caché pasan a `?v=4.0.0-web2`.
 
 - **Anatomía SDF y paleta (`js/11-nailong3d-geometria.js`, `VERSION: 3`):**
@@ -24,9 +37,14 @@ Rediseño integral de **Nailong 3D** para acercarlo fielmente al CGI oficial de 
   - Nueva tira compacta de **😊 Caritas de la serie** (chips deslizables en móvil —altura total `9,66` pantallas a `375×812`, cero desborde a `320–1440 px`— y accesos en pantalla completa): **😄 Sonrisón**, **😆 Carcajada** (`^ ^`), **😜 ¡Bleh!** (guiño y lengua fuera), **🥺 Puchero**, **😤 Pillo** y **😱 ¡Susto!**.
   - Resaltado del chip activo, limpieza de burbujas solapadas y exportación `nailong_3d.glb` (`4,77 MB`) validada con **11 clips horneados**.
 - **Referencias:** 15 capturas de episodios oficiales con catálogo anatómico en `documentacion/referencias_nailong_serie/`, que se queda **solo en local** (fuera de Git por derechos de autor, D-25).
+- **Sesión Swarm del 24/11 (`3D3`, `3D5`–`3D10`, `W21`–`W25`, `W27`, `W28`, `W30`):** proporciones 21/21 de la serie con 15 huesos, sticker 512×512 WebP desde la pose, herramientas de medición y captura, y mejoras de accesibilidad y rendimiento. Detalle en `documentacion/estado_del_proyecto/bitacora_de_sesiones/2026-11-24_mejoras_3d_y_web_swarm.md`.
+- **Nailong 3D apagado por defecto (D-26, `js/14`, `index.html`, `css/styles.css`):** el visor ya no descarga Three.js ni genera la malla al hacer scroll; muestra «Nailong 3D duerme en su huevo» y se enciende con «🐣 Ver a Nailong en 3D» o cualquier botón del panel. Nuevo botón **«Ocultar»** que para el 3D y libera la tarjeta gráfica (`forceContextLoss`), y se puede volver a encender conservando el estilo. `?3d=1` y `?3d=debug` lo siguen encendiendo al cargar.
+- **Forma de la cara (`3D12`, `js/11`):** silueta frontal en «campana» como en las capturas frontales (`01`, `08`, `13`, `18`, `19`, `24`–`26`): más ancha en los mofletes, a la altura de la boca, y más estrecha de los ojos a la coronilla. Nueva curva `perfilCabeza` (escala solo el eje x, así el perfil lateral, la nuca y las placas no cambian), mofletes algo más llenos y ojos 3 mm más juntos. 5/5 medidas de la cara y 21/21 métricas de proporción en rango, sin tocar umbrales; caritas y acciones sin atravesamientos.
+- **Barra superior de escritorio (`W31`, `index.html`):** se salía entre 1.024 y 1.535 px y el botón «¡Fiesta Duang!» quedaba fuera. Ahora usa todo el ancho hasta `88rem`, los enlaces van en línea desde 1.280 px y por debajo se usa el menú ☰; en móviles de menos de 360 px se oculta el texto «Nailong» del logo para que quepa el ☰.
+- **Herramientas (`3D12`):** `capturar_3d_cdp.js --cara` (6 vistas con el encuadre de las capturas), nuevo `herramientas/perfil_cara.py` (silueta frontal medida igual en el render y en las capturas, `F1`–`F4` y `O1`, lámina con contornos superpuestos) y `evaluar_3d.py --cara`.
 - **Verificación:** `verify_all.py` en verde (52 comprobaciones; las partes que leen el código Android externo se declaran «no comprobadas» si falta en el equipo), 12 vistas en WebGL real (`0` errores de consola) y validación binaria del `.glb`.
 
-## [4.0.0 · revisión web 1] — 2026-11-23 (sin publicar)
+## [4.0.0 · revisión web 1] — 2026-11-23 (publicada en 4.1.0)
 Revisión solo de la web, centrada en el móvil. La versión visible sigue siendo `v4.0.0`; `version.json` y el APK no cambian. El sufijo anti-caché pasa a `?v=4.0.0-web1`.
 
 Medido en Chromium: la página pasa de **18,7 a 9,2 pantallas** en móvil (375×812) y de **11 a 9,1** en escritorio (1440×900).
