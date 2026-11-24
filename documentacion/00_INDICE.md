@@ -11,7 +11,7 @@
 | Paso | Documento | Para qué |
 |---|---|---|
 | **1** | [`estado_del_proyecto/ESTADO_ACTUAL.md`](estado_del_proyecto/ESTADO_ACTUAL.md) | Qué hay hecho, qué métricas tenemos y cuál es el estado del proyecto **ahora mismo**. |
-| **2** | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) | Registro de Decisiones de Arquitectura (D-01 a D-24): qué se decidió y por qué. |
+| **2** | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) | Registro de Decisiones de Arquitectura (D-01 a D-25): qué se decidió y por qué. |
 | **3** | Última entrada en [`estado_del_proyecto/bitacora_de_sesiones/`](estado_del_proyecto/bitacora_de_sesiones/) | Qué se hizo en la sesión más reciente y cómo retomar el trabajo. |
 | **4** | [`../AGENTS.md`](../AGENTS.md) | Reglas del proyecto, comandos, protocolo de sesión y decisiones abiertas. `CLAUDE.md` y `GEMINI.md` solo apuntan a él (D-14). |
 | **5** | [`guias_y_contexto/CONTEXTO_PROYECTO.md`](guias_y_contexto/CONTEXTO_PROYECTO.md) | Universo de Nailong, principios de diseño Claymorphism, paleta y requisitos clave. |
@@ -19,7 +19,7 @@
 | **7** | [`notas_tecnicas/00_mapa_de_codigo.md`](notas_tecnicas/00_mapa_de_codigo.md) | Qué vive en cada fichero de `js/` y `index.html` (antes de tocar código web). |
 | *Si tocas el README* | [`guias_y_contexto/GUIA_README.md`](guias_y_contexto/GUIA_README.md) | Guía de estilo obligatoria de la vitrina pública. |
 | *Ideas sin aplicar* | [`estado_del_proyecto/MEJORAS_PENDIENTES.md`](estado_del_proyecto/MEJORAS_PENDIENTES.md) | Mejoras visuales/de interfaz pendientes. |
-| *Si tocas Nailong 3D* | [`estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md`](estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md) | Plan por fases para acercar las proporciones a la serie (3D5–3D11), con medidas, objetivos, mapa de código y herramientas 3D evaluadas. Léelo junto a la nota técnica 05. |
+| *Si tocas Nailong 3D* | [`estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md`](estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md) | Plan por fases de fidelidad a la serie (`3D5`–`3D10` completadas con 21/21 OK; `3D11` opcional tras revisión del usuario). Léelo junto a la nota técnica 05. |
 
 ---
 
@@ -29,19 +29,20 @@
 |---|---|---|
 | `estado_del_proyecto/` | `ESTADO_ACTUAL.md` (se sobrescribe en cada sesión), `DECISIONES.md` (solo se añade), `MEJORAS_PENDIENTES.md` (lista viva de ideas), planes de trabajo por fases (`PLAN_FIDELIDAD_NAILONG_3D.md`) y `bitacora_de_sesiones/` (una bitácora por sesión). | **Sí, en cada sesión** |
 | `guias_y_contexto/` | Contexto narrativo, principios de diseño de interfaz y guía operativa de desarrollo. | Cuando cambie algo estable |
-| `notas_tecnicas/` | Una nota por subsistema técnico: WhatsApp ContentProvider, Muxer WebP, Web Audio, Canvas GPU y Nailong 3D. | Sí, al modificar componentes técnicos |
+| `notas_tecnicas/` | Una nota por subsistema técnico: WhatsApp ContentProvider, Muxer WebP, Web Audio, Canvas GPU, Nailong 3D y auditoría de seguridad. | Sí, al modificar componentes técnicos |
 | `referencias_nailong_serie/` | **Solo en local (fuera de Git, D-25):** capturas reales de episodios oficiales 3D de Nailong y catálogo anatómico de referencia para el visor 3D. En `comparativas/` están las láminas «render \| captura» y las medidas del modelo (plan de fidelidad 3D). | Cuando se añadan nuevas referencias |
 
 Fuera de esta carpeta:
 
 | Ruta | Contenido |
 |---|---|
-| `../index.html` | Punto único de entrada de la SPA web (HTML5 + Tailwind CDN); carga `css/` y `js/`. |
+| `../index.html` | Punto único de entrada de la SPA web (HTML5 + Tailwind CDN); carga `css/`, `js/01`–`js/10` y `js/14` (`js/11`–`js/13` bajo demanda, W25). |
 | `../css/` · `../js/` | Estilos y scripts de la web, divididos por bloque funcional (D-15; mapa en `notas_tecnicas/00_mapa_de_codigo.md`). |
 | `../archivo/` | Material histórico (investigación y plan antiguos). No se lee salvo petición. |
 | `../StickersNailong.apk` | Paquete de instalación directa de la aplicación nativa Android (versión y peso: `version.json`). |
 | `../Stickers Nailong/` | Colección oficial de cromos WebP normalizados (total en `ESTADO_ACTUAL.md`) + foto del creador + 1 descatalogado. |
 | `../verify_all.py` | Suite de pruebas automatizadas (estructurales y funcionales; nº actual en `ESTADO_ACTUAL.md`). |
+| `../herramientas/evaluar_3d.py` | Evaluación automática en una orden de Nailong 3D (`node --check` → `medir_nailong3d.js` → `capturar_3d_cdp.js` → `lamina_comparativa.py`; mejora `3D5`). |
 | `../herramientas/descargar_tiktok_consola.js` | Capturador de stickers de TikTok Web para la consola del navegador (respaldo de huellas y descartes en `herramientas/`). |
 | `../README.md` | Portada pública del proyecto con notas de parche directas para usuarios. |
 | `../DOCUMENTACION.md` | Puntero a esta carpeta (lo exige la suite de verificación; no lleva contenido propio). |
@@ -76,7 +77,7 @@ Fuera de esta carpeta:
 | Mapa de ficheros, bloques y funciones de la web (para no buscar a ciegas) | [`notas_tecnicas/00_mapa_de_codigo.md`](notas_tecnicas/00_mapa_de_codigo.md) |
 | Motor de audio sintetizado con Web Audio API | [`notas_tecnicas/03_web_audio_sintetizado.md`](notas_tecnicas/03_web_audio_sintetizado.md) |
 | Minijuego Canvas a 60 FPS y aceleración GPU | [`notas_tecnicas/04_minijuego_y_rendimiento_gpu.md`](notas_tecnicas/04_minijuego_y_rendimiento_gpu.md) |
-| Nailong 3D: modelo procedural, visor WebGL y exportación GLB | [`notas_tecnicas/05_nailong_3d.md`](notas_tecnicas/05_nailong_3d.md) |
+| Nailong 3D: modelo procedural, visor WebGL, sticker WebP y exportación GLB | [`notas_tecnicas/05_nailong_3d.md`](notas_tecnicas/05_nailong_3d.md) |
 | Plan de fidelidad de Nailong 3D a la serie (medidas, objetivos, fases y herramientas 3D evaluadas) | [`estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md`](estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md) |
 | Referencias visuales de la serie oficial para Nailong 3D | `referencias_nailong_serie/README.md` (solo en local, D-25) |
 | Auditoría de seguridad de la app, la actualización y la web | [`notas_tecnicas/06_auditoria_seguridad.md`](notas_tecnicas/06_auditoria_seguridad.md) |
