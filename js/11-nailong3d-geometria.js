@@ -13,10 +13,15 @@
             // Proporciones canónicas medidas sobre las 15 capturas reales de la serie de Seventh Impression (altura total = 1):
             // frente 08 / 13 / 15 · perfil 05 / 09 · tres cuartos 06 / 07 / 11 / 14 · espalda 10 · primer plano 12.
             const ANATOMIA = {
-                craneo:   { c: [0, 0.764, 0.044], r: [0.222, 0.216, 0.210], rotX: -0.22 }, // bóveda craneal inclinada en judía con nuca continua a la espalda (05, 08, 12)
-                frente:   { c: [0, 0.808, 0.092], r: [0.216, 0.160, 0.172], rotX: -0.14 }, // coronilla ancha y sienes llenas sin repisa supraciliar (08, 12, 13)
-                mofletes: { c: [0, 0.654, 0.088], r: [0.218, 0.132, 0.186], rotX: -0.16 }, // mofletes redondos fundidos sin falda lateral (08, 13, 14)
+                // 3D12 · Silueta frontal en «campana» (01, 08, 13, 18, 19, 24-26), variante «V1 afinada»: sienes y frente más estrechas que los mofletes
+                craneo:   { c: [0, 0.764, 0.044], r: [0.213, 0.216, 0.210], rotX: -0.22 }, // bóveda craneal inclinada en judía con nuca continua a la espalda (05, 08, 12)
+                frente:   { c: [0, 0.808, 0.092], r: [0.195, 0.160, 0.172], rotX: -0.14 }, // frente redonda que se estrecha hacia la coronilla, sin repisa supraciliar (08, 12, 13)
+                mofletes: { c: [0, 0.648, 0.096], r: [0.226, 0.137, 0.194], rotX: -0.16 }, // mofletes redondos y llenos a la altura de la boca: la parte más ancha de la cara (08, 13, 14, 18, 26)
                 hocico:   { c: [0, 0.642, 0.182], r: [0.164, 0.110, 0.136], rotX: 0.16 },  // morro y mandíbula convexos adelantados sobre el pecho (05, 06, 12, 14)
+                // Escala opcional del ancho (eje x) de la cabeza según la altura y (null = sin curva). Aquí solo llena un 1,5 % la coronilla para que
+                // no acabe en pico (H4) y un 3,5-4,5 % la papada bajo los mofletes, como en la serie (F4); entre y = 0,66 y 0,86 (mofletes,
+                // ojos y frente) no toca nada. Al tocar solo x, el perfil lateral, la nuca y las placas no cambian.
+                perfilCabeza: { y: [0.52, 0.58, 0.66, 0.86, 0.93, 1.0], s: [1.045, 1.035, 1.0, 1.0, 1.015, 1.015] },
                 pecho:    { c: [0, 0.456, -0.028], r: [0.162, 0.164, 0.158] },   // torso superior recogido para separar claramente cabeza, cuello y hombros (08, 13)
                 caderas:  { c: [0, 0.298, -0.018], r: [0.242, 0.194, 0.174] },   // cuerpo de pera/gota recogido y alto para liberar piernas y entrepierna (05, 13, 14)
                 barriga:  { c: [0, 0.284, 0.034],  r: [0.204, 0.176, 0.172] },   // pancita redonda recogida con frente en z~0.20-0.21 y fondo alto (05, 07, 13)
@@ -27,10 +32,14 @@
                 pie:      { c: [0.152, 0.040, 0.020], r: [0.082, 0.044, 0.088] },
                 // Cola larga en 3 tramos casi horizontal que nace baja en la espalda y se afina en curva suave hasta punta roma (09, 11, 14; 3D9)
                 cola:     { a: [0, 0.168, -0.138], m1: [0, 0.142, -0.240], m2: [0, 0.148, -0.328], b: [0, 0.178, -0.398], ra: 0.106, rm1: 0.072, rm2: 0.048, rb: 0.030 },
-                // Ojos grandes, redondos y bien encastrados en la sien para evitar esclerótica saliente en 3/4 y perfil (05, 08, 12)
-                ojo:      { x: 0.100, y: 0.734, r: 0.062, hundido: 0.85, giro: 0.12 },
+                // 3D13 · Ojos grandes y redondos a ras de la cara, lisos y sin relieve (05, 08, 12, 18): el globo es una «lente» (aplastado
+                // en profundidad a lente·r e inclinado como la piel) con su frente (hundido − lente)·r bajo la piel, visto por una ventana
+                // elíptica de semiejes abertura·r, desplazada centro·r hacia la sien y hacia arriba: el iris toca el borde de la nariz y el
+                // de abajo y el blanco asoma hacia la sien (08, 13, 26). Con lente = 1 sería una bola entera (la versión «saltona» anterior).
+                // inclinar = [x, y] escala la pendiente de la piel que copia la lente (en y algo menos para repartir el pliegue arriba y abajo).
+                ojo:      { x: 0.097, y: 0.734, r: 0.062, giro: 0.12, lente: 0.25, hundido: 0.275, abertura: [0.61, 0.68], centro: [0.12, 0.10], inclinar: [1, 0.8] },
                 k: {        // radios de fusión polinómica: cuello nítido delante y en costados, continuo en la nuca trasera; axila limpia
-                    cabeza: 0.092, frente: 0.096, hocico: 0.088,
+                    cabeza: 0.104, frente: 0.105, hocico: 0.088,
                     torso: 0.112, barriga: 0.074, cuello: 0.038, cuelloEspalda: 0.118,
                     hombro: 0.042, axila: 0.020, codo: 0.024, brazo: 0.042, mano: 0.018,
                     pierna: 0.036, pie: 0.030, cola: 0.056, cuenca: 0.024, planta: 0.022
@@ -147,23 +156,73 @@
                 return smin(d, dElip(ax, y, z, P.hocico), K.hocico);
             }
 
-            // Posición del globo ocular: se apoya en la superficie lisa de la cara y se encastra siguiendo su giro suave
+            // 3D12 · Curva suave (Hermite monótona, sin rebotes) de la escala en x de la cabeza según la altura
+            const PERFIL_X = (function (def) {
+                if (!def || !def.y || !def.s || def.y.length < 2 || def.y.length !== def.s.length) return null;
+                const pts = def.y.map((y, i) => [y, def.s[i]]).sort((a, b) => a[0] - b[0]);
+                const n = pts.length, ys = pts.map(p => p[0]), ss = pts.map(p => p[1]);
+                const h = [], dl = [], m = new Array(n);
+                for (let i = 0; i < n - 1; i++) { h.push(ys[i + 1] - ys[i]); dl.push((ss[i + 1] - ss[i]) / h[i]); }
+                m[0] = dl[0]; m[n - 1] = dl[n - 2];
+                for (let i = 1; i < n - 1; i++) {
+                    if (dl[i - 1] * dl[i] <= 0) { m[i] = 0; continue; }
+                    const w1 = 2 * h[i] + h[i - 1], w2 = h[i] + 2 * h[i - 1];
+                    m[i] = (w1 + w2) / (w1 / dl[i - 1] + w2 / dl[i]);
+                }
+                return { n, ys, ss, h, m, sMax: Math.max(1, ...ss) };
+            })(A.perfilCabeza);
+            function escalaCabezaX(y) {
+                const C = PERFIL_X;
+                if (!C) return 1;
+                if (y <= C.ys[0]) return C.ss[0];
+                if (y >= C.ys[C.n - 1]) return C.ss[C.n - 1];
+                let i = 0;
+                while (y > C.ys[i + 1]) i++;
+                const t = (y - C.ys[i]) / C.h[i], t2 = t * t, t3 = t2 * t;
+                return (2 * t3 - 3 * t2 + 1) * C.ss[i] + (t3 - 2 * t2 + t) * C.h[i] * C.m[i] + (3 * t2 - 2 * t3) * C.ss[i + 1] + (t3 - t2) * C.h[i] * C.m[i + 1];
+            }
+            // Cabeza final: se escala solo el eje x (la distancia se corrige a la baja donde estrecha para no saltarse la piel)
+            function dCabeza(ax, y, z) {
+                if (!PERFIL_X) return dCabezaBase(ax, y, z);
+                const s = escalaCabezaX(y);
+                const d = dCabezaBase(ax / s, y, z);
+                return s < 1 ? d * s : d;
+            }
+
+            // 3D13 · Ojo «lente» a ras de la cara. Marco del ojo: x hacia la sien, y arriba, z hacia fuera (girado «giro» hacia la sien).
+            // El globo (esfera de radio r en js/12) se lleva a la lente con z' = a·x + b·y + lente·z: aplastado en profundidad y con la
+            // inclinación (a, b) de la piel lisa en el punto del ojo, así su superficie acompaña a la cara en vez de asomar como una bola.
             const OJO = (function () {
+                const o = A.ojo;
                 let z = 0.6;
                 for (let i = 0; i < 200; i++) {
-                    const d = dCabezaBase(A.ojo.x, A.ojo.y, z);
+                    const d = dCabeza(o.x, o.y, z);
                     if (d < 1e-5) break;
                     z -= Math.max(d, 1e-4);
                 }
-                const giro = A.ojo.giro || 0.08;
+                const giro = o.giro || 0.08;
                 const sg = Math.sin(giro), cg = Math.cos(giro);
-                const h = A.ojo.r * A.ojo.hundido;
-                return { x: A.ojo.x - sg * h, y: A.ojo.y, z: z - cg * h, r: A.ojo.r, giro, sg, cg };
+                // Normal de la piel lisa en el punto del ojo, pasada al marco del ojo
+                const e = 1e-4;
+                const gx = dCabeza(o.x + e, o.y, z) - dCabeza(o.x - e, o.y, z);
+                const gy = dCabeza(o.x, o.y + e, z) - dCabeza(o.x, o.y - e, z);
+                const gz = dCabeza(o.x, o.y, z + e) - dCabeza(o.x, o.y, z - e);
+                const nlx = gx * cg - gz * sg, nlz = gx * sg + gz * cg;
+                const inc = o.inclinar === undefined ? [1, 1] : (Array.isArray(o.inclinar) ? o.inclinar : [o.inclinar, o.inclinar]);
+                const a = -inc[0] * nlx / nlz, b = -inc[1] * gy / nlz;   // pendiente de la lente en x (sien) e y (arriba)
+                const lente = o.lente || 1;
+                const h = o.r * o.hundido;   // profundidad del centro del globo bajo la piel
+                const ab = o.abertura || [0.74, 0.72], ce = o.centro || [0, 0];
+                return {
+                    x: o.x - sg * h, y: o.y, z: z - cg * h, r: o.r, giro, sg, cg, lente, a, b,
+                    ventana: [ab[0] * o.r, ab[1] * o.r], centroVentana: [ce[0] * o.r, ce[1] * o.r], iNorma: 1 / Math.sqrt(1 + a * a + b * b)
+                };
             })();
-            // Cuenca redonda C-infinito desplazada hacia delante para abrir ventana tierna frontal y arropar la sien en perfil
-            const R_CUENCA = OJO.r * 0.88;
+            // Ventana del ojo: hueco elíptico a lo largo del eje del ojo, con el fondo justo bajo la lente (queda tapado por ella)
+            // y el techo por encima de la piel; el radio de fusión K.cuenca redondea el borde para que la piel llegue al ojo sin escalón.
+            const VENTANA = { fondo: 0.006, techo: 0.022, minimo: Math.min(OJO.ventana[0], OJO.ventana[1]) };
+            const ESCALA_RUBOR = escalaCabezaX(0.664);   // el rubor acompaña al moflete si la cara se ensancha
 
-            const dCabeza = dCabezaBase;
             function dTorso(x, y, z) {
                 let d = dElip(x, y, z, P.caderas);
                 d = smin(d, dElip(x, y, z, P.pecho), K.torso);
@@ -204,6 +263,7 @@
                 pierna: esferaEnvolvente([A.pie], [A.pierna]),
                 cola: esferaEnvolvente([], [A.cola])
             };
+            if (PERFIL_X) ENV.cabeza.r *= PERFIL_X.sMax;   // la cabeza ensanchada sigue dentro de su esfera envolvente
             function cota(e, x, y, z) {
                 const dx = x - e.x, dy = y - e.y, dz = z - e.z;
                 return Math.sqrt(dx * dx + dy * dy + dz * dz) - e.r;
@@ -229,17 +289,16 @@
                 if (cota(ENV.pierna, ax, y, z) < d + K.pierna) d = smin(d, dPierna(ax, y, z), K.pierna);
                 if (cota(ENV.cola, ax, y, z) < d + K.cola) d = smin(d, dCola(ax, y, z), K.cola);
 
-                // Cuenca ocular redonda C-infinito en la sien (abre ventana grande y dulce al frente sin pico lateral en perfil)
+                // 3D13 · Ventana del ojo a ras: se vacía la piel dentro de la elipse de la ventana, entre el fondo (bajo la lente) y el techo
                 const dx0 = ax - OJO.x, dz0 = z - OJO.z;
                 const ex = dx0 * OJO.cg - dz0 * OJO.sg;
-                const ez = dx0 * OJO.sg + dz0 * OJO.cg - 0.17 * OJO.r;
-                const ey0 = y - OJO.y;
-                const ey = ey0 * (ey0 < 0 ? 1.03 : 1.00);
-                const rxOjo = OJO.r * 0.86;
-                const ryOjo = OJO.r * 0.90;
-                const r2d = Math.hypot(ex / rxOjo, ey / ryOjo) * rxOjo;
-                const s = R_CUENCA - Math.sqrt(r2d * r2d + ez * ez + 1e-6);
-                if (s > d - K.cuenca) d = smax(d, s, K.cuenca);
+                const ez = dx0 * OJO.sg + dz0 * OJO.cg;
+                const ey = y - OJO.y;
+                const qx = (ex - OJO.centroVentana[0]) / OJO.ventana[0], qy = (ey - OJO.centroVentana[1]) / OJO.ventana[1];
+                const cilindro = (Math.sqrt(qx * qx + qy * qy) - 1) * VENTANA.minimo;
+                const zLente = OJO.lente * Math.sqrt(Math.max(OJO.r * OJO.r - ex * ex - ey * ey, 0)) + OJO.a * ex + OJO.b * ey;
+                const hueco = Math.max(cilindro, (zLente - VENTANA.fondo - ez) * OJO.iNorma, (ez - zLente - VENTANA.techo) * OJO.iNorma);
+                if (-hueco > d - K.cuenca) d = smax(d, -hueco, K.cuenca);
 
                 return y < K.planta - d ? smax(d, -y, K.planta) : d;
             }
@@ -523,7 +582,7 @@
                         const e2 = Math.hypot(x / pz.rx, (y - pz.cy) / pz.ry);
                         const mPancita = suavizar(pz.falda, pz.nucleo, e2) * suavizar(0.28, 0.52, nzN) * suavizar(0.19, 0.16, ax) * suavizar(0.45, 0.75, s[1]) * (z > 0.04 ? 1 : 0);
                         // Rubor melocotón tierno en los mofletes bajo el extremo exterior del ojo (06, 08, 12)
-                        const dBlush = Math.hypot((ax - 0.130) / 0.068, (y - 0.664) / 0.052, (z - 0.214) / 0.088);
+                        const dBlush = Math.hypot((ax - 0.130 * ESCALA_RUBOR) / 0.068, (y - 0.664) / 0.052, (z - 0.214) / 0.088);
                         const rBlush = suavizar(1.0, 0.16, dBlush) * (z > 0.08 ? 0.15 : 0) * s[0];
                         // Almohadilla palmar rosa pálido relativa a mano.c y al eje del antebrazo (sin umbral duro de Y; 03, 11, 15)
                         const sMano = s[2] + s[3];

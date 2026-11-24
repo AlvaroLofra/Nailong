@@ -6,7 +6,10 @@
  * (Node 24 puro: http, child_process, fetch y WebSocket nativos; 0 dependencias externas).
  *
  * Uso:
- *   node herramientas/capturar_3d_cdp.js --salida <dir> [--raiz <dir>] [--expresiones] [--chrome <ruta>]
+ *   node herramientas/capturar_3d_cdp.js --salida <dir> [--raiz <dir>] [--expresiones] [--cara] [--ojos] [--chrome <ruta>]
+ *   --cara anade 6 vistas de la cara con el encuadre de las capturas frontales y de 3/4 de la serie (3D12).
+ *   --ojos anade 12 primeros planos del ojo (900x900, al final): frente, 3/4, perfil, desde arriba, parpadeo a medio
+ *   cerrar y 6 caritas/acciones, para revisar que los ojos queden a ras y que nada atraviese (3D13).
  */
 
 const fs = require('fs');
@@ -64,6 +67,32 @@ const VISTAS_EXPRESIONES = [
     { nombre: 'acc_siesta',     az: -22, el: 4, dist: 2.35, ty: 0.50, accion: 'siesta',    pasos: 96 }
 ];
 
+// 3D13 · Primeros planos del ojo «lente» (se capturan al final, en un lienzo cuadrado de 900x900)
+const VISTAS_OJO = [
+    { nombre: 'ojo_frente',    az: 0,   el: 0,  dist: 0.80, ty: 0.72 },
+    { nombre: 'ojo_34',        az: -40, el: 4,  dist: 0.80, ty: 0.72 },
+    { nombre: 'ojo_34b',       az: -62, el: 6,  dist: 0.85, ty: 0.72 },
+    { nombre: 'ojo_perfil',    az: -90, el: 0,  dist: 0.95, ty: 0.72 },
+    { nombre: 'ojo_arriba',    az: -20, el: 28, dist: 0.85, ty: 0.72 },
+    { nombre: 'ojo_parpadeo',  az: -30, el: 4,  dist: 0.80, ty: 0.72, parpadeo: true },
+    { nombre: 'ojo_carcajada', az: -20, el: 3,  dist: 0.85, ty: 0.70, accion: 'carcajada', pasos: 54 },
+    { nombre: 'ojo_burla',     az: -20, el: 3,  dist: 0.85, ty: 0.70, accion: 'burla',     pasos: 60 },
+    { nombre: 'ojo_puchero',   az: -20, el: 3,  dist: 0.85, ty: 0.70, accion: 'puchero',   pasos: 66 },
+    { nombre: 'ojo_susto',     az: -20, el: 3,  dist: 0.85, ty: 0.70, accion: 'susto',     pasos: 48 },
+    { nombre: 'ojo_siesta',    az: -20, el: 3,  dist: 0.85, ty: 0.70, accion: 'siesta',    pasos: 96 },
+    { nombre: 'ojo_sonrison',  az: -20, el: 3,  dist: 0.85, ty: 0.70, accion: 'sonrison',  pasos: 60 }
+];
+
+// 3D12 · Forma de la cara: mismos encuadres que las capturas de la serie (frente y 3/4); cara_frente alimenta perfil_cara.py
+const VISTAS_CARA = [
+    { nombre: 'cara_frente',        az: 0,   el: 0, dist: 1.75, ty: 0.62 },   // 01, 08, 13, 18, 26
+    { nombre: 'cara_frente_cuerpo', az: 0,   el: 2, dist: 2.6,  ty: 0.50 },   // 24, 25
+    { nombre: 'cara_34_suave',      az: -28, el: 4, dist: 1.45, ty: 0.66 },   // 03
+    { nombre: 'cara_34',            az: -55, el: 6, dist: 1.45, ty: 0.66 },   // 12
+    { nombre: 'cara_34_cuerpo',     az: -60, el: 2, dist: 2.6,  ty: 0.50 },   // 06, 16, 23
+    { nombre: 'cara_34_izq',        az: 45,  el: 2, dist: 2.6,  ty: 0.50 }    // 22
+];
+
 function parseArgs(argv) {
     const opts = {
         raiz: process.cwd(),
@@ -81,8 +110,10 @@ function parseArgs(argv) {
         else if (a === '--timeout' && i + 1 < argv.length) opts.timeout = Number(argv[++i]) || 90000;
         else if (a === '--query' && i + 1 < argv.length) opts.query = argv[++i].replace(/^\?/, '');
         else if (a === '--expresiones') opts.expresiones = true;
+        else if (a === '--cara') opts.cara = true;
+        else if (a === '--ojos') opts.ojos = true;
         else if (a === '-h' || a === '--help') {
-            console.log('Uso: node herramientas/capturar_3d_cdp.js --salida <dir> [--raiz <dir>] [--expresiones] [--chrome <ruta>]');
+            console.log('Uso: node herramientas/capturar_3d_cdp.js --salida <dir> [--raiz <dir>] [--expresiones] [--cara] [--ojos] [--chrome <ruta>]');
             process.exit(0);
         }
     }
@@ -284,6 +315,8 @@ async function capturarVista(cdp, vista, rutaPng) {
         S.visible = false;
         S.anim = Nailong3DAnimacion.crear(S.modelo, { ocio: false, semilla: 11, reducido: false });
         S.anim.asentar(2.2);
+        ${vista.nombre.startsWith('ojo_') ? 'S.renderer.setSize(900, 900, false); S.camara.aspect = 1; S.camara.updateProjectionMatrix();' : ''}
+        ${vista.parpadeo ? 'S.modelo.ojos.forEach((o) => { o.sup.rotation.x = -0.35; o.inf.rotation.x = 0.55; });' : ''}
         ${vista.accion ? `
         S.anim.accion(${JSON.stringify(vista.accion)});
         for (let i = 0; i < ${vista.pasos}; i++) S.anim.actualizar(1 / 60, null);
@@ -371,7 +404,7 @@ async function main() {
         await cdp.send('Page.navigate', { url });
         const estadoInicial = await esperarListo(cdp, opts.timeout);
 
-        const vistas = opts.expresiones ? [...VISTAS_BASE, ...VISTAS_EXPRESIONES] : VISTAS_BASE;
+        const vistas = [...VISTAS_BASE, ...(opts.expresiones ? VISTAS_EXPRESIONES : []), ...(opts.cara ? VISTAS_CARA : []), ...(opts.ojos ? VISTAS_OJO : [])];
         const capturas = [];
         for (const v of vistas) {
             const rutaPng = path.join(opts.salida, `${v.nombre}.png`);

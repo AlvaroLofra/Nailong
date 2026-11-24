@@ -233,7 +233,9 @@
                         dientes: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(C.dientes), roughness: 0.22, metalness: 0, clearcoat: 0.38, clearcoatRoughness: 0.18, envMapIntensity: 0.34 }),
                         lengua: suave(C.lengua, { roughness: 0.38, sheen: 0.26, sheenColor: new THREE.Color('#FFC4CE'), clearcoat: 0.30, clearcoatRoughness: 0.28, envMapIntensity: 0.20 }),
                         boca: suave('#FFFFFF', { vertexColors: true, roughness: 0.85, sheen: 0.34, sheenRoughness: 0.82, sheenColor: new THREE.Color('#FFEAA8'), envMapIntensity: 0.17, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -2 }),
-                        ojo: new THREE.MeshPhysicalMaterial({ map: texOjo, roughness: 0.10, clearcoat: 1.0, clearcoatRoughness: 0.02, envMapIntensity: 0.62 }),
+                        // 3D13: el ojo «lente» es casi plano, así que sin barniz ni reflejo de entorno fuerte (velarían la pupila de gris):
+                        // pupila negra profunda y un único brillo, el del disco «brillo» (08, 12)
+                        ojo: new THREE.MeshPhysicalMaterial({ map: texOjo, roughness: 0.45, specularIntensity: 0.25, envMapIntensity: 0.12 }),
                         brillo: new THREE.MeshBasicMaterial({ color: 0xffffff, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 })
                     },
                     toon: {
@@ -890,6 +892,39 @@
                 return { geo, baseEl, baseAz, baseR };
             }
 
+            // 3D13 · Marco afín del ojo «lente»: giro hacia la sien · cizalla y aplastado (z' = a·x + b·y + lente·z, ver OJO en js/11).
+            // Se descompone en giro · escala · giro (SVD por Jacobi de Sh^T·Sh) para que cada nodo sea un TRS válido en glTF y el globo,
+            // los párpados y el brillo sigan girando en su espacio esférico de siempre (parpadeo, mirada y caritas no cambian).
+            function marcoOjo(THREE, O, lado) {
+                const a = O.a * lado, b = O.b, c = O.lente;
+                const Sh = [[1, 0, 0], [0, 1, 0], [a, b, c]];
+                const Bm = [0, 1, 2].map((i) => [0, 1, 2].map((j) => Sh[0][i] * Sh[0][j] + Sh[1][i] * Sh[1][j] + Sh[2][i] * Sh[2][j]));
+                const V = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+                for (let it = 0; it < 40; it++) {
+                    let p = 0, q = 1;
+                    if (Math.abs(Bm[0][2]) > Math.abs(Bm[p][q])) { p = 0; q = 2; }
+                    if (Math.abs(Bm[1][2]) > Math.abs(Bm[p][q])) { p = 1; q = 2; }
+                    if (Math.abs(Bm[p][q]) < 1e-14) break;
+                    const th = 0.5 * Math.atan2(2 * Bm[p][q], Bm[q][q] - Bm[p][p]);
+                    const co = Math.cos(th), si = Math.sin(th);
+                    for (let k = 0; k < 3; k++) { const x = Bm[k][p], y = Bm[k][q]; Bm[k][p] = co * x - si * y; Bm[k][q] = si * x + co * y; }
+                    for (let k = 0; k < 3; k++) { const x = Bm[p][k], y = Bm[q][k]; Bm[p][k] = co * x - si * y; Bm[q][k] = si * x + co * y; }
+                    for (let k = 0; k < 3; k++) { const x = V[k][p], y = V[k][q]; V[k][p] = co * x - si * y; V[k][q] = si * x + co * y; }
+                }
+                const sig = [0, 1, 2].map((i) => Math.sqrt(Math.max(Bm[i][i], 1e-12)));
+                const det = V[0][0] * (V[1][1] * V[2][2] - V[1][2] * V[2][1]) - V[0][1] * (V[1][0] * V[2][2] - V[1][2] * V[2][0]) + V[0][2] * (V[1][0] * V[2][1] - V[1][1] * V[2][0]);
+                if (det < 0) for (let k = 0; k < 3; k++) V[k][2] = -V[k][2];
+                const colV = (i) => new THREE.Vector3(V[0][i], V[1][i], V[2][i]);
+                const colU = (i) => {
+                    const v = colV(i);
+                    return new THREE.Vector3(v.x, v.y, (a * v.x + b * v.y + c * v.z)).divideScalar(sig[i]);
+                };
+                const qU = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(colU(0), colU(1), colU(2)));
+                const qV = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(colV(0), colV(1), colV(2)));
+                const qGiro = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, O.giro * lado, 0));
+                return { giro: qGiro.multiply(qU), escala: new THREE.Vector3(sig[0], sig[1], sig[2]), interno: qV.invert() };
+            }
+
             function crearOjos(THREE, M, hueso) {
                 const O = G.OJO;
                 const geoGlobo = new THREE.SphereGeometry(O.r, 48, 32);
@@ -939,8 +974,15 @@
                     const centro = new THREE.Vector3(O.x * lado, O.y, O.z);
                     const pivote = new THREE.Object3D();
                     adjuntar(pivote, hueso, centro);
-                    pivote.rotation.y = O.giro * lado;
-                    pivote.rotation.x = 0.01;
+                    // Pivote (giro) -> escala -> giro interno: el espacio del globo se lleva a la lente a ras de la piel
+                    const marco = marcoOjo(THREE, O, lado);
+                    pivote.quaternion.copy(marco.giro);
+                    const escala = new THREE.Object3D();
+                    escala.scale.copy(marco.escala);
+                    const interno = new THREE.Object3D();
+                    interno.quaternion.copy(marco.interno);
+                    pivote.add(escala);
+                    escala.add(interno);
                     const giroBase = -O.giro * lado * 0.85;
 
                     const uOjoAO = { value: new THREE.Vector4(0.98, -0.98, 0, 0) };
@@ -961,8 +1003,9 @@
                     const sup = new THREE.Mesh(datosSup.geo, M.suave.parpado); sup.userData.mat = 'parpado';
                     const inf = new THREE.Mesh(datosInf.geo, M.suave.parpado); inf.userData.mat = 'parpado';
                     pivote.name = 'Nailong_ojo' + sufijo; globo.name = 'Nailong_globo' + sufijo;
+                    escala.name = 'Nailong_ojoLente' + sufijo; interno.name = 'Nailong_ojoInterno' + sufijo;
                     sup.name = 'Nailong_parpadoSup' + sufijo; inf.name = 'Nailong_parpadoInf' + sufijo;
-                    pivote.add(globo, sup, inf);
+                    interno.add(globo, sup, inf);
 
                     // Un brillo circular blanco nítido arriba-derecha (idéntico a las capturas 08, 12, 13 y 14)
                     const brillos = [];
@@ -974,7 +1017,7 @@
                         b.position.copy(d).multiplyScalar(O.r + offsetBrillo);
                         b.lookAt(d.clone().multiplyScalar(2));
                         b.renderOrder = 3;
-                        pivote.add(b);
+                        interno.add(b);
                         brillos.push({ malla: b, elev: Math.asin(d.y), xLat: d.x, radio: br / O.r });
                     });
                     ojos.push({ lado, globo, pivote, sup, inf, giroBase, brillos, uOjoAO, uGloboAPivote });

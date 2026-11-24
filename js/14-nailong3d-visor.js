@@ -1,8 +1,9 @@
         /* ==============================================================
            18. NAILONG 3D · VISOR EN LA WEB (sección #nailong-3d)
-           Three.js r147 (último con scripts clásicos) se descarga SOLO cuando la
-           sección se acerca a la pantalla. El bucle se pausa fuera de pantalla y
-           con la pestaña oculta. Se autoinicia: no toca window.onload.
+           Apagado por defecto: Three.js r147 (último con scripts clásicos), js/11-13
+           y la malla se cargan SOLO al pulsar «Ver a Nailong en 3D» (o con ?3d=1).
+           «Ocultar» (apagar) para el bucle y libera la GPU. Encendido, el bucle se
+           pausa fuera de pantalla y con la pestaña oculta. No toca window.onload.
         ============================================================== */
         const Nailong3DVisor = (function () {
             'use strict';
@@ -135,29 +136,38 @@
             }
 
             /* ---------- Arranque ---------- */
-            function mostrarCarga(texto, conBoton) {
+            const TEXTO_DORMIDO = 'Nailong 3D duerme en su huevo';
+            const BOTON_VER = '🐣 Ver a Nailong en 3D';
+
+            function mostrarCarga(texto, conBoton, etiqueta) {
                 const caja = $('nailong-3d-carga');
                 if (!caja) return;
                 caja.classList.remove('hidden');
                 const t = $('nailong-3d-carga-texto');
                 if (t) t.textContent = texto;
                 const b = $('nailong-3d-cargar');
-                if (b) b.classList.toggle('hidden', !conBoton);
+                if (b) {
+                    b.classList.toggle('hidden', !conBoton);
+                    if (etiqueta) b.textContent = etiqueta;
+                }
             }
 
             function fallo(texto, reintentable) {
                 S.estado = 'error';
-                mostrarCarga(texto, reintentable !== false);
+                if (S.contenedor) S.contenedor.classList.remove('n3d-cargando');
+                mostrarCarga(texto, reintentable !== false, '🔄 Reintentar');
                 const caja = $('nailong-3d-carga');
                 if (caja) caja.classList.add('n3d-error');
             }
 
+            // Solo se llama al pulsar «Ver a Nailong en 3D» (o un botón del panel), o con ?3d=1 / ?3d=debug
             async function arrancar() {
                 if (S.estado === 'cargando' || S.estado === 'listo') return;
                 if (!hayWebGL()) { fallo('Tu navegador no puede mostrar gráficos 3D (WebGL). ¡Pero tienes todos los stickers más abajo! 💛', false); return; }
                 S.estado = 'cargando';
                 const caja = $('nailong-3d-carga');
                 if (caja) caja.classList.remove('n3d-error');
+                S.contenedor.classList.add('n3d-cargando');
                 mostrarCarga('Despertando a Nailong 3D…', false);
                 try {
                     decidirCalidad();
@@ -168,8 +178,10 @@
                     await threeP;
                     const mallas = await mallasP;
                     montar(mallas[0], mallas[1]);
+                    if (S.estiloElegido && S.estiloElegido !== 'suave') S.modelo.setEstilo(S.estiloElegido);
                     S.estado = 'listo';
                     if (caja) caja.classList.add('hidden');
+                    S.contenedor.classList.remove('n3d-cargando');
                     S.contenedor.classList.add('n3d-listo');
                     if (!S.reducido) S.anim.accion('intro');
                     S.pendientes.splice(0).forEach((f) => f());
@@ -211,10 +223,45 @@
                 c.addEventListener('end', () => { S.lienzo.classList.remove('n3d-arrastrando'); });
 
                 redimensionar(true);
-                if (window.ResizeObserver) new ResizeObserver(() => redimensionar(false)).observe(S.contenedor);
-                else window.addEventListener('resize', () => redimensionar(false));
-                S.lienzo.addEventListener('webglcontextlost', (e) => { e.preventDefault(); pausar(); fallo('El visor 3D se ha detenido. Pulsa para recargarlo.'); S.estado = 'perdido'; });
+                // Se guardan para poder soltarlos al ocultar el 3D (apagar)
+                if (window.ResizeObserver) { S.observadorTam = new ResizeObserver(() => redimensionar(false)); S.observadorTam.observe(S.contenedor); }
+                else { S.alRedimensionar = () => redimensionar(false); window.addEventListener('resize', S.alRedimensionar); }
+                S.alPerderContexto = (e) => { e.preventDefault(); pausar(); fallo('El visor 3D se ha detenido. Pulsa para recargarlo.'); S.estado = 'perdido'; };
+                S.lienzo.addEventListener('webglcontextlost', S.alPerderContexto);
                 configurarPuntero();
+            }
+
+            /* ---------- Ocultar el 3D: para el bucle y libera la tarjeta gráfica (se puede volver a encender) ---------- */
+            function apagar() {
+                if (S.estado !== 'listo') return;
+                if (enPantallaCompleta()) pantallaCompleta();
+                pausar();
+                if (S.observadorTam) { S.observadorTam.disconnect(); S.observadorTam = null; }
+                if (S.alRedimensionar) { window.removeEventListener('resize', S.alRedimensionar); S.alRedimensionar = null; }
+                if (S.alPerderContexto) { S.lienzo.removeEventListener('webglcontextlost', S.alPerderContexto); S.alPerderContexto = null; }
+                if (S.controles) S.controles.dispose();
+                liberarModelo(S.modelo);
+                if (S.escena) liberarModelo({ grupo: S.escena });
+                if (S.renderer) {
+                    S.renderer.dispose();
+                    S.renderer.forceContextLoss();   // suelta ya la memoria de la GPU (no espera al recolector)
+                }
+                // El lienzo viejo se queda sin contexto WebGL: se cambia por uno limpio para la próxima vez
+                const nuevo = S.lienzo.cloneNode(false);
+                nuevo.classList.remove('n3d-arrastrando');
+                nuevo.style.cursor = '';
+                S.lienzo.replaceWith(nuevo);
+                S.lienzo = nuevo;
+                Object.assign(S, {
+                    renderer: null, escena: null, camara: null, controles: null, modelo: null, anim: null, estudio: null,
+                    raf: 0, ultimo: 0, frames: 0, mediaFrame: 16, distBase: 0, puntero: null, mirarHasta: 0, ultimoToque: null, pendientes: []
+                });
+                S.estado = 'apagado';
+                S.contenedor.classList.remove('n3d-listo');
+                mostrarCarga(TEXTO_DORMIDO, true, BOTON_VER);
+                anunciar('Nailong 3D oculto: ya no usa la tarjeta gráfica.');
+                const b = $('nailong-3d-cargar');
+                if (b) b.focus({ preventScroll: true });
             }
 
             /* ---------- Cámara y tamaño ---------- */
@@ -418,7 +465,9 @@
                     }
                 });
                 S.lienzo.addEventListener('pointerleave', () => { S.mirarHasta = 0; });
-                // Teclado: flechas giran, +/- acercan, Intro o espacio = cosquillas
+                // Teclado: flechas giran, +/- acercan, Intro o espacio = cosquillas (el contenedor no cambia: se enlaza una sola vez)
+                if (S.tecladoConfigurado) return;
+                S.tecladoConfigurado = true;
                 S.contenedor.addEventListener('keydown', (e) => {
                     if (S.estado !== 'listo') return;
                     const c = S.controles, off = S.camara.position.clone().sub(c.target);
@@ -510,6 +559,7 @@
             function estilo(nombre) {
                 cuandoListo(() => {
                     S.modelo.setEstilo(nombre === 'toon' ? 'toon' : 'suave');
+                    S.estiloElegido = S.modelo.estilo;   // se conserva si se oculta y se vuelve a encender
                     document.querySelectorAll('[data-n3d-estilo]').forEach((b) => {
                         const activo = b.getAttribute('data-n3d-estilo') === S.modelo.estilo;
                         b.setAttribute('aria-pressed', activo ? 'true' : 'false');
@@ -801,12 +851,11 @@
                 });
             }
 
+            // Solo ?3d=1 / ?3d=debug (herramientas y pruebas) encienden el 3D al cargar; el enlace #nailong-3d solo lleva a la sección
             function esActivo3D() {
                 try {
                     const s = window.location.search || '';
-                    const h = window.location.hash || '';
                     if (/[\?&]3d(=[^\&]*)?(&|$)/i.test(s)) return true;
-                    if (/#.*3d/i.test(h)) return true;
                 } catch (_) {}
                 return false;
             }
@@ -1133,33 +1182,33 @@
                 enlazar('nailong-3d-foto', foto);
                 enlazar('nailong-3d-glb', descargarGLB);
                 enlazar('nailong-3d-sticker', descargarSticker);
+                enlazar('nailong-3d-ocultar', apagar);
                 document.addEventListener('fullscreenchange', actualizarBotonPantalla);
                 document.addEventListener('webkitfullscreenchange', actualizarBotonPantalla);
                 window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.pantallaCSS) pantallaCompleta(); });
                 document.addEventListener('visibilitychange', () => { if (document.hidden) pausar(); else reanudar(); });
 
-                if (esInmediato3D) {
-                    S.visible = true;
-                    if (esDebug3D()) cuandoListo(montarPanelDebug);
-                    else arrancar();
-                } else if ('IntersectionObserver' in window) {
-                    // Se descarga cuando falta poco para verlo…
-                    const cerca = new IntersectionObserver((entradas) => {
-                        if (entradas.some((e) => e.isIntersecting)) { cerca.disconnect(); arrancar(); }
-                    }, { rootMargin: '600px 0px' });
-                    cerca.observe(S.contenedor);
-                    // …y solo se anima mientras está en pantalla
+                // Una vez encendido, solo se anima mientras está en pantalla
+                if ('IntersectionObserver' in window) {
                     new IntersectionObserver((entradas) => {
                         entradas.forEach((e) => { S.visible = e.isIntersecting; if (S.visible) reanudar(); else pausar(); });
                     }, { threshold: 0.01 }).observe(S.contenedor);
                 } else {
                     S.visible = true;
-                    arrancar();
+                }
+
+                if (esInmediato3D) {
+                    S.visible = true;
+                    if (esDebug3D()) cuandoListo(montarPanelDebug);
+                    else arrancar();
+                } else {
+                    // Apagado por defecto: ni Three.js, ni malla, ni WebGL hasta pulsar «Ver a Nailong en 3D»
+                    mostrarCarga(TEXTO_DORMIDO, true, BOTON_VER);
                 }
             }
 
             return {
-                iniciar, accion, estilo, recentrar, pantallaCompleta, foto, descargarGLB, descargarSticker, exportarStickerWebP,
+                iniciar, accion, estilo, recentrar, pantallaCompleta, foto, descargarGLB, descargarSticker, exportarStickerWebP, apagar,
                 // Para pruebas automáticas (Playwright) y depuración en consola
                 depurar: {
                     estado: () => ({ estado: S.estado, calidad: S.calidad, ratio: S.ratio, visible: S.visible, anim: S.anim ? S.anim.estado() : null, estilo: S.modelo ? S.modelo.estilo : null, reducido: S.reducido }),
@@ -1167,6 +1216,8 @@
                     exportarGLB: () => exportarGLB(),
                     exportarStickerWebP: () => exportarStickerWebP(),
                     reconstruirAnatomia: (anatomia) => reconstruirConAnatomia(anatomia),
+                    encender: () => arrancar(),
+                    apagar: () => apagar(),
                     s: S
                 }
             };

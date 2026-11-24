@@ -5,9 +5,10 @@ Orden unica de evaluacion completa de Nailong 3D (Fase 0 · mejora 3D5):
   2) node herramientas/medir_nailong3d.js --salida <dir>/medidas.json --tabla
   3) node herramientas/capturar_3d_cdp.js --salida <dir>/renders [--expresiones]
   4) python herramientas/lamina_comparativa.py --renders <dir>/renders --medidas <dir>/medidas.json --salida <dir>/lamina_<etiqueta>.png [--expresiones]
+  5) con --cara: python herramientas/perfil_cara.py (silueta frontal de la cara, F1-F4 y O1; mejora 3D12)
 
 Uso:
-  python herramientas/evaluar_3d.py --etiqueta fase0_base [--expresiones] [--salida <dir>] [--referencias <dir>]
+  python herramientas/evaluar_3d.py --etiqueta fase0_base [--expresiones] [--cara] [--salida <dir>] [--referencias <dir>]
 """
 
 import argparse
@@ -44,6 +45,7 @@ def main():
     parser = argparse.ArgumentParser(description="Evaluacion automatica completa de Nailong 3D.")
     parser.add_argument("--etiqueta", default=datetime.now().strftime("%Y-%m-%d_%H%M%S"), help="Etiqueta para nombrar la carpeta y lamina")
     parser.add_argument("--expresiones", action="store_true", help="Capturar tambien las 6 caritas y 5 acciones")
+    parser.add_argument("--cara", action="store_true", help="3D12: vistas de la cara y medidas F1-F4/O1 frente a las capturas frontales")
     parser.add_argument("--salida", help="Directorio de salida (por defecto documentacion/referencias_nailong_serie/comparativas/<etiqueta>)")
     parser.add_argument("--referencias", help="Directorio opcional con las capturas locales de la serie")
     parser.add_argument("--raiz", default=os.getcwd(), help="Directorio raiz del proyecto")
@@ -89,6 +91,8 @@ def main():
     ]
     if args.expresiones:
         cmd_cdp.append("--expresiones")
+    if args.cara:
+        cmd_cdp.append("--cara")
     tiempos["cdp"] = ejecutar_paso("3/4 · Captura de vistas via Chrome Headless CDP", cmd_cdp, cwd=raiz)
 
     # 4) Lamina comparativa
@@ -106,6 +110,21 @@ def main():
         cmd_lam.append("--expresiones")
     tiempos["lamina"] = ejecutar_paso("4/4 · Composicion de lamina comparativa", cmd_lam, cwd=raiz)
 
+    # 5) 3D12 · Silueta frontal de la cara frente a las capturas frontales de la serie (opcional)
+    archivo_cara = salida / f"lamina_{args.etiqueta}_cara.png"
+    if args.cara:
+        cmd_cara = [
+            sys.executable,
+            str(herr / "perfil_cara.py"),
+            "--renders", str(dir_renders),
+            "--etiquetas", args.etiqueta,
+            "--salida", str(archivo_cara),
+            "--json", str(salida / "medidas_cara.json"),
+        ]
+        if args.referencias:
+            cmd_cara.extend(["--referencias", args.referencias])
+        tiempos["cara"] = ejecutar_paso("5/5 · Silueta frontal de la cara (perfil_cara.py)", cmd_cara, cwd=raiz)
+
     total_s = time.perf_counter() - t_total
     print("\n=== EVALUACION 3D COMPLETADA ===")
     print(f"  Etiqueta:   {args.etiqueta}")
@@ -114,6 +133,8 @@ def main():
     print(f"  Lamina:     {archivo_lamina}")
     if args.expresiones:
         print(f"  Expresiones:{salida / f'lamina_{args.etiqueta}_expresiones.png'}")
+    if args.cara:
+        print(f"  Cara:       {archivo_cara}")
     print(
         f"  Tiempos:    sintaxis={tiempos['sintaxis']:.2f}s · medidas={tiempos['medidas']:.2f}s · "
         f"cdp={tiempos['cdp']:.2f}s · lamina={tiempos['lamina']:.2f}s · TOTAL={total_s:.2f}s"

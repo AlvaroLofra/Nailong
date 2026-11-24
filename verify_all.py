@@ -382,7 +382,7 @@ print("✔ v14 verified: all 126 stickers are 512x512 WebP with WhatsApp EXIF an
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v4.0.0<', html), "Footer must show the current version number (v4.0.0)!"
+assert re.search(r'id="app-version"[^>]*>v4.1.0<', html), "Footer must show the current web version number (v4.1.0)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -420,11 +420,14 @@ assert 'href="#android-app-banner"' in html and 'id="lb-visor-btn"' in html and 
 assert 'overflow-x: clip' in html and '@media (max-width: 359px)' in html, "Navbar overflow fix missing!"
 print("✔ v3.2.0 verified: GIF wall merged into stickers section (app banner, Visor strip, album), app button in nav, navbar fits narrow phones.")
 
-# Test 45: v3.3.2 - version.json (lo lee la app para avisar de versiones nuevas) coincide con la web y el APK
+# Test 45: v3.3.2 - version.json (lo lee la app para avisar de versiones nuevas) coincide con el APK publicado.
+# Desde D-27 (4.1.0) la web lleva su propia versión (pie): version.json solo sube cuando sube el APK, o la app pediría actualizar sin fin.
 with open('version.json', encoding='utf-8') as _vf:
     _ver = json.load(_vf)
 _footer = re.search(r'id="app-version"[^>]*>v([\d.]+)<', html).group(1)
-assert _ver['versionName'] == _footer, f"version.json versionName ({_ver['versionName']}) must match the footer version (v{_footer})!"
+_apk_badge = re.search(r'v([\d.]+) APK', html).group(1)
+assert _ver['versionName'] == _apk_badge, f"version.json versionName ({_ver['versionName']}) must match the APK badge (v{_apk_badge} APK)!"
+assert tuple(map(int, _footer.split('.'))) >= tuple(map(int, _ver['versionName'].split('.'))), f"The web version (v{_footer}) can never be older than the app (v{_ver['versionName']})!"
 assert _ver['apkUrl'] == 'https://alvarolofra.github.io/Nailong/StickersNailong.apk', "version.json apkUrl must point to the official APK on GitHub Pages!"
 assert isinstance(_ver.get('notes'), list) and _ver['notes'], "version.json must include a non-empty notes list (shown in the app)!"
 if HAY_ANDROID:
@@ -435,7 +438,7 @@ if HAY_ANDROID:
         assert '"https://alvarolofra.github.io/Nailong/version.json"' in _uf.read(), "UpdateChecker.java must read version.json from the official site!"
 else:
     NO_COMPROBADO.append("Test 45 (version.json frente a build.gradle y UpdateChecker.java)")
-print(f"✔ v3.4.1 verified: version.json ({_ver['versionName']}, code {_ver['versionCode']}) matches web footer and Android build.gradle.")
+print(f"✔ v3.4.1 verified: version.json ({_ver['versionName']}, code {_ver['versionCode']}) matches the APK badge and Android build.gradle (web v{_footer}, D-27).")
 
 # Test 46: v3.3.3 - el peso del APK (etiqueta del banner y sizeMB de version.json) coincide con el fichero real
 _apk_mb = os.path.getsize('StickersNailong.apk') / 1e6
@@ -479,9 +482,10 @@ assert 'id="apk-qr-box"' in page_html and 'id="apk-qr-img"' in page_html, "W6: A
 assert 'StickersNailong.apk' in re.search(r'id="apk-qr-img"[^>]+', page_html).group(0), "W6: APK QR must point to StickersNailong.apk!"
 assert 'function toggleApkQrBox(' in html and 'function closeApkQrBox(' in html, "W6: toggleApkQrBox / closeApkQrBox missing in JS!"
 _asset_versions = re.findall(r'(?:src|href)="(?:css|js)/[^"?]+\?v=([^"]+)"', page_html)
-# El sufijo es la version publicada o, en revisiones solo de la web (el APK no cambia), <version>-webN.
+# El sufijo es la version de la web (pie, D-27) o, en retoques sin version nueva, <version>-webN.
+_web_ver = re.search(r'id="app-version"[^>]*>v([\d.]+)<', page_html).group(1)
 assert len(_asset_versions) == len(asset_refs) and len(set(_asset_versions)) == 1, "W7: all css/js references must carry the same ?v= suffix!"
-assert re.fullmatch(re.escape(_ver['versionName']) + r'(-web\d+)?', _asset_versions[0]), f"W7: ?v= must be {_ver['versionName']} or {_ver['versionName']}-webN (found {_asset_versions[0]})!"
+assert re.fullmatch(re.escape(_web_ver) + r'(-web\d+)?', _asset_versions[0]), f"W7: ?v= must be {_web_ver} or {_web_ver}-webN (found {_asset_versions[0]})!"
 
 if not HAY_ANDROID:
     NO_COMPROBADO.append("Test 48 (A8-A13 y zoom en la app Android)")
@@ -513,6 +517,9 @@ assert "VERSION_THREE = '0.147.0'" in _visor and _visor.count("sri: 'sha384-") =
 assert 'three@' not in page_html and 'three.min.js' not in page_html, "Three.js must be lazy-loaded by js/14 (never eagerly from index.html)!"
 for _clave in ('IntersectionObserver', 'visibilitychange', 'prefers-reduced-motion', 'GLTFExporter', 'binary: true', "'none' : 'pan-y'", 'new Worker('):
     assert _clave in _visor, f"3D viewer must keep: {_clave}"
+# D-26: el 3D arranca apagado (sin precarga por cercania) y «Ocultar» lo apaga liberando la GPU
+assert 'id="nailong-3d-cargar"' in _sec and 'id="nailong-3d-ocultar"' in _sec, "D-26: 3D viewer needs its 'Ver en 3D' and 'Ocultar' buttons!"
+assert 'rootMargin' not in _visor and 'forceContextLoss' in _visor and "enlazar('nailong-3d-ocultar', apagar)" in _visor, "D-26: the 3D must stay off until the user turns it on, and hiding it must free the GPU!"
 _prueba_3d = r"""
 const fs = require('fs'), vm = require('vm');
 const src11 = fs.readFileSync('js/11-nailong3d-geometria.js', 'utf8');
