@@ -38,9 +38,9 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <script src="js/tailwind-config.js?v=4.0.0-web1"></script>
+    <script src="js/tailwind-config.js?v=4.0.0-web2"></script>
 
-    <link rel="stylesheet" href="css/styles.css?v=4.0.0-web1">
+    <link rel="stylesheet" href="css/styles.css?v=4.0.0-web2">
 </head>
 <body class="relative min-h-screen selection:bg-nailong-yellow selection:text-amber-950">
 
@@ -364,12 +364,18 @@
                                 <button id="nailong-3d-pantalla" type="button" class="w-10 h-10 rounded-full bg-white/95 border-2 border-nailong-yellow text-amber-900 shadow-md hover:scale-110 transition-transform" aria-label="Ver a pantalla completa" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
                             </div>
 
-                            <div class="n3d-dock hidden absolute inset-x-0 bottom-14 justify-center gap-1.5 sm:gap-2 z-10 px-2">
-                                <button type="button" data-n3d-accion="saludar" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Saludar">👋</button>
-                                <button type="button" data-n3d-accion="duang" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Duang">💛</button>
-                                <button type="button" data-n3d-accion="bailar" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Bailar">💃</button>
-                                <button type="button" data-n3d-accion="sorpresa" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Sorpresa">😮</button>
-                                <button type="button" data-n3d-accion="siesta" class="w-11 h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-xl shadow-md" aria-label="Siesta">😴</button>
+                            <div class="n3d-dock hidden absolute inset-x-0 bottom-14 justify-start sm:justify-center gap-1.5 sm:gap-2 z-10 px-3 overflow-x-auto">
+                                <button type="button" data-n3d-accion="saludar" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Saludar" title="Saludar">👋</button>
+                                <button type="button" data-n3d-accion="duang" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Duang" title="¡Duang!">💛</button>
+                                <button type="button" data-n3d-accion="bailar" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Bailar" title="Bailar">💃</button>
+                                <button type="button" data-n3d-accion="sorpresa" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Sorpresa" title="Sorpresa">😮</button>
+                                <button type="button" data-n3d-accion="sonrison" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Sonrisón" title="Sonrisón">😄</button>
+                                <button type="button" data-n3d-accion="carcajada" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Carcajada" title="Carcajada">😆</button>
+                                <button type="button" data-n3d-accion="burla" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Burla con lengua" title="¡Bleh!">😜</button>
+                                <button type="button" data-n3d-accion="puchero" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Puchero tierno" title="Puchero">🥺</button>
+                                <button type="button" data-n3d-accion="pillo" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Cara de pillo" title="Pillo">😤</button>
+                                <button type="button" data-n3d-accion="susto" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Susto" title="¡Susto!">😱</button>
+                                <button type="button" data-n3d-accion="siesta" class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 border-2 border-nailong-yellow text-lg sm:text-xl shadow-md" aria-label="Siesta" title="Siesta">😴</button>
                             </div>
 
                             <p id="nailong-3d-ayuda" class="n3d-ayuda absolute bottom-3 inset-x-3 text-center text-[11px] sm:text-xs font-bold text-amber-900/90 pointer-events-none">
@@ -381,31 +387,44 @@
                     </div>
 
                     <!-- Controles -->
-                    <div class="lg:col-span-4 space-y-3 lg:space-y-4">
+                    <div class="lg:col-span-4 space-y-2.5 lg:space-y-3.5">
                         <!-- Acciones: fila deslizable de chips en móvil, rejilla en escritorio -->
-                        <div class="lg:bg-white/95 lg:p-5 lg:rounded-3xl lg:border-2 lg:border-nailong-yellow lg:shadow-md space-y-2 lg:space-y-3">
-                            <p class="hidden lg:block font-display font-bold text-amber-950">🎬 ¡Haz que Nailong…!</p>
-                            <div class="carrusel-chips flex lg:grid lg:grid-cols-2 gap-2 overflow-x-auto lg:overflow-visible -mx-3 px-3 lg:mx-0 lg:px-0 pb-1 lg:pb-0">
-                                <button type="button" data-n3d-accion="saludar" class="shrink-0 whitespace-nowrap px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">👋 Salude</button>
-                                <button type="button" data-n3d-accion="duang" class="shrink-0 whitespace-nowrap px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💛 ¡Duang!</button>
-                                <button type="button" data-n3d-accion="bailar" class="shrink-0 whitespace-nowrap px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💃 Baile</button>
-                                <button type="button" data-n3d-accion="sorpresa" class="shrink-0 whitespace-nowrap px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😮 Sorpresa</button>
-                                <button type="button" data-n3d-accion="siesta" class="shrink-0 whitespace-nowrap lg:col-span-2 px-3.5 py-2.5 lg:p-2.5 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform" title="Tócalo para despertarlo">😴 Siesta</button>
+                        <div class="lg:bg-white/95 lg:p-4 lg:rounded-3xl lg:border-2 lg:border-nailong-yellow lg:shadow-md space-y-1.5 lg:space-y-2.5">
+                            <p class="hidden lg:block font-display font-bold text-sm text-amber-950">🎬 ¡Haz que Nailong…!</p>
+                            <div class="carrusel-chips flex lg:grid lg:grid-cols-2 gap-1.5 lg:gap-2 overflow-x-auto lg:overflow-visible -mx-3 px-3 lg:mx-0 lg:px-0 pb-0.5 lg:pb-0">
+                                <button type="button" data-n3d-accion="saludar" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">👋 Salude</button>
+                                <button type="button" data-n3d-accion="duang" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💛 ¡Duang!</button>
+                                <button type="button" data-n3d-accion="bailar" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">💃 Baile</button>
+                                <button type="button" data-n3d-accion="sorpresa" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😮 Sorpresa</button>
+                                <button type="button" data-n3d-accion="siesta" class="shrink-0 whitespace-nowrap lg:col-span-2 px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform" title="Tócalo para despertarlo">😴 Siesta</button>
+                            </div>
+                        </div>
+
+                        <!-- Caritas icónicas de la serie: fila deslizable en móvil, rejilla compacta en escritorio -->
+                        <div class="lg:bg-white/95 lg:p-4 lg:rounded-3xl lg:border-2 lg:border-nailong-yellow lg:shadow-md space-y-1.5 lg:space-y-2.5">
+                            <p class="hidden lg:block font-display font-bold text-sm text-amber-950">😊 Caritas de la serie</p>
+                            <div class="carrusel-chips flex lg:grid lg:grid-cols-2 gap-1.5 lg:gap-2 overflow-x-auto lg:overflow-visible -mx-3 px-3 lg:mx-0 lg:px-0 pb-0.5 lg:pb-0">
+                                <button type="button" data-n3d-accion="sonrison" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😄 Sonrisón</button>
+                                <button type="button" data-n3d-accion="carcajada" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😆 Carcajada</button>
+                                <button type="button" data-n3d-accion="burla" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😜 ¡Bleh!</button>
+                                <button type="button" data-n3d-accion="puchero" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">🥺 Puchero</button>
+                                <button type="button" data-n3d-accion="pillo" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😤 Pillo</button>
+                                <button type="button" data-n3d-accion="susto" class="shrink-0 whitespace-nowrap px-3.5 py-2 lg:p-2 rounded-2xl bg-white lg:bg-nailong-pale border-2 border-nailong-yellow font-display font-bold text-xs sm:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform">😱 ¡Susto!</button>
                             </div>
                         </div>
 
                         <!-- Estilo, foto y modelo: una fila compacta -->
-                        <div class="bg-white/95 p-2.5 sm:p-4 lg:p-5 rounded-3xl border-2 border-nailong-yellow shadow-md space-y-2 lg:space-y-3">
-                            <p class="hidden lg:block font-display font-bold text-amber-950">🎨 Estilo y descargas</p>
+                        <div class="bg-white/95 p-2.5 sm:p-4 lg:p-4 rounded-3xl border-2 border-nailong-yellow shadow-md space-y-2 lg:space-y-2.5">
+                            <p class="hidden lg:block font-display font-bold text-sm text-amber-950">🎨 Estilo y descargas</p>
                             <div class="grid grid-cols-4 lg:grid-cols-2 gap-2">
-                                <button type="button" data-n3d-estilo="suave" aria-pressed="true" class="n3d-activo p-2 lg:p-2.5 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-xs lg:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform leading-tight">✨ Sticker<span class="hidden lg:inline"> 3D</span></button>
-                                <button type="button" data-n3d-estilo="toon" aria-pressed="false" class="p-2 lg:p-2.5 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-xs lg:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform leading-tight">🖍️ Dibujo<span class="hidden lg:inline"> animado</span></button>
-                                <button id="nailong-3d-foto" type="button" class="p-2 lg:p-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-xs lg:text-sm shadow-sm transition-colors leading-tight" title="Guardar foto (PNG transparente)">📸 Foto<span class="hidden lg:inline"> PNG</span></button>
-                                <button id="nailong-3d-glb" type="button" class="p-2 lg:p-2.5 rounded-2xl bg-nailong-orange hover:bg-amber-600 text-white font-display font-bold text-xs lg:text-sm shadow-sm transition-colors leading-tight" title="Descargar modelo 3D (.glb)">⬇️ .glb<span class="hidden lg:inline"> 3D</span></button>
+                                <button type="button" data-n3d-estilo="suave" aria-pressed="true" class="n3d-activo p-2 lg:p-2 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-xs lg:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform leading-tight">✨ Sticker<span class="hidden lg:inline"> 3D</span></button>
+                                <button type="button" data-n3d-estilo="toon" aria-pressed="false" class="p-2 lg:p-2 rounded-2xl bg-white border-2 border-nailong-yellow font-display font-bold text-xs lg:text-sm text-amber-950 shadow-sm hover:scale-105 transition-transform leading-tight">🖍️ Dibujo<span class="hidden lg:inline"> animado</span></button>
+                                <button id="nailong-3d-foto" type="button" class="p-2 lg:p-2 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-xs lg:text-sm shadow-sm transition-colors leading-tight" title="Guardar foto (PNG transparente)">📸 Foto<span class="hidden lg:inline"> PNG</span></button>
+                                <button id="nailong-3d-glb" type="button" class="p-2 lg:p-2 rounded-2xl bg-nailong-orange hover:bg-amber-600 text-white font-display font-bold text-xs lg:text-sm shadow-sm transition-colors leading-tight" title="Descargar modelo 3D (.glb)">⬇️ .glb<span class="hidden lg:inline"> 3D</span></button>
                             </div>
                             <details class="text-xs font-semibold text-amber-900/80 leading-relaxed">
                                 <summary class="cursor-pointer font-bold text-amber-900">¿Qué es el modelo .glb?</summary>
-                                <p class="pt-1">El modelo incluye esqueleto y animaciones (respirar, saludar, ¡duang!, bailar y sorpresa). Ábrelo en Blender, Unity, Godot o cualquier visor glTF.</p>
+                                <p class="pt-1">El modelo incluye esqueleto y animaciones horneadas (reposo, acciones y caritas de la serie). Ábrelo en Blender, Unity, Godot o cualquier visor glTF.</p>
                             </details>
                         </div>
                     </div>
@@ -1239,19 +1258,19 @@
     </div>
 
     <!-- JAVASCRIPT: LOGIC, DATA, AUDIO SYNTHESIZER & MINIGAME -->
-    <script src="js/01-audio.js?v=4.0.0-web1"></script>
-    <script src="js/02-datos-stickers.js?v=4.0.0-web1"></script>
-    <script src="js/03-hero.js?v=4.0.0-web1"></script>
-    <script src="js/04-navegacion.js?v=4.0.0-web1"></script>
-    <script src="js/05-visor-magico.js?v=4.0.0-web1"></script>
-    <script src="js/06-album-y-descargas.js?v=4.0.0-web1"></script>
-    <script src="js/07-sonidos-y-laboratorio.js?v=4.0.0-web1"></script>
-    <script src="js/08-minijuego.js?v=4.0.0-web1"></script>
-    <script src="js/09-modo-fiesta.js?v=4.0.0-web1"></script>
-    <script src="js/10-inicio.js?v=4.0.0-web1"></script>
-    <script src="js/11-nailong3d-geometria.js?v=4.0.0-web1"></script>
-    <script src="js/12-nailong3d-escena.js?v=4.0.0-web1"></script>
-    <script src="js/13-nailong3d-animacion.js?v=4.0.0-web1"></script>
-    <script src="js/14-nailong3d-visor.js?v=4.0.0-web1"></script>
+    <script src="js/01-audio.js?v=4.0.0-web2"></script>
+    <script src="js/02-datos-stickers.js?v=4.0.0-web2"></script>
+    <script src="js/03-hero.js?v=4.0.0-web2"></script>
+    <script src="js/04-navegacion.js?v=4.0.0-web2"></script>
+    <script src="js/05-visor-magico.js?v=4.0.0-web2"></script>
+    <script src="js/06-album-y-descargas.js?v=4.0.0-web2"></script>
+    <script src="js/07-sonidos-y-laboratorio.js?v=4.0.0-web2"></script>
+    <script src="js/08-minijuego.js?v=4.0.0-web2"></script>
+    <script src="js/09-modo-fiesta.js?v=4.0.0-web2"></script>
+    <script src="js/10-inicio.js?v=4.0.0-web2"></script>
+    <script src="js/11-nailong3d-geometria.js?v=4.0.0-web2"></script>
+    <script src="js/12-nailong3d-escena.js?v=4.0.0-web2"></script>
+    <script src="js/13-nailong3d-animacion.js?v=4.0.0-web2"></script>
+    <script src="js/14-nailong3d-visor.js?v=4.0.0-web2"></script>
 </body>
 </html>

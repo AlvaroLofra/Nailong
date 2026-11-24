@@ -189,7 +189,7 @@ const VISTAS_CANONICAS = [
         id: 8,
         slug: 'vista_8_estilo_toon',
         nombre: 'Vista 8: Estilo Toon / Dibujo animado',
-        stickerRef: 'sticker_86.webp',
+        stickerRef: 'sticker_88.webp',
         descripcion: 'Modo dibujo animado con contorno de tinta nítido y sombreado cel plano vibrante.',
         target: [0, 0.47, 0],
         azimDeg: 25,
@@ -198,11 +198,101 @@ const VISTAS_CANONICAS = [
         estilo: 'toon',
         accion: 'reposo',
         rasgos: [
-            'Contorno negro exterior nítido (outline invertido)',
-            'Sombreado cel de 2 bandas con corte estilizado',
-            'Colores planos saturados estilo caricatura',
-            'Lectura visual instantánea tipo ilustración vectorial'
+            'Contorno exterior nítido (outline invertido)',
+            'Sombreado cel limpio con corte estilizado',
+            'Colores cálidos fieles a la paleta de la serie',
+            'Lectura visual instantánea tipo ilustración'
         ]
+    },
+    {
+        id: 9,
+        slug: 'carita_1_sonrison',
+        nombre: 'Carita 1: Sonrisón con dientes (Shorts vfOQGj1wTsU)',
+        stickerRef: 'sticker_76.webp',
+        descripcion: 'Sonrisa ancha con doble herradura dental blanca y pómulos subidos bajo los ojos.',
+        target: [0, 0.62, 0],
+        azimDeg: 18,
+        elevDeg: 3,
+        dist: 1.28,
+        estilo: 'suave',
+        accion: 'sonrison',
+        avanceSeg: 0.9,
+        rasgos: ['Doble arco dental blanco en herradura', 'Pómulos subidos entornando párpado inferior', 'Cejas suavemente elevadas']
+    },
+    {
+        id: 10,
+        slug: 'carita_2_carcajada',
+        nombre: 'Carita 2: Carcajada con ojos ^ ^ (sticker_13 / 40)',
+        stickerRef: 'sticker_13.webp',
+        descripcion: 'Ojos cerrados en arco feliz ^ ^, cabeza atrás y bocaza abierta riendo a carcajadas.',
+        target: [0, 0.60, 0],
+        azimDeg: 12,
+        elevDeg: -4,
+        dist: 1.45,
+        estilo: 'suave',
+        accion: 'carcajada',
+        avanceSeg: 0.95,
+        rasgos: ['Párpados arqueados en media luna feliz ^ ^', 'Cavidad bucal abierta con dientes y lengua', 'Cabeza echada hacia atrás']
+    },
+    {
+        id: 11,
+        slug: 'carita_3_burla',
+        nombre: 'Carita 3: Burla ¡Bleh! con guiño y lengua fuera (sticker_2)',
+        stickerRef: 'sticker_2.webp',
+        descripcion: 'Guiño travieso en ojo derecho, cabeza ladeada y lengua larga 3D asomando fuera.',
+        target: [0, 0.60, 0],
+        azimDeg: -14,
+        elevDeg: 4,
+        dist: 1.38,
+        estilo: 'suave',
+        accion: 'burla',
+        avanceSeg: 0.9,
+        rasgos: ['Lengua 3D carnosa con surco saliendo sobre la barbilla', 'Guiño travieso asimétrico', 'Manita junto al moflete']
+    },
+    {
+        id: 12,
+        slug: 'carita_4_puchero',
+        nombre: 'Carita 4: Puchero con cejas tristes (sticker_14 / 45)',
+        stickerRef: 'sticker_14.webp',
+        descripcion: 'Cejas de carne inclinadas / \\, ojazos brillantes y boquita pequeña curvada abajo.',
+        target: [0, 0.58, 0],
+        azimDeg: 14,
+        elevDeg: 8,
+        dist: 1.42,
+        estilo: 'suave',
+        accion: 'puchero',
+        avanceSeg: 1.0,
+        rasgos: ['Arco supraciliar inclinado en gesto tierno / \\', 'Boquita pequeña fruncida en puchero', 'Bracitos juntos con timidez']
+    },
+    {
+        id: 13,
+        slug: 'carita_5_pillo',
+        nombre: 'Carita 5: Pillo con ceño fruncido (sticker_88 / 111)',
+        stickerRef: 'sticker_88.webp',
+        descripcion: 'Entrecejo fruncido \\ /, ojos entornados mirando de reojo y brazos cruzados.',
+        target: [0, 0.58, 0],
+        azimDeg: -16,
+        elevDeg: 3,
+        dist: 1.42,
+        estilo: 'suave',
+        accion: 'pillo',
+        avanceSeg: 1.0,
+        rasgos: ['Ceño fruncido tallado en la frente \\ /', 'Mirada entornada pícara de reojo', 'Sonrisita segura']
+    },
+    {
+        id: 14,
+        slug: 'carita_6_susto',
+        nombre: 'Carita 6: ¡Susto! con bocaza y herradura dental (sticker_96)',
+        stickerRef: 'sticker_96.webp',
+        descripcion: 'Ojos como platos mostrando esclera y bocaza abierta con herradura dental inferior.',
+        target: [0, 0.60, 0],
+        azimDeg: 10,
+        elevDeg: 2,
+        dist: 1.42,
+        estilo: 'suave',
+        accion: 'susto',
+        avanceSeg: 0.85,
+        rasgos: ['Ojos muy abiertos mostrando esclera alrededor del iris', 'Cavidad 3D honda con herradura dental en U y lengua', 'Brazos alzados por el susto']
     }
 ];
 
@@ -291,22 +381,23 @@ async function colocarEscena(page, vista) {
             visor.estilo(v.estilo);
         }
 
-        // Acción de animación
-        if (v.accion) {
-            if (v.accion === 'reposo') {
-                S.anim.asentar(0.8);
-            } else if (visor.accion) {
-                visor.accion(v.accion);
+        // Acción de animación (primero asentamos por completo la intro inicial)
+        S.anim.asentar(2.2);
+        if (v.accion && v.accion !== 'reposo') {
+            S.anim.accion(v.accion);
+            if (v.avanceSeg) {
+                const pasos = Math.round(v.avanceSeg * 60);
+                for (let k = 0; k < pasos; k++) S.anim.actualizar(1 / 60, null);
             }
         }
 
-        // Deformación de boca 3D si procede
+        // Deformación explícita de boca/cara 3D si la vista lo pide (ej. vista 6 primer plano)
         if (v.formaBoca && S.modelo && S.modelo.boca && typeof S.modelo.boca.actualizar === 'function') {
             S.modelo.boca.actualizar(v.formaBoca);
         }
 
-        // Esperar paso de animación si se solicitó (ej. pico de rebote duang)
-        if (v.esperaAnimMs) {
+        // Esperar paso de animación en vivo solo si no se usó avanceSeg determinista
+        if (v.esperaAnimMs && !v.avanceSeg) {
             await new Promise((r) => setTimeout(r, v.esperaAnimMs));
         }
 
@@ -698,6 +789,11 @@ async function certificar() {
     });
 
     const page = await context.newPage();
+    const erroresConsola = [];
+    page.on('console', (msg) => {
+        if (msg.type() === 'error') erroresConsola.push(msg.text());
+    });
+    page.on('pageerror', (err) => erroresConsola.push(err.message));
 
     console.log(`[Playwright] Navegando a ${URL_OBJETIVO}...`);
     await page.goto(URL_OBJETIVO, { waitUntil: 'domcontentloaded', timeout: 35000 });
@@ -730,6 +826,11 @@ async function certificar() {
     }
 
     await browser.close();
+    if (erroresConsola.length) {
+        console.warn('[Playwright] Errores detectados en consola:', erroresConsola);
+    } else {
+        console.log('✔ Cero errores de consola / WebGL durante toda la sesión.');
+    }
     console.log('\n[Playwright] Sesión de navegador finalizada.');
 
     // 5. Generar reporte HTML

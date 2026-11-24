@@ -10,46 +10,49 @@
         function crearKernelGeometriaNailong() {
             'use strict';
 
-            // Proporciones canónicas medidas sobre los stickers (altura total = 1):
-            // frente sticker_86 / 43 / 18 · espalda 84 / 52 / 31 · perfil 20 / 75 · cara 2 / 19 / 47 / 50.
+            // Proporciones canónicas medidas sobre las 15 capturas reales de la serie de Seventh Impression (altura total = 1):
+            // frente 08 / 13 / 15 · perfil 05 / 09 · tres cuartos 06 / 07 / 11 / 14 · espalda 10 · primer plano 12.
             const ANATOMIA = {
-                craneo:   { c: [0, 0.762, -0.016], r: [0.246, 0.238, 0.230] },   // bóveda craneal ancha y redonda (2, 47, 86)
-                mofletes: { c: [0, 0.635, 0.034],  r: [0.270, 0.146, 0.226] },   // mofletes bajos y rechonchos hacia delante (86, 19, 47)
-                hocico:   { c: [0, 0.634, 0.122],  r: [0.198, 0.104, 0.152] },   // morrito suave adelantado sobre el pecho (20, 2, 75)
-                frente:   { c: [0, 0.778, 0.052],  r: [0.236, 0.166, 0.206] },   // frente amplia y sienes llenas que arropan los ojos (2, 20, 47)
-                pecho:    { c: [0, 0.456, -0.038], r: [0.180, 0.170, 0.206] },   // transición cónica limpia sin bulto de hombros (86, 84, 20)
-                caderas:  { c: [0, 0.280, -0.016], r: [0.278, 0.246, 0.244] },   // cuerpo de gota/pera rechoncho (86, 84)
-                barriga:  { c: [0, 0.262, 0.048],  r: [0.248, 0.216, 0.226] },   // pancita redonda que sobresale (20, 86)
-                // Pose de reposo en «A» media-baja: muñoncito continuo sin abultar la muñeca ni pellizcar el hombro
-                brazo:    { a: [0.190, 0.452, 0.012], b: [0.312, 0.340, 0.088], ra: 0.084, rb: 0.070 },
-                mano:     { c: [0.316, 0.332, 0.094], r: [0.062, 0.064, 0.062] },
-                pierna:   { a: [0.158, 0.175, -0.006], b: [0.162, 0.062, 0.006], ra: 0.106, rb: 0.094 },
-                pie:      { c: [0.162, 0.044, 0.018], r: [0.090, 0.046, 0.094] },
-                cola:     { a: [0, 0.198, -0.172], m: [0, 0.164, -0.272], b: [0, 0.218, -0.346], ra: 0.120, rm: 0.082, rb: 0.048 }, // corta, gordita y curvada hacia arriba con punta redonda (84, 20)
-                ojo:      { x: 0.104, y: 0.730, r: 0.064, hundido: 0.82 },       // ojos grandes y expresivos encastrados al ras de la piel (2, 20, 47, 50)
-                k: {        // radios de fusión polinómica para acabado ultra-cremoso de arcilla (Claymorphism de Seventh Impression)
-                    cabeza: 0.088, frente: 0.098, hocico: 0.088, torso: 0.134, barriga: 0.100,
-                    cuello: 0.038, hombro: 0.064, brazo: 0.058, mano: 0.022, pierna: 0.052, pie: 0.034, cola: 0.070,
-                    cuenca: 0.024, planta: 0.022
+                craneo:   { c: [0, 0.764, -0.014], r: [0.238, 0.236, 0.228] },   // bóveda craneal redonda y despejada tipo mochi (08, 12)
+                frente:   { c: [0, 0.778, 0.048],  r: [0.226, 0.164, 0.204] },   // frente lisa y sienes llenas sin repisa supraciliar (08, 12)
+                mofletes: { c: [0, 0.638, 0.036],  r: [0.268, 0.138, 0.224] },   // mofletes bajos, anchos y regordetes cerrando hacia el cuello (08, 13)
+                hocico:   { c: [0, 0.634, 0.122],  r: [0.194, 0.098, 0.148] },   // almohadilla frontal suave con overhang de barbilla sobre el pecho (05, 06, 14)
+                pecho:    { c: [0, 0.456, -0.044], r: [0.172, 0.164, 0.198] },   // torso superior recogido para separar claramente cabeza, cuello y hombros (08, 13)
+                caderas:  { c: [0, 0.278, -0.016], r: [0.280, 0.240, 0.244] },   // cuerpo de pera/gota rechoncho y tierno (06, 07, 14)
+                barriga:  { c: [0, 0.258, 0.050],  r: [0.248, 0.210, 0.226] },   // pancita redonda y elástica que sobresale suave (05, 07, 13)
+                // Pose de generación en «A» limpia bajo el cuello; manopla compacta para las 3 garritas cortas y la palma rosa
+                brazo:    { a: [0.176, 0.430, 0.008], b: [0.298, 0.320, 0.086], ra: 0.076, rb: 0.064 },
+                mano:     { c: [0.302, 0.312, 0.092], r: [0.056, 0.062, 0.066] },
+                pierna:   { a: [0.158, 0.175, -0.006], b: [0.162, 0.060, 0.006], ra: 0.102, rb: 0.090 },
+                pie:      { c: [0.162, 0.044, 0.020], r: [0.090, 0.046, 0.094] },
+                // Cola corta, cónica y gordita que nace baja en la espalda y remonta suave con punta redondeada (05, 07, 11, 14)
+                cola:     { a: [0, 0.178, -0.162], m: [0, 0.148, -0.268], b: [0, 0.194, -0.352], ra: 0.118, rm: 0.072, rb: 0.034 },
+                // Ojos grandes, redondos y bien encastrados en la sien para evitar esclerótica saliente en 3/4 y perfil (05, 08, 12)
+                ojo:      { x: 0.108, y: 0.730, r: 0.064, hundido: 0.81, giro: 0.08 },
+                k: {        // radios de fusión polinómica: cuello nítido delante y en costados, continuo en la nuca trasera
+                    cabeza: 0.084, frente: 0.094, hocico: 0.082,
+                    torso: 0.128, barriga: 0.098, cuello: 0.034, cuelloEspalda: 0.112,
+                    hombro: 0.048, brazo: 0.054, mano: 0.024,
+                    pierna: 0.044, pie: 0.032, cola: 0.068, cuenca: 0.024, planta: 0.022
                 },
-                pancita: { cy: 0.258, rx: 0.186, ry: 0.200, borde: 0.18 }   // óvalo crema amplio del frente difuminado suavemente (86, 43)
+                pancita: { cy: 0.248, rx: 0.180, ry: 0.192, nucleo: 0.84, falda: 1.36 } // núcleo crema limpio + halo suave difuminado
             };
 
-            // Colores canónicos en sRGB (se convierten a lineal para WebGL/glTF)
+            // Paleta canónica Seventh Impression en sRGB (amarillo mantequilla cálido, crema, oliva dorsal, garra marrón-oliva y almohadilla rosa)
             const COLORES = {
-                amarillo: '#FFC424', crema: '#FFF2CC', oliva: '#889036', garra: '#5E361C',
-                rosa: '#F294A0', iris: '#1F682A', irisAro: '#0E3014', irisClaro: '#7ED842',
-                pupila: '#0A0E0A', esclera: '#FFFFFF', boca: '#380E12', lengua: '#F27885', dientes: '#FFFFFF'
+                amarillo: '#F8C52C', crema: '#FAF0C8', oliva: '#8A9244', garra: '#6B573E',
+                rosa: '#F5A6AE', iris: '#1E7028', irisAro: '#0D2E13', irisClaro: '#70DE46',
+                pupila: '#080B08', esclera: '#FFFFFF', boca: '#481219', lengua: '#E86878', dientes: '#FAF7F0'
             };
 
-            // Esqueleto (posición de reposo, padre). Los índices son los de la piel.
+            // Esqueleto de 12 huesos (posición de reposo, padre). Los índices son los de la piel.
             const HUESOS = [
                 { nombre: 'raiz',     p: [0, 0, 0],                 padre: -1 },
                 { nombre: 'cadera',   p: [0, 0.160, -0.016],        padre: 0 },
                 { nombre: 'tronco',   p: [0, 0.320, -0.016],        padre: 1 },
-                { nombre: 'pecho',    p: [0, 0.460, -0.014],        padre: 2 },
-                { nombre: 'cabeza',   p: [0, 0.558, -0.006],        padre: 3 },
-                { nombre: 'barriga',  p: [0, 0.268, -0.068],        padre: 2 },
+                { nombre: 'pecho',    p: [0, 0.452, -0.014],        padre: 2 },
+                { nombre: 'cabeza',   p: [0, 0.548, -0.010],        padre: 3 },
+                { nombre: 'barriga',  p: [0, 0.264, -0.068],        padre: 2 },
                 { nombre: 'brazoIzq', p: ANATOMIA.brazo.a.slice(),  padre: 3 },
                 { nombre: 'brazoDer', p: [-ANATOMIA.brazo.a[0], ANATOMIA.brazo.a[1], ANATOMIA.brazo.a[2]], padre: 3 },
                 { nombre: 'piernaIzq', p: ANATOMIA.pierna.a.slice(), padre: 1 },
@@ -104,10 +107,15 @@
                 const h = Math.max(k - Math.abs(a - b), 0) / k;
                 return Math.max(a, b) + h * h * k * 0.25;
             }
+            function suavizar(e0, e1, x) {
+                const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
+                return t * t * (3 - 2 * t);
+            }
 
             const A = ANATOMIA, K = ANATOMIA.k;
             const P = {
-                craneo: elipsoide(A.craneo), mofletes: elipsoide(A.mofletes), hocico: elipsoide(A.hocico), frente: elipsoide(A.frente),
+                craneo: elipsoide(A.craneo), frente: elipsoide(A.frente),
+                mofletes: elipsoide(A.mofletes), hocico: elipsoide(A.hocico),
                 pecho: elipsoide(A.pecho), caderas: elipsoide(A.caderas), barriga: elipsoide(A.barriga),
                 brazo: conoRedondo(A.brazo), mano: elipsoide(A.mano),
                 pierna: conoRedondo(A.pierna), pie: elipsoide(A.pie),
@@ -116,14 +124,15 @@
                 cola2: conoRedondo({ a: A.cola.m || A.cola.a, b: A.cola.b, ra: A.cola.rm || A.cola.ra, rb: A.cola.rb })
             };
 
-            function dCabezaBase(x, y, z) {   // x ya en valor absoluto
-                let d = dElip(x, y, z, P.craneo);
-                d = smin(d, dElip(x, y, z, P.mofletes), K.cabeza);
-                d = smin(d, dElip(x, y, z, P.frente), K.frente);
-                return smin(d, dElip(x, y, z, P.hocico), K.hocico);
+            // Cabeza completamente lisa y redonda (sin bulto nasal, sin arco supraciliar saliente ni hoyuelos fijos)
+            function dCabezaBase(ax, y, z) {   // ax ya en valor absoluto
+                let d = dElip(ax, y, z, P.craneo);
+                d = smin(d, dElip(ax, y, z, P.mofletes), K.cabeza);
+                d = smin(d, dElip(ax, y, z, P.frente), K.frente);
+                return smin(d, dElip(ax, y, z, P.hocico), K.hocico);
             }
 
-            // Posición del globo ocular: se apoya en la superficie de la cara y se hunde una fracción del radio
+            // Posición del globo ocular: se apoya en la superficie lisa de la cara y se encastra siguiendo su giro suave
             const OJO = (function () {
                 let z = 0.6;
                 for (let i = 0; i < 200; i++) {
@@ -131,9 +140,12 @@
                     if (d < 1e-5) break;
                     z -= Math.max(d, 1e-4);
                 }
-                return { x: A.ojo.x, y: A.ojo.y, z: z - A.ojo.r * A.ojo.hundido, r: A.ojo.r };
+                const giro = A.ojo.giro || 0.08;
+                const sg = Math.sin(giro), cg = Math.cos(giro);
+                const h = A.ojo.r * A.ojo.hundido;
+                return { x: A.ojo.x - sg * h, y: A.ojo.y, z: z - cg * h, r: A.ojo.r, giro, sg, cg };
             })();
-            // Cuenca desplazada ligeramente hacia delante para abrir solo la ventana frontal del ojo y arropar la sien en perfil
+            // Cuenca redonda C-infinito desplazada hacia delante para abrir ventana tierna frontal y arropar la sien en perfil
             const R_CUENCA = OJO.r * 0.88;
 
             const dCabeza = dCabezaBase;
@@ -144,10 +156,9 @@
             }
             function dBrazo(x, y, z) { return smin(dCono(x, y, z, P.brazo), dElip(x, y, z, P.mano), K.mano); }
             function dPierna(x, y, z) { return smin(dCono(x, y, z, P.pierna), dElip(x, y, z, P.pie), K.pie); }
-            function dCola(x, y, z) { return smin(dCono(x, y, z, P.cola1), dCono(x, y, z, P.cola2), 0.048); }
+            function dCola(x, y, z) { return smin(dCono(x, y, z, P.cola1), dCono(x, y, z, P.cola2), 0.052); }
 
-            // Esferas envolventes por parte: si una parte está más lejos que (distancia actual + radio de fusión),
-            // no cambia el resultado y no se evalúa (mismo campo, la mitad de cálculo).
+            // Esferas envolventes por parte para descartar evaluaciones lejanas sin alterar el campo
             function esferaEnvolvente(elips, conos) {
                 const s = [];
                 elips.forEach(e => s.push([e.c[0], e.c[1], e.c[2], Math.max(e.r[0], e.r[1], e.r[2])]));
@@ -163,7 +174,7 @@
                 return { x: c[0], y: c[1], z: c[2], r };
             }
             const ENV = {
-                cabeza: esferaEnvolvente([A.craneo, A.mofletes, A.frente, A.hocico], []),
+                cabeza: esferaEnvolvente([A.craneo, A.frente, A.mofletes, A.hocico], []),
                 torso: esferaEnvolvente([A.caderas, A.pecho, A.barriga], []),
                 brazo: esferaEnvolvente([A.mano], [A.brazo]),
                 pierna: esferaEnvolvente([A.pie], [A.pierna]),
@@ -177,9 +188,9 @@
             // Campo de distancia completo del cuerpo (simétrico en x)
             function sdf(x, y, z) {
                 const ax = x < 0 ? -x : x;
-                // Unión cabeza-torso: continua y suave en la espalda/nuca (z < 0), con cintura lateral suave y pliegue bajo la papada
-                const tEspalda = Math.max(0, Math.min(1, (-z + 0.02) * 5.0));
-                const kCuello = K.cuello + (0.096 - K.cuello) * tEspalda;
+                // Unión cabeza-torso: cuello nítido en frente y costados (overhang de barbilla + cintura clara), suave en la nuca trasera
+                const tEspalda = suavizar(-0.04, -0.18, z) * suavizar(0.22, 0.08, ax);
+                const kCuello = K.cuello + (K.cuelloEspalda - K.cuello) * tEspalda;
                 const cT = cota(ENV.torso, ax, y, z), cC = cota(ENV.cabeza, ax, y, z);
                 let d;
                 if (cT < cC) { d = dTorso(ax, y, z); if (cC < d + kCuello) d = smin(d, dCabeza(ax, y, z), kCuello); }
@@ -188,17 +199,19 @@
                 if (cota(ENV.brazo, ax, y, z) < d + kHombro) d = smin(d, dBrazo(ax, y, z), kHombro);
                 if (cota(ENV.pierna, ax, y, z) < d + K.pierna) d = smin(d, dPierna(ax, y, z), K.pierna);
                 if (cota(ENV.cola, ax, y, z) < d + K.cola) d = smin(d, dCola(ax, y, z), K.cola);
-                const ex = ax - (OJO.x - 0.001), ey0 = y - OJO.y;
-                const ey = ey0 * (ey0 < 0 ? 1.14 : 1.02);
-                // Cuenca en «D» micro-biselada: transición C1 suave del exponente superelíptico medial a lateral
-                const pOjo = 2.0 + 2.0 * Math.min(Math.max((-ex + 0.008) / 0.024, 0), 1);
-                const rxOjo = ex < 0 ? 0.047 : 0.052;
-                const qx = Math.pow(Math.abs(ex) / rxOjo, pOjo);
-                const qy = Math.pow(Math.abs(ey) / 0.056, pOjo);
-                const r2d = Math.pow(qx + qy, 1.0 / pOjo) * 0.052;
-                const ez = z - (OJO.z + 0.011);
-                const s = R_CUENCA - Math.sqrt(r2d * r2d + ez * ez);
+
+                // Cuenca ocular redonda C-infinito en la sien (abre ventana grande y dulce al frente sin pico lateral en perfil)
+                const dx0 = ax - OJO.x, dz0 = z - OJO.z;
+                const ex = dx0 * OJO.cg - dz0 * OJO.sg;
+                const ez = dx0 * OJO.sg + dz0 * OJO.cg - 0.17 * OJO.r;
+                const ey0 = y - OJO.y;
+                const ey = ey0 * (ey0 < 0 ? 1.03 : 1.00);
+                const rxOjo = OJO.r * 0.86;
+                const ryOjo = OJO.r * 0.90;
+                const r2d = Math.hypot(ex / rxOjo, ey / ryOjo) * rxOjo;
+                const s = R_CUENCA - Math.sqrt(r2d * r2d + ez * ez + 1e-6);
                 if (s > d - K.cuenca) d = smax(d, s, K.cuenca);
+
                 return y < K.planta - d ? smax(d, -y, K.planta) : d;
             }
 
@@ -207,9 +220,10 @@
                 const ax = x < 0 ? -x : x;
                 out[0] = dCabeza(ax, y, z);
                 out[1] = dTorso(ax, y, z);
-                const bI = dBrazo(x, y, z), bD = dBrazo(-x, y, z);
-                out[2] = bI; out[3] = bD;
-                out[4] = dPierna(x, y, z); out[5] = dPierna(-x, y, z);
+                out[2] = dBrazo(x, y, z);
+                out[3] = dBrazo(-x, y, z);
+                out[4] = dPierna(x, y, z);
+                out[5] = dPierna(-x, y, z);
                 out[6] = dCola(ax, y, z);
                 return out;
             }
@@ -256,10 +270,6 @@
                     return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
                 });
             }
-            function suavizar(e0, e1, x) {
-                const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
-                return t * t * (3 - 2 * t);
-            }
 
             function limites(margen) {
                 const mn = [Infinity, Infinity, Infinity], mx = [-Infinity, -Infinity, -Infinity];
@@ -269,7 +279,7 @@
                         for (let i = 0; i < 3; i++) { mn[i] = Math.min(mn[i], v[i] - r); mx[i] = Math.max(mx[i], v[i] + r); }
                     });
                 };
-                [A.craneo, A.mofletes, A.hocico, A.frente, A.pecho, A.caderas, A.barriga, A.mano, A.pie].forEach(e =>
+                [A.craneo, A.frente, A.mofletes, A.hocico, A.pecho, A.caderas, A.barriga, A.mano, A.pie].forEach(e =>
                     añadir(e.c[0], e.c[1], e.c[2], Math.max(e.r[0], e.r[1], e.r[2])));
                 [A.brazo, A.pierna, A.cola].forEach(c => {
                     añadir(c.a[0], c.a[1], c.a[2], c.ra);
@@ -355,16 +365,16 @@
                 const cv = (i, j, k) => celdaVert[i + cnx * (j + cny * k)];
                 const ind = [];
                 let huecos = 0;
+                const dist2 = (a, b) => {
+                    const dx = pos[a * 3] - pos[b * 3], dy = pos[a * 3 + 1] - pos[b * 3 + 1], dz = pos[a * 3 + 2] - pos[b * 3 + 2];
+                    return dx * dx + dy * dy + dz * dz;
+                };
                 const quad = (a, b, c, d, dentro) => {
                     if (a < 0 || b < 0 || c < 0 || d < 0) { huecos++; return; }
                     if (!dentro) { const t = b; b = d; d = t; }
                     const d1 = dist2(a, c), d2 = dist2(b, d);
                     if (d1 <= d2) ind.push(a, b, c, a, c, d);
                     else ind.push(a, b, d, b, c, d);
-                };
-                const dist2 = (a, b) => {
-                    const dx = pos[a * 3] - pos[b * 3], dy = pos[a * 3 + 1] - pos[b * 3 + 1], dz = pos[a * 3 + 2] - pos[b * 3 + 2];
-                    return dx * dx + dy * dy + dz * dz;
                 };
                 for (let v = 0; v < celdas.length / 3; v++) {
                     const i = celdas[v * 3], j = celdas[v * 3 + 1], k = celdas[v * 3 + 2];
@@ -398,13 +408,21 @@
                 // 4) Pesos de piel (4 huesos por vértice) y color por vértice
                 const huesoIndices = new Uint16Array(nv * 4), huesoPesos = new Float32Array(nv * 4);
                 const colores = conColor ? new Float32Array(nv * 3) : null;
-                const cAmarillo = srgbALineal(COLORES.amarillo), cCrema = srgbALineal(COLORES.crema), cRubor = srgbALineal('#FFA82E');
+                const cAmarillo = srgbALineal(COLORES.amarillo);
+                const cCrema = srgbALineal(COLORES.crema);
+                const cRubor = srgbALineal('#FF9E64');
+                const cRosa = srgbALineal(COLORES.rosa);
                 const dg = new Float64Array(7), w = new Float64Array(HUESOS.length);
                 const tau = 0.022;
                 const cola = P.cola;
                 const pz = A.pancita;
+                const mc = A.mano.c, pc = A.pie.c;
+                // Dirección normalizada de la cara palmar visible (interior-inferior-frontal de la manopla, sin subir a la muñeca)
+                const palmaL = Math.hypot(0.46, 0.34, 0.82);
+                const palmaX = -0.46 / palmaL, palmaY = -0.34 / palmaL, palmaZ = 0.82 / palmaL;
                 for (let v = 0; v < nv; v++) {
                     const x = posiciones[v * 3], y = posiciones[v * 3 + 1], z = posiciones[v * 3 + 2];
+                    const ax = Math.abs(x);
                     sdfGrupos(x, y, z, dg);
                     let dmin = Infinity;
                     for (let q = 0; q < 7; q++) dmin = Math.min(dmin, dg[q]);
@@ -414,14 +432,14 @@
                     for (let q = 0; q < 7; q++) s[q] /= st;
                     w.fill(0);
                     w[H.cabeza] = s[0];
-                    // Torso: cadera → tronco → pecho según la altura; la pancita con su propio hueso
+                    // Torso: cadera -> tronco -> pecho según la altura; la pancita con su propio hueso elástico
                     const bC = HUESOS[H.cadera].p[1], bT = HUESOS[H.tronco].p[1], bP = HUESOS[H.pecho].p[1];
                     let wc = 0, wt = 0, wp = 0;
                     if (y <= bC) wc = 1;
                     else if (y <= bT) { wt = (y - bC) / (bT - bC); wc = 1 - wt; }
                     else if (y <= bP) { wp = (y - bT) / (bP - bT); wt = 1 - wp; }
                     else wp = 1;
-                    const eb = Math.pow(x / 0.245, 2) + Math.pow((y - 0.262) / 0.215, 2) + Math.pow((z - 0.13) / 0.2, 2);
+                    const eb = Math.pow(x / 0.245, 2) + Math.pow((y - 0.258) / 0.215, 2) + Math.pow((z - 0.13) / 0.20, 2);
                     const mb = suavizar(1.0, 0.3, eb) * (z > 0 ? 1 : 0) * 0.85;
                     w[H.barriga] = s[1] * mb;
                     w[H.cadera] = s[1] * (1 - mb) * wc; w[H.tronco] = s[1] * (1 - mb) * wt; w[H.pecho] = s[1] * (1 - mb) * wp;
@@ -439,15 +457,28 @@
                         if (q < orden.length) { huesoIndices[v * 4 + q] = orden[q]; huesoPesos[v * 4 + q] = w[orden[q]] / suma; }
                     }
                     if (colores) {
-                        const nz = normales[v * 3 + 2];
-                        const e2 = Math.sqrt(Math.pow(x / pz.rx, 2) + Math.pow((y - pz.cy) / pz.ry, 2));
-                        const m = suavizar(1 + pz.borde * 0.5, 1 - pz.borde * 0.5, e2) * suavizar(0.05, 0.3, nz) * suavizar(0.45, 0.75, s[1]) * (z > 0 ? 1 : 0);
-                        // Rubor cálido melocotón (#FFA82E) suave bajo los ojos y pómulos (stickers 86, 43, 19, 47)
-                        const dBlush = Math.hypot((Math.abs(x) - 0.132) / 0.078, (y - 0.652) / 0.062, (z - 0.165) / 0.088);
-                        const rBlush = suavizar(1.0, 0.18, dBlush) * (z > 0.05 ? 0.28 : 0) * s[0];
+                        const nxN = normales[v * 3], nyN = normales[v * 3 + 1], nzN = normales[v * 3 + 2];
+                        // Pancita: núcleo crema puro (cumple test 49) rodeado de halo suave difuminado hacia el amarillo
+                        const e2 = Math.hypot(x / pz.rx, (y - pz.cy) / pz.ry);
+                        const mPancita = suavizar(pz.falda, pz.nucleo, e2) * suavizar(0.04, 0.30, nzN) * suavizar(0.42, 0.74, s[1]) * (z > 0 ? 1 : 0);
+                        // Rubor melocotón tierno en los mofletes bajo el extremo exterior del ojo (06, 08, 12)
+                        const dBlush = Math.hypot((ax - 0.144) / 0.072, (y - 0.658) / 0.054, (z - 0.174) / 0.088);
+                        const rBlush = suavizar(1.0, 0.16, dBlush) * (z > 0.05 ? 0.15 : 0) * s[0];
+                        // Almohadilla palmar rosa pálido en la cara interna/frontal de cada manita (03, 11, 15)
+                        const sMano = s[2] + s[3];
+                        const sx = x >= 0 ? 1 : -1;
+                        const dotPalma = nxN * (palmaX * sx) + nyN * palmaY + nzN * palmaZ;
+                        const dPalma = Math.hypot((ax - (mc[0] + palmaX * 0.056)) / 0.039, (y - (mc[1] + palmaY * 0.056)) / 0.036, (z - (mc[2] + palmaZ * 0.056)) / 0.040);
+                        const rPalma = suavizar(1.0, 0.28, dPalma) * suavizar(0.32, 0.70, dotPalma) * suavizar(0.312, 0.294, y) * suavizar(0.55, 0.88, sMano) * 0.80;
+                        // Almohadilla plantar rosa pálido bajo la suela plana de los pies (15)
+                        const dSuela = Math.hypot((ax - pc[0]) / 0.056, (z - pc[2] + 0.004) / 0.060);
+                        const rPlanta = suavizar(1.0, 0.32, dSuela) * suavizar(-0.62, -0.90, nyN) * (y < 0.014 ? 0.74 : 0);
+                        const rRosa = Math.max(rPalma, rPlanta);
                         for (let c = 0; c < 3; c++) {
-                            const base = cAmarillo[c] + (cRubor[c] - cAmarillo[c]) * rBlush;
-                            colores[v * 3 + c] = base + (cCrema[c] - base) * m;
+                            let col = cAmarillo[c] + (cRubor[c] - cAmarillo[c]) * rBlush;
+                            col += (cRosa[c] - col) * rRosa;
+                            col += (cCrema[c] - col) * mPancita;
+                            colores[v * 3 + c] = col;
                         }
                     }
                 }
@@ -460,7 +491,7 @@
             }
 
             return {
-                VERSION: 1, ANATOMIA, COLORES, HUESOS, H, OJO,
+                VERSION: 3, ANATOMIA, COLORES, HUESOS, H, OJO,
                 sdf, anclarEnSuperficie, trazarRayo, generarMalla, srgbALineal
             };
         }

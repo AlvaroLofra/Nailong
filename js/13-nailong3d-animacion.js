@@ -1,25 +1,28 @@
         /* ==============================================================
-           17. NAILONG 3D · ANIMACIÓN PROCEDURAL (muelles, reposo, acciones)
-           Física gelatinosa «Duang», micro-movimientos orgánicos de reposo,
-           poses canónicas fieles a los stickers y horneado determinista para GLB.
+           17. NAILONG 3D · ANIMACIÓN PROCEDURAL Y EXPRESIONES DE LA SERIE
+           Física gelatinosa «Duang», reposo tierno con boca cerrada, micro-gestos
+           orgánicos, 6 caritas icónicas de Seventh Impression y horneado GLB.
         ============================================================== */
         const Nailong3DAnimacion = (function () {
             'use strict';
             const PASO = 1 / 120;
             const TAU = Math.PI * 2;
 
-            // Canales animables: [valor neutro, frecuencia (Hz), amortiguación]
-            // Frecuencia ~4.2 Hz y amortiguación ~0.24 en barriga y aplastamiento para oscilación subamortiguada gelatinosa en resonancia Duang
+            // Canales animables: [valor neutro de reposo, frecuencia (Hz), amortiguación]
+            // En reposo: ojos grandes, redondos y bien abiertos (0.98 / -0.98) y sonrisita dulce cerrada (bocaAbre = 0.02)
             const CANALES = {
                 saltoY: [0, 9, 0.85], aplastar: [1, 4.2, 0.30], incX: [0, 3.2, 0.45], incZ: [0, 3.2, 0.42], girY: [0, 2.4, 0.8],
                 cadZ: [0, 3, 0.6], cabX: [0, 3, 0.55], cabY: [0, 2.6, 0.7], cabZ: [0, 3, 0.5],
                 bIX: [0, 3.4, 0.6], bIY: [0, 3.4, 0.6], bIZ: [0, 3.4, 0.55], bDX: [0, 3.4, 0.6], bDY: [0, 3.4, 0.6], bDZ: [0, 3.4, 0.55],
                 pIX: [0, 5, 0.7], pDX: [0, 5, 0.7], colaY: [0, 3.5, 0.35], colaX: [0, 3, 0.6],
                 barriga: [0, 4.2, 0.24], pecho: [0, 3, 0.5],
-                parpSup: [0.98, 9, 0.9], parpInf: [-0.98, 9, 0.9], ojoAbre: [1, 6, 0.6],
-                bocaAbre: [0.52, 7, 0.8], bocaSonrisa: [0.65, 6, 0.85], bocaRedonda: [0, 6, 0.85], bocaDientes: [0.42, 6, 0.9]
+                parpSup: [0.98, 9, 0.9], parpInf: [-0.98, 9, 0.9], parpInclina: [0, 6.2, 0.84], guiñoDer: [0, 8.5, 0.86],
+                ojoAbre: [1, 6, 0.65], ojoRisa: [0, 6.5, 0.84],
+                bocaAbre: [0.02, 7, 0.82], bocaSonrisa: [0.42, 6, 0.85], bocaRedonda: [0, 6, 0.85],
+                bocaPuchero: [0, 6, 0.85], bocaDientes: [0, 6, 0.9], bocaLengua: [1, 7, 0.85], bocaFuera: [0, 6.5, 0.78],
+                cejaSubir: [0, 6, 0.82], cejaFruncir: [0, 6, 0.82], cejaTriste: [0, 6, 0.82], pomulo: [0, 6, 0.82]
             };
-            // Pose visible de los brazos: descansando junto a la pancita con las garritas hacia dentro (stickers 86, 52)
+            // Pose visible de los brazos: descansando junto a la pancita con las garritas hacia dentro
             const BRAZO_NEUTRO = { x: -0.18, y: 0.36, z: -0.38 };
             const PARPADO_CERRADO = -0.04;
 
@@ -33,9 +36,8 @@
                 };
             }
             const suave = (x) => { const t = Math.min(Math.max(x, 0), 1); return t * t * (3 - 2 * t); };
-            const campana = (t, a, b) => suave((t - a) / 0.12) * (1 - suave((t - b) / 0.18));
+            const campana = (t, a, b) => suave((t - a) / 0.14) * (1 - suave((t - b) / 0.20));
 
-            // Curva de parpadeo dinámico asimétrico
             function evalParpadeo(t, tCierra, tAbre) {
                 if (t <= 0) return 0;
                 if (t < tCierra) {
@@ -49,15 +51,15 @@
                 return 0;
             }
 
-            /* ---------- Acciones canónicas fieles a los stickers oficiales ---------- */
+            /* ---------- Acciones corporales y las 6 Caritas icónicas de la serie ---------- */
             const ACCIONES = {
                 intro: {
-                    duracion: 1.1,
+                    duracion: 1.15,
                     f(t, o, A) {
                         const caida = 0.34;
                         if (t < caida) {
                             const u = t / caida;
-                            return { saltoY: 0.42 * (1 - u * u), aplastar: 1.07, bIZ: 0.45, bDZ: -0.45, parpSup: 1.08 };
+                            return { saltoY: 0.40 * (1 - u * u), aplastar: 1.07, bIZ: 0.45, bDZ: -0.45, parpSup: 1.06, cejaSubir: 0.45, bocaAbre: 0.32, bocaSonrisa: 0.8 };
                         }
                         if (!A.marcas.aterriza) {
                             A.marcas.aterriza = true;
@@ -66,10 +68,11 @@
                             A.evento('sonido', 'pop');
                             A.parpadear();
                         }
-                        return { bocaAbre: 0.62, bocaSonrisa: 0.95, bocaDientes: 0.50 };
+                        const fade = 1 - suave((t - 0.65) / 0.45);
+                        return { bocaAbre: 0.02 + 0.44 * fade, bocaSonrisa: 0.42 + 0.50 * fade, bocaDientes: 0.65 * fade, pomulo: 0.55 * fade };
                     }
                 },
-                // Saludo alegre: inclinación de cabeza de 12°, sonrisa radiante con franja dental blanca y oscilación de mano fluida (sticker_2)
+                // Saludo alegre: inclinación de cabeza de 12°, sonrisa radiante abierta con dentadura blanca y ola de manita
                 saludar: {
                     duracion: 2.6,
                     f(t, o, A) {
@@ -77,124 +80,76 @@
                         const sube = campana(t, 0.0, 2.2);
                         const ola = Math.sin(t * TAU * 3.0) * 0.34 * sube;
                         if (t > 0.35 && !A.marcas.pestaneo) { A.marcas.pestaneo = true; A.parpadear(); }
-                        const incCab12Deg = 0.2094; // 12° exactos
+                        const incCab12Deg = 0.2094;
                         const r = {
                             cabZ: (izq ? -incCab12Deg : incCab12Deg) * sube,
                             cabX: -0.06 * sube,
-                            parpInf: -0.98 + 0.48 * sube,
-                            parpSup: 0.98 - 0.14 * sube,
-                            bocaAbre: 0.52 + 0.26 * sube,
-                            bocaSonrisa: 1.0,
-                            bocaDientes: 0.82 * sube + 0.42 * (1 - sube),
-                            bocaRedonda: 0,
+                            parpInf: -0.98 + 0.34 * sube,
+                            parpSup: 0.98,
+                            cejaSubir: 0.42 * sube,
+                            pomulo: 0.65 * sube,
+                            bocaAbre: 0.02 + 0.52 * sube,
+                            bocaSonrisa: 0.42 + 0.54 * sube,
+                            bocaDientes: 0.82 * sube,
                             incZ: (izq ? -0.06 : 0.06) * sube
                         };
                         if (izq) {
-                            r.bIZ = 1.48 * sube + ola;
-                            r.bIX = -0.24 * sube;
-                            r.bIY = -0.28 * sube;
-                            r.bDZ = 0.08 * sube;
-                            r.bDX = -0.14 * sube;
+                            r.bIZ = 1.48 * sube + ola; r.bIX = -0.24 * sube; r.bIY = -0.28 * sube;
+                            r.bDZ = 0.08 * sube; r.bDX = -0.14 * sube;
                         } else {
-                            r.bDZ = -1.48 * sube - ola;
-                            r.bDX = -0.24 * sube;
-                            r.bDY = 0.28 * sube;
-                            r.bIZ = -0.08 * sube;
-                            r.bIX = -0.14 * sube;
+                            r.bDZ = -1.48 * sube - ola; r.bDX = -0.24 * sube; r.bDY = 0.28 * sube;
+                            r.bIZ = -0.08 * sube; r.bIX = -0.14 * sube;
                         }
                         r.colaY = Math.sin(t * TAU * 1.5) * 0.35 * sube;
                         return r;
                     }
                 },
-                // Física Duang: anticipación comprimida (squash) -> salto estirado (stretch) -> triple rebote gelatinoso amortiguado a ~4.2 Hz acoplado a barriga (sticker_18)
+                // Física Duang: anticipación comprimida -> salto estirado -> triple rebote gelatinoso acoplado a la pancita
                 duang: {
-                    duracion: 1.5,
+                    duracion: 1.55,
                     f(t, o, A) {
-                        // 1. Anticipación comprimida (squash elástico de carga)
                         if (t < 0.16) {
                             const u = t / 0.16;
-                            const comp = 1.0 - 0.26 * suave(u); // compresión sy hasta 0.74
                             return {
-                                aplastar: comp,
+                                aplastar: 1.0 - 0.25 * suave(u),
                                 barriga: 0.65 * suave(u),
-                                bIZ: -0.20 * suave(u), bDZ: 0.20 * suave(u),
-                                bIX: -0.26 * suave(u), bDX: -0.26 * suave(u),
-                                bocaRedonda: 0.60 * suave(u), bocaAbre: 0.46, bocaSonrisa: 0.50,
-                                parpSup: 0.90, parpInf: -0.85, cabX: 0.08 * suave(u)
+                                bIZ: -0.20 * suave(u), bDZ: 0.20 * suave(u), bIX: -0.26 * suave(u), bDX: -0.26 * suave(u),
+                                bocaRedonda: 0.72 * suave(u), bocaAbre: 0.26 * suave(u), cejaSubir: 0.38 * suave(u),
+                                parpSup: 1.02, cabX: 0.08 * suave(u)
                             };
                         }
-                        // 2. Impulso elástico y salto estirado (stretch leap con adelgazamiento en X/Z)
                         if (t < 0.56) {
                             const u = (t - 0.16) / 0.40;
-                            if (!A.marcas.salta) {
-                                A.marcas.salta = true;
-                                A.impulso('aplastar', 2.8);
-                            }
-                            const stretch = 1.0 + 0.22 * Math.sin(u * Math.PI);
+                            if (!A.marcas.salta) { A.marcas.salta = true; A.impulso('aplastar', 2.8); }
                             return {
                                 saltoY: A.reducido ? 0.03 : 0.18 * 4 * u * (1 - u),
-                                aplastar: stretch,
+                                aplastar: 1.0 + 0.22 * Math.sin(u * Math.PI),
                                 barriga: -0.42 * Math.sin(u * Math.PI),
-                                bIZ: 1.05 * Math.sin(u * Math.PI), bDZ: -1.05 * Math.sin(u * Math.PI),
-                                bIX: -0.30, bDX: -0.30,
-                                bocaRedonda: 0.40, bocaAbre: 0.86, bocaSonrisa: 0.98, bocaDientes: 0.56,
-                                parpSup: 1.15, parpInf: -1.05, ojoAbre: 1.10,
-                                colaX: -0.30 * Math.sin(u * Math.PI)
+                                bIZ: 1.05 * Math.sin(u * Math.PI), bDZ: -1.05 * Math.sin(u * Math.PI), bIX: -0.30, bDX: -0.30,
+                                bocaAbre: 0.72, bocaSonrisa: 0.94, bocaDientes: 0.75, pomulo: 0.68, cejaSubir: 0.55,
+                                parpSup: 1.06, parpInf: -0.94, ojoAbre: 1.05, colaX: -0.30 * Math.sin(u * Math.PI)
                             };
                         }
-                        // 3. Primer aterrizaje e impacto de pancita (t = 0.56)
                         if (!A.marcas.cae1) {
                             A.marcas.cae1 = true;
-                            A.impulso('aplastar', -4.2);
-                            A.impulso('barriga', 5.4);
-                            A.impulso('cabX', 1.8);
-                            A.evento('texto', '¡Duang!');
-                            A.evento('sonido', 'pop');
-                            A.parpadear();
+                            A.impulso('aplastar', -4.2); A.impulso('barriga', 5.4); A.impulso('cabX', 1.8);
+                            A.evento('texto', '¡Duang!'); A.evento('sonido', 'pop'); A.parpadear();
                         }
-                        // 4. Rebote 1 del triple rebote gelatinoso amortiguado a ~4.2 Hz
+                        const fade = 1 - suave((t - 1.15) / 0.36);
                         if (t >= 0.66 && t < 0.90) {
                             const u2 = (t - 0.66) / 0.24;
-                            if (!A.marcas.cae2 && t > 0.86) {
-                                A.marcas.cae2 = true;
-                                A.impulso('aplastar', -2.2);
-                                A.impulso('barriga', 2.8);
-                            }
-                            return {
-                                saltoY: (A.reducido ? 0.01 : 0.052) * 4 * u2 * (1 - u2),
-                                aplastar: 1.08,
-                                bIZ: 0.44, bDZ: -0.44,
-                                bocaAbre: 0.74, bocaSonrisa: 0.98, bocaDientes: 0.56,
-                                parpInf: -0.76, parpSup: 0.95
-                            };
+                            if (!A.marcas.cae2 && t > 0.86) { A.marcas.cae2 = true; A.impulso('aplastar', -2.2); A.impulso('barriga', 2.8); }
+                            return { saltoY: (A.reducido ? 0.01 : 0.052) * 4 * u2 * (1 - u2), aplastar: 1.08, bIZ: 0.44, bDZ: -0.44, bocaAbre: 0.54, bocaSonrisa: 0.92, bocaDientes: 0.72, ojoRisa: 0.24, parpInf: -0.72, parpSup: 0.92, pomulo: 0.72 };
                         }
-                        // 5. Rebote 2 del triple rebote
                         if (t >= 0.90 && t < 1.14) {
                             const u3 = (t - 0.90) / 0.24;
-                            if (!A.marcas.cae3 && t > 1.10) {
-                                A.marcas.cae3 = true;
-                                A.impulso('aplastar', -1.2);
-                                A.impulso('barriga', 1.6);
-                            }
-                            return {
-                                saltoY: (A.reducido ? 0.004 : 0.020) * 4 * u3 * (1 - u3),
-                                aplastar: 1.04,
-                                bIZ: 0.22, bDZ: -0.22,
-                                bocaAbre: 0.66, bocaSonrisa: 0.98, bocaDientes: 0.55,
-                                parpInf: -0.72, parpSup: 0.94
-                            };
+                            if (!A.marcas.cae3 && t > 1.10) { A.marcas.cae3 = true; A.impulso('aplastar', -1.2); A.impulso('barriga', 1.6); }
+                            return { saltoY: (A.reducido ? 0.004 : 0.020) * 4 * u3 * (1 - u3), aplastar: 1.04, bIZ: 0.22, bDZ: -0.22, bocaAbre: 0.38 * fade, bocaSonrisa: 0.42 + 0.50 * fade, bocaDientes: 0.65 * fade, pomulo: 0.60 * fade, parpInf: -0.98 + 0.24 * fade };
                         }
-                        // 6. Rebote 3 y asentamiento final con oscilación residual de gelatina acoplada a barriga
-                        return {
-                            bocaAbre: 0.62,
-                            bocaSonrisa: 0.98,
-                            parpInf: -0.68,
-                            parpSup: 0.94,
-                            bocaDientes: 0.55
-                        };
+                        return { bocaAbre: 0.02 + 0.26 * fade, bocaSonrisa: 0.42 + 0.46 * fade, bocaDientes: 0.50 * fade, pomulo: 0.45 * fade };
                     }
                 },
-                // Baile: compás de maracas, alternancia rítmica de patitas, balanceo de cadera y coletazo sincronizado
+                // Baile al ritmo de maracas con sonrisón alegre y pómulos subidos
                 bailar: {
                     duracion: 5.4,
                     f(t, o, A) {
@@ -202,10 +157,7 @@
                         const env = campana(t, 0, 5.0);
                         const golpe = Math.abs(Math.sin(fase));
                         const n = Math.floor(t * pulso);
-                        if (n !== A.marcas.compas && t < 5.0) {
-                            A.marcas.compas = n;
-                            A.evento('sonido', 'maracas');
-                        }
+                        if (n !== A.marcas.compas && t < 5.0) { A.marcas.compas = n; A.evento('sonido', 'maracas'); }
                         return {
                             saltoY: A.reducido ? 0 : 0.042 * golpe * env,
                             incZ: Math.sin(fase) * 0.16 * env,
@@ -221,165 +173,309 @@
                             pDX: Math.max(0, -Math.sin(fase)) * -0.38 * env,
                             colaY: Math.sin(fase * 2) * 0.68 * env,
                             colaX: -0.14 * env,
-                            parpInf: -0.98 + 0.40 * env,
-                            bocaAbre: 0.56 + 0.24 * env,
-                            bocaSonrisa: 0.98,
-                            bocaDientes: 0.60
+                            parpSup: 0.98 - 0.06 * env,
+                            parpInf: -0.98 + 0.32 * env,
+                            ojoRisa: 0.18 * golpe * env,
+                            cejaSubir: 0.32 * golpe * env,
+                            pomulo: 0.70 * env,
+                            bocaAbre: 0.02 + (0.40 + 0.20 * golpe) * env,
+                            bocaSonrisa: 0.42 + 0.54 * env,
+                            bocaDientes: 0.78 * env
                         };
                     }
                 },
-                // Sorpresa canónica: manitas a los mofletes arropando mejillas con 3 garritas hacia arriba, boca redonda en domo con lengua rosada visible y ojos al 110% (sticker_19)
+                // Sorpresa tierna (capturas 05 y 11): manitas en mofletes, ojos muy abiertos y boquita en «o» chiquita
                 sorpresa: {
                     duracion: 2.3,
                     f(t, o, A) {
                         if (!A.marcas.salto) {
                             A.marcas.salto = true;
-                            A.impulso('incX', -1.6);
-                            A.impulso('aplastar', 1.8);
-                            A.impulso('barriga', 1.8);
+                            A.impulso('incX', -1.5); A.impulso('aplastar', 1.7); A.impulso('barriga', 1.6);
                             A.evento('texto', '¡Uoooh!');
                         }
                         const env = campana(t, 0, 1.95);
-                        const temblor = Math.sin(t * TAU * 11) * 0.016 * env;
+                        const temblor = Math.sin(t * TAU * 11) * 0.015 * env;
                         return {
-                            saltoY: A.reducido ? 0 : 0.038 * campana(t, 0, 0.28),
+                            saltoY: A.reducido ? 0 : 0.036 * campana(t, 0, 0.28),
                             incX: -0.06 * env,
-                            bIX: -0.52 * env, bIY: -0.84 * env, bIZ: 1.18 * env + temblor,
-                            bDX: -0.52 * env, bDY: 0.84 * env, bDZ: -1.18 * env - temblor,
-                            parpSup: 1.10,
-                            parpInf: -1.10,
-                            ojoAbre: 1.10 * env + 1.0 * (1 - env),
-                            bocaRedonda: 0.88 * env,
-                            bocaAbre: 0.52 + 0.34 * env,
-                            bocaSonrisa: 0.35 * (1 - env) + 0.28 * env,
-                            bocaDientes: 0.20 * (1 - env),
+                            bIX: -0.46 * env, bIY: -0.68 * env, bIZ: 1.14 * env + temblor,
+                            bDX: -0.46 * env, bDY: 0.68 * env, bDZ: -1.14 * env - temblor,
+                            parpSup: 0.98 + 0.10 * env,
+                            parpInf: -0.98 - 0.06 * env,
+                            cejaSubir: 0.80 * env,
+                            ojoAbre: 1.0 + 0.06 * env,
+                            bocaRedonda: 0.96 * env,
+                            bocaAbre: 0.02 + 0.46 * env,
+                            bocaSonrisa: 0.42 * (1 - env),
+                            bocaDientes: 0,
                             cabX: -0.08 * env
                         };
                     }
                 },
-                // Siesta: respiración lenta y profunda de 4.4 s con emisión de burbujas zzz, párpados cerrados pacíficamente y cabeza ladeada con ternura (sticker_38)
+                // Siesta pacífica (sticker_38): párpados cerrados, respiración profunda y burbujas Zzz
                 siesta: {
                     duracion: Infinity,
                     f(t, o, A) {
                         const env = suave(t / 1.2);
                         const cicloZzz = Math.floor((t - 0.8) / 4.4);
-                        if (cicloZzz !== A.marcas.zzz && t > 1.2) {
-                            A.marcas.zzz = cicloZzz;
-                            A.evento('zzz');
-                        }
+                        if (cicloZzz !== A.marcas.zzz && t > 1.2) { A.marcas.zzz = cicloZzz; A.evento('zzz'); }
+                        const ronquido = 0.06 * Math.max(0, Math.sin(t * TAU / 4.4)) * env;
                         return {
-                            parpSup: 0.95 + (PARPADO_CERRADO - 0.95) * env,
-                            parpInf: -0.96 + (PARPADO_CERRADO + 0.04 + 0.96) * env,
-                            cabX: 0.16 * env,
-                            cabZ: 0.22 * env,
-                            incZ: 0.06 * env,
-                            bIZ: -0.10 * env, bDZ: 0.10 * env,
-                            bIX: 0.16 * env, bDX: 0.16 * env,
-                            bocaAbre: 0.42 - 0.20 * env,
-                            bocaRedonda: 0.72 * env,
-                            bocaSonrisa: 0.65 * (1 - env),
-                            bocaDientes: 0.38 * (1 - env)
+                            parpSup: 0.98 + (PARPADO_CERRADO - 0.98) * env,
+                            parpInf: -0.98 + (PARPADO_CERRADO + 0.04 + 0.98) * env,
+                            cabX: 0.16 * env, cabZ: 0.22 * env, incZ: 0.06 * env,
+                            bIZ: -0.10 * env, bDZ: 0.10 * env, bIX: 0.16 * env, bDX: 0.16 * env,
+                            bocaAbre: 0.02 + (0.12 + ronquido) * env,
+                            bocaRedonda: 0.82 * env,
+                            bocaSonrisa: 0.42 * (1 - env)
                         };
                     }
                 },
-                // Mimos en la cabeza: inclinación dulce y mimos suaves
-                mimos: {
-                    duracion: 1.6,
-                    f(t, o, A) {
-                        if (!A.marcas.mimo) {
-                            A.marcas.mimo = true;
-                            A.impulso('cabZ', ((o && o.lado) || 1) * 0.8);
-                        }
-                        const env = campana(t, 0, 1.3), lado = (o && o.lado) || 1;
-                        return {
-                            cabZ: 0.24 * lado * env,
-                            cabX: -0.08 * env,
-                            incZ: 0.05 * lado * env,
-                            parpSup: 0.95 - 0.55 * env,
-                            parpInf: -0.96 + 0.65 * env,
-                            bocaAbre: 0.46 + 0.16 * env,
-                            bocaSonrisa: 0.98,
-                            bocaDientes: 0.52,
-                            bIZ: 0.20 * env, bDZ: -0.20 * env,
-                            colaY: Math.sin(t * TAU * 2.8) * 0.38 * env
-                        };
-                    }
-                },
-                // Reacción coordinada al tocar la pancita: oscilación subamortiguada, volumen constante y sonrisa alegre
-                pancita: {
-                    duracion: 1.25,
+
+                /* ===== LAS 6 CARITAS ICÓNICAS DE LA SERIE (SEVENTH IMPRESSION) ===== */
+
+                // 1) Sonrisón (capturas 03, 13 y 15): ojos alegres bien abiertos, sonrisa ancha limpia con arco dental blanco
+                sonrison: {
+                    duracion: 2.5,
                     f(t, o, A) {
                         if (!A.marcas.ok) {
                             A.marcas.ok = true;
-                            A.impulso('barriga', 5.6);
-                            A.impulso('aplastar', -2.8);
-                            A.impulso('incX', 0.9);
-                            A.evento('texto', '¡Duang!');
-                            A.parpadear(true);
+                            A.impulso('aplastar', 1.1);
+                            A.impulso('barriga', 1.8);
+                            A.evento('texto', '¡Jijiji!');
                         }
-                        const env = campana(t, 0, 0.95);
+                        const env = campana(t, 0, 2.15);
+                        const balanceo = Math.sin(t * TAU * 1.1) * 0.09 * env;
                         return {
-                            parpSup: 0.95 - 0.36 * env,
-                            parpInf: -0.96 + 0.52 * env,
-                            bocaAbre: 0.44 + 0.32 * env,
-                            bocaSonrisa: 0.98,
-                            bocaDientes: 0.62,
-                            bIZ: -0.16 * env, bDZ: 0.16 * env,
-                            bIX: -0.28 * env, bDX: -0.28 * env,
-                            cabZ: 0.08 * Math.sin(t * TAU * 2.2) * env,
-                            cabX: -0.06 * env
+                            cabZ: 0.11 * env + balanceo,
+                            cabX: -0.06 * env,
+                            incZ: 0.04 * env,
+                            parpSup: 0.98 - 0.06 * env,
+                            parpInf: -0.98 + 0.40 * env,
+                            ojoRisa: 0.20 * env,
+                            cejaSubir: 0.38 * env,
+                            pomulo: 0.85 * env,
+                            bocaAbre: 0.02 + 0.48 * env,
+                            bocaSonrisa: 0.42 + 0.68 * env,
+                            bocaDientes: 0.95 * env,
+                            bocaLengua: 0.85,
+                            bIZ: 0.26 * env, bDZ: -0.26 * env, bIX: -0.22 * env, bDX: -0.22 * env,
+                            colaY: Math.sin(t * TAU * 2.4) * 0.42 * env
                         };
                     }
                 },
-                // Meneo rápido feliz de la colita
+                // 2) Carcajada (captura 02 / sticker_13): ojos cerrados en arco ^ ^, sonrisa abierta limpia con dientes y lengua dentro
+                carcajada: {
+                    duracion: 2.7,
+                    f(t, o, A) {
+                        if (!A.marcas.ok) {
+                            A.marcas.ok = true;
+                            A.impulso('barriga', 3.4);
+                            A.evento('texto', '¡Jajaja!');
+                        }
+                        const env = campana(t, 0, 2.35);
+                        const risa = Math.abs(Math.sin(t * TAU * 4.2));
+                        return {
+                            saltoY: A.reducido ? 0 : 0.022 * risa * env,
+                            aplastar: 1 + (risa - 0.5) * 0.08 * env,
+                            barriga: (0.28 + 0.45 * risa) * env,
+                            cabX: (-0.14 - 0.05 * risa) * env,
+                            cabZ: Math.sin(t * TAU * 1.6) * 0.12 * env,
+                            incX: -0.06 * env,
+                            parpSup: 0.98 + (-0.06 - 0.98) * env,
+                            parpInf: -0.98 + (0.04 + 0.98) * env,
+                            ojoRisa: 0.62 * env,
+                            cejaSubir: 0.45 * env,
+                            pomulo: 0.85 * env,
+                            bocaAbre: 0.02 + (0.94 + 0.14 * risa) * env,
+                            bocaSonrisa: 0.42 + 0.58 * env,
+                            bocaDientes: 0.95 * env,
+                            bocaFuera: 0,
+                            bIZ: (0.85 + 0.25 * risa) * env, bDZ: -(0.85 + 0.25 * risa) * env,
+                            bIX: -0.32 * env, bDX: -0.32 * env,
+                            colaY: Math.sin(t * TAU * 3.5) * 0.50 * env
+                        };
+                    }
+                },
+                // 3) Burla ¡Bleh! (sticker_2 / 9 / 72): guiño travieso con ojo izquierdo bien abierto y lengüita fuera
+                burla: {
+                    duracion: 2.4,
+                    f(t, o, A) {
+                        if (!A.marcas.ok) {
+                            A.marcas.ok = true;
+                            A.impulso('cabZ', -1.0);
+                            A.evento('texto', '¡Bleh! 😜');
+                        }
+                        const env = campana(t, 0, 2.05);
+                        const meneoLengua = Math.sin(t * TAU * 4.5) * 0.10 * env;
+                        return {
+                            cabZ: -0.22 * env,
+                            cabY: 0.15 * env,
+                            cabX: 0.04 * env,
+                            incZ: -0.05 * env,
+                            guiñoDer: 0.98 * env,
+                            parpSup: 0.98,
+                            parpInf: -0.98 + 0.24 * env,
+                            cejaSubir: 0.35 * env,
+                            pomulo: 0.55 * env,
+                            bocaAbre: 0.02 + 0.50 * env,
+                            bocaSonrisa: 0.42 + 0.42 * env,
+                            bocaDientes: 0.32 * env,
+                            bocaFuera: (0.88 + meneoLengua) * env,
+                            bDX: -0.44 * env, bDY: 0.62 * env, bDZ: -1.08 * env,
+                            bIZ: 0.22 * env,
+                            colaY: Math.sin(t * TAU * 3.2) * 0.52 * env
+                        };
+                    }
+                },
+                // 4) Puchero / Ojitos tiernos (captura 01 frente triste): párpados inclinados / \, ojazos brillantes y boquita hacia abajo
+                puchero: {
+                    duracion: 2.8,
+                    f(t, o, A) {
+                        if (!A.marcas.ok) {
+                            A.marcas.ok = true;
+                            A.impulso('aplastar', -0.9);
+                            A.evento('texto', '¿Porfiii? 🥺');
+                        }
+                        const env = campana(t, 0, 2.45);
+                        const puch = Math.sin(t * TAU * 5.5) * 0.015 * env;
+                        return {
+                            cabX: 0.13 * env,
+                            cabZ: 0.16 * env,
+                            incX: 0.04 * env,
+                            cejaTriste: 0.90 * env,
+                            parpInclina: 0.32 * env,
+                            parpSup: 0.98 - 0.32 * env,
+                            parpInf: -0.98 + 0.16 * env,
+                            ojoAbre: 1.0 + 0.05 * env,
+                            bocaAbre: 0.02,
+                            bocaPuchero: (0.92 + puch) * env,
+                            bocaSonrisa: 0.42 * (1 - env) - 0.24 * env,
+                            bIX: -0.36 * env, bIY: -0.34 * env, bIZ: 0.26 * env,
+                            bDX: -0.36 * env, bDY: 0.34 * env, bDZ: -0.26 * env,
+                            colaX: 0.18 * env
+                        };
+                    }
+                },
+                // 5) Pillo / Ceño fruncido (sticker_7 / 88): ceño travieso \ /, ojos entornados y bracitos delante sin chocar con el pecho
+                pillo: {
+                    duracion: 2.6,
+                    f(t, o, A) {
+                        if (!A.marcas.ok) {
+                            A.marcas.ok = true;
+                            A.impulso('aplastar', 0.9);
+                            A.evento('texto', '¡Hmpf!');
+                        }
+                        const env = campana(t, 0, 2.25);
+                        return {
+                            cabY: -0.20 * env,
+                            cabX: 0.05 * env,
+                            cabZ: -0.08 * env,
+                            girY: 0.14 * env,
+                            incX: -0.04 * env,
+                            cejaFruncir: 0.85 * env,
+                            parpInclina: -0.28 * env,
+                            parpSup: 0.98 - 0.42 * env,
+                            parpInf: -0.98 + 0.36 * env,
+                            pomulo: 0.30 * env,
+                            bocaAbre: 0.02,
+                            bocaSonrisa: 0.42 + 0.28 * env,
+                            bIX: -0.44 * env, bIY: -0.40 * env, bIZ: 0.30 * env,
+                            bDX: -0.44 * env, bDY: 0.40 * env, bDZ: -0.30 * env
+                        };
+                    }
+                },
+                // 6) Susto / Grito cómico (sticker_96 / 50): ojos como platos, boca abierta redonda adorable con dientes y brazos arriba
+                susto: {
+                    duracion: 2.2,
+                    f(t, o, A) {
+                        if (!A.marcas.ok) {
+                            A.marcas.ok = true;
+                            A.impulso('aplastar', 2.4);
+                            A.impulso('cabX', -1.4);
+                            A.impulso('incX', -1.5);
+                            A.evento('texto', '¡Aaaah! 😱');
+                        }
+                        const env = campana(t, 0, 1.85);
+                        const temblor = Math.sin(t * TAU * 13) * 0.022 * env;
+                        return {
+                            saltoY: A.reducido ? 0 : 0.055 * campana(t, 0, 0.26),
+                            cabX: -0.10 * env,
+                            incX: -0.05 * env,
+                            cejaSubir: 0.85 * env,
+                            parpSup: 0.98 + 0.10 * env,
+                            parpInf: -0.98 - 0.06 * env,
+                            ojoAbre: 1.0 + 0.06 * env,
+                            bocaAbre: 0.02 + (0.94 + temblor * 1.4) * env,
+                            bocaRedonda: 0.36 * env,
+                            bocaSonrisa: 0.42 * (1 - env),
+                            bocaDientes: 0.78 * env,
+                            bIZ: 1.30 * env + temblor, bDZ: -1.30 * env - temblor,
+                            bIX: -0.34 * env, bDX: -0.34 * env,
+                            colaX: -0.26 * env
+                        };
+                    }
+                },
+
+                /* ===== REACCIONES TÁCTILES POR ZONA Y MICRO-OCIO ===== */
+                mimos: {
+                    duracion: 1.65,
+                    f(t, o, A) {
+                        if (!A.marcas.mimo) { A.marcas.mimo = true; A.impulso('cabZ', ((o && o.lado) || 1) * 0.8); }
+                        const env = campana(t, 0, 1.35), lado = (o && o.lado) || 1;
+                        return {
+                            cabZ: 0.24 * lado * env, cabX: -0.07 * env, incZ: 0.05 * lado * env,
+                            parpSup: 0.98 + (-0.05 - 0.98) * env, parpInf: -0.98 + (0.04 + 0.98) * env,
+                            ojoRisa: 0.56 * env, pomulo: 0.75 * env,
+                            bocaAbre: 0.02 + 0.26 * env, bocaSonrisa: 0.42 + 0.52 * env, bocaDientes: 0.65 * env,
+                            bIZ: 0.20 * env, bDZ: -0.20 * env, colaY: Math.sin(t * TAU * 2.8) * 0.38 * env
+                        };
+                    }
+                },
+                pancita: {
+                    duracion: 1.3,
+                    f(t, o, A) {
+                        if (!A.marcas.ok) {
+                            A.marcas.ok = true;
+                            A.impulso('barriga', 5.6); A.impulso('aplastar', -2.8); A.impulso('incX', 0.9);
+                            A.evento('texto', '¡Duang!'); A.parpadear(true);
+                        }
+                        const env = campana(t, 0, 1.0);
+                        return {
+                            parpSup: 0.98 - 0.08 * env, parpInf: -0.98 + 0.38 * env, ojoRisa: 0.28 * env, pomulo: 0.75 * env,
+                            bocaAbre: 0.02 + 0.46 * env, bocaSonrisa: 0.42 + 0.54 * env, bocaDientes: 0.80 * env,
+                            bIZ: -0.16 * env, bDZ: 0.16 * env, bIX: -0.26 * env, bDX: -0.26 * env,
+                            cabZ: 0.08 * Math.sin(t * TAU * 2.2) * env, cabX: -0.06 * env
+                        };
+                    }
+                },
                 colita: {
                     duracion: 1.4,
                     f(t, o, A) {
-                        if (!A.marcas.cola) {
-                            A.marcas.cola = true;
-                            A.impulso('barriga', 1.4);
-                        }
+                        if (!A.marcas.cola) { A.marcas.cola = true; A.impulso('barriga', 1.4); }
                         const env = campana(t, 0, 1.15);
                         return {
-                            colaY: Math.sin(t * TAU * 4.5) * 0.78 * env,
-                            colaX: -0.22 * env + Math.sin(t * TAU * 2.25) * 0.10 * env,
-                            girY: 0.22 * env,
-                            cabY: 0.55 * env,
-                            cabZ: -0.10 * env,
-                            cabX: -0.08 * env,
-                            parpInf: -0.96 + 0.45 * env,
-                            bocaAbre: 0.48 + 0.14 * env,
-                            bocaSonrisa: 0.96,
-                            bocaDientes: 0.54
+                            colaY: Math.sin(t * TAU * 4.5) * 0.78 * env, colaX: -0.22 * env + Math.sin(t * TAU * 2.25) * 0.10 * env,
+                            girY: 0.22 * env, cabY: 0.52 * env, cabZ: -0.10 * env, cabX: -0.06 * env,
+                            cejaSubir: 0.35 * env, pomulo: 0.55 * env,
+                            parpInf: -0.98 + 0.30 * env, bocaAbre: 0.02 + 0.28 * env, bocaSonrisa: 0.42 + 0.50 * env, bocaDientes: 0.65 * env
                         };
                     }
                 },
-                // Cosquillas en patitas con saltito alegre
                 saltito: {
-                    duracion: 0.9,
+                    duracion: 0.95,
                     f(t, o, A) {
                         if (t < 0.42) {
-                            const u = t / 0.42;
-                            const cosquilleo = Math.sin(t * TAU * 9) * 0.12;
+                            const u = t / 0.42, cosquilleo = Math.sin(t * TAU * 9) * 0.12;
                             return {
-                                saltoY: A.reducido ? 0 : 0.075 * 4 * u * (1 - u),
-                                pIX: -0.38 + cosquilleo,
-                                pDX: -0.38 - cosquilleo,
-                                aplastar: 1.06,
-                                bIZ: 0.42, bDZ: -0.42,
-                                bocaAbre: 0.68,
-                                bocaSonrisa: 0.98,
-                                bocaDientes: 0.58,
-                                parpInf: -0.96 + 0.48
+                                saltoY: A.reducido ? 0 : 0.075 * 4 * u * (1 - u), pIX: -0.38 + cosquilleo, pDX: -0.38 - cosquilleo,
+                                aplastar: 1.06, bIZ: 0.42, bDZ: -0.42, cejaSubir: 0.45, pomulo: 0.68,
+                                bocaAbre: 0.54, bocaSonrisa: 0.92, bocaDientes: 0.75, parpInf: -0.68
                             };
                         }
-                        if (!A.marcas.cae) {
-                            A.marcas.cae = true;
-                            A.impulso('aplastar', -2.4);
-                            A.impulso('barriga', 2.4);
-                            A.evento('sonido', 'pop');
-                        }
-                        return { bocaAbre: 0.52, bocaSonrisa: 0.95, bocaDientes: 0.52 };
+                        if (!A.marcas.cae) { A.marcas.cae = true; A.impulso('aplastar', -2.4); A.impulso('barriga', 2.4); A.evento('sonido', 'pop'); }
+                        const fade = 1 - suave((t - 0.55) / 0.35);
+                        return { bocaAbre: 0.02 + 0.32 * fade, bocaSonrisa: 0.42 + 0.46 * fade, bocaDientes: 0.60 * fade };
                     }
                 },
                 despertar: {
@@ -387,14 +483,30 @@
                     f(t, o, A) {
                         if (!A.marcas.ok) { A.marcas.ok = true; A.impulso('aplastar', 1.6); A.impulso('cabX', -1.4); }
                         const env = campana(t, 0, 1.0);
-                        return { parpSup: 0.95 + 0.15 * env, ojoAbre: 1 + 0.05 * env, bocaRedonda: 0.65 * env, bocaAbre: 0.42 + 0.28 * env, bIZ: 0.38 * env, bDZ: -0.38 * env };
+                        return { parpSup: 0.98 + 0.08 * env, cejaSubir: 0.45 * env, ojoAbre: 1 + 0.05 * env, bocaRedonda: 0.72 * env, bocaAbre: 0.02 + 0.40 * env, bIZ: 0.38 * env, bDZ: -0.38 * env };
                     }
                 },
                 mirarAlrededor: {
                     duracion: 3.2,
                     f(t) {
                         const env = campana(t, 0, 2.8);
-                        return { cabY: Math.sin(t * TAU / 3.0) * 0.4 * env, cabZ: Math.sin(t * TAU / 3.0) * 0.06 * env, colaY: Math.sin(t * 6) * 0.15 * env };
+                        return {
+                            cabY: Math.sin(t * TAU / 3.0) * 0.38 * env,
+                            cabZ: Math.sin(t * TAU / 3.0) * 0.08 * env,
+                            cejaSubir: 0.28 * Math.max(0, Math.sin(t * TAU / 3.0)) * env,
+                            colaY: Math.sin(t * 6) * 0.16 * env
+                        };
+                    }
+                },
+                curiosidadOcio: {
+                    duracion: 2.2,
+                    f(t) {
+                        const env = campana(t, 0, 1.85);
+                        return {
+                            cabZ: 0.14 * env, cabX: -0.05 * env,
+                            cejaSubir: 0.36 * env, parpSup: 0.98 + 0.06 * env,
+                            bocaAbre: 0.02 + 0.12 * env, bocaSonrisa: 0.42 + 0.26 * env, pomulo: 0.30 * env
+                        };
                     }
                 }
             };
@@ -408,7 +520,7 @@
                     const [v, f, z] = CANALES[k];
                     m[k] = { v, vel: 0, obj: v, w: TAU * f, z };
                 });
-                let tParpadeo = -1, proxParpadeo = 1.5 + azar() * 2, dobleParpadeo = false;
+                let tParpadeo = -1, proxParpadeo = 1.6 + azar() * 2.0, dobleParpadeo = false;
                 const A = {
                     reducido: !!op.reducido, marcas: {}, tiempo: 0,
                     impulso(canal, vel) { if (m[canal]) m[canal].vel += vel * (A.reducido ? 0.35 : 1); },
@@ -416,13 +528,13 @@
                     evento(tipo, dato) { if (op.alEvento) op.alEvento(tipo, dato); }
                 };
                 let accion = null, tAccion = 0, opAccion = null;
-                let proxOcio = 9 + azar() * 6;
+                let proxOcio = 8 + azar() * 6;
                 let acumulado = 0;
                 const toques = [0, 1, 2, 3].map(() => ({ x: 0, y: -5, z: 0, v: 0, vel: 0 }));
                 let toqueSig = 0;
                 const mirada = { yaw: 0, pitch: 0 };
                 const sacada = { yaw: 0, pitch: 0, tarYaw: 0, tarPitch: 0 };
-                let proxSacada = 0.9 + azar() * 0.7; // micro-sacadas suaves de 1° a 2° cada 0.9 - 1.6 s
+                let proxSacada = 0.9 + azar() * 0.7;
                 let mirarObjetivo = null, vOjo = null;
                 const tmp = {};
 
@@ -446,7 +558,10 @@
                     A.tiempo += dt;
                     if (accion) {
                         tAccion += dt;
-                        if (tAccion >= ACCIONES[accion].duracion) { accion = null; A.marcas = {}; }
+                        if (tAccion >= ACCIONES[accion].duracion) {
+                            accion = null; A.marcas = {};
+                            A.evento('accionFin', null);
+                        }
                     }
                     objetivos();
                     Object.keys(m).forEach((k) => {
@@ -454,32 +569,26 @@
                         const a = c.w * c.w * (c.obj - c.v) - 2 * c.z * c.w * c.vel;
                         c.vel += a * dt; c.v += c.vel * dt;
                     });
-                    // Parpadeo dinámico asimétrico estocástico con posibilidad de doble parpadeo
                     if (tParpadeo >= 0) {
                         tParpadeo += dt;
-                        const durParpadeo = 0.17;
-                        if (tParpadeo > durParpadeo) {
+                        if (tParpadeo > 0.17) {
                             tParpadeo = -1;
-                            if (dobleParpadeo) {
-                                dobleParpadeo = false;
-                                proxParpadeo = 0.12 + azar() * 0.06;
-                            } else {
-                                proxParpadeo = 2.4 + azar() * 3.4;
-                            }
+                            if (dobleParpadeo) { dobleParpadeo = false; proxParpadeo = 0.12 + azar() * 0.06; }
+                            else proxParpadeo = 2.4 + azar() * 3.4;
                         }
                     } else if (accion !== 'siesta') {
                         proxParpadeo -= dt;
-                        if (proxParpadeo <= 0) {
-                            tParpadeo = 0;
-                            dobleParpadeo = azar() < 0.22;
-                        }
+                        if (proxParpadeo <= 0) { tParpadeo = 0; dobleParpadeo = azar() < 0.22; }
                     }
-                    // Pequeñas travesuras cuando se aburre
+                    // Micro-gestos vivos cuando descansa tranquilo
                     if (!accion && op.ocio !== false) {
                         proxOcio -= dt;
-                        if (proxOcio <= 0) { proxOcio = 10 + azar() * 8; iniciar(azar() < 0.6 ? 'mirarAlrededor' : 'colita', null); }
+                        if (proxOcio <= 0) {
+                            proxOcio = 9 + azar() * 7;
+                            const r = azar();
+                            iniciar(r < 0.45 ? 'mirarAlrededor' : (r < 0.78 ? 'curiosidadOcio' : 'colita'), null);
+                        }
                     }
-                    // Abolladuras de piel: muelle subamortiguado que se hunde y rebota gomoso
                     toques.forEach((q) => {
                         const w = TAU * 5.5, z = 0.20;
                         const a = -w * w * q.v - 2 * z * w * q.vel;
@@ -493,14 +602,12 @@
                     const amp = A.reducido ? 0.5 : 1;
                     const durRespira = accion === 'siesta' ? 4.4 : 3.3;
                     const faseResp = t * TAU / durRespira;
-                    // Respiración bifásica desfasada: pancita se expande 0.35 s antes que el pecho
                     const desfasePechoRad = (0.35 / durRespira) * TAU;
                     const respBelly = Math.sin(faseResp) + 0.18 * Math.sin(2 * faseResp - 0.45);
                     const respPecho = Math.sin(faseResp - desfasePechoRad) + 0.15 * Math.sin(2 * (faseResp - desfasePechoRad) - 0.45);
                     const ocio = accion === 'bailar' ? 0.3 : 1;
                     const R = (b) => b.userData.reposo;
 
-                    // Raíz: salto, squash & stretch elástico con conservación estricta de volumen (sx = sz = 1 / sqrt(max(0.5, sy)))
                     const raiz = huesos.raiz;
                     const sy = Math.max(0.5, g('aplastar'));
                     const sxz = 1 / Math.sqrt(sy);
@@ -515,21 +622,18 @@
                     huesos.cadera.rotation.set(0, 0, g('cadZ'));
                     huesos.tronco.rotation.set(0, 0, -g('incZ') * 0.25);
 
-                    // Pecho y Cabeza
                     const pe = 1 + 0.008 * respPecho * amp + g('pecho');
                     huesos.pecho.scale.set(1 + 0.005 * respPecho * amp, pe, 1 + 0.005 * respPecho * amp);
                     huesos.cabeza.rotation.set(
-                        g('cabX') + 0.02 * respPecho * amp + mirada.pitch * 0.28,
-                        g('cabY') + mirada.yaw * 0.32,
+                        g('cabX') + 0.018 * respPecho * amp + mirada.pitch * 0.26,
+                        g('cabY') + mirada.yaw * 0.30,
                         g('cabZ')
                     );
 
-                    // Barriga gelatinosa con conservación de volumen y oscilación subamortiguada acoplada en 3D
                     const b = g('barriga') * 0.065 + 0.026 * respBelly * amp * (accion === 'siesta' ? 1.8 : 1);
                     huesos.barriga.scale.set(1 + b * 0.60, 1 + b * 0.35, 1 + b);
                     huesos.barriga.position.set(R(huesos.barriga).p.x, R(huesos.barriga).p.y + b * 0.006, R(huesos.barriga).p.z + b * 0.024);
 
-                    // Brazos: pose neutra + vaivén orgánico sobre la respiración + rotación de hombros y alzado a mofletes
                     const vaivenZ = 0.028 * respBelly * amp * ocio;
                     const vaivenX = -0.012 * respPecho * amp * ocio;
                     const alzaI = Math.max(0, g('bIZ') - 0.35), alzaD = Math.max(0, -g('bDZ') - 0.35);
@@ -538,11 +642,9 @@
                     huesos.brazoIzq.rotation.set(BRAZO_NEUTRO.x + g('bIX') + vaivenX, BRAZO_NEUTRO.y + g('bIY'), BRAZO_NEUTRO.z + g('bIZ') + vaivenZ);
                     huesos.brazoDer.rotation.set(BRAZO_NEUTRO.x + g('bDX') + vaivenX, -BRAZO_NEUTRO.y + g('bDY'), -BRAZO_NEUTRO.z + g('bDZ') - vaivenZ);
 
-                    // Piernas
                     huesos.piernaIzq.rotation.set(g('pIX'), 0, 0);
                     huesos.piernaDer.rotation.set(g('pDX'), 0, 0);
 
-                    // Cola: deriva orgánica tridimensional con onda de retraso en la punta y vaivén suave acoplado a la respiración
                     const vaivenColaResp = 0.038 * Math.sin(faseResp - 0.65) * amp * ocio;
                     const meneoY = (0.065 * Math.sin(t * TAU / 3.2) + vaivenColaResp) * amp * ocio;
                     const meneoX = (0.025 * Math.sin(t * TAU / 4.1 + 0.8) + 0.015 * respPecho) * amp * ocio;
@@ -551,44 +653,80 @@
                     huesos.cola.rotation.set(g('colaX') + meneoX, g('colaY') + meneoY, 0);
                     huesos.colaPunta.rotation.set(g('colaX') * 0.5 + puntaX, (g('colaY') + meneoY) * 0.75 + puntaY, 0);
 
-                    // Ojos: rotación viva con micro-sacadas aleatorias y parpadeo dinámico asimétrico
+                    // Ojos, párpados volumétricos con inclinación/arco y AO dinámico
                     const sup = g('parpSup'), inf = g('parpInf');
                     const centro = (sup + inf) / 2 * 0.3 + PARPADO_CERRADO * 0.7;
                     const totalYaw = mirada.yaw + sacada.yaw;
                     const totalPitch = mirada.pitch + sacada.pitch;
+                    const arcoRisa = g('ojoRisa');
+                    const inclina = g('parpInclina');
+
+                    if (modelo.ojos.arquear) modelo.ojos.arquear(arcoRisa);
 
                     modelo.ojos.forEach((o) => {
-                        o.globo.rotation.set(totalPitch * 0.58, totalYaw * 0.54, 0);
-                        o.globo.scale.setScalar(g('ojoAbre'));
+                        o.globo.rotation.set(totalPitch * 0.56, (o.giroBase || 0) + totalYaw * 0.52, 0);
+                        if (!o.escalaBase) o.escalaBase = { globo: o.globo.scale.clone(), sup: o.sup.scale.clone(), inf: o.inf.scale.clone() };
+                        const abre = g('ojoAbre');
+                        o.globo.scale.copy(o.escalaBase.globo).multiplyScalar(abre);
+                        o.sup.scale.copy(o.escalaBase.sup).multiplyScalar(abre);
+                        o.inf.scale.copy(o.escalaBase.inf).multiplyScalar(abre);
 
                         const lagOjo = o.lado > 0 ? 0 : 0.008;
                         const tOjo = tParpadeo >= 0 ? tParpadeo - lagOjo : -1;
-                        const cierreSup = evalParpadeo(tOjo, 0.052, 0.092);
-                        const cierreInf = evalParpadeo(tOjo - 0.012, 0.046, 0.088);
+                        const extraGuiño = o.lado < 0 ? Math.min(1, Math.max(0, g('guiñoDer'))) : 0;
+                        const cierreSup = Math.max(extraGuiño, evalParpadeo(tOjo, 0.052, 0.092));
+                        const cierreInf = Math.max(extraGuiño, evalParpadeo(tOjo - 0.012, 0.046, 0.088));
 
-                        o.sup.rotation.x = -(sup + (centro - sup) * cierreSup);
-                        o.inf.rotation.x = -(inf + (centro + 0.04 - inf) * cierreInf);
+                        const filoSup = sup + (centro - sup) * cierreSup;
+                        const filoInf = inf + (centro + 0.04 - inf) * cierreInf;
+                        const incLat = inclina * o.lado; // +inclina = cejas tristes / \ ; -inclina = ceño \ /
+                        o.sup.rotation.set(-filoSup, 0, -incLat * 0.85);
+                        o.inf.rotation.set(-filoInf, 0, -incLat * 0.30);
+
+                        if (o.uGloboAPivote && o.uOjoAO) {
+                            o.globo.updateMatrix();
+                            o.uGloboAPivote.value.setFromMatrix4(o.globo.matrix);
+                            o.uOjoAO.value.set(filoSup, filoInf, arcoRisa * 0.42, -incLat * 0.70);
+                        }
+                        if (o.brillos) {
+                            o.brillos.forEach((br) => {
+                                const arcoB = arcoRisa * 0.42 * (1 - Math.min(1, br.xLat * br.xLat * 1.8));
+                                const incB = -incLat * 0.70 * br.xLat;
+                                br.malla.visible = (br.elev + br.radio * 0.65 < filoSup + arcoB + incB)
+                                    && (br.elev - br.radio * 0.65 > filoInf + arcoB * 0.65 + incB * 0.4);
+                            });
+                        }
                     });
 
-                    // Boca 3D
+                    // Cara deformable + Boca 3D con arcos dentales y lengua
                     const forma = {
-                        abierta: g('bocaAbre'),
+                        abierta: Math.max(0, g('bocaAbre')),
                         sonrisa: g('bocaSonrisa'),
                         redonda: Math.min(1, Math.max(0, g('bocaRedonda'))),
-                        dientes: Math.min(1, Math.max(0, g('bocaDientes')))
+                        puchero: Math.min(1, Math.max(0, g('bocaPuchero'))),
+                        dientes: Math.min(1, Math.max(0, g('bocaDientes'))),
+                        lengua: Math.min(1, Math.max(0, g('bocaLengua'))),
+                        fuera: Math.min(1.2, Math.max(0, g('bocaFuera'))),
+                        cejaSubir: Math.max(0, g('cejaSubir')),
+                        cejaFruncir: Math.max(0, g('cejaFruncir')),
+                        cejaTriste: Math.max(0, g('cejaTriste')),
+                        pomulo: Math.max(0, g('pomulo'))
                     };
                     const f0 = modelo.boca.forma;
-                    if (Math.abs(f0.abierta - forma.abierta) + Math.abs(f0.sonrisa - forma.sonrisa) + Math.abs(f0.redonda - forma.redonda) + Math.abs(f0.dientes - forma.dientes) > 0.004) {
+                    const deltaBoca = Math.abs(f0.abierta - forma.abierta) + Math.abs(f0.sonrisa - forma.sonrisa)
+                        + Math.abs(f0.redonda - forma.redonda) + Math.abs((f0.puchero || 0) - forma.puchero)
+                        + Math.abs(f0.dientes - forma.dientes) + Math.abs((f0.fuera || 0) - forma.fuera)
+                        + Math.abs((f0.cejaSubir || 0) - forma.cejaSubir) + Math.abs((f0.cejaFruncir || 0) - forma.cejaFruncir)
+                        + Math.abs((f0.cejaTriste || 0) - forma.cejaTriste) + Math.abs((f0.pomulo || 0) - forma.pomulo);
+                    if (deltaBoca > 0.0025) {
                         modelo.boca.actualizar(forma);
                     }
 
-                    // Relieve de onda elástica en el shader de piel al tocar
                     if (modelo.uniformes && modelo.uniformes.uToque) {
                         toques.forEach((q, i) => modelo.uniformes.uToque.value[i].set(q.x, q.y, q.z, q.v));
                     }
                 }
 
-                // Seguimiento suave de mirada con micro-sacadas aleatorias biológicas (saltos suaves de 1° a 2° cada 0.9-1.6 s hacia el puntero)
                 function actualizarMirada(dt) {
                     let yaw = 0, pitch = 0;
                     if (mirarObjetivo && modelo.ojos && modelo.ojos[0]) {
@@ -596,37 +734,37 @@
                         const local = cab.worldToLocal(mirarObjetivo.clone());
                         if (!vOjo) vOjo = local.clone();
                         vOjo.copy(huesos.cabeza.position);
-                        vOjo.y += 0.24; vOjo.z += 0.166;   // entre los ojos, en el espacio del pecho
+                        const po = modelo.ojos[0].pivote.position;
+                        vOjo.y += po.y; vOjo.z += po.z;
                         const d = local.sub(vOjo);
                         if (d.z > -0.08) {
                             const distH = Math.hypot(d.x, d.z);
                             yaw = Math.atan2(d.x, Math.max(0.12, d.z));
                             pitch = -Math.atan2(d.y, Math.max(0.15, distH));
                         }
-                        // Clamps angulares seguros para las proporciones canónicas
-                        yaw = Math.max(-0.65, Math.min(0.65, yaw));
-                        pitch = Math.max(-0.40, Math.min(0.35, pitch));
+                        yaw = Math.max(-0.62, Math.min(0.62, yaw));
+                        pitch = Math.max(-0.36, Math.min(0.32, pitch));
                     }
+                    // En «pillo» mira de reojo con picardía
+                    if (accion === 'pillo') yaw += 0.34;
+                    if (accion === 'burla') yaw -= 0.18;
 
-                    // Micro-sacadas suaves biológicas en reposo y seguimiento (saltos de 1° a 2° cada 0.9-1.6 s)
                     if (accion !== 'siesta') {
                         proxSacada -= dt;
                         if (proxSacada <= 0) {
                             proxSacada = 0.9 + azar() * 0.7;
-                            const rad = (1.0 + azar() * 1.0) * (Math.PI / 180); // 1° a 2°
+                            const rad = (1.0 + azar() * 1.0) * (Math.PI / 180);
                             const ang = azar() * TAU;
                             sacada.tarYaw = Math.cos(ang) * rad;
                             sacada.tarPitch = Math.sin(ang) * rad;
                         }
                     } else {
-                        sacada.tarYaw = 0;
-                        sacada.tarPitch = 0;
+                        sacada.tarYaw = 0; sacada.tarPitch = 0;
                     }
 
                     const k = 1 - Math.exp(-dt * 9.5);
                     mirada.yaw += (yaw - mirada.yaw) * k;
                     mirada.pitch += (pitch - mirada.pitch) * k;
-
                     const kSac = 1 - Math.exp(-dt * 14.0);
                     sacada.yaw += (sacada.tarYaw - sacada.yaw) * kSac;
                     sacada.pitch += (sacada.tarPitch - sacada.pitch) * kSac;
@@ -647,21 +785,14 @@
                     },
                     tocar(region, punto, o) {
                         let pt = punto;
-                        if (!pt && (region === 'pancita' || region === 'cuerpo')) {
-                            // Punto canónico central de la pancita en reposo
-                            pt = { x: 0, y: 0.28, z: 0.14 };
-                        } else if (!pt && region === 'cabeza') {
-                            pt = { x: 0, y: 0.68, z: 0.08 };
-                        } else if (!pt && region === 'pie') {
-                            pt = { x: 0.08, y: 0.04, z: 0.08 };
-                        } else if (!pt && region === 'cola') {
-                            pt = { x: 0, y: 0.18, z: -0.22 };
-                        }
+                        if (!pt && (region === 'pancita' || region === 'cuerpo')) pt = { x: 0, y: 0.28, z: 0.14 };
+                        else if (!pt && region === 'cabeza') pt = { x: 0, y: 0.68, z: 0.08 };
+                        else if (!pt && region === 'pie') pt = { x: 0.08, y: 0.04, z: 0.08 };
+                        else if (!pt && region === 'cola') pt = { x: 0, y: 0.18, z: -0.22 };
                         if (pt) {
                             const q = toques[toqueSig];
                             toqueSig = (toqueSig + 1) % toques.length;
                             q.x = pt.x; q.y = pt.y; q.z = pt.z; q.v = 0;
-                            // Impulso de onda elástica táctil diferenciada
                             const fuerzaRegion = (region === 'pancita' || region === 'cuerpo') ? 0.48 : (region === 'pie' ? 0.38 : 0.28);
                             q.vel = (A.reducido ? 0.18 : fuerzaRegion) * ((o && o.fuerza) || 1);
                         }
@@ -686,13 +817,12 @@
                     },
                     set reducido(v) { A.reducido = !!v; },
                     get reducido() { return A.reducido; },
-                    // Reposo instantáneo (sin transiciones): útil antes de hornear
                     asentar(segundos) { for (let t = 0; t < (segundos || 1.5); t += PASO) pasoFijo(PASO); aplicar(); }
                 };
                 return api;
             }
 
-            /* ---------- Horneado de clips para el GLB (paso fijo reproducible con mulberry32) ---------- */
+            /* ---------- Horneado de clips para el GLB ---------- */
             function hornear(THREE, modelo, nombre, duracion, fps) {
                 const objetivos = [];
                 Object.values(modelo.huesos).forEach((b) => objetivos.push(b));

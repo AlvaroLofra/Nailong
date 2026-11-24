@@ -17,10 +17,17 @@
             const OBJETIVO = [0, 0.47, 0];
             const NOMBRES = {
                 saludar: 'Nailong te saluda', duang: '¡Duang! Nailong rebota', bailar: 'Nailong baila', sorpresa: 'Nailong se sorprende',
-                siesta: 'Nailong se echa una siesta', pancita: 'Cosquillas en la pancita', mimos: 'Mimos en la cabeza', colita: 'Nailong mueve la colita',
+                siesta: 'Nailong se echa una siesta', sonrison: 'Nailong presume de sonrisón', carcajada: 'Nailong se parte de risa',
+                burla: '¡Bleh! Nailong saca la lengua', puchero: 'Nailong pone ojitos tiernos de puchero',
+                pillo: 'Nailong frunce el ceño con picardía', susto: '¡Susto! Nailong abre la bocaza',
+                pancita: 'Cosquillas en la pancita', mimos: 'Mimos en la cabeza', colita: 'Nailong mueve la colita',
                 saltito: 'Nailong da un saltito', despertar: 'Nailong se despierta'
             };
-            const SONIDOS = { saludar: 'laugh', duang: 'duang', sorpresa: 'surprise', siesta: 'sleep', pancita: 'duang', mimos: 'pop', colita: 'tail', saltito: 'pop', despertar: 'surprise' };
+            const SONIDOS = {
+                saludar: 'laugh', duang: 'duang', sorpresa: 'surprise', siesta: 'sleep',
+                sonrison: 'laugh', carcajada: 'laugh', burla: 'bleh', puchero: 'duang', pillo: 'pop', susto: 'surprise',
+                pancita: 'duang', mimos: 'pop', colita: 'tail', saltito: 'pop', despertar: 'surprise'
+            };
 
             const S = {
                 estado: 'inactivo', contenedor: null, lienzo: null, renderer: null, escena: null, camara: null, controles: null,
@@ -397,10 +404,19 @@
                 if (tipo && typeof playSound === 'function') { try { playSound(tipo); } catch (e) { /* sin audio */ } }
             }
 
+            function marcarAccionActiva(nombre) {
+                document.querySelectorAll('[data-n3d-accion]').forEach((b) => {
+                    const activo = !!nombre && b.getAttribute('data-n3d-accion') === nombre;
+                    b.classList.toggle('n3d-activo', activo);
+                });
+            }
+
             function alEvento(tipo, dato) {
                 if (tipo === 'sonido') { if (S.anim && S.anim.estado().accion !== 'intro') sonar(dato); }
                 else if (tipo === 'texto') burbuja(dato, S.ultimoToque);
                 else if (tipo === 'zzz') burbuja('Zzz…', null, true);
+                else if (tipo === 'accion') marcarAccionActiva(dato);
+                else if (tipo === 'accionFin') marcarAccionActiva(null);
             }
 
             function posicionCabeza() {
@@ -414,6 +430,7 @@
             function burbuja(texto, en, suave) {
                 const capa = $('nailong-3d-burbujas');
                 if (!capa || !texto) return;
+                if (!suave) capa.querySelectorAll('.n3d-burbuja:not(.n3d-burbuja-zzz)').forEach((prev) => prev.remove());
                 const pos = en || posicionCabeza();
                 const b = document.createElement('span');
                 b.className = 'n3d-burbuja' + (suave ? ' n3d-burbuja-zzz' : '');
@@ -545,14 +562,16 @@
                 });
             }
 
-            // GLB con piel, esqueleto, accesorios, materiales PBR y 5 clips horneados del mismo animador
+            // GLB con piel, esqueleto, accesorios, materiales PBR y clips horneados del mismo animador
             function exportarGLB() {
                 return new Promise((resolver, rechazar) => {
                     const m = S.modelo, estiloPrevio = m.estilo;
                     pausar();
                     m.setEstilo('exportar');
-                    const clips = [['reposo', 3.3], ['saludar', 2.6], ['duang', 1.5], ['bailar', 5.4], ['sorpresa', 2.3]]
-                        .map(([n, d]) => Nailong3DAnimacion.hornear(THREE, m, n, d, 30));
+                    const clips = [
+                        ['reposo', 3.3], ['saludar', 2.6], ['duang', 1.55], ['bailar', 5.4], ['sorpresa', 2.3],
+                        ['sonrison', 2.5], ['carcajada', 2.7], ['burla', 2.4], ['puchero', 2.8], ['pillo', 2.6], ['susto', 2.2]
+                    ].map(([n, d]) => Nailong3DAnimacion.hornear(THREE, m, n, d, 30));
                     Nailong3DAnimacion.crear(m, { ocio: false }).asentar(1.2);   // exporta en la pose de reposo
                     m.grupo.updateMatrixWorld(true);
                     const fin = () => { m.setEstilo(estiloPrevio); reanudar(); };

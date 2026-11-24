@@ -550,6 +550,8 @@
         .n3d-visor:fullscreen { width: 100%; height: 100%; border-radius: 0; border-width: 0; }
         .n3d-visor:-webkit-full-screen { width: 100%; height: 100%; border-radius: 0; border-width: 0; }
         .n3d-visor.n3d-pantalla-css { position: fixed; inset: 0; z-index: 70; width: 100%; height: 100%; border-radius: 0; border-width: 0; }
+        .n3d-dock { scrollbar-width: none; -ms-overflow-style: none; }
+        .n3d-dock::-webkit-scrollbar { display: none; }
         .n3d-visor:fullscreen .n3d-dock, .n3d-visor:-webkit-full-screen .n3d-dock, .n3d-pantalla-css .n3d-dock { display: flex; }
         .n3d-visor:fullscreen .n3d-barra, .n3d-pantalla-css .n3d-barra { top: max(0.75rem, env(safe-area-inset-top)); right: max(0.75rem, env(safe-area-inset-right)); }
         .n3d-visor:fullscreen .n3d-ayuda, .n3d-pantalla-css .n3d-ayuda { bottom: max(0.75rem, env(safe-area-inset-bottom)); }
