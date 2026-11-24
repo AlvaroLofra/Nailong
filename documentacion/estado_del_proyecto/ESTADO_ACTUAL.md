@@ -2,9 +2,10 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 24/11/2026. **Refinamiento anatómico y *cute* de Nailong 3D sobre 15 capturas reales de la serie** (`4.0.0 · revisión web 2`, sin commit, acumulado sobre el rediseño móvil-primero del 23/11): archivadas las 15 referencias oficiales en `documentacion/referencias_nailong_serie/`, re-esculpida la separación cabeza–cuello–hombros con voladizo frontal de barbilla y cara lisa (`VERSION: 3` en `js/11`), ojos grandes y abiertos en reposo, sonrisita dulce caramelo, 6 caritas sin *clipping* ni *z-fighting*, almohadillas rosa pálido en palmas/plantas, 3 placas oliva en nuca y garras cortas romas, conservando el shader mate *mochi*. Pendiente commit y `git push` a `main`.
+> **Última actualización:** 24/11/2026 (noche). **Evaluación de la fidelidad de Nailong 3D frente a la serie y de las herramientas 3D** (solo documentación, sin cambios de producto). Las 4 observaciones del usuario (brazos, cola, cabeza y patas, barriga) quedan medidas y planificadas en [`PLAN_FIDELIDAD_NAILONG_3D.md`](PLAN_FIDELIDAD_NAILONG_3D.md), con las mejoras 3D5–3D11 de `MEJORAS_PENDIENTES.md`. La revisión previa a publicar (W23–W30) se aplaza a la próxima sesión.
+> Antes, el mismo día: **refinamiento anatómico y *cute* de Nailong 3D sobre 15 capturas reales de la serie** (`4.0.0 · revisión web 2`, con commit en `main`, acumulado sobre el rediseño móvil-primero del 23/11): archivadas las 15 referencias oficiales en `documentacion/referencias_nailong_serie/`, re-esculpida la separación cabeza–cuello–hombros con voladizo frontal de barbilla y cara lisa (`VERSION: 3` en `js/11`), ojos grandes y abiertos en reposo, sonrisita dulce caramelo, 6 caritas sin *clipping* ni *z-fighting*, almohadillas rosa pálido en palmas/plantas, 3 placas oliva en nuca y garras cortas romas, conservando el shader mate *mochi*. Pendiente el `git push` a `main`.
 > **Rama activa:** `main`.
-> **Versión actual:** Web `v4.0.0` (sufijo anti-caché `?v=4.0.0-web2`) | Android APK `v4.0.0` (`versionCode 16`). Pendiente de commit y `git push` a `main` (GitHub Pages).
+> **Versión actual:** Web `v4.0.0` (sufijo anti-caché `?v=4.0.0-web2`) | Android APK `v4.0.0` (`versionCode 16`). Commits hechos en `main` (`90b27d5`, `d63cf3f`, `8a6ba76`); pendiente el `git push` (GitHub Pages).
 
 ---
 
@@ -38,6 +39,11 @@ La web oficial y la app Android nativa están en la versión **v4.0.0** (`versio
 
 ## 3. Qué Está Completado y Verificado
 
+- [x] **Sesión del 24/11/2026 (parte 3): evaluación de fidelidad 3D y de herramientas** (solo documentación; bitácora `2026-11-24_evaluacion_fidelidad_3d_y_herramientas.md`):
+  - Se renderizaron 7 vistas del modelo actual en el navegador y se compararon con las capturas de la serie. La lámina es local, en `referencias_nailong_serie/comparativas/`.
+  - Se midieron el modelo en Node y las capturas con cuadrícula.
+  - Resultados: los brazos asoman 0,12 de la altura (≈0,20–0,28 en la serie), las piernas 0,06 (≈0,10–0,15) y la cola 0,145 (≈0,29). El voladizo de la cara sobre la barriga es 0,00 (≈0,10–0,15) y el torso tiene 0,54 de fondo (≈0,40). La pancita tiene el núcleo correcto, pero un halo que la agranda.
+  - Se investigaron alternativas 3D gratuitas (Blender con conector MCP oficial, IA de imagen a 3D, Three.js moderno) y se dejó todo en [`PLAN_FIDELIDAD_NAILONG_3D.md`](PLAN_FIDELIDAD_NAILONG_3D.md).
 - [x] **Sesión del 24/11/2026 (parte 2) — Refinamiento anatómico y *cute* de Nailong 3D sobre 15 capturas reales (`4.0.0 · revisión web 2`, en `main` sin commit):**
   - Archivadas y catalogadas las 15 capturas oficiales de episodios en `documentacion/referencias_nailong_serie/` (enlazadas en `documentacion/00_INDICE.md`).
   - Re-esculpido `js/11-nailong3d-geometria.js` (`VERSION: 3`): cuello direccional con separación nítida cabeza–cuello–hombros y voladizo frontal de barbilla (`~0,10`) manteniendo la nuca dorsal continua, cara lisa sin bulto nasal ni arcos superciliares prominentes, cuenca ocular redonda compacta (`giro = 0,08`), cola cónica baja, paleta fuente única en `G.COLORES` y almohadillas rosa pálido en palmas y plantas.
@@ -60,7 +66,11 @@ La web oficial y la app Android nativa están en la versión **v4.0.0** (`versio
 
 ## 5. Siguiente Paso
 
-1. **Commit** de la revisión web 2 (Gemini) y de los ajustes de pautas del 24/11 (`verify_all.py`, `AGENTS.md`, documentación), cuando el usuario lo pida.
+1. **Commits del 24/11 hechos** en `main` (`90b27d5` feat 3D, `d63cf3f` test, `8a6ba76` docs y D-25), sin push. Quedan **sin commit** los documentos posteriores: W23–W30 en `MEJORAS_PENDIENTES.md` y la documentación del plan de fidelidad 3D (este fichero, `PLAN_FIDELIDAD_NAILONG_3D.md`, 3D5–3D11, nota 05, índice y bitácora). Se hará cuando el usuario lo pida.
 2. **Decidir antes de publicar:** licencia del código (`LICENSE`) y `documentacion/CREDITOS.md` (origen de stickers, personaje, Three.js, Font Awesome y fuentes). Las capturas de la serie ya se quedan solo en local (D-25).
-3. **Lista de publicación** de la biblioteca de pautas (M5, checklist 2) antes del `git push` de `v4.0.0`: Lighthouse en móvil (LCP ≤ 2,5 s · INP ≤ 200 ms · CLS ≤ 0,1), contraste WCAG AA y commit de vuelta atrás anotado.
+3. **Revisión previa a publicar, hecha el 24/11** (resultados en `MEJORAS_PENDIENTES.md`, W23–W30): en móvil lento, LCP ≈ 9 s y TBT ≈ 1,4 s (lejos de lo recomendado); 17 textos sin contraste AA, sobre todo blanco sobre el naranja de marca. Vuelta atrás anotada (`origin/main` = `32816a2`). Falta decidir si se corrige antes del `git push` (W23, W24 y W28 son baratas) o se publica y se corrige después. **Decisión del usuario del 24/11** (comunicada por la sesión de revisión previa a publicar): W23–W30 se aplazan y se retoman en la próxima sesión, antes del `git push`.
 4. Decidir si se borra la rama local `nailong-3d-fiel` (2 commits del 23/11 que no están en `main`).
+5. **Nailong 3D, fidelidad a la serie:** seguir [`PLAN_FIDELIDAD_NAILONG_3D.md`](PLAN_FIDELIDAD_NAILONG_3D.md).
+   - Primero la fase 0 (3D5: lámina «render | captura» y medidas automáticas).
+   - Después 3D6 → 3D7 → 3D8 → 3D9 → 3D10, una por sesión y con la cabeza siempre sola.
+   - 3D11 (piloto con Blender) solo si el usuario lo decide, porque reabre D-21.

@@ -42,3 +42,14 @@ Calibrada sobre las 15 capturas reales de episodios de `referencias_nailong_seri
 - Proporciones: `ANATOMIA` y `COLORES` en `js/11` (fuente única consumida por `js/12`). El test 49 de `verify_all.py` vigila estanqueidad (`huecos == 0`, `no2 == 0`, `inv == 0`), 12 huesos, altura ≈ 1 sobre `y = 0`, relaciones cabeza/torso (`0,8..0,95`) y torso/altura (`0,5..0,66`), y proporción de pancita crema (`0,08..0,3`).
 - Si ajustas la profundidad de `Nailong_boca` (`profMax`), mantén sincronizada la ley `pesoMandibula` (`y > 0,515`) y el bolsillo oral en `crearCaraDeformable` para evitar *z-fighting* o que el cráneo asome dentro del paladar.
 - Cero caracteres CJK y cero etiquetas HTML sueltas en comentarios JS (lo comprueban los tests 11 y 47 de `verify_all.py`).
+
+## 5. Limitaciones conocidas y plan de mejora (24/11/2026)
+Las medidas, los objetivos y el orden de trabajo están en [`../estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md`](../estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md) (mejoras 3D5–3D11). Resumen frente a las capturas de la serie (H = altura total):
+- **Brazos:** nacen dentro del pecho (`brazo.a` en x = 0,176) y solo asoman 0,12 H, cuando en la serie asoman ≈0,20–0,28. No tienen codo: hay un hueso por brazo. Al alzarlos arrastran el costado («efecto aleta»), por la unión ancha `k.hombro` y por los pesos de piel con `tau = 0.022`.
+- **Piernas y cola:** las piernas asoman 0,06 H (serie ≈0,10–0,15) y no hay hueco entre ellas. La cola sobresale 0,145 H (serie ≈0,29).
+- **Torso y cabeza:**
+  - El torso tiene 0,54 H de fondo (serie ≈0,40).
+  - El voladizo de ~0,10 de la §2 es sobre el **pecho**; sobre la barriga es 0,00, porque la barriga sobresale tanto como la cara.
+  - La coronilla es estrecha: 0,71 del ancho máximo, frente a ≈0,78 en la serie.
+- **Pancita:** el núcleo crema mide como en la serie, pero el halo (`falda: 1.36`) la extiende del suelo a la barbilla y la hace envolver los costados.
+- **Antes de retocar:** aplica la fase 0 del plan (lámina «render | captura» y medidas automáticas) y sigue su orden. La cabeza va siempre sola y al final, porque la boca, la cara deformable y el rubor dependen de cortes fijos en `js/11` y `js/12`.
