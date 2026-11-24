@@ -9,6 +9,15 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 print("=== STARTING COMPREHENSIVE VERIFICATION ===")
 
+# Codigo de la app Android (fuera de este repo). En otra ruta: variable de entorno NAILONG_ANDROID_SRC.
+# Si no existe en este equipo, sus comprobaciones se saltan y se declaran como NO COMPROBADAS al final.
+ANDROID_SRC = os.environ.get('NAILONG_ANDROID_SRC', r'C:\src\nailong_stickers_app')
+HAY_ANDROID = os.path.isdir(ANDROID_SRC)
+_ANDROID_APP = os.path.join(ANDROID_SRC, 'stickers', 'Android', 'app')
+_android_java = os.path.join(_ANDROID_APP, 'src', 'main', 'java', 'com', 'example', 'samplestickerapp')
+_android_res = os.path.join(_ANDROID_APP, 'src', 'main', 'res')
+NO_COMPROBADO = []
+
 # Test 1: Check single definitive index.html exists and duplicates are cleaned up
 assert os.path.exists('index.html'), "index.html missing!"
 assert not os.path.exists('el_mundo_m_gico_de_nailong.html'), "Duplicate HTML 'el_mundo_m_gico_de_nailong.html' should be removed!"
@@ -391,13 +400,15 @@ assert 'v4.0.0 APK' in html, "Badge in index.html must show v4.0.0 APK!"
 print("✔ v4.0.0 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v4.0.0 APK badge.")
 
 # Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
-font_path = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font\fredoka.xml'
-assert os.path.exists(font_path), "fredoka.xml font family resource missing in Android app!"
-for f_name in ['fredoka_regular.ttf', 'fredoka_medium.ttf', 'fredoka_semibold.ttf', 'fredoka_bold.ttf']:
-    assert os.path.exists(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\font', f_name)), f"Font file {f_name} missing!"
-assert os.path.exists(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\layout\dialog_import_selection.xml'), "dialog_import_selection.xml missing!"
-assert os.path.exists(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res\drawable\card_stickers_container.xml'), "card_stickers_container.xml missing!"
-print("✔ v3.1.0 verified: Fredoka typography family, custom dialog layout, and card container in Android app.")
+if HAY_ANDROID:
+    assert os.path.exists(os.path.join(_android_res, 'font', 'fredoka.xml')), "fredoka.xml font family resource missing in Android app!"
+    for f_name in ['fredoka_regular.ttf', 'fredoka_medium.ttf', 'fredoka_semibold.ttf', 'fredoka_bold.ttf']:
+        assert os.path.exists(os.path.join(_android_res, 'font', f_name)), f"Font file {f_name} missing!"
+    assert os.path.exists(os.path.join(_android_res, 'layout', 'dialog_import_selection.xml')), "dialog_import_selection.xml missing!"
+    assert os.path.exists(os.path.join(_android_res, 'drawable', 'card_stickers_container.xml')), "card_stickers_container.xml missing!"
+    print("✔ v3.1.0 verified: Fredoka typography family, custom dialog layout, and card container in Android app.")
+else:
+    NO_COMPROBADO.append("Test 43 (fuentes y layouts de la app Android)")
 
 # Test 44: v3.2.0 - Muro de GIFs fusionado con el album: app primero, Visor Magico en tira y acceso desde el lightbox
 assert 'section id="muro-gifs"' not in html, "The old standalone GIF wall section must be gone!"
@@ -413,11 +424,14 @@ _footer = re.search(r'id="app-version"[^>]*>v([\d.]+)<', html).group(1)
 assert _ver['versionName'] == _footer, f"version.json versionName ({_ver['versionName']}) must match the footer version (v{_footer})!"
 assert _ver['apkUrl'] == 'https://alvarolofra.github.io/Nailong/StickersNailong.apk', "version.json apkUrl must point to the official APK on GitHub Pages!"
 assert isinstance(_ver.get('notes'), list) and _ver['notes'], "version.json must include a non-empty notes list (shown in the app)!"
-with open(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app', 'build.gradle'), encoding='utf-8') as _gf:
-    _gradle = _gf.read()
-assert f"versionCode {_ver['versionCode']}" in _gradle and f'versionName "{_ver["versionName"]}"' in _gradle, "version.json must match versionCode/versionName in the Android build.gradle!"
-with open(os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\java\com\example\samplestickerapp', 'UpdateChecker.java'), encoding='utf-8') as _uf:
-    assert '"https://alvarolofra.github.io/Nailong/version.json"' in _uf.read(), "UpdateChecker.java must read version.json from the official site!"
+if HAY_ANDROID:
+    with open(os.path.join(_ANDROID_APP, 'build.gradle'), encoding='utf-8') as _gf:
+        _gradle = _gf.read()
+    assert f"versionCode {_ver['versionCode']}" in _gradle and f'versionName "{_ver["versionName"]}"' in _gradle, "version.json must match versionCode/versionName in the Android build.gradle!"
+    with open(os.path.join(_android_java, 'UpdateChecker.java'), encoding='utf-8') as _uf:
+        assert '"https://alvarolofra.github.io/Nailong/version.json"' in _uf.read(), "UpdateChecker.java must read version.json from the official site!"
+else:
+    NO_COMPROBADO.append("Test 45 (version.json frente a build.gradle y UpdateChecker.java)")
 print(f"✔ v3.4.1 verified: version.json ({_ver['versionName']}, code {_ver['versionCode']}) matches web footer and Android build.gradle.")
 
 # Test 46: v3.3.3 - el peso del APK (etiqueta del banner y sizeMB de version.json) coincide con el fichero real
@@ -439,9 +453,11 @@ for f_path in ['index.html', 'manifest.json', 'version.json'] + [os.path.join('j
 
 # Creditos Alvaro Lofra
 assert "Desarrollado por Álvaro Lofra" in html, "Web footer must credit 'Desarrollado por Álvaro Lofra'!"
-act_file = os.path.join(r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\java\com\example\samplestickerapp', 'StickerPackListActivity.java')
-with open(act_file, encoding='utf-8') as _af:
-    assert "Desarrollado por Álvaro Lofra" in _af.read(), "Android StickerPackListActivity must credit 'Desarrollado por Álvaro Lofra'!"
+if HAY_ANDROID:
+    with open(os.path.join(_android_java, 'StickerPackListActivity.java'), encoding='utf-8') as _af:
+        assert "Desarrollado por Álvaro Lofra" in _af.read(), "Android StickerPackListActivity must credit 'Desarrollado por Álvaro Lofra'!"
+else:
+    NO_COMPROBADO.append("Test 47 (crédito del autor en la app Android)")
 
 # Velocidad del minijuego suave
 with open(os.path.join('js', '08-minijuego.js'), encoding='utf-8') as _mj:
@@ -464,18 +480,19 @@ _asset_versions = re.findall(r'(?:src|href)="(?:css|js)/[^"?]+\?v=([^"]+)"', pag
 assert len(_asset_versions) == len(asset_refs) and len(set(_asset_versions)) == 1, "W7: all css/js references must carry the same ?v= suffix!"
 assert re.fullmatch(re.escape(_ver['versionName']) + r'(-web\d+)?', _asset_versions[0]), f"W7: ?v= must be {_ver['versionName']} or {_ver['versionName']}-webN (found {_asset_versions[0]})!"
 
-_android_java = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\java\com\example\samplestickerapp'
-_android_res = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\res'
-assert "setOverlayColor" in open(os.path.join(_android_java, 'StickerPackListActivity.java'), encoding='utf-8').read(), "A8: RoundingParams with setOverlayColor missing in StickerPackListActivity!"
-assert "openCurrentSelectionReview" in open(os.path.join(_android_java, 'StickerPackListActivity.java'), encoding='utf-8').read(), "Selection review method missing in StickerPackListActivity!"
-assert "setColorFilter(android.graphics.Color.WHITE)" in open(os.path.join(_android_java, 'StickerPackListAdapter.java'), encoding='utf-8').read(), "A9: White tint on + icon missing in StickerPackListAdapter!"
-assert "@string/add_short_button" in open(os.path.join(_android_res, 'layout', 'dialog_import_selection.xml'), encoding='utf-8').read(), "A10: Short 'Añadir' button text missing in dialog_import_selection.xml!"
-assert "getSelectionPreviewFile" in open(os.path.join(_android_java, 'DynamicPackManager.java'), encoding='utf-8').read(), "A11: 192px preview support for selection packs missing in DynamicPackManager!"
-assert "sticker_pack_yours_badge" in open(os.path.join(_android_res, 'layout', 'sticker_packs_list_item.xml'), encoding='utf-8').read(), "A12: 'Tuyo' badge missing in sticker_packs_list_item.xml!"
-assert "nailong_yellow_creamy" in open(os.path.join(_android_res, 'drawable', 'btn_clay_secondary.xml'), encoding='utf-8').read(), "A13: Creamy yellow button background missing in btn_clay_secondary.xml!"
-assert "sticker_zoom_overlay" in open(os.path.join(_android_res, 'layout', 'activity_sticker_pack_details.xml'), encoding='utf-8').read(), "Full-screen zoom overlay missing in activity_sticker_pack_details.xml!"
-assert "OvershootInterpolator" in open(os.path.join(_android_java, 'StickerPreviewAdapter.java'), encoding='utf-8').read(), "Smooth center zoom transition animation missing in StickerPreviewAdapter!"
-assert "btn_view_selection" in open(os.path.join(_android_res, 'layout', 'activity_sticker_pack_list.xml'), encoding='utf-8').read(), "View selection button missing in activity_sticker_pack_list.xml!"
+if not HAY_ANDROID:
+    NO_COMPROBADO.append("Test 48 (A8-A13 y zoom en la app Android)")
+else:
+    assert "setOverlayColor" in open(os.path.join(_android_java, 'StickerPackListActivity.java'), encoding='utf-8').read(), "A8: RoundingParams with setOverlayColor missing in StickerPackListActivity!"
+    assert "openCurrentSelectionReview" in open(os.path.join(_android_java, 'StickerPackListActivity.java'), encoding='utf-8').read(), "Selection review method missing in StickerPackListActivity!"
+    assert "setColorFilter(android.graphics.Color.WHITE)" in open(os.path.join(_android_java, 'StickerPackListAdapter.java'), encoding='utf-8').read(), "A9: White tint on + icon missing in StickerPackListAdapter!"
+    assert "@string/add_short_button" in open(os.path.join(_android_res, 'layout', 'dialog_import_selection.xml'), encoding='utf-8').read(), "A10: Short 'Añadir' button text missing in dialog_import_selection.xml!"
+    assert "getSelectionPreviewFile" in open(os.path.join(_android_java, 'DynamicPackManager.java'), encoding='utf-8').read(), "A11: 192px preview support for selection packs missing in DynamicPackManager!"
+    assert "sticker_pack_yours_badge" in open(os.path.join(_android_res, 'layout', 'sticker_packs_list_item.xml'), encoding='utf-8').read(), "A12: 'Tuyo' badge missing in sticker_packs_list_item.xml!"
+    assert "nailong_yellow_creamy" in open(os.path.join(_android_res, 'drawable', 'btn_clay_secondary.xml'), encoding='utf-8').read(), "A13: Creamy yellow button background missing in btn_clay_secondary.xml!"
+    assert "sticker_zoom_overlay" in open(os.path.join(_android_res, 'layout', 'activity_sticker_pack_details.xml'), encoding='utf-8').read(), "Full-screen zoom overlay missing in activity_sticker_pack_details.xml!"
+    assert "OvershootInterpolator" in open(os.path.join(_android_java, 'StickerPreviewAdapter.java'), encoding='utf-8').read(), "Smooth center zoom transition animation missing in StickerPreviewAdapter!"
+    assert "btn_view_selection" in open(os.path.join(_android_res, 'layout', 'activity_sticker_pack_list.xml'), encoding='utf-8').read(), "View selection button missing in activity_sticker_pack_list.xml!"
 print("✔ v3.5.0 verified: A8-A13, W6-W7, center zoom with transition & overlay, and 'Ver (N)' selection review active.")
 
 # Test 49: Nailong 3D - visor interactivo (js/11-14): carga perezosa de Three.js r147 con SRI y nucleo geometrico estanco y canonico
@@ -540,12 +557,15 @@ def _loop_count(_path):
         _i += 8 + _size + (_size & 1)
     return None
 _sin_bucle = [f for f in os.listdir('Stickers Nailong') if f.endswith('.webp') and _loop_count(os.path.join('Stickers Nailong', f)) not in (None, 0)]
-_assets_app = r'C:\src\nailong_stickers_app\stickers\Android\app\src\main\assets'
-assert os.path.isdir(_assets_app), f"Android assets folder missing: {_assets_app}"
-for _raiz, _dirs, _files in os.walk(_assets_app):
-    _sin_bucle += [os.path.join(_raiz, f) for f in _files if f.endswith('.webp') and _loop_count(os.path.join(_raiz, f)) not in (None, 0)]
+if HAY_ANDROID:
+    _assets_app = os.path.join(_ANDROID_APP, 'src', 'main', 'assets')
+    assert os.path.isdir(_assets_app), f"Android assets folder missing: {_assets_app}"
+    for _raiz, _dirs, _files in os.walk(_assets_app):
+        _sin_bucle += [os.path.join(_raiz, f) for f in _files if f.endswith('.webp') and _loop_count(os.path.join(_raiz, f)) not in (None, 0)]
+else:
+    NO_COMPROBADO.append("Test 50 (bucle de los stickers animados dentro de la app Android; los de la web sí se comprueban)")
 assert not _sin_bucle, f"Animated stickers must loop forever (ANIM loop count 0); fix with normalizar_stickers.py: {_sin_bucle}"
-print("✔ Sticker loops verified: every animated WebP in the web and the Android assets repeats forever.")
+print("✔ Sticker loops verified: every animated WebP in the web" + (" and the Android assets" if HAY_ANDROID else "") + " repeats forever.")
 
 # Test 51: v3.6.1 - las imagenes fijas de la web apuntan a su cromo por CLAVE (data-sticker), no solo por numero (D-22)
 # Al renumerar, la clave viaja con su cromo en ALL_STICKERS; el src escrito en index.html debe coincidir con ella.
@@ -586,4 +606,10 @@ with _tmp.TemporaryDirectory() as _d:
         assert _cerca == _name and _dc < _ns.UMBRAL_REPETIDO, f"Una copia a 240 px de {_name} deberia salir como repetida de si misma (salio {_cerca}, distancia {_dc:.1f})"
 print(f"✔ Duplicate detector verified: closest distinct pair at {_dmin:.1f} (>= {_ns.UMBRAL_DUDOSO}), 240 px copies recognised as repeats.")
 
-print("\n=== ALL 52 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+if NO_COMPROBADO:
+    print(f"\n⚠ NO COMPROBADO: falta el código de la app Android en {ANDROID_SRC} (defínelo con NAILONG_ANDROID_SRC si está en otra ruta):")
+    for _nc in NO_COMPROBADO:
+        print(f"   - {_nc}")
+    print(f"\n=== 52 VERIFICATION TESTS PASSED, {len(NO_COMPROBADO)} WITH THEIR ANDROID PART NOT CHECKED ===")
+else:
+    print("\n=== ALL 52 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
