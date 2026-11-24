@@ -5,6 +5,27 @@ Las notas **para el público** están en [`README.md`](README.md); las decisione
 
 > Este contenido se trasladó el 2026-10-31 desde `CLAUDE.md`/`GEMINI.md` (D-14) sin modificar el texto de las versiones, para que los ficheros de instrucciones de los agentes sigan siendo cortos.
 
+## [4.0.0 · revisión web 2] — 2026-11-24 (sin publicar)
+Rediseño integral de **Nailong 3D** para acercarlo fielmente al CGI oficial de *Seventh Impression* (tomando como referencia los 126 stickers y los *Shorts* de `@Nailoongofficial`). Revisión solo de la web: la versión visible sigue en `v4.0.0`, `version.json` y el APK no cambian, y los 16 sufijos anti-caché pasan a `?v=4.0.0-web2`.
+
+- **Anatomía SDF y paleta (`js/11-nailong3d-geometria.js`, `VERSION: 3`):**
+  - **Cara lisa**, sin bulto nasal ni arcos superciliares (se retiraron `arcoCeja`, `naricita`, `menton` y `hoyuelo` de la primera pasada); las cejas solo se marcan al gesticular.
+  - **Separación cabeza–cuello–hombros** con `kCuello` direccional: cintura nítida de frente y de lado, **voladizo de la barbilla** (`~0,10`) sobre el pecho y nuca–espalda continua.
+  - Cuenca ocular redonda y compacta (sin esclerótica triangular en 3/4 ni de perfil), cola cónica baja y **almohadillas rosa pálido** en palmas y plantas (se ven al saludar o en `burla`).
+  - Paleta única en `G.COLORES`: amarillo `#F8C52C`, crema `#FAF0C8`, oliva `#8A9244`, garra `#6B573E` y rosa `#F5A6AE`. Malla 100 % estanca (`0` huecos, `0` aristas no-2 y `0` triángulos invertidos).
+- **Cara deformable, boca 3D, ojos y shader *mochi* (`js/12-nailong3d-escena.js`, mejora `3D1`):**
+  - **`crearCaraDeformable`:** deforma en 3D los ~3.500 vértices del rostro (cejas, pómulos y mandíbula) con una ley de apertura labial compartida con la boca.
+  - **Cavidad bucal 3D (`crearBoca`):** sonrisita cerrada en caramelo (`#8E4B0C`) en reposo; al abrirse, **doble arco dental blanco** (`Nailong_dientesSup`, `Nailong_dientesInf`) y **lengua con surco**, que solo sale fuera en `burla`. Sin *clipping* ni *z-fighting* en las caritas.
+  - **Ojos grandes y abiertos en reposo:** iris esmeralda `ANG_IRIS = 0,78`, `PUPILA = 0,66`, un reflejo blanco arriba a la derecha y oclusión ambiental suave del párpado.
+  - **Shader *mochi* mate (`3D1`):** relieve fino de la normal (`GLSL_MOCHI_NORMAL`), brillo sedoso y altas luces suavizadas.
+  - **Detalles:** 3 placas dorsales oliva redondeadas en la nuca y garras cortas y romas, también en modo *toon*.
+- **Reposo tierno, 6 «Caritas de la serie» y visor (`js/13`, `js/14`, `index.html`, `css/styles.css`, mejora `3D2`):**
+  - Reposo sereno con sonrisita cerrada y micro-gestos de curiosidad.
+  - Nueva tira compacta de **😊 Caritas de la serie** (chips deslizables en móvil —altura total `9,66` pantallas a `375×812`, cero desborde a `320–1440 px`— y accesos en pantalla completa): **😄 Sonrisón**, **😆 Carcajada** (`^ ^`), **😜 ¡Bleh!** (guiño y lengua fuera), **🥺 Puchero**, **😤 Pillo** y **😱 ¡Susto!**.
+  - Resaltado del chip activo, limpieza de burbujas solapadas y exportación `nailong_3d.glb` (`4,77 MB`) validada con **11 clips horneados**.
+- **Referencias:** 15 capturas de episodios oficiales con catálogo anatómico en `documentacion/referencias_nailong_serie/`, que se queda **solo en local** (fuera de Git por derechos de autor, D-25).
+- **Verificación:** `verify_all.py` en verde (52 comprobaciones; las partes que leen el código Android externo se declaran «no comprobadas» si falta en el equipo), 12 vistas en WebGL real (`0` errores de consola) y validación binaria del `.glb`.
+
 ## [4.0.0 · revisión web 1] — 2026-11-23 (sin publicar)
 Revisión solo de la web, centrada en el móvil. La versión visible sigue siendo `v4.0.0`; `version.json` y el APK no cambian. El sufijo anti-caché pasa a `?v=4.0.0-web1`.
 

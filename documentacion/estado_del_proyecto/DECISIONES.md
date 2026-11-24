@@ -34,6 +34,7 @@
 | **D-22** | Imágenes fijas de la web por clave estable (`data-sticker`) y stickers animados siempre en bucle infinito (v3.6.1) | Tomada | 2026-11-06 |
 | **D-23** | Modales como `<dialog>` nativo; resto de la modernización web del plugin aplicada solo donde aporta | Tomada | 2026-11-15 |
 | **D-24** | Expansión a 126 stickers (31 nuevos de TikTok), 5.º pack oficial en Android y lanzamiento público de Nailong 3D (v4.0.0) | Tomada | 2026-11-18 |
+| **D-25** | Capturas de la serie solo en local, ficheros de más de 400 líneas aceptados y parte Android de `verify_all.py` declarada «no comprobada» si falta | Tomada | 2026-11-24 |
 
 ---
 
@@ -313,3 +314,18 @@
   3. *Publicación oficial de Nailong en 3D y mejoras W9/W10:* se elimina la ocultación CSS `body:not(.n3d-ver)` y el uso de `localStorage` en `js/14-nailong3d-visor.js`; la sección `#nailong-3d` es visible para todos con carga perezosa (`IntersectionObserver` a 600 px) y pausa fuera de pantalla, conservando el arranque inmediato cuando hay `?3d=1` o `#nailong-3d`. Se aplican `W9` (`COMPANION_SECTION_PHRASES` en `js/04-navegacion.js` con `getBoundingClientRect().top` y frase 3D) y `W10` (enlace `🧊 3D` visible desde `lg` y menú compactado en `1024–1536 px`).
 - **Alternativas descartadas:** mantener `tiktok_1714_062` (repetido de `sticker_68.webp`); recortar o descartar `111`, `117` o `125` (recortarlos mutilaba al personaje); redistribuir todos los packs animados rompiendo la composición de los 3 primeros; mantener Nailong 3D oculto tras `?3d=1`.
 - **Consecuencias:** versión mayor `v4.0.0` (`versionCode 16`, `41.7 MB` / `41.732.353 bytes`), 126 stickers en web y app, 5 packs oficiales, `verify_all.py` y documentación sincronizados. **No comprobado:** la app `v4.0.0` corregida y el 5.º pack en móvil real y WhatsApp, Safari/iPhone y Firefox reales, lector de pantalla y carga en producción desde GitHub Pages / jsDelivr.
+
+---
+
+## D-25 · Capturas de la serie fuera de Git, ficheros grandes aceptados y verificación sin la app Android
+- **Estado:** **Tomada** (2026-11-24, a petición del usuario, tras revisar el proyecto con la biblioteca de pautas del 22/11).
+- **Contexto y problema:**
+  1. La revisión web 2 guardó 15 capturas de episodios oficiales (`documentacion/referencias_nailong_serie/`, 1,4 MB) para calibrar el 3D. Tienen derechos de *Seventh Impression* y el repositorio es público.
+  2. La biblioteca de pautas pide anotar por qué un fichero pasa de ~400 líneas. Hoy lo superan `index.html`, `css/styles.css`, `js/06`, `js/08`, `js/11`, `js/12`, `js/13`, `js/14`, `verify_all.py` y `normalizar_stickers.py`.
+  3. `verify_all.py` se detenía en el test 43 en cualquier equipo sin el código de la app Android (`C:\src\nailong_stickers_app`), así que dejaba de ser una orden única que termina.
+- **Decisión:**
+  1. Las capturas se quedan **solo en local** (`.gitignore`). La documentación las nombra como ruta, sin enlaces que se romperían en GitHub.
+  2. Se **aceptan** los ficheros grandes: cada uno es un bloque funcional único (D-15), son scripts clásicos sin *build* y dividirlos más obligaría a reordenar la carga y el ámbito global (ver la decisión abierta de módulos ES en D-15). Se revisará si un fichero pasa de ~1.500 líneas o mezcla responsabilidades.
+  3. La ruta Android pasa a `ANDROID_SRC` (sobrescribible con `NAILONG_ANDROID_SRC`). Si no existe, la parte Android de los tests 43, 45, 47, 48 y 50 se salta y se lista como **NO COMPROBADO** al final.
+- **Alternativas descartadas:** subir las capturas al repositorio público (riesgo de derechos de autor); dividir ahora `js/12` (riesgo alto, sin beneficio inmediato); quitar las comprobaciones Android (se perderían en el equipo que sí tiene la app).
+- **Consecuencias:** quien clone el repositorio no verá las capturas; el catálogo vive en el equipo del usuario. `verify_all.py` termina siempre y dice qué no pudo comprobar. **Confirmación:** `python verify_all.py` en verde y `git status` sin `referencias_nailong_serie/`.

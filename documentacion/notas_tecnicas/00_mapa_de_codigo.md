@@ -7,23 +7,23 @@
 
 | Fichero | Contenido (bloques de la lista de abajo) | Líneas aprox. |
 |---|---|---|
-| `index.html` | Marcado de todas las secciones; carga `css/` y `js/` (con `?v=` anti-caché) | 1.230 |
-| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego y del visor 3D (`.n3d-*`) | 480 |
+| `index.html` | Marcado de todas las secciones; carga `css/` y `js/` (con `?v=` anti-caché) | 1.276 |
+| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, pantalla completa del minijuego y del visor 3D (`.n3d-*`) | 561 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind (se carga justo tras el CDN) | 27 |
-| `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 170 |
-| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos; `clave` estable en los usados fuera del álbum) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22) | 100 |
-| `js/03-hero.js` | 3 · Hero, contador Duang y estados de ánimo | 110 |
-| `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante (`COMPANION_SECTION_PHRASES`, W9) | 126 |
-| `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 265 |
-| `js/06-album-y-descargas.js` | 7–7B · Álbum polaroid, lightbox, descarga/WhatsApp/portapapeles | 600 |
-| `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 145 |
-| `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona» | 435 |
-| `js/09-modo-fiesta.js` | 11 · Modo Fiesta (confeti en canvas) | 310 |
-| `js/10-inicio.js` | 14 · Inicialización, scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace» + tarjeta QR `#apk-qr-box` en escritorio) y `window.onload` | 240 |
-| `js/11-nailong3d-geometria.js` | 15 · Núcleo 3D sin dependencias: `ANATOMIA`, SDF, Surface Nets, pesos de piel, `trazarRayo` (también en Worker y Node) | 440 |
-| `js/12-nailong3d-escena.js` | 16 · Escena 3D: `SkinnedMesh`, ojos, párpados, boca, placas, garras, materiales suave/toon/exportar, estudio de luces | 525 |
-| `js/13-nailong3d-animacion.js` | 17 · Animación 3D: muelles, reposo, `ACCIONES`, reacciones por zona, horneado de clips | 380 |
-| `js/14-nailong3d-visor.js` | 18 · Visor 3D: carga perezosa de Three.js r147 (SRI), bucle, cámara, toques, botones, foto, GLB; se autoinicia | 646 |
+| `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 242 |
+| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos; `clave` estable en los usados fuera del álbum) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22) | 143 |
+| `js/03-hero.js` | 3 · Hero, contador Duang y estados de ánimo | 107 |
+| `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante (`COMPANION_SECTION_PHRASES`, W9) | 131 |
+| `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 279 |
+| `js/06-album-y-descargas.js` | 7–7B · Álbum polaroid, lightbox, descarga/WhatsApp/portapapeles | 616 |
+| `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 261 |
+| `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona» | 463 |
+| `js/09-modo-fiesta.js` | 11 · Modo Fiesta (confeti en canvas) | 319 |
+| `js/10-inicio.js` | 14 · Inicialización, scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace» + tarjeta QR `#apk-qr-box` en escritorio) y `window.onload` | 261 |
+| `js/11-nailong3d-geometria.js` | 15 · Núcleo 3D sin dependencias (`VERSION: 3`): `ANATOMIA` serie CGI, SDF, Surface Nets, pesos de piel y color por vértice (también en Worker y Node) | 499 |
+| `js/12-nailong3d-escena.js` | 16 · Escena 3D: `SkinnedMesh`, `crearCaraDeformable` (cejas/pómulos/mandíbula), cavidad bucal 3D con doble herradura dental y lengua, ojos con AO de párpado y shader *mochi* | 1.218 |
+| `js/13-nailong3d-animacion.js` | 17 · Animación 3D: muelles, reposo tierno, 5 acciones, 6 caritas de la serie (`sonrison`, `carcajada`, `burla`, `puchero`, `pillo`, `susto`), reacciones y horneado GLB | 857 |
+| `js/14-nailong3d-visor.js` | 18 · Visor 3D: carga perezosa de Three.js r147 (SRI), bucle, cámara, toques, chips de acciones y caritas, foto PNG y GLB con 11 clips; se autoinicia | 665 |
 
 Reglas: son **scripts clásicos** que comparten el ámbito global (sin `import`/`export`), así que el **orden de carga importa** y es el de la tabla. Al añadir un fichero, regístralo en `index.html`; `verify_all.py` falla si hay un `.js`/`.css` sin cargar o una referencia rota.
 

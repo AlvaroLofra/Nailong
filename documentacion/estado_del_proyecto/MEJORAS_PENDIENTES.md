@@ -25,10 +25,10 @@
 Decisiones y acciones pendientes: `notas_tecnicas/06_auditoria_seguridad.md` (H-2 a H-8).
 
 ## Nailong 3D
+> Las mejoras **3D1** (micro-grano aterciopelado *mochi* / *peach fuzz* en el shader de la piel) y **3D2** (nuevas expresiones de la serie: sonrisón con herradura dental, carcajada `^ ^`, lengua fuera `¡Bleh!`, puchero, ceño pillo y susto) se aplicaron en `4.0.0 · revisión web 2` (ver `CHANGELOG.md` y `notas_tecnicas/05_nailong_3d.md`).
+
 | # | Qué | Por qué | Esfuerzo |
 |---|---|---|---|
-| 3D1 | Pelusilla aterciopelada (*peach fuzz*) en el shader de la piel. | Los stickers tienen un ligero pelo que el *sheen* solo imita. | Medio |
-| 3D2 | Más expresiones: lengua fuera, bostezo, risa con ojos cerrados (^ ^). | Hay muchos stickers con esas caras. | Medio |
 | 3D3 | Crear un sticker 512×512 WebP desde la pose actual. | Conecta el 3D con la colección de stickers. | Medio |
 | 3D4 | Vista en realidad aumentada (`model-viewer`/USDZ). | Ver a Nailong en tu mesa desde el móvil. | Alto |
 

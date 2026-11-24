@@ -17,6 +17,9 @@ desktop.ini
 __pycache__/
 *.py[cod]
 
+# Capturas de episodios oficiales (derechos de Seventh Impression): solo en local, D-25
+documentacion/referencias_nailong_serie/
+
 # HyperFrames y Video Promo
 .hyperframes/
 .thumbnails/

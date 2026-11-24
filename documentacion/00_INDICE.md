@@ -29,6 +29,7 @@
 | `estado_del_proyecto/` | `ESTADO_ACTUAL.md` (se sobrescribe en cada sesión), `DECISIONES.md` (solo se añade) y `bitacora_de_sesiones/` (una bitácora por sesión). | **Sí, en cada sesión** |
 | `guias_y_contexto/` | Contexto narrativo, principios de diseño de interfaz y guía operativa de desarrollo. | Cuando cambie algo estable |
 | `notas_tecnicas/` | Una nota por subsistema técnico: WhatsApp ContentProvider, Muxer WebP, Web Audio, Canvas GPU y Nailong 3D. | Sí, al modificar componentes técnicos |
+| `referencias_nailong_serie/` | **Solo en local (fuera de Git, D-25):** capturas reales de episodios oficiales 3D de Nailong y catálogo anatómico de referencia para el visor 3D. | Cuando se añadan nuevas referencias |
 
 Fuera de esta carpeta:
 
@@ -75,4 +76,5 @@ Fuera de esta carpeta:
 | Motor de audio sintetizado con Web Audio API | [`notas_tecnicas/03_web_audio_sintetizado.md`](notas_tecnicas/03_web_audio_sintetizado.md) |
 | Minijuego Canvas a 60 FPS y aceleración GPU | [`notas_tecnicas/04_minijuego_y_rendimiento_gpu.md`](notas_tecnicas/04_minijuego_y_rendimiento_gpu.md) |
 | Nailong 3D: modelo procedural, visor WebGL y exportación GLB | [`notas_tecnicas/05_nailong_3d.md`](notas_tecnicas/05_nailong_3d.md) |
+| Referencias visuales de la serie oficial para Nailong 3D | `referencias_nailong_serie/README.md` (solo en local, D-25) |
 | Auditoría de seguridad de la app, la actualización y la web | [`notas_tecnicas/06_auditoria_seguridad.md`](notas_tecnicas/06_auditoria_seguridad.md) |
