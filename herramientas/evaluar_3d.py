@@ -5,7 +5,7 @@ Orden unica de evaluacion completa de Nailong 3D (Fase 0 · mejora 3D5):
   2) node herramientas/medir_nailong3d.js --salida <dir>/medidas.json --tabla
   3) node herramientas/capturar_3d_cdp.js --salida <dir>/renders [--expresiones]
   4) python herramientas/lamina_comparativa.py --renders <dir>/renders --medidas <dir>/medidas.json --salida <dir>/lamina_<etiqueta>.png [--expresiones]
-  5) con --cara: python herramientas/perfil_cara.py (silueta frontal de la cara, F1-F4 y O1; mejora 3D12)
+  5) con --cara: python herramientas/perfil_cara.py (silueta frontal de la cara, F0-F4 y O1; mejoras 3D12 y 3D18)
 
 Uso:
   python herramientas/evaluar_3d.py --etiqueta fase0_base [--expresiones] [--cara] [--salida <dir>] [--referencias <dir>]

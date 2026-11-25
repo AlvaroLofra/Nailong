@@ -602,7 +602,8 @@ _g = json.loads(_res3d.stdout)
 assert _g['huecos'] == 0 and _g['no2'] == 0, f"3D mesh must be watertight (every edge shared by 2 triangles): {_g}"
 assert _g['inv'] == 0 and _g['pesosMal'] == 0, f"3D mesh triangles must face outwards and skin weights must sum to 1: {_g}"
 assert 15000 < _g['vertices'] < 60000 and _g['huesos'] == 15, f"Unexpected 3D mesh density or skeleton: {_g}"
-assert abs(_g['altura'] - 1.0) < 0.02 and abs(_g['suelo']) < 0.002, f"Nailong 3D must be 1 unit tall standing on y=0: {_g}"
+# D-29 (3D18): la frente corta baja la coronilla ~2,8 cm; el cuerpo conserva las medidas tomadas con H = 1 y Nailong mide ~0,97
+assert 0.96 <= _g['altura'] <= 1.01 and abs(_g['suelo']) < 0.002, f"Nailong 3D must be ~0.97 units tall (D-29) standing on y=0: {_g}"
 # 3D6-3D10: proporciones completas de la serie (21/21 OK)
 assert 0.85 <= _g['cab'] / _g['tor'] <= 1.00 and 0.46 < _g['tor'] / _g['altura'] < 0.56, f"Head/torso proportions drifted from 3D10 canonical targets: {_g}"
 assert 0.37 <= _g['torFondo'] <= 0.43 and 0.19 <= _g['barrigaZ'] <= 0.23, f"3D6 torso depth or belly front Z out of target range: {_g}"

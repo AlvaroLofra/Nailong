@@ -5,7 +5,8 @@
            Idea: Nailong se describe como una «niebla» de formas (elipsoides y
            conos redondeados) que se funden con unión suave; después se extrae
            la superficie con Surface Nets en una sola malla estanca, sin costuras.
-           Ejes: y arriba, z hacia delante (cara), x hacia su izquierda. Altura 1.
+           Ejes: y arriba, z hacia delante (cara), x hacia su izquierda. Cuerpo
+           medido con altura 1; con la frente corta (3D18) mide 0,97 (D-29).
         ============================================================== */
         function crearKernelGeometriaNailong() {
             'use strict';
@@ -22,6 +23,10 @@
                 // no acabe en pico (H4) y un 3,5-4,5 % la papada bajo los mofletes, como en la serie (F4); entre y = 0,66 y 0,86 (mofletes,
                 // ojos y frente) no toca nada. Al tocar solo x, el perfil lateral, la nuca y las placas no cambian.
                 perfilCabeza: { y: [0.52, 0.58, 0.66, 0.86, 0.93, 1.0], s: [1.045, 1.035, 1.0, 1.0, 1.015, 1.015] },
+                // 3D18 · Frente corta, como en la serie (08, 13, 18, 26: la cabeza acaba poco después de los ojos). Por encima de
+                // y = desde la cabeza se aplasta en vertical, poco a poco hasta y = hasta y con el factor «aplasta» desde ahí (sin pliegue):
+                // la coronilla baja ~2,8 cm y Nailong mide 0,97 (D-29). Ojos, mofletes, boca, cuello y cuerpo no cambian (null = sin aplastar).
+                cupula:   { desde: 0.74, hasta: 0.82, aplasta: 1.15 },
                 pecho:    { c: [0, 0.456, -0.028], r: [0.162, 0.164, 0.158] },   // torso superior recogido para separar claramente cabeza, cuello y hombros (08, 13)
                 caderas:  { c: [0, 0.298, -0.018], r: [0.242, 0.194, 0.174] },   // cuerpo de pera/gota recogido y alto para liberar piernas y entrepierna (05, 13, 14)
                 barriga:  { c: [0, 0.284, 0.034],  r: [0.204, 0.176, 0.172] },   // pancita redonda recogida con frente en z~0.20-0.21 y fondo alto (05, 07, 13)
@@ -181,12 +186,23 @@
                 const t = (y - C.ys[i]) / C.h[i], t2 = t * t, t3 = t2 * t;
                 return (2 * t3 - 3 * t2 + 1) * C.ss[i] + (t3 - 2 * t2 + t) * C.h[i] * C.m[i] + (3 * t2 - 2 * t3) * C.ss[i + 1] + (t3 - t2) * C.h[i] * C.m[i + 1];
             }
-            // Cabeza final: se escala solo el eje x (la distancia se corrige a la baja donde estrecha para no saltarse la piel)
-            function dCabeza(ax, y, z) {
+            // Cabeza con la escala en x (la distancia se corrige a la baja donde estrecha para no saltarse la piel)
+            function dCabezaSinCupula(ax, y, z) {
                 if (!PERFIL_X) return dCabezaBase(ax, y, z);
                 const s = escalaCabezaX(y);
                 const d = dCabezaBase(ax / s, y, z);
                 return s < 1 ? d * s : d;
+            }
+            // 3D18 · Cabeza final con la cúpula aplastada: se mide en y' = y + (aplasta − 1)·∫ suavizado, cuya pendiente pasa de 1 a
+            // «aplasta» entre «desde» y «hasta» (curva C2, sin escalón), así la piel de arriba baja y la de abajo queda igual. La
+            // distancia se divide por esa pendiente para que siga siendo una cota segura.
+            const CUPULA = A.cupula && A.cupula.aplasta > 1 && A.cupula.hasta > A.cupula.desde ? A.cupula : null;
+            function dCabeza(ax, y, z) {
+                if (!CUPULA || y <= CUPULA.desde) return dCabezaSinCupula(ax, y, z);
+                const L = CUPULA.hasta - CUPULA.desde, t = Math.min((y - CUPULA.desde) / L, 1);
+                const integral = t < 1 ? L * (t * t * t - 0.5 * t * t * t * t) : 0.5 * L + (y - CUPULA.hasta);
+                const pendiente = 1 + (CUPULA.aplasta - 1) * t * t * (3 - 2 * t);
+                return dCabezaSinCupula(ax, y + (CUPULA.aplasta - 1) * integral, z) / pendiente;
             }
 
             // 3D13 · Ojo «lente» a ras de la cara. Marco del ojo: x hacia la sien, y arriba, z hacia fuera (girado «giro» hacia la sien).
