@@ -7,6 +7,7 @@ y en las capturas (pixeles amarillos). La altura se expresa en «alturas de ojo�
 coronilla y k = 1 la linea de los ojos (centro de los iris verdes), asi la medida no depende del
 zoom ni del recorte de cada captura. El ancho se divide por el ancho maximo de la cabeza.
 
+  F0 · frente: distancia coronilla -> linea de los ojos / ancho maximo (3D18; en la serie la cabeza acaba poco despues de los ojos)
   F1 · altura (k) del ancho maximo: la serie es mas ancha en los mofletes, por debajo de los ojos
   F2 · ancho en la frente (k = 0,5)       F3 · ancho justo encima de los ojos (k = 0,8)
   F4 · ancho bajo los mofletes (k = 1,7)  O1 · separacion de los ojos / ancho maximo (no debe cambiar)
@@ -41,6 +42,7 @@ REFS_FRENTE = [
 ]
 
 OBJETIVOS = {
+    "F0": ("Frente: coronilla-ojos / ancho", 0.43, 0.49),
     "F1": ("Altura del ancho maximo (k)", 1.15, 1.45),
     "F2": ("Ancho en la frente (k=0,5)", 0.83, 0.88),
     "F3": ("Ancho sobre los ojos (k=0,8)", 0.92, 0.965),
@@ -50,14 +52,14 @@ OBJETIVOS = {
 
 # Filas de la lamina: vista del render (capturar_3d_cdp.js --cara) y capturas de la serie con el mismo encuadre
 FILAS = [
-    ("cara_frente", "Frente (primer plano)", ["08_frente_neutro_cute.jpg", "18_primer_plano_puchero_ceno.jpg"]),
+    ("cara_frente", "Frente (primer plano)", ["08_frente_neutro_cute.jpg", "18_primer_plano_puchero_ceno.jpg", "26_frente_risa_manos_pecho.jpg"]),
     ("cara_frente_cuerpo", "Frente (cuerpo entero)", ["25_frente_cuerpo_entero_sonrisita.jpg", "13_frente_sonrisa_manos_barriga.jpg"]),
     ("cara_34_suave", "Tres cuartos suave", ["03_tres_cuartos_saludo_palma_rosa.jpg"]),
     ("cara_34", "Tres cuartos (primer plano)", ["12_primer_plano_cabeza_textura.jpg"]),
     ("cara_34_cuerpo", "Tres cuartos (cuerpo)", ["06_tres_cuartos_timido_cuello.jpg", "16_tres_cuartos_mirada_abajo_manos_pecho.jpg"]),
     ("cara_34_izq", "Tres cuartos izquierdo", ["22_tres_cuartos_izq_brazos_abiertos_palmas.jpg"]),
-    ("perfil", "Perfil (no debe cambiar)", ["05_perfil_derecho_cuello_barbilla.jpg"]),
-    ("espalda", "Espalda (no debe cambiar)", ["10_espalda_tres_placas.jpg"]),
+    ("perfil", "Perfil (nuca y placas)", ["05_perfil_derecho_cuello_barbilla.jpg"]),
+    ("espalda", "Espalda (placas)", ["10_espalda_tres_placas.jpg"]),
 ]
 
 K_MUESTRAS = [round(0.1 * i, 1) for i in range(1, 20)]
@@ -87,7 +89,7 @@ def _perfil(mascara, iris):
     sep = (der.mean() - izq.mean()) / w_max if izq.size and der.size else float("nan")
     return {
         "k_max": round(k_max, 3), "perfil": perfil, "u_sobre_ancho": round(u / w_max, 3),
-        "metricas": {"F1": round(k_max, 3), "F2": perfil[0.5], "F3": perfil[0.8], "F4": perfil[1.7], "O1": round(float(sep), 3)},
+        "metricas": {"F0": round(u / w_max, 3), "F1": round(k_max, 3), "F2": perfil[0.5], "F3": perfil[0.8], "F4": perfil[1.7], "O1": round(float(sep), 3)},
     }
 
 
@@ -150,8 +152,36 @@ def dibujar_contornos(perfiles, ancho=560, alto=600):
     return im
 
 
+def dibujar_frentes(perfiles, ancho=560, alto=600):
+    """3D18 · Contornos con los ojos alineados y la altura en anchos de cabeza: se ve a que altura acaba cada coronilla (F0)."""
+    im = Image.new("RGB", (ancho, alto), (255, 255, 255))
+    d = ImageDraw.Draw(im)
+    f = lc.cargar_fuente(20)
+    esc, cx = 400.0, ancho / 2
+    y_ojos = alto - 0.50 * esc
+    d.line([(20, y_ojos), (ancho - 20, y_ojos)], fill=(225, 228, 235), width=1)
+    d.text((ancho - 20 - f.getlength("ojos"), y_ojos - 24), "ojos", fill=lc.COLOR_SUAVE, font=f)
+    # La media de la serie va debajo y más gruesa (halo naranja): si un modelo coincide con ella, se ven las dos
+    orden = sorted(perfiles, key=lambda q: 0 if q[0].startswith("Serie") else 1)
+    for etiqueta, p, color, grosor in orden:
+        f0 = p["metricas"]["F0"]
+        pts = [(0.0, 0.0)] + [(k, p["perfil"][k]) for k in K_MUESTRAS[:-1]]
+        der = [(cx + w * esc / 2, y_ojos + (k - 1) * f0 * esc) for k, w in pts]
+        izq = [(cx - w * esc / 2, y_ojos + (k - 1) * f0 * esc) for k, w in pts]
+        ancho_linea = 9 if etiqueta.startswith("Serie") else grosor
+        d.line(der, fill=color, width=ancho_linea, joint="curve")
+        d.line(izq, fill=color, width=ancho_linea, joint="curve")
+    y_txt = 10
+    for etiqueta, p, color, grosor in perfiles:
+        if grosor < 3:
+            continue
+        d.text((16, y_txt), f"{etiqueta}: {p['metricas']['F0']:.3f}".replace(".", ","), fill=color, font=f)
+        y_txt += 26
+    return im
+
+
 def main():
-    ap = argparse.ArgumentParser(description="Silueta frontal de la cabeza: Nailong 3D frente a la serie (3D12).")
+    ap = argparse.ArgumentParser(description="Silueta frontal de la cabeza y altura de la frente: Nailong 3D frente a la serie (3D12, 3D18).")
     ap.add_argument("--renders", required=True, nargs="+", help="1 a 3 directorios con cara_frente.png y demas vistas (capturar_3d_cdp.js --cara)")
     ap.add_argument("--etiquetas", nargs="+", help="Nombre de cada variante (por defecto A, B, C)")
     ap.add_argument("--salida", required=True, help="PNG de la lamina de la cara")
@@ -207,19 +237,26 @@ def main():
     f_cab, f_tit, f_sub, f_met = lc.cargar_fuente(24, True), lc.cargar_fuente(21, True), lc.cargar_fuente(15), lc.cargar_fuente(15)
     perfiles = [(n[:2], refs[n], (251, 191, 120), 1) for n in refs]
     if refs:
-        media = {"perfil": {k: float(np.mean([refs[n]["perfil"][k] for n in refs])) for k in K_MUESTRAS}}
+        media = {"perfil": {k: float(np.mean([refs[n]["perfil"][k] for n in refs])) for k in K_MUESTRAS},
+                 "metricas": {"F0": float(np.mean([refs[n]["metricas"]["F0"] for n in refs]))}}
         perfiles.append(("Serie (media)", media, (234, 88, 12), 4))
     colores = [(37, 99, 235), (22, 163, 74), (147, 51, 234)]
     for i, (eti, _) in enumerate(variantes):
         perfiles.append((eti, medidas[eti], colores[i], 4))
     graf = dibujar_contornos(perfiles)
+    graf_frente = dibujar_frentes(perfiles)
     segs = []
     for eti, _ in variantes:
         for clave in OBJETIVOS:
             v = medidas[eti]["metricas"][clave]
             ok = en_rango(clave, v)
             segs.append((f"{eti} · {clave}: {v} (obj {OBJETIVOS[clave][1]}-{OBJETIVOS[clave][2]}) [{'OK' if ok else 'KO'}]", lc.COLOR_OK if ok else lc.COLOR_KO))
-    bloques = [lc.dibujar_fila("Silueta frontal de la cabeza (normalizada: coronilla = 0, ojos = 1)", [("Serie en naranja · modelo en azul/verde", graf.resize((int(graf.width * lc.ALTO_FILA / graf.height), lc.ALTO_FILA)))], segs, f_tit, f_sub, f_met)]
+    def escalar(im):
+        return im.resize((int(im.width * lc.ALTO_FILA / im.height), lc.ALTO_FILA))
+
+    bloques =[lc.dibujar_fila("Silueta frontal de la cabeza: forma (coronilla = 0, ojos = 1) y frente (ojos alineados, en anchos de cabeza)",
+                               [("Forma · serie en naranja, modelo en azul/verde/morado", escalar(graf)),
+                                ("Frente (F0) · donde acaba cada coronilla", escalar(graf_frente))], segs, f_tit, f_sub, f_met)]
 
     for slug, titulo, refs_fila in FILAS:
         columnas = []
