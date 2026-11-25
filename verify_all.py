@@ -391,7 +391,7 @@ print("✔ v14 verified: all 126 stickers are 512x512 WebP with WhatsApp EXIF an
 # Test 40: v16 - pagina de 24 en movil, sin texto de fotogramas, version visible en el pie
 assert "const GALLERY_STEP = 24;" in html, "GALLERY_STEP must be a fixed 24 (desktop and mobile)!"
 assert "FRAMES)" not in html and "}f)" not in html, "Frame-count text must be removed from cards and lightbox!"
-assert re.search(r'id="app-version"[^>]*>v4.1.0<', html), "Footer must show the current web version number (v4.1.0)!"
+assert re.search(r'id="app-version"[^>]*>v4.2.0<', html), "Footer must show the current web version number (v4.2.0)!"
 print("✔ v16 verified: +24 pagination on all devices, no frame-count text, version number in footer.")
 
 # Test 41: v17 - el PNG copiado lleva esquinas transparentes (sin ellas WhatsApp lo pega como foto)
@@ -724,6 +724,6 @@ if NO_COMPROBADO:
     print(f"\n⚠ NO COMPROBADO: falta el código de la app Android en {ANDROID_SRC} (defínelo con NAILONG_ANDROID_SRC si está en otra ruta):")
     for _nc in NO_COMPROBADO:
         print(f"   - {_nc}")
-    print(f"\n=== 52 VERIFICATION TESTS PASSED, {len(NO_COMPROBADO)} WITH THEIR ANDROID PART NOT CHECKED ===")
+    print(f"\n=== 55 VERIFICATION TESTS PASSED, {len(NO_COMPROBADO)} WITH THEIR ANDROID PART NOT CHECKED ===")
 else:
-    print("\n=== ALL 52 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+    print("\n=== ALL 55 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
