@@ -202,9 +202,18 @@ assert "if (e.cancelable) e.preventDefault();" in html, "Canvas touchmove preven
 print("✔ Minigame touch safety verified: touchcancel prevents runaway movement and canvas drag locks screen scroll.")
 
 # Test 22: Verify Live GitHub Pages Share Integration & QR Code
+# W34: los QR son SVG fijos dentro de index.html (herramientas/generar_qr.py), sin pedirlos a api.qrserver.com.
+# Se regeneran aqui con el mismo script y deben coincidir modulo a modulo.
 assert "alvarolofra.github.io/Nailong" in html, "Official GitHub Pages URL missing from index.html!"
-assert "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Falvarolofra.github.io%2FNailong%2F" in html, "QR Code generator missing live GitHub Pages URL!"
-print("✔ Live GitHub Pages share integration & QR code scanner verified: points directly to alvarolofra.github.io/Nailong.")
+assert 'api.qrserver.com' not in html, "W34: QR codes must be static inline SVGs (no requests to api.qrserver.com)!"
+sys.path.insert(0, 'herramientas')
+from generar_qr import QR as _QR
+def _qr_inline(ident, url):
+    _m = re.search(r'<svg id="' + ident + r'"[^>]*data-qr-url="([^"]+)"[^>]*>(.*?)</svg>', page_html, re.S)
+    assert _m and _m.group(1) == url, f"W34: #{ident} must be an inline SVG QR code for {url}!"
+    assert f'<path stroke="#000" d="{_QR(url, "L").trazo(2)}"/>' in _m.group(2), f"W34: #{ident} modules do not match herramientas/generar_qr.py for {url} (regenerate it)!"
+_qr_inline('share-qr-code', 'https://alvarolofra.github.io/Nailong/')
+print("✔ Live GitHub Pages share integration & QR code scanner verified: static SVG QR pointing to alvarolofra.github.io/Nailong.")
 
 # Test 23: Verify Dedicated Creator Section & Lightbox
 assert 'id="creador"' in html, "Creator section #creador missing from DOM!"
@@ -217,10 +226,10 @@ assert "h-[460px] sm:h-[540px]" in html, "Minigame height not enlarged for bette
 assert "finalVy = pick.bad ? (baseVy * 0.8) : baseVy;" in html, "Bomb slower drop velocity calculation missing!"
 print("✔ Minigame improved: canvas height enlarged to 660px max and bombs fall 20% slower with gentle speed for mobile.")
 
-# Test 25: Verify Brand Avatar 3D Radiante Smile
-assert "sticker_2.webp" in html[:25000], "Brand avatar in header must use sticker_2.webp (Sonrisa Radiante 3D)!"
+# Test 25: Verify Brand Avatar 3D Radiante Smile (W33: copia de 192 px de sticker_2, clave dragon-de-leche)
+assert "Stickers Nailong/mini/dragon-de-leche.webp" in html[:25000], "Brand avatar in header must use the 192 px copy of sticker_2 (mini/dragon-de-leche.webp, W33)!"
 assert "scale-110" in html[:25000] and "object-cover" in html[:25000], "Brand avatar should fill circle with object-cover and zoom scale!"
-print("✔ Brand Avatar verified: uses animated sticker_2.webp (Sonrisa Radiante 3D) filling the circle with calibrated zoom.")
+print("✔ Brand Avatar verified: uses the animated 192 px copy of sticker_2 (mini/dragon-de-leche.webp) filling the circle with calibrated zoom.")
 
 # Test 26: Verify Party Mode Canvas Visibility
 assert 'id="party-canvas"' in html, "party-canvas missing!"
@@ -480,6 +489,7 @@ print("✔ v3.4.1 verified: zero Chinese chars, creator credit in web & app, tra
 # Test 48: v3.5.0 - A8-A13, W6-W7, zoom grande centrado y revision de Mi Seleccion
 assert 'id="apk-qr-box"' in page_html and 'id="apk-qr-img"' in page_html, "W6: APK QR box missing in index.html!"
 assert 'StickersNailong.apk' in re.search(r'id="apk-qr-img"[^>]+', page_html).group(0), "W6: APK QR must point to StickersNailong.apk!"
+_qr_inline('apk-qr-img', 'https://alvarolofra.github.io/Nailong/StickersNailong.apk')   # W34: QR fijo, igual al del script
 assert 'function toggleApkQrBox(' in html and 'function closeApkQrBox(' in html, "W6: toggleApkQrBox / closeApkQrBox missing in JS!"
 _asset_versions = re.findall(r'(?:src|href)="(?:css|js)/[^"?]+\?v=([^"]+)"', page_html)
 # El sufijo es la version de la web (pie, D-27) o, en retoques sin version nueva, <version>-webN.
@@ -635,12 +645,16 @@ with open('js/02-datos-stickers.js', encoding='utf-8') as _df:
     _datos = _df.read()
 _claves = dict(re.findall(r"clave: '([a-z0-9-]+)', file: '(sticker_\d+\.webp)'", _datos))
 assert len(_claves) == _datos.count("clave: '"), "Every 'clave' in ALL_STICKERS must be unique and followed by its file!"
-_fijas = re.findall(r'<img src="Stickers Nailong/(sticker_\d+\.webp)" data-sticker="([a-z0-9-]+)"', page_html)
+# W33: tambien vale su copia reducida mini/<clave>.webp (se llama por la clave, asi que no se desplaza al renumerar)
+_fijas = re.findall(r'<img src="Stickers Nailong/((?:mini/[a-z0-9-]+|sticker_\d+)\.webp)" data-sticker="([a-z0-9-]+)"', page_html)
 assert len(_fijas) == page_html.count('data-sticker="'), "Every data-sticker image must have its src right before data-sticker!"
 assert {k for _, k in _fijas} >= {'dragon-de-leche', 'xiao-qi-colita', 'bombloong', 'escamitas-espalda'}, "The 4 'Quién es Nailong' cards must use data-sticker keys!"
 for _file, _key in _fijas:
     assert _key in _claves, f"data-sticker='{_key}' has no matching clave in ALL_STICKERS!"
-    assert _claves[_key] == _file, f"data-sticker='{_key}' points to {_file} but its clave belongs to {_claves[_key]} (renumbering drift)!"
+    if _file.startswith('mini/'):
+        assert _file == f'mini/{_key}.webp', f"data-sticker='{_key}' must use its own reduced copy mini/{_key}.webp (found {_file})!"
+    else:
+        assert _claves[_key] == _file, f"data-sticker='{_key}' points to {_file} but its clave belongs to {_claves[_key]} (renumbering drift)!"
 assert 'function aplicarStickersFijos' in _datos and 'aplicarStickersFijos();' in _datos, "The runtime resolver of data-sticker keys is missing!"
 print(f"✔ Fixed sticker images verified: {len(_fijas)} images resolved by stable key, none drifted after renumbering.")
 
@@ -667,6 +681,43 @@ with _tmp.TemporaryDirectory() as _d:
         _cerca, _dc = _ns.mas_parecido(_ns.firma(_copia), _firmas)
         assert _cerca == _name and _dc < _ns.UMBRAL_REPETIDO, f"Una copia a 240 px de {_name} deberia salir como repetida de si misma (salio {_cerca}, distancia {_dc:.1f})"
 print(f"✔ Duplicate detector verified: closest distinct pair at {_dmin:.1f} (>= {_ns.UMBRAL_DUDOSO}), 240 px copies recognised as repeats.")
+
+# Test 53: W33 - las imagenes pequenas usan copias reducidas de 192 px (mini/<clave>.webp), el icono de la
+# pestana es de 64 px y el sprite del minijuego (sticker_9) se descarga al acercarse al juego, no al abrir la web
+_res_mini = subprocess.run([sys.executable, os.path.join('herramientas', 'miniaturas_web.py'), '--check'], capture_output=True, text=True, encoding='utf-8')
+assert _res_mini.returncode == 0, "W33: reduced copies are missing or out of date (run: py -3 herramientas/miniaturas_web.py): " + _res_mini.stdout
+_minis = set(re.findall(r'Stickers Nailong/mini/([a-z0-9-]+)\.webp', page_html))
+assert {'dragon-de-leche', 'xiao-qi-colita', 'bombloong', 'escamitas-espalda', 'favicon'} <= _minis, f"W33: logo, banner, cards and favicon must use their reduced copies (found {sorted(_minis)})!"
+assert 'rel="icon" type="image/webp" href="Stickers Nailong/mini/favicon.webp"' in page_html, "W33: the favicon must be the 64 px copy (the whole sticker_18 weighed 398 KB)!"
+assert not re.search(r'<img src="Stickers Nailong/sticker_(2|27|28|31)\.webp"', page_html), "W33: small images (logo, banner, cards, footer) must not load the 512 px stickers!"
+_mj_src = open(os.path.join('js', '08-minijuego.js'), encoding='utf-8').read()
+assert re.search(r"playerSprite\.src\s*=\s*'", _mj_src) is None and 'function cargarSpriteJugador' in _mj_src, "W33: the minigame sprite must not be requested when the page opens!"
+assert 'cargarSpriteJugador();' in js_function_body(html, 'startMiniGame') and 'cargarSpriteJugador();' in js_function_body(html, 'setupGameVisibilityPause'), "W33: the minigame sprite must load near the game or when it starts!"
+assert "src.includes('/mini/')" in js_function_body(html, 'aplicarStickersFijos'), "W33: the data-sticker resolver must keep the reduced copies!"
+print(f"✔ W33 verified: {len(_minis)} reduced copies (192 px, 64 px favicon) match their stickers; minigame sprite loads on demand.")
+
+# Test 54: W32 - iconos como dibujos SVG dentro de css/styles.css (sin descargar Font Awesome de cdnjs)
+assert 'cdnjs.cloudflare.com' not in page_html and 'font-awesome' not in page_html, "W32: Font Awesome must not be downloaded from cdnjs any more!"
+_res_ico = subprocess.run([sys.executable, os.path.join('herramientas', 'iconos_svg.py'), '--check'], capture_output=True, text=True, encoding='utf-8')
+assert _res_ico.returncode == 0, "W32: every fa-* icon used in index.html or js/ needs its SVG in css/styles.css (run: py -3 herramientas/iconos_svg.py): " + _res_ico.stdout
+_css_src = open(os.path.join('css', 'styles.css'), encoding='utf-8').read()
+assert 'Font Awesome Free 6.5.1' in _css_src and 'CC BY 4.0' in _css_src, "W32: the Font Awesome Free attribution (CC BY 4.0) must stay next to the icon drawings!"
+assert 'height: 1lh' in _css_src and 'flex-shrink: 0' in _css_src, "W32: icon boxes must keep the size of the old font glyphs (1lh tall, no shrinking)!"
+print(f"✔ W32 verified: {len(re.findall(r'^[.]fa-[a-z0-9-]+ [{] --fa-ancho', _css_src, re.M))} icons drawn as inline SVG masks, no requests to cdnjs.")
+
+# Test 55: 3D14-3D16 - ahorro en moviles modestos (sin sombra en tiempo real y ~30 fps en reposo en calidad «baja»),
+# malla guardada en IndexedDB (clave = huella del codigo de js/11 + calidad + celdas) y programas de shader preparados al encender
+_esc = open(os.path.join('js', '12-nailong3d-escena.js'), encoding='utf-8').read()
+_vis = open(os.path.join('js', '14-nailong3d-visor.js'), encoding='utf-8').read()
+assert "const conSombra = calidad !== 'baja';" in _esc and 'clave.castShadow = conSombra;' in _esc, "3D14: no real-time shadow in 'baja' quality (the contact shadow stays)!"
+assert "renderer.shadowMap.enabled = S.calidad !== 'baja';" in _vis, "3D14: the shadow map must be off in 'baja' quality!"
+assert 'function enReposo(' in _vis and 'MS_REPOSO' in _vis and '!reposo && !S.reposoPrevio' in _vis, "3D14: ~30 fps when nobody touches Nailong, without fooling the resolution monitor!"
+assert "calidad=(baja|alta)" in _vis, "3D14: ?calidad=baja must force the phone mode (used by the capture tools)!"
+assert 'indexedDB.open(CACHE_BD, 1)' in _vis and 'huellaTexto(src), src.length, S.calidad' in _vis and 'const mallasP = obtenerMallas(' in _vis, "3D15: the mesh cache key must derive from js/11 code, quality and cells!"
+assert "S.origenMalla = 'calculada'" in _vis and 'mallasValidas(guardado.mallas' in _vis, "3D15: a missing, broken or slow cache must fall back to computing the mesh!"
+assert "inyectarOjoAO(matSuaveOjo, uOjoAO, uGloboAPivote, 'suave');" in _esc and "inyectarOjoAO(matToonOjo, uOjoAO, uGloboAPivote, 'toon');" in _esc, "3D16: both eyes must share one shader program per style!"
+assert 'function precompilarEstilos(' in _vis and 'precompilarEstilos();' in _vis and 'S.renderer.compile(S.escena, S.camara);' in _vis, "3D16: all shader programs (both styles, mouth parts) must be ready when the 3D turns on!"
+print("✔ 3D14-3D16 verified: no live shadow and ~30 fps idle in 'baja', IndexedDB mesh cache keyed by js/11, shared eye program and precompiled styles.")
 
 if NO_COMPROBADO:
     print(f"\n⚠ NO COMPROBADO: falta el código de la app Android en {ANDROID_SRC} (defínelo con NAILONG_ANDROID_SRC si está en otra ruta):")

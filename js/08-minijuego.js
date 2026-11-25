@@ -18,8 +18,13 @@
         const foodCanvas = document.getElementById('food-game-canvas');
         const foodCtx = foodCanvas.getContext('2d');
 
+        // W33: el sprite del jugador (245 KB) ya no se descarga al abrir la web: se pide al
+        // acercarse al minijuego (setupGameVisibilityPause) o, como muy tarde, al empezar a jugar.
         const playerSprite = new Image();
-        playerSprite.src = 'Stickers Nailong/sticker_9.webp';
+        const PLAYER_SPRITE_SRC = 'Stickers Nailong/sticker_9.webp';
+        function cargarSpriteJugador() {
+            if (!playerSprite.getAttribute('src')) playerSprite.src = PLAYER_SPRITE_SRC;
+        }
 
         function resizeGameCanvas() {
             const container = document.getElementById('game-container');
@@ -223,7 +228,7 @@
 
         function setupGameVisibilityPause() {
             const container = document.getElementById('game-container');
-            if (!container || !('IntersectionObserver' in window)) return;
+            if (!container || !('IntersectionObserver' in window)) { cargarSpriteJugador(); return; }
             const obs = new IntersectionObserver((entries) => {
                 entries.forEach(en => {
                     gameInView = en.isIntersecting;
@@ -233,10 +238,16 @@
                 });
             }, { threshold: 0.2 });
             obs.observe(container);
+            // Precarga del sprite cuando el minijuego está a menos de ~1 pantalla (W33)
+            const cerca = new IntersectionObserver((entries) => {
+                if (entries.some(en => en.isIntersecting)) { cargarSpriteJugador(); cerca.disconnect(); }
+            }, { rootMargin: '900px 0px' });
+            cerca.observe(container);
         }
 
         function startMiniGame() {
             playSound('fanfare');
+            cargarSpriteJugador();
             resizeGameCanvas();
             // Pre-calienta los sprites de comida y bombas para evitar tirones en el primer fotograma
             ['🍗', '🍰', '🍦', '🍼', '🍉', '🍔', '💣'].forEach(em => getEmojiSprite(em, 34));

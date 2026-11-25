@@ -133,11 +133,15 @@
         /* Imágenes fijadas por CLAVE, no por número (ver D-22).
            En index.html se marcan con data-sticker="<clave>"; la clave viaja con su
            cromo en ALL_STICKERS cuando se renumera, así que la imagen nunca se desplaza.
-           verify_all.py (test 51) comprueba que el src escrito coincide con su clave. */
+           verify_all.py (test 51) comprueba que el src escrito coincide con su clave.
+           W33: las copias reducidas de 'Stickers Nailong/mini/' ya se llaman como su clave
+           (mini/<clave>.webp, herramientas/miniaturas_web.py), así que no se tocan. */
         function aplicarStickersFijos() {
             document.querySelectorAll('img[data-sticker]').forEach(img => {
+                const src = img.getAttribute('src') || '';
+                if (src.includes('/mini/')) return;
                 const s = ALL_STICKERS.find(x => x.clave === img.dataset.sticker);
-                if (s && !img.getAttribute('src').endsWith('/' + s.file)) img.src = 'Stickers Nailong/' + s.file;
+                if (s && !src.endsWith('/' + s.file)) img.src = 'Stickers Nailong/' + s.file;
             });
         }
         aplicarStickersFijos();

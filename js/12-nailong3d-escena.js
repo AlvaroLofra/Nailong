@@ -991,8 +991,9 @@
                     const matToonOjo = M.toon.ojo.clone();
                     matSuaveOjo.name = 'Nailong_ojo' + sufijo;
                     matToonOjo.name = 'Nailong_ojo' + sufijo;
-                    inyectarOjoAO(matSuaveOjo, uOjoAO, uGloboAPivote, 'suave-' + sufijo);
-                    inyectarOjoAO(matToonOjo, uOjoAO, uGloboAPivote, 'toon-' + sufijo);
+                    // 3D16: los dos ojos comparten programa (misma clave); cada material lleva sus uniformes
+                    inyectarOjoAO(matSuaveOjo, uOjoAO, uGloboAPivote, 'suave');
+                    inyectarOjoAO(matToonOjo, uOjoAO, uGloboAPivote, 'toon');
                     const claveMat = 'ojo' + sufijo;
                     M.suave[claveMat] = matSuaveOjo;
                     M.toon[claveMat] = matToonOjo;
@@ -1215,14 +1216,18 @@
                 escena.add(hemi);
                 const clave = new THREE.DirectionalLight(0xFFF8E8, 0.72);
                 clave.position.set(1.4, 2.6, 2.5);
-                clave.castShadow = true;
-                const tam = calidad === 'baja' ? 1024 : 2048;
-                clave.shadow.mapSize.set(tam, tam);
-                Object.assign(clave.shadow.camera, { left: -0.92, right: 0.92, top: 1.0, bottom: -0.92, near: 0.5, far: 7 });
-                clave.shadow.camera.updateProjectionMatrix();
-                clave.shadow.bias = -0.0006;
-                clave.shadow.normalBias = 0.012;
-                clave.shadow.radius = 4;
+                // 3D14: en calidad «baja» (móviles modestos) no hay sombra en tiempo real (ahorra una pasada
+                // completa de la GPU por fotograma); queda la sombra de contacto de debajo
+                const conSombra = calidad !== 'baja';
+                clave.castShadow = conSombra;
+                if (conSombra) {
+                    clave.shadow.mapSize.set(2048, 2048);
+                    Object.assign(clave.shadow.camera, { left: -0.92, right: 0.92, top: 1.0, bottom: -0.92, near: 0.5, far: 7 });
+                    clave.shadow.camera.updateProjectionMatrix();
+                    clave.shadow.bias = -0.0006;
+                    clave.shadow.normalBias = 0.012;
+                    clave.shadow.radius = 4;
+                }
                 clave.target.position.set(0, 0.45, 0);
                 escena.add(clave, clave.target);
 
@@ -1236,10 +1241,13 @@
                 escena.add(contra);
 
                 // Suelo: sombra real + sombra de contacto difusa
-                const suelo = new THREE.Mesh(new THREE.CircleGeometry(1.6, 48), new THREE.ShadowMaterial({ opacity: 0.13 }));
-                suelo.rotation.x = -Math.PI / 2;
-                suelo.receiveShadow = true;
-                escena.add(suelo);
+                // (sin sombra en tiempo real el suelo de sombras no pintaría nada: en «baja» ni se crea)
+                const suelo = conSombra ? new THREE.Mesh(new THREE.CircleGeometry(1.6, 48), new THREE.ShadowMaterial({ opacity: 0.13 })) : null;
+                if (suelo) {
+                    suelo.rotation.x = -Math.PI / 2;
+                    suelo.receiveShadow = true;
+                    escena.add(suelo);
+                }
                 const lienzo = document.createElement('canvas');
                 lienzo.width = lienzo.height = 128;
                 const ctx = lienzo.getContext('2d');

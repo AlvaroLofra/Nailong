@@ -154,25 +154,8 @@
             if (urlText) {
                 urlText.textContent = shareUrl;
             }
-
-            // Dynamically update QR Code with live URL
-            try {
-                const qrImg = document.getElementById('share-qr-code');
-                if (qrImg) {
-                    qrImg.onerror = function() {
-                        this.onerror = null;
-                        this.style.display = 'none';
-                        const parent = this.parentElement;
-                        if (parent && !parent.querySelector('.qr-fallback-msg')) {
-                            const msg = document.createElement('div');
-                            msg.className = 'qr-fallback-msg text-xs text-amber-800 font-bold p-2 text-center';
-                            msg.textContent = '📱 Escanea el código QR o copia el enlace de arriba.';
-                            parent.appendChild(msg);
-                        }
-                    };
-                    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shareUrl)}`;
-                }
-            } catch(e) {}
+            // W34: el QR (#share-qr-code) es un SVG fijo dentro de index.html hacia la página principal
+            // (herramientas/generar_qr.py): ya no se pide a un servicio externo ni depende de la red.
         }
 
         function closeShareModal() {

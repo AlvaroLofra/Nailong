@@ -104,7 +104,9 @@
                 const tactil = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
                 const nucleos = navigator.hardwareConcurrency || 4;
                 const memoria = navigator.deviceMemory || 4;
-                const baja = tactil || nucleos <= 4 || memoria <= 4;
+                // ?calidad=baja / ?calidad=alta fuerza el modo (para probar el de los móviles con las herramientas)
+                const forzada = (/[?&]calidad=(baja|alta)(?:&|$)/i.exec(window.location.search || '') || [])[1];
+                const baja = forzada ? forzada.toLowerCase() === 'baja' : (tactil || nucleos <= 4 || memoria <= 4);
                 S.calidad = baja ? 'baja' : 'alta';
                 S.ratioMax = baja ? 1.5 : 2;
             }
@@ -133,6 +135,87 @@
                         setTimeout(() => { if (!hecho) terminar(enHilo()); }, 20000);
                     } catch (e) { terminar(enHilo()); }
                 });
+            }
+
+            /* ---------- 3D15: la malla calculada se guarda en IndexedDB para no recalcularla en cada visita ----------
+               La clave sale del propio código del núcleo (js/11), la calidad y las celdas: cualquier cambio de
+               js/11 la invalida sola. Solo se guarda la última. Si IndexedDB falla o tarda, se calcula como siempre. */
+            const CACHE_BD = 'nailong3d', CACHE_ALMACEN = 'mallas', CACHE_ESPERA_MS = 1500;
+
+            function huellaTexto(texto) {   // cyrb53: huella rápida de 53 bits (no criptográfica)
+                let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+                for (let i = 0; i < texto.length; i++) {
+                    const c = texto.charCodeAt(i);
+                    h1 = Math.imul(h1 ^ c, 2654435761);
+                    h2 = Math.imul(h2 ^ c, 1597334677);
+                }
+                h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+                h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+                return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+            }
+
+            function claveCacheMallas(pedidos) {
+                const src = crearKernelGeometriaNailong.toString();
+                return ['v1', huellaTexto(src), src.length, S.calidad, pedidos.map((p) => p.celda + (p.sinColor ? 's' : '')).join(',')].join('|');
+            }
+
+            function conEspera(f) {   // promesa que se resuelve con null si IndexedDB no contesta a tiempo
+                return new Promise((resolver) => {
+                    let hecho = false;
+                    const fin = (v) => { if (!hecho) { hecho = true; resolver(v); } };
+                    setTimeout(() => fin(null), CACHE_ESPERA_MS);
+                    try { f(fin); } catch (_) { fin(null); }
+                });
+            }
+
+            function abrirCacheMallas() {
+                return conEspera((fin) => {
+                    const pet = indexedDB.open(CACHE_BD, 1);
+                    pet.onupgradeneeded = () => { try { pet.result.createObjectStore(CACHE_ALMACEN); } catch (_) {} };
+                    pet.onsuccess = () => fin(pet.result);
+                    pet.onerror = pet.onblocked = () => fin(null);
+                });
+            }
+
+            function mallasValidas(mallas, n) {
+                return Array.isArray(mallas) && mallas.length === n && mallas.every((m) => m && m.posiciones instanceof Float32Array &&
+                    m.posiciones.length > 0 && m.posiciones.length % 3 === 0 && m.indices && m.indices.length % 3 === 0 &&
+                    m.normales instanceof Float32Array && m.normales.length === m.posiciones.length);
+            }
+
+            async function obtenerMallas(pedidos) {
+                const t0 = performance.now();
+                let bd = null, clave = null;
+                try {
+                    if (window.indexedDB && typeof crearKernelGeometriaNailong === 'function') {
+                        clave = claveCacheMallas(pedidos);
+                        bd = await abrirCacheMallas();
+                        const guardado = bd ? await conEspera((fin) => {
+                            const pet = bd.transaction(CACHE_ALMACEN, 'readonly').objectStore(CACHE_ALMACEN).get(clave);
+                            pet.onsuccess = () => fin(pet.result || null);
+                            pet.onerror = () => fin(null);
+                        }) : null;
+                        if (guardado && mallasValidas(guardado.mallas, pedidos.length)) {
+                            try { bd.close(); } catch (_) {}
+                            S.origenMalla = 'cache'; S.msMalla = Math.round(performance.now() - t0);
+                            return guardado.mallas;
+                        }
+                    }
+                } catch (_) { /* sin caché: se calcula */ }
+                const mallas = await generarMallas(pedidos);
+                S.origenMalla = 'calculada'; S.msMalla = Math.round(performance.now() - t0);
+                if (bd && clave) {
+                    try {
+                        // put() copia los datos en el acto (antes de montar la escena); se borra la versión anterior
+                        const tx = bd.transaction(CACHE_ALMACEN, 'readwrite'), almacen = tx.objectStore(CACHE_ALMACEN);
+                        almacen.clear();
+                        almacen.put({ mallas, guardada: Date.now() }, clave);
+                        tx.oncomplete = tx.onerror = tx.onabort = () => { try { bd.close(); } catch (_) {} };
+                    } catch (_) { try { bd.close(); } catch (__) {} }
+                } else if (bd) {
+                    try { bd.close(); } catch (_) {}
+                }
+                return mallas;
             }
 
             /* ---------- Arranque ---------- */
@@ -174,7 +257,7 @@
                     // W25: Three.js y los modulos locales js/11 -> 12 -> 13 se cargan bajo demanda en paralelo
                     const threeP = cargarScript('three').then(() => cargarScript('orbita'));
                     await cargarModulos3D();
-                    const mallasP = generarMallas([{ celda: S.calidad === 'baja' ? 0.0105 : 0.0085 }, { celda: 0.026, sinColor: true }]);
+                    const mallasP = obtenerMallas([{ celda: S.calidad === 'baja' ? 0.0105 : 0.0085 }, { celda: 0.026, sinColor: true }]);
                     await threeP;
                     const mallas = await mallasP;
                     montar(mallas[0], mallas[1]);
@@ -183,7 +266,8 @@
                     if (caja) caja.classList.add('hidden');
                     S.contenedor.classList.remove('n3d-cargando');
                     S.contenedor.classList.add('n3d-listo');
-                    if (!S.reducido) S.anim.accion('intro');
+                    marcarActividad();
+                    if (!S.reducido) { S.anim.accion('intro'); S.accionUsuario = S.anim.estado().accion; }
                     S.pendientes.splice(0).forEach((f) => f());
                     reanudar();
                 } catch (e) {
@@ -197,7 +281,7 @@
                 const renderer = new THREE.WebGLRenderer({ canvas: S.lienzo, antialias: true, alpha: true, powerPreference: 'high-performance' });
                 renderer.outputEncoding = THREE.sRGBEncoding;
                 renderer.toneMapping = THREE.NoToneMapping;
-                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.enabled = S.calidad !== 'baja';   // 3D14: sin sombra en tiempo real en calidad «baja»
                 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
                 renderer.setClearColor(0x000000, 0);
                 S.renderer = renderer;
@@ -219,16 +303,42 @@
                 c.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
                 S.controles = c;
                 ajustarTouchAction();
-                c.addEventListener('start', () => { S.lienzo.classList.add('n3d-arrastrando'); });
-                c.addEventListener('end', () => { S.lienzo.classList.remove('n3d-arrastrando'); });
+                c.addEventListener('start', () => { S.lienzo.classList.add('n3d-arrastrando'); marcarActividad(); });
+                c.addEventListener('change', () => marcarActividad());   // también mientras la cámara se desliza al soltar
+                c.addEventListener('end', () => { S.lienzo.classList.remove('n3d-arrastrando'); marcarActividad(); });
 
-                redimensionar(true);
+                redimensionar(true);   // primer fotograma: compila los programas del estilo actual tras el aviso de carga
+                precompilarEstilos();
                 // Se guardan para poder soltarlos al ocultar el 3D (apagar)
                 if (window.ResizeObserver) { S.observadorTam = new ResizeObserver(() => redimensionar(false)); S.observadorTam.observe(S.contenedor); }
                 else { S.alRedimensionar = () => redimensionar(false); window.addEventListener('resize', S.alRedimensionar); }
                 S.alPerderContexto = (e) => { e.preventDefault(); pausar(); fallo('El visor 3D se ha detenido. Pulsa para recargarlo.'); S.estado = 'perdido'; };
                 S.lienzo.addEventListener('webglcontextlost', S.alPerderContexto);
                 configurarPuntero();
+            }
+
+            // 3D16: con el aviso «Despertando…» aún delante se preparan todos los programas de shader: los del otro
+            // estilo («Dibujo animado», antes 7 de golpe al pulsarlo) y los de las piezas que solo asoman en algunas
+            // caritas (dientes y lengua). Se pinta en vez de usar solo renderer.compile() porque así también quedan
+            // listas sus sombras; solo se ve el último fotograma, el normal (el navegador enseña uno por tarea).
+            function precompilarEstilos() {
+                const t0 = performance.now();
+                const ocultas = [];
+                try {
+                    S.modelo.grupo.traverse((o) => {
+                        if (o.isMesh && !o.visible && o !== S.modelo.proxy && o !== S.modelo.contorno) { o.visible = true; ocultas.push(o); }
+                    });
+                    const actual = S.modelo.estilo;
+                    S.renderer.compile(S.escena, S.camara);
+                    renderizar();
+                    S.modelo.setEstilo(actual === 'toon' ? 'suave' : 'toon');
+                    S.renderer.compile(S.escena, S.camara);
+                    renderizar();
+                    S.modelo.setEstilo(actual);
+                } catch (e) { /* si falla, se compilarán al aparecer, como antes */ }
+                ocultas.forEach((o) => { o.visible = false; });
+                renderizar();
+                S.msPrecompilar = Math.round(performance.now() - t0);
             }
 
             /* ---------- Ocultar el 3D: para el bucle y libera la tarjeta gráfica (se puede volver a encender) ---------- */
@@ -254,7 +364,8 @@
                 S.lienzo = nuevo;
                 Object.assign(S, {
                     renderer: null, escena: null, camara: null, controles: null, modelo: null, anim: null, estudio: null,
-                    raf: 0, ultimo: 0, frames: 0, mediaFrame: 16, distBase: 0, puntero: null, mirarHasta: 0, ultimoToque: null, pendientes: []
+                    raf: 0, ultimo: 0, frames: 0, mediaFrame: 16, distBase: 0, puntero: null, mirarHasta: 0, ultimoToque: null, pendientes: [],
+                    activoHasta: 0, accionUsuario: null, reposoPrevio: false
                 });
                 S.estado = 'apagado';
                 S.contenedor.classList.remove('n3d-listo');
@@ -309,6 +420,7 @@
                 S.distBase = d;
                 const hacia = new THREE.Vector3(Math.sin(0.32) * d, OBJETIVO[1] + 0.22, Math.cos(0.32) * d);
                 const t0 = performance.now(), dur = S.reducido ? 1 : 650;
+                marcarActividad();
                 const paso = () => {
                     const u = Math.min(1, (performance.now() - t0) / dur), e = 1 - Math.pow(1 - u, 3);
                     S.camara.position.lerpVectors(desde, hacia, e);
@@ -324,15 +436,37 @@
                 if (S.renderer && S.escena && S.camara) S.renderer.render(S.escena, S.camara);
             }
 
+            /* 3D14: en calidad «baja», cuando nadie toca a Nailong (2,5 s sin tocar, arrastrar, teclado ni botones,
+               y sin una acción pedida por el usuario en marcha) se pinta a ~30 fps. Respiración, parpadeo y
+               micro-gestos siguen igual porque la animación avanza con el tiempo real (dt), no por fotogramas. */
+            const MS_ACTIVO = 2500, MS_REPOSO = 28;   // 28 ms: 1 de cada 2 fotogramas a 60 Hz, 1 de cada 4 a 120 Hz
+
+            function marcarActividad(ms) {
+                S.activoHasta = Math.max(S.activoHasta || 0, performance.now() + (ms || MS_ACTIVO));
+            }
+
+            function enReposo(ahora) {
+                if (S.calidad !== 'baja' || ahora < (S.activoHasta || 0)) return false;
+                if (S.accionUsuario) {
+                    if (S.anim && S.anim.estado().accion === S.accionUsuario) return false;
+                    S.accionUsuario = null;
+                }
+                return true;
+            }
+
             function bucle(ahora) {
                 S.raf = 0;
                 if (!S.visible || document.hidden || S.estado !== 'listo') return;
+                const reposo = enReposo(ahora);
+                if (reposo && S.ultimo && ahora - S.ultimo < MS_REPOSO) { S.raf = requestAnimationFrame(bucle); return; }
                 const dt = S.ultimo ? Math.min((ahora - S.ultimo) / 1000, 0.1) : 1 / 60;
                 S.ultimo = ahora;
                 S.controles.update();
                 S.anim.actualizar(dt, { mirar: objetivoMirada() });
                 renderizar();
-                vigilarRendimiento(dt);
+                // El vigilante de resolución solo mide a ritmo normal: a 30 fps confundiría el ahorro con lentitud
+                if (!reposo && !S.reposoPrevio) vigilarRendimiento(dt);
+                S.reposoPrevio = reposo;
                 S.raf = requestAnimationFrame(bucle);
             }
 
@@ -427,6 +561,8 @@
                 const antes = S.anim.estado().accion;
                 S.anim.tocar(region, reposo || null);
                 const ahora = S.anim.estado().accion;
+                marcarActividad();
+                if (ahora) S.accionUsuario = ahora;
                 if (ahora) sonar(SONIDOS[ahora]);
                 if (ahora && ahora !== antes) anunciar(NOMBRES[ahora] || '');
                 if (region === 'pancita' || region === 'cuerpo') sumarDuang();
@@ -445,6 +581,7 @@
                 let abajo = null, ultimoHover = 0;
                 S.lienzo.addEventListener('pointerdown', (e) => {
                     abajo = { x: e.clientX, y: e.clientY, t: performance.now(), id: e.pointerId };
+                    marcarActividad();
                 });
                 S.lienzo.addEventListener('pointerup', (e) => {
                     if (!abajo || abajo.id !== e.pointerId) return;
@@ -458,7 +595,7 @@
                     const ahora = performance.now();
                     const ray = rayoDesde(e);
                     const p = puntoDeMirada(ray);
-                    if (p) { S.puntero = p; S.mirarHasta = ahora + 2500; }
+                    if (p) { S.puntero = p; S.mirarHasta = ahora + 2500; marcarActividad(); }
                     if (ahora - ultimoHover > 90 && !e.buttons) {
                         ultimoHover = ahora;
                         S.lienzo.style.cursor = ray.intersectObject(S.modelo.proxy, false).length ? 'pointer' : 'grab';
@@ -470,6 +607,7 @@
                 S.tecladoConfigurado = true;
                 S.contenedor.addEventListener('keydown', (e) => {
                     if (S.estado !== 'listo') return;
+                    marcarActividad();
                     const c = S.controles, off = S.camara.position.clone().sub(c.target);
                     const esf = new THREE.Spherical().setFromVector3(off);
                     let usado = true;
@@ -550,6 +688,8 @@
                 cuandoListo(() => {
                     S.anim.accion(nombre);
                     const a = S.anim.estado().accion;
+                    marcarActividad();
+                    S.accionUsuario = a;
                     sonar(SONIDOS[a]);
                     anunciar(NOMBRES[a] || '');
                     if (a === 'duang') sumarDuang();
@@ -558,6 +698,7 @@
 
             function estilo(nombre) {
                 cuandoListo(() => {
+                    marcarActividad();
                     S.modelo.setEstilo(nombre === 'toon' ? 'toon' : 'suave');
                     S.estiloElegido = S.modelo.estilo;   // se conserva si se oculta y se vuelve a encender
                     document.querySelectorAll('[data-n3d-estilo]').forEach((b) => {
@@ -1211,7 +1352,11 @@
                 iniciar, accion, estilo, recentrar, pantallaCompleta, foto, descargarGLB, descargarSticker, exportarStickerWebP, apagar,
                 // Para pruebas automáticas (Playwright) y depuración en consola
                 depurar: {
-                    estado: () => ({ estado: S.estado, calidad: S.calidad, ratio: S.ratio, visible: S.visible, anim: S.anim ? S.anim.estado() : null, estilo: S.modelo ? S.modelo.estilo : null, reducido: S.reducido }),
+                    estado: () => ({
+                        estado: S.estado, calidad: S.calidad, ratio: S.ratio, visible: S.visible, anim: S.anim ? S.anim.estado() : null, estilo: S.modelo ? S.modelo.estilo : null, reducido: S.reducido,
+                        reposo: S.estado === 'listo' && enReposo(performance.now()), origenMalla: S.origenMalla || null, msMalla: S.msMalla, msPrecompilar: S.msPrecompilar,
+                        programas: S.renderer ? S.renderer.info.programs.length : 0
+                    }),
                     tocarRegion: (region) => cuandoListo(() => reaccionar(region, null)),
                     exportarGLB: () => exportarGLB(),
                     exportarStickerWebP: () => exportarStickerWebP(),

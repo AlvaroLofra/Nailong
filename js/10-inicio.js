@@ -173,19 +173,12 @@
                 .catch(() => {});
         }
 
+        // W34: el QR (#apk-qr-img) es un SVG fijo dentro de index.html (herramientas/generar_qr.py), sin red
         function toggleApkQrBox(forceOpen) {
             const box = document.getElementById('apk-qr-box');
-            const img = document.getElementById('apk-qr-img');
             if (!box) return;
             const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : box.classList.contains('hidden');
-            if (shouldOpen) {
-                if (img && !img.getAttribute('src') && img.dataset.qrSrc) {
-                    img.setAttribute('src', img.dataset.qrSrc);
-                }
-                box.classList.remove('hidden');
-            } else {
-                box.classList.add('hidden');
-            }
+            box.classList.toggle('hidden', !shouldOpen);
         }
 
         function closeApkQrBox() {
