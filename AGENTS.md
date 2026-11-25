@@ -32,10 +32,10 @@ js/                   JS vanilla en scripts clásicos numerados; se cargan en or
 manifest.json         PWA
 version.json          Versión publicada del APK, peso, fecha y novedades (la app y el banner de la web la leen)
 StickersNailong.apk   App Android firmada (binario; se versiona con la web)
-Stickers Nailong/     Cromos WebP 512×512 numerados sticker_1..N (N en ESTADO_ACTUAL.md) + creador_nailong.webp + 1 descatalogado (fuera de catálogo)
+Stickers Nailong/     Cromos WebP 512×512 numerados sticker_1..N (N en ESTADO_ACTUAL.md) + creador_nailong.webp + 1 descatalogado (fuera de catálogo); mini/ = copias reducidas por clave para la web (D-30)
 verify_all.py         Suite de verificación
 normalizar_stickers.py  Conversión/EXIF/muxer WebP de stickers y detector de repetidos (`--clasificar`)
-herramientas/          Utilidades de apoyo: hojas de contacto de stickers, certificación 3D, registro de stickers ya vistos
+herramientas/          Utilidades de apoyo: hojas de contacto de stickers, certificación 3D, registro de stickers ya vistos, copias reducidas, iconos SVG y QR de la web
 CHANGELOG.md          Historial de versiones
 README.md             Vitrina pública
 DOCUMENTACION.md      Puntero a documentacion/ (lo exige verify_all.py; no añadir contenido aquí)

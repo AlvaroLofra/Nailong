@@ -7,23 +7,23 @@
 
 | Fichero | Contenido (bloques de la lista de abajo) | Líneas aprox. |
 |---|---|---|
-| `index.html` | Marcado de todas las secciones; carga `css/`, `js/01`–`js/10` y `js/14` (con `?v=` anti-caché; `js/11`–`js/13` se cargan bajo demanda desde `js/14`, mejora W25); botón de pausa de partículas `#particles-toggle-btn` (W21), `autofocus` en los 4 `<dialog>` (W22), botón `#nailong-3d-sticker` (3D3), botones `#nailong-3d-cargar` / `#nailong-3d-ocultar` del 3D apagado por defecto (D-26) y cabecera que pasa al menú ☰ por debajo de 1.280 px (W31) | 1.290 |
-| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, `body.particles-paused` (W21), contraste WCAG AA (W23), reservas de espacio anti-CLS (W28), objetivo táctil del deslizador `#power-size-slider` ≥ 28 px (W30) y estilos `.n3d-*` (incl. `.n3d-cargando` y controles ocultos con el 3D apagado, D-26) | 615 |
+| `index.html` | Marcado de todas las secciones; carga `css/`, `js/01`–`js/10` y `js/14` (con `?v=` anti-caché; `js/11`–`js/13` se cargan bajo demanda desde `js/14`, mejora W25); botón de pausa de partículas `#particles-toggle-btn` (W21), `autofocus` en los 4 `<dialog>` (W22), botón `#nailong-3d-sticker` (3D3), botones `#nailong-3d-cargar` / `#nailong-3d-ocultar` del 3D apagado por defecto (D-26), cabecera que pasa al menú ☰ por debajo de 1.280 px (W31), icono de pestaña y copias reducidas de `Stickers Nailong/mini/` en logo, banner, pie y tarjetas (W33) y QR fijos en SVG `#apk-qr-img` / `#share-qr-code` (W34) | 1.286 |
+| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, `body.particles-paused` (W21), contraste WCAG AA (W23), reservas de espacio anti-CLS (W28), objetivo táctil del deslizador `#power-size-slider` ≥ 28 px (W30), estilos `.n3d-*` (incl. `.n3d-cargando` y controles ocultos con el 3D apagado, D-26) y, al final, el bloque generado de los 27 iconos SVG (`ICONOS-INICIO` … `ICONOS-FIN`, clases `fa-*`, W32) | 655 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind con métricas de respaldo anti-CLS (se carga justo tras el CDN) | 30 |
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 242 |
-| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos; `clave` estable en los usados fuera del álbum) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22) | 143 |
+| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos; `clave` estable en los usados fuera del álbum) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22; respeta las copias `mini/<clave>.webp`, W33) | 147 |
 | `js/03-hero.js` | 3 · Hero, contador Duang, estados de ánimo y control de pausa de partículas de fondo (`#particles-toggle-btn`, `sessionStorage`, W21) | 145 |
 | `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante (`COMPANION_SECTION_PHRASES`, W9) | 131 |
 | `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 279 |
 | `js/06-album-y-descargas.js` | 7–7B · Álbum polaroid, lightbox, descarga/WhatsApp/portapapeles | 616 |
 | `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 261 |
-| `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona» | 463 |
-| `js/09-modo-fiesta.js` | 11 · Modo Fiesta (confeti en canvas) | 319 |
-| `js/10-inicio.js` | 14 · Inicialización escalonada (`diferirArranque` con `requestIdleCallback`, W27), scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace» + QR `#apk-qr-box`) y `window.onload` | 280 |
-| `js/11-nailong3d-geometria.js` | 15 · Núcleo 3D sin dependencias (carga diferida por `js/14`, W25): `ANATOMIA` 21/21 OK con `rotX` (judía inclinada) y `perfilCabeza` (cara «V1 afinada», 3D12: `escalaCabezaX` / `dCabeza`), ojo «lente» a ras (3D13: `OJO` con cizalla `a`/`b` y `lente`, ventana `VENTANA` tallada en `sdf()`), SDF, Surface Nets estanca, **15 huesos** (`codoIzq/codoDer`, `colaMedia`), pesos de piel con escudo axilar y color por vértice (Worker y Node) | 620 |
-| `js/12-nailong3d-escena.js` | 16 · Escena 3D (carga diferida por `js/14`, W25): `SkinnedMesh`, `crearCaraDeformable` y `crearBoca` re-anclados al hocico adelantado, ojos «lente» (3D13: `marcoOjo` descompone la cizalla en giro · escala · giro para el `.glb`; párpados, brillo y mirada giran dentro de `Nailong_ojoInterno`) con AO de párpado, garras adjuntas a `codoIzq/codoDer`, frustum de sombra ampliado y shader *mochi* | 1.261 |
+| `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona»; el sprite del jugador se pide al acercarse al juego o al empezar (`cargarSpriteJugador`, W33) | 474 |
+| `js/09-modo-fiesta.js` | 11 · Modo Fiesta (confeti en canvas) y modal de compartir (el QR es un SVG fijo de `index.html`, W34) | 302 |
+| `js/10-inicio.js` | 14 · Inicialización escalonada (`diferirArranque` con `requestIdleCallback`, W27), scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace» + caja del QR fijo `#apk-qr-box`, W34) y `window.onload` | 359 |
+| `js/11-nailong3d-geometria.js` | 15 · Núcleo 3D sin dependencias (carga diferida por `js/14`, W25): `ANATOMIA` 21/21 OK con `rotX` (judía inclinada) y `perfilCabeza` (cara «V1 afinada», 3D12: `escalaCabezaX` / `dCabeza`), cúpula aplastada de la frente (3D18: `CUPULA`, `dCabezaSinCupula`), ojo «lente» a ras (3D13: `OJO` con cizalla `a`/`b` y `lente`, ventana `VENTANA` tallada en `sdf()`), SDF, Surface Nets estanca, **15 huesos** (`codoIzq/codoDer`, `colaMedia`), pesos de piel con escudo axilar y color por vértice (Worker y Node) | 636 |
+| `js/12-nailong3d-escena.js` | 16 · Escena 3D (carga diferida por `js/14`, W25): `SkinnedMesh`, `crearCaraDeformable` y `crearBoca` re-anclados al hocico adelantado, ojos «lente» (3D13: `marcoOjo` descompone la cizalla en giro · escala · giro para el `.glb`; párpados, brillo y mirada giran dentro de `Nailong_ojoInterno`) con AO de párpado en un programa compartido por los dos ojos (3D16), garras adjuntas a `codoIzq/codoDer`, frustum de sombra ampliado (sin sombra en tiempo real en calidad «baja», 3D14) y shader *mochi* | 1.269 |
 | `js/13-nailong3d-animacion.js` | 17 · Animación 3D (carga diferida por `js/14`, W25): muelles, canales de codo (`cIX..cDZ`), cola en 3 huesos desfasados, 5 acciones, 6 caritas de la serie, reacciones y horneado GLB determinista (63 tracks/clip) | 896 |
-| `js/14-nailong3d-visor.js` | 18 · Visor 3D (en `index.html`, se autoinicia **apagado**, D-26): al pulsar «Ver a Nailong en 3D» carga en orden `js/11` → `js/12` → `js/13` (W25) y Three.js r147 (SRI); `apagar()` («Ocultar») libera la GPU; bucle, cámara, regiones táctiles (incl. codos y `colaMedia`), foto PNG, **sticker 512×512 WebP con EXIF WhatsApp (`3D3`)**, GLB con 11 clips y **panel flotante `?3d=debug` (`3D5`)** | 1.230 |
+| `js/14-nailong3d-visor.js` | 18 · Visor 3D (en `index.html`, se autoinicia **apagado**, D-26): al pulsar «Ver a Nailong en 3D» carga en orden `js/11` → `js/12` → `js/13` (W25) y Three.js r147 (SRI); `apagar()` («Ocultar») libera la GPU; bucle con ~30 fps en reposo en calidad «baja» (`enReposo`, 3D14), malla en IndexedDB (`obtenerMallas`, 3D15), *shaders* preparados al encender (`precompilarEstilos`, 3D16), cámara, regiones táctiles (incl. codos y `colaMedia`), foto PNG, **sticker 512×512 WebP con EXIF WhatsApp (`3D3`)**, GLB con 11 clips y **panel flotante `?3d=debug` (`3D5`)** | 1.377 |
 
 Reglas: son **scripts clásicos** que comparten el ámbito global (sin `import`/`export`), así que el **orden de carga importa** y es el de la tabla. `js/01`–`js/10` y `js/14` se declaran en `index.html`; `js/11`–`js/13` los carga `js/14` dinámicamente en orden estricto cuando el usuario enciende el 3D (`W25`, D-26). Al añadir un fichero, regístralo en `index.html` (o en el cargador de `js/14`); `verify_all.py` falla si hay un `.js`/`.css` sin cargar o una referencia rota.
 
@@ -37,7 +37,7 @@ El código está estructurado en 12 bloques funcionales visibles:
    - Reglas para pantalla completa del minijuego (`#game-container:fullscreen`, `.minigame-fullscreen-active`) y pausa de partículas (`body.particles-paused`, W21).
 
 2. **Cabecera Flotante ("Nube de Leche"):**
-   - Logotipo con el sticker animado 3D de sonrisa radiante (`sticker_2.webp`, `decoding="async" fetchpriority="low"`, W24) llenando el círculo mediante zoom calibrado (`scale-110 object-center`).
+   - Logotipo con el sticker animado 3D de sonrisa radiante (copia de 192 px de `sticker_2.webp`, `Stickers Nailong/mini/dragon-de-leche.webp`, W33; `decoding="async" fetchpriority="low"`, W24) llenando el círculo mediante zoom calibrado (`scale-110 object-center`).
    - Enlaces de escritorio en línea desde `xl` (1.280 px) y barra hasta `88rem`; entre 1.024 y 1.279 px se usa el menú ☰ porque los 10 enlaces no caben (W31, sustituye al compactado de W10). Por debajo de 360 px se oculta el texto «Nailong» del logo para que quepa el ☰.
    - Botón discreto para pausar/reanudar las partículas flotantes (`#particles-toggle-btn`, sincronizado con `#mobile-menu`, W21).
    - Botón de compartir con amigos (modal con enlace y código QR), silencio de audio global, Modo Fiesta y menú móvil desplegable.
@@ -73,7 +73,7 @@ El código está estructurado en 12 bloques funcionales visibles:
     - Renderizado GPU a 60 FPS sobre `#party-canvas` (oculto `display: none` mientras no hay confeti activo) con sprites de emojis pre-rasterizados.
 
 11. **Compartir & Conectividad Social:**
-    - Modal `<dialog>` con `autofocus` en cerrar (W22), código QR generado en tiempo real y enlace en vivo a GitHub Pages.
+    - Modal `<dialog>` con `autofocus` en cerrar (W22), código QR fijo en SVG hacia la página principal (W34) y enlace en vivo a GitHub Pages.
 
 12. **Nailong 3D (sección `#nailong-3d`, entre «¿Quién es?» y «Stickers»):**
     - **Apagado por defecto (D-26):** el visor muestra «Nailong 3D duerme en su huevo» y no descarga nada hasta pulsar «🐣 Ver a Nailong en 3D» (o cualquier botón del panel); entonces carga `js/11`–`js/13` (W25) + Three.js r147 (SRI). «Ocultar» (`apagar()`) para el bucle y suelta el contexto WebGL. `?3d=1` y `?3d=debug` lo encienden al cargar (herramientas); `#nailong-3d` solo lleva a la sección. Encendido, se pausa fuera de pantalla (`IntersectionObserver`).
@@ -99,6 +99,10 @@ El código está estructurado en 12 bloques funcionales visibles:
 | Tráiler plegable | `index.html` · `<details id="video-promo-section">`; `js/10-inicio.js` · `abrirTrailer`, `setupTrailerFold` |
 | Pestañas del laboratorio | `index.html` · `.lab-tab` / `.lab-panel`; `js/07-sonidos-y-laboratorio.js` · `mostrarPestanaLab` |
 | Carruseles de móvil | `css/styles.css` · `.carrusel-movil` («¿Quién es?»), `.carrusel-chips` (acciones 3D) |
+| Copias reducidas de stickers (W33) | `Stickers Nailong/mini/<clave>.webp` (+ `favicon.webp`), generadas y comprobadas por `herramientas/miniaturas_web.py` (test 53) |
+| Iconos SVG (W32) | `css/styles.css` · bloque `ICONOS-INICIO`/`ICONOS-FIN` (clases `fa-*`), generado por `herramientas/iconos_svg.py` (test 54) |
+| QR fijos (W34) | `index.html` · `#apk-qr-img`, `#share-qr-code` (`data-qr-url`), generados por `herramientas/generar_qr.py --html` (tests 22 y 48) |
+| Rendimiento 3D (3D14–3D16) | `js/14` · `decidirCalidad` (`?calidad=`), `enReposo`/`marcarActividad`, `obtenerMallas`, `precompilarEstilos`; `js/12` · `crearEstudio` (`conSombra`), `inyectarOjoAO` (test 55) |
 | Nailong 3D (apagado por defecto D-26, carga diferida W25, sticker 3D3, `?3d=debug`, cara 3D12, ojos 3D13) | `js/11`…`js/14` · `Nailong3DGeometria` (`perfilCabeza`, `escalaCabezaX`, `OJO`, `VENTANA`), `marcoOjo` en `js/12`, `Nailong3DEscena`, `Nailong3DAnimacion`, `Nailong3DVisor` (`arrancar`, `apagar`, `#nailong-3d-sticker`, `exportarStickerWebP`, `montarPanelDebug`) |
 
 > Esta tabla se ha construido con los nombres que `verify_all.py` ya comprueba; el número de línea no se fija porque cambia con cada edición.

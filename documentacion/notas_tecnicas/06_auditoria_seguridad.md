@@ -54,7 +54,7 @@ Gravedad: **alta** = puede dañar a los usuarios; **media** = puede dejar el pro
 |---|---|---|---|
 | H-9 | Tailwind se carga como script desde su CDN, sin comprobación de integridad. | Baja | Si ese CDN sirviera código malicioso, se ejecutaría en la página. La versión está fijada, pero ese servicio no admite huella de integridad; evitarlo exige compilar Tailwind, lo que rompe la regla «sin build» (D-15). La web no maneja datos sensibles. |
 | H-10 | No hay política de seguridad de contenido (CSP). | Baja | GitHub Pages no permite cabeceras propias y la página usa manejadores `onclick` en el HTML, así que una CSP por `<meta>` tendría que permitir casi todo y no protegería. |
-| H-11 | El código QR se genera en un servicio externo (`api.qrserver.com`). | Informativa | Ese servicio recibe la dirección de la web (pública). Es solo una imagen; si falla, se muestra un texto de respaldo. |
+| H-11 | ~~El código QR se genera en un servicio externo (`api.qrserver.com`).~~ **Resuelta en la web 4.2.0 (`W34`, D-30):** los dos QR son SVG fijos dentro de `index.html` y ya no se pide nada a ese servicio. | Informativa | — |
 
 ## Lo que está bien (comprobado)
 
@@ -71,7 +71,7 @@ Gravedad: **alta** = puede dañar a los usuarios; **media** = puede dejar el pro
 - El tráfico sin cifrar está bloqueado por defecto (objetivo ≥ API 28) y la compilación *release* lleva ofuscación.
 
 **En la web:**
-- Font Awesome y Three.js se cargan con huella de integridad (SRI).
+- Three.js se carga con huella de integridad (SRI). Desde la 4.2.0 (`W32`, D-30) Font Awesome ya no se descarga: los iconos son SVG dentro de `css/styles.css`, así que hay un tercero menos que pueda servir código o fuentes.
 - No hay claves, contraseñas ni almacenes de claves en el repositorio ni en su historial (`git ls-files`, `git log --all`). `.gitignore` excluye `.env` y `CLAUDE.local.md`.
 - El resto de usos de `innerHTML` pintan datos fijos del propio código.
 

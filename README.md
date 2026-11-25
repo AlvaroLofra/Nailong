@@ -43,15 +43,14 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 ---
 
-## ✨ Novedades de la Versión (v4.1.0)
+## ✨ Novedades de la Versión (v4.2.0)
 
-*¡Nailong 3D igualito al de la serie y una web más cómoda en el móvil!*
+*¡Una web más ligera y un Nailong 3D más suave en el móvil!*
 
-- **Nailong 3D más fiel que nunca:** Cara redondita en forma de campana, cuello y hombros marcados, brazos con codo, colita larga y ojos lisos a ras de la cara, sin ojos saltones.
-- **Caritas de la serie:** Ponle cara de Sonrisón, Carcajada, ¡Bleh!, Puchero, Pillo o ¡Susto!, además de saludar, bailar o echarse la siesta.
-- **Tu propio sticker 3D:** Guarda a Nailong en la pose que más te guste como sticker listo para WhatsApp.
-- **Sin gastar batería de más:** Nailong 3D duerme en su huevo hasta que pulsas «Ver a Nailong en 3D», y puedes ocultarlo cuando quieras.
-- **Más cómoda en el móvil:** Barra de accesos abajo, secciones más compactas y un menú superior que encaja en cualquier pantalla.
+- **La web abre mucho más rápido:** Al entrar descarga tres veces menos imágenes, y los iconos y los códigos QR ya vienen incluidos, sin esperar a otras webs.
+- **Nailong 3D aún más fiel:** Ahora tiene menos frente, igualito que en la serie.
+- **Nailong 3D más suave en el móvil:** Gasta menos batería cuando lo dejas tranquilo, se enciende antes la segunda vez y ya no se para al cambiar a «Dibujo animado».
+- **Tráiler al día:** Presume de una colección que ya pasa de 120 y enseña los 5 packs de la app.
 - **La app Android sigue igual:** No hace falta actualizarla; mantiene sus 5 packs oficiales.
 
 > 📖 **Historial completo de versiones:**
