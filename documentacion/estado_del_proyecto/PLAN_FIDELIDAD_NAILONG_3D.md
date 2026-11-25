@@ -564,3 +564,25 @@ Nota del equipo del usuario: en Git Bash, `python` puede abrir la Microsoft Stor
 - **Descartado:** orientar la lente según la normal de la piel (el iris resbalaría ~20 mm al mirar al frente), deformar la geometría del globo (rompería mirada y parpadeo) y la variante A.
 - **Comprobado:** `evaluar_3d.py --etiqueta 3d13_ojos_lente --expresiones --cara` (24 vistas, 0 errores de consola/WebGL, 21/21 y 5/5), 12 primeros planos `--ojos` (parpadeo a medio cerrar, carcajada `^ ^`, guiño de burla, puchero, susto, siesta y sonrisón sin atravesamientos), estilo «dibujo animado» y láminas `3d13_ojos_lente/lamina_ojos_antes_despues.png` (local, D-25). Visto bueno del usuario el 25/11.
 - **Pendiente menor:** en estilo «dibujo animado», el ojo del fondo hace una muesca diminuta en la línea de contorno; y los ojos del modelo siguen siendo ~17 % más grandes que los de las capturas frontales (`08`, `13`, `26`), algo que no se tocó porque el usuario no lo pidió.
+
+---
+
+## Anexo G · Mejora `3D18`: frente más corta (25/11/2026, sesión Claude Code)
+
+**Petición del usuario:** «el Nailong real tiene menos frente y la cabeza no se expande tanto por arriba»: en el modelo la cabeza «sigue mucha distancia tras terminar los ojos», mientras que en la serie «empieza a terminar su cabeza poco después de los ojos». Referencias: de frente `08`, `13`, `18`, `26`; 3/4 `12`; perfil `05`; espalda `10`. (La captura que el usuario aportó para esta petición es la `26`: ya estaba en el catálogo.)
+
+**Cómo se midió:** nueva medida `F0` en `herramientas/perfil_cara.py` = distancia de la coronilla a la línea de los ojos (centro de los píxeles verdes del iris) dividida por el ancho máximo de la cabeza, en el render `cara_frente` y en las capturas frontales, con el mismo método que `F1`–`F4`. Objetivo `0,43–0,49`, alrededor de la media de la serie. La lámina de la cara añade una segunda silueta con los ojos alineados y la altura en anchos de cabeza, donde se ve a qué altura acaba cada coronilla.
+
+| Medida | Serie (`08` · `13` · `18` · `26`) | Antes | A · −1,8 cm | **B · −2,8 cm (aplicada)** |
+|---|---|---|---|---|
+| `F0` frente: coronilla → ojos / ancho | `0,414` · `0,486` · `0,474` · `0,455` (media `0,457`) | `0,516` ✗ | `0,478` | **`0,456`** |
+| `F1` / `F2` / `F3` / `F4` / `O1` | `1,267` / `0,855` / `0,946` / `0,928` / `0,468` | `1,261` / `0,874` / `0,965` / `0,890` / `0,454` | `1,282` / `0,874` / `0,965` / `0,925` / `0,454` | **`1,296` / `0,877` / `0,965` / `0,943` / `0,454`** |
+| Altura total (malla `0,0105`) | — | `0,999` | `0,981` | **`0,970`** (D-29) |
+| `H5` alto de la cabeza / `H4` coronilla | `0,47–0,50` / `≥ 0,76` | `0,500` / `0,771` | `0,482` / `0,780` | **`0,472` / `0,788`** |
+| Ojo: sobresale (reposo / muy abierto) · pliegue arriba | — | `−0,5` / `+0,5 mm` · `6,3 mm` | igual · `6,1 mm` | **igual · `6,0 mm`** |
+
+- **Diagnóstico:** ojos, mofletes, boca y cuerpo estaban en su sitio. Lo que sobraba era la cúpula: el modelo llegaba a 0,516 anchos de cabeza por encima de los ojos y la serie, a 0,457.
+- **Solución (D-29):** `ANATOMIA.cupula = { desde: 0,74, hasta: 0,82, aplasta: 1,15 }`. `dCabeza` mide la cabeza en `y' = y + (aplasta − 1)·∫suavizado(desde, hasta)`, cuya pendiente pasa de 1 a 1,15 entre `y = 0,74` y `0,82` (curva C2, sin pliegue), y divide la distancia por esa pendiente para que siga siendo una cota segura. Es como apretar con la palma la parte de arriba de la plastilina: la cúpula baja y lo de abajo no se mueve. Empieza justo por encima del centro del ojo (`0,734`), así que la normal de la piel en el ojo (`a = −0,315`, `b = −0,263`) y la lente no cambian.
+- **Descartado:** bajar centros y radios de `craneo` y `frente` (2,8 cm: `F0 ≈ 0,45` estimado en Node, pero `H6 = 0,973` fuera de rango y la inclinación del ojo cambia un poco); empezar el aplastado en `y = 0,76` o más arriba (`F2 = 0,881` y `F3 = 0,969`, fuera de rango) o en `0,70` (cruza el ojo y cambia su inclinación); re-escalar el modelo a altura 1 (×1,031: `H2`, `B3`, `T1` y `T3` se saldrían de rango, según el cálculo); la variante A (el usuario prefirió la que coincide con la serie).
+- **Comprobado:** `node herramientas/medir_nailong3d.js --tabla` (21/21), `medir_ojos_3d.js` (y `--abre 1.06`), `evaluar_3d.py --etiqueta 3d18_frente --expresiones --cara` (24 vistas, 0 errores de consola/WebGL, 6/6 medidas de la cara), 12 primeros planos `--ojos` (parpadeo, carcajada, burla, puchero, susto, siesta y sonrisón sin atravesamientos) y `verify_all.py` en verde con el test 49 adaptado (altura 0,96–1,01, D-29). 0 huecos en las tres resoluciones de malla. Láminas en `referencias_nailong_serie/comparativas/3d18_frente/` (local, D-25): `lamina_corta_frente.png` (hoy, A y B con la serie) y `lamina_frente_cara.png`.
+- **No comprobado:** estilo «dibujo animado» y móviles reales.
