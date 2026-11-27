@@ -221,8 +221,51 @@
 
         
         /* ==============================================================
-           15. LUZ AMBIENTAL Y PANTALLA COMPLETA DEL TRÁILER (9:16)
+           15. TRÁILER: FORMATO (V1), LUZ AMBIENTAL Y PANTALLA COMPLETA
+           En pantallas anchas (ordenador, tableta o móvil girado) se ve el tráiler horizontal 16:9;
+           en el móvil en vertical, el vertical 9:16 de siempre. Se decide al cargar la página (para
+           descargar solo la portada que toca) y otra vez al desplegarlo, si no se está viendo.
         ============================================================== */
+        const TRAILER_FORMATOS = {
+            vertical: {
+                src: 'video-promo/nailong_trailer_v2.mp4',
+                portada: 'video-promo/nailong_trailer_v2_portada.webp',
+                etiqueta: '📱 Vertical 9:16',
+                ambiente: [45, 80]
+            },
+            horizontal: {
+                src: 'video-promo/nailong_trailer_v2_horizontal.mp4',
+                portada: 'video-promo/nailong_trailer_v2_horizontal_portada.webp',
+                etiqueta: '🖥️ Horizontal 16:9',
+                ambiente: [80, 45]
+            }
+        };
+        const TRAILER_CONSULTA_HORIZONTAL = '(min-width: 768px) and (min-aspect-ratio: 1/1)';
+
+        function elegirFormatoTrailer() {
+            const box = document.getElementById('video-promo-section');
+            const video = document.getElementById('trailer-video');
+            if (!box || !video) return;
+            const nombre = window.matchMedia && window.matchMedia(TRAILER_CONSULTA_HORIZONTAL).matches ? 'horizontal' : 'vertical';
+            if (box.dataset.formato === nombre) return;
+            if (box.dataset.formato && !video.paused) return;   // no se corta un vídeo que se está viendo
+            const f = TRAILER_FORMATOS[nombre];
+            box.dataset.formato = nombre;
+            box.classList.toggle('trailer-horizontal', nombre === 'horizontal');
+            video.setAttribute('poster', f.portada);
+            if (video.getAttribute('src') !== f.src) video.setAttribute('src', f.src);   // preload="none": no descarga nada aún
+            const miniatura = document.getElementById('trailer-miniatura');
+            if (miniatura && miniatura.getAttribute('src') !== f.portada) miniatura.setAttribute('src', f.portada);
+            const canvas = document.getElementById('video-ambient-canvas');
+            if (canvas) {
+                canvas.width = f.ambiente[0];
+                canvas.height = f.ambiente[1];
+            }
+            const etiqueta = document.getElementById('trailer-formato');
+            if (etiqueta) etiqueta.textContent = f.etiqueta;
+        }
+        elegirFormatoTrailer();   // ya, antes de que el navegador pida la portada o la miniatura
+
         let trailerAmbientTimer = null;
 
         function setupTrailerAmbientLight() {
@@ -230,9 +273,7 @@
             const canvas = document.getElementById('video-ambient-canvas');
             if (!video || !canvas) return;
 
-            const ctx = canvas.getContext('2d');
-            canvas.width = 45;
-            canvas.height = 80;
+            const ctx = canvas.getContext('2d');   // su tamaño (45×80 o 80×45) lo pone elegirFormatoTrailer
 
             const updateAmbientFrame = () => {
                 if (video.paused || video.ended || !video.videoWidth) return;
@@ -263,15 +304,26 @@
         // El tráiler vive plegado en un <details>: el botón «Tráiler» del banner lo despliega antes de saltar a él
         function abrirTrailer() {
             const box = document.getElementById('video-promo-section');
+            elegirFormatoTrailer();
             if (box) box.open = true;
         }
 
-        // Al plegar el tráiler, se pausa el vídeo para que no siga sonando oculto
+        // Al desplegar, se vuelve a elegir el formato (la ventana o el móvil pueden haber girado);
+        // al plegarlo, se pausa el vídeo para que no siga sonando oculto
         function setupTrailerFold() {
             const box = document.getElementById('video-promo-section');
             const video = document.getElementById('trailer-video');
             if (!box || !video) return;
-            box.addEventListener('toggle', () => { if (!box.open && !video.paused) video.pause(); });
+            box.addEventListener('toggle', () => {
+                if (box.open) {
+                    elegirFormatoTrailer();
+                    // Plegado no descarga nada (preload="none"); al desplegarlo se piden solo los datos del vídeo
+                    // (37 KB al principio del .mp4): sin ellos el navegador deja desactivado su botón de pantalla completa
+                    if (video.preload === 'none') video.preload = 'metadata';
+                } else if (!video.paused) {
+                    video.pause();
+                }
+            });
         }
 
         function toggleTrailerFullscreen() {

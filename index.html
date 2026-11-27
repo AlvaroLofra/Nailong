@@ -521,7 +521,7 @@
             <details id="video-promo-section" class="clay-card bg-gradient-to-br from-amber-50 via-yellow-100 to-orange-100 border-3 border-nailong-orange p-3 sm:p-5 w-full shadow-md reveal-item scroll-mt-24">
                 <summary class="trailer-resumen cursor-pointer flex items-center gap-3 sm:gap-4 select-none">
                     <span class="trailer-cerrado relative w-12 h-20 sm:w-14 sm:h-24 shrink-0 rounded-xl overflow-hidden border-2 border-white shadow-md bg-black">
-                        <img src="video-promo/nailong_trailer_v2_portada.webp" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
+                        <img id="trailer-miniatura" src="video-promo/nailong_trailer_v2_portada.webp" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
                         <span class="absolute inset-0 flex items-center justify-center text-white text-lg"><i class="fa-solid fa-play"></i></span>
                     </span>
                     <span class="flex-1 min-w-0">
@@ -530,17 +530,18 @@
                     </span>
                     <span class="shrink-0 w-9 h-9 rounded-full bg-white border-2 border-nailong-orange text-amber-900 flex items-center justify-center" aria-hidden="true"><i class="trailer-flecha fa-solid fa-chevron-down transition-transform"></i></span>
                 </summary>
-                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-4">
+                <!-- V1: en pantallas anchas js/10 (elegirFormatoTrailer) cambia al tráiler horizontal 16:9 y pone la portada que toca -->
+                <div class="trailer-cuerpo flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-4">
                     <div id="video-player-container" class="w-48 sm:w-56 h-80 sm:h-96 flex-shrink-0 rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black flex items-center justify-center relative group">
                         <canvas id="video-ambient-canvas" aria-hidden="true"></canvas>
-                        <video id="trailer-video" src="video-promo/nailong_trailer_v2.mp4" poster="video-promo/nailong_trailer_v2_portada.webp" controls playsinline preload="none" class="w-full h-full object-contain relative z-10 bg-black"></video>
+                        <video id="trailer-video" src="video-promo/nailong_trailer_v2.mp4" controls playsinline preload="none" class="w-full h-full object-contain relative z-10 bg-black"></video>
                     </div>
-                    <div class="space-y-3 text-center sm:text-left flex-1">
+                    <div class="trailer-texto space-y-3 text-center sm:text-left flex-1">
                         <p class="text-xs sm:text-sm text-amber-900/85 font-semibold leading-relaxed">
                             Disfruta del tráiler animado oficial creado con <strong>HyperFrames</strong>: físicas elásticas <em>Duang</em>, los 126 stickers de WhatsApp, minijuego arcade y música saltarina original.
                         </p>
                         <div class="flex flex-wrap gap-2 justify-center sm:justify-start pt-1">
-                            <span class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">📱 Vertical 9:16</span>
+                            <span id="trailer-formato" class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">📱 Vertical 9:16</span>
                             <span class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">🎵 Banda Sonora Original</span>
                             <span class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">🦖 100% Nailong</span>
                         </div>
@@ -561,7 +562,12 @@
                         <span class="bg-nailong-yellow border-2 border-nailong-orange px-3 py-0.5 rounded-full font-display font-bold text-xs text-amber-950 inline-block">🎬 ANIMACIONES EN BUCLE</span>
                         <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950 mt-1">Visor Mágico</h3>
                     </div>
-                    <p class="hidden sm:block text-sm font-semibold text-amber-900/85">Toca una escena para cambiar su velocidad o estamparle stickers 👉</p>
+                    <div class="flex items-center gap-3">
+                        <p class="hidden md:block text-sm font-semibold text-amber-900/85">Toca una escena para pausarla, verla a cámara lenta o al revés 👉</p>
+                        <button type="button" onclick="sorprendeme()" class="clay-btn bg-nailong-yellow hover:bg-nailong-light text-amber-950 font-display font-bold px-3 sm:px-4 py-2 text-xs sm:text-sm inline-flex items-center gap-1.5 border-2 border-nailong-orange shadow-sm transition-transform hover:scale-105 active:scale-95" title="Abrir en el Visor un sticker animado al azar">
+                            <i class="fa-solid fa-shuffle"></i> ¡Sorpréndeme!
+                        </button>
+                    </div>
                 </div>
                 <div id="gif-wall-grid" class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
                     <!-- Dynamically populated with real animated webp stickers -->
@@ -640,13 +646,13 @@
                     <h2 class="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-amber-950">
                         ¡La Botonera Musical de Nailong!
                     </h2>
-                    <p class="hidden sm:block text-amber-900/85 font-semibold">
-                        Haz clic en cada carita de Nailong para escuchar sus divertidos sonidos y expresiones de la serie.
+                    <p class="text-sm sm:text-base text-amber-900/85 font-semibold">
+                        Toca cada carita de Nailong para oír su sonido. ¡Todos están hechos con el sintetizador de la web!
                     </p>
                 </div>
 
                 <!-- Sound Tiles Grid -->
-                <div class="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-5" id="soundboard-grid">
+                <div class="space-y-4 sm:space-y-6" id="soundboard-grid">
                     <!-- Populated by JavaScript with sound buttons -->
                 </div>
             </div>
@@ -998,41 +1004,104 @@
                     <span id="modal-badge" class="bg-nailong-orange text-amber-950 font-display font-bold px-3 py-1 rounded-full text-[10px] sm:text-xs uppercase shrink-0">
                         GIF EN VIVO
                     </span>
-                    <h3 id="modal-title" class="font-display font-bold text-xl sm:text-3xl text-amber-950 truncate">
+                    <h3 id="modal-title" class="font-display font-bold text-lg sm:text-3xl leading-tight text-amber-950 line-clamp-2">
                         Título de la Animación
                     </h3>
                 </div>
 
                 <!-- Interactive Stage inside Modal -->
-                <div id="modal-stage-wrapper" class="relative h-60 sm:h-80 rounded-3xl border-4 border-nailong-yellow bg-gradient-to-b from-amber-50 to-nailong-pale flex items-center justify-center overflow-hidden shadow-inner transition-all duration-300">
+                <div id="modal-stage-wrapper" class="relative h-60 sm:h-80 rounded-3xl border-4 border-nailong-yellow bg-gradient-to-b from-amber-50 to-nailong-pale flex items-center justify-center overflow-hidden shadow-inner">
                     <div id="modal-content-holder" class="w-full h-full flex items-center justify-center p-3 sm:p-4">
-                        <img id="modal-main-img" src="" alt="Animación Nailong" class="max-h-full max-w-full object-contain drop-shadow-xl select-none transition-all duration-300">
+                        <img id="modal-main-img" alt="Animación Nailong" class="max-h-full max-w-full object-contain select-none">
+                        <!-- VM1: reproductor propio (fotogramas del WebP compuestos en el lienzo, js/05) -->
+                        <canvas id="modal-player-canvas" role="img" aria-label="Animación Nailong" class="hidden w-full h-full object-contain select-none" width="0" height="0"></canvas>
                     </div>
-                    <!-- Draggable Stickers Overlay Layer -->
+                    <p id="modal-player-loading" class="hidden absolute bottom-2 left-1/2 -translate-x-1/2 z-20 pointer-events-none whitespace-nowrap bg-white/95 border-2 border-nailong-yellow rounded-full px-3 py-1 text-[11px] sm:text-xs font-bold text-amber-900 shadow-sm" aria-hidden="true"></p>
+                    <!-- Draggable Stickers Overlay Layer (tocar el fondo pausa o sigue) -->
                     <div id="modal-stickers-layer" class="absolute inset-0 overflow-hidden pointer-events-auto"></div>
                 </div>
 
                 <div class="space-y-1 text-center">
                     <p id="modal-description" class="text-amber-900 font-semibold text-xs sm:text-base"></p>
-                    <p id="modal-speed-label" class="text-xs text-amber-800 font-bold">🦖 Velocidad Normal: Ritmo original del sticker.</p>
+                    <p id="modal-speed-label" aria-live="polite" class="text-xs text-amber-800 font-bold min-h-[1rem]">🦖 ×1: el ritmo original del sticker.</p>
                 </div>
 
-                <!-- Interactive Controls for Kids: Speed, Stickers & Download -->
-                <div class="bg-white/95 p-3 sm:p-4 rounded-2xl border-2 border-nailong-yellow flex flex-wrap items-center justify-between gap-2 sm:gap-3">
-                    <div class="flex items-center gap-1.5" id="modal-speed-buttons">
-                        <span class="font-display font-bold text-xs sm:text-sm text-amber-950">⚡ Modo:</span>
-                        <button onclick="setModalSpeed('slow', this)" class="px-2.5 sm:px-3 py-1 rounded-full bg-nailong-pale hover:bg-nailong-yellow font-bold text-xs transition-all">🐢 Lento</button>
-                        <button onclick="setModalSpeed('normal', this)" class="px-2.5 sm:px-3 py-1 rounded-full bg-nailong-orange text-amber-950 font-bold text-xs transition-all shadow-sm">🦖 Normal</button>
-                        <button onclick="setModalSpeed('turbo', this)" class="px-2.5 sm:px-3 py-1 rounded-full bg-nailong-pale hover:bg-nailong-yellow font-bold text-xs transition-all">🚀 ¡Turbo!</button>
+                <!-- VM1 · Reproductor: pausa, fotograma a fotograma, barra de tiempo, velocidad real, al revés y bumerán -->
+                <div id="visor-controles" data-no-swipe class="bg-white/95 p-2.5 sm:p-3 rounded-2xl border-2 border-nailong-yellow space-y-2">
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="visor-barra" min="0" max="0" step="1" value="0" oninput="buscarFotogramaVisor(this.value)" aria-label="Barra de tiempo" class="visor-barra flex-1 min-w-0 h-7 bg-nailong-pale rounded-full appearance-none cursor-pointer accent-nailong-orange border-2 border-nailong-yellow">
+                        <span id="visor-tiempo" class="shrink-0 text-[11px] sm:text-xs font-bold text-amber-900 tabular-nums">…</span>
                     </div>
+                    <div class="flex items-center justify-center gap-1.5 sm:gap-2">
+                        <button type="button" onclick="pasoFotogramaVisor(-1)" class="visor-ctrl" aria-label="Fotograma anterior" title="Fotograma anterior (tecla ,)"><i class="fa-solid fa-backward-step"></i></button>
+                        <button type="button" id="visor-btn-play" onclick="alternarPausaVisor()" class="visor-ctrl visor-ctrl-play" aria-label="Pausar" title="Pausar (tecla K)"><i class="fa-solid fa-pause"></i></button>
+                        <button type="button" onclick="pasoFotogramaVisor(1)" class="visor-ctrl" aria-label="Fotograma siguiente" title="Fotograma siguiente (tecla .)"><i class="fa-solid fa-forward-step"></i></button>
+                        <span class="w-px h-7 bg-nailong-yellow mx-0.5 sm:mx-1" aria-hidden="true"></span>
+                        <button type="button" id="visor-btn-reves" onclick="alternarMarchaAtrasVisor()" class="visor-vel visor-interruptor" aria-pressed="false" aria-label="Al revés" title="Al revés"><span aria-hidden="true">⏪</span><span class="hidden sm:inline"> Al revés</span></button>
+                        <button type="button" id="visor-btn-bumeran" onclick="alternarBumeranVisor()" class="visor-vel visor-interruptor" aria-pressed="false" aria-label="Bumerán: adelante y atrás sin parar" title="Bumerán: adelante y atrás sin parar"><span aria-hidden="true">↔️</span><span class="hidden sm:inline"> Bumerán</span></button>
+                    </div>
+                    <div id="modal-speed-buttons" role="group" aria-label="Velocidad" class="grid grid-cols-6 gap-1">
+                        <button type="button" data-velocidad="0.25" onclick="ponerVelocidadVisor(0.25)" class="visor-vel" aria-pressed="false" title="Supercámara lenta"><span class="hidden sm:inline" aria-hidden="true">🐌 </span>0,25×</button>
+                        <button type="button" data-velocidad="0.5" onclick="ponerVelocidadVisor(0.5)" class="visor-vel" aria-pressed="false" title="Cámara lenta"><span class="hidden sm:inline" aria-hidden="true">🐢 </span>0,5×</button>
+                        <button type="button" data-velocidad="1" onclick="ponerVelocidadVisor(1)" class="visor-vel" aria-pressed="true" title="Velocidad original"><span class="hidden sm:inline" aria-hidden="true">🦖 </span>1×</button>
+                        <button type="button" data-velocidad="1.5" onclick="ponerVelocidadVisor(1.5)" class="visor-vel" aria-pressed="false" title="Un poco más deprisa"><span class="hidden sm:inline" aria-hidden="true">🐇 </span>1,5×</button>
+                        <button type="button" data-velocidad="2" onclick="ponerVelocidadVisor(2)" class="visor-vel" aria-pressed="false" title="El doble de rápido"><span class="hidden sm:inline" aria-hidden="true">🚀 </span>2×</button>
+                        <button type="button" data-velocidad="3" onclick="ponerVelocidadVisor(3)" class="visor-vel" aria-pressed="false" title="Modo hiperactivo"><span class="hidden sm:inline" aria-hidden="true">⚡ </span>3×</button>
+                    </div>
+                </div>
 
-                    <div class="flex items-center gap-1">
+                <!-- VM3 · Crea tu sticker: tramo, texto tipo meme y emojis → sticker animado de WhatsApp (js/05, bloque 6C) -->
+                <details id="visor-creador" data-no-swipe ontoggle="alternarCreadorVisor(this.open)" class="bg-gradient-to-br from-amber-50 to-nailong-pale rounded-2xl border-2 border-nailong-orange">
+                    <summary class="cursor-pointer select-none px-3 py-2.5 font-display font-bold text-sm sm:text-base text-amber-950 flex items-center gap-2">
+                        <span aria-hidden="true">✂️</span> ¡Crea tu sticker de WhatsApp!
+                        <i class="fa-solid fa-chevron-down ml-auto text-xs transition-transform visor-creador-flecha" aria-hidden="true"></i>
+                    </summary>
+                    <div class="px-3 pb-3 space-y-2.5">
+                        <p class="text-[11px] sm:text-xs font-semibold text-amber-900">Elige el trozo con la barra de arriba, escribe un texto y pon emojis encima del dibujo. La velocidad, «al revés» y «bumerán» también cuentan.</p>
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <button type="button" onclick="marcarTramoCreador('inicio')" class="visor-vel">⏮ Empieza aquí</button>
+                            <button type="button" onclick="marcarTramoCreador('fin')" class="visor-vel">Acaba aquí ⏭</button>
+                            <button type="button" onclick="marcarTramoCreador('todo')" class="visor-vel">Todo</button>
+                        </div>
+                        <p id="creador-tramo" class="text-[11px] sm:text-xs font-bold text-amber-900">…</p>
+                        <div class="flex items-center gap-1.5">
+                            <label for="creador-texto" class="sr-only">Texto del sticker</label>
+                            <input id="creador-texto" type="text" maxlength="28" autocomplete="off" placeholder="Texto (opcional)" oninput="ponerTextoCreador(this.value)" class="flex-1 min-w-0 h-9 px-3 rounded-xl border-2 border-nailong-yellow bg-white text-sm font-bold text-amber-950 placeholder:text-amber-700/70 focus:outline-none focus:border-nailong-orange">
+                            <div role="group" aria-label="Posición del texto" class="flex shrink-0 gap-1">
+                                <button type="button" data-posicion="arriba" onclick="ponerPosicionCreador('arriba')" class="visor-vel" aria-pressed="false">Arriba</button>
+                                <button type="button" data-posicion="abajo" onclick="ponerPosicionCreador('abajo')" class="visor-vel" aria-pressed="true">Abajo</button>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" id="creador-crear" onclick="crearStickerVisor()" class="clay-btn bg-nailong-orange hover:bg-nailong-softorange text-amber-950 font-display font-bold px-4 py-2 text-sm flex items-center gap-1.5 shadow-sm disabled:opacity-50">✨ Crear sticker</button>
+                            <span id="creador-estado" aria-live="polite" class="text-[11px] sm:text-xs font-bold text-amber-900"></span>
+                        </div>
+                        <div id="creador-resultado" class="hidden flex items-center gap-3 bg-white/90 rounded-xl border-2 border-emerald-300 p-2">
+                            <img id="creador-vista" alt="Vista previa de tu sticker" class="visor-cuadros w-20 h-20 shrink-0 object-contain rounded-lg">
+                            <div class="min-w-0 space-y-1.5">
+                                <p id="creador-info" class="text-[11px] sm:text-xs font-bold text-emerald-900"></p>
+                                <button type="button" onclick="compartirStickerCreado()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-[#052E16] font-display font-bold px-3 py-1.5 text-xs inline-flex items-center gap-1.5 shadow-sm"><i class="fa-brands fa-whatsapp text-sm"></i> Enviar o guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Stickers arrastrables, «Sorpréndeme» y descarga -->
+                <div class="bg-white/95 p-3 sm:p-4 rounded-2xl border-2 border-nailong-yellow flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+                    <button type="button" onclick="sorprendeme()" class="clay-btn bg-nailong-yellow hover:bg-nailong-light text-amber-950 font-display font-bold px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Abrir un sticker animado al azar">
+                        <i class="fa-solid fa-shuffle"></i> ¡Sorpréndeme!
+                    </button>
+
+                    <div class="flex flex-wrap items-center gap-1">
                         <span class="font-display font-bold text-xs sm:text-sm text-amber-950 mr-1 hidden sm:inline">✨ Stickers:</span>
                         <button onclick="addModalSticker('🍗')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner muslito de pollo">🍗</button>
                         <button onclick="addModalSticker('💖')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner corazón">💖</button>
                         <button onclick="addModalSticker('⭐')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner estrellita">⭐</button>
                         <button onclick="addModalSticker('🍼')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner biberón">🍼</button>
                         <button onclick="addModalSticker('👑')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner coronita">👑</button>
+                        <button onclick="addModalSticker('😂')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner carcajada">😂</button>
+                        <button onclick="addModalSticker('🔥')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner fuego">🔥</button>
+                        <button onclick="addModalSticker('💤')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner zzz">💤</button>
                         <button onclick="clearModalStickers()" title="Limpiar stickers" class="text-xs font-bold text-rose-700 bg-rose-100 px-2 py-1 rounded-xl ml-1 hover:bg-rose-200">
                             Borrar
                         </button>

@@ -7,16 +7,16 @@
 
 | Fichero | Contenido (bloques de la lista de abajo) | Líneas aprox. |
 |---|---|---|
-| `index.html` | Marcado de todas las secciones; carga `css/`, `js/01`–`js/10` y `js/14` (con `?v=` anti-caché; `js/11`–`js/13` se cargan bajo demanda desde `js/14`, mejora W25); botón de pausa de partículas `#particles-toggle-btn` (W21), `autofocus` en los 4 `<dialog>` (W22), botón `#nailong-3d-sticker` (3D3), botones `#nailong-3d-cargar` / `#nailong-3d-ocultar` del 3D apagado por defecto (D-26), cabecera que pasa al menú ☰ por debajo de 1.280 px (W31), icono de pestaña y copias reducidas de `Stickers Nailong/mini/` en logo, banner, pie y tarjetas (W33) y QR fijos en SVG `#apk-qr-img` / `#share-qr-code` (W34) | 1.286 |
-| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, `body.particles-paused` (W21), contraste WCAG AA (W23), reservas de espacio anti-CLS (W28), objetivo táctil del deslizador `#power-size-slider` ≥ 28 px (W30), estilos `.n3d-*` (incl. `.n3d-cargando` y controles ocultos con el 3D apagado, D-26) y, al final, el bloque generado de los 27 iconos SVG (`ICONOS-INICIO` … `ICONOS-FIN`, clases `fa-*`, W32) | 655 |
+| `index.html` | Marcado de todas las secciones; carga `css/`, `js/01`–`js/10` y `js/14` (con `?v=` anti-caché; `js/11`–`js/13` se cargan bajo demanda desde `js/14`, mejora W25); botón de pausa de partículas `#particles-toggle-btn` (W21), `autofocus` en los 4 `<dialog>` (W22), botón `#nailong-3d-sticker` (3D3), botones `#nailong-3d-cargar` / `#nailong-3d-ocultar` del 3D apagado por defecto (D-26), cabecera que pasa al menú ☰ por debajo de 1.280 px (W31), icono de pestaña y copias reducidas de `Stickers Nailong/mini/` en logo, banner, pie y tarjetas (W33) y QR fijos en SVG `#apk-qr-img` / `#share-qr-code` (W34); en `#magic-modal`, lienzo `#modal-player-canvas` y controles `#visor-controles` del reproductor (VM1) | 1.356 |
+| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, `body.particles-paused` (W21), contraste WCAG AA (W23), reservas de espacio anti-CLS (W28), objetivo táctil del deslizador `#power-size-slider` ≥ 28 px (W30), estilos `.n3d-*` (incl. `.n3d-cargando` y controles ocultos con el 3D apagado, D-26), controles del reproductor del Visor `.visor-ctrl` / `.visor-vel` (VM1), panel «Crea tu sticker» `#visor-creador` (VM3), tráiler horizontal `.trailer-horizontal` (V1) y, al final, el bloque generado de los 31 iconos SVG (`ICONOS-INICIO` … `ICONOS-FIN`, clases `fa-*`, W32) | 711 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind con métricas de respaldo anti-CLS (se carga justo tras el CDN) | 30 |
-| `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 242 |
+| `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS); 1B · sonidos de la botonera (B1: `SONIDOS_BOTONERA`, voz de dibujo con formantes `vozDibujo`, ruido filtrado `rafagaRuido`) | 431 |
 | `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos: título, descripción, categoría y sonido revisados con fotogramas en la 4.3.0, T1; `clave` estable en los usados fuera del álbum), `stickerPorClave()` / `rutaSticker()` (W11: el hero, el laboratorio, el minijuego y el Visor buscan sus cromos por clave y leen de aquí sus textos) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22; respeta las copias `mini/<clave>.webp`, W33) | 157 |
 | `js/03-hero.js` | 3 · Hero, contador Duang, estados de ánimo (`moodData` por clave de cromo: imagen, texto alternativo y sonido salen de `ALL_STICKERS`, W11) y control de pausa de partículas de fondo (`#particles-toggle-btn`, `sessionStorage`, W21) | 112 |
 | `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante (`COMPANION_SECTION_PHRASES`, W9) | 131 |
-| `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 279 |
+| `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico; 6A · reproductor propio de WebP animado en `<canvas>` (VM1: `leerWebPAnimado`, `componerFotogramas`, `soltarVisor`) y Visor abierto con cualquier cromo animado (VM2: `abrirVisorConSticker`, `sorprendeme`); 6C · «Crea tu sticker» (VM3: `crearStickerVisor`, `montarWebPAnimado`, `estimarAjusteCreador`) | 1.346 |
 | `js/06-album-y-descargas.js` | 7–7B · Álbum polaroid, lightbox, descarga/WhatsApp/portapapeles | 616 |
-| `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 261 |
+| `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos (B1: `SOUNDBOARD_GRUPOS`, `SOUNDBOARD_TILES` por clave) y Laboratorio de superpoderes | 281 |
 | `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona»; el sprite del jugador se pide al acercarse al juego o al empezar (`cargarSpriteJugador`, W33) | 474 |
 | `js/09-modo-fiesta.js` | 11 · Modo Fiesta (confeti en canvas) y modal de compartir (el QR es un SVG fijo de `index.html`, W34) | 302 |
 | `js/10-inicio.js` | 14 · Inicialización escalonada (`diferirArranque` con `requestIdleCallback`, W27), scrollspy, bloqueo de scroll, banner de la app (`version.json`, «Copiar enlace» + caja del QR fijo `#apk-qr-box`, W34) y `window.onload` | 359 |
@@ -49,8 +49,10 @@ El código está estructurado en 12 bloques funcionales visibles:
    - Widget flotante en la esquina inferior con diálogos contextuales controlados por `requestAnimationFrame` según la sección visible en viewport (`COMPANION_SECTION_PHRASES` con `getBoundingClientRect().top`, mejora W9, incluida la frase de `#nailong-3d`).
 
 5. **Visor Mágico de Animaciones:**
-   - Tira horizontal de 9 escenas GIF virales dentro de la sección «Stickers» (`#galeria`, ancla `#muro-gifs`), justo debajo del banner de la app; el lightbox del álbum ofrece «Abrir en el Visor Mágico» para esas escenas.
-   - Modal `<dialog>` con `autofocus` en cerrar (W22), control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento y pegatinas arrastrables.
+   - Tira horizontal de 9 escenas dentro de la sección «Stickers» (`#galeria`, ancla `#muro-gifs`), justo debajo del banner de la app, con botón «¡Sorpréndeme!». `FEATURED_GIFS` solo guarda etiqueta y fondo: título y descripción salen de `ALL_STICKERS` (VM2). El lightbox del álbum ofrece «Abrir en el Visor Mágico» en **todos** los cromos animados (`esStickerAnimado`).
+   - Modal `<dialog>` con `autofocus` en cerrar (W22), gestos táctiles de deslizamiento (salvo sobre `#visor-controles`, `data-no-swipe`) y pegatinas arrastrables.
+   - **«Crea tu sticker» (VM3, 4.3.0):** panel `<details id="visor-creador">`: tramo (`marcarTramoCreador`; el reproductor solo repite ese trozo, `limitesVisor`), texto tipo meme dibujado en el lienzo (`dibujarTextoMeme`) y emojis del escenario (`emojisDelEscenario`). `crearStickerVisor` recompone a 512 px, codifica cada fotograma con `canvas.toBlob('image/webp')` y monta un WebP animado con EXIF de WhatsApp (`montarWebPAnimado`, `exifWhatsAppCreador`) con los límites de `normalizar_stickers.py` (≤ 500 KB, ≤ 10 s, ≥ 20 ms; `estimarAjusteCreador` elige calidad y fotogramas con una muestra). Esquinas transparentes para forzar `ALPH`. Sin WebP (Safari): PNG fijo (`crearImagenFijaCreador`). El resultado se comparte con `openStickerOptionsModal`.
+   - **Reproductor propio (VM1, 4.3.0):** lee el RIFF del `.webp`, separa los fotogramas `ANMF`, los decodifica con `createImageBitmap` a tamaño de pantalla (reserva `<img>`; sin `ImageDecoder`) y los compone en `#modal-player-canvas` respetando desplazamiento, fusión y borrado. Velocidad real 0,25×–3× (`VISOR_VELOCIDADES`), pausa, fotograma a fotograma, al revés, bumerán y barra `#visor-barra`. Tope de memoria 48 MB (32 MB en móviles); `soltarVisor` libera todo al cerrar o cambiar de cromo. Con `prefers-reduced-motion` arranca en pausa.
 
 6. **Gran Álbum Polaroid de Cromos:**
    - Cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
@@ -58,7 +60,8 @@ El código está estructurado en 12 bloques funcionales visibles:
    - Subida de fotos del usuario con compresión en canvas y guardado persistente en `localStorage`.
 
 7. **Botonera de Sonidos (Soundboard):**
-   - 12 casillas con efectos de audio sintetizados en tiempo real mediante osciladores.
+   - 12 botones en 3 grupos de 4 (voces, risas y llantos, efectos), **cada uno con su propio sonido** sintetizado (B1, 4.3.0). Cada botón apunta a su cromo por clave (`stickerPorClave`) y muestra su título de `ALL_STICKERS`; el nombre corto y el icono describen el sonido.
+   - Sonidos en `js/01` (`SONIDOS_BOTONERA`: grito, bostezo, nyah, ronquido, carcajada, llanto, puchero, palmas y crujido; más `laugh`, `fanfare` y `run` de `playSound`). Cada uno es una función `(contexto, instante, destino)` que también se puede renderizar sin altavoces con `OfflineAudioContext` para medir su volumen. Las ganancias nacen a 0,0001 para que no salte un clic.
 
 8. **Laboratorio de Superpoderes:**
    - Ajuste de tamaño por control deslizante (`#power-size-slider` con área táctil ≥ 28 px, W30).
@@ -87,16 +90,16 @@ El código está estructurado en 12 bloques funcionales visibles:
 | Pausa de partículas de fondo (W21) | `index.html` · `#particles-toggle-btn`; `css/styles.css` · `body.particles-paused`; `js/03-hero.js` / `js/10-inicio.js` |
 | Fotos del usuario (datos no fiables) | `js/06-album-y-descargas.js` · `escaparHtml`, `esFotoGuardadaValida` |
 | Álbum paginado | `js/06-album-y-descargas.js` · `renderPolaroidGallery`, `GALLERY_PAGE_SIZE`, `GALLERY_STEP`, `showMoreGallery` |
-| Muro/tira de escenas y Visor Mágico | `js/05-visor-magico.js` y `js/06-…` · `renderGifWall`, `featuredGifIndexOf`, `openVisorFromLightbox` |
+| Muro/tira de escenas y Visor Mágico | `js/05-visor-magico.js` y `js/06-…` · `renderGifWall`, `stickerDeEscena`, `abrirVisorConSticker`, `sorprendeme`, `openVisorFromLightbox`; reproductor: `leerWebPAnimado`, `componerFotogramas`, `cargarEnReproductor`, `soltarVisor`, `teclaVisor` (atajos K/espacio, «,» y «.») |
 | Descarga y compartir stickers | `js/06-album-y-descargas.js` · `forceDownloadSticker`, `shareStickerDirectToWhatsApp`, `copyStickerToClipboard`, `#sticker-options-modal` |
-| Audio | `js/01-audio.js`, `js/07-…` · `renderSoundboard`, `audioCtx` (osciladores Web Audio) |
+| Audio | `js/01-audio.js`, `js/07-…` · `renderSoundboard`, `audioCtx` (osciladores Web Audio), `SONIDOS_BOTONERA`, `vozDibujo`, `rafagaRuido` |
 | Minijuego | `js/08-minijuego.js` · `#food-game-canvas`, `resizeGameCanvas`, `getEmojiSprite` |
 | Modo Fiesta | `js/09-modo-fiesta.js` · `#party-canvas` |
 | Modales (`<dialog>` nativo, D-23, W22) y bloqueo de scroll | `js/05-visor-magico.js` · `abrirDialogo`, `cerrarDialogo`; `js/09-modo-fiesta.js` · `setupModalBackdrops`; `js/10-inicio.js` · `setupModalScrollLock`, `body.modal-open` |
 | Arranque diferido (W27) | `js/10-inicio.js` · `window.onload`, `diferirArranque` |
 | Cabecera de escritorio (W31) | `index.html` · `#desktop-nav-links` (`xl:flex`), `#mobile-menu-btn` / `#mobile-menu` (`xl:hidden`), `#party-mode-btn` |
 | Barra de accesos inferior (móvil, `< lg`) | `index.html` · `#bottom-nav` (`data-secciones`); `css/styles.css` · `.bottom-nav-item`; `js/10-inicio.js` · `setupScrollSpy`; `js/04-navegacion.js` · `openMobileMenuFromBottom` |
-| Tráiler plegable | `index.html` · `<details id="video-promo-section">`; `js/10-inicio.js` · `abrirTrailer`, `setupTrailerFold` |
+| Tráiler plegable | `index.html` · `<details id="video-promo-section">`; `js/10-inicio.js` · `abrirTrailer`, `setupTrailerFold`, `elegirFormatoTrailer` (V1: horizontal 16:9 en pantallas anchas con `TRAILER_CONSULTA_HORIZONTAL`, vertical en móvil; pone `src`, portada, miniatura y tamaño del lienzo ambiental); `css/styles.css` · `.trailer-horizontal` |
 | Pestañas del laboratorio | `index.html` · `.lab-tab` / `.lab-panel`; `js/07-sonidos-y-laboratorio.js` · `mostrarPestanaLab` |
 | Carruseles de móvil | `css/styles.css` · `.carrusel-movil` («¿Quién es?»), `.carrusel-chips` (acciones 3D) |
 | Copias reducidas de stickers (W33) | `Stickers Nailong/mini/<clave>.webp` (+ `favicon.webp`), generadas y comprobadas por `herramientas/miniaturas_web.py` (test 53); `mini/bombloong.webp` es un recorte fijo de su cromo (`RECORTES`, T2) |

@@ -88,15 +88,24 @@ assert unique_js_stickers == list(range(1, 127)), f"Missing stickers in ALL_STIC
 assert "creador_nailong.webp" in html, "Creator photo missing from ALL_STICKERS!"
 print("✔ ALL_STICKERS array accurately maps all 126 stickers (IDs 1 through 126) + creator photo.")
 
-# Test 5: Verify SOUNDBOARD_TILES has 12 items
-soundboard_matches = re.findall(r"sticker:\s*'sticker_(\d+)\.webp',\s*name:\s*'([^']+)'", html)
+# Test 5: Verify SOUNDBOARD_TILES has 12 items (B1, web 4.3.0: por clave, 12 sonidos distintos en 3 grupos de 4)
+soundboard_matches = re.findall(r"\{ clave: '([a-z0-9-]+)', grupo: '([a-z]+)', sonido: '([a-z]+)', nombre: '([^']+)', icono: '[^']+' \}", html)
 print(f"✔ Soundboard contains {len(soundboard_matches)} sound tiles:")
-for s_id, s_name in soundboard_matches:
-    print(f"   - Sticker {s_id}: {s_name}")
+for s_key, s_group, s_sound, s_name in soundboard_matches:
+    print(f"   - {s_group}: {s_name} ({s_sound}) -> {s_key}")
 assert len(soundboard_matches) == 12, f"Expected 12 soundboard tiles, got {len(soundboard_matches)}"
+assert len({m[2] for m in soundboard_matches}) == 12, "B1: every soundboard button needs its own sound (no repeats)!"
+assert sorted(m[1] for m in soundboard_matches) == ['efectos'] * 4 + ['risas'] * 4 + ['voces'] * 4, "B1: 3 groups (voces, risas y llantos, efectos) of 4 buttons!"
+_claves_bot = set(re.findall(r"clave: '([a-z0-9-]+)'", open(os.path.join('js', '02-datos-stickers.js'), encoding='utf-8').read()))
+_audio_src = open(os.path.join('js', '01-audio.js'), encoding='utf-8').read()
+for s_key, s_group, s_sound, s_name in soundboard_matches:
+    assert s_key in _claves_bot, f"B1: soundboard clave '{s_key}' has no sticker in ALL_STICKERS!"
+    assert f"type === '{s_sound}'" in _audio_src or re.search(rf"^            {s_sound}\(ctx, t, d\) \{{", _audio_src, re.M), f"B1: sound '{s_sound}' does not exist in js/01-audio.js!"
+assert "if (SONIDOS_BOTONERA[type]) {" in _audio_src and _audio_src.count(".gain.value = 0.0001") >= 3, "B1: soundboard sounds must start silent (no click) and be played through playSound!"
+assert 'stickerPorClave(tile.clave)' in html and 'escaparHtml(s.title)' in html, "B1: soundboard images and labels must come from ALL_STICKERS by key!"
 
 # Test 6: Verify FEATURED_GIFS has 9 items
-featured_matches = re.findall(r"\{\s*id:\s*(\d+),\s*tag:\s*'([^']+)'", html)
+featured_matches = re.findall(r"\{\s*clave:\s*'([a-z0-9-]+)',\s*tag:\s*'([^']+)'", html)
 assert len(featured_matches) == 9, f"Expected 9 featured GIFs, got {len(featured_matches)}"
 print("✔ FEATURED_GIFS contains 9 curated real animated scenes.")
 
@@ -429,6 +438,69 @@ assert 'href="#android-app-banner"' in html and 'id="lb-visor-btn"' in html and 
 assert 'overflow-x: clip' in html and '@media (max-width: 359px)' in html, "Navbar overflow fix missing!"
 print("✔ v3.2.0 verified: GIF wall merged into stickers section (app banner, Visor strip, album), app button in nav, navbar fits narrow phones.")
 
+# Test 44 (ampliado, VM1-VM3 de la web 4.3.0): Visor Magico con reproductor propio en <canvas> (velocidad real, pausa, paso a paso,
+# marcha atras, bumeran y barra de tiempo) y abierto con cualquier sticker animado; titulos leidos de ALL_STICKERS
+_visor = open(os.path.join('js', '05-visor-magico.js'), encoding='utf-8').read()
+_alb = open(os.path.join('js', '06-album-y-descargas.js'), encoding='utf-8').read()
+for _fn in ('leerWebPAnimado', 'webpDeFotograma', 'decodificarFotograma', 'componerFotogramas', 'cargarEnReproductor', 'soltarVisor',
+            'reproducirVisor', 'pausarVisor', 'pasoFotogramaVisor', 'buscarFotogramaVisor', 'ponerVelocidadVisor',
+            'alternarMarchaAtrasVisor', 'alternarBumeranVisor', 'abrirVisorConSticker', 'sorprendeme', 'esStickerAnimado'):
+    assert f'function {_fn}(' in _visor, f"VM1/VM2: function {_fn} missing in js/05!"
+assert "tipo === 'ANMF'" in _visor and "(banderas & 1) === 1" in _visor and "(banderas & 2) === 0" in _visor, "VM1: the WebP reader must split ANMF frames and honour their disposal and blending bits!"
+assert 'resizeWidth' in _visor and 'new Image()' in _visor, "VM1: frames must be decoded at screen size, with an <img> fallback when createImageBitmap fails!"
+assert 'new ImageDecoder' not in html, "VM1: ImageDecoder (WebCodecs) is not proven on iPhone Safari: it cannot be the decoding path!"
+assert 'setModalSpeed' not in html and 'VISOR_BYTES_MAX' in _visor, "VM1: the fake CSS speed modes must be gone and frame memory must be capped!"
+assert "modal.addEventListener('close', () => { soltarVisor();" in _visor and 'soltarVisor();' in js_function_body(_visor, 'closeMagicModal'), "VM1: closing the Visor (any way) must free the decoded frames!"
+assert 'prefersReducedMotion()' in js_function_body(_visor, 'cargarEnReproductor'), "VM1: with prefers-reduced-motion the Visor must start paused!"
+_vel = [float(v) for v in re.search(r'VISOR_VELOCIDADES = \[([^\]]+)\]', _visor).group(1).split(',')]
+assert _vel[0] == 0.25 and _vel[-1] == 3, "VM1: real speed must go from 0.25x to 3x!"
+assert sorted(float(v) for v in re.findall(r'data-velocidad="([\d.]+)"', page_html)) == sorted(_vel), "VM1: every speed in VISOR_VELOCIDADES needs its button (and only those)!"
+for _id in ('modal-player-canvas', 'visor-barra', 'visor-btn-play', 'visor-btn-reves', 'visor-btn-bumeran', 'modal-player-loading'):
+    assert f'id="{_id}"' in page_html, f"VM1: #{_id} missing in the Visor dialog!"
+assert re.search(r'id="visor-controles" data-no-swipe', page_html), "VM1: swiping over the player controls must not change sticker!"
+assert 'type="range" id="visor-barra"' in page_html, "VM1: the time bar must be a native range input!"
+_feat = _visor[_visor.index('const FEATURED_GIFS = ['):_visor.index('];', _visor.index('const FEATURED_GIFS = ['))]
+assert 'title:' not in _feat and 'desc:' not in _feat, "VM2: the Visor must not keep its own copies of titles and descriptions (read them from ALL_STICKERS)!"
+_claves_feat = re.findall(r"clave: '([a-z0-9-]+)'", _feat)
+assert len(_claves_feat) == 9 and 'id:' not in _feat and 'stickerPorClave(gif.clave)' in _visor, "VM2: the 9 Visor scenes must point to their sticker by stable key (D-22), not by number!"
+_claves_js02 = set(re.findall(r"clave: '([a-z0-9-]+)'", open(os.path.join('js', '02-datos-stickers.js'), encoding='utf-8').read()))
+for _k in _claves_feat:
+    assert _k in _claves_js02, f"VM2: Visor scene clave '{_k}' has no sticker in ALL_STICKERS!"
+assert 's.title' in js_function_body(_visor, 'renderGifWall') and 's.desc' in js_function_body(_visor, 'mostrarEnVisor'), "VM2: titles and descriptions must come from ALL_STICKERS!"
+assert 'esStickerAnimado(item)' in _alb and 'abrirVisorConSticker(item)' in _alb and 'featuredGifIndexOf' not in html, "VM2: every animated sticker of the album must open in the Visor!"
+assert page_html.count('onclick="sorprendeme()"') >= 2, "VM2: «¡Sorpréndeme!» must be in the Visor strip and inside the Visor!"
+# El lector de js/05 da por hecho que cada fotograma lleva ALPH+VP8, VP8 o VP8L y que `frames` cuadra con el fichero
+_n_anim = 0
+for _s_id, _s_frames in re.findall(r"\{ id: (\d+),[^}]*?frames: (\d+),", open(os.path.join('js', '02-datos-stickers.js'), encoding='utf-8').read()):
+    _b = open(os.path.join('Stickers Nailong', f'sticker_{_s_id}.webp'), 'rb').read()
+    _p, _anmf = 12, []
+    while _p + 8 <= len(_b):
+        _cc, _sz = _b[_p:_p + 4], int.from_bytes(_b[_p + 4:_p + 8], 'little')
+        if _cc == b'ANMF':
+            _anmf.append(_b[_p + 24:_p + 28])
+        _p += 8 + _sz + (_sz & 1)
+    if int(_s_frames) > 1:
+        _n_anim += 1
+        assert len(_anmf) == int(_s_frames), f"VM1: sticker_{_s_id} says frames: {_s_frames} but has {len(_anmf)} ANMF frames!"
+        assert all(_c in (b'ALPH', b'VP8 ', b'VP8L') for _c in _anmf), f"VM1: sticker_{_s_id} has a frame the Visor reader cannot wrap!"
+# VM3 · «Crea tu sticker»: WebP animado de 512x512 con EXIF de WhatsApp, con los mismos limites que normalizar_stickers.py
+for _fn in ('crearStickerVisor', 'crearWebPAnimadoCreador', 'estimarAjusteCreador', 'codificarFotogramasCreador', 'montarWebPAnimado',
+            'exifWhatsAppCreador', 'imagenDeWebPFijo', 'ajustarSecuencia', 'cortarSecuenciaA10s', 'secuenciaCreador', 'crearImagenFijaCreador',
+            'recorrerComposicion', 'dibujarTextoMeme', 'emojisDelEscenario', 'marcarTramoCreador', 'compartirStickerCreado'):
+    assert f'function {_fn}(' in _visor, f"VM3: function {_fn} missing in js/05!"
+_norm = open('normalizar_stickers.py', encoding='utf-8').read()
+_lim_py = {k: int(re.search(rf'^{k} = (\d+)', _norm, re.M).group(1)) for k in ('MAX_ANIM_KB', 'MIN_FRAME_MS', 'MAX_TOTAL_MS')}
+assert f"CREADOR_MAX_BYTES = {_lim_py['MAX_ANIM_KB']} * 1024;" in _visor, "VM3: the sticker maker must use WhatsApp's animated size limit (MAX_ANIM_KB)!"
+assert f"CREADOR_MIN_MS = {_lim_py['MIN_FRAME_MS']};" in _visor and f"CREADOR_MAX_MS = {_lim_py['MAX_TOTAL_MS']};" in _visor, "VM3: frame >= 20 ms and total <= 10 s, as normalizar_stickers.py!"
+assert "trozoRiff('VP8X', new Uint8Array([0x02 | 0x08 | 0x10" in _visor and "...bytes24(f.dur), 0x02]" in _visor, "VM3: animated + EXIF + alpha header and full-canvas frames without blending!"
+assert "'sticker-pack-id'" in js_function_body(_visor, 'exifWhatsAppCreador') and "trozoRiff('EXIF', exifWhatsAppCreador())" in _visor, "VM3: the created sticker must carry the WhatsApp EXIF!"
+assert 'ctx.clearRect(l, l, e, e);' in js_function_body(_visor, 'pintarSalidaCreador'), "VM3: transparent corners force an ALPH chunk in every frame (WhatsApp needs it)!"
+assert "sabeCrearWebP() ? await crearWebPAnimadoCreador" in _visor and "lienzoABlob(salida, 'image/png')" in _visor, "VM3: browsers that cannot encode WebP (Safari) must get a still PNG!"
+assert re.search(r'<details id="visor-creador" data-no-swipe', page_html) and 'id="creador-texto" type="text" maxlength="28"' in page_html, "VM3: «Crea tu sticker» panel missing in the Visor!"
+for _id in ('creador-crear', 'creador-tramo', 'creador-estado', 'creador-resultado', 'creador-vista'):
+    assert f'id="{_id}"' in page_html, f"VM3: #{_id} missing!"
+print(f"✔ VM1-VM3 verified: own canvas player (0.25x-3x, pause, frame step, reverse, boomerang, time bar, memory freed on close) for the {_n_anim} animated stickers; titles from ALL_STICKERS; «Crea tu sticker» makes WhatsApp-ready animated WebP.")
+
 # Test 45: v3.3.2 - version.json (lo lee la app para avisar de versiones nuevas) coincide con el APK publicado.
 # Desde D-27 (4.1.0) la web lleva su propia versión (pie): version.json solo sube cuando sube el APK, o la app pediría actualizar sin fin.
 with open('version.json', encoding='utf-8') as _vf:
@@ -483,8 +555,21 @@ assert "Math.round(foodCanvas.width * 0.013)" in _mj_txt, "Minigame arrow key sp
 assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2.mp4')), "video-promo/nailong_trailer_v2.mp4 missing!"
 assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2_portada.webp')), "video-promo/nailong_trailer_v2_portada.webp missing!"
 assert 'video-ambient-canvas' in html, "video-ambient-canvas missing in index.html!"
+# V1 (web 4.3.0): en pantallas anchas, el trailer horizontal 16:9 con su portada; en movil vertical, el vertical
+assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2_horizontal.mp4')), "V1: video-promo/nailong_trailer_v2_horizontal.mp4 missing!"
+assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2_horizontal_portada.webp')), "V1: video-promo/nailong_trailer_v2_horizontal_portada.webp missing!"
+_inicio = open(os.path.join('js', '10-inicio.js'), encoding='utf-8').read()
+for _ref in ('video-promo/nailong_trailer_v2.mp4', 'video-promo/nailong_trailer_v2_portada.webp', 'video-promo/nailong_trailer_v2_horizontal.mp4', 'video-promo/nailong_trailer_v2_horizontal_portada.webp'):
+    assert f"'{_ref}'" in _inicio and os.path.exists(_ref), f"V1: js/10 must point the trailer formats to existing files ({_ref})!"
+assert 'function elegirFormatoTrailer(' in _inicio and "matchMedia(TRAILER_CONSULTA_HORIZONTAL)" in _inicio and re.search(r'^        elegirFormatoTrailer\(\);', _inicio, re.M), "V1: the trailer format must be chosen with matchMedia as soon as js/10 loads!"
+_plegado = js_function_body(_inicio, 'setupTrailerFold')
+assert 'elegirFormatoTrailer();' in _plegado, "V1: opening the trailer must choose the format again (rotated phone, resized window)!"
+assert "video.preload = 'metadata'" in _plegado, "V1: unfolding the trailer must load its metadata, or the browser keeps its own fullscreen button disabled!"
+_vid = re.search(r'<video id="trailer-video"[^>]*>', page_html).group(0)
+assert 'preload="none"' in _vid and 'poster=' not in _vid, "V1: the trailer keeps preload=none and gets its poster from js/10 (only the right one is downloaded)!"
+assert '#video-promo-section.trailer-horizontal #video-player-container' in html and 'aspect-ratio: 16 / 9' in html, "V1: 16:9 box for the horizontal trailer missing in css/styles.css!"
 
-print("✔ v3.4.1 verified: zero Chinese chars, creator credit in web & app, trailer v2 with ambilight & minigame speed tuned.")
+print("✔ v3.4.1 verified: zero Chinese chars, creator credit in web & app, trailer v2 (vertical on phones, horizontal 16:9 on wide screens, V1) with ambilight & minigame speed tuned.")
 
 # Test 48: v3.5.0 - A8-A13, W6-W7, zoom grande centrado y revision de Mi Seleccion
 assert 'id="apk-qr-box"' in page_html and 'id="apk-qr-img"' in page_html, "W6: APK QR box missing in index.html!"
