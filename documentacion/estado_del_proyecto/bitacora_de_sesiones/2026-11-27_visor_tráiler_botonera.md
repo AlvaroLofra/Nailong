@@ -77,17 +77,58 @@
 - **No comprobado:** la pantalla completa real con la API del navegador (necesita un toque del usuario) y Safari de iPhone/iPad.
 - **Test 47** ampliado: existen el horizontal y su portada, `js/10` apunta a los 4 ficheros, el formato se elige con `matchMedia` al cargar y al desplegar, `preload="none"` sin `poster` fijo y la caja 16:9 en el CSS.
 
-## 6. Tests
+## 6. Botonera (`B2` decidido, `B1` hecho, `B3` pendiente)
 
-- Las comprobaciones nuevas (VM1–VM3) van **dentro del test 44** (el del Visor y el lightbox), no en un test 56: el recuento de tests vive en `ESTADO_ACTUAL.md` (no es de esta sesión) y así tampoco choca con la numeración de la rama de textos. Comprueba las funciones del lector y del reproductor, los bits de borrado y fusión, el decodificado a tamaño de pantalla con reserva `<img>`, que no se use `ImageDecoder`, que se libere la memoria al cerrar, el arranque en pausa con movimiento reducido, que cada velocidad tenga su botón, que el Visor no guarde títulos propios, que el álbum abra cualquier animado, los dos «¡Sorpréndeme!» y, leyendo los 126 ficheros, que `frames` de `ALL_STICKERS` coincida con los fotogramas `ANMF` y que cada fotograma lleve `ALPH`+`VP8`, `VP8` o `VP8L` (lo que el lector sabe envolver). Para VM3: las funciones del creador, que sus límites (500 KB, 20 ms, 10 s) sean los de `normalizar_stickers.py`, la cabecera y los fotogramas del WebP animado, el EXIF, las esquinas transparentes, la reserva PNG y el panel en `index.html`.
+### `B2` · Tipo de sonidos (decisión del usuario, 27/11/2026)
+- **Respuesta literal:** «De momento la intención es coger sonidos reales, tengo pendiente descargar episodios completos para ello, de momento hacemos la opción B por si no fuera luego posible».
+- **Aplicado: opción B** (sonidos recreados con Web Audio). No cambia la regla 3 de `AGENTS.md`.
+- **Pendiente:** si con los episodios se quiere pasar a la **opción A** (clips reales), hace falta una decisión nueva. **Texto propuesto (no aplicado, necesita el OK del usuario):**
+  > **D-xx · Clips de audio reales en la botonera.** La botonera puede usar clips de 0,5–3 s sacados de episodios de la serie, en `audio/` (`.ogg`/`.m4a`, ≤ 30 KB cada uno), como excepción a la regla 3 (solo audio sintetizado), que sigue valiendo para el resto de la web. Cada clip se carga solo al pulsar su botón y, si falla, suena su versión sintetizada de `SONIDOS_BOTONERA`. **Riesgo aceptado:** el estudio se reserva todos los derechos y los defiende (`LORE_NAILONG.md` §8, que dice «No usar audio ni vídeo real de la serie»); GitHub atiende avisos de derechos de autor y podría retirar el repositorio. Si llega un aviso, se quitan los clips y se vuelve a la opción B.
+- **Mi recomendación sigue siendo B** por ese riesgo; la arquitectura de B1 deja la puerta abierta: cada botón tiene su `sonido` y bastaría con un cargador de clips con reserva sintetizada.
+
+### `B1` · Botonera rehecha
+- **Antes:** 12 botones con solo 8 sonidos distintos (`pop` ×3, `duang` ×2, `fanfare` ×2), nombres que no cuadraban («¡Ñam Ñam Crujiente!» con un muñeco antiestrés, «¡Capitán Pirata!» con la danza del león…) e imágenes por número.
+- **Ahora:** 12 botones con **12 sonidos distintos** en 3 grupos de 4, cada uno por clave y con el título de `ALL_STICKERS`; el nombre corto y el icono describen el sonido:
+
+| Grupo | Botón | Cromo (clave) | Sonido |
+|---|---|---|---|
+| Voces | 😱 Grito | #85 `gritos-hierba` | dos gritos «¡Aaah!», como en el sticker (nuevo) |
+| Voces | 🥱 Bostezo | #56 `bostezo-arbol` | «aaa-ooo-uh» que baja de tono (nuevo) |
+| Voces | 😜 ¡Nyah, nyah! | #72 `burla-nyah` | la cancioncilla burlona de 5 notas (nuevo) |
+| Voces | 😴 Ronquido | #80 `siesta-ronquido` | ronquido con temblor, soplido y pompa que explota (nuevo) |
+| Risas y llantos | 🤣 Carcajada | #99 `carcajada-movil` | «¡ja-ja-ja-ja-ja-ja!» que baja (nuevo) |
+| Risas y llantos | 😊 Risita | #101 `risa-tranquila` | `laugh` de siempre (risita suave) |
+| Risas y llantos | 😭 ¡Buaaa! | #122 `llanto-chorros` | «¡buaaa!» con hipido (nuevo; no había ningún llanto) |
+| Risas y llantos | 🥺 Puchero | #114 `ojos-aguados` | «mmm-hmm» tembloroso y sorbido de nariz (nuevo) |
+| Efectos | 👏 Palmas | #18 `palmas-jardin` | clap, clap, clap-clap (nuevo) |
+| Efectos | 🥔 Crujido | #106 `patata-frita` | tres mordiscos crujientes (nuevo) |
+| Efectos | 🎺 Fanfarria | #119 `fiesta-parque` | `fanfare` de siempre |
+| Efectos | 🏃 Carrerita | #21 `huida-bosque` | `run` (existía y no se usaba) |
+
+- **Cómo suenan las voces:** un diente de sierra pasa por dos filtros de «formante» (las resonancias que distinguen una vocal de otra) y moviéndolos se pasa de «a» a «o» o a «u». Es una voz de dibujo, no humana (lo que avisaba el plan de la opción B).
+- **Medido sin altavoces** (`OfflineAudioContext`, 44,1 kHz): volumen medio (RMS) de 0,032–0,066, en línea con los de siempre (0,032–0,074); duración 0,5–1,9 s.
+- **Error encontrado y corregido:** las ganancias valen 1 hasta su primer evento programado; cuando una ráfaga empezaba una muestra antes por redondeo, se colaba un **clic** de hasta 0,95 (carcajada, palmas, crujido). Ahora nacen a 0,0001: el pico de la carcajada bajó de 0,85 a 0,18.
+- **Móvil:** a 320 px, 2 columnas con la imagen a la izquierda y el icono en su esquina (la sección mide 567 px de alto); en escritorio, 4 por fila. Con `prefers-reduced-motion`, sin rebote al pulsar. Sin errores de consola y el `AudioContext` funcionando al pulsar los 12.
+- **No comprobado:** cómo suenan de verdad (esta sesión no puede oír; se midieron volumen, duración y clics). **Pídele al usuario que los escuche** en el móvil y en el ordenador antes de publicar.
+- **Mejora posible (no hecha):** los 12 cromos de la botonera pesan unos 3,3 MB (como los de antes); copias reducidas `mini/<clave>.webp` (W33) lo bajarían mucho.
+
+### `B3` · Episodios (pendiente del usuario)
+- El usuario aún no ha descargado los episodios. Cuando estén (en una carpeta fuera del repositorio), hace falta su permiso para instalar las herramientas (~2–3 GB, fuera del proyecto) y se empieza por un episodio piloto, como dice el plan.
+
+## 7. Tests
+
+- Las comprobaciones nuevas van **dentro de tests existentes**: VM1–VM3 en el 44, V1 en el 47 y B1 en el 5 (12 botones por clave, 12 sonidos distintos que existen en `js/01`, 3 grupos de 4, ganancias sin clic) (el del Visor y el lightbox), no en un test 56: el recuento de tests vive en `ESTADO_ACTUAL.md` (no es de esta sesión) y así tampoco choca con la numeración de la rama de textos. Comprueba las funciones del lector y del reproductor, los bits de borrado y fusión, el decodificado a tamaño de pantalla con reserva `<img>`, que no se use `ImageDecoder`, que se libere la memoria al cerrar, el arranque en pausa con movimiento reducido, que cada velocidad tenga su botón, que el Visor no guarde títulos propios, que el álbum abra cualquier animado, los dos «¡Sorpréndeme!» y, leyendo los 126 ficheros, que `frames` de `ALL_STICKERS` coincida con los fotogramas `ANMF` y que cada fotograma lleve `ALPH`+`VP8`, `VP8` o `VP8L` (lo que el lector sabe envolver). Para VM3: las funciones del creador, que sus límites (500 KB, 20 ms, 10 s) sean los de `normalizar_stickers.py`, la cabecera y los fotogramas del WebP animado, el EXIF, las esquinas transparentes, la reserva PNG y el panel en `index.html`.
 - `py -3 verify_all.py`: **55/55 en verde**.
 
-## 7. Para la integración (sesión principal)
+## 8. Para la integración (sesión principal)
 
 - **`ESTADO_ACTUAL.md`:** el Visor ya no tiene «control de velocidad 0.5x/1x/1.5x» falso: reproductor propio de 0,25× a 3× con pausa, paso a paso, al revés, bumerán y barra de tiempo, para los 97 cromos animados. «12 sonidos únicos» de la botonera es falso (son 8 distintos); se corregirá del todo con `B1`.
 - **`CHANGELOG.md` (4.3.0):** «Visor Mágico: velocidad real (0,25× a 3×), pausa, fotograma a fotograma, al revés, bumerán y barra de tiempo; se abre con cualquier sticker animado del álbum y tiene botón «¡Sorpréndeme!». Nuevo «Crea tu sticker»: elige un trozo, ponle texto y emojis y llévatelo como sticker animado de WhatsApp (en iPhone, como imagen)».
 - **`README.md` (vitrina):** una línea para «Crea tu sticker» (para el usuario final, sin jerga).
 - **`DECISIONES.md`:** el WebP animado se monta en el navegador sin librerías (por la regla de proyecto sin dependencias ni build); si se quiere como decisión numerada, la redacta la sesión principal.
+- **`ESTADO_ACTUAL.md`:** la botonera ya tiene de verdad **12 sonidos distintos** (antes decía «12 sonidos únicos» y eran 8).
+- **`CHANGELOG.md` (4.3.0), botonera:** «Botonera rehecha: 12 sonidos distintos en tres grupos (voces, risas y llantos, efectos), con grito, bostezo, ronquido, carcajada, llanto, puchero, palmas y crujido nuevos, y cada botón con el título de su sticker».
+- **`DECISIONES.md`:** solo si el usuario aprueba la opción A de B2 (texto propuesto en §6).
 - **`CHANGELOG.md` (4.3.0), tráiler:** «En ordenador y tableta, el tráiler se ve en horizontal 16:9 (con un QR de la web al final); en el móvil, el vertical de siempre».
 - **`ESTADO_ACTUAL.md`:** la caja del tráiler ya no es solo vertical (`V1` hecho).
 - **`.claude/launch.json`** de este *worktree* (servidor en el puerto 8011) no se sube.
