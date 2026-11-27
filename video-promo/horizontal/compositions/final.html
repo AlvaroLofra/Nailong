@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<body>
+  <template>
+    <style>
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Fredoka"; src: url("assets/fonts/fredoka-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      #root { position: absolute; inset: 0; overflow: hidden; }
+      /* Izquierda: Nailong saltando con el arcoíris y el autor. Derecha: llamada, web, «Gratis» y QR. */
+      #e7-arcoiris { position: absolute; left: 110px; top: 250px; width: 820px; height: 426px; }
+      #e7-titulo { left: 940px; width: 800px; top: 100px; font-size: 160px; }
+      #e7-carta { left: 300px; top: 260px; width: 440px; height: 440px; }
+      .e7-pildora {
+        position: absolute; border-radius: 60px; text-align: center; font-family: "Fredoka", sans-serif;
+      }
+      #e7-web {
+        left: 940px; top: 330px; width: 800px; height: 100px; line-height: 100px; background: #fff;
+        font-weight: 700; font-size: 44px; color: var(--naranja-osc); box-shadow: 0 12px 0 rgba(217, 78, 0, 0.28);
+      }
+      #e7-gratis {
+        left: 1000px; top: 458px; width: 680px; height: 84px; line-height: 84px; background: var(--naranja);
+        font-weight: 600; font-size: 40px; color: #fff; box-shadow: 0 10px 0 var(--naranja-osc);
+      }
+      #e7-autor {
+        left: 160px; top: 790px; width: 720px; height: 76px; line-height: 72px; background: rgba(255, 255, 255, 0.96);
+        border: 4px solid #FFD97D; font-weight: 600; font-size: 36px; color: var(--tinta);
+        box-shadow: 0 8px 0 rgba(217, 78, 0, 0.16);
+      }
+      /* QR de la web (generado con herramientas/generar_qr.py): en el ordenador se escanea con el móvil */
+      #e7-qr { left: 1010px; top: 590px; width: 270px; height: 270px; padding: 14px; border-radius: 36px; }
+      #e7-qr svg { display: block; width: 100%; height: 100%; border-radius: 16px; }
+      #e7-escanea {
+        position: absolute; left: 1310px; top: 640px; width: 430px; font-family: "Fredoka", sans-serif;
+        font-weight: 700; font-size: 54px; line-height: 1.1; color: var(--tinta);
+      }
+      #e7-destellos { position: absolute; inset: 0; }
+    </style>
+
+    <div id="root" data-composition-id="final" data-width="1920" data-height="1080">
+      <svg id="e7-arcoiris" viewBox="0 0 1000 520" data-layout-ignore>
+        <g fill="none" stroke-width="34" stroke-linecap="round">
+          <path id="e7-arco-1" d="M 30 500 A 470 470 0 0 1 970 500" stroke="#FF8FA3" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-2" d="M 64 500 A 436 436 0 0 1 936 500" stroke="#FFB86B" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-3" d="M 98 500 A 402 402 0 0 1 902 500" stroke="#FFE66D" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-4" d="M 132 500 A 368 368 0 0 1 868 500" stroke="#9BE59B" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-5" d="M 166 500 A 334 334 0 0 1 834 500" stroke="#8FD3FF" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          <path id="e7-arco-6" d="M 200 500 A 300 300 0 0 1 800 500" stroke="#C3A6FF" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+        </g>
+      </svg>
+
+      <!-- Nailong con los brazos arriba (sticker 44) da un salto de celebración -->
+      <div id="e7-carta" class="tarjeta"><div id="e7-sprite-44" class="sprite"></div></div>
+
+      <h1 id="e7-titulo" class="titulo">¡Juega ya!</h1>
+      <div id="e7-web" class="e7-pildora">alvarolofra.github.io/Nailong/</div>
+      <div id="e7-gratis" class="e7-pildora">Gratis · Web y app Android</div>
+      <div id="e7-qr" class="tarjeta"><svg id="e7-qr-svg" viewBox="0 0 33 33" role="img" aria-label="Código QR de la web de Nailong" data-qr-url="https://alvarolofra.github.io/Nailong/" shape-rendering="crispEdges"><path fill="#fff" d="M0 0h33v33H0z"/><path stroke="#000" d="M2 2.5h7M12 2.5h1M14 2.5h1M18 2.5h1M21 2.5h2M24 2.5h7M2 3.5h1M8 3.5h1M10 3.5h1M12 3.5h1M15 3.5h3M22 3.5h1M24 3.5h1M30 3.5h1M2 4.5h1M4 4.5h3M8 4.5h1M14 4.5h1M16 4.5h1M18 4.5h1M20 4.5h1M24 4.5h1M26 4.5h3M30 4.5h1M2 5.5h1M4 5.5h3M8 5.5h1M10 5.5h3M14 5.5h2M19 5.5h1M21 5.5h1M24 5.5h1M26 5.5h3M30 5.5h1M2 6.5h1M4 6.5h3M8 6.5h1M11 6.5h1M15 6.5h1M18 6.5h5M24 6.5h1M26 6.5h3M30 6.5h1M2 7.5h1M8 7.5h1M10 7.5h2M13 7.5h6M20 7.5h1M22 7.5h1M24 7.5h1M30 7.5h1M2 8.5h7M10 8.5h1M12 8.5h1M14 8.5h1M16 8.5h1M18 8.5h1M20 8.5h1M22 8.5h1M24 8.5h7M11 9.5h3M16 9.5h1M18 9.5h1M20 9.5h3M2 10.5h5M8 10.5h4M13 10.5h1M19 10.5h1M23 10.5h1M25 10.5h1M27 10.5h1M29 10.5h1M2 11.5h1M5 11.5h1M10 11.5h1M12 11.5h1M14 11.5h2M18 11.5h1M21 11.5h2M24 11.5h3M30 11.5h1M4 12.5h1M8 12.5h1M12 12.5h1M15 12.5h3M23 12.5h1M25 12.5h2M3 13.5h1M5 13.5h1M7 13.5h1M9 13.5h2M14 13.5h2M17 13.5h2M21 13.5h4M26 13.5h2M29 13.5h1M2 14.5h1M4 14.5h3M8 14.5h1M11 14.5h2M14 14.5h1M16 14.5h1M19 14.5h1M21 14.5h1M27 14.5h2M2 15.5h1M4 15.5h2M7 15.5h1M10 15.5h2M18 15.5h1M20 15.5h2M23 15.5h4M30 15.5h1M2 16.5h1M4 16.5h1M7 16.5h4M13 16.5h2M17 16.5h4M22 16.5h1M24 16.5h1M27 16.5h2M2 17.5h1M6 17.5h1M13 17.5h1M16 17.5h2M20 17.5h1M24 17.5h3M29 17.5h1M5 18.5h4M10 18.5h1M12 18.5h2M19 18.5h2M25 18.5h1M27 18.5h2M2 19.5h6M9 19.5h1M12 19.5h1M14 19.5h3M18 19.5h9M28 19.5h1M30 19.5h1M2 20.5h1M5 20.5h2M8 20.5h1M10 20.5h1M12 20.5h1M15 20.5h5M24 20.5h1M26 20.5h1M28 20.5h1M2 21.5h1M4 21.5h1M6 21.5h2M9 21.5h2M14 21.5h2M17 21.5h1M20 21.5h2M23 21.5h1M25 21.5h1M29 21.5h1M2 22.5h1M4 22.5h5M10 22.5h1M12 22.5h1M14 22.5h1M16 22.5h2M19 22.5h1M22 22.5h5M28 22.5h3M10 23.5h1M12 23.5h1M18 23.5h5M26 23.5h5M2 24.5h7M10 24.5h1M13 24.5h2M17 24.5h1M20 24.5h3M24 24.5h1M26 24.5h3M2 25.5h1M8 25.5h1M13 25.5h1M16 25.5h1M18 25.5h1M21 25.5h2M26 25.5h1M29 25.5h2M2 26.5h1M4 26.5h3M8 26.5h1M10 26.5h1M12 26.5h2M19 26.5h1M22 26.5h5M28 26.5h1M2 27.5h1M4 27.5h3M8 27.5h1M10 27.5h2M14 27.5h7M22 27.5h1M27 27.5h4M2 28.5h1M4 28.5h3M8 28.5h1M10 28.5h3M15 28.5h5M21 28.5h1M23 28.5h7M2 29.5h1M8 29.5h1M10 29.5h1M12 29.5h1M14 29.5h2M18 29.5h1M22 29.5h1M24 29.5h4M29 29.5h1M2 30.5h7M10 30.5h2M14 30.5h1M16 30.5h1M19 30.5h3M24 30.5h1M26 30.5h1M28 30.5h1"/></svg></div>
+      <div id="e7-escanea">¡Escanéame con el móvil!</div>
+      <div id="e7-autor" class="e7-pildora">Desarrollado por Álvaro Lofra</div>
+
+      <div id="e7-destellos" data-layout-ignore>
+        <svg class="estrella" style="left:190px;top:300px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+        <svg class="estrella" style="left:760px;top:280px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:170px;top:620px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#fff" /></svg>
+        <svg class="estrella" style="left:780px;top:600px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+        <svg class="estrella" style="left:475px;top:150px" viewBox="0 0 100 100"><path d="M50 0 L61 39 L100 50 L61 61 L50 100 L39 61 L0 50 L39 39 Z" fill="#FFD23F" /></svg>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const $ = (s) => document.querySelector(s);
+
+      nlSprite(tl, $("#e7-sprite-44"), 44, 0, 5);
+
+      // Salto con anticipación: se agacha, sale estirado (boing), cae y se aplasta al aterrizar.
+      tl.fromTo("#e7-carta", { y: 0, scaleX: 1, scaleY: 1, transformOrigin: "50% 100%" },
+        { scaleX: 1.16, scaleY: 0.8, duration: 0.14, ease: "power2.out" }, 0.3);
+      tl.fromTo("#e7-carta", { y: 0, scaleX: 1.16, scaleY: 0.8 },
+        { y: -150, scaleX: 0.9, scaleY: 1.14, duration: 0.3, ease: "power2.out", immediateRender: false }, 0.44);
+      tl.fromTo("#e7-carta", { y: -150, scaleX: 0.9, scaleY: 1.14 },
+        { y: 0, scaleX: 1, scaleY: 1, duration: 0.26, ease: "power2.in", immediateRender: false }, 0.74);
+      tl.fromTo("#e7-carta", { scaleX: 1, scaleY: 1 },
+        { scaleX: 1.2, scaleY: 0.82, duration: 0.07, ease: "power2.out", immediateRender: false }, 1.0);
+      tl.fromTo("#e7-carta", { scaleX: 1.2, scaleY: 0.82 },
+        { scaleX: 1, scaleY: 1, duration: 0.6, ease: "elastic.out(1.1, 0.35)", immediateRender: false }, 1.07);
+      nlDestellos(tl, $("#e7-destellos"), 0.7);
+
+      for (let i = 1; i <= 6; i++) {
+        tl.fromTo("#e7-arco-" + i, { attr: { "stroke-dashoffset": 1 } },
+          { attr: { "stroke-dashoffset": 0 }, duration: 0.8, ease: "power2.out" }, 0.45 + i * 0.06);
+      }
+
+      nlLetras(tl, $("#e7-titulo"), 1.0, 0.06);
+
+      // La dirección, el «Gratis», el QR y el autor llegan botando y se quedan quietos
+      tl.fromTo("#e7-web", { scale: 0, rotation: -3 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.2)" }, 1.5);
+      tl.fromTo("#e7-gratis", { scale: 0, rotation: 3 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.2)" }, 1.75);
+      tl.fromTo("#e7-qr", { scale: 0, rotation: -8 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.2)" }, 2.0);
+      tl.fromTo("#e7-escanea", { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 2.2);
+      tl.fromTo("#e7-autor", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, 2.0);
+
+      // Respira tranquilo hasta el final.
+      nlRespirar(tl, $("#e7-carta"), 2.5, 2.5);
+
+      window.__timelines["final"] = tl;
+    </script>
+  </template>
+</body>
+</html>
