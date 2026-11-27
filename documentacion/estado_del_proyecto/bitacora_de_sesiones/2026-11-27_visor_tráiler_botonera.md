@@ -34,8 +34,7 @@
 - El lightbox del álbum ofrece «Abrir en el Visor Mágico» en **todos** los cromos animados (los 97 con más de un fotograma), no solo en las 9 escenas. Desde el álbum, ◀ ▶ recorren todos los animados; desde la tira, las 9 escenas.
 - Botón **«¡Sorpréndeme!»** en la cabecera de la tira y dentro del Visor: abre un animado al azar (distinto del que se ve).
 - **Una sola fuente de textos:** `FEATURED_GIFS` ya solo guarda la etiqueta y el fondo de cada escena; el título y la descripción se leen de `ALL_STICKERS`. Descargar y WhatsApp usan el cromo que se está viendo (`stickerActualVisor`).
-- **Pendiente de la fusión de la rama de textos:** `FEATURED_GIFS` sigue apuntando por número (`id`). La sesión de textos añadirá en `js/02` las claves acordadas (`palomitas-sofa` #17, `baile-arcoiris` #10, `gorro-de-leon` #33, `huida-bosque` #21, `siesta-hamaca` #38, `baile-alegria` #39 y, tras su revisión fotograma a fotograma, las propuestas corregidas `burla-lengua` #13, `pataleo-camino` #29 y `muneco-antiestres` #11); al hacer `git merge main` se cambia `stickerDeEscena` a `clave` y el test.
-- **Etiquetas de escena a revisar tras la fusión** (son de `js/05`): «RISAS» del #13 (es una burla), «RELAX» del #29 (patalea) y «PUCHERO» del #11, que según la sesión de textos **no es la serie sino un muñeco antiestrés real**: preguntar al usuario si sigue entre las 9 escenas.
+- **Por clave estable** desde la fusión de `main` (ver §4): `FEATURED_GIFS` ya no lleva números.
 
 ## 3. `VM3` · «Crea tu sticker» (elegida por el usuario)
 
@@ -62,15 +61,33 @@
 - **Detalle de prueba, no fallo:** si se crea el sticker en el mismo instante de añadir un emoji (solo posible desde código), el CDN de Tailwind aún no ha generado la clase `text-4xl` y el emoji sale pequeño; un usuario siempre pulsa «Crear» después.
 - **No comprobado:** WhatsApp real (Android e iPhone) con el fichero creado, Safari de iPhone (el PNG de reserva) y el tiempo en un móvil real.
 
-## 4. Tests
+## 4. Fusión de `main` y escenas por clave
+
+- `git merge main` (commit `786f1c2`) con el tráiler horizontal (`644d3f5`), la rama de textos (`3954ac8`: claves en `js/02`, `stickerPorClave` y `rutaSticker`), el lore (`4251b67`) y el plan (`182d53a`). **Sin conflictos**: Git combinó solo `index.html`, `js/06`, `verify_all.py` y el mapa. Suite 55/55 justo después.
+- **`FEATURED_GIFS` por clave:** las 9 escenas apuntan con `clave` y `stickerDeEscena` usa `stickerPorClave` de `js/02` (no se redefine). Claves finales: `palomitas-sofa`, `baile-arcoiris`, `gorro-de-leon`, `huida-bosque`, `pataleo-camino`, `siesta-hamaca`, `burla-lengua`, `muneco-antiestres` y `baile-alegria`.
+- **Etiquetas de escena** ajustadas a lo que se ve según la revisión de textos: #17 «GLOTÓN» → «RISAS» (no llega a comer), #29 «RELAX» → «PATALEO», #38 «DORMILÓN» → «RELAX» (cóctel en la hamaca), #13 «RISAS» → «BURLA», #11 «PUCHERO» → «JUGUETE» (es un muñeco antiestrés real, no la serie; se mantiene entre las 9 con su título honesto: si el usuario prefiere otra escena, se cambia la clave).
+- Comprobado en el navegador: la tira muestra los 9 cromos con los títulos nuevos y el Visor abre por clave, sin errores de consola.
+
+## 5. `V1` · Tráiler horizontal
+
+- **Qué cambia:** en pantallas anchas (`(min-width: 768px) and (min-aspect-ratio: 1/1)`: ordenador, tableta o móvil girado) el tráiler es el horizontal 16:9 con su portada; en el móvil en vertical, el vertical 9:16 de siempre. La etiqueta del formato («📱 Vertical 9:16» / «🖥️ Horizontal 16:9»), la miniatura del resumen plegado y el lienzo de luz ambiental (45×80 u 80×45) cambian con él.
+- **Cómo** (`js/10`, `elegirFormatoTrailer`): se decide **al cargar `js/10`** (antes de que el navegador pida la portada) y otra vez al desplegar el tráiler (por si se giró el móvil o se cambió la ventana), salvo que el vídeo se esté reproduciendo. El `<video>` ya no lleva `poster` en el HTML: lo pone `js/10`, así solo se descarga la portada que toca. Sigue con `preload="none"`: el `.mp4` solo se descarga al darle a reproducir.
+- **Caja** (`css/styles.css`, `.trailer-horizontal`): 16:9 con el texto debajo y centrado, de ancho `min(100 %, 48 rem, 80 % del alto × 16/9)` para que en el móvil girado quepa entero; pantalla completa a lo ancho (96 vw, sin pasar del 94 % del alto).
+- **Comprobado** (Chrome sin interfaz): ordenador 1.366×800 → horizontal 768×432 y solo se descarga `nailong_trailer_v2_horizontal_portada.webp` (carga limpia desde arriba; al recargar con el scroll ya en el tráiler, el navegador pidió también la vertical antes de ejecutar `js/10`); móvil 375×812 → vertical 192×320 como antes y solo su portada; móvil girado 812×375 → horizontal 534×300; pantalla completa (reserva CSS) → vídeo de 1.312×738. Sin errores de consola ni desbordes.
+- **No comprobado:** la pantalla completa real con la API del navegador (necesita un toque del usuario) y Safari de iPhone/iPad.
+- **Test 47** ampliado: existen el horizontal y su portada, `js/10` apunta a los 4 ficheros, el formato se elige con `matchMedia` al cargar y al desplegar, `preload="none"` sin `poster` fijo y la caja 16:9 en el CSS.
+
+## 6. Tests
 
 - Las comprobaciones nuevas (VM1–VM3) van **dentro del test 44** (el del Visor y el lightbox), no en un test 56: el recuento de tests vive en `ESTADO_ACTUAL.md` (no es de esta sesión) y así tampoco choca con la numeración de la rama de textos. Comprueba las funciones del lector y del reproductor, los bits de borrado y fusión, el decodificado a tamaño de pantalla con reserva `<img>`, que no se use `ImageDecoder`, que se libere la memoria al cerrar, el arranque en pausa con movimiento reducido, que cada velocidad tenga su botón, que el Visor no guarde títulos propios, que el álbum abra cualquier animado, los dos «¡Sorpréndeme!» y, leyendo los 126 ficheros, que `frames` de `ALL_STICKERS` coincida con los fotogramas `ANMF` y que cada fotograma lleve `ALPH`+`VP8`, `VP8` o `VP8L` (lo que el lector sabe envolver). Para VM3: las funciones del creador, que sus límites (500 KB, 20 ms, 10 s) sean los de `normalizar_stickers.py`, la cabecera y los fotogramas del WebP animado, el EXIF, las esquinas transparentes, la reserva PNG y el panel en `index.html`.
 - `py -3 verify_all.py`: **55/55 en verde**.
 
-## 5. Para la integración (sesión principal)
+## 7. Para la integración (sesión principal)
 
 - **`ESTADO_ACTUAL.md`:** el Visor ya no tiene «control de velocidad 0.5x/1x/1.5x» falso: reproductor propio de 0,25× a 3× con pausa, paso a paso, al revés, bumerán y barra de tiempo, para los 97 cromos animados. «12 sonidos únicos» de la botonera es falso (son 8 distintos); se corregirá del todo con `B1`.
 - **`CHANGELOG.md` (4.3.0):** «Visor Mágico: velocidad real (0,25× a 3×), pausa, fotograma a fotograma, al revés, bumerán y barra de tiempo; se abre con cualquier sticker animado del álbum y tiene botón «¡Sorpréndeme!». Nuevo «Crea tu sticker»: elige un trozo, ponle texto y emojis y llévatelo como sticker animado de WhatsApp (en iPhone, como imagen)».
 - **`README.md` (vitrina):** una línea para «Crea tu sticker» (para el usuario final, sin jerga).
 - **`DECISIONES.md`:** el WebP animado se monta en el navegador sin librerías (por la regla de proyecto sin dependencias ni build); si se quiere como decisión numerada, la redacta la sesión principal.
+- **`CHANGELOG.md` (4.3.0), tráiler:** «En ordenador y tableta, el tráiler se ve en horizontal 16:9 (con un QR de la web al final); en el móvil, el vertical de siempre».
+- **`ESTADO_ACTUAL.md`:** la caja del tráiler ya no es solo vertical (`V1` hecho).
 - **`.claude/launch.json`** de este *worktree* (servidor en el puerto 8011) no se sube.

@@ -98,7 +98,7 @@ El código está estructurado en 12 bloques funcionales visibles:
 | Arranque diferido (W27) | `js/10-inicio.js` · `window.onload`, `diferirArranque` |
 | Cabecera de escritorio (W31) | `index.html` · `#desktop-nav-links` (`xl:flex`), `#mobile-menu-btn` / `#mobile-menu` (`xl:hidden`), `#party-mode-btn` |
 | Barra de accesos inferior (móvil, `< lg`) | `index.html` · `#bottom-nav` (`data-secciones`); `css/styles.css` · `.bottom-nav-item`; `js/10-inicio.js` · `setupScrollSpy`; `js/04-navegacion.js` · `openMobileMenuFromBottom` |
-| Tráiler plegable | `index.html` · `<details id="video-promo-section">`; `js/10-inicio.js` · `abrirTrailer`, `setupTrailerFold` |
+| Tráiler plegable | `index.html` · `<details id="video-promo-section">`; `js/10-inicio.js` · `abrirTrailer`, `setupTrailerFold`, `elegirFormatoTrailer` (V1: horizontal 16:9 en pantallas anchas con `TRAILER_CONSULTA_HORIZONTAL`, vertical en móvil; pone `src`, portada, miniatura y tamaño del lienzo ambiental); `css/styles.css` · `.trailer-horizontal` |
 | Pestañas del laboratorio | `index.html` · `.lab-tab` / `.lab-panel`; `js/07-sonidos-y-laboratorio.js` · `mostrarPestanaLab` |
 | Carruseles de móvil | `css/styles.css` · `.carrusel-movil` («¿Quién es?»), `.carrusel-chips` (acciones 3D) |
 | Copias reducidas de stickers (W33) | `Stickers Nailong/mini/<clave>.webp` (+ `favicon.webp`), generadas y comprobadas por `herramientas/miniaturas_web.py` (test 53); `mini/bombloong.webp` es un recorte fijo de su cromo (`RECORTES`, T2) |
