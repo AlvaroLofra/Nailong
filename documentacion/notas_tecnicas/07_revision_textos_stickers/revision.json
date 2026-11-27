@@ -1,0 +1,4839 @@
+{
+ "revision": "Textos de los stickers (T1, T2 y W11, web 4.3.0)",
+ "fecha": "2026-11-27",
+ "decisiones_del_usuario": "#30 se queda con texto neutro («lata verde»); edad «3 años y medio»; Bombloong con el recorte A de su cromo; el resto, tal cual.",
+ "numeracion": "La de noviembre de 2026. Si se renumeran los cromos, el id deja de coincidir; la clave, no.",
+ "stickers": [
+  {
+   "id": 1,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. Primer plano al aire libre (árboles y un pilar de rombos de colores) con las correas de una mochila a la espalda; mira hacia arriba con lágrimas acumuladas en los ojos y la boca apretada en una raya.",
+   "subtitulos": "",
+   "notas": "No se ve colegio ni comida: «prefiere quedarse en casa comiendo» es inventado. El pilar de colores podría ser la entrada de una escuela, pero no se distingue.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Puchero de Colegio",
+    "desc": "Con su mochila de la escuela y lagrimitas cómicas porque prefiere quedarse en casa comiendo.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Lágrimas con Mochila a Cuestas",
+    "desc": "Con la mochila a la espalda, mira hacia arriba con los ojos llenos de lágrimas y la boca apretada, aguantándose el llanto.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 2,
+   "clave": "dragon-de-leche",
+   "fotogramas": 36,
+   "duracion_ms": 2401,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    9,
+    14,
+    20,
+    25,
+    30,
+    35
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-f2: mira de reojo con media sonrisa pícara y empieza a subir las manos; f3-f34: con las manos junto a la cara, pone los ojos en blanco, saca la lengua y menea la cabeza de lado a lado; f35: cierra los ojos con la lengua fuera. Exterior con césped y casas. Casi bucle.",
+   "subtitulos": "",
+   "notas": "Marca de agua de Bilibili arriba a la derecha (recorte de un vídeo). «Del valle» es relleno; falta la mirada pícara del inicio y las manos junto a la cara.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Lengua Fuera y Ojos Locos",
+    "desc": "Saca la lengua, mueve la cabecita y pone los ojos en blanco: ¡la burla más simpática del valle!",
+    "cat": "caritas",
+    "sound": "bleh"
+   },
+   "aprobado": {
+    "title": "Lengua Fuera y Ojos Locos",
+    "desc": "Mira de reojo con picardía, sube las manos junto a la cara y se burla con la lengua fuera, los ojos en blanco y meneando la cabeza.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 3,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. Primer plano muy cercano: entorna un ojo, abre el otro mirando hacia arriba y deja la boca abierta en una mueca de incredulidad.",
+   "subtitulos": "",
+   "notas": "Marca de agua «jojo_stickers» abajo a la izquierda (sticker de un creador de fans). La tarta y la nevera son inventadas; Nailong no tiene cejas visibles, el gesto es de los ojos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ceja Sospechosa",
+    "desc": "Levantando una ceja dudoso: \"¿Seguro que no queda tarta en la nevera?\"",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Cara de Incredulidad",
+    "desc": "Entorna un ojo, abre mucho el otro y deja la boca abierta: una mueca de no creerse ni una palabra.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 4,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Estático. De perfil hacia la izquierda y con los brazos cruzados, gira los ojos hacia la cámara con gesto serio. En primer plano, sobre una mesa, una pequeña maqueta de esqueleto; detrás de su cabeza asoma un bulto gris con un patito amarillo de juguete encima. Exterior con edificios.",
+   "subtitulos": "",
+   "notas": "La categoría «amigos» no se justifica: no se distingue a otro personaje (solo el bulto gris con el patito, imposible de identificar). Propongo «caritas». No uso «Brazos Cruzados» en el título porque ya existe «Brazos Cruzados con Estilo».",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "En primer plano hay una maqueta de esqueleto sobre una peana; detrás está Nailong (y al fondo árboles, edificio y cielo). Puede que haya otro personaje: a la izquierda, tapado por la cabeza de Nailong, asoma un patito amarillo sobre formas gris-blancas, pero solo se ve un trozo y no se distingue si es otro personaje o un juguete. Gesto: brazos cruzados y mirada de reojo hacia arriba, pensativo o escéptico.",
+    "se_ve": "Imagen fija (1 fotograma). Primer plano abajo a la izquierda: una maqueta pequeña de un esqueleto (parece de ave o dinosaurio pequeño) sobre una peana oscura, apoyada en un borde de madera marrón que cruza toda la parte de abajo (mesa, marco o vitrina). Detrás, Nailong en plano muy cercano, con la cabeza girada y los ojos mirando hacia arriba a la derecha, y los brazos cruzados/juntos sobre el pecho; lleva algo blanco tipo cinta o collar bajo la cabeza. Detrás de su cabeza, a la izquierda, asoma un patito amarillo de pico naranja sobre unas formas redondeadas gris-blancas y, entre la barbilla y el brazo, una forma gris oscura. Fondo: árboles verdes, un edificio color arena, cielo azul y calle.",
+    "tipo_de_imagen": "Captura de la animación 3D de la serie, algo comprimida; sin marcas de agua ni añadidos visibles.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Escuchando Atento",
+    "desc": "De perfil y con los bracitos cruzados, mirando de reojo muy atento a lo que pasa a su lado.",
+    "cat": "amigos",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Atento junto al Esqueleto",
+    "desc": "De perfil y con los brazos cruzados, mira de reojo muy serio junto a una pequeña maqueta de esqueleto.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 5,
+   "clave": "casco-soldado",
+   "fotogramas": 2,
+   "duracion_ms": 2000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    1
+   ],
+   "bucle": true,
+   "veredicto": "reescribir",
+   "confianza": "alta",
+   "se_ve": "Dos fotogramas idénticos (estático en la práctica). Primer plano con un casco militar de camuflaje; ojos muy abiertos mirando a un lado y la boca abiertísima enseñando los dientes de arriba, como pegando un grito.",
+   "subtitulos": "",
+   "notas": "No es una sonrisa ni hay risa: es un grito. El texto actual no menciona el casco de camuflaje. Color más anaranjado de lo normal (quizá filtro o compresión). El EXIF trae el nombre de otro pack («Muñeco amarillo»): viene de un sticker de fans.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Gran Sonrisa!",
+    "desc": "Primer plano con los ojos saltones y la boca abierta de par en par, ¡entre la risa y el asombro!",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "¡Grito con Casco de Soldado!",
+    "desc": "Con un casco militar de camuflaje en la cabeza, abre mucho los ojos y pega un grito enorme enseñando los dientes.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 6,
+   "clave": null,
+   "fotogramas": 32,
+   "duracion_ms": 1066,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    8,
+    13,
+    17,
+    21,
+    26,
+    31
+   ],
+   "bucle": true,
+   "veredicto": "reescribir",
+   "confianza": "media",
+   "se_ve": "f0: con un gorro blanco de ala ancha y las manos juntas sobre la tripa, pone morritos y mira a cámara con ojos grandes; f3-f7: cierra los ojos despacio y los vuelve a abrir; f13-f17: segundo parpadeo lento; f21-f31: se queda mirando quieto. Bucle. Franjas negras arriba y abajo.",
+   "subtitulos": "",
+   "notas": "No hay pastel ni horno: es inventado, y no come nada (propongo «caritas»). El gorro blanco podría ser de cocinero, pero el encuadre lo corta y no se puede asegurar; detrás asoma algo rojo con borde blanco (¿un flotador?). Tras la segunda opinión: el gorro no se ve entero (cocinero o boina, no se sabe) y la cara es más de pena que de inocencia.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "En la cabeza lleva un gorro blanco grande y blando que sobresale por los dos lados (parece la parte baja de un gorro de cocinero o una boina blanca ancha); el borde superior del encuadre corta la copa, así que no se puede asegurar el tipo. Detrás, a la izquierda, hay un objeto rojo con borde blanco (no se distingue qué es: respaldo, cojín o algo parecido) y al fondo pared gris y una zona verde azulada. Lo que hace: parpadea despacio dos veces con cara de pena o de sueño, con las manitas juntas delante del pecho en gesto tímido.",
+    "se_ve": "Plano cercano fijo, con franjas negras arriba y abajo (recortado de un vídeo). f0-f2: Nailong mira a cámara con ojos grandes, cejas algo caídas y boca pequeña fruncida, con las dos manos juntas delante del pecho (las garritas marrones casi tocándose). f3-f7: entorna y cierra los ojos despacio. f8-f12: los vuelve a abrir. f13-f17: segundo parpadeo lento (párpados pesados, luego cerrados). f18-f31: ojos abiertos mirando hacia arriba, sin cambiar de postura.",
+    "tipo_de_imagen": "Animación 3D de la serie, extraída de vídeo (franjas negras de letterbox); sin indicios de edición.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Chef Pastelero Nailong",
+    "desc": "Con su gorro blanco de cocinero y las patitas juntas, parpadea muy serio esperando a que el pastel salga del horno.",
+    "cat": "comida",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Gorro Blanco y Morritos",
+    "desc": "Con un gorro blanco y las manos juntas delante del pecho, pone morritos y parpadea despacio dos veces, con cara de pena.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 7,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Estático. Primer plano con los ojos entornados mirando de lado hacia la derecha y la boca apretada; detrás, un esqueleto rojo (calavera y costillas) de juguete o decoración, sobre fondo oscuro.",
+   "subtitulos": "",
+   "notas": "El texto actual es correcto; solo añado el esqueleto rojo del fondo, que da contexto (parece decoración de Halloween o de feria).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Mirada de Reojo",
+    "desc": "Mirando de lado con los ojos entornados y cara de pocos amigos: aquí hay algo que no le convence.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Mirada de Reojo",
+    "desc": "Mira de lado con los ojos entornados y la boca apretada, con un esqueleto rojo detrás: algo no le convence nada.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 8,
+   "clave": null,
+   "fotogramas": 51,
+   "duracion_ms": 4182,
+   "cortes": [],
+   "seleccion": [
+    0,
+    10,
+    22,
+    26,
+    34,
+    41,
+    46,
+    50
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0: agarrado a los barrotes de una celda, pone boca de «oh»; f2-f20: levanta la palma de la otra mano con cara de apuro; f22-f39: se agarra con las dos manos, cierra los ojos y lloriquea; f40-f44: mira a un lado y a otro; f45-f50: pega la cara a los barrotes con cara de preocupación. No es bucle.",
+   "subtitulos": "",
+   "notas": "Estilo más realista y cabeza algo distinta a la de la serie: probablemente animación hecha por fans (posible IA). El título usa «Sáquenme» (uso americano); en España, «Sacadme». Faltaba el lloriqueo con los ojos cerrados.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Sáquenme de Aquí!",
+    "desc": "Agarrado a los barrotes: primero se asombra, luego pide ayuda con la patita y al final apoya la cabeza haciendo pucheros.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "¡Sacadme de Aquí!",
+    "desc": "Tras los barrotes, se asombra, levanta la mano pidiendo ayuda, lloriquea con los ojos cerrados y acaba con la cara pegada a la reja.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 9,
+   "clave": "mofletes-estirados",
+   "fotogramas": 12,
+   "duracion_ms": 960,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    11
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-f1: con las dos manos en los mofletes, entorna los ojos y saca la lengua; f2-f11: abre mucho los ojos y tira de los mofletes estirando la boca hacia los lados. Fondo transparente.",
+   "subtitulos": "",
+   "notas": "Más que burla es una mueca estirándose la cara; el sonido «duang» (elástico) cuadra con el estirón.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Haciendo Burlitas ¡Bleh!",
+    "desc": "Sacando la lengua y tocándose los mofletes gorditos en son de broma infantil.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Estirándose los Mofletes",
+    "desc": "Con las manos en los mofletes, saca la lengua con los ojos entornados y luego tira de la cara para poner una mueca muy estirada.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 10,
+   "clave": "baile-arcoiris",
+   "fotogramas": 14,
+   "duracion_ms": 1120,
+   "cortes": [],
+   "seleccion": [
+    0,
+    1,
+    3,
+    5,
+    7,
+    9,
+    12,
+    13
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0: amarillo anaranjado, sonrisa pícara con los ojos entornados y una bola moteada en cada mano (morada y naranja); f1-f12: el cuerpo cambia de color en cada fotograma (celeste, turquesa, verde menta, lima, amarillo, naranja, coral) mientras bota arriba y abajo con boca de «o»; f13: vuelve al amarillo. Bucle. Fondo transparente.",
+   "subtitulos": "",
+   "notas": "Edición de fans evidente (recoloreado que no es de la serie). Las bolas tienen motas blancas (¿maracas o huevos decorados?). El título actual pasa de 32 caracteres.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Baile Arcoíris con Bolas de Colores",
+    "desc": "Con una bola de colores en cada patita, baila mientras cambia de color como un camaleón: amarillo, verde, naranja...",
+    "cat": "bailes",
+    "sound": "maracas"
+   },
+   "aprobado": {
+    "title": "Baile Arcoíris con Dos Bolas",
+    "desc": "Edición de fans: con una bola moteada en cada mano, bota sin parar mientras cambia de color (celeste, verde, lima, naranja, rosa...).",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 11,
+   "clave": "muneco-antiestres",
+   "fotogramas": 60,
+   "duracion_ms": 4920,
+   "cortes": [],
+   "seleccion": [
+    0,
+    7,
+    13,
+    18,
+    24,
+    31,
+    49,
+    59
+   ],
+   "bucle": false,
+   "veredicto": "reescribir",
+   "confianza": "alta",
+   "se_ve": "Vídeo real de un muñeco antiestrés de Nailong sobre una mesa (portátil al fondo). f0: un dedo se aparta y deja la cabeza hundida y aplastada; f7-f31: el muñeco recupera su forma poco a poco; f49-f59: queda entero, mirando hacia arriba con la boca en puchero. No es bucle.",
+   "subtitulos": "",
+   "notas": "No es la animación de la serie sino un juguete blandito (tipo squishy) grabado en casa; el texto actual lo cuenta como si el personaje se incorporara. Sonido «duang» (rebote elástico) perfecto.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Es un muñeco/juguete real (tipo antiestrés blando de recuperación lenta) grabado con el móvil, no una animación. En orden: alguien le aprieta la cabeza con el dedo, la suelta, la cabeza se queda hundida y se va inflando poco a poco hasta volver a su forma, y el muñeco queda con su cara de pena.",
+    "se_ve": "f0: un dedo real sale por la esquina superior izquierda; el muñeco tiene la cabeza aplastada con un hundimiento profundo arriba. f1-f12: la cabeza sigue hundida mientras la cámara (móvil) se mueve un poco. f13-f20: la cabeza se va hinchando despacio hasta recuperar la forma. f21-f59: la cámara sube y encuadra el muñeco entero de cintura para arriba, ya con la cabeza redonda, quieto, con ojos pintados y boca pintada en mueca triste. Fondo real: mesa de madera, pared blanca, un aparato gris (portátil o teclado), algo azul y sombras.",
+    "tipo_de_imagen": "Vídeo real de un juguete físico (squishy de Nailong).",
+    "confianza": "alta"
+   },
+   "antes": {
+    "title": "Morritos Mirando al Cielo",
+    "desc": "Se incorpora poco a poco, levanta la cabecita y se queda mirando hacia arriba con la boquita torcida en un puchero.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Muñeco Antiestrés Recuperándose",
+    "desc": "Un muñeco antiestrés de Nailong con la cabeza aplastada recupera su forma poco a poco y se queda mirando arriba con morritos.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 12,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. En una cocina (armarios de madera, un cuenco metálico al fondo), con la cara manchada de harina blanca, sonríe con la boca cerrada y mira de reojo con picardía.",
+   "subtitulos": "",
+   "notas": "No se ve bizcocho ni horno: «después de intentar hornear un bizcocho» es inventado. No come ni bebe nada: propongo «caritas» en vez de «comida».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Accidente con la Harina",
+    "desc": "Con toda la carita llena de harina blanca después de intentar hornear un bizcocho.",
+    "cat": "comida",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Cara Enharinada en la Cocina",
+    "desc": "En la cocina y con la cara manchada de harina, sonríe con la boca cerrada y mira de reojo como quien no ha hecho nada.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 13,
+   "clave": "burla-lengua",
+   "fotogramas": 19,
+   "duracion_ms": 1577,
+   "cortes": [],
+   "seleccion": [
+    0,
+    3,
+    6,
+    8,
+    11,
+    13,
+    16,
+    18
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "f0-f18: con las manos en alto junto a la cabeza, pone los ojos en blanco, abre muchísimo la boca y menea la lengua y la cabeza de lado a lado sin parar; fondo otoñal con árboles rojizos. Bucle.",
+   "subtitulos": "",
+   "notas": "Más que una carcajada parece una burla alocada (como el #2, pero exagerada); no saluda: agita las manos junto a la cabeza. En el borde derecho asoma algo morado en algún fotograma (no identificable).",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Expresa burla o tontería (la típica cara de «bleh»: ojos en blanco y lengua fuera meneándola), no un grito; tampoco parece risa. Las manos están levantadas a los lados de la cabeza y se agitan al ritmo del balanceo; en la mano derecha (borde derecho) parece llevar algo morado que no se distingue.",
+    "se_ve": "Exterior otoñal (árboles rojizos, cielo malva, césped). f0-f18: Nailong con los ojos en blanco mirando hacia arriba, la boca muy abierta y la lengua fuera, que mueve de un lado a otro (f0, f3, f8, f13, f18 lengua colgando; f6, f11, f16 lengua hacia un lado). La cabeza se balancea a izquierda y derecha y los brazos se levantan a los lados a la altura de la cabeza, moviéndose como si bailara o se burlara. En f8 y f18 asoma en el borde derecho, junto a la mano, algo morado con un palito claro (cortado por el encuadre; no se distingue qué es).",
+    "tipo_de_imagen": "Animación 3D de la serie, algo comprimida; sin marcas de agua visibles.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Risas a Carcajadas",
+    "desc": "Riendo con la boca abierta, la lengua fuera y los ojos en blanco mientras saluda con la patita.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "¡Bleeeh! Lengua a lo Loco",
+    "desc": "Con las manos en alto, pone los ojos en blanco, abre una bocaza enorme y menea la lengua y la cabeza de lado a lado sin control.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 14,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Estático. Delante de una tumbona de rayas rojas y amarillas, sobre el césped, ladea la cabeza y mira hacia arriba, a un lado, con cara de preocupación y mofletes sonrosados. En el borde izquierdo asoma algo azul y redondeado.",
+   "subtitulos": "",
+   "notas": "El bulto azul de la izquierda podría ser otro personaje (¿Bombloong?) cortado por el encuadre; no se puede confirmar. No está claro si está sentado en la tumbona o de pie delante; el gesto es más de preocupación que de «pedir un favor». Tras la segunda opinión: está sentado en la tumbona. El bulto azul del borde no se puede identificar: no se nombra.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "En el borde izquierdo asoma una forma redondeada azul petróleo oscura, cortada por el encuadre (podría ser parte de otro personaje o un objeto; no se distingue). En el borde derecho solo está el armazón de madera de la tumbona. Está sentado. Expresa preocupación o inquietud (cara de «ay, ¿y ahora qué?»).",
+    "se_ve": "Imagen fija (1 fotograma). Nailong sentado en una tumbona de madera con lona de rayas rojas y amarillas, sobre césped junto a un camino de baldosas. Mira hacia arriba con las cejas levantadas por el centro, mejillas sonrosadas y boca pequeña entreabierta; las manos apoyadas a los lados (en los brazos de la tumbona).",
+    "tipo_de_imagen": "Captura de la animación 3D de la serie; sin indicios de edición.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Ojitos Tiernos junto a la Tumbona",
+    "desc": "De pie junto a la tumbona de rayas, ladea la cabeza con ojitos tiernos como pidiendo un favor.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Preocupado en la Tumbona",
+    "desc": "Sentado en una tumbona de rayas rojas y amarillas, ladea la cabeza y mira hacia arriba con cara de preocupación y los mofletes colorados.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 15,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Estático. Tumbado de lado sobre un suelo de roca, en lo que parece una cueva, con los ojos cerrados, una sonrisa y la lengua asomando por la comisura.",
+   "subtitulos": "",
+   "notas": "El texto actual describe bien la escena; lo retoco levemente para mencionar las rocas.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Siesta con la Lengua Fuera",
+    "desc": "Tumbado en el suelo como un flan derretido, dormido del todo y con la lengüita asomando.",
+    "cat": "caritas",
+    "sound": "sleep"
+   },
+   "aprobado": {
+    "title": "Siesta con la Lengua Fuera",
+    "desc": "Tumbado de lado sobre las rocas, duerme a pierna suelta con una sonrisa y la lengua asomando: frito del todo.",
+    "cat": "caritas",
+    "sound": "sleep"
+   }
+  },
+  {
+   "id": 16,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. En una habitación (estantería con un osito azul y figuras de pájaros), echa la cabeza hacia atrás con los ojos entornados y la boca abierta, con la lengua colgando.",
+   "subtitulos": "",
+   "notas": "No se ve comida: «barriga llena» y «coma dulce» son inventados. Propongo «caritas». El gesto es de agotamiento o de «no puedo más».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Empacho Feliz",
+    "desc": "Echado hacia atrás con la barriga llena, la boca abierta y la lengua fuera, en pleno coma dulce.",
+    "cat": "comida",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Hecho Polvo",
+    "desc": "En una habitación llena de juguetes, echa la cabeza hacia atrás con los ojos entornados y la lengua colgando, como si no pudiera más.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 17,
+   "clave": "palomitas-sofa",
+   "fotogramas": 71,
+   "duracion_ms": 4686,
+   "cortes": [
+    47
+   ],
+   "seleccion": [
+    0,
+    13,
+    21,
+    29,
+    38,
+    46,
+    47,
+    60,
+    70
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-f20: sentado en el sofá con una caja de palomitas de rayas bajo el brazo, se ríe con los ojos cerrados; f21-f46: se balancea de un lado a otro riéndose; f47 (corte): plano algo más abierto, echa la cabeza atrás con los ojos apretados de risa; f66-f70: se deja caer hacia atrás en el sofá. No es bucle.",
+   "subtitulos": "",
+   "notas": "No llega a comer palomitas: el momento clave es la risa. Propongo «caritas» y sonido «laugh» (no hay mordisco para «chomp»). Al final se echa hacia atrás, no se revuelca. Edición: dejo «comida» porque la caja de palomitas es el tema del sticker (filtro «Comilonas»), aunque no llegue a comer.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Palomitas y Risas en el Sofá",
+    "desc": "Sentado en el sofá con su caja de palomitas, se ríe tanto que acaba revolcándose de lado a lado.",
+    "cat": "comida",
+    "sound": "chomp"
+   },
+   "aprobado": {
+    "title": "Palomitas y Risas en el Sofá",
+    "desc": "Sentado en el sofá con su caja de palomitas, se ríe con los ojos cerrados, se balancea y acaba dejándose caer hacia atrás.",
+    "cat": "comida",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 18,
+   "clave": "palmas-jardin",
+   "fotogramas": 69,
+   "duracion_ms": 4554,
+   "cortes": [],
+   "seleccion": [
+    0,
+    12,
+    26,
+    39,
+    51,
+    57,
+    63,
+    68
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Jardín con árboles y flores; franjas blancas a los lados. f0-f22: abre los brazos y junta las manos dando palmas delante del pecho; f23-f25: cierra los ojos; f26-f38: sonríe y repite; f39-f52: se gira de lado y menea el cuerpo y la cola; f53-f68: de frente, abre mucho los brazos con una gran sonrisa de boca abierta.",
+   "subtitulos": "",
+   "notas": "Posible animación de fans (estilo algo distinto), no seguro. No salta: «saltarín» y «barriguita que bota como gelatina» sobran.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Bailecito Saltarín Duang",
+    "desc": "Bailando en el jardín con los bracitos abiertos y una sonrisa, mientras su barriguita bota como gelatina.",
+    "cat": "bailes",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Palmas y Meneo en el Jardín",
+    "desc": "Baila en el jardín: da palmas, se gira de lado meneando la cola y vuelve de frente con los brazos abiertos y una gran sonrisa.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 19,
+   "clave": "ilusion",
+   "fotogramas": 60,
+   "duracion_ms": 4920,
+   "cortes": [],
+   "seleccion": [
+    0,
+    10,
+    18,
+    25,
+    33,
+    41,
+    50,
+    59
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Fondo gris liso. f0-f21: con las manos en los mofletes, sonríe ilusionado y mueve la cabeza a los lados; f22-f45: sube y baja los brazos alternándolos y se balancea, ya riendo con los ojos cerrados; f46-f59: sigue meciéndose con una sonrisa tranquila y los ojos cerrados. Casi bucle.",
+   "subtitulos": "",
+   "notas": "Render de estudio, posiblemente animación de fans (IA). Faltaba el bailecito de brazos de la segunda mitad.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Uoooh! ¡Qué Ilusión!",
+    "desc": "Se lleva las patitas a los mofletes ilusionado y acaba riéndose con los ojos cerrados de pura emoción.",
+    "cat": "caritas",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "¡Uoooh! ¡Qué Ilusión!",
+    "desc": "Se lleva las manos a los mofletes muy ilusionado y luego se balancea agitando los brazos, riendo con los ojos cerrados.",
+    "cat": "caritas",
+    "sound": "fanfare"
+   }
+  },
+  {
+   "id": 20,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. De pie en una sala con suelo de madera, junto a una mesita roja, se lleva las dos manos a la boca (asoman los dientes) y mira a un lado con los ojos muy abiertos y cara de nervios.",
+   "subtitulos": "Abajo a la izquierda: «2人正在看» = «2 personas lo están viendo» (contador de espectadores de una app de vídeo; no es diálogo).",
+   "notas": "«Se le ha escapado algo» es inventado; parece morderse las manos de nervios.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Ups! Patitas en la Boca",
+    "desc": "De pie con las dos patitas tapándose la boca y los ojos muy abiertos: ¡se le ha escapado algo!",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Comiéndose las Uñas",
+    "desc": "De pie junto a una mesita roja, se lleva las manos a la boca y mira a un lado con los ojos muy abiertos, comido por los nervios.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 21,
+   "clave": "huida-bosque",
+   "fotogramas": 23,
+   "duracion_ms": 1518,
+   "cortes": [],
+   "seleccion": [
+    0,
+    3,
+    7,
+    10,
+    13,
+    16,
+    19,
+    22
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-f2: en un bosque, una mano rosa asoma por la derecha hacia él y arranca a correr con la boca muy abierta y ojos de susto; f3-f22: la cámara lo sigue mientras corre entre árboles, plantas y setas, gritando con la boca abierta. No es bucle.",
+   "subtitulos": "",
+   "notas": "La mano rosa del principio es de otro personaje fuera de plano (no identificable); explica el «¡sálvese quien pueda!».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡A Correr! ¡Sálvese Quien Pueda!",
+    "desc": "Corriendo por el bosque con la boca abierta de puro susto y las patitas a toda velocidad.",
+    "cat": "bailes",
+    "sound": "run"
+   },
+   "aprobado": {
+    "title": "¡A Correr! ¡Sálvese Quien Pueda!",
+    "desc": "Una mano rosa asoma a su lado y sale corriendo por el bosque con la boca abierta de susto, moviendo brazos y piernas a toda prisa.",
+    "cat": "bailes",
+    "sound": "run"
+   }
+  },
+  {
+   "id": 22,
+   "clave": null,
+   "fotogramas": 17,
+   "duracion_ms": 1411,
+   "cortes": [],
+   "seleccion": [
+    0,
+    3,
+    4,
+    5,
+    7,
+    10,
+    16
+   ],
+   "bucle": false,
+   "veredicto": "reescribir",
+   "confianza": "media",
+   "se_ve": "f0-1: de pie en un cuarto (puertas, jirafa de juguete, sofá verde), mira serio a cámara con los párpados caídos y las manos en el pecho. f2-3: cierra los ojos, ladea la cabeza y sacude las manos hacia fuera con desdén. f4-16: vuelve a juntar las manos en la tripa y desvía la mirada hacia arriba, a un lado, con una mueca de fastidio. No es bucle.",
+   "subtitulos": "",
+   "notas": "No niega con la cabeza ni parece enfadado: es un gesto de desdén o de pasar del tema.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Expresa desdén o fastidio: primero un «bah» con los ojos cerrados y los brazos abiertos (palmas hacia fuera, como quitándose de encima el asunto) y luego una mirada de reojo despectiva con la boca torcida. La cabeza se inclina hacia un lado y se queda ladeada; las manos pasan del pecho a abrirse hacia fuera y vuelven juntas sobre la barriga.",
+    "se_ve": "Interior (puertas de madera, cartel colgado, jirafa de juguete al fondo, sofá o suelo verde). f0-f1: Nailong de frente, ojos entornados con mirada plana de fastidio y manos juntas sobre el pecho. f2: cierra los ojos y frunce la boca. f3: gira e inclina la cabeza y abre los brazos hacia fuera enseñando las palmas rosas (gesto de «bah, paso»). f4-f16: vuelve a juntar las manos sobre la barriga, deja la cabeza ladeada y mira de reojo hacia la derecha con la boca torcida enseñando un poco los dientes.",
+    "tipo_de_imagen": "Animación 3D de la serie; sin indicios de edición.",
+    "confianza": "alta"
+   },
+   "antes": {
+    "title": "Enfadado Diciendo que No",
+    "desc": "Con el ceño fruncido, niega con la cabeza y con las patitas: \"¡Que no, que no y que no!\".",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "¡Bah! Paso de Todo",
+    "desc": "Mira serio, cierra los ojos y sacude las manos con desdén; luego desvía la mirada hacia arriba con una mueca de fastidio.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 23,
+   "clave": null,
+   "fotogramas": 14,
+   "duracion_ms": 1162,
+   "cortes": [],
+   "seleccion": [
+    0,
+    3,
+    4,
+    6,
+    8,
+    10,
+    12,
+    13
+   ],
+   "bucle": true,
+   "veredicto": "reescribir",
+   "confianza": "media",
+   "se_ve": "f0-13: sentado en el suelo con las piernas estiradas, balancea los brazos alternándolos adelante y atrás mientras mira de reojo con una sonrisa pícara. Bucle. No saluda.",
+   "subtitulos": "",
+   "notas": "Marca «K.K» arriba a la derecha y tono muy anaranjado: posible edición de fans.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Mueve los brazos arriba y abajo alternándolos, en vaivén, como bailando sentado. No parece un saludo: no abre la mano hacia nadie ni hay otro personaje en plano; es un bailoteo contento con mirada pícara de reojo.",
+    "se_ve": "Nailong sentado en el suelo con las piernas estiradas (plantas rosas a la vista) delante de un mueble azul y una pared con cuadros. f0-f13: sonríe con la boca abierta, mira de reojo hacia la derecha y balancea el cuerpo mientras sube y baja los brazos de forma alterna (uno arriba y otro abajo: f0 derecho arriba, f4 izquierdo arriba, f8 derecho arriba, f12 izquierdo arriba), como un bailecito.",
+    "tipo_de_imagen": "Animación 3D de la serie con marca de agua «K.K» arriba a la derecha (re-subida o edición de fans) y colores algo anaranjados, posible filtro.",
+    "confianza": "alta"
+   },
+   "antes": {
+    "title": "¡Hola a Todos con las Patitas!",
+    "desc": "Sentado en el suelo saludando con las dos patitas con gran entusiasmo.",
+    "cat": "bailes",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Bailoteo Sentado en el Suelo",
+    "desc": "Sentado en el suelo con las piernas estiradas, balancea los brazos adelante y atrás mientras mira de reojo con sonrisa pícara.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 24,
+   "clave": null,
+   "fotogramas": 32,
+   "duracion_ms": 2624,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    9,
+    14,
+    18,
+    22,
+    29,
+    31
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-4: en un prado con arbustos, saluda con una mano en alto y los ojos cerrados sonrientes. f5-7: se gira de lado dando pasos. f8-18: se frota las manos a la altura del pecho mientras se balancea. f19-28: cruza los brazos sobre el pecho con timidez. f29-31: abre los brazos con la boca en forma de o. No es bucle.",
+   "subtitulos": "",
+   "notas": "No se frota la tripa, sino las manos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Bailecito en el Prado",
+    "desc": "Saluda con la patita, se frota la barriguita y abre los brazos: todo un bailecito sobre el prado verde.",
+    "cat": "bailes",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Coreografía en el Prado",
+    "desc": "Saluda con una mano, se da la vuelta, se frota las manos, cruza los brazos con timidez y termina abriéndolos con cara de asombro.",
+    "cat": "bailes",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 25,
+   "clave": null,
+   "fotogramas": 5,
+   "duracion_ms": 415,
+   "cortes": [],
+   "seleccion": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-4: con los dos brazos en alto delante de un cartel, se balancea de lado a lado; la sonrisa ladeada se abre en una risa con la boca muy abierta. Bucle corto (5 fotogramas).",
+   "subtitulos": "",
+   "notas": "Solo se ve medio cuerpo: no se aprecian las caderas.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Meneo de Caderas Sabrosón",
+    "desc": "Bailando con las patitas arriba y meneando la pancita con mucho ritmo.",
+    "cat": "bailes",
+    "sound": "maracas"
+   },
+   "aprobado": {
+    "title": "Meneo Sabrosón de Hombros",
+    "desc": "Con los brazos en alto, se menea de lado a lado y su sonrisa pícara se convierte en una risa con la boca bien abierta.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 26,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático: con la barbilla apoyada sobre los brazos cruzados encima de una mesa de madera, junto a una pared de ladrillo, mira hacia arriba con los ojos muy abiertos y redondos y la boca pequeña.",
+   "subtitulos": "",
+   "notas": "No hay comida ni pollo a la vista: el motivo era inventado.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojos Tiernos de Cachorrito",
+    "desc": "Apoyando la barbilla en la mesa pidiendo otro trozo de pollo con ojos irresistibles.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Ojos Tiernos de Cachorrito",
+    "desc": "Con la barbilla apoyada sobre los brazos encima de una mesa, levanta la mirada con unos ojos enormes y redondos.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 27,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "personaje equivocado",
+   "confianza": "media",
+   "se_ve": "Estático: un Nailong de color morado, con los ojos en blanco (los iris verdes asoman arriba), la boca muy abierta y la lengua fuera, con las manos bajo la barbilla; fondo de parque.",
+   "subtitulos": "",
+   "notas": "No es Bombloong (dragón azul con medio cascarón). Tiene la misma forma, ojos verdes y textura que Nailong: recoloreado de fans o uno de los soldaditos morados de la serie. Ojo: la clave 'bombloong' de este cromo la usa la tarjeta «Bombloong» de «¿Quién es Nailong?» (index.html y su copia mini), que por tanto muestra a este Nailong morado; convendría apuntarla al #117. Si se confirma que es un recoloreado, la categoría sería 'caritas'. Edición: se presenta como edición de fans, como decidió el plan. Deja de ser la imagen de Bombloong (pasa al #117) y sale de «amigos».",
+   "lore": "Plan T2 (web oficial): Bombloong es azul, con cascarón; el #27 es Nailong recoloreado (edición de fans).",
+   "segunda_opinion": {
+    "respuesta": "Es Nailong recoloreado de morado, no un personaje distinto: tiene exactamente la misma forma de cuerpo y cabeza, los mismos ojos verdes y la misma cara de lengua fuera; solo cambia el color del cuerpo (incluida la zona del pecho, que en Nailong es blanca), mientras la lengua, los ojos y el fondo conservan sus colores normales.",
+    "se_ve": "Imagen fija (1 fotograma). Personaje morado con la misma silueta y cara que Nailong: ojos en blanco mirando hacia arriba con iris verdes, boca muy abierta y lengua rosa fuera, manos juntas bajo la barbilla con garritas oscuras. Fondo de parque con árboles y césped en colores naturales.",
+    "tipo_de_imagen": "Edición de fans: recoloreado de una captura de la animación 3D (cambio de color selectivo del personaje).",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Bombloong el Rival",
+    "desc": "El dragón morado cascarrabias sacando la lengua con cara de pillo.",
+    "cat": "amigos",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Nailong Teñido de Morado",
+    "desc": "Edición de fans: un Nailong teñido de morado pone los ojos en blanco y saca toda la lengua con las manos bajo la barbilla.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 28,
+   "clave": "xiao-qi-colita",
+   "fotogramas": 33,
+   "duracion_ms": 1980,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    10,
+    14,
+    19,
+    23,
+    28,
+    32
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-32: junto a un muro de ladrillo, Nailong yace flácido en el césped con la lengua fuera y la mirada perdida; un niño de pelo oscuro y camiseta verde azulada lo agarra por el cuello y el pecho y lo zarandea con esfuerzo; la cabeza de Nailong se bambolea. Bucle.",
+   "subtitulos": "",
+   "notas": "El niño es probablemente Xiao Qi (el niño de la serie, como en #118 y #121). No lo empuja ni le tira de la cola: lo sacude. La clave 'xiao-qi-colita' y el alt de la tarjeta («Xiao Qi tirando de Nailong») no encajan del todo con la escena.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Xiao Qi y el Nailong Perezoso",
+    "desc": "Xiao Qi empuja con todas sus fuerzas a un Nailong tirado en el suelo con la lengua fuera, que no piensa moverse.",
+    "cat": "amigos",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Zarandeo a un Nailong Grogui",
+    "desc": "Un niño agarra a Nailong, tirado en el césped con la lengua fuera y la mirada perdida, y lo zarandea sin que reaccione.",
+    "cat": "amigos",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 29,
+   "clave": "pataleo-camino",
+   "fotogramas": 36,
+   "duracion_ms": 2988,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    10,
+    16,
+    20,
+    26,
+    30,
+    35
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Formato apaisado con franjas blancas. f0-35: tumbado bocarriba en un camino de tierra de un parque con árboles, con un objeto verde de tapa blanca en cada mano (parecen botes), se balancea de lado a lado pataleando y abriendo la boca. Bucle. No da vueltas completas ni está en el césped.",
+   "subtitulos": "",
+   "notas": "Los objetos verdes no son nítidos (botes o vasos). No se distingue bien si es una pataleta o una risa; por eso no la nombro. Tras la segunda opinión: lo que lleva en las manos no se distingue (¿botes, zapatillas?): «algo verde».",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Se revuelca boca arriba de lado a lado y patalea con las piernas en alto, con los ojos cerrados y la boca abierta como si llorara o berreara: parece una pataleta. En las manos lleva algo verde con una parte blanca y un logotipo verde lima (parecen zapatillas deportivas verdes o un juguete; no se distingue bien por el desenfoque de movimiento). Está en un camino de tierra de un parque con árboles.",
+    "se_ve": "Imagen panorámica con franjas blancas arriba y abajo. Camino de tierra en un parque/bosque con árboles y césped. f0-f15: Nailong tumbado boca arriba rueda de un lado a otro, con los ojos cerrados con fuerza y pataleando con los pies en el aire (plantas rosas con garritas). f16-f35: sigue revolcándose; a ratos se incorpora un poco (f18, f22, f26, f30, f34) con la boca abierta y los ojos cerrados, y vuelve a caer de espaldas.",
+    "tipo_de_imagen": "Animación 3D de la serie, extraída de vídeo panorámico (franjas blancas); sin marcas de agua visibles.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Haciendo la Croqueta en el Césped",
+    "desc": "Rodando feliz de lado a lado por el prado verde jugando al solecito.",
+    "cat": "bailes",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Pataleo Bocarriba en el Parque",
+    "desc": "Tumbado bocarriba en un camino de tierra, con algo verde en cada mano, se revuelca de lado a lado pataleando con la boca abierta.",
+    "cat": "bailes",
+    "sound": "run"
+   }
+  },
+  {
+   "id": 30,
+   "clave": null,
+   "fotogramas": 68,
+   "duracion_ms": 4420,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    11,
+    23,
+    27,
+    33,
+    46,
+    67
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-4: sentado en un sofá con una lata verde en las manos, mira y parpadea. f5-9: abre mucho la boca. f10-25: se lleva la lata a la boca y cierra los ojos. f26-67: la vuelca de golpe y bebe con la lata bocabajo; la espuma blanca le cae por toda la tripa y el sofá. No es bucle.",
+   "subtitulos": "",
+   "notas": "La lata lleva el logotipo «Mahou» con cuatro estrellas: es una cerveza española real, así que es una edición de fans (estilo de animación distinto y franjas blancas laterales). El texto actual dice 'refresco', que no es cierto; propongo 'lata verde' sin marca. Conviene que el usuario decida si este sticker encaja en una web para niños y familias.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Lata de Refresco y Mucha Espuma",
+    "desc": "Sentado en el sofá con su lata verde: bebe con tantas ganas que acaba con toda la espuma derramada por la barriguita.",
+    "cat": "comida",
+    "sound": "slurp"
+   },
+   "aprobado": {
+    "title": "Lata Verde y Mucha Espuma",
+    "desc": "Sentado en el sofá con una lata verde, abre mucho la boca, se la acerca y la vuelca de golpe: la espuma le cae por toda la tripa.",
+    "cat": "comida",
+    "sound": "slurp"
+   }
+  },
+  {
+   "id": 31,
+   "clave": "escamitas-espalda",
+   "fotogramas": 43,
+   "duracion_ms": 2838,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    5,
+    11,
+    18,
+    27,
+    37,
+    42
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0: de espaldas, se ven tres escamas verde grisáceo en la nuca y una cadena dorada. f2-4: se gira rápido. f5-13: de frente con los brazos abiertos, cadena de oro al cuello y un anillo de piedra azul. f14-37: ojos entornados y media sonrisa chulesca, mueve los brazos al ritmo. f38-42: se lleva las manos a los lados de la cabeza. Fondo azul oscuro con foco. No es bucle.",
+   "subtitulos": "",
+   "notas": "No sale ningún otro personaje: 'amigos' no encaja, paso a 'bailes'. Cadena y anillo: posible montaje de fans (no comprobado). La clave 'escamitas-espalda' sigue siendo válida (f0 muestra las escamas).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Las Tres Escamitas de la Espalda",
+    "desc": "Empieza enseñando sus tres placas verdes de la espalda y se gira para bailar con su collar dorado bajo los focos.",
+    "cat": "amigos",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Escamas y Cadena de Oro",
+    "desc": "De espaldas enseña sus tres escamas, se gira luciendo cadena de oro y anillo azul, y baila con aire chulito bajo el foco.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   }
+  },
+  {
+   "id": 32,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático: primer plano con el ceño fruncido, los ojos mirando de reojo hacia arriba y la boca abierta en gesto de indignación; fondo arenoso con un poste de madera.",
+   "subtitulos": "",
+   "notas": "La expresión ofendida es correcta, pero el diálogo sobre el pollo era inventado y 'Gasp' es inglés.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Gasp Ofendido",
+    "desc": "\"¿Cómo que se ha acabado el pollo? ¡Eso es completamente inaceptable!\".",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Mirada de Indignación",
+    "desc": "Con el ceño fruncido y la boca abierta, lanza una mirada de reojo hacia arriba, ofendidísimo.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 33,
+   "clave": "gorro-de-leon",
+   "fotogramas": 21,
+   "duracion_ms": 2100,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    4,
+    5,
+    7,
+    8,
+    11,
+    20
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "f0-7: con una cabeza blanca y peluda de la danza del león (ojos turquesa, tela roja a la espalda), la lengua fuera y los ojos entornados, agita un brazo y luego el otro. f8-20: abre los dos brazos y se balancea. No es bucle.",
+   "subtitulos": "",
+   "notas": "Marca de agua rosa «Monn» con corazón arriba a la derecha: edición de fans. Solo quito la fórmula «¡pura fiesta!».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Baile con Gorro de León",
+    "desc": "Bailando con la lengua fuera y un gorro blanco y peludo de la danza del león, ¡pura fiesta!",
+    "cat": "bailes",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "Baile con Gorro de León",
+    "desc": "Con una cabeza peluda de la danza del león puesta y la lengua fuera, agita los brazos de un lado a otro y acaba abriéndolos.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   }
+  },
+  {
+   "id": 34,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático: primer plano sentado en una tumbona de rayas rojas y amarillas sobre el césped, junto a un camino; mira fijamente con grandes ojos verdes y la boca pequeña. Borde blanco redondeado.",
+   "subtitulos": "",
+   "notas": "No hay playa ni cielo azul. El borde blanco es un recorte tipo sticker hecho por fans. No es un baile: paso a 'caritas'.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Mirada Esmeralda en la Playa",
+    "desc": "Retrato de relax veraniego en la tumbona con cielo azul y brisa fresca.",
+    "cat": "bailes",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Mirada Esmeralda en la Tumbona",
+    "desc": "Sentado en una tumbona de rayas rojas y amarillas sobre el césped, mira fijamente con sus enormes ojos verdes.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 35,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático: con las manos en los mofletes, sonríe con los ojos entornados en forma de media luna; colorete rosa con rayitas y corazones dibujados. Fondo de cielo. Borde blanco.",
+   "subtitulos": "",
+   "notas": "El colorete con corazones está dibujado encima (edición de fans). Los ojos no están cerrados. Evito «felicidad pura».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Sonrisa Kawaii Mofletuda",
+    "desc": "Carita tierna con ojos cerrados y colorete rosa de felicidad pura.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Sonrisa Tímida con Colorete",
+    "desc": "Se sujeta los mofletes con las manos y sonríe con los ojos entornados, con colorete rosa y corazones dibujados en la cara.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 36,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático: se lleva un dedo a la comisura de la boca entreabierta y mira de reojo con media sonrisa pícara; fondo de cielo.",
+   "subtitulos": "",
+   "notas": "No hay menú, pasteles ni pollo: era inventado. Evito repetir «Ojito Pillín y Manita en la Boca» (otro título).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Mmm... ¿Qué Comemos Hoy?",
+    "desc": "Con el dedito en la boca y los ojos entornados, pensando en un menú delicioso lleno de pasteles y pollo.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "¿Qué Estará Tramando?",
+    "desc": "Se lleva un dedo a la comisura de los labios y mira de reojo con media sonrisa, como quien prepara una travesura.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 37,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático: primer plano con los ojos verdes muy abiertos, la boca redonda abierta y las manos sobre la tripa; fondo de bosque en penumbra. Borde blanco.",
+   "subtitulos": "",
+   "notas": "No hay cohete ni Xiao Qi: era inventado. Borde blanco: recorte tipo sticker de fans. La fanfarria no pega con un susto.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Boca Abierta de Fascinación",
+    "desc": "Sorprendido al ver volar el nuevo cohete de inventos de Xiao Qi.",
+    "cat": "caritas",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "Boquiabierto en el Bosque",
+    "desc": "Abre muchísimo los ojos verdes y la boca, plantado en mitad del bosque como si acabara de ver algo increíble.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 38,
+   "clave": "siesta-hamaca",
+   "fotogramas": 25,
+   "duracion_ms": 1250,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    7,
+    10,
+    15,
+    18,
+    21,
+    24
+   ],
+   "bucle": true,
+   "veredicto": "reescribir",
+   "confianza": "alta",
+   "se_ve": "f0-24: tumbado en una hamaca de tela clara que se mece, con los ojos cerrados y una sonrisa tranquila, sostiene en una mano una copa de cóctel azul con una cereza. Fondo blanco. Bucle.",
+   "subtitulos": "",
+   "notas": "No es una cunita ni hay nubes de nata. Edición: no baila (se mece en la hamaca): paso a «caritas».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Dulces Sueños en la Hamaca",
+    "desc": "Meciendo su cunita colgante durmiendo como un angelito entre nubes de nata.",
+    "cat": "bailes",
+    "sound": "sleep"
+   },
+   "aprobado": {
+    "title": "Cóctel en la Hamaca",
+    "desc": "Tumbado en una hamaca que se mece, con los ojos cerrados y una sonrisa tranquila, sostiene un cóctel azul con una cereza.",
+    "cat": "caritas",
+    "sound": "sleep"
+   }
+  },
+  {
+   "id": 39,
+   "clave": "baile-alegria",
+   "fotogramas": 23,
+   "duracion_ms": 1495,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    8,
+    10,
+    13,
+    15,
+    18,
+    22
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-1: en un dormitorio, brazos en alto y sonrisa pícara. f2-9: se da la vuelta y queda de espaldas mientras la cámara gira con él (puerta, cama, ventana). f10-18: de frente, suelta una carcajada con los brazos arriba. f19-22: gira hacia el otro lado con los ojos entornados y sigue bailando. Subtítulo fijo abajo a la derecha. No es bucle claro.",
+   "subtitulos": "Chino cortado por arriba, probablemente «站住!» (¡Alto! / ¡Quieto!), con «Stop!» en inglés debajo; en f0-1 hay otros caracteres ilegibles.",
+   "notas": "Subtítulos bilingües: recorte de un vídeo editado (meme de fans). No hay comida ni recorre la casa: solo su cuarto.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Baile de Pura Alegría!",
+    "desc": "Bailando por toda la casa con los brazos en alto y una sonrisa enorme, celebrando que la comida está lista.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "Vueltas y Risas en el Dormitorio",
+    "desc": "Con los brazos en alto y sonrisa pícara, da una vuelta completa por su cuarto, suelta una carcajada y sigue bailando tan tranquilo.",
+    "cat": "bailes",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 40,
+   "clave": null,
+   "fotogramas": 26,
+   "duracion_ms": 1630,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    7,
+    11,
+    15,
+    16,
+    19,
+    25
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Primer plano de la cara: f0-5 sonríe y abre y cierra la boca; f6-13 pone morritos en forma de o; f14-25 abre una sonrisa enorme con la boca muy abierta (ojos entornados y luego abiertos). No es bucle.",
+   "subtitulos": "",
+   "notas": "Solo cambio «carita gordita» (dos diminutivos) por «cara mofletuda».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "De la Sonrisa a la Carcajada",
+    "desc": "Primer plano de su carita gordita: sonríe, pone morritos y termina soltando una carcajada enorme.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "De la Sonrisa a la Carcajada",
+    "desc": "Primer plano de su cara mofletuda: sonríe, pone morritos y termina soltando una carcajada enorme.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 41,
+   "clave": null,
+   "fotogramas": 32,
+   "duracion_ms": 2000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    7,
+    13,
+    17,
+    24,
+    28,
+    31
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Jardín con macetas de flores y valla de madera. f0-8: baila levantando una pierna y moviendo los brazos, sonriente. f9-24: gira y enseña la espalda (manchas marrones). f25-31: vuelve de frente con una gran sonrisa y levanta otra vez la pierna. Bucle.",
+   "subtitulos": "f0-2, abajo a la izquierda, en indonesio (no chino): «…n nyaman sekali.» = «…muy a gusto / muy agradable».",
+   "notas": "El subtítulo indonesio indica un clip de fans; de ahí venía el «¡Qué a gusto se está!», pero no se ve el sol. El título actual tiene 33 caracteres (más de 32).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Mueve el Esqueleto en el Jardín!",
+    "desc": "Bailando entre flores y macetas, girando con su barriguita blanca. ¡Qué a gusto se está al solecito!",
+    "cat": "bailes",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Baile y Vuelta entre Macetas",
+    "desc": "Baila entre macetas de flores levantando una pierna, da una vuelta entera enseñando la espalda y vuelve de frente muy sonriente.",
+    "cat": "bailes",
+    "sound": "tail"
+   }
+  },
+  {
+   "id": 42,
+   "clave": null,
+   "fotogramas": 25,
+   "duracion_ms": 1560,
+   "cortes": [],
+   "seleccion": [
+    0,
+    1,
+    3,
+    6,
+    10,
+    14,
+    18,
+    24
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Formato apaisado con franjas negras y logotipo «…loong» arriba a la izquierda. f0-24: primer plano con las manos en alto y las palmas rosadas hacia delante, ojos enormes y boca pequeña en forma de o; parpadea (f10-11 y f15-16). Casi estático. Bucle.",
+   "subtitulos": "",
+   "notas": "El logotipo parece la marca de agua de un canal. Podría estar pegado a un cristal (cara algo aplastada), no comprobado. «Ojos como Platos» ya existe en otro sticker.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojitos de Sorpresa Redonda",
+    "desc": "Con la boquita en forma de \"o\" y los bracitos arriba, sin saber muy bien qué ha pasado.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Asombro con las Manos en Alto",
+    "desc": "Con las manos en alto y las palmas hacia delante, mira con ojos enormes y la boca en forma de o, parpadeando de vez en cuando.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 43,
+   "clave": null,
+   "fotogramas": 21,
+   "duracion_ms": 1310,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    7,
+    10,
+    13,
+    16,
+    18,
+    20
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0: de pie en un camino de tierra de un jardín con setas rojas, brazos abiertos y cara seria. f2-f4: sonríe con la boca abierta. f7-f19: cierra los ojos de gusto, sube los brazos y se balancea levantando un pie y luego el otro (f14-f17 boca en «o»). f20: gira el cuerpo de lado con un brazo adelante y ojos entornados. No es bucle.",
+   "subtitulos": "",
+   "notas": "Mismo escenario que el #46 (camino de tierra, setas rojas). El texto actual acierta en lo esencial; solo sobran diminutivos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Brazos Arriba, a Bailar!",
+    "desc": "Con los bracitos abiertos y los ojitos cerrados de felicidad, dando pasitos por el caminito del jardín.",
+    "cat": "bailes",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "¡Brazos Arriba, a Bailar!",
+    "desc": "En un camino del jardín, abre los brazos, sonríe y cierra los ojos de gusto mientras se balancea dando pasos de baile.",
+    "cat": "bailes",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 44,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    11,
+    19,
+    23,
+    25,
+    28,
+    32,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Primer plano con franjas blancas arriba y abajo. f0-f13: mira de reojo junto a algo verde y mullido (parece un cojín), con una mano levantada junto a la cara. f14-f21: cierra los ojos despacio. f22-f39: los abre a medias, gira la cara hacia la cámara y se queda mirando con los párpados caídos y cara de desgana. No es bucle.",
+   "subtitulos": "",
+   "notas": "No se duerme: es un parpadeo lento que acaba en mirada desganada. Las franjas blancas sugieren captura de pantalla o recorte de fans. El objeto verde no se distingue bien (cojín o peluche).",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "No se duerme del todo: da una cabezada (ojos cerrados en f16-f20) pero se despierta; al final levanta la cabeza de la mano y se queda mirando a cámara con ojos entornados, cansado o fastidiado.",
+    "se_ve": "Imagen con franjas blancas arriba y abajo. A la izquierda, algo verde de tela (cojín o manta). f0-f11: Nailong con la mejilla apoyada en la mano derecha levantada, ojos abiertos con mirada cansada. f12-f15: los párpados se le caen. f16-f20: ojos cerrados, dando una cabezada. f21-f22: abre los ojos a medias. f23-f28: la cabeza se separa de la mano y se endereza. f29-f39: mira a cámara con los ojos entornados y cara de cansancio o fastidio, con la mano todavía en alto junto a la cara. En f0-f20 hay una mancha rectangular borrosa sobre la zona de la boca.",
+    "tipo_de_imagen": "Animación 3D de la serie, re-comprimida; la mancha rectangular borrosa sobre la boca podría ser un retoque o algo borrado (posible edición), no es concluyente.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Parpadeo Somnoliento",
+    "desc": "Apoyado en un cojín verde con los ojitos cada vez más pesados... ¿se habrá dormido ya?",
+    "cat": "caritas",
+    "sound": "sleep"
+   },
+   "aprobado": {
+    "title": "Parpadeo Lento con Desgana",
+    "desc": "Junto a un cojín verde, mira de reojo, cierra los ojos despacio y los vuelve a abrir a medias para mirarte con cara de desgana.",
+    "cat": "caritas",
+    "sound": "sleep"
+   }
+  },
+  {
+   "id": 45,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. Primer plano al aire libre (árbol, rocas, cielo): cejas caídas, ojos verdes llenos de lágrimas azules a punto de caer y boca pequeña y apretada.",
+   "subtitulos": "",
+   "notas": "Sobra «pidiendo un abracito» (inventado). No hay sonido triste en la lista; se mantiene duang.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Carita de Pena Total",
+    "desc": "Con lagrimitas azules en los ojos y cara de pena, pidiendo un abracito bien fuerte.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Carita de Pena Total",
+    "desc": "Con las cejas caídas y los ojos inundados de lágrimas azules, aguanta el llanto con una cara de pena que parte el corazón.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 46,
+   "clave": null,
+   "fotogramas": 39,
+   "duracion_ms": 4880,
+   "cortes": [],
+   "seleccion": [
+    0,
+    10,
+    20,
+    25,
+    28,
+    31,
+    35,
+    38
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Jardín con flores rosas y setas rojas. f0-f1: brazos en alto y ojos cerrados, riendo. f2-f18: abre los ojos y sonríe con la boca abierta y los brazos extendidos. f19-f20: se lleva las manos a la tripa. f21-f23: sube las manos sonriendo con la boca cerrada. f24-f38: se balancea de lado a lado con los brazos abiertos y la boca abierta de alegría (la cámara se mueve). No es bucle.",
+   "subtitulos": "",
+   "notas": "No grita: sonríe y ríe. Faltaba el balanceo final, que ocupa la mitad del sticker. Mismo escenario que el #43.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Gritos de Alegría en el Jardín!",
+    "desc": "Levantando los bracitos riendo a carcajadas y luego abrazándose la tripita de puro contento.",
+    "cat": "bailes",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "¡Qué Contento en el Jardín!",
+    "desc": "Ríe con los brazos en alto, se lleva las manos a la tripa y acaba balanceándose de lado a lado con los brazos abiertos.",
+    "cat": "bailes",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 47,
+   "clave": null,
+   "fotogramas": 7,
+   "duracion_ms": 560,
+   "cortes": [],
+   "seleccion": [
+    0,
+    1,
+    2,
+    3,
+    6
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Bucle corto (7 fotogramas). Primer plano en una habitación oscura y azulada: mira fijamente a la cámara con grandes ojos verdes; solo se mueven un poco las pupilas y la cabeza.",
+   "subtitulos": "",
+   "notas": "Solo sobra el relleno «¡Imposible no sonreír!».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojazos Verdes Enormes",
+    "desc": "Mirando fijamente con sus enormes ojos verdes y su naricita de botón. ¡Imposible no sonreír!",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Ojazos Verdes Enormes",
+    "desc": "En una habitación a oscuras, te mira fijamente con sus enormes ojos verdes, muy quieto y casi sin pestañear.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 48,
+   "clave": null,
+   "fotogramas": 23,
+   "duracion_ms": 1440,
+   "cortes": [],
+   "seleccion": [
+    0,
+    8,
+    11,
+    13,
+    14,
+    18,
+    20,
+    22
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Fondo rosa, muy pegado a la cámara. f0-f7: sonrisa con la boca abierta y ojos entornados. f8-f12: cierra los ojos sonriendo y levanta una mano. f13-f17: vuelve la sonrisa abierta ladeando la cabeza. f18-f22: termina con ojos entornados y sonrisa de boca cerrada. No es bucle.",
+   "subtitulos": "",
+   "notas": "No se acerca a la cámara: ya está pegado a ella desde el principio. No guiña: cierra los dos ojos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Selfi Sonriente",
+    "desc": "Acercándose a la cámara con una sonrisa enorme y guiñando los ojitos de pura felicidad.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Selfi Sonriente",
+    "desc": "Pegado a la cámara, sonríe con la boca abierta, cierra los ojos al levantar la mano y termina con una sonrisa traviesa.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 49,
+   "clave": null,
+   "fotogramas": 15,
+   "duracion_ms": 940,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    5,
+    6,
+    7,
+    10,
+    14
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Arena de playa de fondo; camisa celeste de manga corta con estampado de hojas. f0-f3: ceño fruncido mirando a la cámara. f4-f5: cierra los ojos y aprieta los labios. f6-f14: se cruza de brazos y se queda mirando enfurruñado. No es bucle.",
+   "subtitulos": "",
+   "notas": "Parece la misma camisa que el #125. Sonido tail para el gesto seco de cruzarse de brazos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Camisa Playera y Mal Humor",
+    "desc": "Con su camisita celeste de vacaciones y los brazos cruzados, haciéndose el enfadado en la arena.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Camisa Playera y Mal Humor",
+    "desc": "Con su camisa celeste de playa, frunce el ceño, cierra los ojos apretando los labios y se cruza de brazos, muy enfurruñado.",
+    "cat": "caritas",
+    "sound": "tail"
+   }
+  },
+  {
+   "id": 50,
+   "clave": null,
+   "fotogramas": 29,
+   "duracion_ms": 1810,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    9,
+    12,
+    16,
+    21,
+    25,
+    28
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Bucle. Primer plano con fachadas de una calle al fondo y algo blanco con motas abajo a la izquierda. f0-f11: ojos muy abiertos y boca en una mueca tensa. f12-f28: desvía la mirada hacia abajo y a un lado sin cambiar la mueca; hay una gotita junto a la barbilla.",
+   "subtitulos": "",
+   "notas": "No hay ninguna cocina: el fondo parece una calle. El objeto blanco con motas no se distingue (¿comida?, ¿papel?); la gotita puede ser sudor. Más que susto, es incomodidad.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Ay, Qué Susto!",
+    "desc": "Con los ojos muy abiertos y la boquita torcida porque ha pasado algo rarísimo en la cocina.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Cara de Circunstancias",
+    "desc": "Con los ojos muy abiertos y la boca en una mueca tensa, se queda de piedra y luego aparta la mirada sin saber dónde meterse.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 51,
+   "clave": null,
+   "fotogramas": 9,
+   "duracion_ms": 880,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Bucle corto (9 fotogramas). Habitación con zócalo verde azulado y un objeto blanco redondo abajo a la derecha. A la pata coja (una pierna doblada, no estirada), con los brazos abiertos y morritos; mueve los ojos de un lado a otro mirando de reojo.",
+   "subtitulos": "",
+   "notas": "Marca de agua tenue en la esquina inferior derecha (posible repost de fans). El título actual casi repite el del #7 («Mirada de Reojo»).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Mirada de Reojo con Disimulo",
+    "desc": "De pie con una patita estirada y los ojitos mirando de lado, como quien no ha roto nada.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Pose Chulesca a la Pata Coja",
+    "desc": "A la pata coja y con los brazos abiertos, pone morritos y mira de reojo de un lado a otro con mucha chulería.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 52,
+   "clave": null,
+   "fotogramas": 80,
+   "duracion_ms": 5000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    23,
+    37,
+    45,
+    52,
+    60,
+    70,
+    79
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "f0-f10: de espaldas (dos escamas verdes en la espalda y cola puntiaguda) en una habitación. f11-f22: se da la vuelta. f23-f40: camina hacia la cámara con una sonrisa. f42-f71: muy cerca, unas manos de persona lo sujetan por los costados; saluda con un brazo y pone la boca en «o»; en f50-f51 se vuelve blanco un instante. f72-f79: sonrisa enorme con la boca abierta. No es bucle.",
+   "subtitulos": "",
+   "notas": "La cola es puntiaguda, no «redonda». Las manos son de una persona fuera de plano (no se ve quién). El destello blanco de f50-f51 parece un efecto o montaje de fans. Mantengo «bailes»; podría ser «amigos» si cuentan las manos.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "En orden: está de espaldas, se gira, camina hacia la cámara y acaba en primer plano sonriendo cada vez más hasta una gran sonrisa. Sí interactúa alguien: desde f42 aparecen dos manos humanas (de una persona fuera de plano) que lo agarran por los costados/cintura, como para cogerlo o levantarlo.",
+    "se_ve": "f0-f11: de espaldas a cámara sobre una alfombra gris en una habitación, se le ven las dos manchas verdosas del lomo, la cola y las manos (palmas rosadas) a la altura de la cintura/trasero. f12-f20: se da la vuelta hacia cámara. f21-f40: camina hacia la cámara con la boca en 'o' y una sonrisilla hasta quedar en primer plano. f42-f49: unas manos humanas entran por abajo y lo sujetan por los costados; él abre los brazos y sonríe con la boca abierta. f50-f51: la imagen se desatura casi a blanco (fundido/destello de transición) y vuelve al color en f52. f53-f71: primer plano mirando a cámara con la boca pequeña abierta, sujeto por las manos. f72-f79: sonrisa enorme de boca muy abierta, con los ojos mirando de lado.",
+    "tipo_de_imagen": "Animación 3D de la serie. El fundido casi a blanco de f50-f51 parece una transición añadida (posible edición), no del plano en sí.",
+    "confianza": "alta"
+   },
+   "antes": {
+    "title": "Se Da la Vuelta... ¡Sorpresa!",
+    "desc": "De espaldas enseñando su colita redonda, se gira despacito y sonríe con la barriguita al aire.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "Media Vuelta y a Tus Brazos",
+    "desc": "De espaldas, se da la vuelta y camina hacia ti; cuando unas manos lo cogen, saluda con el brazo y abre la boca en una gran sonrisa.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   }
+  },
+  {
+   "id": 53,
+   "clave": null,
+   "fotogramas": 33,
+   "duracion_ms": 2060,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    13,
+    17,
+    20,
+    23,
+    28,
+    32
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Salón con ventanal. Recostado en un sofá verde. f0-f15: mano sobre la tripa, mira de reojo con sonrisa de pillo y ojos entornados. f16-f32: levanta el brazo y lo agita para decir adiós con una gran sonrisa abierta. Subtítulo incrustado desde f2. No es bucle.",
+   "subtitulos": "«Hm-hm dadah» (no es chino; parece indonesio: «dadah» = «adiós, chao»).",
+   "notas": "Subtítulo de fans en indonesio. El gesto final es una despedida, no un saludo. No se rasca: apoya la mano en la tripa.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Sentadito en el Sofá",
+    "desc": "Repantigado en el sofá verde rascándose la barriguita, hasta que levanta la patita y saluda con una gran sonrisa.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "¡Adiós desde el Sofá!",
+    "desc": "Recostado en el sofá verde con la mano en la tripa, pone cara de pillo y luego levanta el brazo para decir adiós con una gran sonrisa.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 54,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    12,
+    15,
+    21,
+    31,
+    34,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primer plano con mofletes sonrosados y manos juntas bajo la barbilla. f0-f28: mueve la boca hablando mientras mira a un lado y a otro (subtítulo «妈» y luego «妈妈»). f32-f33: cierra los ojos. f34-f39: apoya los mofletes en las manos y sonríe con timidez. No es bucle.",
+   "subtitulos": "妈 / 妈妈 (mā / māma) = «mamá».",
+   "notas": "El texto actual acierta; faltaba el gesto final de apoyar la cara en las manos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Mamá, Mamá!",
+    "desc": "Con las mejillas rosadas y ojitos curiosos, llamando a mamá con su vocecita de bebé dragón.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "¡Mamá, Mamá!",
+    "desc": "Con los mofletes sonrosados y las manos juntas, dice «mamá» mirando a los lados y acaba apoyando la cara en las manos con timidez.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 55,
+   "clave": "disfraz-cocodrilo",
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Estático. Fondo de cielo. Lleva un disfraz con capucha verde de cocodrilo (ojos saltones encima, orificios nasales delante y dientes blancos alrededor de la cara); manos en los mofletes, rubor con rayitas y sonrisa con los ojos cerrados en arco.",
+   "subtitulos": "",
+   "notas": "El disfraz parece de cocodrilo (ojos encima del hocico, fila de dientes), no de dinosaurio. El título actual llama «dino» a Nailong.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Lleva una capucha (disfraz de cuerpo entero) verde de cocodrilo: hocico largo con orificios, ojos encima y dientes blancos. Podría pasar por dinosaurio, pero el hocico plano, los dientes en fila y la barriga con placas apuntan a cocodrilo.",
+    "se_ve": "f0 (imagen fija): el personaje amarillo con un mono/capucha verde de animal; la capucha tiene hocico largo y plano con dos bultos de orificios nasales, dos ojos saltones encima, una fila de dientes blancos triangulares sobre su frente, barriga más clara con surcos horizontales y motas verde oscuro en el brazo. Ojos cerrados en arco (feliz), mejillas sonrojadas, sonrisa de boca abierta y las dos manos en las mejillas. Fondo degradado azul-lila y franjas blancas arriba y abajo.",
+    "tipo_de_imagen": "Render 3D estilo serie. Las franjas blancas arriba y abajo indican recorte/encuadre añadido al hacer el sticker.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Dino Disfrazado de Verde",
+    "desc": "Con su capucha de dinosaurio verde y las manitas en las mejillas, ¡sonriendo con colorete de pura felicidad!",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Disfraz de Cocodrilo Verde",
+    "desc": "Con un disfraz de cocodrilo verde, se sujeta los mofletes sonrojados y sonríe con los ojos cerrados de felicidad.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 56,
+   "clave": "bostezo-arbol",
+   "fotogramas": 68,
+   "duracion_ms": 4250,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    14,
+    24,
+    32,
+    42,
+    52,
+    67
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Bosque, junto al tronco de un árbol. f0: ojos entornados de sueño. f1-f28: cierra los ojos y se balancea. f29-f51: abre mucho la boca en un bostezo largo. f52-f67: cierra la boca y se queda dormitando de pie con los ojos cerrados. No es bucle.",
+   "subtitulos": "",
+   "notas": "Solo se añade el final (se queda dormitando de pie) y se quita el diminutivo.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Bostezo Bajo el Árbol",
+    "desc": "Apoyado en el tronco se le cierran los ojitos y suelta un enorme bostezo de dragón.",
+    "cat": "caritas",
+    "sound": "sleep"
+   },
+   "aprobado": {
+    "title": "Bostezo Bajo el Árbol",
+    "desc": "Junto al tronco de un árbol, se le cierran los ojos, suelta un bostezo enorme y se queda dormitando de pie.",
+    "cat": "caritas",
+    "sound": "sleep"
+   }
+  },
+  {
+   "id": 57,
+   "clave": null,
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    9,
+    16,
+    21,
+    27,
+    33,
+    41,
+    47
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Camino de tierra en el campo, cielo azul y poste eléctrico. f0-f17: boca en «o», extiende un brazo hacia un lado como señalando. f18-f23: sube los dos brazos. f24-f47: agita los brazos en alto de lado a lado mirando hacia arriba y a un lado. No es bucle.",
+   "subtitulos": "",
+   "notas": "No se ve a quién saluda ni hay subtítulo «hola»; puede ser baile o señas para llamar la atención. No sonríe en ningún momento (boca en «o»), así que laugh no encaja.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Saludando por el Caminito",
+    "desc": "Con los brazos en alto saluda a todos desde el camino del campo: ¡hola, hola!",
+    "cat": "bailes",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Agitando los Brazos en el Campo",
+    "desc": "En un camino del campo, señala a un lado con la boca en «o» y luego sube los dos brazos y los agita de lado a lado.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 58,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    10,
+    15,
+    19,
+    23,
+    31,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Calle de pueblo con tiendas. f0-f19: ojos cerrados, boca muy abierta, brazos arriba; se balancea y da pasitos. f20-f23: baja un brazo y abre los ojos a medias. f24-f39: con un brazo en alto y cara de pasota, mientras un niño de pelo negro, camiseta azul y bolsa de tela pasa a su lado mirando algo que lleva en las manos. No es bucle.",
+   "subtitulos": "",
+   "notas": "El niño no lo mira asombrado: va a lo suyo. Probablemente Xiao Qi (el niño de la serie, como en el #28), sin confirmar. Categoría a «amigos» porque aparece otro personaje. El título actual se parece al del #119.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Fiesta en la Calle",
+    "desc": "Levantando las patitas en medio de la calle del pueblo mientras un amiguito lo mira asombrado.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "Baile Callejero a Ojos Cerrados",
+    "desc": "Con los ojos cerrados y la boca muy abierta, baila con los brazos en alto en plena calle mientras un niño pasa a su lado sin mirarlo.",
+    "cat": "amigos",
+    "sound": "fanfare"
+   }
+  },
+  {
+   "id": 59,
+   "clave": null,
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    8,
+    14,
+    19,
+    25,
+    32,
+    41,
+    47
+   ],
+   "bucle": true,
+   "veredicto": "reescribir",
+   "confianza": "alta",
+   "se_ve": "Bucle. Patio con césped, maceta y estanterías con botes rojos al fondo. Baila sonriendo con los ojos entornados: sube un brazo, lo baja y sube el otro, rebotando en el sitio; en f16-f20 ríe con la boca abierta.",
+   "subtitulos": "",
+   "notas": "No es un saludo ni hay valle: es un baile alternando los brazos en un patio.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Saludo Gigante al Cielo",
+    "desc": "Estirando el brazo bien arriba con una sonrisita para saludar a todo el valle.",
+    "cat": "bailes",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Un Brazo Arriba y Luego el Otro",
+    "desc": "En el césped de un patio, baila subiendo un brazo y luego el otro, con los ojos entornados y una risa feliz.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 60,
+   "clave": null,
+   "fotogramas": 8,
+   "duracion_ms": 500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    1,
+    3,
+    5,
+    6,
+    7
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Bucle corto (8 fotogramas). Campo de deporte con gradas y un camión cisterna al fondo; marca de agua circular arriba a la izquierda y una persona cortada en el borde derecho. Con manchas de espuma blanca en la cabeza, se la frota con las dos manos, ladeándola de un lado a otro, con los ojos entornados y sonrisa satisfecha.",
+   "subtitulos": "",
+   "notas": "Marca de agua de un canal arriba a la izquierda (repost de fans). No es un prado: es un campo de deporte con gradas. Lo blanco parece espuma o agua (confianza media). El «guiño» es solo un ojo algo más cerrado.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "En la cabeza tiene espuma blanca (parece jabón o champú). Con las manos se frota la cabeza, como si se la lavara, con cara de placer. Está en un campo de césped que parece un campo de fútbol o estadio, con un camión cisterna aparcado detrás.",
+    "se_ve": "f0-f7 (bucle corto): de pie sobre césped, con los dos brazos levantados hacia la cabeza, frotándosela; la coronilla está cubierta de una capa blanca irregular, como espuma. Ojos entornados, uno guiñado a ratos, y sonrisa de gusto; balancea la cabeza de un lado a otro. Detrás, un camión cisterna blanco y azul, gradas/edificios de un estadio; en el borde derecho se ve parte de una figura con ropa azul y abajo en el centro un objeto blanco cortado.",
+    "tipo_de_imagen": "Probable edición o vídeo de otra fuente: logotipo circular semitransparente con caracteres arriba a la izquierda (marca de agua), baja calidad y un personaje algo distinto al habitual (más anaranjado, ojos pequeños). No se distingue si es animación oficial o generada.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Bañito de Espuma en el Césped",
+    "desc": "Con espuma de jabón sobre la cabecita, frotándose y guiñando un ojito en pleno prado.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Champú al Aire Libre",
+    "desc": "En un campo de deporte, se frota la cabeza llena de espuma con las dos manos, ladeándola de un lado a otro con cara de gusto.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 61,
+   "clave": null,
+   "fotogramas": 20,
+   "duracion_ms": 1250,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    8,
+    11,
+    13,
+    15,
+    18,
+    19
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Nailong en miniatura de pie sobre una mesa, delante de una tableta con una aplicación de música (disco de colores y letra de canción). f0-f19: baila muy serio, con los brazos doblados, subiendo uno y balanceándose. No es bucle.",
+   "subtitulos": "Letra de canción en chino en la pantalla de la tableta; ilegible.",
+   "notas": "No hay discoteca ni luces: es la pantalla de una tableta. Estética de montaje o render de fans (Nailong pequeño sobre un escritorio real).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Bailarín de Discoteca",
+    "desc": "Moviendo los bracitos delante de una pantalla de música llena de luces de colores.",
+    "cat": "bailes",
+    "sound": "maracas"
+   },
+   "aprobado": {
+    "title": "Baile Muy Serio en la Mesa",
+    "desc": "Sobre una mesa, delante de una tableta que reproduce música, baila muy serio subiendo los brazos y balanceándose.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 62,
+   "clave": null,
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    11,
+    19,
+    25,
+    32,
+    39,
+    47
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Bucle. Habitación con lluvia de destellos dorados. f0-f5: sonrisa abierta. f6-f10: cierra los ojos y guiña uno. f11-f17: sonrisa enorme con dientes y manos juntas en el pecho. f18-f22: guiña y se lleva la mano a la boca para lanzar un beso. f23-f29: aparece un corazón de luz delante de la cara que va creciendo. f30-f47: sonrisa enorme con dientes, balanceándose con los brazos abiertos.",
+   "subtitulos": "",
+   "notas": "No hace un corazón con las manos: lanza un beso y aparece un corazón de luz. Los destellos y el corazón parecen efectos añadidos (posible edición de fans). Al final asoma una mano de persona en el borde derecho.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Corazoncito Brillante",
+    "desc": "Entre destellos mágicos, sonríe y te dedica un corazón con las patitas. ¡Para ti!",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Beso que se Vuelve Corazón",
+    "desc": "Entre destellos dorados, sonríe, guiña un ojo y lanza un beso que se convierte en un corazón de luz, antes de una gran sonrisa.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 63,
+   "clave": "sandia-tumbona",
+   "fotogramas": 41,
+   "duracion_ms": 2560,
+   "cortes": [],
+   "seleccion": [
+    0,
+    9,
+    13,
+    18,
+    26,
+    34,
+    37,
+    40
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Bucle. Playa: sentado en una tumbona de rayas azules y blancas, con gafas de sol moradas en la cabeza y una tajada de sandía en las manos. f0-f10: la sujeta mirando al frente. f11-f15: le da un mordisco. f16-f34: mastica (f20-f22 cierra los ojos de gusto). f35-f40: vuelve a morder.",
+   "subtitulos": "",
+   "notas": "Texto actual correcto; se añade el orden (muerde, saborea, repite).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Sandía en la Tumbona",
+    "desc": "Con sus gafas de sol en la cabeza, comiendo una rebanada de sandía fresquita en la playa.",
+    "cat": "comida",
+    "sound": "chomp"
+   },
+   "aprobado": {
+    "title": "Sandía en la Tumbona",
+    "desc": "En una tumbona de la playa, con gafas moradas en la cabeza, muerde una tajada de sandía, la saborea con los ojos cerrados y repite.",
+    "cat": "comida",
+    "sound": "chomp"
+   }
+  },
+  {
+   "id": 64,
+   "clave": null,
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    10,
+    23,
+    27,
+    35,
+    39,
+    47
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primer plano en un jardín. f0: mira hacia arriba con cara de agotado; f4-5: aprieta los dientes; f7-10: jadea con la boca redonda; f13-15: entorna los ojos; f24-33: gira la cabeza a un lado; f35: parpadea; f37-47: vuelve a jadear mirando arriba. No es bucle. Subtítulo fijo todo el clip.",
+   "subtitulos": "I'm so thirsty, I can't run anymore / 人家好渴跑不动了 → «Tengo muchísima sed, ya no puedo correr más».",
+   "notas": "El «vasito de zumo bien frío» era inventado: no aparece ninguna bebida. Subtítulo bilingüe (inglés y chino) incrustado por quien subió el vídeo. Sonido 'run' por el subtítulo («ya no puedo correr»); alternativa: 'sleep' (respiración).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Sin Aliento y con Mucha Sed",
+    "desc": "Cansadito de tanto correr, mira de lado soñando con un vasito de zumo bien frío.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Sin Aliento y con Mucha Sed",
+    "desc": "Jadea con la boca redonda, aprieta los dientes y entorna los ojos: ¡tiene tanta sed que ya no puede correr más!",
+    "cat": "caritas",
+    "sound": "run"
+   }
+  },
+  {
+   "id": 65,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    9,
+    15,
+    19,
+    24,
+    29,
+    34,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "reescribir",
+   "confianza": "media",
+   "se_ve": "Interior oscuro. f0: mira de reojo con la boca en «o»; f5-13: tuerce la boca hacia abajo con el ceño serio; f14-16: aprieta los ojos; f19-39: abre la boca en un llanto, con un lagrimón bajando por la mejilla izquierda (claro en f34). En f37-39 asoma por la derecha el brazo de un niño con manga roja. No es bucle.",
+   "subtitulos": "",
+   "notas": "No hay sonrisa traviesa: es un puchero que acaba en llanto (lágrima visible). El niño del borde (pelo castaño, manga roja) apenas asoma, por eso dejo 'caritas'. No existe sonido de llanto; propongo 'pop' (gota). Tras la segunda opinión y revisión propia: la lágrima es muy tenue; al final entra una mano por la derecha.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Pasa de sorpresa a tristeza y termina llorando a moco tendido con los ojos cerrados y la boca abierta. Lágrimas: posiblemente un reguero fino bajo un ojo al final, pero es muy tenue y no se distingue con seguridad (no hay lágrimas grandes). Sí aparece alguien más al final: una persona (cabeza oscura y brazo con manga roja) entra por la derecha y le acerca la mano.",
+    "se_ve": "f0-f5: primer plano en penumbra (fondo azul oscuro); mira hacia abajo-derecha con ojos abiertos y boca pequeña en 'o' (sorpresa/curiosidad). f6-f13: la boca se curva hacia abajo y frunce el ceño (tristeza, a punto de llorar). f14-f18: cierra los ojos apretándolos. f19-f39: abre la boca en mueca de llanto con los ojos cerrados y la cabeza algo inclinada, sollozando; hacia f33-f39 parece verse un reguero claro bajo un ojo. f34-f39: en el borde derecho aparece una forma oscura redondeada (cabeza con pelo oscuro) y en f39 entra un brazo con manga roja/naranja hacia él. En su mano, abajo a la derecha, sostiene algo pequeño plateado que no se distingue.",
+    "tipo_de_imagen": "Animación 3D de la serie (vídeo con compresión).",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Sonrisita Traviesa",
+    "desc": "Mira de reojo muy serio y de repente cierra los ojos con una sonrisa de travesura.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Del Puchero al Llanto",
+    "desc": "Mira de reojo, tuerce la boca hacia abajo, aprieta los ojos y acaba llorando con la boca abierta mientras una mano se le acerca.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 66,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Estático. Primer plano con colores apagados: párpados muy caídos, cejas marcadas y boca torcida hacia abajo, mirando a cámara. Marca de agua «@dashanicol3 · Dari komentar TikTok» abajo a la derecha.",
+   "subtitulos": "",
+   "notas": "Más que sueño, es cara de hastío o desgana (boca hacia abajo, cejas fruncidas). Edición de fans: captura de TikTok con marca de agua (@dashanicol3; «Dari komentar» = «de los comentarios» en indonesio) y colores desaturados.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojitos de Sueño Cansado",
+    "desc": "Con los párpados caídos y cara de quien necesita una siesta urgente.",
+    "cat": "caritas",
+    "sound": "sleep"
+   },
+   "aprobado": {
+    "title": "Cara de Pocas Ganas",
+    "desc": "Mira a cámara con los párpados caídos y la boca torcida hacia abajo, con cara de no tener ganas de nada.",
+    "cat": "caritas",
+    "sound": "sleep"
+   }
+  },
+  {
+   "id": 67,
+   "clave": null,
+   "fotogramas": 23,
+   "duracion_ms": 1440,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    9,
+    14,
+    16,
+    18,
+    20,
+    22
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Edificio de fondo. f0: ojos cerrados y cabeza ladeada, con una mano moviéndose junto a la cara (un solo fotograma, en pleno movimiento); f1-12: ojos abiertos, ceño fruncido y puños apretados delante del pecho; f13-14: abre la boca; f15-22: grita con la boca enorme y los dos brazos en alto. No es bucle.",
+   "subtitulos": "",
+   "notas": "No hay «patita en la mejilla» ni abre los ojos «poco a poco»: el ojo cerrado dura un fotograma y el tramo central es un ceño fruncido. Levanta los dos brazos, no uno. Sonido 'surprise' (chillido) encaja mejor que 'duang' con el grito.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Del Sueño al Grito",
+    "desc": "Empieza adormilado con la patita en la mejilla, abre los ojos poco a poco y, de repente, ¡pega un grito enorme con el brazo en alto!",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "¡Enfurruñado y a Grito Pelado!",
+    "desc": "Abre los ojos con el ceño fruncido y los puños apretados y, de golpe, ¡grita con la boca enorme y los brazos en alto!",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 68,
+   "clave": null,
+   "fotogramas": 18,
+   "duracion_ms": 1130,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    6,
+    10,
+    14,
+    15,
+    17
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primerísimo plano, cabeza ladeada. f0-14: ojos redondos muy abiertos mirando de lado y boca diminuta en «o»; f15-16: parpadea; f17: vuelve a mirar igual. Bucle.",
+   "subtitulos": "",
+   "notas": "Sobraba «como si hubiera oído un ruidito» (motivo inventado) y faltaba el parpadeo. Quito diminutivos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojos de Curiosidad",
+    "desc": "Con los ojos redondos mirando de lado y la boquita pequeñita, como si hubiera oído un ruidito.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Ojos de Curiosidad",
+    "desc": "Con la cabeza ladeada y la boca en una «o» diminuta, mira de lado con unos ojos muy redondos y parpadea.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 69,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. Sentado en un sofá verde, cabeza muy ladeada, un ojo abierto y el otro cerrado en guiño, boca pequeña y manos sobre la tripa. Detrás, una puerta y algo amarillo con pinchos marrones (parece su propia cola).",
+   "subtitulos": "",
+   "notas": "El diálogo «¿Seguro que ya he cenado?» era inventado; lo quito.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Guiño de Duda en el Sofá",
+    "desc": "Sentado en el sofá con un ojito cerrado pensando: \"¿Seguro que ya he cenado?\"",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Guiño Ladeado en el Sofá",
+    "desc": "Sentado en el sofá verde, ladea mucho la cabeza y guiña un ojo con las manos apoyadas en la tripa.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 70,
+   "clave": null,
+   "fotogramas": 15,
+   "duracion_ms": 940,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    3,
+    4,
+    9,
+    13,
+    14
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Atardecer con cielo anaranjado y colinas. f0-1: asoma la cabeza por abajo a la izquierda, con un ojo visible; f2-3: sube, cierra los ojos y se lleva la mano a la boca; f4-14: con la mano tapando la boca, mira de reojo hacia abajo. f13-14: aparece una mancha amarilla difusa en la mejilla derecha y la imagen se aclara. No es bucle.",
+   "subtitulos": "",
+   "notas": "Lo de «no soltar el secreto» era inventado. El gesto parece una risita contenida (de ahí 'laugh'), pero no es seguro. La mancha amarilla final parece un fundido o efecto del montaje. El título actual llevaba dos diminutivos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojito Pillín y Manita en la Boca",
+    "desc": "Asoma un ojito curioso al atardecer y se tapa la boquita con la patita para no soltar el secreto.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Mano en la Boca al Atardecer",
+    "desc": "Al atardecer asoma la cara, cierra los ojos, se tapa la boca con la mano y se queda mirando de reojo hacia abajo.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 71,
+   "clave": null,
+   "fotogramas": 19,
+   "duracion_ms": 1190,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    4,
+    5,
+    7,
+    9,
+    11,
+    18
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Cielo azul con nubes. f0-3: ríe con la boca muy abierta mirando a cámara; f4: cierra la boca y sube las manos; f5-6: cierra los ojos con las manos en los mofletes; f7-10: vuelve a reír con las manos en la cara; f11-18: la boca se encoge hasta una «o» pequeña, con ojos entornados y manos en los mofletes. No es bucle.",
+   "subtitulos": "",
+   "notas": "Texto correcto; solo añado la segunda risa y quito el diminutivo.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Qué Risa Bajo el Cielo Azul!",
+    "desc": "Empieza riendo con la boca bien abierta y acaba con las patitas en los mofletes poniendo morritos de sorpresa.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "¡Qué Risa Bajo el Cielo Azul!",
+    "desc": "Ríe a carcajadas, se lleva las manos a los mofletes, vuelve a reír y acaba poniendo morritos con los ojos entornados.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 72,
+   "clave": "burla-nyah",
+   "fotogramas": 17,
+   "duracion_ms": 1060,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    4,
+    7,
+    9,
+    11,
+    14,
+    16
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Primer plano de perfil, muebles verdes detrás. Todo el clip: se baja el párpado inferior con un dedo y saca la lengua, que menea arriba y abajo, mirando a cámara. Bucle.",
+   "subtitulos": "",
+   "notas": "Correcto. Solo quito el «¡Nyah, nyah!» entre comillas de la descripción (no hay subtítulo); en el título puede quedarse como onomatopeya.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Nyah, Nyah! Lengua Fuera",
+    "desc": "Se baja el párpado con la patita y saca la lengua para burlarse con mucha gracia: \"¡Nyah, nyah!\".",
+    "cat": "caritas",
+    "sound": "bleh"
+   },
+   "aprobado": {
+    "title": "¡Nyah, Nyah! Lengua Fuera",
+    "desc": "Se baja el párpado con un dedo y saca la lengua, meneándola arriba y abajo para hacer burla.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 73,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Estático sobre fondo blanco (recortado). Cabeza ladeada, un ojo a media altura y el otro aún más entornado, boca abierta y caída: cara de pasmo, de «¿eh?».",
+   "subtitulos": "",
+   "notas": "Lo de «medio dormido» es posible, pero la cara lee más como pasmo o incredulidad. Imagen recortada por fans sobre fondo blanco. Sonido 'duang' como golpe cómico; antes 'sleep'.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojitos de Dormilón",
+    "desc": "Con los ojitos entrecerrados y la boca abierta, medio dormido y sin entender nada de nada.",
+    "cat": "caritas",
+    "sound": "sleep"
+   },
+   "aprobado": {
+    "title": "Cara de No Entender Nada",
+    "desc": "Con un párpado a media altura, el otro aún más caído y la boca abierta, se queda pasmado sin enterarse de nada.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 74,
+   "clave": null,
+   "fotogramas": 21,
+   "duracion_ms": 1310,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    5,
+    8,
+    10,
+    14,
+    17,
+    20
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Calle con edificio rosa, árboles y un bocadillo de texto recortado a la izquierda. Lleva tirantes de mochila y un botellín con pajita en la mano. f0: ojos cerrados con sonrisa suave; f2-10: sonrisa enorme enseñando los dientes, ojos entornados; f12-14: sonrisa cerrada; f15-20: ríe con la boca abierta y los ojos cerrados. No es bucle.",
+   "subtitulos": "Bocadillo cortado por el borde: solo se leen dos caracteres sueltos (parecen «…庭» y «…喝~»; 喝 = beber). No se puede traducir con seguridad.",
+   "notas": "La bebida no «cuelga»: la lleva en la mano. «De oreja a oreja» es fórmula repetida y «paseando por el barrio» no se ve como acción. El bocadillo de texto parece añadido en el montaje.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Sonrisón de Paseo",
+    "desc": "Con una sonrisa de oreja a oreja y su bebidita colgando, ¡qué bien se lo pasa paseando por el barrio!",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Sonrisón con Mochila",
+    "desc": "Con mochila y un botellín con pajita en la mano, enseña los dientes en una gran sonrisa y acaba riendo con los ojos cerrados.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 75,
+   "clave": null,
+   "fotogramas": 21,
+   "duracion_ms": 1310,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    4,
+    5,
+    7,
+    11,
+    15,
+    20
+   ],
+   "bucle": false,
+   "veredicto": "reescribir",
+   "confianza": "media",
+   "se_ve": "De noche, fondo azul oscuro; imagen de baja calidad y tono anaranjado. f0: gira la cabeza con un brazo estirado; f1-3: se vuelve con los ojos entornados y sonrisa; f4-20: se queda mirando hacia arriba riendo con la boca muy abierta. A la derecha asoma algo azul desenfocado. No es bucle.",
+   "subtitulos": "",
+   "notas": "No cuenta ninguna historia: es una risa abierta mirando hacia arriba (podría ser también un canto, pero las comisuras suben). Lo azul del borde derecho no se puede identificar.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Parece reír a carcajadas o soltar un grito/canto de alegría mirando hacia arriba: la boca se queda muy abierta y casi fija, sin el abre-cierra de hablar. Sin sonido no se distingue si ríe, grita o canta una nota larga; lo más probable es risa o grito de alegría. En los bordes: por la derecha asoma un objeto o personaje azul-lila con algún toque rosa (no se distingue qué es) y en el borde superior hay una línea fina amarilla/naranja, resto del recorte del vídeo.",
+    "se_ve": "f0: de perfil con la boca abierta y un brazo extendido. f1-f3: gira la cara hacia cámara, con los ojos achinados y una sonrisa amplia. f4-f20: mira hacia arriba con las cejas alzadas y la boca muy abierta, mantenida casi fija con leves movimientos de cabeza. Fondo azul oscuro, como cielo nocturno. Imagen anaranjada y borrosa.",
+    "tipo_de_imagen": "Captura de baja calidad de un vídeo de animación 3D (colores saturados/anaranjados, compresión). La línea del borde superior indica recorte de vídeo.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "Cuentacuentos de Noche",
+    "desc": "De noche y con un bracito estirado, cuenta una historia con la boca muy abierta: ¡nadie se duerme!",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Risotada Nocturna",
+    "desc": "De noche, se gira balanceando un brazo y se queda mirando hacia arriba con una risa de boca bien abierta.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 76,
+   "clave": null,
+   "fotogramas": 24,
+   "duracion_ms": 1500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    7,
+    9,
+    13,
+    17,
+    20,
+    23
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Interior con ventana y cortinas naranjas. Primer plano: ojos cerrados en arco y sonrisa enorme enseñando los dientes; balancea la cabeza de un lado a otro; al inicio asoma un brazo a la izquierda. Bucle.",
+   "subtitulos": "",
+   "notas": "En lo esencial bien; sobraban dos diminutivos y la fórmula «de pura alegría», y faltaba el balanceo.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Sonrisa de Dientes Brillantes!",
+    "desc": "Primer plano con los ojitos cerrados y una sonrisa enorme enseñando todos sus dientecitos de pura alegría.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "¡Sonrisa de Dientes Brillantes!",
+    "desc": "Con los ojos cerrados y una sonrisa enorme que enseña todos los dientes, balancea la cabeza de un lado a otro.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 77,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    7,
+    11,
+    18,
+    25,
+    33,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Salón con sofá granate; a la izquierda, un aparato blanco redondo con rejilla, visto de lado (parece un ventilador). f0-2: sonríe de lado mirando a cámara; f3-6: se acerca abriendo la boca; f7-39: con la cara junto al aparato, saca una lengua enorme que ondea sin parar, con los ojos entornados. No es bucle.",
+   "subtitulos": "",
+   "notas": "El texto actual omite el aparato, que es la clave del gag. Creo que es un ventilador (la lengua se agita como por el aire), pero solo se ve de canto: pido segunda opinión. Sonido 'bleh' por la lengua al aire.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "El objeto parece un ventilador eléctrico (carcasa redonda con rejilla y mando arriba), visto de lado. Pone la boca delante y la lengua le sale fuera y se agita/ondea, como empujada por el aire del ventilador.",
+    "se_ve": "f0-f2: de perfil junto a un aparato redondo blanco-gris con rejilla y un saliente azul arriba; sonríe mirándolo. Fondo: sofá capitoné granate. f3-f6: abre la boca y se acerca. f7-f39: con la boca muy abierta y la cara pegada al aparato, saca una lengua larga que ondea, sube y baja sin parar, con las mejillas infladas y un ojo entornado.",
+    "tipo_de_imagen": "Animación 3D de la serie.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "¡Lengüetazo Gigante!",
+    "desc": "Junto al sofá sonríe de lado y, de repente, saca una lengua enorme. ¡Qué pillín!",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "¡Lengua al Ventilador!",
+    "desc": "Sonríe junto a un ventilador, se acerca abriendo la boca y deja la lengua fuera, ondeando sin parar.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 78,
+   "clave": null,
+   "fotogramas": 31,
+   "duracion_ms": 1940,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    5,
+    7,
+    8,
+    10,
+    18,
+    30
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "De noche en un bosque. f0-2: de perfil, mira a un lado; f3-4: gira hacia cámara con los ojos entornados; f5-6: agacha la cabeza de golpe (se ve el pincho de la cabeza); f7: reaparece llevándose las manos a la cara; f8-30: con las manos en los mofletes y la boca abierta enorme, mueve los ojos de un lado a otro, asustado. No es bucle.",
+   "subtitulos": "",
+   "notas": "Bien en lo esencial, pero usa la fórmula «de par en par», le faltaba el giro y el agachón, y la fanfarria no pega con un susto: propongo 'surprise'.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Susto de Medianoche",
+    "desc": "Se agarra los mofletes con las dos patitas y abre la boca de par en par: ¡no se esperaba eso de noche!",
+    "cat": "caritas",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "Susto en el Bosque de Noche",
+    "desc": "De noche en el bosque, se gira, agacha la cabeza y reaparece con las manos en los mofletes y la boca abierta del susto.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 79,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    11,
+    12,
+    14,
+    19,
+    25,
+    31,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primerísimo plano. f0-10: mira fijo a cámara con ojos redondos y boca pequeña en «o»; f11: parpadea; f12: sube las manos; f13-39: se tapa la boca con las dos manos y mueve los ojos de un lado a otro con mirada de pena; subtítulo «呜呜呜» desde f13. No es bucle.",
+   "subtitulos": "呜呜呜 (wu wu wu): onomatopeya de gimoteo o llanto ahogado, como «snif, snif» o «buaa».",
+   "notas": "Lo de «¡ups, se le ha escapado!» era inventado; el subtítulo indica que gimotea. No existe sonido de llanto; dejo 'pop'.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojos como Platos",
+    "desc": "Con los ojazos muy abiertos y la boquita en \"o\", se tapa la boca con las patitas: ¡ups, se le ha escapado!",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Gimoteo Tapándose la Boca",
+    "desc": "Mira fijamente con la boca pequeña y redonda, parpadea y se tapa la boca con las dos manos, gimoteando mientras mira a los lados.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 80,
+   "clave": "siesta-ronquido",
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    8,
+    13,
+    17,
+    23,
+    28,
+    34,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Bandas blancas arriba y abajo. Tumbado de lado con la cabeza sobre una manta verde de cuadros. f0-10: con los ojos entreabiertos, parpadea (subtítulo abajo); f11: cierra los ojos; f12-39: duerme abriendo y cerrando la boca como si roncara, con una pompa de baba que crece y se encoge. Casi bucle.",
+   "subtitulos": "你还敢冤枉奶龙是吧 (lectura aproximada) → «¿Así que aún te atreves a acusar injustamente a Nailong, eh?». Solo en f0-10; parece de la escena anterior.",
+   "notas": "Texto correcto; solo quito un diminutivo y concreto la pompa de baba.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Siesta de Lado en la Camita",
+    "desc": "Tumbado de lado sobre la mantita verde, se le cierran los ojos y acaba roncando con la boca abierta y una burbujita.",
+    "cat": "caritas",
+    "sound": "sleep"
+   },
+   "aprobado": {
+    "title": "Siesta de Lado en la Camita",
+    "desc": "Tumbado de lado sobre una manta verde, parpadea, se le cierran los ojos y ronca abriendo la boca con una pompa de baba.",
+    "cat": "caritas",
+    "sound": "sleep"
+   }
+  },
+  {
+   "id": 81,
+   "clave": null,
+   "fotogramas": 37,
+   "duracion_ms": 2310,
+   "cortes": [],
+   "seleccion": [
+    0,
+    3,
+    5,
+    7,
+    14,
+    20,
+    27,
+    36
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Habitación con ventana y cortinas naranjas. f0-5: de espaldas (se ven los pinchos), se da la vuelta rápido; f6-36: mira a cámara con unos labios rosas enormes e hinchados, los mueve como si hablara y en f27-32 asoma la lengua. No es bucle.",
+   "subtitulos": "",
+   "notas": "«Pintados» es una suposición: el rosa tiene bordes difusos y volumen, parecen labios hinchados (como tras comer picante) más que pintalabios. Pido segunda opinión. Evito «¡Sorpresa!» porque ya existe el título «Se Da la Vuelta... ¡Sorpresa!».",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Tiene los labios muy hinchados y rosados, como tras comer algo muy picante o por una picadura. En orden: se gira hacia cámara, muestra los labios hinchados, abre la boca temblando y enseñando los dientes, la cierra, saca la lengua jadeando y vuelve a cerrarla.",
+    "se_ve": "f0-f5: plano borroso del personaje de espaldas o inclinado (se ven las púas del lomo) en un salón con cortina naranja y ventana con árboles; se gira. f6-f7: se vuelve hacia cámara con los ojos muy abiertos. f8-f20: labios muy hinchados, gruesos y rosados; mueve la boca, la entreabre y enseña los dientes, temblorosa. f21-f25: aprieta los labios hinchados. f26-f33: saca la lengua varias veces, como jadeando. f34-f36: vuelve a cerrar la boca.",
+    "tipo_de_imagen": "Animación 3D de la serie (vídeo comprimido, desenfoque de movimiento al inicio).",
+    "confianza": "alta"
+   },
+   "antes": {
+    "title": "¡Morritos Pintados!",
+    "desc": "Se da la vuelta y... ¡sorpresa! Lleva los labios pintados de rosa, pone morritos y hasta saca la lengüita.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "¡Morritos Gigantes!",
+    "desc": "Se da la vuelta y enseña unos labios rosas enormes e hinchados; los mueve como si hablara y asoma la lengua.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 82,
+   "clave": null,
+   "fotogramas": 15,
+   "duracion_ms": 940,
+   "cortes": [],
+   "seleccion": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    9,
+    13,
+    14
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Interior cálido. f0: mira de lado con la boca en «o»; f1-2: entorna los ojos; f3-13: pone los ojos en blanco (pupilas arriba) con los labios apretados; f14: ojos medio cerrados mirando de reojo. No es bucle.",
+   "subtitulos": "",
+   "notas": "Texto correcto; leve retoque de estilo y sonido 'bleh' (desdén) en lugar de 'pop'.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojos en Blanco",
+    "desc": "Primero se sorprende con la boquita en \"o\", luego pone los ojos en blanco y termina mirando de reojo con cara de \"no me lo creo\".",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Ojos en Blanco",
+    "desc": "Se sorprende con la boca en «o», entorna los ojos, los pone en blanco apretando los labios y acaba mirando de reojo, nada convencido.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 83,
+   "clave": null,
+   "fotogramas": 28,
+   "duracion_ms": 1750,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    7,
+    8,
+    11,
+    18,
+    23,
+    27
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Interior de fondo rojizo. Sujeta una bolsa azul de aperitivos con un logotipo amarillo redondo. f0: mira de reojo con ojos entornados; f2-4: saca algo pálido de la bolsa (parece una patata frita o galleta); f5-9: abre la boca muchísimo y se lo mete; f10-18: mastica con la boca cerrada y cara seria; f19-21: parpadea; f22-27: mira a cámara con ojos muy abiertos. Bucle.",
+   "subtitulos": "",
+   "notas": "«A escondidas» y «mirada pícara» no se ven; el bocado es pálido (patata frita o galleta), no está claro que sean chuches.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Comiendo Chuches en Silencio",
+    "desc": "Con su bolsita de golosinas en las patitas, comiendo a escondidas con mirada pícara.",
+    "cat": "comida",
+    "sound": "chomp"
+   },
+   "aprobado": {
+    "title": "Picoteo de la Bolsa Azul",
+    "desc": "Saca algo de una bolsa azul, abre muchísimo la boca para zampárselo y lo mastica muy serio mirando a cámara.",
+    "cat": "comida",
+    "sound": "chomp"
+   }
+  },
+  {
+   "id": 84,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. Visto de espaldas, de pie en la esquina de una habitación azul claro, con la frente pegada a la pared; se ven los pinchos marrones de la espalda y la cola.",
+   "subtitulos": "",
+   "notas": "No se le ve la cara: «haciendo pucheros» y «tras una travesura» son suposiciones. La pose de castigo sí es evidente.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Castigado de Cara a la Pared",
+    "desc": "De espaldas contra la esquina de la habitación haciendo pucheros tras una travesura.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Castigado de Cara a la Pared",
+    "desc": "De pie y de espaldas, con la frente pegada a la esquina de la habitación, como si estuviera castigado.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 85,
+   "clave": "gritos-hierba",
+   "fotogramas": 26,
+   "duracion_ms": 1630,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    7,
+    12,
+    16,
+    18,
+    21,
+    25
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primer plano sobre el césped. f0-2: mira a cámara con la boca cerrada; f3-6: abre mucho la boca y grita; f7-15: se calla, frunce los labios y ladea la cabeza; f16-20: vuelve a gritar; f21-25: se calla otra vez. Bucle.",
+   "subtitulos": "",
+   "notas": "El texto actual es correcto en lo esencial; solo se quita la fórmula repetida «de par en par».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Gritos en la Hierba",
+    "desc": "Sobre el césped mira muy tranquilo... y de pronto abre la boca de par en par para soltar un grito, ¡una y otra vez!",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Gritos en la Hierba",
+    "desc": "Primer plano sobre el césped: mira a cámara muy callado, de pronto abre la boca y grita, se calla un instante... ¡y vuelve a gritar!",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 86,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    11,
+    13,
+    18,
+    23,
+    28,
+    32,
+    39
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-9: de pie en un jardín, pasmado, mirando hacia arriba con la boca en «o» (un niño asoma por el borde izquierdo); f10-11: destello blanco; f12-33: con rayos alrededor, grita con la boca enorme y salta de un pie a otro agitando los brazos; f34: se tira al césped; f35-39: tumbado boca abajo, berreando con los ojos cerrados. No es bucle.",
+   "subtitulos": "",
+   "notas": "No sale corriendo: patalea y salta en el sitio. El relámpago parece un efecto cómico de impacto. El niño solo asoma al principio y no participa, así que se mantiene «caritas».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Del Pasmo a la Rabieta",
+    "desc": "Empieza pasmado con la boquita en \"o\", sale corriendo a grito pelado y acaba tirado en el césped con una rabieta.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Del Pasmo a la Rabieta",
+    "desc": "Se queda pasmado, estalla un relámpago y se pone a gritar dando saltos con los brazos al aire, hasta tirarse al césped berreando.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 87,
+   "clave": null,
+   "fotogramas": 28,
+   "duracion_ms": 1750,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    8,
+    13,
+    17,
+    20,
+    23,
+    27
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Delante de una tienda con toldo rojo. Todo el rato tiene las dos manos a los lados de la cabeza y los labios fruncidos. f0-7: mira hacia arriba; f8-10: cierra los ojos; f11-23: vuelve a mirar arriba y a los lados balanceando un poco la cabeza; f24-25: parpadea. Bucle.",
+   "subtitulos": "",
+   "notas": "Las manos ya están en la cabeza desde el principio (no se las lleva). La expresión es de despiste o cavilación, no de alarma; la cita «¿Pero qué acaba de ocurrir aquí?» es inventada.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Ay, qué Locura!",
+    "desc": "Llevándose las dos patitas a la cabeza como diciendo: \"¿Pero qué acaba de ocurrir aquí?\".",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Manos a la Cabeza, Pensativo",
+    "desc": "Ante una tienda de toldo rojo, con las manos a los lados de la cabeza y los labios fruncidos, mira al cielo, parpadea y sigue cavilando.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 88,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. De brazos cruzados ante una pared de baldosas grises, con los ojos entornados mirando de reojo y una media sonrisa de suficiencia.",
+   "subtitulos": "",
+   "notas": "Correcto en lo esencial; se quita la cita inventada «Todo está bajo control» y se añade la mirada de reojo.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Brazos Cruzados con Estilo",
+    "desc": "Con los brazos cruzados y una sonrisa de seguridad total: \"Todo está bajo control\".",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Brazos Cruzados con Estilo",
+    "desc": "De brazos cruzados junto a una pared gris, mira de reojo con los ojos entornados y una media sonrisa muy segura de sí mismo.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 89,
+   "clave": null,
+   "fotogramas": 42,
+   "duracion_ms": 2630,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    10,
+    16,
+    22,
+    28,
+    34,
+    41
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Primer plano bajo el cielo azul con nubes y un árbol. f0-4: mira de lado con los ojos abiertos; f5-20: levanta la barbilla, entorna los ojos y habla moviendo una mano; f21-23: parpadea; f24-37: sigue hablando con la barbilla alta; f38-41: vuelve a mirar de lado. Bucle.",
+   "subtitulos": "",
+   "notas": "Se añade el gesto de la mano, que el texto actual no menciona.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Charla con Aires de Importancia",
+    "desc": "Bajo el cielo azul gira la cabecita y habla con los ojos entornados, dándose aires de saberlo todo.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Charla con Aires de Importancia",
+    "desc": "Bajo el cielo azul levanta la barbilla, entorna los ojos y habla gesticulando con la mano, dándose aires de saberlo todo.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 90,
+   "clave": "gafas-moradas",
+   "fotogramas": 41,
+   "duracion_ms": 2560,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    8,
+    12,
+    18,
+    23,
+    28,
+    40
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Discoteca con luces moradas. f0-21: baila con unas gafas moradas de montura con picos, señalando al techo con un brazo; f22-25: se queda quieto; f26-27: las gafas se le resbalan y caen (no se las quita con las manos); f28-40: de pie, con los párpados caídos y cara de aburrimiento, apenas se mueve. No es bucle.",
+   "subtitulos": "",
+   "notas": "No es DJ (no hay mesa de mezclas) y al final no cierra los ojos: los deja entornados con cara de aburrido. Ya existe el título «Bailarín de Discoteca», por eso se evita.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "DJ Nailong con Gafitas de Fiesta",
+    "desc": "Baila con sus gafas moradas bajo las luces de la pista y al final se las quita para seguir con los ojos cerrados, como una estrella.",
+    "cat": "bailes",
+    "sound": "maracas"
+   },
+   "aprobado": {
+    "title": "Gafas Moradas por los Suelos",
+    "desc": "En la discoteca baila señalando al techo con sus gafas moradas, hasta que se le resbalan y se queda quieto con cara de aburrimiento.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 91,
+   "clave": null,
+   "fotogramas": 32,
+   "duracion_ms": 2000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    4,
+    6,
+    10,
+    17,
+    24,
+    31
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primer plano junto a una ventana, con chispas doradas flotando. f0: ojos entornados y boca pequeña en «o»; f1-3: abre los ojos y la boca; f4-31: sonrisa grande con la boca abierta, mirando a cámara casi inmóvil. No es bucle.",
+   "subtitulos": "",
+   "notas": "Lo de «como cantando» es inventado: solo hay un fotograma con los ojos entornados antes de la sonrisa.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Destellos Dorados de Ilusión",
+    "desc": "Entre destellos dorados, empieza con los ojos cerrados como cantando y acaba con una sonrisa enorme de ilusión.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Destellos Dorados de Ilusión",
+    "desc": "Entre chispas doradas, abre los ojos de golpe y se le dibuja una sonrisa gigante de ilusión que ya no se le borra.",
+    "cat": "caritas",
+    "sound": "fanfare"
+   }
+  },
+  {
+   "id": 92,
+   "clave": null,
+   "fotogramas": 34,
+   "duracion_ms": 2130,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    10,
+    14,
+    16,
+    26,
+    30,
+    33
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Jardín con rodajas gigantes de pomelo y flores. f0-10: sonríe pícaro enseñando los dientes, con las manos juntas en la tripa; f11-14: se acerca a la cámara; f15-27: ojos cerrados, morritos de beso y manos arriba; f28-30: se aparta; f31-33: sonríe con los ojos abiertos y aparece un corazón rojo en su mano. No es bucle.",
+   "subtitulos": "",
+   "notas": "Faltaba el acercamiento a cámara con morritos (el beso). Se quitan diminutivos (patitas, tripita).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Sonrisa Pícara y Besito",
+    "desc": "Sonríe pícaro enseñando los dientes con las patitas en la tripita y termina lanzando un besito con corazón.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Sonrisa Pícara y Besito",
+    "desc": "Sonríe pícaro con las manos juntas, se acerca a la cámara con morritos para dar un beso y se aparta sonriendo con un corazón en la mano.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 93,
+   "clave": null,
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    14,
+    22,
+    28,
+    34,
+    40,
+    47
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Fondo de frutas gigantes (naranjas, uvas) y un cartel. f0-4: ríe con la boca abierta y una manzana roja en la mano; f5-7: le da un bocado con los ojos cerrados; f8-21: mastica tapándose la boca con la otra mano; f22-31: le sale de los labios un corazón rojo, como un beso, que va creciendo; f32-34: abre mucho la boca; f35-47: se balancea con los ojos cerrados y acaba sonriendo. No es bucle.",
+   "subtitulos": "f5-33: 百分百爱泥~ (泥 «barro» es un juego de palabras con 你 «tú»); f34-47: 百分百爱你~ = «¡Te quiero al cien por cien!»",
+   "notas": "El corazón no sale «de lo rica que está»: acompaña al subtítulo de amor. El texto propuesto usa la traducción del subtítulo.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Manzana Deliciosa!",
+    "desc": "Con una manzana roja en la patita: se ríe, se tapa la boca al dar un bocado y le sale un corazoncito de lo rica que está.",
+    "cat": "comida",
+    "sound": "chomp"
+   },
+   "aprobado": {
+    "title": "¡Manzana Deliciosa!",
+    "desc": "Da un bocado a una manzana roja, mastica tapándose la boca y le sale un corazón de los labios: «¡Te quiero al cien por cien!».",
+    "cat": "comida",
+    "sound": "chomp"
+   }
+  },
+  {
+   "id": 94,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    7,
+    11,
+    16,
+    24,
+    29,
+    33,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "reescribir",
+   "confianza": "alta",
+   "se_ve": "Jardín al anochecer con casas iluminadas al fondo. Nailong, solo, sentado en un balancín de jardín con cojín naranja, se mece despacio con las manos juntas. f0: sin lágrimas; hacia f15-39: le brota una lágrima que le resbala por la mejilla. Sin otros personajes. No es bucle exacto.",
+   "subtitulos": "",
+   "notas": "Aspecto fotorrealista (fondo real, Nailong con textura de peluche): probablemente animación hecha por fans o con IA. La categoría «amigos» no encaja porque está solo. El texto actual se salta la lágrima, que es el momento clave. Ningún sonido es triste; «sleep» es el más suave.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Columpio al Atardecer",
+    "desc": "Meciéndose despacito en el columpio del parque con las patitas colgando al caer la tarde.",
+    "cat": "amigos",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Lágrima en el Columpio",
+    "desc": "Sentado solo en un balancín del jardín al anochecer, se mece despacio con las manos juntas mientras una lágrima le resbala por la mejilla.",
+    "cat": "caritas",
+    "sound": "sleep"
+   }
+  },
+  {
+   "id": 95,
+   "clave": null,
+   "fotogramas": 23,
+   "duracion_ms": 1440,
+   "cortes": [],
+   "seleccion": [
+    0,
+    4,
+    5,
+    8,
+    11,
+    14,
+    18,
+    22
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Primer plano, encorvado hacia delante, con un chichón de punta rosada en la cabeza y los párpados rojos e hinchados. f0-3: mira de reojo; f4-7: cierra los ojos; f8-22: mira hacia abajo con cara de pena y mueve la boca, murmurando. No es bucle.",
+   "subtitulos": "«Maaf...» (indonesio/malayo, no chino) = «Perdón...».",
+   "notas": "El subtítulo en indonesio indica un vídeo subtitulado por fans. «Tras su travesura» es inventado. El bulto rosado parece un chichón (confianza media).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "El Chichón Travieso",
+    "desc": "Con un chichón en la cabecita y los ojitos hinchados de llorar, pide perdón muy bajito tras su travesura.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Chichón y Perdón en Voz Baja",
+    "desc": "Con un chichón en la cabeza y los párpados rojos de llorar, agacha la mirada y murmura «Perdón...» con cara de pena.",
+    "cat": "caritas",
+    "sound": "sleep"
+   }
+  },
+  {
+   "id": 96,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. En una habitación con puerta roja y estantes con plantas, mira con los ojos muy abiertos y la boca abierta al máximo, gritando de susto.",
+   "subtitulos": "",
+   "notas": "«Pegando un susto» da a entender que asusta a otro; en realidad es él quien se asusta. Se quita «de par en par».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Grito de Pánico Total!",
+    "desc": "Con los ojos como platos y la boca abierta de par en par, pegando un susto monumental en casa.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "¡Grito de Pánico Total!",
+    "desc": "En casa, junto a una puerta roja, se queda con los ojos desorbitados y la boca abierta al máximo: ¡menudo susto se ha llevado!",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 97,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático. Primer plano con una mano tapándose la boca y los ojos entornados mirando de reojo hacia un lado; fondo morado y azul desenfocado.",
+   "subtitulos": "",
+   "notas": "No hace «shhh» (no hay dedo en los labios): se tapa la boca con la mano entera, con mirada de tramar algo. Ya existen «Ojito Pillín y Manita en la Boca» y «Mirada de Reojo con Disimulo», por eso el título nuevo es otro. Edición: título cambiado para no repetir «¿Qué Estará Tramando?» del #36.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Shhh, ni Una Palabra!",
+    "desc": "Primer plano tapándose la boquita con la patita y mirando de reojo con aire sospechoso.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Tapándose la Boca con Disimulo",
+    "desc": "Primer plano tapándose la boca con la mano y mirando de reojo, con cara de estar tramando alguna travesura.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 98,
+   "clave": null,
+   "fotogramas": 18,
+   "duracion_ms": 1130,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    5,
+    8,
+    10,
+    13,
+    15,
+    17
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "De espaldas, se aleja andando deprisa por una acera de ciudad, balanceando los brazos; se ven las tres manchas verde oliva de la espalda; un árbol a la izquierda y coches detrás. No es bucle exacto.",
+   "subtitulos": "",
+   "notas": "Más que correr, camina a paso ligero; las placas son verde oliva oscuro.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Trote por la Acera",
+    "desc": "De espaldas enseñando sus tres placas verdes, corre a pasitos rápidos por la calle.",
+    "cat": "bailes",
+    "sound": "run"
+   },
+   "aprobado": {
+    "title": "Trote por la Acera",
+    "desc": "De espaldas, enseñando las tres placas de su espalda, se aleja por la acera a paso ligero balanceando los brazos.",
+    "cat": "bailes",
+    "sound": "run"
+   }
+  },
+  {
+   "id": 99,
+   "clave": "carcajada-movil",
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    12,
+    24,
+    35,
+    38,
+    40,
+    42,
+    47
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primer plano en casa (puerta roja detrás), sujetando un móvil naranja del que se ve la parte trasera con la cámara. f0-1: mira a cámara; f2-5: parpadea; f6-35: mira el móvil muy serio con la boca pequeña; f36-38: cierra los ojos y abre la boca; f39-43: carcajada con la boca enorme; f44-47: se queda sonriendo. No es bucle.",
+   "subtitulos": "",
+   "notas": "El «mensajito» del título es inventado (no se ve la pantalla). La carcajada final ya estaba; se quita la redundancia «carcajada enorme de la risa».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Mensajito y Carcajada en el Móvil",
+    "desc": "Mirando muy atento su móvil naranja con cara seria... hasta que suelta una carcajada enorme de la risa.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Carcajada Mirando el Móvil",
+    "desc": "Mira su móvil naranja muy serio durante un buen rato... hasta que algo le hace gracia y suelta una carcajada enorme.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 100,
+   "clave": null,
+   "fotogramas": 22,
+   "duracion_ms": 1380,
+   "cortes": [
+    2
+   ],
+   "seleccion": [
+    0,
+    1,
+    2,
+    8,
+    10,
+    12,
+    21
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "media",
+   "se_ve": "f0-1 (plano muy breve): en un cuarto azul, Nailong frente a un dragón marrón oscuro de ojos rojos subido a una cama. CORTE f2-7: primer plano de Nailong mirando de reojo con la boca en «o»; f8: entorna los ojos con fastidio; f9-21: cierra los ojos, levanta la barbilla, gira la cara y se cruza de brazos. No es bucle.",
+   "subtitulos": "",
+   "notas": "El personaje oscuro parece un Nailong marrón o negro de ojos rojos brillantes (¿versión «malvada» de algún episodio?); no lo identifico con seguridad. Ese plano dura solo 2 fotogramas. «Dragón» es más preciso que «dino». Edición: «dragón» en el título, como en la descripción.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Al principio aparece un dragón como Nailong pero de color marrón oscuro, con barriga clara, ojos rojos que brillan y cara de enfado, de pie sobre una cama. Después el amarillo lo mira sorprendido, pone cara de hastío, cierra los ojos, se cruza de brazos y levanta la barbilla dándose la vuelta, en plan '¡hmpf!' (enfurruñado o haciéndose el digno).",
+    "se_ve": "f0-f1: plano general de una habitación azul de noche; a la izquierda el amarillo mira, sorprendido, a un dragón igual pero marrón oscuro, con ojos rojos brillantes y gesto enfadado, subido de pie sobre una cama lila. f2 CORTE: primer plano del amarillo mirando hacia abajo con boca en 'o' (f2-f7). f8: entorna los ojos con desgana. f9: cierra los ojos con la boca torcida. f10-f21: cruza los brazos, alza la barbilla y gira la cabeza a un lado con los ojos cerrados, quieto.",
+    "tipo_de_imagen": "Animación 3D de la serie; dos planos montados (corte en f2).",
+    "confianza": "alta"
+   },
+   "antes": {
+    "title": "Pasando del Dino Oscuro",
+    "desc": "Empieza frente a un dino oscuro amenazante, pone cara de fastidio y se da la vuelta con los brazos cruzados y los ojos cerrados.",
+    "cat": "amigos",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Pasando del Dragón Oscuro",
+    "desc": "Frente a un dragón oscuro de ojos rojos, pone cara de fastidio, cierra los ojos y le gira la cara con los brazos cruzados.",
+    "cat": "amigos",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 101,
+   "clave": "risa-tranquila",
+   "fotogramas": 44,
+   "duracion_ms": 2750,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    12,
+    17,
+    23,
+    31,
+    37,
+    43
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primer plano en interior. f0: ríe con la boca abierta y los ojos entornados; f1-13: ojos cerrados o entornados y labios fruncidos en una «o» pequeña; f14-26: sonrisa amplia con los ojos entornados; f27-43: cierra los ojos y sigue sonriendo, ladeando la cabeza. Bucle.",
+   "subtitulos": "",
+   "notas": "La «boquita de sorpresa» no es sorpresa: son labios fruncidos con los ojos cerrados. Tampoco se ve picardía, sino una risa tranquila.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Risita Pícara con Ojitos Cerrados",
+    "desc": "Primer plano riéndose con los ojitos entornados, pone boquita de sorpresa y sigue sonriendo tan feliz.",
+    "cat": "caritas",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Risa Tranquila de Ojos Cerrados",
+    "desc": "Primer plano riendo con los ojos entornados: frunce los labios un momento y vuelve a sonreír, cada vez más a gusto y con los ojos cerrados.",
+    "cat": "caritas",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 102,
+   "clave": null,
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [
+    45
+   ],
+   "seleccion": [
+    0,
+    7,
+    11,
+    19,
+    27,
+    37,
+    44,
+    45,
+    47
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-4: primer plano de Nailong amarillo mirando de lado; f5-6: la cámara se aleja y está de pie en una sala de estilo chino con celosías de madera; f7-29: con un ojo cerrado y la lengua fuera (cara de asco o mareo) cambia de color sin parar: verde, azul, morado, rosa, rojo, naranja, amarillo, verde, rojo, naranja; f30-40: vuelve a amarillo, frunce el ceño y mira de reojo; f41-44: se da la vuelta; CORTE f45-47: plano de espaldas. No es bucle.",
+   "subtitulos": "",
+   "notas": "Edición de fans (recoloreado). La secuencia de colores del texto actual es incompleta y falta la cara de asco con la lengua fuera. No baila: «caritas» encaja mejor que «bailes».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Cambio de Colores y Espantada",
+    "desc": "Se queda pasmado cambiando de azul a amarillo, naranja y dorado como un camaleón, y se gira indignado.",
+    "cat": "bailes",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Cambio de Colores y Espantada",
+    "desc": "Edición de fans: con un ojo guiñado y la lengua fuera cambia de verde a azul, morado, rojo y naranja, y al volver a amarillo se larga.",
+    "cat": "caritas",
+    "sound": "bleh"
+   }
+  },
+  {
+   "id": 103,
+   "clave": "pajarita-roja",
+   "fotogramas": 33,
+   "duracion_ms": 2060,
+   "cortes": [],
+   "seleccion": [
+    0,
+    8,
+    12,
+    16,
+    24,
+    26,
+    28,
+    32
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "media",
+   "se_ve": "Primer plano con collar rojo y pajarita, fondo de roca gris. f0-10: mira hacia abajo con las manos juntas en el pecho; f11-12: parpadea; f13-23: gira la cabeza y mira de reojo hacia abajo; f24-26: parpadea; f27-32: levanta la vista y mira a cámara con ojos grandes y la boca un poco apretada. No es bucle.",
+   "subtitulos": "",
+   "notas": "La mirada final es más seria que «tierna»; se ajusta levemente y se quita el diminutivo. Edición: menos diminutivos.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Pajarita Roja y Ojitos Tímidos",
+    "desc": "Muy elegante con su pajarita roja, mira de reojo hacia abajo con timidez, parpadea y levanta la vista con ojitos tiernos.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Pajarita Roja y Mirada Tímida",
+    "desc": "Con su pajarita roja, mira hacia abajo con timidez juntando las manos, parpadea, mira de reojo y al final levanta la vista hacia ti.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 104,
+   "clave": null,
+   "fotogramas": 28,
+   "duracion_ms": 1750,
+   "cortes": [],
+   "seleccion": [
+    0,
+    3,
+    6,
+    8,
+    12,
+    14,
+    18,
+    27
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "Calle con tiendas, farolillos rojos y cielo azul; un niño con gorra naranja asoma por el borde izquierdo. f0-11: se balancea de lado a lado con los ojos cerrados y una gran sonrisa enseñando los dientes, con los brazos abiertos; f12-27: se gira hacia la izquierda riendo con la boca abierta y mueve las manos por delante con entusiasmo. No es bucle.",
+   "subtitulos": "",
+   "notas": "No se ve un saludo claro con la mano ni saltitos: es un balanceo. El niño de gorra naranja solo asoma en el borde (quizá le está hablando a él), por eso no se cambia a «amigos».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Saludando Feliz por el Barrio",
+    "desc": "Con los ojitos cerrados de pura alegría, levanta la patita para saludar mientras da saltitos en la calle.",
+    "cat": "bailes",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Balanceo Risueño en la Calle",
+    "desc": "En una calle con farolillos rojos se balancea con los ojos cerrados y una gran sonrisa, y luego se gira riendo y moviendo las manos.",
+    "cat": "bailes",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 105,
+   "clave": null,
+   "fotogramas": 39,
+   "duracion_ms": 4810,
+   "cortes": [],
+   "seleccion": [
+    0,
+    10,
+    15,
+    19,
+    24,
+    29,
+    34,
+    38
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Playa con palmeras. f0-10: baila con los brazos abiertos, ojos entornados y boca en «o»; f11-18: sube los brazos; f19-26: grita con la boca abierta y los brazos en alto; f27-32: encoge los brazos y aprieta los ojos; f33-38: sonríe enseñando todos los dientes mientras sigue bailando. Bucle.",
+   "subtitulos": "",
+   "notas": "Correcto; se precisa el gesto inicial y el grito intermedio.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Bailoteo Playero entre Palmeras",
+    "desc": "En la playa frente a las palmeras empieza serio, levanta los bracitos bailando y acaba con una sonrisa enorme.",
+    "cat": "bailes",
+    "sound": "maracas"
+   },
+   "aprobado": {
+    "title": "Bailoteo Playero entre Palmeras",
+    "desc": "En una playa con palmeras baila con cara de despiste y la boca en «o», levanta los brazos gritando y acaba sonriendo con todos los dientes.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 106,
+   "clave": "patata-frita",
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    10,
+    14,
+    22,
+    28,
+    36,
+    39,
+    47
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "media",
+   "se_ve": "f0-9: acerca a cámara una patata frita redonda (o galleta muy fina) con sonrisa pícara; f10-13: la baja y sonríe de lado; f14-24: con un trozo en la mano pone boca de «o» y sonríe; f27-29: guiña un ojo; f35-38: se ríe con la boca abierta; f39: se mete el trozo en la boca; f41-47: mastica con los ojos cerrados, satisfecho. No es bucle.",
+   "subtitulos": "",
+   "notas": "El objeto parece una patata frita de bolsa (fina, dorada y con burbujas) más que una galleta; pido segunda opinión. «Relamiéndose» no se ve. Fondo: salón con sofá verde y puerta.",
+   "lore": "",
+   "segunda_opinion": {
+    "respuesta": "Sostiene y se come una patata frita de bolsa redonda (lámina fina y dorada con burbujitas; podría ser también una galleta de arroz o cracker fino, pero la textura es de patata frita). En orden: se la acerca a la boca, la baja sonriendo, mira a cámara, se ríe, guiña un ojo, se mete el trozo en la boca y lo mastica feliz con los ojos cerrados.",
+    "se_ve": "f0-f9: primerísimo plano; sujeta con la mano una lámina redonda, fina y dorada con textura de burbujitas, que tapa casi toda la cara, y se la acerca a la boca sonriente. f10-f13: la baja; sonrisa pícara. f14-f15: mira a cámara con la boca en 'o' sujetando un trozo pequeño redondo. f16-f25: se ríe con la boca abierta. f26-f34: guiña un ojo con la boca abierta y luego en 'o'. f35-f38: plano más abierto (sala con puertas de madera y sofá verde), riendo. f39-f40: se mete el trozo en la boca muy abierta. f41-f47: mastica con los ojos cerrados y cara de felicidad.",
+    "tipo_de_imagen": "Animación 3D de la serie; franjas blancas arriba y abajo (recorte/encuadre añadido al hacer el sticker) y un cambio de plano hacia f35.",
+    "confianza": "media"
+   },
+   "antes": {
+    "title": "¡A Zampar Galleta!",
+    "desc": "Mordisquea una galleta redonda, guiña un ojito relamiéndose y se la zampa de un bocado con cara de gloria.",
+    "cat": "comida",
+    "sound": "chomp"
+   },
+   "aprobado": {
+    "title": "Patata Frita y Guiño Pícaro",
+    "desc": "Enseña una patata frita redonda, sonríe pícaro, guiña un ojo, se mete el último trozo en la boca y lo saborea con los ojos cerrados.",
+    "cat": "comida",
+    "sound": "chomp"
+   }
+  },
+  {
+   "id": 107,
+   "clave": null,
+   "fotogramas": 29,
+   "duracion_ms": 1810,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    9,
+    13,
+    17,
+    21,
+    25,
+    28
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Plano fijo: sentado sobre baldosas azules (parece el fondo o el borde de una piscina), con las manos encogidas junto al pecho; abre bien los ojos y desvía la mirada de reojo hacia la derecha con el ceño algo fruncido. Casi sin movimiento. Bucle.",
+   "subtitulos": "",
+   "notas": "El texto actual es correcto en lo esencial; sobran diminutivos («Sentadito», «bracitos») y el título da por hecho la piscina. A la derecha asoma un objeto morado y arriba algo borroso; no se identifican.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Sentadito Tímido en la Piscina",
+    "desc": "Sentado en el suelo azulado con los bracitos encogidos, mirando de reojo muy cortado.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "De Reojo y Muy Cortado",
+    "desc": "Sentado sobre unas baldosas azules con las manos encogidas en el pecho, mira de reojo hacia un lado con cara de apuro.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 108,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    12,
+    17,
+    22,
+    28,
+    34,
+    39
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Plano casi fijo: primer plano con la cara y un brazo manchados de tierra, las manos juntas delante del pecho y unos grandes ojos verdes mirando a cámara; solo se balancea un poco. No se le ve la boca. Bucle.",
+   "subtitulos": "",
+   "notas": "Describe bien lo que se ve; solo sobran diminutivos («carita», «patitas», «ojitos»).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Manchadito con Ojitos de Pena",
+    "desc": "Con la carita manchada de tierra y las patitas juntas, pone ojitos verdes irresistibles pidiendo mimo.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Manchadito y con Ojos de Pena",
+    "desc": "Con la cara manchada de tierra y las manos juntas, mira a cámara con unos ojos verdes enormes, como pidiendo un mimo.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 109,
+   "clave": null,
+   "fotogramas": 34,
+   "duracion_ms": 2130,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    10,
+    17,
+    21,
+    25,
+    28,
+    33
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Plano fijo con un bosque detrás: lleva una diadema dorada con dos espirales en la frente; párpados a media asta, cejas caídas y boca en puchero; mueve los ojos de un lado a otro con desgana. Bucle.",
+   "subtitulos": "",
+   "notas": "La diadema de espirales recuerda al aro dorado del Rey Mono (Sun Wukong): probable disfraz o capítulo especial. La cara es más de desgana o hastío que de tristeza.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Diadema Dorada y Tristeza",
+    "desc": "Con una corona dorada de espirales en la frente, baja los párpados con carita triste y puchero.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Diadema Dorada de Mala Gana",
+    "desc": "Con una diadema dorada de espirales en la frente, entorna los ojos, hace un puchero y mira de un lado a otro con muy pocas ganas.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 110,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    8,
+    18,
+    20,
+    22,
+    28,
+    31,
+    39
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-18: mira a cámara boquiabierto y asustado; f19-28: se tapa los oídos con las dos manos y mira de reojo con la boca apretada; f29-39: gira la cabeza y se da la vuelta sin destaparse los oídos. Fondo: salón con sofá verde, puerta y una jirafa de juguete. No es bucle.",
+   "subtitulos": "",
+   "notas": "No se lleva una sola mano a la cabeza ni niega: se tapa los dos oídos y se gira. El título encaja muy bien.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡No Quiero Ni Oírlo!",
+    "desc": "Primero se queda boquiabierto de susto, luego se lleva la patita a la cabeza y niega girando la cara.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "¡No Quiero Ni Oírlo!",
+    "desc": "Se queda boquiabierto del susto, se tapa los oídos con las dos manos, mira de reojo y acaba dándose la vuelta para no escuchar.",
+    "cat": "caritas",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 111,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Estático: primer plano de tres cuartos con el entrecejo arrugado, ojos verdes clavados al frente y la boca apretada en morritos; cara de enfado contenido.",
+   "subtitulos": "",
+   "notas": "Marca de agua de TikTok abajo a la derecha («@ellaaaaww», «Dari komentar»): recorte compartido por fans. Propongo «fire» para el enfado en lugar de «duang».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ceño Fruncido de Malas Pulgas",
+    "desc": "Con el entrecejo fruncido y cara de pocos amigos, mirando fijo como quien busca pelea.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Ceño Fruncido de Malas Pulgas",
+    "desc": "Con el entrecejo fruncido y cara de pocos amigos, mirando fijo como quien busca pelea.",
+    "cat": "caritas",
+    "sound": "fire"
+   }
+  },
+  {
+   "id": 112,
+   "clave": null,
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    11,
+    15,
+    21,
+    27,
+    34,
+    40,
+    47
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "f0-11: agarrado al borde de una tabla de madera, cabeza gacha, ojos apretados y boca en línea, aguantándose; f13-33: rompe a llorar con la boca enorme y lágrimas en los mofletes; f34-35: cierra la boca un instante, hipando; f36-47: vuelve a berrear. Fondo oscuro. No es bucle.",
+   "subtitulos": "",
+   "notas": "El texto actual es correcto; solo cambia la fórmula repetida «de par en par» y añade el hipido. Ningún sonido de la lista encaja de verdad con un llanto; se mantiene «duang».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Llanto a Moco Tendido",
+    "desc": "Empieza apretando los ojos intentando aguantarse y acaba abriendo la boca de par en par para pegar un berrido enorme.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Llanto a Moco Tendido",
+    "desc": "Agarrado a una tabla, aprieta los ojos para aguantarse, pero rompe a llorar con un berrido enorme, hipa un instante y sigue llorando.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 113,
+   "clave": null,
+   "fotogramas": 53,
+   "duracion_ms": 3310,
+   "cortes": [],
+   "seleccion": [
+    0,
+    8,
+    15,
+    21,
+    27,
+    36,
+    44,
+    52
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "En un pasillo con puertas blancas: f0-7 baila con las manos detrás de la cabeza; f8-15 manos en los mofletes meneando la cadera; f16-27 estira un brazo y se contonea; f28-33 se tapa la boca con la mano; f35-39 guiña un ojo sacando la lengua y enseña la palma; f40-52 sale bailando por la puerta de la izquierda hasta desaparecer. No es bucle.",
+   "subtitulos": "",
+   "notas": "Faltaba el guiño con la lengua fuera. Parece el Nailong 3D sobre un pasillo real grabado (posible montaje de fans).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Poses Coquetas en el Pasillo",
+    "desc": "Bailotea posando en el pasillo, se toca la carita, manda un guiño y se esconde tras la puerta riéndose.",
+    "cat": "bailes",
+    "sound": "laugh"
+   },
+   "aprobado": {
+    "title": "Poses Coquetas en el Pasillo",
+    "desc": "Baila posando en el pasillo, se tapa la boca con una mano, guiña un ojo sacando la lengua y se escabulle por una puerta.",
+    "cat": "bailes",
+    "sound": "laugh"
+   }
+  },
+  {
+   "id": 114,
+   "clave": "ojos-aguados",
+   "fotogramas": 11,
+   "duracion_ms": 690,
+   "cortes": [],
+   "seleccion": [
+    0,
+    3,
+    5,
+    7,
+    9,
+    10
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Primer plano en un dormitorio: ojos verdes muy brillantes llenos de lágrimas, cejas levantadas y puchero; solo tiembla un poco. Muy corto (11 fotogramas).",
+   "subtitulos": "",
+   "notas": "La descripción es correcta; el título actual tiene 34 caracteres (máximo 32).",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Ojazos Aguados al Borde del Llanto",
+    "desc": "Primer plano con los ojos llenos de lágrimas brillantes y la boquita torcida a punto de llorar.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Ojazos al Borde del Llanto",
+    "desc": "Primer plano con los ojos llenos de lágrimas brillantes y un puchero tembloroso, a punto de echarse a llorar.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 115,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático: en una habitación en penumbra con luz cálida al fondo, agacha la cabeza y mira al suelo con los párpados caídos y gesto triste; las manos, junto a la tripa.",
+   "subtitulos": "",
+   "notas": "«Hecho un ovillo» no se ve: está erguido, solo con la cabeza gacha. No se distingue si está sentado.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Pensativo y Cabizbajo",
+    "desc": "Sentado mirando hacia abajo con expresión triste y los ojitos caídos, hecho un ovillo.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Pensativo y Cabizbajo",
+    "desc": "En una habitación en penumbra, agacha la cabeza y mira al suelo con los párpados caídos y cara de pena.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 116,
+   "clave": null,
+   "fotogramas": 80,
+   "duracion_ms": 5000,
+   "cortes": [],
+   "seleccion": [
+    0,
+    9,
+    19,
+    29,
+    41,
+    53,
+    66,
+    79
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "En un prado con hierba alta y setas rojas de lunares blancos: f0-50 baila sonriente con los brazos abiertos, balanceándose; f53-69 da una vuelta completa y enseña la espalda; f70-79 vuelve de frente sonriendo. No es bucle (empieza y acaba parecido).",
+   "subtitulos": "",
+   "notas": "Estilo distinto al de la serie (pies con formas raras, dos lunares en la espalda): posible animación de fans hecha con IA. No está claro que las setas sean «gigantes». Propongo «maracas» (baile) en vez de «fanfare».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Giro Feliz entre Setas Gigantes",
+    "desc": "Baila con los brazos abiertos en el bosque de setas rojas, da una vuelta entera enseñando la espalda y vuelve sonriendo.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "Giro Feliz entre Setas",
+    "desc": "Baila sonriente con los brazos abiertos entre setas rojas y hierba alta, da una vuelta entera enseñando la espalda y vuelve de frente.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 117,
+   "clave": "bombloong",
+   "fotogramas": 39,
+   "duracion_ms": 2440,
+   "cortes": [],
+   "seleccion": [
+    0,
+    2,
+    7,
+    14,
+    21,
+    28,
+    33,
+    38
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Fondo azul oscuro; a la izquierda, un dragoncito azul con un cascarón en la cabeza. f0: boquiabierto, como pillado; f2-3: sacude la cabeza; f4-18: mira de reojo hacia un lado; f20-29: mira a cámara con los ojos muy abiertos y boca de «o», haciéndose el inocente; f30-38: sonrisa forzada apretando los dientes. No es bucle.",
+   "subtitulos": "f0-10, cortado por la izquierda: «…俩在这干嘛呢» (seguramente «你俩在这干嘛呢»): «¿Qué hacéis aquí vosotros dos?»",
+   "notas": "El dragoncito azul es Bombloong (azul, regordete, medio cascarón). El subtítulo explica la escena: los han pillado. La sonrisa final es de apuro, no de alegría. El título actual tiene 34 caracteres (máximo 32). Edición: se nombra a Bombloong (identificado con la web oficial) y se usa la traducción del subtítulo.",
+   "lore": "Bombloong = dragón azul de cascarón de huevo (web oficial, nailoong.com/ipStar/bombloong).",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Susto y Sonrisa con el Dragón Azul",
+    "desc": "Sentado junto al dragoncito azul del cascarón, empieza asustado, mira de reojo y acaba sonriendo enseñando los dientes.",
+    "cat": "amigos",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "¡Pillados! Sonrisa Forzada",
+    "desc": "«¿Qué hacéis aquí vosotros dos?»: pillado junto a Bombloong, se sobresalta, se hace el inocente y sonríe apretando los dientes.",
+    "cat": "amigos",
+    "sound": "surprise"
+   }
+  },
+  {
+   "id": 118,
+   "clave": null,
+   "fotogramas": 80,
+   "duracion_ms": 5000,
+   "cortes": [
+    68
+   ],
+   "seleccion": [
+    0,
+    12,
+    26,
+    38,
+    51,
+    63,
+    67,
+    68,
+    69,
+    79
+   ],
+   "bucle": false,
+   "veredicto": "personaje equivocado",
+   "confianza": "alta",
+   "se_ve": "De noche en una calle con edificios iluminados y árboles amarillos (vídeo real). A la izquierda, un dragoncito azul con un cascarón en la cabeza que mira serio de reojo todo el rato. Nailong lleva un gorro de pez naranja (ojos y aletas): f0-26 mira a cámara y parpadea; f27-60 camina moviendo un brazo; f61-67 se aplasta la cara contra una farola; f68-71 (corte) se agarra a ella y resbala hasta el suelo; f72-79 solo queda el dragoncito azul junto a la farola. No es bucle.",
+   "subtitulos": "",
+   "notas": "No es Xiao Qi: es el dragoncito azul con medio cascarón (Bombloong, como en el #117). El gorro es de pez (ojos encima, morro y aletas a los lados), no de pollito. Faltaba el momento clave: el choque con la farola. Personajes 3D montados sobre vídeo real (posible edición de fans). Edición: se nombra a Bombloong. Revisado fotograma a fotograma: aplasta la cara contra un poste negro, se abraza a él y resbala hasta salir de plano (la segunda opinión lo vio como «se esconde detrás»).",
+   "lore": "Bombloong = dragón azul de cascarón de huevo (web oficial).",
+   "segunda_opinion": {
+    "respuesta": "A su lado va un personaje azul claro, de barriga blanquecina, con media cáscara de huevo rota en la cabeza y cara de aburrimiento (párpados caídos), que no se mueve en todo el sticker. El amarillo lleva una capucha de pez (como un pez de colores: ojos, labios y aletas). Al final el amarillo se pega a un poste negro, lo abraza, se escabulle por detrás y desaparece, y el azul se queda solo.",
+    "se_ve": "f0-f25: en una calle real de noche con ginkgos amarillos y edificios iluminados, a la izquierda un personaje azul claro de barriga blanquecina, con media cáscara de huevo blanca-rosada en la cabeza y mirada de párpados caídos, y a su derecha el amarillo con capucha de pez naranja (ojos, labios, aleta dorsal arriba y aletas laterales); el amarillo mira a cámara y guiña un ojo (f8-f15). f26-f60: el amarillo cruza un brazo por delante de la barriga y lo mueve, balanceándose; el azul sigue inmóvil. f61-f67: la cámara se desplaza y aparece un poste negro a la derecha; el amarillo entorna un ojo y aprieta la cara contra el poste. f68 CORTE: el amarillo abraza el poste y se desliza rodeándolo. f69-f71: se esconde tras el poste (asoma la cola) y sale del encuadre. f72-f79: solo queda el azul, impasible, con la calle de fondo.",
+    "tipo_de_imagen": "Montaje de personajes 3D sobre vídeo real (calle nocturna grabada con cámara).",
+    "confianza": "alta"
+   },
+   "antes": {
+    "title": "Disfraz de Pollito con Xiao Qi",
+    "desc": "Paseando de noche por la calle con su capucha de pollito amarillo junto a Xiao Qi, que lo mira serio de reojo.",
+    "cat": "amigos",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "¡Choque contra el Poste!",
+    "desc": "De paseo nocturno junto a Bombloong y con un gorro de pez, se estampa contra un poste y resbala hasta desaparecer.",
+    "cat": "amigos",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 119,
+   "clave": "fiesta-parque",
+   "fotogramas": 21,
+   "duracion_ms": 1310,
+   "cortes": [],
+   "seleccion": [
+    0,
+    5,
+    7,
+    10,
+    13,
+    16,
+    20
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Parque infantil con tobogán rojo: f0-2 junta las manos delante del pecho, emocionado y sonriente; f3-4 movimiento rápido; f5-20 levanta los dos brazos y los mantiene arriba con una gran sonrisa y los ojos abiertos. No es bucle.",
+   "subtitulos": "",
+   "notas": "No cierra los ojos en ningún momento. En el borde izquierdo asoma algo dorado y borroso (¿una mano con comida?); no se menciona.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Fiesta en el Parque de Juegos!",
+    "desc": "Delante del tobogán rojo, cierra los ojitos con emoción y levanta los dos brazos celebrando feliz.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   },
+   "aprobado": {
+    "title": "¡Fiesta en el Parque de Juegos!",
+    "desc": "Delante de un tobogán rojo, junta las manos muy emocionado y de pronto levanta los dos brazos con una sonrisa enorme.",
+    "cat": "bailes",
+    "sound": "fanfare"
+   }
+  },
+  {
+   "id": 120,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Estático: primer plano apoyado sobre los brazos, con los mofletes sonrosados, la boca pequeña y los ojos mirando de reojo hacia abajo, con timidez.",
+   "subtitulos": "",
+   "notas": "Correcto; solo cambio «patitas» por «brazos» y matizo la timidez.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Mofletes Sonrojados Pensando",
+    "desc": "Apoyado sobre sus patitas con los mofletes rosados y la mirada curiosa hacia abajo.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Mofletes Sonrojados Pensando",
+    "desc": "Apoyado sobre los brazos, con los mofletes sonrosados y la boca pequeña, mira de reojo hacia abajo con cara de timidez.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 121,
+   "clave": null,
+   "fotogramas": 48,
+   "duracion_ms": 3000,
+   "cortes": [
+    47
+   ],
+   "seleccion": [
+    0,
+    12,
+    17,
+    28,
+    30,
+    35,
+    46,
+    47
+   ],
+   "bucle": false,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "En un sofá verde con un mando de consola: f0-10 ceño fruncido y boca abierta; f11-15 se encorva con los ojos cerrados; f16-28 grita furioso; f29-31 se ladea; f32-44 mira con el ceño muy fruncido mientras a la derecha un niño también grita; f45-47 (corte) cierra los ojos y echa la cabeza atrás. No es bucle.",
+   "subtitulos": "",
+   "notas": "Al final no aprieta los dientes: cierra los ojos y levanta la barbilla. El niño (pelo negro, camiseta gris) sale a la derecha en f30-37; no lo identifico con seguridad.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Pique Intenso con el Mando",
+    "desc": "Sentado en el sofá verde jugando con mando junto a un niño, grita furioso, hace muecas y acaba apretando los dientes.",
+    "cat": "amigos",
+    "sound": "fire"
+   },
+   "aprobado": {
+    "title": "Pique Intenso con el Mando",
+    "desc": "Jugando con un mando en el sofá verde, grita furioso con el ceño fruncido mientras un niño chilla a su lado, y acaba cerrando los ojos.",
+    "cat": "amigos",
+    "sound": "fire"
+   }
+  },
+  {
+   "id": 122,
+   "clave": "llanto-chorros",
+   "fotogramas": 6,
+   "duracion_ms": 380,
+   "cortes": [],
+   "seleccion": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Bucle muy corto (6 fotogramas): con las manos a los lados de la cabeza y la boca enorme mirando hacia arriba, llora a gritos; le saltan gotas azules de dibujo de los ojos. Fondo: valla metálica con cinta amarilla y negra.",
+   "subtitulos": "",
+   "notas": "Las lágrimas son gotas de dibujo añadidas encima (edición de fans, estilo emoji). Sobra el diminutivo «patitas». Ningún sonido encaja de verdad con el llanto; se mantiene «duang».",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Buaaa! Lágrimas a Chorros",
+    "desc": "Con las patitas en la cabeza y la boca abierta al cielo, soltando chorros de lágrimas azules.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "¡Buaaa! Lágrimas a Chorros",
+    "desc": "Con las manos en la cabeza y la boca enorme mirando al cielo, llora a gritos mientras le saltan gotas azules de dibujo.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 123,
+   "clave": null,
+   "fotogramas": 70,
+   "duracion_ms": 4380,
+   "cortes": [],
+   "seleccion": [
+    0,
+    11,
+    19,
+    30,
+    41,
+    50,
+    59,
+    69
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "Dentro de un coche, asomado a la ventanilla: f0-40 mira de reojo con morros y cara de mosqueo mientras la ventanilla tintada sube poco a poco; f44-49 parpadea; f50-69 sigue de reojo hasta que el cristal, con reflejo de edificios, lo tapa entero. No es bucle.",
+   "subtitulos": "",
+   "notas": "",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Enfadado Subiendo la Ventanilla",
+    "desc": "Dentro del coche mira de reojo muy serio mientras la ventanilla tintada va subiendo hasta taparlo por completo.",
+    "cat": "caritas",
+    "sound": "duang"
+   },
+   "aprobado": {
+    "title": "Enfadado Subiendo la Ventanilla",
+    "desc": "Dentro del coche mira de reojo muy serio mientras la ventanilla tintada va subiendo hasta taparlo por completo.",
+    "cat": "caritas",
+    "sound": "duang"
+   }
+  },
+  {
+   "id": 124,
+   "clave": null,
+   "fotogramas": 40,
+   "duracion_ms": 2500,
+   "cortes": [],
+   "seleccion": [
+    0,
+    6,
+    11,
+    17,
+    23,
+    28,
+    33,
+    39
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Fondo gris liso: baila sin parar agitando los brazos arriba, abajo y a los lados y meneando el cuerpo, con los ojos entornados y cara inexpresiva, sin boca visible. Bucle.",
+   "subtitulos": "",
+   "notas": "El título actual tiene 38 caracteres (máximo 32). Es más enérgico que «relajado». El modelo 3D es algo distinto al de la serie (sin boca, acabado liso): posible animación de fans.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Bailecito Relajado con Ojos Entornados",
+    "desc": "Se balancea con ritmo moviendo un brazo tras otro y los ojos entornados en plan relajado.",
+    "cat": "bailes",
+    "sound": "maracas"
+   },
+   "aprobado": {
+    "title": "Bailoteo con Ojos Entornados",
+    "desc": "Sobre un fondo gris baila sin parar agitando los brazos arriba y abajo, con los ojos entornados y cara de no inmutarse.",
+    "cat": "bailes",
+    "sound": "maracas"
+   }
+  },
+  {
+   "id": 125,
+   "clave": null,
+   "fotogramas": 1,
+   "duracion_ms": 0,
+   "cortes": [],
+   "seleccion": [
+    0
+   ],
+   "bucle": true,
+   "veredicto": "retocar",
+   "confianza": "alta",
+   "se_ve": "Estático sobre fondo blanco: lleva una camisa celeste abierta con estampado de flores amarillas y hojas verdes; mira al frente muy serio con los ojos verdes bien abiertos y la boca pequeña.",
+   "subtitulos": "",
+   "notas": "La camisa no está abotonada (va abierta sobre la tripa) y es de estilo hawaiano, no formal. Abajo a la derecha hay un destello de cuatro puntas como el que marca las imágenes creadas con Gemini: probable imagen de fans generada con IA.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "Camisa Celeste Muy Formal",
+    "desc": "Con su camisa celeste de flores abotonada y expresión muy seria mirando al frente.",
+    "cat": "caritas",
+    "sound": "pop"
+   },
+   "aprobado": {
+    "title": "Camisa de Flores y Cara Seria",
+    "desc": "Con una camisa celeste de flores abierta sobre la tripa, mira al frente muy serio con los ojos verdes bien abiertos.",
+    "cat": "caritas",
+    "sound": "pop"
+   }
+  },
+  {
+   "id": 126,
+   "clave": null,
+   "fotogramas": 23,
+   "duracion_ms": 1440,
+   "cortes": [],
+   "seleccion": [
+    0,
+    3,
+    4,
+    7,
+    9,
+    12,
+    17,
+    22
+   ],
+   "bucle": false,
+   "veredicto": "OK",
+   "confianza": "alta",
+   "se_ve": "En un prado con rocas: f0-3 con un manojo de hierba en la mano abre la boca y se lo mete; f4-8 mastica con la mano en la boca; f9-22 sigue masticando, sonriente, mirando al cielo. No es bucle.",
+   "subtitulos": "",
+   "notas": "Estilo de animación algo distinto al de la serie (posible animación de fans con IA). Solo añado que mira al cielo.",
+   "lore": "",
+   "segunda_opinion": null,
+   "antes": {
+    "title": "¡Ñam, Hierba Fresca del Prado!",
+    "desc": "Sentado en el césped abre la boca para comerse un manojo de hierba verde y termina masticando tan contento.",
+    "cat": "comida",
+    "sound": "chomp"
+   },
+   "aprobado": {
+    "title": "¡Ñam, Hierba Fresca del Prado!",
+    "desc": "Sentado en el prado, se mete un manojo de hierba en la boca y lo mastica muy contento mirando al cielo.",
+    "cat": "comida",
+    "sound": "chomp"
+   }
+  }
+ ],
+ "fuera_del_album": [
+  {
+   "id": "hero-animos",
+   "titulo": "Hero: botones «Cambia mi estado de ánimo» (js/03 e index.html)",
+   "explica": "Cada botón cambiará el sticker por su <b>clave</b> (W11) y tomará de <code>ALL_STICKERS</code> el título (texto alternativo de la imagen) y el sonido, para que no vuelvan a desincronizarse. La frase del bocadillo sigue siendo de Nailong en primera persona, pero ya cuadra con lo que se ve.",
+   "filas": [
+    {
+     "que": "😄 Feliz",
+     "img_a": "stickers/sticker_17.webp",
+     "actual": "#17 · «¡Estoy súper feliz y saltarín hoy!»",
+     "img_p": "stickers/sticker_19.webp",
+     "propuesto": "#19 · «¡Qué ilusión! ¡Hoy estoy contentísimo!»",
+     "porque": "Usaba el mismo sticker que «Palomitas». El #19 es el que se ve al abrir la web."
+    },
+    {
+     "que": "🍿 Palomitas",
+     "img_a": "stickers/sticker_17.webp",
+     "actual": "#17 · «¡Ñam ñam! ¡Devorando palomitas en el cine!»",
+     "img_p": "stickers/sticker_17.webp",
+     "propuesto": "#17 · «¡Jajaja! ¡Con palomitas en el sofá todo da más risa!»",
+     "porque": "No come ni está en el cine: está en el sofá muerto de risa."
+    },
+    {
+     "que": "🪇 Maracas → 🌈 Arcoíris",
+     "img_a": "stickers/sticker_10.webp",
+     "actual": "#10 · «¡Moviendo las caderas con mis maracas mágicas!»",
+     "img_p": "stickers/sticker_10.webp",
+     "propuesto": "#10 · «¡Bota que bota con mis bolas de colores!»",
+     "porque": "Son dos bolas moteadas y el cambio de color es una edición de fans; no menea las caderas, bota."
+    },
+    {
+     "que": "🏴‍☠️ Pirata → 🦁 León",
+     "img_a": "stickers/sticker_33.webp",
+     "actual": "#33 · «¡Al abordaje, grumetes! ¡Soy el Capitán Nailong!»",
+     "img_p": "stickers/sticker_33.webp",
+     "propuesto": "#33 · «¡Grrr! ¡Con mi cabeza de león bailo la danza del león!»",
+     "porque": "Lleva la cabeza peluda de la danza del león china, no un gorro de pirata."
+    },
+    {
+     "que": "😴 Hamaca",
+     "img_a": "stickers/sticker_38.webp",
+     "actual": "#38 · «Zzz... soñando en mi hamaca con lagos de natillas...»",
+     "img_p": "stickers/sticker_38.webp",
+     "propuesto": "#38 · «Aaah... meciéndome en la hamaca con mi cóctel azul...»",
+     "porque": "No duerme del todo: se mece sonriendo con una copa azul con cereza en la mano."
+    },
+    {
+     "que": "🏃 ¡A Correr!",
+     "img_a": "stickers/sticker_21.webp",
+     "actual": "#21 · «¡Socorro! ¡Xiao Qi me persigue con la esponja del baño!»",
+     "img_p": "stickers/sticker_21.webp",
+     "propuesto": "#21 · «¡Patas, para qué os quiero! ¡Que me pillan!»",
+     "porque": "Lo de Xiao Qi y la esponja es inventado: solo asoma una mano rosa."
+    },
+    {
+     "que": "🥺 Puchero",
+     "img_a": "stickers/sticker_22.webp",
+     "actual": "#22 · «¡Hmpf! ¡Pues ahora no te doy de mi tarta favorita!»",
+     "img_p": "stickers/sticker_114.webp",
+     "propuesto": "#114 · «Snif... ¿me das un abrazo?»",
+     "porque": "El #22 es un gesto de «¡bah, paso!», no un puchero. El #114 sí: ojos llenos de lágrimas a punto de llorar."
+    },
+    {
+     "que": "🥟 Glotón → 😋 Glotón",
+     "img_a": "stickers/sticker_11.webp",
+     "actual": "#11 · «¡Ñam, masticando bollitos dulces a toda velocidad!»",
+     "img_p": "stickers/sticker_106.webp",
+     "propuesto": "#106 · «¡Ñam! ¡Una patata frita crujiente para mí solito!»",
+     "porque": "El #11 es un muñeco antiestrés que recupera la forma: no come nada. El #106 sí come: una patata frita (las dos revisiones coinciden)."
+    },
+    {
+     "que": "🍗 Pollo Rico → 🍉 Sandía",
+     "img_a": "stickers/sticker_13.webp",
+     "actual": "#13 · «¡Mmm, qué delicia de muslito de pollo frito! ¡Mi comida favorita!»",
+     "img_p": "stickers/sticker_63.webp",
+     "propuesto": "#63 · «¡Qué fresquita está la sandía en la playa!»",
+     "porque": "En el #13 no hay pollo (saca la lengua) y lo de «comida favorita» no tiene fuente. En la colección no hay ningún sticker comiendo pollo."
+    }
+   ]
+  },
+  {
+   "id": "hero-frases",
+   "titulo": "Hero: frases al tocarle la tripa (js/03)",
+   "explica": "Solo cambian las que afirman cosas sin fuente. Las demás se quedan.",
+   "filas": [
+    {
+     "que": "Frase 2",
+     "actual": "¡Mi pancita está llena de leche calentita y muslitos de pollo! 🍗",
+     "propuesto": "¡Con la tripa llena se rebota muchísimo mejor! 🍮",
+     "porque": "El pollo como «comida favorita» está en la lista de «No decir» del lore."
+    },
+    {
+     "que": "Frase 5",
+     "actual": "¡Xiao Qi dice que mi barriga rebota como un flan gigante! 🍮",
+     "propuesto": "¡Mi barriga rebota como un flan gigante! 🍮",
+     "porque": "Pone en boca de Xiao Qi algo que no sale en la serie."
+    },
+    {
+     "que": "Resto (1, 3, 4, 6, 7, 8 y los premios de 5, 10 y 25 toques)",
+     "actual": "Cosquillas, «dragón más tierno», hambre de tarta, gelatina, pollo para compartir, fans",
+     "propuesto": "Igual",
+     "porque": "Son juegos, no datos: que es glotón y que el muslo de pollo sale mucho en sus historias tiene fuente oficial [O1]."
+    }
+   ]
+  },
+  {
+   "id": "laboratorio",
+   "titulo": "Laboratorio: color y disfraces (index.html y js/07)",
+   "explica": "Los disfraces pasarán a elegirse por clave (W11). Ahora tres de seis no son disfraces de verdad.",
+   "filas": [
+    {
+     "que": "Color 💜 Bombloong",
+     "actual": "«💜 Bombloong» · «Morado Bombloong»",
+     "propuesto": "«💜 Morado» · «Morado Lavanda»",
+     "porque": "Bombloong es azul (web oficial). El morado no es suyo."
+    },
+    {
+     "que": "Disfraz 1",
+     "img_a": "stickers/sticker_19.webp",
+     "actual": "😄 Alegre (#19)",
+     "img_p": "stickers/sticker_19.webp",
+     "propuesto": "😄 Alegre (#19)",
+     "porque": "Se queda (es el de inicio)."
+    },
+    {
+     "que": "Disfraz 2",
+     "img_a": "stickers/sticker_33.webp",
+     "actual": "🏴‍☠️ Pirata (#33)",
+     "img_p": "stickers/sticker_33.webp",
+     "propuesto": "🦁 León (#33)",
+     "porque": "Es la cabeza de la danza del león."
+    },
+    {
+     "que": "Disfraz 3",
+     "img_a": "stickers/sticker_90.webp",
+     "actual": "🪽 Dragón · «Superalas» (#90)",
+     "img_p": "stickers/sticker_90.webp",
+     "propuesto": "🕶️ Gafas (#90) · «Gafas de Fiesta»",
+     "porque": "No tiene alas: lleva gafas moradas de fiesta."
+    },
+    {
+     "que": "Disfraz 4",
+     "img_a": "stickers/sticker_55.webp",
+     "actual": "🍿 Palomitas (#55)",
+     "img_p": "stickers/sticker_55.webp",
+     "propuesto": "🐊 Cocodrilo (#55)",
+     "porque": "Es una capucha verde de cocodrilo, con ojos encima y dientes (las dos revisiones coinciden)."
+    },
+    {
+     "que": "Disfraz 5",
+     "img_a": "stickers/sticker_6.webp",
+     "actual": "💃 Bailarín (#6)",
+     "img_p": "stickers/sticker_5.webp",
+     "propuesto": "🪖 Soldado (#5) · «Casco de Soldado»",
+     "porque": "El #6 no baila (parpadea quieto con un gorro blanco). El #5 lleva casco de camuflaje."
+    },
+    {
+     "que": "Disfraz 6",
+     "img_a": "stickers/sticker_2.webp",
+     "actual": "🍼 Bebé · «Bebé Leche» (#2)",
+     "img_p": "stickers/sticker_103.webp",
+     "propuesto": "🎀 Pajarita (#103) · «Pajarita Roja»",
+     "porque": "El #2 no lleva disfraz (saca la lengua). Alternativa: 👑 Diadema (#109)."
+    }
+   ]
+  },
+  {
+   "id": "muneco-y-minijuego",
+   "titulo": "Muñeco acompañante, minijuego y pie",
+   "filas": [
+    {
+     "que": "Muñeco: «¡Cuidado con las bombas de Bombloong! 💣»",
+     "actual": "¡Cuidado con las bombas de Bombloong! 💣",
+     "propuesto": "Igual",
+     "porque": "Es la ficción del minijuego y cuadra con el lore: Bombloong es su enemigo número uno y quiere acabar con él [O3]. Ningún texto dice que lance bombas en la serie, y la web tampoco lo afirma. Si prefieres no arriesgar: «¡Cuidado con las bombas del minijuego! 💣»."
+    },
+    {
+     "que": "Minijuego: texto",
+     "actual": "¡Esquiva las bombas de Bombloong 💣!",
+     "propuesto": "Igual",
+     "porque": "Ídem."
+    },
+    {
+     "que": "Muñeco: frase de «¿Quién es?»",
+     "actual": "¡Ese de la foto es mi amigo Xiao Qi! 🌟",
+     "propuesto": "¡Ese es Xiao Qi, mi mejor amigo! 🌟",
+     "porque": "«El mejor amigo de Nailong» [O1]."
+    },
+    {
+     "que": "Minijuego: imagen del cartel «¡Nailong tiene mucha hambre!»",
+     "img_a": "stickers/sticker_10.webp",
+     "actual": "#10 (baile arcoíris; alt «Nailong con hambre»)",
+     "img_p": "stickers/sticker_106.webp",
+     "propuesto": "#106, comiéndose una patata frita (alt con su título)",
+     "porque": "El #10 no tiene nada que ver con el hambre."
+    },
+    {
+     "que": "Pie: título",
+     "actual": "Nailong Fan Club Oficial",
+     "propuesto": "Club de Fans de Nailong",
+     "porque": "Es una web de fans sin relación con el estudio y «no debe parecer oficial» (lore, apartado 8)."
+    },
+    {
+     "que": "Álbum: filtro «amigos»",
+     "actual": "👥 Xiao Qi y Bombloong",
+     "propuesto": "👥 Amigos y Rivales",
+     "porque": "Ahí salen Bombloong, un Nailong oscuro y niños que no se pueden identificar con seguridad."
+    }
+   ]
+  },
+  {
+   "id": "fichas",
+   "titulo": "«¿Quién es Nailong?»: las 4 fichas y la entradilla (T2)",
+   "explica": "Todo sale de <code>LORE_NAILONG.md</code> (la referencia única que ha preparado la sesión principal); entre corchetes, la fuente que cita: [O] web oficial nailoong.com, [P] prensa. Lo que allí figura como «No decir» se quita.",
+   "filas": [
+    {
+     "que": "Entradilla de la sección",
+     "actual": "Conoce al personaje de animación 3D creado por Seventh Impression que arrasa en China y el mundo entero con sus memes, cortos y travesuras.",
+     "propuesto": "Conoce al dragón de la serie de animación 3D del estudio chino Seventh Impression, que arrasa en China y en medio mundo con sus memes, cortos y travesuras.",
+     "porque": "Lo creó Xie Chengen; el estudio lo produce [O1][O4]."
+    },
+    {
+     "que": "Ficha 1 · etiqueta",
+     "img_a": "stickers/sticker_2.webp",
+     "actual": "3 AÑITOS DE EDAD",
+     "img_p": "stickers/sticker_2.webp",
+     "propuesto": "3 AÑOS Y MEDIO (si lo confirmas) · si no: DRAGÓN ALIENÍGENA BEBÉ",
+     "porque": "No hay edad oficial. «3 años y medio» lo dicen Baidu y Wikidata citando el episodio 1 de la 2.ª temporada (iQIYI, minuto 1:46) y encaja con lo que recuerdas; otras fuentes dicen 3 o 5. El lore propone ponerlo solo si lo compruebas en ese minuto."
+    },
+    {
+     "que": "Ficha 1 · texto",
+     "actual": "Su nombre Nailong significa «Dragón de Leche» por su color amarillo cremoso y su piel suave. Cayó de su nave espacial a la Tierra, es súper glotón y su tripita es de goma elástica.",
+     "propuesto": "Su nombre significa «dragón de leche». Es un dragón alienígena bebé que llegó a la Tierra porque algo pasó en su planeta. Mide 180 cm, pesa 2 toneladas y le encanta comer, dormir, hacer el mono y bailar.",
+     "porque": "[O1][O2]. «Cayó de su nave espacial», el porqué del nombre y la «tripa de goma» no tienen fuente."
+    },
+    {
+     "que": "Ficha 2 · Xiao Qi",
+     "img_a": "stickers/sticker_28.webp",
+     "actual": "MEJOR AMIGO HUMANO · Un niño genio e inventor de gran corazón. Adoptó a Nailong tras su llegada a la Tierra, inventa máquinas para sus aventuras y siempre tiene que tirar de su colita cuando Nailong se pone perezoso.",
+     "img_p": "stickers/sticker_28.webp",
+     "propuesto": "SU MEJOR AMIGO · Un chico terrícola apasionado por inventar y explorar. Antes le daba miedo cualquier criatura más grande que él, pero al conocer a Nailong se volvió alegre y valiente. Su gran invento: ¡una máquina del tiempo!",
+     "porque": "[O1][O2]. «Lo adoptó» (solo TV Tropes) y «le tira de la colita» no tienen fuente. Ojo: el lore no describe el aspecto de Xiao Qi, así que no he podido confirmar que el niño del #28 sea él (la revisión lo cree probable). Texto alternativo nuevo: «Xiao Qi zarandeando a Nailong»."
+    },
+    {
+     "que": "Ficha 3 · imagen",
+     "img_a": "extras/bombloong_actual.webp",
+     "actual": "#27: Nailong teñido de morado (edición de fans)",
+     "img_p": "extras/bombloong_propuesta.webp",
+     "propuesto": "A) Recorte del #117 (recomendado)",
+     "porque": "El Bombloong de verdad (dragón azul de cascarón [O3]) solo asoma por el borde en sus dos stickers: hay que recortarlo. En A se ven el cascarón, el ojo y el ala, sobre fondo liso."
+    },
+    {
+     "que": "Ficha 3 · alternativa B",
+     "img_a": "extras/bombloong_propuesta.webp",
+     "actual": "A) #117",
+     "img_p": "extras/bombloong_propuesta_118.webp",
+     "propuesto": "B) Recorte del #118",
+     "porque": "Más cara, pero sin el ala y con la calle de noche detrás."
+    },
+    {
+     "que": "Ficha 3 · texto",
+     "actual": "RIVAL CASCARRABIAS · El dragón morado gruñón que siempre intenta ganarle a Nailong y crear travesuras. ¡Pero la pancita rebotona y la buena suerte de Nailong siempre hacen que los planes de Bombloong fracasen con risas!",
+     "propuesto": "VILLANO ADORABLE · Un dragón azul de cascarón de huevo, bajito y con alitas, que vino del espacio para acabar con Nailong. Es muy orgulloso: siempre pierde… ¡y siempre vuelve a intentarlo! Lo siguen los soldaditos morados.",
+     "porque": "[O3]: «un “villano” encantador y adorable», enemigo número uno, siempre pierde y siempre vuelve. Era morado por error (los morados son sus soldaditos). La tarjeta pasa de morado a azul."
+    },
+    {
+     "que": "Ficha 4 · curiosidades",
+     "img_a": "stickers/sticker_31.webp",
+     "actual": "¡Poderes y Escamitas! · Tiene tres características placas verdes en su espalda, puede cambiar de tamaño a voluntad, lanza llamitas de fuego mágico y su comida preferida en todo el universo son los muslitos de pollo crujientes.",
+     "img_p": "stickers/sticker_31.webp",
+     "propuesto": "¡Datos Curiosos! · Lo creó Xie Chengen, al que llaman «papá dragón». Cumple años el 22 de enero, el día de su primer vídeo en 2020. ¡Puede escupir fuego! Y en sus historias salen muslos de pollo por todas partes.",
+     "porque": "[O1][O4][P5]. Las placas como rasgo oficial, cambiar de tamaño (solo wikis) y el pollo como «comida favorita» están en la lista de «No decir». El muslo de pollo sí es un motivo recurrente oficial [O1]."
+    }
+   ]
+  },
+  {
+   "id": "w11",
+   "titulo": "W11: imágenes por clave estable (no es texto; para que lo sepas)",
+   "explica": "Todas las imágenes fijadas por número fuera del álbum pasan a llevar su <b>clave</b> (D-22): hero, muñeco, laboratorio, cartel del minijuego, sprite del jugador, insignia del creador, pie, <code>og:image</code>, precarga e icono de iPhone. Así no se desplazan si algún día se renumeran los cromos. Añado también las 9 claves que pide la otra sesión para el Visor. <code>verify_all.py</code> (tests 51 y 53) se amplía para vigilarlas. La copia <code>mini/bombloong.webp</code> pasa a ser el recorte (cambio en <code>herramientas/miniaturas_web.py</code>).",
+   "filas": []
+  }
+ ]
+}

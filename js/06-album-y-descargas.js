@@ -535,7 +535,7 @@
             comida: '🍗 Comilonas',
             caritas: '🤪 Caritas & Pucheros',
             bailes: '💃 Bailes & Travesuras',
-            amigos: '👥 Xiao Qi y Bombloong'
+            amigos: '👥 Amigos y Rivales'
         };
 
         function updateFilterCounts() {

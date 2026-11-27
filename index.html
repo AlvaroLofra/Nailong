@@ -8,10 +8,11 @@
 
     <!-- Favicon, Apple Touch Icon & Web App Manifest -->
     <link rel="icon" type="image/webp" href="Stickers Nailong/mini/favicon.webp">
-    <link rel="apple-touch-icon" href="Stickers Nailong/sticker_18.webp">
+    <link rel="apple-touch-icon" href="Stickers Nailong/sticker_18.webp" data-sticker="palmas-jardin">
     <link rel="manifest" href="manifest.json">
-    <!-- W24: prioriza la imagen principal LCP del hero -->
-    <link rel="preload" as="image" href="Stickers Nailong/sticker_19.webp" fetchpriority="high">
+    <!-- W24: prioriza la imagen principal LCP del hero. W11: las imágenes fijas llevan la clave de su cromo
+         (data-sticker, D-22); en <link>/<meta> no se resuelve al cargar, pero verify_all.py (test 51) vigila que coincidan -->
+    <link rel="preload" as="image" href="Stickers Nailong/sticker_19.webp" data-sticker="ilusion" fetchpriority="high">
 
     <!-- Mobile Web App & Theme Color (Android Chrome & iOS Safari) -->
     <meta name="theme-color" content="#FFD93D">
@@ -25,11 +26,11 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="¡El Mundo Mágico de Nailong! 🦖✨">
     <meta property="og:description" content="Página interactiva con 126 stickers reales, fotos, gifs animados, minijuego de comer pollo y sonidos duang-duang.">
-    <meta property="og:image" content="Stickers Nailong/sticker_19.webp">
+    <meta property="og:image" content="Stickers Nailong/sticker_19.webp" data-sticker="ilusion">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="¡El Mundo Mágico de Nailong! 🦖✨">
     <meta name="twitter:description" content="Página interactiva con 126 stickers reales, fotos, gifs animados, minijuego de comer pollo y sonidos duang-duang.">
-    <meta name="twitter:image" content="Stickers Nailong/sticker_19.webp">
+    <meta name="twitter:image" content="Stickers Nailong/sticker_19.webp" data-sticker="ilusion">
 
     <!-- Tailwind CSS (versión fijada, D-15: el CDN no envía CORS, así que no admite integrity) -->
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
@@ -158,7 +159,7 @@
         <div class="relative group">
             <div onclick="pokeCompanion()" class="cursor-pointer group-hover:scale-110 active:scale-90 transition-transform">
                 <div class="w-16 h-16 sm:w-28 sm:h-28 drop-shadow-2xl">
-                    <img id="companion-img" src="Stickers Nailong/sticker_19.webp" alt="Nailong compañero" width="112" height="112" loading="lazy" decoding="async" fetchpriority="low" class="w-full h-full object-contain pointer-events-none">
+                    <img src="Stickers Nailong/sticker_19.webp" data-sticker="ilusion" id="companion-img" alt="Nailong compañero" width="112" height="112" loading="lazy" decoding="async" fetchpriority="low" class="w-full h-full object-contain pointer-events-none">
                 </div>
                 <span class="absolute -top-1 -right-1 bg-nailong-orange text-amber-950 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full shadow">
                     ¡Duang!
@@ -193,7 +194,7 @@
                         </h1>
 
                         <p class="text-base sm:text-xl text-amber-900/95 font-semibold leading-relaxed">
-                            <span class="hidden sm:inline">Vengo del Planeta Dragón, tengo 3 añitos, huelo a leche calentita y mi</span><span class="sm:hidden">Tengo 3 añitos y mi</span> barriguita redonda rebota haciendo <span class="bg-nailong-yellow px-2 sm:px-2.5 py-0.5 rounded-lg font-display font-bold text-amber-950 whitespace-nowrap">¡DUANG~ DUANG!</span> <span class="hidden sm:inline">¡Haz clic en mi pancita para hacerme cosquillas!</span>
+                            <span class="hidden sm:inline">Vengo de otro planeta, tengo 3 años y medio y mi</span><span class="sm:hidden">Tengo 3 años y medio y mi</span> barriguita redonda rebota haciendo <span class="bg-nailong-yellow px-2 sm:px-2.5 py-0.5 rounded-lg font-display font-bold text-amber-950 whitespace-nowrap">¡DUANG~ DUANG!</span> <span class="hidden sm:inline">¡Haz clic en mi pancita para hacerme cosquillas!</span>
                         </p>
                     </div>
 
@@ -214,7 +215,7 @@
                             <div class="absolute bottom-3 sm:bottom-4 w-48 sm:w-64 h-8 sm:h-12 bg-amber-900/15 rounded-full blur-md"></div>
                             
                             <!-- Real High-Res Animated Nailong Image -->
-                            <img id="hero-nailong-img" fetchpriority="high" width="384" height="384" src="Stickers Nailong/sticker_19.webp" alt="Nailong animado real" class="w-full h-full object-contain drop-shadow-2xl transition-all duration-300">
+                            <img src="Stickers Nailong/sticker_19.webp" data-sticker="ilusion" id="hero-nailong-img" fetchpriority="high" width="384" height="384" alt="Nailong: ¡Uoooh! ¡Qué Ilusión!" class="w-full h-full object-contain drop-shadow-2xl transition-all duration-300">
                         </div>
 
                         <p class="hidden sm:block mt-3 text-sm font-bold text-amber-900/85 bg-nailong-pale/80 px-4 py-1.5 rounded-full border border-nailong-yellow">
@@ -234,26 +235,26 @@
                             <button onclick="setHeroMood('popcorn', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
                                 🍿 Palomitas
                             </button>
-                            <button onclick="setHeroMood('maracas', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                🪇 Maracas
+                            <button onclick="setHeroMood('rainbow', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🌈 Arcoíris
                             </button>
-                            <button onclick="setHeroMood('pirate', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                🏴‍☠️ Pirata
+                            <button onclick="setHeroMood('lion', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🦁 León
                             </button>
-                            <button onclick="setHeroMood('sleep', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                😴 Hamaca
+                            <button onclick="setHeroMood('hammock', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                😌 Hamaca
                             </button>
-                            <button onclick="setHeroMood('scared', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                            <button onclick="setHeroMood('run', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
                                 🏃 ¡A Correr!
                             </button>
-                            <button onclick="setHeroMood('drama', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                            <button onclick="setHeroMood('pout', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
                                 🥺 Puchero
                             </button>
-                            <button onclick="setHeroMood('pastry', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                🥟 Glotón
+                            <button onclick="setHeroMood('snack', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                😋 Glotón
                             </button>
-                            <button onclick="setHeroMood('chicken', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
-                                🍗 Pollo Rico
+                            <button onclick="setHeroMood('watermelon', this)" class="mood-btn px-3.5 py-1.5 rounded-2xl font-display font-bold text-xs sm:text-sm bg-white border-2 border-nailong-yellow text-amber-900 shadow-sm hover:scale-105 transition-all">
+                                🍉 Sandía
                             </button>
                         </div>
                     </div>
@@ -287,7 +288,7 @@
                     ¿Quién es <span class="text-[#C2410C]">Nailong</span>?
                 </h2>
                 <p class="hidden sm:block text-lg text-amber-900/90 font-semibold">
-                    Conoce al personaje de animación 3D creado por <strong>Seventh Impression</strong> que arrasa en China y el mundo entero con sus memes, cortos y travesuras.
+                    Conoce al dragón de la serie de animación 3D del estudio chino <strong>Seventh Impression</strong>, que arrasa en China y en medio mundo con sus memes, cortos y travesuras.
                 </p>
             </div>
 
@@ -298,46 +299,46 @@
                     <div class="aspect-square w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-nailong-pale border-3 border-nailong-yellow flex items-center justify-center shadow-inner overflow-hidden p-2 group-hover:scale-105 transition-transform">
                         <img src="Stickers Nailong/mini/dragon-de-leche.webp" data-sticker="dragon-de-leche" alt="Nailong Bebé" width="192" height="192" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
-                    <span class="bg-nailong-yellow px-3 py-0.5 rounded-full font-display font-bold text-xs text-amber-950">3 AÑITOS DE EDAD</span>
+                    <span class="bg-nailong-yellow px-3 py-0.5 rounded-full font-display font-bold text-xs text-amber-950">3 AÑOS Y MEDIO</span>
                     <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">El Dragón de Leche</h3>
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
-                        Su nombre <strong>Nailong</strong> significa <em>"Dragón de Leche"</em> por su color amarillo cremoso y su piel suave. Cayó de su nave espacial a la Tierra, es súper glotón y su tripita es de goma elástica.
+                        Su nombre, <strong>Nailong</strong>, significa <em>«dragón de leche»</em>. Es un dragón alienígena bebé que llegó a la Tierra porque algo pasó en su planeta. Mide 180 cm, pesa 2 toneladas y le encanta comer, dormir, hacer el mono y bailar.
                     </p>
                 </div>
 
                 <!-- Card 2: Xiao Qi (El Niño Inventor) -->
                 <div class="clay-card p-5 sm:p-6 flex flex-col items-center text-center space-y-3 sm:space-y-4">
                     <div class="aspect-square w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-nailong-sky/50 border-3 border-nailong-sky flex items-center justify-center shadow-inner overflow-hidden p-2">
-                        <img src="Stickers Nailong/mini/xiao-qi-colita.webp" data-sticker="xiao-qi-colita" alt="Xiao Qi tirando de Nailong" width="192" height="192" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                        <img src="Stickers Nailong/mini/xiao-qi-colita.webp" data-sticker="xiao-qi-colita" alt="Xiao Qi zarandeando a Nailong" width="192" height="192" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
-                    <span class="bg-nailong-sky px-3 py-0.5 rounded-full font-display font-bold text-xs text-sky-950">MEJOR AMIGO HUMANO</span>
+                    <span class="bg-nailong-sky px-3 py-0.5 rounded-full font-display font-bold text-xs text-sky-950">SU MEJOR AMIGO</span>
                     <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">Xiao Qi</h3>
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
-                        Un niño genio e inventor de gran corazón. Adoptó a Nailong tras su llegada a la Tierra, inventa máquinas para sus aventuras y siempre tiene que tirar de su colita cuando Nailong se pone perezoso.
+                        Un chico terrícola apasionado por inventar y explorar. Antes le daba miedo cualquier criatura más grande que él, pero al conocer a Nailong se volvió alegre y valiente. Su gran invento: ¡una máquina del tiempo!
                     </p>
                 </div>
 
-                <!-- Card 3: Bombloong (El Rival Morado) -->
+                <!-- Card 3: Bombloong (el dragón azul del cascarón; imagen: recorte del cromo con clave bombloong, T2) -->
                 <div class="clay-card p-5 sm:p-6 flex flex-col items-center text-center space-y-3 sm:space-y-4">
-                    <div class="aspect-square w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-purple-100 border-3 border-purple-300 flex items-center justify-center shadow-inner overflow-hidden p-2">
-                        <img src="Stickers Nailong/mini/bombloong.webp" data-sticker="bombloong" alt="Bombloong dragón morado" width="192" height="192" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                    <div class="aspect-square w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-sky-100 border-3 border-sky-300 flex items-center justify-center shadow-inner overflow-hidden p-2">
+                        <img src="Stickers Nailong/mini/bombloong.webp" data-sticker="bombloong" alt="Bombloong, el dragón azul del cascarón" width="192" height="192" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
-                    <span class="bg-purple-200 px-3 py-0.5 rounded-full font-display font-bold text-xs text-purple-950">RIVAL CASCARRABIAS</span>
+                    <span class="bg-sky-200 px-3 py-0.5 rounded-full font-display font-bold text-xs text-sky-950">VILLANO ADORABLE</span>
                     <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">Bombloong</h3>
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
-                        El dragón morado gruñón que siempre intenta ganarle a Nailong y crear travesuras. ¡Pero la pancita rebotona y la buena suerte de Nailong siempre hacen que los planes de Bombloong fracasen con risas!
+                        Un dragón azul de cascarón de huevo, bajito y con alitas, que vino del espacio para acabar con Nailong. Es muy orgulloso: siempre pierde… ¡y siempre vuelve a intentarlo! Lo siguen los soldaditos morados.
                     </p>
                 </div>
 
-                <!-- Card 4: Los Superpoderes y Amor por el Pollo -->
+                <!-- Card 4: Datos curiosos (solo lo que tiene fuente en LORE_NAILONG.md) -->
                 <div class="clay-card p-5 sm:p-6 flex flex-col items-center text-center space-y-3 sm:space-y-4">
                     <div class="aspect-square w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-nailong-softpink/40 border-3 border-nailong-pink flex items-center justify-center shadow-inner overflow-hidden p-2">
-                        <img src="Stickers Nailong/mini/escamitas-espalda.webp" data-sticker="escamitas-espalda" alt="Escamas verdes de Nailong" width="192" height="192" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                        <img src="Stickers Nailong/mini/escamitas-espalda.webp" data-sticker="escamitas-espalda" alt="Nailong de espaldas enseñando sus escamas" width="192" height="192" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <span class="bg-nailong-pink/40 px-3 py-0.5 rounded-full font-display font-bold text-xs text-rose-950">CURIOSIDADES</span>
-                    <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">¡Poderes y Escamitas!</h3>
+                    <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">¡Datos Curiosos!</h3>
                     <p class="text-amber-900/90 font-semibold text-sm leading-relaxed">
-                        Tiene tres características placas verdes en su espalda, puede cambiar de tamaño a voluntad, lanza llamitas de fuego mágico y su comida preferida en todo el universo son los muslitos de pollo crujientes.
+                        Lo creó Xie Chengen, al que llaman «papá dragón». Cumple años el 22 de enero, el día de su primer vídeo en 2020. ¡Puede escupir fuego! Y en sus historias salen muslos de pollo por todas partes.
                     </p>
                 </div>
             </div>
@@ -464,7 +465,7 @@
             <div id="android-app-banner" class="clay-card bg-gradient-to-r from-amber-50 via-yellow-100 to-orange-50 border-3 border-amber-400 p-4 sm:p-7 w-full shadow-md reveal-item">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-5 text-left">
                     <div class="flex flex-row items-center gap-3 sm:gap-4 min-w-0 flex-1 w-full">
-                        <img src="Stickers Nailong/mini/dragon-de-leche.webp" alt="App Oficial Stickers Nailong" width="192" height="192" loading="lazy" decoding="async" class="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl border-2 border-amber-400 bg-white p-1 shadow-sm object-cover flex-shrink-0 self-start sm:self-center">
+                        <img src="Stickers Nailong/mini/dragon-de-leche.webp" alt="App de stickers de Nailong" width="192" height="192" loading="lazy" decoding="async" class="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl border-2 border-amber-400 bg-white p-1 shadow-sm object-cover flex-shrink-0 self-start sm:self-center">
                         <div class="space-y-1 min-w-0">
                             <div class="flex flex-wrap items-center justify-start gap-1.5 sm:gap-2">
                                 <span class="inline-block bg-nailong-orange text-amber-950 text-[10px] sm:text-xs font-display font-bold px-2.5 sm:px-3 py-0.5 rounded-full uppercase tracking-wider">
@@ -475,11 +476,11 @@
                                 </span>
                             </div>
                             <h3 class="font-display font-bold text-lg sm:text-2xl text-amber-950 leading-tight">
-                                Stickers Nailong Oficial para WhatsApp
+                                Stickers de Nailong para WhatsApp
                             </h3>
                             <p class="sm:hidden text-xs text-amber-900/85 font-semibold leading-snug">Los <strong>126 stickers</strong> en 5 packs, con 1 toque.</p>
                             <p class="hidden sm:block text-sm text-amber-900/85 font-semibold max-w-xl leading-relaxed">
-                                ¡Instala los <strong>126 stickers oficiales</strong> directamente en tu WhatsApp con 1 toque! Incluye los 5 packs completos (97 animados + 29 estáticos) y la carpeta <strong>«Mi Selección»</strong> para crear tus propios packs.
+                                ¡Instala los <strong>126 stickers</strong> directamente en tu WhatsApp con 1 toque! Incluye los 5 packs completos (97 animados + 29 estáticos) y la carpeta <strong>«Mi Selección»</strong> para crear tus propios packs.
                             </p>
                             <!-- Novedades: se rellenan desde version.json (lo mismo que enseña la app) -->
                             <details id="apk-whats-new" class="hidden max-w-xl text-left text-xs sm:text-sm text-amber-900/90 font-semibold bg-white/60 border border-amber-300 rounded-2xl px-3 py-2 mt-2">
@@ -588,19 +589,19 @@
                         ✨ Todas las Fotos (126)
                     </button>
                     <button onclick="filterGallery('animated', this)" data-filter="animated" class="gallery-filter-btn bg-white hover:bg-nailong-pale text-amber-900 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-nailong-yellow transition-all">
-                        🎬 En Movimiento (73)
+                        🎬 En Movimiento (97)
                     </button>
                     <button onclick="filterGallery('comida', this)" data-filter="comida" class="gallery-filter-btn bg-white hover:bg-nailong-pale text-amber-900 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-nailong-yellow transition-all">
-                        🍗 Comilonas (10)
+                        🍗 Comilonas (7)
                     </button>
                     <button onclick="filterGallery('caritas', this)" data-filter="caritas" class="gallery-filter-btn bg-white hover:bg-nailong-pale text-amber-900 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-nailong-yellow transition-all">
-                        🤪 Caritas & Pucheros (57)
+                        🤪 Caritas & Pucheros (88)
                     </button>
                     <button onclick="filterGallery('bailes', this)" data-filter="bailes" class="gallery-filter-btn bg-white hover:bg-nailong-pale text-amber-900 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-nailong-yellow transition-all">
-                        💃 Bailes & Travesuras (24)
+                        💃 Bailes & Travesuras (25)
                     </button>
                     <button onclick="filterGallery('amigos', this)" data-filter="amigos" class="gallery-filter-btn bg-white hover:bg-nailong-pale text-amber-900 font-display font-bold px-4 py-2 rounded-full text-sm border-2 border-nailong-yellow transition-all">
-                        👥 Xiao Qi y Bombloong (5)
+                        👥 Amigos y Rivales (6)
                     </button>
                 </div>
 
@@ -704,8 +705,8 @@
                                 <button onclick="setLabColor('75deg', 'Verde Selva')" class="p-2.5 rounded-2xl bg-[#B9FBC0] border-2 border-emerald-500 font-display font-bold text-xs text-emerald-950 shadow-sm hover:scale-105 transition-transform">
                                     💚 Verde Dino
                                 </button>
-                                <button onclick="setLabColor('235deg', 'Morado Bombloong')" class="p-2.5 rounded-2xl bg-[#CFBAF0] border-2 border-purple-500 font-display font-bold text-xs text-purple-950 shadow-sm hover:scale-105 transition-transform">
-                                    💜 Bombloong
+                                <button onclick="setLabColor('235deg', 'Morado Lavanda')" class="p-2.5 rounded-2xl bg-[#CFBAF0] border-2 border-purple-500 font-display font-bold text-xs text-purple-950 shadow-sm hover:scale-105 transition-transform">
+                                    💜 Morado
                                 </button>
                                 <button onclick="setLabColor('rainbow', '¡Modo Arcoíris!')" class="p-2.5 rounded-2xl bg-gradient-to-r from-yellow-300 via-pink-300 to-cyan-300 border-2 border-amber-600 font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
                                     🌈 Arcoíris
@@ -717,23 +718,23 @@
                         <div id="lab-panel-disfraz" role="tabpanel" aria-labelledby="lab-tab-disfraz" class="lab-panel hidden space-y-2">
                             <span class="font-display font-bold text-amber-950 block text-sm">🎭 Disfraces mágicos:</span>
                             <div class="grid grid-cols-3 gap-2">
-                                <button onclick="setLabCostume('sticker_19.webp', 'Alegre')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
+                                <button onclick="setLabCostume('ilusion', 'Alegre')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
                                     😄 Alegre
                                 </button>
-                                <button onclick="setLabCostume('sticker_33.webp', 'Pirata')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
-                                    🏴‍☠️ Pirata
+                                <button onclick="setLabCostume('gorro-de-leon', 'León')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
+                                    🦁 León
                                 </button>
-                                <button onclick="setLabCostume('sticker_90.webp', 'Superalas')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
-                                    🪽 Dragón
+                                <button onclick="setLabCostume('gafas-moradas', 'Gafas de Fiesta')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
+                                    🕶️ Gafas
                                 </button>
-                                <button onclick="setLabCostume('sticker_55.webp', 'Palomitas')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
-                                    🍿 Palomitas
+                                <button onclick="setLabCostume('disfraz-cocodrilo', 'Cocodrilo')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
+                                    🐊 Cocodrilo
                                 </button>
-                                <button onclick="setLabCostume('sticker_6.webp', 'Bailarín')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
-                                    💃 Bailarín
+                                <button onclick="setLabCostume('casco-soldado', 'Casco de Soldado')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
+                                    🎖️ Soldado
                                 </button>
-                                <button onclick="setLabCostume('sticker_2.webp', 'Bebé Leche')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
-                                    🍼 Bebé
+                                <button onclick="setLabCostume('pajarita-roja', 'Pajarita Roja')" class="p-2 rounded-2xl bg-white hover:bg-amber-100 border-2 border-nailong-yellow font-display font-bold text-xs text-amber-950 shadow-sm hover:scale-105 transition-transform">
+                                    🎀 Pajarita
                                 </button>
                             </div>
                         </div>
@@ -767,7 +768,7 @@
 
                         <!-- Real Transparent Nailong Lab Avatar -->
                         <div id="lab-nailong-figure" class="transition-transform duration-300 ease-out relative z-0 w-44 h-44 sm:w-80 sm:h-80 flex items-center justify-center">
-                            <img id="lab-nailong-img" src="Stickers Nailong/sticker_19.webp" alt="Nailong en el laboratorio" loading="lazy" decoding="async" class="w-full h-full object-contain drop-shadow-xl select-none">
+                            <img src="Stickers Nailong/sticker_19.webp" data-sticker="ilusion" id="lab-nailong-img" alt="Nailong en el laboratorio" loading="lazy" decoding="async" class="w-full h-full object-contain drop-shadow-xl select-none">
                         </div>
                     </div>
                 </div>
@@ -820,7 +821,7 @@
                     <div id="game-overlay" class="absolute inset-0 bg-amber-950/50 flex flex-col items-center justify-center p-6 text-center z-10">
                         <div class="bg-white border-4 border-nailong-yellow rounded-3xl p-6 sm:p-8 max-w-md shadow-2xl space-y-4">
                             <div class="w-24 h-24 mx-auto drop-shadow-md">
-                                <img src="Stickers Nailong/sticker_10.webp" alt="Nailong con hambre" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                                <img src="Stickers Nailong/sticker_106.webp" data-sticker="patata-frita" alt="Nailong comiéndose una patata frita" loading="lazy" decoding="async" class="w-full h-full object-contain">
                             </div>
                             <h3 id="game-overlay-title" class="font-display font-bold text-2xl sm:text-3xl text-amber-950">
                                 ¡Nailong tiene mucha hambre!
@@ -940,7 +941,7 @@
 
                             <!-- Floating Nailong badge sticking out -->
                             <div class="absolute -bottom-3 -right-3 w-16 h-16 sm:w-20 sm:h-20 drop-shadow-xl animate-float pointer-events-none">
-                                <img src="Stickers Nailong/sticker_19.webp" alt="Nailong saltando" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                                <img src="Stickers Nailong/sticker_19.webp" data-sticker="ilusion" alt="Nailong saltando" loading="lazy" decoding="async" class="w-full h-full object-contain">
                             </div>
                         </div>
                     </div>
@@ -955,8 +956,8 @@
         <div class="max-w-4xl mx-auto space-y-4">
             <div class="flex justify-center items-center gap-3 font-display font-bold text-xl sm:text-3xl text-amber-950">
                 <img src="Stickers Nailong/mini/dragon-de-leche.webp" alt="Nailong mini" loading="lazy" decoding="async" class="w-10 h-10 object-contain">
-                <span>Nailong Fan Club Oficial</span>
-                <img src="Stickers Nailong/sticker_19.webp" alt="Nailong mini 2" loading="lazy" decoding="async" class="w-10 h-10 object-contain">
+                <span>Club de Fans de Nailong</span>
+                <img src="Stickers Nailong/sticker_19.webp" data-sticker="ilusion" alt="Nailong mini 2" loading="lazy" decoding="async" class="w-10 h-10 object-contain">
             </div>
             <p class="text-amber-900/85 font-semibold text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
                 Página web inmersiva dedicada a <strong>Nailong (Nailoong)</strong>, el entrañable dragón de leche amarillo creado por Xie Chengen y Seventh Impression. Realizada con fotos y stickers auténticos para todos sus pequeños fans.
