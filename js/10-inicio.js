@@ -320,31 +320,51 @@
                     // Plegado no descarga nada (preload="none"); al desplegarlo se piden solo los datos del vídeo
                     // (37 KB al principio del .mp4): sin ellos el navegador deja desactivado su botón de pantalla completa
                     if (video.preload === 'none') video.preload = 'metadata';
-                } else if (!video.paused) {
-                    video.pause();
+                } else {
+                    if (!video.paused) video.pause();
+                    pantallaCssTrailer(false);
                 }
             });
+            // Escape también saca de la pantalla completa hecha con CSS (la real ya la gestiona el navegador)
+            document.addEventListener('keydown', (e) => {
+                const container = document.getElementById('video-player-container');
+                if (e.key === 'Escape' && container && container.classList.contains('trailer-fullscreen-active')) pantallaCssTrailer(false);
+            });
+        }
+
+        /* Reserva sin la API de pantalla completa (o si el navegador la rechaza): la caja se fija a toda la
+           ventana con CSS. El elemento main lleva z-index 10 y encerraba la caja por debajo del acompañante y de la barra
+           inferior; mientras dura, body.trailer-pantalla-css se lo quita, bloquea el scroll y muestra el botón ✕. */
+        function pantallaCssTrailer(activar) {
+            const container = document.getElementById('video-player-container');
+            if (!container) return;
+            container.classList.toggle('trailer-fullscreen-active', activar);
+            document.body.classList.toggle('trailer-pantalla-css', activar);
         }
 
         function toggleTrailerFullscreen() {
             const container = document.getElementById('video-player-container');
+            const video = document.getElementById('trailer-video');
             if (!container) return;
             const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement || container.classList.contains('trailer-fullscreen-active'));
             if (!isFs) {
                 if (container.requestFullscreen) {
-                    container.requestFullscreen().catch(() => container.classList.add('trailer-fullscreen-active'));
+                    container.requestFullscreen().catch(() => pantallaCssTrailer(true));
                 } else if (container.webkitRequestFullscreen) {
                     container.webkitRequestFullscreen();
+                } else if (video && typeof video.webkitEnterFullscreen === 'function') {
+                    // iPhone: Safari solo pone en pantalla completa el propio vídeo (con su botón para salir)
+                    try { video.webkitEnterFullscreen(); } catch (e) { pantallaCssTrailer(true); }
                 } else {
-                    container.classList.add('trailer-fullscreen-active');
+                    pantallaCssTrailer(true);
                 }
             } else {
-                if (document.exitFullscreen) {
+                if (document.fullscreenElement && document.exitFullscreen) {
                     document.exitFullscreen().catch(() => {});
-                } else if (document.webkitExitFullscreen) {
+                } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
                     document.webkitExitFullscreen();
                 }
-                container.classList.remove('trailer-fullscreen-active');
+                pantallaCssTrailer(false);
             }
         }
 

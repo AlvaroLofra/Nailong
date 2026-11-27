@@ -565,6 +565,9 @@ assert 'function elegirFormatoTrailer(' in _inicio and "matchMedia(TRAILER_CONSU
 _plegado = js_function_body(_inicio, 'setupTrailerFold')
 assert 'elegirFormatoTrailer();' in _plegado, "V1: opening the trailer must choose the format again (rotated phone, resized window)!"
 assert "video.preload = 'metadata'" in _plegado, "V1: unfolding the trailer must load its metadata, or the browser keeps its own fullscreen button disabled!"
+_pc = js_function_body(_inicio, 'toggleTrailerFullscreen')
+assert 'video.webkitEnterFullscreen()' in _pc and 'pantallaCssTrailer(true)' in _pc, "Trailer fullscreen: iPhone uses the video's own fullscreen; the CSS fallback is the last resort!"
+assert 'id="trailer-salir-pantalla"' in page_html and "e.key === 'Escape'" in _plegado and 'body.trailer-pantalla-css main { z-index: auto; }' in html, "Trailer fullscreen: the CSS fallback needs a way out (✕ and Escape) and must cover the companion and bottom bar!"
 _vid = re.search(r'<video id="trailer-video"[^>]*>', page_html).group(0)
 assert 'preload="none"' in _vid and 'poster=' not in _vid, "V1: the trailer keeps preload=none and gets its poster from js/10 (only the right one is downloaded)!"
 assert '#video-promo-section.trailer-horizontal #video-player-container' in html and 'aspect-ratio: 16 / 9' in html, "V1: 16:9 box for the horizontal trailer missing in css/styles.css!"

@@ -564,6 +564,19 @@
             z-index: 2 !important;
         }
 
+        /* Pantalla completa del tráiler: botón ✕ dentro de la caja (en la real y en la reserva CSS) y, en la
+           reserva, la caja por encima de todo: el elemento main deja de encerrarla (z-index 10) y la página no se mueve */
+        #video-player-container:fullscreen .trailer-salir,
+        #video-player-container:-webkit-full-screen .trailer-salir,
+        #video-player-container.trailer-fullscreen-active .trailer-salir {
+            display: flex !important;
+            top: max(1rem, var(--safe-top));
+            right: max(1rem, var(--safe-right));
+        }
+        body.trailer-pantalla-css { overflow: hidden; }
+        body.trailer-pantalla-css main { z-index: auto; }
+        body.trailer-pantalla-css #floating-companion { display: none; }
+
         /* V1 · Tráiler horizontal 16:9 en pantallas anchas (js/10, elegirFormatoTrailer): caja apaisada con el
            texto debajo; no pasa del 80 % del alto de la ventana (móvil girado) */
         #video-promo-section.trailer-horizontal .trailer-cuerpo { flex-direction: column; }
