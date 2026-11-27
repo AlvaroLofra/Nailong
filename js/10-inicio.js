@@ -404,6 +404,7 @@
                 resizeGameCanvas();
                 setupGameControls();
                 setupGameVisibilityPause();
+                pintarRecordJuego();
                 setupModalSwipeGestures('magic-modal', nextMagicGif, prevMagicGif);
                 setupModalSwipeGestures('photo-lightbox', nextLightboxPhoto, prevLightboxPhoto);
                 setupTrailerAmbientLight();

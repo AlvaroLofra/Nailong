@@ -15,6 +15,33 @@
         // Si el jugador hace scroll y el juego deja de verse, la partida se pausa (ahorra batería y no pierde tiempo)
         let gameInView = true;
 
+        // Récord personal: se guarda solo en este dispositivo (localStorage). Si el navegador no deja
+        // guardar (modo privado, almacenamiento lleno o bloqueado), el juego funciona igual y el récord
+        // dura lo que dure la visita. Lo leído se valida: localStorage no es de confianza.
+        const GAME_RECORD_STORAGE_KEY = 'nailong_minijuego_record_v1';
+        let gameRecord = leerRecordJuego();
+
+        function leerRecordJuego() {
+            try {
+                const n = parseInt(localStorage.getItem(GAME_RECORD_STORAGE_KEY), 10);
+                return Number.isFinite(n) && n > 0 && n < 1000000 ? n : 0;
+            } catch (e) {
+                return 0;
+            }
+        }
+
+        function guardarRecordJuego(puntos) {
+            gameRecord = puntos;
+            try {
+                localStorage.setItem(GAME_RECORD_STORAGE_KEY, String(puntos));
+            } catch (e) {}
+        }
+
+        function pintarRecordJuego() {
+            const el = document.getElementById('game-record');
+            if (el) el.textContent = gameRecord;
+        }
+
         const foodCanvas = document.getElementById('food-game-canvas');
         const foodCtx = foodCanvas.getContext('2d');
 
@@ -309,9 +336,27 @@
             const startBtn = document.getElementById('game-start-btn');
             if (startBtn) startBtn.innerHTML = '▶️ ¡Jugar Ahora!';
 
+            const recordAnterior = gameRecord;
+            const esRecord = gameScore > recordAnterior;
+            if (esRecord) {
+                guardarRecordJuego(gameScore);
+                pintarRecordJuego();
+            }
+
+            let titulo = `¡Tiempo! Comiste ${gameScore} puntos 🎉`;
+            let descripcion = '¡La barriguita de Nailong está súper redondita, feliz y llena de cosas ricas! ¿Quieres jugar otra partida?';
+            if (esRecord && recordAnterior > 0) {
+                titulo = `🏆 ¡Nuevo récord! ${gameScore} puntos`;
+                descripcion = `Has superado tu marca anterior de ${recordAnterior} puntos. ¡Nailong está orgullosísimo de su barriguita! ¿Otra partida?`;
+            } else if (esRecord) {
+                descripcion = '¡Tu primer récord ya está guardado en este dispositivo! ¿Te atreves a superarlo?';
+            } else if (gameRecord > 0) {
+                descripcion = `Tu récord en este dispositivo es de ${gameRecord} puntos. ¿Te atreves a superarlo?`;
+            }
+
             const overlay = document.getElementById('game-overlay');
-            document.getElementById('game-overlay-title').textContent = `¡Tiempo! Comiste ${gameScore} puntos 🎉`;
-            document.getElementById('game-overlay-desc').textContent = '¡La barriguita de Nailong está súper redondita, feliz y llena de cosas ricas! ¿Quieres jugar otra partida?';
+            document.getElementById('game-overlay-title').textContent = titulo;
+            document.getElementById('game-overlay-desc').textContent = descripcion;
             overlay.classList.remove('hidden');
             overlay.classList.add('flex');
             overlay.style.display = 'flex';
