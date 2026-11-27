@@ -90,7 +90,7 @@
             { id: 'muro-gifs', text: '"¡Mira mis animaciones en el Visor Mágico! 🎬"', requireVisibleBand: true },
             { id: 'galeria', text: '"¡Tengo 126 cromos míos en el álbum! 📸"' },
             { id: 'nailong-3d', text: '"¡Gírame en 3D y hazme cosquillas en la pancita! 🧊"' },
-            { id: 'historia', text: '"¡Ese de la foto es mi amigo Xiao Qi! 🌟"' },
+            { id: 'historia', text: '"¡Ese es Xiao Qi, mi mejor amigo! 🌟"' },
             { id: 'inicio', text: '"¡Tócame para un Duang! 💛"' }
         ];
 
