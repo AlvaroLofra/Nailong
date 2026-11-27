@@ -560,7 +560,12 @@
                         <span class="bg-nailong-yellow border-2 border-nailong-orange px-3 py-0.5 rounded-full font-display font-bold text-xs text-amber-950 inline-block">🎬 ANIMACIONES EN BUCLE</span>
                         <h3 class="font-display font-bold text-2xl sm:text-3xl text-amber-950 mt-1">Visor Mágico</h3>
                     </div>
-                    <p class="hidden sm:block text-sm font-semibold text-amber-900/85">Toca una escena para cambiar su velocidad o estamparle stickers 👉</p>
+                    <div class="flex items-center gap-3">
+                        <p class="hidden md:block text-sm font-semibold text-amber-900/85">Toca una escena para pausarla, verla a cámara lenta o al revés 👉</p>
+                        <button type="button" onclick="sorprendeme()" class="clay-btn bg-nailong-yellow hover:bg-nailong-light text-amber-950 font-display font-bold px-3 sm:px-4 py-2 text-xs sm:text-sm inline-flex items-center gap-1.5 border-2 border-nailong-orange shadow-sm transition-transform hover:scale-105 active:scale-95" title="Abrir en el Visor un sticker animado al azar">
+                            <i class="fa-solid fa-shuffle"></i> ¡Sorpréndeme!
+                        </button>
+                    </div>
                 </div>
                 <div id="gif-wall-grid" class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
                     <!-- Dynamically populated with real animated webp stickers -->
@@ -997,33 +1002,57 @@
                     <span id="modal-badge" class="bg-nailong-orange text-amber-950 font-display font-bold px-3 py-1 rounded-full text-[10px] sm:text-xs uppercase shrink-0">
                         GIF EN VIVO
                     </span>
-                    <h3 id="modal-title" class="font-display font-bold text-xl sm:text-3xl text-amber-950 truncate">
+                    <h3 id="modal-title" class="font-display font-bold text-lg sm:text-3xl leading-tight text-amber-950 line-clamp-2">
                         Título de la Animación
                     </h3>
                 </div>
 
                 <!-- Interactive Stage inside Modal -->
-                <div id="modal-stage-wrapper" class="relative h-60 sm:h-80 rounded-3xl border-4 border-nailong-yellow bg-gradient-to-b from-amber-50 to-nailong-pale flex items-center justify-center overflow-hidden shadow-inner transition-all duration-300">
+                <div id="modal-stage-wrapper" class="relative h-60 sm:h-80 rounded-3xl border-4 border-nailong-yellow bg-gradient-to-b from-amber-50 to-nailong-pale flex items-center justify-center overflow-hidden shadow-inner">
                     <div id="modal-content-holder" class="w-full h-full flex items-center justify-center p-3 sm:p-4">
-                        <img id="modal-main-img" src="" alt="Animación Nailong" class="max-h-full max-w-full object-contain drop-shadow-xl select-none transition-all duration-300">
+                        <img id="modal-main-img" alt="Animación Nailong" class="max-h-full max-w-full object-contain select-none">
+                        <!-- VM1: reproductor propio (fotogramas del WebP compuestos en el lienzo, js/05) -->
+                        <canvas id="modal-player-canvas" role="img" aria-label="Animación Nailong" class="hidden w-full h-full object-contain select-none" width="0" height="0"></canvas>
                     </div>
-                    <!-- Draggable Stickers Overlay Layer -->
+                    <p id="modal-player-loading" class="hidden absolute bottom-2 left-1/2 -translate-x-1/2 z-20 pointer-events-none whitespace-nowrap bg-white/95 border-2 border-nailong-yellow rounded-full px-3 py-1 text-[11px] sm:text-xs font-bold text-amber-900 shadow-sm" aria-hidden="true"></p>
+                    <!-- Draggable Stickers Overlay Layer (tocar el fondo pausa o sigue) -->
                     <div id="modal-stickers-layer" class="absolute inset-0 overflow-hidden pointer-events-auto"></div>
                 </div>
 
                 <div class="space-y-1 text-center">
                     <p id="modal-description" class="text-amber-900 font-semibold text-xs sm:text-base"></p>
-                    <p id="modal-speed-label" class="text-xs text-amber-800 font-bold">🦖 Velocidad Normal: Ritmo original del sticker.</p>
+                    <p id="modal-speed-label" aria-live="polite" class="text-xs text-amber-800 font-bold min-h-[1rem]">🦖 ×1: el ritmo original del sticker.</p>
                 </div>
 
-                <!-- Interactive Controls for Kids: Speed, Stickers & Download -->
-                <div class="bg-white/95 p-3 sm:p-4 rounded-2xl border-2 border-nailong-yellow flex flex-wrap items-center justify-between gap-2 sm:gap-3">
-                    <div class="flex items-center gap-1.5" id="modal-speed-buttons">
-                        <span class="font-display font-bold text-xs sm:text-sm text-amber-950">⚡ Modo:</span>
-                        <button onclick="setModalSpeed('slow', this)" class="px-2.5 sm:px-3 py-1 rounded-full bg-nailong-pale hover:bg-nailong-yellow font-bold text-xs transition-all">🐢 Lento</button>
-                        <button onclick="setModalSpeed('normal', this)" class="px-2.5 sm:px-3 py-1 rounded-full bg-nailong-orange text-amber-950 font-bold text-xs transition-all shadow-sm">🦖 Normal</button>
-                        <button onclick="setModalSpeed('turbo', this)" class="px-2.5 sm:px-3 py-1 rounded-full bg-nailong-pale hover:bg-nailong-yellow font-bold text-xs transition-all">🚀 ¡Turbo!</button>
+                <!-- VM1 · Reproductor: pausa, fotograma a fotograma, barra de tiempo, velocidad real, al revés y bumerán -->
+                <div id="visor-controles" data-no-swipe class="bg-white/95 p-2.5 sm:p-3 rounded-2xl border-2 border-nailong-yellow space-y-2">
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="visor-barra" min="0" max="0" step="1" value="0" oninput="buscarFotogramaVisor(this.value)" aria-label="Barra de tiempo" class="visor-barra flex-1 min-w-0 h-7 bg-nailong-pale rounded-full appearance-none cursor-pointer accent-nailong-orange border-2 border-nailong-yellow">
+                        <span id="visor-tiempo" class="shrink-0 text-[11px] sm:text-xs font-bold text-amber-900 tabular-nums">…</span>
                     </div>
+                    <div class="flex items-center justify-center gap-1.5 sm:gap-2">
+                        <button type="button" onclick="pasoFotogramaVisor(-1)" class="visor-ctrl" aria-label="Fotograma anterior" title="Fotograma anterior (tecla ,)"><i class="fa-solid fa-backward-step"></i></button>
+                        <button type="button" id="visor-btn-play" onclick="alternarPausaVisor()" class="visor-ctrl visor-ctrl-play" aria-label="Pausar" title="Pausar (tecla K)"><i class="fa-solid fa-pause"></i></button>
+                        <button type="button" onclick="pasoFotogramaVisor(1)" class="visor-ctrl" aria-label="Fotograma siguiente" title="Fotograma siguiente (tecla .)"><i class="fa-solid fa-forward-step"></i></button>
+                        <span class="w-px h-7 bg-nailong-yellow mx-0.5 sm:mx-1" aria-hidden="true"></span>
+                        <button type="button" id="visor-btn-reves" onclick="alternarMarchaAtrasVisor()" class="visor-vel visor-interruptor" aria-pressed="false" aria-label="Al revés" title="Al revés"><span aria-hidden="true">⏪</span><span class="hidden sm:inline"> Al revés</span></button>
+                        <button type="button" id="visor-btn-bumeran" onclick="alternarBumeranVisor()" class="visor-vel visor-interruptor" aria-pressed="false" aria-label="Bumerán: adelante y atrás sin parar" title="Bumerán: adelante y atrás sin parar"><span aria-hidden="true">↔️</span><span class="hidden sm:inline"> Bumerán</span></button>
+                    </div>
+                    <div id="modal-speed-buttons" role="group" aria-label="Velocidad" class="grid grid-cols-6 gap-1">
+                        <button type="button" data-velocidad="0.25" onclick="ponerVelocidadVisor(0.25)" class="visor-vel" aria-pressed="false" title="Supercámara lenta"><span class="hidden sm:inline" aria-hidden="true">🐌 </span>0,25×</button>
+                        <button type="button" data-velocidad="0.5" onclick="ponerVelocidadVisor(0.5)" class="visor-vel" aria-pressed="false" title="Cámara lenta"><span class="hidden sm:inline" aria-hidden="true">🐢 </span>0,5×</button>
+                        <button type="button" data-velocidad="1" onclick="ponerVelocidadVisor(1)" class="visor-vel" aria-pressed="true" title="Velocidad original"><span class="hidden sm:inline" aria-hidden="true">🦖 </span>1×</button>
+                        <button type="button" data-velocidad="1.5" onclick="ponerVelocidadVisor(1.5)" class="visor-vel" aria-pressed="false" title="Un poco más deprisa"><span class="hidden sm:inline" aria-hidden="true">🐇 </span>1,5×</button>
+                        <button type="button" data-velocidad="2" onclick="ponerVelocidadVisor(2)" class="visor-vel" aria-pressed="false" title="El doble de rápido"><span class="hidden sm:inline" aria-hidden="true">🚀 </span>2×</button>
+                        <button type="button" data-velocidad="3" onclick="ponerVelocidadVisor(3)" class="visor-vel" aria-pressed="false" title="Modo hiperactivo"><span class="hidden sm:inline" aria-hidden="true">⚡ </span>3×</button>
+                    </div>
+                </div>
+
+                <!-- Stickers arrastrables, «Sorpréndeme» y descarga -->
+                <div class="bg-white/95 p-3 sm:p-4 rounded-2xl border-2 border-nailong-yellow flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+                    <button type="button" onclick="sorprendeme()" class="clay-btn bg-nailong-yellow hover:bg-nailong-light text-amber-950 font-display font-bold px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Abrir un sticker animado al azar">
+                        <i class="fa-solid fa-shuffle"></i> ¡Sorpréndeme!
+                    </button>
 
                     <div class="flex items-center gap-1">
                         <span class="font-display font-bold text-xs sm:text-sm text-amber-950 mr-1 hidden sm:inline">✨ Stickers:</span>

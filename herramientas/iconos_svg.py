@@ -27,12 +27,12 @@ CACHE = os.path.join(tempfile.gettempdir(), f'nailong_fa_{VERSION}')
 INICIO = '/* ICONOS-INICIO (generado por herramientas/iconos_svg.py: no editar a mano) */'
 FIN = '/* ICONOS-FIN */'
 
-# (estilo, nombre): los 27 iconos que usan index.html y js/
+# (estilo, nombre): los iconos que usan index.html y js/ (31 desde el reproductor del Visor, VM1)
 ICONOS = [
     ('solid', n) for n in (
-        'arrow-down', 'arrow-left', 'arrow-right', 'arrow-up', 'bars', 'camera-retro', 'chevron-down',
+        'arrow-down', 'arrow-left', 'arrow-right', 'arrow-up', 'backward-step', 'bars', 'camera-retro', 'chevron-down',
         'chevron-left', 'chevron-right', 'cloud-arrow-down', 'cloud-arrow-up', 'compress', 'crosshairs',
-        'download', 'expand', 'eye-slash', 'link', 'play', 'qrcode', 'share-nodes', 'volume-high',
+        'download', 'expand', 'eye-slash', 'forward-step', 'link', 'pause', 'play', 'qrcode', 'share-nodes', 'shuffle', 'volume-high',
         'volume-xmark', 'wand-magic-sparkles', 'xmark')
 ] + [('regular', 'copy'), ('brands', 'android'), ('brands', 'whatsapp')]
 

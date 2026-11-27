@@ -142,8 +142,9 @@
                 }
             }
 
+            // VM2: cualquier cromo animado se puede abrir en el Visor Mágico
             const visorBtn = document.getElementById('lb-visor-btn');
-            if (visorBtn) visorBtn.style.display = featuredGifIndexOf(item) >= 0 ? 'inline-flex' : 'none';
+            if (visorBtn) visorBtn.style.display = esStickerAnimado(item) ? 'inline-flex' : 'none';
 
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -151,17 +152,11 @@
             abrirDialogo(modal);
         }
 
-        // Posición del sticker en el Visor Mágico (-1 si no es una de sus 9 escenas)
-        function featuredGifIndexOf(item) {
-            if (!item || item.customUrl) return -1;
-            return FEATURED_GIFS.findIndex(g => g.id === item.id);
-        }
-
         function openVisorFromLightbox() {
-            const idx = featuredGifIndexOf(displayedStickers[currentLightboxIndex]);
-            if (idx < 0) return;
+            const item = displayedStickers[currentLightboxIndex];
+            if (!esStickerAnimado(item)) return;
             closePhotoLightbox();
-            openMagicModal(idx);
+            abrirVisorConSticker(item);
         }
 
         function closePhotoLightbox() {
@@ -194,6 +189,9 @@
             }
             const modal = document.getElementById('magic-modal');
             if (modal && !modal.classList.contains('hidden') && modal.style.display !== 'none') {
+                if (teclaVisor(e)) return;
+                // En la barra de tiempo las flechas mueven la barra, no cambian de cromo
+                if (e.target && e.target.closest && e.target.closest('input, select, textarea')) return;
                 if (e.key === 'ArrowRight') nextMagicGif();
                 if (e.key === 'ArrowLeft') prevMagicGif();
             }
@@ -254,20 +252,20 @@
 
         function handleModalDownload(event) {
             if (event && event.preventDefault) event.preventDefault();
-            const gif = FEATURED_GIFS[currentModalGifIndex];
-            if (!gif) return;
-            const url = `Stickers Nailong/sticker_${gif.id}.webp`;
-            const filename = `nailong_animado_${gif.id}.webp`;
-            const title = `${gif.title} - Nailong`;
+            const s = stickerActualVisor();
+            if (!s) return;
+            const url = `Stickers Nailong/${s.file}`;
+            const filename = `nailong_animado_${s.id}.webp`;
+            const title = `${s.title} - Nailong`;
             openStickerOptionsModal(url, filename, title);
         }
 
         function shareCurrentModalStickerToWhatsApp() {
-            const gif = FEATURED_GIFS[currentModalGifIndex];
-            if (!gif) return;
-            const url = `Stickers Nailong/sticker_${gif.id}.webp`;
-            const filename = `nailong_animado_${gif.id}.webp`;
-            const title = `${gif.title} - Nailong`;
+            const s = stickerActualVisor();
+            if (!s) return;
+            const url = `Stickers Nailong/${s.file}`;
+            const filename = `nailong_animado_${s.id}.webp`;
+            const title = `${s.title} - Nailong`;
             shareStickerDirectToWhatsApp(url, filename, title);
         }
 

@@ -429,6 +429,48 @@ assert 'href="#android-app-banner"' in html and 'id="lb-visor-btn"' in html and 
 assert 'overflow-x: clip' in html and '@media (max-width: 359px)' in html, "Navbar overflow fix missing!"
 print("✔ v3.2.0 verified: GIF wall merged into stickers section (app banner, Visor strip, album), app button in nav, navbar fits narrow phones.")
 
+# Test 44 (ampliado, VM1-VM2 de la web 4.3.0): Visor Magico con reproductor propio en <canvas> (velocidad real, pausa, paso a paso,
+# marcha atras, bumeran y barra de tiempo) y abierto con cualquier sticker animado; titulos leidos de ALL_STICKERS
+_visor = open(os.path.join('js', '05-visor-magico.js'), encoding='utf-8').read()
+_alb = open(os.path.join('js', '06-album-y-descargas.js'), encoding='utf-8').read()
+for _fn in ('leerWebPAnimado', 'webpDeFotograma', 'decodificarFotograma', 'componerFotogramas', 'cargarEnReproductor', 'soltarVisor',
+            'reproducirVisor', 'pausarVisor', 'pasoFotogramaVisor', 'buscarFotogramaVisor', 'ponerVelocidadVisor',
+            'alternarMarchaAtrasVisor', 'alternarBumeranVisor', 'abrirVisorConSticker', 'sorprendeme', 'esStickerAnimado'):
+    assert f'function {_fn}(' in _visor, f"VM1/VM2: function {_fn} missing in js/05!"
+assert "tipo === 'ANMF'" in _visor and "(banderas & 1) === 1" in _visor and "(banderas & 2) === 0" in _visor, "VM1: the WebP reader must split ANMF frames and honour their disposal and blending bits!"
+assert 'resizeWidth' in _visor and 'new Image()' in _visor, "VM1: frames must be decoded at screen size, with an <img> fallback when createImageBitmap fails!"
+assert 'new ImageDecoder' not in html, "VM1: ImageDecoder (WebCodecs) is not proven on iPhone Safari: it cannot be the decoding path!"
+assert 'setModalSpeed' not in html and 'VISOR_BYTES_MAX' in _visor, "VM1: the fake CSS speed modes must be gone and frame memory must be capped!"
+assert "modal.addEventListener('close', () => soltarVisor())" in _visor and 'soltarVisor();' in js_function_body(_visor, 'closeMagicModal'), "VM1: closing the Visor (any way) must free the decoded frames!"
+assert 'prefersReducedMotion()' in js_function_body(_visor, 'cargarEnReproductor'), "VM1: with prefers-reduced-motion the Visor must start paused!"
+_vel = [float(v) for v in re.search(r'VISOR_VELOCIDADES = \[([^\]]+)\]', _visor).group(1).split(',')]
+assert _vel[0] == 0.25 and _vel[-1] == 3, "VM1: real speed must go from 0.25x to 3x!"
+assert sorted(float(v) for v in re.findall(r'data-velocidad="([\d.]+)"', page_html)) == sorted(_vel), "VM1: every speed in VISOR_VELOCIDADES needs its button (and only those)!"
+for _id in ('modal-player-canvas', 'visor-barra', 'visor-btn-play', 'visor-btn-reves', 'visor-btn-bumeran', 'modal-player-loading'):
+    assert f'id="{_id}"' in page_html, f"VM1: #{_id} missing in the Visor dialog!"
+assert re.search(r'id="visor-controles" data-no-swipe', page_html), "VM1: swiping over the player controls must not change sticker!"
+assert 'type="range" id="visor-barra"' in page_html, "VM1: the time bar must be a native range input!"
+_feat = _visor[_visor.index('const FEATURED_GIFS = ['):_visor.index('];', _visor.index('const FEATURED_GIFS = ['))]
+assert 'title:' not in _feat and 'desc:' not in _feat, "VM2: the Visor must not keep its own copies of titles and descriptions (read them from ALL_STICKERS)!"
+assert 's.title' in js_function_body(_visor, 'renderGifWall') and 's.desc' in js_function_body(_visor, 'mostrarEnVisor'), "VM2: titles and descriptions must come from ALL_STICKERS!"
+assert 'esStickerAnimado(item)' in _alb and 'abrirVisorConSticker(item)' in _alb and 'featuredGifIndexOf' not in html, "VM2: every animated sticker of the album must open in the Visor!"
+assert page_html.count('onclick="sorprendeme()"') >= 2, "VM2: «¡Sorpréndeme!» must be in the Visor strip and inside the Visor!"
+# El lector de js/05 da por hecho que cada fotograma lleva ALPH+VP8, VP8 o VP8L y que `frames` cuadra con el fichero
+_n_anim = 0
+for _s_id, _s_frames in re.findall(r"\{ id: (\d+),[^}]*?frames: (\d+),", open(os.path.join('js', '02-datos-stickers.js'), encoding='utf-8').read()):
+    _b = open(os.path.join('Stickers Nailong', f'sticker_{_s_id}.webp'), 'rb').read()
+    _p, _anmf = 12, []
+    while _p + 8 <= len(_b):
+        _cc, _sz = _b[_p:_p + 4], int.from_bytes(_b[_p + 4:_p + 8], 'little')
+        if _cc == b'ANMF':
+            _anmf.append(_b[_p + 24:_p + 28])
+        _p += 8 + _sz + (_sz & 1)
+    if int(_s_frames) > 1:
+        _n_anim += 1
+        assert len(_anmf) == int(_s_frames), f"VM1: sticker_{_s_id} says frames: {_s_frames} but has {len(_anmf)} ANMF frames!"
+        assert all(_c in (b'ALPH', b'VP8 ', b'VP8L') for _c in _anmf), f"VM1: sticker_{_s_id} has a frame the Visor reader cannot wrap!"
+print(f"✔ VM1-VM2 verified: own canvas player (0.25x-3x, pause, frame step, reverse, boomerang, time bar, memory freed on close) for the {_n_anim} animated stickers; titles from ALL_STICKERS.")
+
 # Test 45: v3.3.2 - version.json (lo lee la app para avisar de versiones nuevas) coincide con el APK publicado.
 # Desde D-27 (4.1.0) la web lleva su propia versión (pie): version.json solo sube cuando sube el APK, o la app pediría actualizar sin fin.
 with open('version.json', encoding='utf-8') as _vf:
