@@ -22,10 +22,10 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 - **Nailong en 3D:** Gíralo, acércate y hazle cosquillas: su pancita rebota, saluda, baila, se sorprende y hasta se echa la siesta. Ponle sus caritas de la serie, elige estilo sticker o dibujo animado, guarda una foto, crea tu sticker 3D o descárgate el modelo.
 - **Colección Oficial de 126 Stickers:** Catálogo completo de 126 cromos auténticos clasificados por emociones, listos para explorar a pantalla completa, descargar o copiar.
 - **App Android Oficial para WhatsApp:** Añade los 5 packs completos a tu WhatsApp con un solo toque o arma tus propios paquetes personalizados con «Mi Selección».
-- **Visor Mágico de Animaciones:** Tira deslizable con 9 escenas animadas en bucle, control de velocidad y pegatinas interactivas que puedes mover por la pantalla.
-- **Tráiler Oficial de Lanzamiento:** Vídeo animado en alta definición a 60 fps con banda sonora original, físicas elásticas y efecto de luz ambiental.
-- **Botonera Musical:** 12 sonidos divertidos de caricatura (risas, sorbos, maracas, confeti y trompetas) para tocar como si fuera un piano de dibujos animados.
-- **Laboratorio de Superpoderes:** Cambia el tamaño de Nailong, vístelo con 6 disfraces mágicos (pirata, astronauta, chef...), activa la lluvia de alitas crujientes o hazlo flotar en gravedad cero.
+- **Visor Mágico de Animaciones:** Abre cualquier sticker animado y míralo a cámara lenta, a toda pastilla, al revés o fotograma a fotograma. Y con «Crea tu sticker» te haces el tuyo con texto y emojis.
+- **Nuestro Tráiler:** Vídeo animado a 60 fps con banda sonora original y luz ambiental; en el ordenador se ve en horizontal y en el móvil, en vertical.
+- **Botonera Musical:** 12 sonidos distintos de dibujos animados (gritos, bostezos, carcajadas, llantos, palmas y más) para tocar como un piano.
+- **Laboratorio de Superpoderes:** Cambia el tamaño de Nailong, vístelo con 6 disfraces (león, cocodrilo, gafas de fiesta...), activa la lluvia de alitas crujientes o hazlo flotar en gravedad cero.
 - **Minijuego "La Gran Comilona":** Juego arcade retro en pantalla completa donde manejas a Nailong para atrapar comida deliciosa y esquivar obstáculos.
 - **Rincón del Creador:** Espacio especial con dedicatoria y foto junto a Nailong, con subida de fotos propia para guardar tus recuerdos.
 
@@ -43,15 +43,15 @@ Sitio web interactivo, animado y lleno de diversión dedicado a **Nailong**, el 
 
 ---
 
-## ✨ Novedades de la Versión (v4.2.0)
+## ✨ Novedades de la Versión (v4.3.0)
 
-*¡Una web más ligera y un Nailong 3D más suave en el móvil!*
+*¡Crea tus propios stickers y conoce de verdad a Nailong y sus amigos!*
 
-- **La web abre mucho más rápido:** Al entrar descarga tres veces menos imágenes, y los iconos y los códigos QR ya vienen incluidos, sin esperar a otras webs.
-- **Nailong 3D aún más fiel:** Ahora tiene menos frente, igualito que en la serie.
-- **Nailong 3D más suave en el móvil:** Gasta menos batería cuando lo dejas tranquilo, se enciende antes la segunda vez y ya no se para al cambiar a «Dibujo animado».
-- **Tráiler al día:** Presume de una colección que ya pasa de 120 y enseña los 5 packs de la app.
-- **La app Android sigue igual:** No hace falta actualizarla; mantiene sus 5 packs oficiales.
+- **Crea tu sticker:** Elige un trocito de cualquier sticker animado, ponle texto y emojis y mándalo a WhatsApp.
+- **Visor Mágico de verdad:** Cámara lenta, turbo, pausa, al revés y bumerán con cualquier sticker animado del álbum.
+- **Cada sticker con su historia:** Hemos repasado los textos uno a uno para que cuenten lo que pasa de verdad, y conocerás a Xiao Qi, su mejor amigo, y al Bombloong de verdad, el dragón azul.
+- **Tráiler en panorámico y botonera nueva:** En el ordenador el tráiler se ve en horizontal, y la botonera estrena 12 sonidos distintos.
+- **La app Android sigue igual:** No hace falta actualizarla; mantiene sus 5 packs.
 
 > 📖 **Historial completo de versiones:**
 > 👉 ¿Quieres ver el historial completo de cambios y detalles técnicos? Consulta el [**CHANGELOG.md**](CHANGELOG.md).
