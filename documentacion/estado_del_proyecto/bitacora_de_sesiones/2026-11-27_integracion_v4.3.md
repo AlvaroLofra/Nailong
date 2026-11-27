@@ -46,7 +46,10 @@
 ## 4. Verificación
 
 - `py -3 verify_all.py` en `main` tras cada fusión y con la versión 4.3.0: **55 de 55 en verde**.
-- **No comprobado en esta sesión:** el navegador con todo integrado. Se pidió a la sesión del visor que lo revise. Tampoco se han comprobado los móviles reales, WhatsApp real ni cómo suenan los sonidos nuevos (ver `ESTADO_ACTUAL.md` §4).
+- **Revisión en el navegador con todo integrado** (la hizo la sesión del visor sobre `b761f0b`, en Chrome a 320, 375 y 1.366–1.536 px):
+  - Revisado: la versión en el pie y los 13 `?v=4.3.0`, el Visor, «Crea tu sticker», el tráiler en horizontal y en vertical, la botonera, el hero, Bombloong desde el #117 y «Nuestro tráiler». Sin desbordes ni errores de consola.
+  - Encontró un fallo que ya existía: en la reserva CSS de la pantalla completa del tráiler no había forma de salir. Se arregló en `893de4e` y se fusionó en `9b87958`, y `af80de6` lo añade al `CHANGELOG.md`. Suite: 55 de 55.
+- **No comprobado:** los móviles reales, WhatsApp real y cómo suenan los sonidos nuevos (ver `ESTADO_ACTUAL.md` §4).
 
 ## 5. Qué queda
 
