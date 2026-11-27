@@ -23,6 +23,9 @@
 | W36 | `og:image` y `twitter:image` con URL relativa: muchos servicios piden una absoluta para la vista previa al compartir. | No comprobado. | Bajo |
 | W37 | Copias reducidas `mini/<clave>.webp` para los 12 cromos de la botonera (pesan ~3,3 MB). | Como `W33`. | Bajo |
 | T3 | #30 (lata de cerveza de una marca real, edición de fans): el usuario lo dejó de momento con texto neutro. | Decidir si se queda en la colección. | Bajo |
+| DA2 | Poner el `poster` de la demo de la app desde `js/10` al acercarse al banner: hoy la portada (42 KB) se descarga al abrir la página aunque el banner no se vea. | Bitácora `2026-11-27_demo_app_banner.md` §5. | Bajo |
+| DA3 | Borrar `abrirTrailer()` de `js/10` si no vuelve a usarse: desde la reorganización del banner ya no la llama ningún enlace. | Código muerto. | Bajo |
+| W38 | La tira del Visor Mágico (`#gif-wall-grid`) sobresale 4 px a 320 px; no se ve porque `overflow-x: clip` la recorta. | Ya pasaba antes de la 4.3.0. | Bajo |
 
 ## Web
 

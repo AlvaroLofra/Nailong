@@ -51,7 +51,28 @@
   - Encontró un fallo que ya existía: en la reserva CSS de la pantalla completa del tráiler no había forma de salir. Se arregló en `893de4e` y se fusionó en `9b87958`, y `af80de6` lo añade al `CHANGELOG.md`. Suite: 55 de 55.
 - **No comprobado:** los móviles reales, WhatsApp real y cómo suenan los sonidos nuevos (ver `ESTADO_ACTUAL.md` §4).
 
-## 5. Qué queda
+## 5. Cierre: demo de la app, récord del minijuego y app 4.0.1
 
-- **Publicar:** `git push` solo cuando el usuario lo apruebe. La vuelta atrás es `git revert`, y lo publicado antes es `618b225`.
+- **Demo animada de la app (`DA1`)**, sesión `demo-app-banner`, rama `claude/demo-app-banner-83cede`. Detalle en su bitácora `2026-11-27_demo_app_banner.md`.
+  - Contenido: demo simulada con HyperFrames en el banner, arreglo del botón cortado de la app (app 4.0.1, aprobado por el usuario en esa sesión) y test 56.
+  - Reorganización a petición del usuario: «el vídeo de donde la app sea el de la demo, y el general esté cerca pero separado».
+  - Commits `a07bf0a` (código) y `f05a6f9` (documentación). Los hizo la sesión principal: a la sesión de la demo el sistema de permisos le bloqueó el commit porque la autorización le llegó a través de otra sesión. El usuario había pedido aquí «déjalo todo unificado en cuanto a ramas y preparado».
+  - Fusión `6667879`, sin conflictos.
+- **Récord del minijuego**, sesión «Minijuego: highscore local y mejoras», que trabajó en `main` sin rama. La sesión principal hizo el commit (`5c0b3a5`) antes de la fusión de la demo, porque las dos tocaban `index.html` y `js/10`. Esa sesión probó el récord en el navegador; las mejoras que propuso para el minijuego quedan para otra versión, si el usuario las aprueba.
+- **Documentación:**
+  - `CHANGELOG.md`: demo, reorganización, récord, app 4.0.1 y 56 comprobaciones.
+  - `README.md`: demo, app 4.0.1 y récord.
+  - `ESTADO_ACTUAL.md`: cabecera, versiones, filas nuevas y §3–§5. La línea de la 4.2 deja de dar una cifra de tests que no le corresponde.
+  - `MEJORAS_PENDIENTES.md`: `DA2`, `DA3` y `W38`.
+  - `AGENTS.md`: ruta del código Android.
+- **Ramas:** se borran las ramas y *worktrees* ya fusionados de esta versión (`textos-4-3`, `visor-botonera-4-3`). La de la demo se borra cuando el usuario archive su sesión. Las ramas antiguas del 3D y de Antigravity (`swarm-*`, `nailong-3d-fiel`, `nailong3d-frente`, `docs/adopcion-pautas-centrales`) no se tocan.
+
+## 6. Qué queda
+
+- **Publicar:** `git push` solo cuando el usuario lo apruebe.
+  - Publica la web 4.3.0 y la app 4.0.1. Al publicarse `version.json`, las apps instaladas avisarán de la actualización.
+  - La vuelta atrás es `git revert`; lo publicado antes es `618b225`.
+- **Probar en móviles reales:**
+  - La demo, «Crea tu sticker», la app 4.0.1 y el récord.
+  - Escuchar la botonera.
 - **`B3`:** espera a los episodios que descargue el usuario.

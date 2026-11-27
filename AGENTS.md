@@ -22,7 +22,7 @@ El usuario dirige el desarrollo con agentes y no programa a mano: responde en **
 | **Verificación completa (cambios medios/grandes; ver «Proporcionalidad»)** | `python verify_all.py` (debe terminar sin error; el nº de comprobaciones está en `ESTADO_ACTUAL.md`) |
 | Normalizar / comprobar stickers | `python normalizar_stickers.py --check` |
 | Separar descargas nuevas de repetidas | `python normalizar_stickers.py --clasificar CARPETA` (nota técnica 02 §5) |
-| Recompilar el APK | Ver `documentacion/guias_y_contexto/GUIA_DESARROLLO.md` (el código Android vive fuera de este repo) |
+| Recompilar el APK | Ver `documentacion/guias_y_contexto/GUIA_DESARROLLO.md` (el código Android vive fuera de este repo, en `C:\src\nailong_stickers_app`; en otra ruta, variable `NAILONG_ANDROID_SRC`) |
 
 ## Mapa del repositorio
 ```text
