@@ -10,7 +10,7 @@
 
 ## 1. En una Frase
 
-La web está en **v4.3.0** (integrada en `main`, sin publicar) y la app Android nativa en **v4.0.0** (`versionCode 16`), con **126 cromos oficiales** (97 animados en 4 packs 24/24/24/25 + 29 estáticos en 1 pack = 5 packs oficiales) cuyos textos se revisaron uno a uno con sus fotogramas; el lore de la web sale de un documento con fuentes; el **Visor Mágico** reproduce cualquier sticker animado con velocidad real (0,25×–3×), pausa, al revés y bumerán y permite **crear un sticker de WhatsApp** propio; el tráiler se ve en horizontal en pantallas anchas; la **botonera** tiene 12 sonidos sintetizados distintos. `verify_all.py` tiene **55 comprobaciones** y termina en verde (`55 VERIFICATION TESTS PASSED`); en equipos sin el código de la app Android declara «no comprobada» la parte Android de 5 de ellas.
+La web está en **v4.3.0** (integrada en `main`, sin publicar) y la app Android nativa en **v4.0.0** (`versionCode 16`), con **126 cromos oficiales** (97 animados en 4 packs 24/24/24/25 + 29 estáticos en 1 pack = 5 packs oficiales) cuyos textos se revisaron uno a uno con sus fotogramas; el lore de la web sale de un documento con fuentes; el **Visor Mágico** reproduce cualquier sticker animado con velocidad real (0,25×–3×), pausa, al revés y bumerán y permite **crear un sticker de WhatsApp** propio; el tráiler se ve en horizontal en pantallas anchas; la **botonera** tiene 12 sonidos sintetizados distintos. `verify_all.py` tiene **56 comprobaciones** y termina en verde (`55 VERIFICATION TESTS PASSED`); en equipos sin el código de la app Android declara «no comprobada» la parte Android de 5 de ellas.
 
 ---
 
@@ -43,7 +43,7 @@ La web está en **v4.3.0** (integrada en `main`, sin publicar) y la app Android 
 | **Botonera de sonidos sintetizados (`B1`, 4.3.0)** | 12 botones con **12 sonidos distintos** en 3 grupos de 4 (voces, risas y llantos, efectos), por clave y con el título de su cromo; 9 sonidos nuevos con Web Audio (opción `B2`-B: sin clips reales). Volumen medio (RMS) 0,032–0,066 y 0,5–1,9 s, medidos sin altavoces. Antes eran 8 sonidos distintos, no 12. |
 | **Visor Mágico (`VM1`–`VM3`, 4.3.0)** | Reproductor propio en `<canvas>` sin librerías (`js/05`): velocidad real medida (3× → 45,5 fps en el #17), pausa, paso a paso, al revés, bumerán y barra de tiempo; fotogramas idénticos píxel a píxel a Pillow en #2, #28 y #33; memoria ≤ 48 MB (32 MB en móviles) y liberada al cerrar. Abre los 97 animados del álbum y «¡Sorpréndeme!». «Crea tu sticker»: WebP animado 512×512 con EXIF de WhatsApp, ≤ 500 KB y ≤ 10 s (0 problemas con `normalizar_stickers.problems()`); en Safari, PNG fijo. |
 | **Lore y textos (`T1`, `T2`, 4.3.0)** | `documentacion/guias_y_contexto/LORE_NAILONG.md`: fuente única del lore, con cada dato etiquetado por tipo de fuente. Revisión de los 126 textos con fotogramas en `notas_tecnicas/07_revision_textos_stickers.md` (`revision.json` + tiras, ~2,4 MB): 21 OK, 93 retocados, 10 reescritos, 2 con el personaje equivocado. |
-| **Suite de pruebas automatizadas (`verify_all.py`)** | **55 comprobaciones** en verde el 27/11/2026 en `main` con la 4.3.0 integrada (adaptadas en la 4.3.0: 40 versión, 47 tráiler horizontal, 51 claves y 53 copias reducidas). Si falta el código de la app Android (`NAILONG_ANDROID_SRC`), la parte Android de los tests 43, 45, 47, 48 y 50 se declara como **NO COMPROBADO**. En este equipo se ejecuta con `py -3 verify_all.py`. |
+| **Suite de pruebas automatizadas (`verify_all.py`)** | **56 comprobaciones** en verde el 27/11/2026 en `main` con la 4.3.0 integrada (adaptadas en la 4.3.0: 40 versión, 47 tráiler horizontal, 51 claves y 53 copias reducidas). Si falta el código de la app Android (`NAILONG_ANDROID_SRC`), la parte Android de los tests 43, 45, 47, 48 y 50 se declara como **NO COMPROBADO**. En este equipo se ejecuta con `py -3 verify_all.py`. |
 | **Auditoría de stickers (`normalizar_stickers.py --check`)** | **0 problemas en los 126 stickers (100 % conformes con WhatsApp)**; distancia visual mínima en `1..126` = `21.46` (0 pares `< 20`). |
 
 ---
@@ -57,7 +57,7 @@ La web está en **v4.3.0** (integrada en `main`, sin publicar) y la app Android 
   - **`3D14`–`3D16`:** sin sombra en tiempo real y ~30 fps en reposo en calidad «baja», malla en IndexedDB y *shaders* preparados al encender (D-30); en «alta», 24 vistas y 12 primeros planos de los ojos idénticos píxel a píxel a la 4.1.0.
   - **`3D18`:** frente corta (D-29), integrada desde la rama `claude/nailong3d-frente-631431`.
   - **Tráiler** con «+120» en vez de «96» y los 5 packs sin cifras; **limpieza `L3`** (−37 MB).
-  - **Verificación:** `py -3 verify_all.py` → **55 comprobaciones en verde**; `evaluar_3d.py --etiqueta v4.2_integrada --expresiones --cara` → 21/21, 6/6, 24 vistas, 0 errores de consola/WebGL.
+  - **Verificación:** `py -3 verify_all.py` → **56 comprobaciones en verde**; `evaluar_3d.py --etiqueta v4.2_integrada --expresiones --cara` → 21/21, 6/6, 24 vistas, 0 errores de consola/WebGL.
 - [x] **Sesión del 25/11/2026, primera parte:** cara «V1 afinada», ojos «lente» (`3D13`, D-28) y web 4.1.0 (D-27).
 - [x] **Sesión del 24/11/2026 (parte 5 · Claude Code):** `W31`, D-26 y `3D12`.
 - [x] **Sesión del 24/11/2026 (parte 4 · Swarm 3D + Web):** `3D5`–`3D10` (`21/21 OK`), `3D3` y `W21`–`W25`, `W27`, `W28`, `W30`.

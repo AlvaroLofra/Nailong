@@ -597,6 +597,49 @@
             max-height: 94vh !important;
         }
 
+        /* DA1 · Demo animada de la app en el banner (#apk-demo): marco de móvil solo con CSS y hueco reservado
+           con aspect-ratio (pantalla 9:20, como el vídeo) para que no salte nada al cargar */
+        .apk-demo { display: flex; flex-direction: column; align-items: center; gap: 0.55rem; margin: 0; flex-shrink: 0; text-align: center; }
+        .apk-demo-movil {
+            position: relative; width: 9.5rem; padding: 6px; border-radius: 1.6rem; background: #1F2937;
+            box-shadow: 0 7px 0 rgba(217, 119, 6, 0.35), 0 14px 26px -6px rgba(120, 53, 15, 0.35), inset 0 2px 3px rgba(255, 255, 255, 0.22);
+        }
+        .apk-demo-movil::before {   /* cámara perforada, en el centro de la barra de estado del vídeo */
+            content: ""; position: absolute; z-index: 3; left: 50%; top: calc(6px + (100% - 12px) * 0.015 - 3px);
+            width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: #0B0F17; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+        }
+        .apk-demo-movil::after {    /* botón de encendido */
+            content: ""; position: absolute; right: -3px; top: 24%; width: 3px; height: 2.4rem; border-radius: 0 3px 3px 0; background: #374151;
+        }
+        .apk-demo-pantalla { position: relative; aspect-ratio: 9 / 20; border-radius: 1.15rem; overflow: hidden; background: #FFFDF0; }
+        .apk-demo-pantalla video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+        .apk-demo-btn {
+            position: absolute; z-index: 2; left: 50%; top: 50%; width: 3.25rem; height: 3.25rem; margin: -1.625rem 0 0 -1.625rem;
+            display: flex; align-items: center; justify-content: center; border-radius: 9999px; font-size: 1.25rem;
+            background: rgba(255, 159, 28, 0.95); color: #451A03; border: 3px solid #FFFFFF; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s var(--spring), opacity 0.2s;
+        }
+        .apk-demo-btn:hover { transform: scale(1.08); }
+        .apk-demo-btn:focus-visible { outline: 3px solid #C2410C; outline-offset: 2px; }
+        .apk-demo-btn .apk-demo-icono-pausa { display: none; }
+        /* Mientras suena, el botón se hace pequeño en una esquina y pasa a «pausa» (siempre se puede parar, WCAG 2.2.2) */
+        .apk-demo-sonando .apk-demo-btn {
+            left: auto; top: auto; right: 0.45rem; bottom: 0.45rem; margin: 0; width: 2.75rem; height: 2.75rem; font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.85); border-width: 2px; border-color: #FF9F1C; opacity: 0.85;
+        }
+        .apk-demo-sonando .apk-demo-btn .apk-demo-icono-play { display: none; }
+        .apk-demo-sonando .apk-demo-btn .apk-demo-icono-pausa { display: inline-block; }
+        .apk-demo-rotulo { font-size: 0.85rem; line-height: 1.25; }
+        @media (min-width: 768px) {
+            .apk-demo-movil { width: 10rem; }
+        }
+        @media (min-width: 1024px) {
+            .apk-demo-movil { width: 11.5rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .apk-demo-btn, .apk-demo-btn:hover { transition: none; transform: none; }
+        }
+
         /* ---------- Nailong 3D (sección #nailong-3d, js/11 a js/14, visible para todos) ---------- */
         .n3d-seccion.clay-card:hover { transform: none; }
         .n3d-visor { touch-action: pan-y; -webkit-user-select: none; user-select: none; isolation: isolate; }

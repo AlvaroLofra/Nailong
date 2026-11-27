@@ -459,8 +459,8 @@
                 </p>
             </div>
 
-            <!-- App y tráiler (el tráiler va plegado) -->
-            <div class="max-w-4xl mx-auto space-y-4 sm:space-y-5">
+            <!-- App: su único vídeo es la demo animada (DA1); el tráiler general va en su propio bloque, debajo -->
+            <div class="max-w-4xl mx-auto">
             <!-- BANNER DESTACADO APP OFICIAL ANDROID (.APK) -->
             <div id="android-app-banner" class="clay-card bg-gradient-to-r from-amber-50 via-yellow-100 to-orange-50 border-3 border-amber-400 p-4 sm:p-7 w-full shadow-md reveal-item">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-5 text-left">
@@ -472,7 +472,7 @@
                                     🚀 App Android
                                 </span>
                                 <span id="apk-version-badge" class="text-[10px] sm:text-xs font-bold bg-amber-200/90 text-amber-950 px-2 sm:px-2.5 py-0.5 rounded-full border border-amber-400">
-                                    v4.0.0 APK
+                                    v4.0.1 APK
                                 </span>
                             </div>
                             <h3 class="font-display font-bold text-lg sm:text-2xl text-amber-950 leading-tight">
@@ -489,15 +489,32 @@
                             </details>
                         </div>
                     </div>
+                    <!-- DA1: demo animada de la app (HyperFrames, video-promo/app-demo/) dentro de un marco de móvil hecho con CSS.
+                         Sin autoplay: js/10 (setupAppDemo) la reproduce solo mientras se ve; en el móvil y con «reducir movimiento», al tocarla.
+                         Móvil: debajo de los botones (el de descarga queda a la vista); ordenador: a la izquierda del texto -->
+                    <figure id="apk-demo" class="apk-demo order-last md:order-first">
+                        <div class="apk-demo-movil">
+                            <div class="apk-demo-pantalla">
+                                <video id="apk-demo-video" src="video-promo/nailong_app_demo.mp4" poster="video-promo/nailong_app_demo_portada.webp" width="432" height="960" muted loop playsinline preload="none" disablepictureinpicture aria-label="Demo animada de la app: se abre un pack, se eligen 3 stickers para «Mi Selección», se importan y WhatsApp los añade"></video>
+                                <button type="button" id="apk-demo-btn" class="apk-demo-btn" aria-label="Reproducir la demo animada"><i class="fa-solid fa-play apk-demo-icono-play" aria-hidden="true"></i><i class="fa-solid fa-pause apk-demo-icono-pausa" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <figcaption class="apk-demo-rotulo">
+                            <span class="font-display font-bold text-amber-950">Así funciona la app</span>
+                            <span class="block text-[11px] font-semibold text-amber-900/80">Demo animada, no es una grabación</span>
+                        </figcaption>
+                    </figure>
                     <div class="grid grid-cols-2 sm:flex sm:flex-row sm:flex-wrap sm:justify-center md:flex-col md:flex-nowrap items-stretch gap-2 sm:gap-3 w-full md:w-auto flex-shrink-0">
                         <a href="StickersNailong.apk" download="StickersNailong.apk" class="col-span-2 clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-emerald-700 to-[#15803D] hover:from-emerald-800 hover:to-emerald-700 text-white font-display font-bold text-base sm:text-lg px-5 sm:px-6 py-3 sm:py-3.5 rounded-2xl shadow-lg border-2 border-emerald-300 transition-all hover:scale-105 active:scale-95">
                             <i class="fa-brands fa-android text-2xl"></i>
                             <span>Descargar APK (<span id="apk-size-label">42 MB</span>)</span>
                         </a>
-                        <a href="#video-promo-section" onclick="abrirTrailer()" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-nailong-orange hover:from-amber-500 hover:to-orange-400 text-amber-950 font-display font-bold text-sm sm:text-lg px-3 sm:px-5 py-2.5 sm:py-3.5 rounded-2xl shadow-lg border-2 border-amber-300 transition-all hover:scale-105 active:scale-95">
+                        <!-- DA1: el vídeo de la app es la demo. En el móvil la demo queda debajo de los botones: este botón la enseña y la pone
+                             (js/10, setupAppDemo). En el ordenador se ve al lado, así que se oculta. El tráiler general va aparte, debajo del banner -->
+                        <button type="button" id="apk-demo-ver" class="md:hidden clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-nailong-orange hover:from-amber-500 hover:to-orange-400 text-amber-950 font-display font-bold text-sm sm:text-lg px-3 sm:px-5 py-2.5 sm:py-3.5 rounded-2xl shadow-lg border-2 border-amber-300 transition-all hover:scale-105 active:scale-95" aria-controls="apk-demo">
                             <i class="fa-solid fa-play text-base sm:text-xl"></i>
-                            <span>Tráiler 🎬</span>
-                        </a>
+                            <span>Ver la demo</span>
+                        </button>
                         <button type="button" id="apk-copy-link-btn" class="clay-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-amber-50 text-amber-950 font-display font-bold text-sm px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl shadow border-2 border-amber-300 transition-all hover:scale-105 active:scale-95" aria-label="Copiar el enlace de la app para compartirlo">
                             <i class="fa-solid fa-link"></i>
                             <span id="apk-copy-link-text">Copiar enlace</span>
@@ -516,9 +533,17 @@
                     </div>
                 </div>
             </div>
+            </div>
 
-            <!-- TRÁILER OFICIAL DE LANZAMIENTO - HyperFrames (plegado: se despliega al tocarlo) -->
-            <details id="video-promo-section" class="clay-card bg-gradient-to-br from-amber-50 via-yellow-100 to-orange-100 border-3 border-nailong-orange p-3 sm:p-5 w-full shadow-md reveal-item scroll-mt-24">
+            <!-- TRÁILER GENERAL DE LA WEB - HyperFrames (plegado: se despliega al tocarlo). Bloque propio, separado del banner de
+                 la app con un separador y otro color (cielo) para que no parezca parte de la descarga (DA1) -->
+            <div class="max-w-4xl mx-auto space-y-3 sm:space-y-4">
+            <p class="flex items-center gap-3 text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider text-amber-900/75">
+                <span class="flex-1 border-t-2 border-dashed border-amber-300" aria-hidden="true"></span>
+                <span>Y además</span>
+                <span class="flex-1 border-t-2 border-dashed border-amber-300" aria-hidden="true"></span>
+            </p>
+            <details id="video-promo-section" class="clay-card bg-gradient-to-br from-sky-50 via-white to-amber-50 border-3 border-sky-300 p-3 sm:p-5 w-full shadow-md reveal-item scroll-mt-24">
                 <summary class="trailer-resumen cursor-pointer flex items-center gap-3 sm:gap-4 select-none">
                     <span class="trailer-cerrado relative w-12 h-20 sm:w-14 sm:h-24 shrink-0 rounded-xl overflow-hidden border-2 border-white shadow-md bg-black">
                         <img id="trailer-miniatura" src="video-promo/nailong_trailer_v2_portada.webp" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">

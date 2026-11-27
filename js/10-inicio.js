@@ -153,6 +153,7 @@
         function setupAppBanner() {
             const copyBtn = document.getElementById('apk-copy-link-btn');
             if (copyBtn) copyBtn.addEventListener('click', shareAppLink);
+            setupAppDemo();
             // Con file:// fetch falla: se queda el texto fijo del HTML y el bloque de novedades oculto
             fetch('version.json', { cache: 'no-cache' })
                 .then(r => r.ok ? r.json() : Promise.reject(r.status))
@@ -171,6 +172,59 @@
                     box.classList.remove('hidden');
                 })
                 .catch(() => {});
+        }
+
+        // DA1: demo animada de la app en el banner (#apk-demo). El vídeo no lleva autoplay ni se descarga al abrir
+        // la página (preload="none"): en el ordenador empieza, sin sonido, cuando el banner se ve y se pausa al salir;
+        // en el móvil (ahorra datos) y con «reducir movimiento» enseña la portada y espera a que la toquen.
+        // Siempre hay un botón para pausarla.
+        const APP_DEMO_SOLO_AL_TOCAR = '(max-width: 767px), (prefers-reduced-motion: reduce)';
+
+        function setupAppDemo() {
+            const caja = document.getElementById('apk-demo');
+            const video = document.getElementById('apk-demo-video');
+            const boton = document.getElementById('apk-demo-btn');
+            if (!caja || !video || !boton) return;
+            let quiereSonar = !(window.matchMedia && window.matchMedia(APP_DEMO_SOLO_AL_TOCAR).matches);
+            let enPantalla = false;
+            const pintar = () => {
+                const sonando = !video.paused;
+                caja.classList.toggle('apk-demo-sonando', sonando);
+                boton.setAttribute('aria-label', sonando ? 'Pausar la demo animada' : 'Reproducir la demo animada');
+            };
+            const decidir = () => {
+                if (quiereSonar && enPantalla && !document.hidden) {
+                    const p = video.play();
+                    if (p && p.catch) p.catch(() => {});   // si el navegador lo impide, se queda la portada con el botón
+                } else if (!video.paused) {
+                    video.pause();
+                }
+            };
+            const alternar = () => {
+                quiereSonar = video.paused;
+                if (quiereSonar) enPantalla = true;   // quien la toca la está viendo
+                decidir();
+            };
+            video.addEventListener('play', pintar);
+            video.addEventListener('pause', pintar);
+            boton.addEventListener('click', alternar);
+            video.addEventListener('click', alternar);
+            // «Ver la demo» (solo en el móvil, donde la demo queda debajo de los botones): la trae a la vista y la pone
+            const ver = document.getElementById('apk-demo-ver');
+            if (ver) ver.addEventListener('click', () => {
+                const quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                caja.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'center' });
+                if (video.paused) alternar();
+                boton.focus({ preventScroll: true });
+            });
+            document.addEventListener('visibilitychange', decidir);
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver((entradas) => {
+                    enPantalla = entradas[entradas.length - 1].isIntersecting;
+                    decidir();
+                }, { threshold: 0.4 }).observe(video);
+            }
+            pintar();
         }
 
         // W34: el QR (#apk-qr-img) es un SVG fijo dentro de index.html (herramientas/generar_qr.py), sin red
