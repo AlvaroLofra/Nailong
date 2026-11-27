@@ -1,0 +1,529 @@
+<!doctype html>
+<html>
+<body>
+  <template>
+    <style>
+      /* Fredoka: la fuente de la app (res/font). Medidas en dp: 1 px de CSS = 1 dp; #escala lo lleva a 864 × 1920. */
+      @font-face { font-family: "FredokaApp"; src: url("assets/fonts/fredoka_regular.ttf"); font-weight: 400; }
+      @font-face { font-family: "FredokaApp"; src: url("assets/fonts/fredoka_medium.ttf"); font-weight: 500; }
+      @font-face { font-family: "FredokaApp"; src: url("assets/fonts/fredoka_semibold.ttf"); font-weight: 600; }
+      @font-face { font-family: "FredokaApp"; src: url("assets/fonts/fredoka_bold.ttf"); font-weight: 700; }
+      #root {
+        position: absolute; inset: 0; overflow: hidden; background: #FFFDF0;
+        /* Colores de la app (res/values/colors.xml) */
+        --fondo: #FFFDF0; --amarillo: #FFD93D; --crema-amarilla: #FDE68A; --amarillo-claro: #FEF9C3;
+        --borde-amarillo: #FDE047; --naranja: #EA580C; --ambar: #F59E0B; --marron: #78350F;
+        --texto: #1F2937; --gris: #6B7280; --verde: #25D366;
+      }
+      #escala { position: absolute; left: 0; top: 0; width: 360px; height: 800px; overflow: hidden; transform: scale(2.4); transform-origin: 0 0; }
+      #camara { position: absolute; left: 0; top: 0; width: 360px; height: 800px; overflow: hidden; background: var(--fondo);
+        font-family: "FredokaApp", sans-serif; color: var(--texto); }
+      .pantalla { position: absolute; left: 0; top: 0; width: 360px; height: 800px; overflow: hidden; background: var(--fondo); }
+      .abs { position: absolute; }
+      .neg { font-weight: 700; }
+      .icono { display: block; }
+
+      /* Barra de estado (colorPrimaryDark) con el rótulo de demo en lugar de la hora */
+      #estado { position: absolute; left: 0; top: 0; width: 360px; height: 24px; background: var(--ambar); z-index: 50;
+        display: flex; align-items: center; justify-content: space-between; padding: 0 14px; color: #fff; font-size: 12px; font-weight: 700; }
+      #estado-iconos { display: flex; align-items: center; gap: 6px; }
+      #gestos { position: absolute; left: 0; top: 776px; width: 360px; height: 24px; z-index: 50; background: var(--fondo); }
+      #gestos-asa { position: absolute; left: 144px; top: 10px; width: 72px; height: 4px; border-radius: 2px; background: rgba(31, 41, 55, 0.55); }
+
+      /* ---------- Lista de packs (activity_sticker_pack_list.xml) ---------- */
+      #lista-cabecera { left: 0; top: 24px; width: 360px; height: 72px; background: var(--amarillo); padding: 12px 16px;
+        display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18); z-index: 2; }
+      #lista-cabecera img { width: 48px; height: 48px; }
+      .cab-textos { margin-left: 12px; color: var(--marron); }
+      .cab-titulo { font-size: 20px; font-weight: 700; line-height: 26px; }
+      .cab-sub { font-size: 12px; line-height: 16px; }
+
+      .sel { left: 14px; width: 332px; top: 108px; border-radius: 20px; padding: 16px; border: 2px solid var(--ambar);
+        background: linear-gradient(45deg, #FEF9C3, #FEF08A); box-shadow: 0 3px 5px rgba(120, 53, 15, 0.16); }
+      #sel-vacia { height: 120px; }
+      #sel-llena { height: 208px; opacity: 0; }
+      .sel-fila { display: flex; align-items: center; height: 26px; }
+      .sel-titulo { flex: 1; font-size: 18px; font-weight: 700; color: var(--marron); }
+      .insignia { background: var(--amarillo); border: 1.5px solid var(--ambar); border-radius: 24px; padding: 3px 12px;
+        font-size: 13px; font-weight: 700; color: var(--marron); line-height: 17px; }
+      .sel-pista { margin-top: 8px; font-size: 13px; line-height: 18px; color: var(--texto); }
+      #sel-vacia .sel-pista { height: 54px; }
+      #sel-llena .sel-pista { height: 36px; }
+      .sel-acciones { margin-top: 12px; }
+      .sel-botones { display: flex; gap: 12px; height: 42px; }
+      .btn { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; font-weight: 700; white-space: nowrap; }
+      .btn-peligro { flex: 1; background: #FEE2E2; border: 1.5px solid #DC2626; border-radius: 20px; color: #B91C1C; font-size: 13px; }
+      .btn-crema { flex: 1.2; background: var(--fondo); border: 1.5px solid var(--ambar); border-radius: 20px; color: var(--naranja); font-size: 13px; }
+      .btn-wa { background: var(--verde); border-radius: 24px; color: #fff; }
+      #btn-importar { margin-top: 8px; height: 44px; font-size: 14px; }
+      .btn-sec, .btn-peligro, .btn-crema, #btn-importar, .btn-cancelar, #btn-confirmar span, #det-anadir span, #btn-genial span { letter-spacing: 0.0892em; }
+      .rizo { position: absolute; left: 50%; top: 50%; width: 220px; height: 220px; margin: -110px 0 0 -110px; border-radius: 50%;
+        background: rgba(255, 255, 255, 0.45); opacity: 0; pointer-events: none; }
+      .btn-crema .rizo, .btn-sec .rizo, .rizo.oscuro { background: rgba(245, 158, 11, 0.35); }
+
+      #packs { left: 0; top: 239px; width: 360px; }
+      .pack { position: relative; margin: 0 14px 10px; height: 156px; background: #fff; border: 2px solid var(--borde-amarillo);
+        border-radius: 18px; padding: 10px 10px; box-shadow: 0 2px 4px rgba(120, 53, 15, 0.12); }
+      .pack-fila { display: flex; align-items: center; height: 22px; }
+      .pack-nombre { flex: 1; font-size: 16px; font-weight: 700; color: var(--marron); white-space: nowrap; }
+      .tipo { background: var(--fondo); border: 1.5px solid var(--ambar); border-radius: 20px; padding: 2px 7px; font-size: 11px;
+        font-weight: 700; color: var(--naranja); line-height: 14px; }
+      .indicador { margin-left: 6px; width: 16px; height: 16px; }
+      .peso { margin-left: 8px; font-size: 12px; color: var(--gris); }
+      .miniaturas { display: flex; justify-content: space-between; margin-top: 8px; height: 50px; }
+      .miniaturas img { width: 50px; height: 50px; padding: 4px; object-fit: cover; }
+      .pack-botones { display: flex; gap: 16px; margin-top: 8px; height: 44px; }
+      /* Pesos 1 : 1,2 de 292 dp como el LinearLayout de la app */
+      .btn-sec { flex: 0 0 132.7px; background: var(--crema-amarilla); border: 1.5px solid var(--ambar); border-radius: 20px; color: var(--marron); font-size: 12px; }
+      /* Botón ya corregido en la app 4.0.1: relleno lateral de 8 dp y texto en una línea a 12 sp */
+      .btn-anadir { flex: 0 0 159.3px; padding: 0 8px; font-size: 12px; gap: 6px; }
+
+      /* ---------- Detalle de un pack (activity_sticker_pack_details.xml) ---------- */
+      #detalle { z-index: 10; box-shadow: -6px 0 14px rgba(0, 0, 0, 0.18); }
+      #barra { left: 0; top: 24px; width: 360px; height: 56px; background: var(--amarillo); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18); z-index: 2; color: var(--marron); }
+      #atras { left: 16px; top: 16px; width: 24px; height: 24px; }
+      #barra-textos { left: 72px; top: 16px; }
+      #barra-titulo { font-size: 20px; font-weight: 500; line-height: 24px; white-space: nowrap; }
+      #barra-sub { position: relative; font-size: 14px; line-height: 18px; height: 18px; opacity: 0; }
+      #barra-sub span { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; }
+      #info { left: 320px; top: 16px; width: 24px; height: 24px; }
+      #det-cabecera { left: 16px; top: 88px; width: 328px; height: 44px; }
+      #det-bandeja { left: 8px; top: 4px; width: 36px; height: 36px; object-fit: cover; }
+      #det-nombre { left: 60px; top: 2px; font-size: 17px; font-weight: 700; color: var(--marron); line-height: 22px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+      #det-peso { left: 60px; top: 25px; font-size: 13px; color: var(--gris); line-height: 17px; }
+      #det-aviso { left: 12px; top: 144px; width: 336px; height: 44px; background: var(--fondo); border: 1.5px solid var(--ambar); border-radius: 20px;
+        padding: 5px 12px; font-size: 12px; font-weight: 700; color: var(--marron); line-height: 16px; text-align: center; }
+      #rejilla { left: 12px; top: 196px; width: 336px; height: 478px; background: #fff; border: 2.5px solid var(--borde-amarillo); border-radius: 20px; overflow: hidden; }
+      .celda { position: absolute; width: 79px; height: 79px; }
+      .spr { position: absolute; left: 8px; top: 8px; width: 63px; height: 63px; background-repeat: no-repeat; }
+      .chk { position: absolute; left: 50px; top: 3px; width: 26px; height: 26px; }
+      .chk-si { opacity: 0; }
+      #rejilla-fundido { left: 0; bottom: 0; width: 100%; height: 10px; background: linear-gradient(rgba(255, 255, 255, 0), #fff); }
+      #pildora { left: 50%; top: 420.5px; width: 0; height: 33px; z-index: 3; }
+      .pildora { position: absolute; left: 0; top: 0; transform: translateX(-50%); white-space: nowrap; background: var(--amarillo-claro);
+        border: 2px solid var(--ambar); border-radius: 24px; padding: 6px 16px; font-size: 13px; font-weight: 700; color: var(--marron);
+        line-height: 17px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18); opacity: 0; }
+      #det-anadir { position: absolute; left: 16px; top: 684px; width: 328px; height: 48px; font-size: 14px; gap: 8px; }
+      #det-pista { left: 16px; top: 732px; width: 328px; padding-top: 8px; font-size: 12px; line-height: 16px; color: var(--gris); text-align: center; }
+
+      /* ---------- Diálogos (dialog_import_selection / progress / success) ---------- */
+      #velo { left: 0; top: 0; width: 360px; height: 800px; background: rgba(0, 0, 0, 0.4); z-index: 60; opacity: 0; }
+      .dialogo { left: 24px; width: 312px; background: var(--fondo); border: 2.5px solid var(--borde-amarillo); border-radius: 24px;
+        z-index: 70; opacity: 0; text-align: center; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3); }
+      #dlg-nombre { top: 273px; height: 254px; padding: 20px; }
+      .dlg-titulo { font-size: 20px; font-weight: 700; color: var(--marron); line-height: 26px; }
+      .dlg-texto { margin-top: 8px; font-size: 13px; color: var(--gris); line-height: 18px; }
+      .campo { margin-top: 14px; height: 50px; background: var(--amarillo-claro); border: 1.5px solid var(--ambar); border-radius: 16px;
+        display: flex; align-items: center; padding: 0 12px 0 14px; text-align: left; }
+      .campo-texto { flex: 1; font-size: 16px; font-weight: 700; color: var(--marron); display: flex; align-items: center; }
+      #cursor { display: inline-block; width: 2px; height: 20px; margin-left: 1px; background: var(--naranja); }
+      .lapiz { width: 28px; height: 28px; padding: 4px; }
+      .cuenta { display: inline-block; margin-top: 10px; background: var(--amarillo-claro); border: 2px solid var(--ambar); border-radius: 24px;
+        padding: 1px 12px; font-size: 12px; font-weight: 700; color: var(--naranja); line-height: 16px; }
+      .dlg-botones { display: flex; gap: 16px; margin-top: 18px; height: 44px; }
+      .btn-cancelar { flex: 1; background: #F3F4F6; border: 1.5px solid #D1D5DB; border-radius: 14px; color: var(--gris); font-size: 13px; }
+      #btn-confirmar { flex: 1.5; font-size: 14px; gap: 6px; }
+      #dlg-progreso { top: 318px; height: 164px; padding: 22px; }
+      #rueda { width: 56px; height: 56px; margin: 0 auto; }
+      .prog-titulo { margin-top: 14px; font-size: 18px; font-weight: 700; color: var(--marron); line-height: 24px; }
+      .prog-sub { margin-top: 4px; font-size: 13px; color: var(--gris); line-height: 18px; }
+      #dlg-exito { top: 271px; height: 259px; padding: 22px; }
+      .exito-emoji { font-size: 36px; line-height: 46px; }
+      .exito-titulo { margin-top: 8px; font-size: 20px; font-weight: 700; color: var(--marron); line-height: 26px; }
+      .exito-texto { margin-top: 10px; font-size: 14px; color: var(--gris); line-height: 19px; }
+      #btn-genial { margin-top: 20px; height: 44px; font-size: 14px; }
+
+      /* ---------- WhatsApp: hoja para añadir el pack (medida sobre una captura real, tema oscuro) ---------- */
+      #wa { left: 0; top: 26px; width: 360px; height: 774px; background: #14191D; border-radius: 28px 28px 0 0; z-index: 70;
+        font-family: Roboto, sans-serif; color: #E9EDEF; }
+      #wa-asa { left: 164px; top: 10px; width: 32px; height: 4px; border-radius: 2px; background: #8E9397; }
+      #wa-cerrar { left: 15px; top: 38px; width: 24px; height: 24px; }
+      #wa-reenviar { left: 321px; top: 38px; width: 24px; height: 24px; }
+      #wa-titulo { left: 50px; top: 29px; width: 260px; text-align: center; font-size: 19px; line-height: 24px; }
+      #wa-sub { left: 50px; top: 53px; width: 260px; text-align: center; font-size: 14px; line-height: 18px; color: #D1D7DB; }
+      .wa-linea { left: 0; width: 360px; height: 1px; background: #262D31; }
+      .wa-stk { position: absolute; top: 92px; width: 62px; height: 62px; background-repeat: no-repeat; }
+      #wa-anadir { position: absolute; left: 21px; top: 688px; width: 318px; height: 44px; border-radius: 22px; background: #21C063;
+        color: #0B141A; font-size: 16px; font-weight: 500; }
+      #wa-gestos { left: 144px; top: 760px; width: 72px; height: 4px; border-radius: 2px; background: rgba(233, 237, 239, 0.6); }
+      /* Aviso del sistema de WhatsApp tras añadir (como en la captura) */
+      #wa-aviso { left: 39px; top: 628px; width: 282px; height: 62px; border-radius: 16px; background: #1C1C1E; z-index: 90; opacity: 0;
+        display: flex; align-items: center; gap: 12px; padding: 0 16px 0 14px; font-family: Roboto, sans-serif; font-size: 14px;
+        line-height: 19px; color: #A6A6A8; text-align: center; }
+      #wa-aviso svg { flex: none; }
+
+      /* Toque visible (como «Mostrar toques» de Android, con el estilo del tráiler) */
+      #toque { left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: rgba(255, 255, 255, 0.7);
+        border: 3px solid var(--naranja); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); z-index: 100; opacity: 0; }
+      #onda { left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; border: 3px solid var(--naranja); z-index: 99; opacity: 0; }
+    </style>
+
+    <div id="root" data-composition-id="demo" data-width="864" data-height="1920">
+      <div id="escala" data-layout-ignore>
+        <div id="camara">
+
+          <!-- Barra de estado: el rótulo «Demo animada» ocupa el sitio de la hora -->
+          <div id="estado">
+            <span>Demo animada</span>
+            <span id="estado-iconos">
+              <svg class="icono" width="15" height="12" viewBox="0 0 15 12"><path fill="#fff" d="M7.5 12 0 3.4C2 1.3 4.6 0 7.5 0S13 1.3 15 3.4z"/></svg>
+              <svg class="icono" width="9" height="14" viewBox="0 0 9 14"><rect x="2.5" y="0" width="4" height="2" rx=".5" fill="#fff"/><rect x="0" y="1.5" width="9" height="12.5" rx="1.5" fill="#fff"/></svg>
+            </span>
+          </div>
+
+          <!-- ===== Pantalla 1: lista de packs ===== -->
+          <div id="lista" class="pantalla">
+            <div id="lista-cabecera" class="abs">
+              <img src="assets/icono_app.png" alt="" />
+              <div class="cab-textos">
+                <div class="cab-titulo">Stickers Nailong</div>
+                <div class="cab-sub">El Mundo Mágico de Nailong 🦖✨</div>
+              </div>
+            </div>
+
+            <!-- «Mi Selección» vacía (0 / 30) -->
+            <div id="sel-vacia" class="sel abs">
+              <div class="sel-fila"><span class="sel-titulo">🌟 Mi Selección</span><span class="insignia">0 / 30</span></div>
+              <div class="sel-pista">Toca stickers sueltos de cualquier pack para sumarlos aquí y crear tu propio pack personalizado.</div>
+            </div>
+            <!-- «Mi Selección» con 3 stickers: aparecen Vaciar, Ver e Importar -->
+            <div id="sel-llena" class="sel abs">
+              <div class="sel-fila"><span class="sel-titulo">🌟 Mi Selección</span><span class="insignia">3 / 30</span></div>
+              <div class="sel-pista">Has seleccionado 3 stickers (3 animados, 0 estáticos).</div>
+              <div class="sel-acciones">
+                <div class="sel-botones">
+                  <div class="btn btn-peligro">🗑️ Vaciar</div>
+                  <div class="btn btn-crema">Ver (3) ❯</div>
+                </div>
+                <div id="btn-importar" class="btn btn-wa"><span>Importar a WhatsApp</span><span id="rizo-importar" class="rizo"></span></div>
+              </div>
+            </div>
+
+            <div id="packs" class="abs">
+              <div class="pack">
+                <div class="pack-fila"><span class="pack-nombre">Nailong animado 1</span><span class="tipo">✨ 24 animados</span>
+                  <svg class="indicador" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="none" stroke="#EA580C" stroke-width="1.4"/><path d="M6.4 5.2v5.6L11 8z" fill="#EA580C"/></svg><span class="peso">7,2 MB</span></div>
+                <div class="miniaturas"><img src="assets/stills/sticker_2.webp" alt="" /><img src="assets/stills/sticker_5.webp" alt="" /><img src="assets/stills/sticker_6.webp" alt="" /><img src="assets/stills/sticker_8.webp" alt="" /><img src="assets/stills/sticker_9.webp" alt="" /></div>
+                <div class="pack-botones">
+                  <div id="btn-ver" class="btn btn-sec"><span>Ver stickers ❯</span><span id="rizo-ver" class="rizo"></span></div>
+                  <div class="btn btn-wa btn-anadir"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 4v14M4 11h14" stroke="#fff" stroke-width="2.2"/></svg><span>Añadir a WhatsApp</span></div>
+                </div>
+              </div>
+              <div class="pack">
+                <div class="pack-fila"><span class="pack-nombre">Nailong animado 2</span><span class="tipo">✨ 24 animados</span>
+                  <svg class="indicador" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="none" stroke="#EA580C" stroke-width="1.4"/><path d="M6.4 5.2v5.6L11 8z" fill="#EA580C"/></svg><span class="peso">7,6 MB</span></div>
+                <div class="miniaturas"><img src="assets/stills/sticker_41.webp" alt="" /><img src="assets/stills/sticker_42.webp" alt="" /><img src="assets/stills/sticker_43.webp" alt="" /><img src="assets/stills/sticker_44.webp" alt="" /><img src="assets/stills/sticker_46.webp" alt="" /></div>
+                <div class="pack-botones">
+                  <div class="btn btn-sec">Ver stickers ❯</div>
+                  <div class="btn btn-wa btn-anadir"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 4v14M4 11h14" stroke="#fff" stroke-width="2.2"/></svg><span>Añadir a WhatsApp</span></div>
+                </div>
+              </div>
+              <div class="pack">
+                <div class="pack-fila"><span class="pack-nombre">Nailong animado 3</span><span class="tipo">✨ 24 animados</span>
+                  <svg class="indicador" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="none" stroke="#EA580C" stroke-width="1.4"/><path d="M6.4 5.2v5.6L11 8z" fill="#EA580C"/></svg><span class="peso">6,7 MB</span></div>
+                <div class="miniaturas"><img src="assets/stills/sticker_68.webp" alt="" /><img src="assets/stills/sticker_70.webp" alt="" /><img src="assets/stills/sticker_71.webp" alt="" /><img src="assets/stills/sticker_72.webp" alt="" /><img src="assets/stills/sticker_74.webp" alt="" /></div>
+                <div class="pack-botones">
+                  <div class="btn btn-sec">Ver stickers ❯</div>
+                  <div class="btn btn-wa btn-anadir"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 4v14M4 11h14" stroke="#fff" stroke-width="2.2"/></svg><span>Añadir a WhatsApp</span></div>
+                </div>
+              </div>
+              <div class="pack">
+                <div class="pack-fila"><span class="pack-nombre">Nailong animado 4</span><span class="tipo">✨ 25 animados</span>
+                  <svg class="indicador" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="none" stroke="#EA580C" stroke-width="1.4"/><path d="M6.4 5.2v5.6L11 8z" fill="#EA580C"/></svg><span class="peso">8,4 MB</span></div>
+                <div class="miniaturas"><img src="assets/stills/sticker_98.webp" alt="" /><img src="assets/stills/sticker_99.webp" alt="" /><img src="assets/stills/sticker_100.webp" alt="" /><img src="assets/stills/sticker_101.webp" alt="" /><img src="assets/stills/sticker_102.webp" alt="" /></div>
+                <div class="pack-botones">
+                  <div class="btn btn-sec">Ver stickers ❯</div>
+                  <div class="btn btn-wa btn-anadir"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 4v14M4 11h14" stroke="#fff" stroke-width="2.2"/></svg><span>Añadir a WhatsApp</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Pantalla 2: dentro del pack «Nailong animado 1» ===== -->
+          <div id="detalle" class="pantalla">
+            <div id="barra" class="abs">
+              <svg id="atras" class="abs" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z" fill="#78350F"/></svg>
+              <div id="barra-textos" class="abs">
+                <div id="barra-titulo">Nailong animado 1</div>
+                <div id="barra-sub"><span id="sub-1">🌟 Mi Selección: 1 / 30</span><span id="sub-2">🌟 Mi Selección: 2 / 30</span><span id="sub-3">🌟 Mi Selección: 3 / 30</span></div>
+              </div>
+              <svg id="info" class="abs" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#78350F" stroke-width="2"/><path d="M11 10.5h2V17h-2zM11 7h2v2h-2z" fill="#78350F"/></svg>
+            </div>
+            <div id="det-cabecera" class="abs">
+              <img id="det-bandeja" class="abs" src="assets/stills/sticker_2.webp" alt="" />
+              <div id="det-nombre" class="abs">Nailong animado 1 <svg class="indicador" style="margin-left:0" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="none" stroke="#EA580C" stroke-width="1.4"/><path d="M6.4 5.2v5.6L11 8z" fill="#EA580C"/></svg></div>
+              <div id="det-peso" class="abs">7,2 MB</div>
+            </div>
+            <div id="det-aviso" class="abs">🔍 Mantén pulsado un sticker para hacer zoom · Toca para elegir</div>
+
+            <!-- Rejilla de 4 columnas (80 dp por celda en la app; aquí 79 por el ancho real de la lista) -->
+            <div id="rejilla" class="abs">
+              <div class="celda" style="left:7.5px;top:3.5px"><div id="s2" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:86.5px;top:3.5px"><div id="s5" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:165.5px;top:3.5px"><div id="s6" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:244.5px;top:3.5px"><div id="s8" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+
+              <div class="celda" style="left:7.5px;top:82.5px"><div id="s9" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:86.5px;top:82.5px"><div id="s10" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg><svg id="k10" class="chk chk-si" viewBox="0 0 24 24"><path fill="#25D366" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="#FFFFFF" d="M9.5,16.5l-3.5,-3.5 1.41,-1.41 2.09,2.08 6.59,-6.59 1.41,1.41z"/></svg></div>
+              <div class="celda" style="left:165.5px;top:82.5px"><div id="s11" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:244.5px;top:82.5px"><div id="s13" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+
+              <div class="celda" style="left:7.5px;top:161.5px"><div id="s17" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:86.5px;top:161.5px"><div id="s18" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg><svg id="k18" class="chk chk-si" viewBox="0 0 24 24"><path fill="#25D366" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="#FFFFFF" d="M9.5,16.5l-3.5,-3.5 1.41,-1.41 2.09,2.08 6.59,-6.59 1.41,1.41z"/></svg></div>
+              <div class="celda" style="left:165.5px;top:161.5px"><div id="s19" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg><svg id="k19" class="chk chk-si" viewBox="0 0 24 24"><path fill="#25D366" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="#FFFFFF" d="M9.5,16.5l-3.5,-3.5 1.41,-1.41 2.09,2.08 6.59,-6.59 1.41,1.41z"/></svg></div>
+              <div class="celda" style="left:244.5px;top:161.5px"><div id="s21" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+
+              <div class="celda" style="left:7.5px;top:240.5px"><div id="s22" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:86.5px;top:240.5px"><div id="s23" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:165.5px;top:240.5px"><div id="s24" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:244.5px;top:240.5px"><div id="s25" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+
+              <div class="celda" style="left:7.5px;top:319.5px"><div id="s28" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:86.5px;top:319.5px"><div id="s29" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:165.5px;top:319.5px"><div id="s30" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:244.5px;top:319.5px"><div id="s31" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+
+              <div class="celda" style="left:7.5px;top:398.5px"><div id="s33" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:86.5px;top:398.5px"><div id="s38" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:165.5px;top:398.5px"><div id="s39" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+              <div class="celda" style="left:244.5px;top:398.5px"><div id="s40" class="spr"></div><svg class="chk" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.5)" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/><path fill="rgba(120,53,15,0.7)" d="M12,4c4.41,0 8,3.59 8,8s-3.59,8 -8,8 -8,-3.59 -8,-8 3.59,-8 8,-8m0,-2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"/></svg></div>
+
+              <div id="rejilla-fundido" class="abs"></div>
+              <div id="pildora" class="abs">
+                <div id="pil-1" class="pildora">Añadido a Mi Selección (1 / 30)</div>
+                <div id="pil-2" class="pildora">Añadido a Mi Selección (2 / 30)</div>
+                <div id="pil-3" class="pildora">Añadido a Mi Selección (3 / 30)</div>
+              </div>
+            </div>
+
+            <div id="det-anadir" class="abs btn btn-wa">
+              <svg width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#fff" stroke-width="1.8" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="#fff" d="M9 7.5c.3 0 .6 0 .8.5l.8 1.9c.1.3 0 .5-.1.7l-.5.6c-.1.2-.2.4 0 .6.6 1.1 1.5 2 2.6 2.6.2.1.4.1.6-.1l.6-.7c.2-.2.4-.3.7-.2l1.8.9c.3.1.4.3.4.6 0 .6-.3 1.4-.9 1.8-.6.4-1.5.5-2.4.2-2.4-.8-4.4-2.8-5.2-5.2-.3-.9-.2-1.8.2-2.4.3-.4.6-.6.6-.6z"/></svg>
+              <span>Añadir a WhatsApp</span>
+            </div>
+            <div id="det-pista" class="abs">Toca un sticker para sumarlo o quitarlo de «Mi Selección». Mantén pulsado para ampliar.</div>
+          </div>
+
+          <!-- Velo oscuro de los diálogos (también cubre la barra de estado) -->
+          <div id="velo" class="abs"></div>
+
+          <!-- Diálogo «Personaliza tu pack» -->
+          <div id="dlg-nombre" class="abs dialogo">
+            <div class="dlg-titulo">Personaliza tu pack</div>
+            <div class="dlg-texto">WhatsApp guardará este pack con el nombre:</div>
+            <div class="campo">
+              <span class="campo-texto">Mi Selección<span id="cursor"></span></span>
+              <svg class="lapiz" viewBox="0 0 24 24"><path fill="#EA580C" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg>
+            </div>
+            <div class="cuenta">✨ 3 stickers</div>
+            <div class="dlg-botones">
+              <div class="btn btn-cancelar">Cancelar</div>
+              <div id="btn-confirmar" class="btn btn-wa">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="none" stroke="#fff" stroke-width="1.8" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="#fff" d="M9 7.5c.3 0 .6 0 .8.5l.8 1.9c.1.3 0 .5-.1.7l-.5.6c-.1.2-.2.4 0 .6.6 1.1 1.5 2 2.6 2.6.2.1.4.1.6-.1l.6-.7c.2-.2.4-.3.7-.2l1.8.9c.3.1.4.3.4.6 0 .6-.3 1.4-.9 1.8-.6.4-1.5.5-2.4.2-2.4-.8-4.4-2.8-5.2-5.2-.3-.9-.2-1.8.2-2.4.3-.4.6-.6.6-.6z"/></svg>
+                <span>Añadir</span><span id="rizo-confirmar" class="rizo"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Diálogo de progreso mientras se crea el pack -->
+          <div id="dlg-progreso" class="abs dialogo">
+            <svg id="rueda" viewBox="0 0 56 56"><circle cx="28" cy="28" r="22" fill="none" stroke="#FDE68A" stroke-width="5"/><path d="M28 6a22 22 0 0 1 22 22" fill="none" stroke="#EA580C" stroke-width="5" stroke-linecap="round"/></svg>
+            <div class="prog-titulo">Preparando tu pack… ✨</div>
+            <div class="prog-sub">Copiando y revisando tus stickers</div>
+          </div>
+
+          <!-- WhatsApp: hoja para añadir el pack. Textos traducidos de la captura (WhatsApp en inglés): pendiente de confirmar -->
+          <div id="wa" class="abs">
+            <div id="wa-asa" class="abs"></div>
+            <svg id="wa-cerrar" class="abs" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#E9EDEF"/></svg>
+            <div id="wa-titulo" class="abs">Mi Selección</div>
+            <div id="wa-sub" class="abs">Toca para enviar un sticker</div>
+            <svg id="wa-reenviar" class="abs" viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z" fill="none" stroke="#E9EDEF" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            <div class="wa-linea abs" style="top:76px"></div>
+            <div id="w10" class="wa-stk" style="left:22px"></div>
+            <div id="w19" class="wa-stk" style="left:105px"></div>
+            <div id="w18" class="wa-stk" style="left:187px"></div>
+            <div class="wa-linea abs" style="top:675px"></div>
+            <div id="wa-anadir" class="btn"><span>Añadir a tus stickers</span><span id="rizo-wa" class="rizo oscuro"></span></div>
+            <div id="wa-gestos" class="abs"></div>
+          </div>
+
+          <!-- Diálogo final «¡Añadido a WhatsApp!» -->
+          <div id="dlg-exito" class="abs dialogo">
+            <div class="exito-emoji">🎉</div>
+            <div class="exito-titulo">¡Añadido a WhatsApp!</div>
+            <div class="exito-texto">Tus stickers de Nailong ya están listos para usar en tus chats. ¡Ábrelos y empieza a enviarlos!</div>
+            <div id="btn-genial" class="btn btn-wa"><span>¡Genial, gracias! 💛</span><span id="rizo-genial" class="rizo"></span></div>
+          </div>
+
+          <!-- Aviso de WhatsApp «añadido» (texto traducido de la captura: pendiente de confirmar) -->
+          <div id="wa-aviso" class="abs">
+            <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#25D366"/><path fill="none" stroke="#fff" stroke-width="1.6" d="M13 5.5a7.5 7.5 0 0 0-6.5 11.25L5.5 20.5l3.83-1A7.5 7.5 0 1 0 13 5.5z"/><path fill="#fff" d="M10.5 9.4c.25 0 .5 0 .67.42l.67 1.58c.08.25 0 .42-.08.58l-.42.5c-.08.17-.17.33 0 .5.5.92 1.25 1.67 2.17 2.17.17.08.33.08.5-.08l.5-.58c.17-.17.33-.25.58-.17l1.5.75c.25.08.33.25.33.5 0 .5-.25 1.17-.75 1.5-.5.33-1.25.42-2 .17-2-.67-3.67-2.33-4.33-4.33-.25-.75-.17-1.5.17-2 .25-.33.5-.5.5-.5z"/></svg>
+            <span>«Mi Selección» se ha añadido a WhatsApp</span>
+          </div>
+
+          <div id="onda" class="abs"></div>
+          <div id="toque" class="abs"></div>
+
+          <div id="gestos"><div id="gestos-asa"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // ---------- Ayudantes (todo a segundos fijos de la línea de tiempo) ----------
+      // Cámara: acerca la pantalla a un punto (fx, fy en dp) con zoom s, sin enseñar nada fuera de la pantalla.
+      function camara(t, s, fx, fy, dur, ease) {
+        const lim = (v, min) => Math.min(0, Math.max(min, v));
+        const x = lim(180 - fx * s, 360 - 360 * s);
+        const y = lim(400 - fy * s, 800 - 800 * s);
+        tl.to("#camara", { scale: s, x: x, y: y, duration: dur, ease: ease || "power2.inOut" }, t);
+      }
+      // El toque visible aparece, se mueve hasta (x, y) y pulsa.
+      function aparecerToque(t, x, y) {
+        tl.set("#toque", { x: x, y: y }, t);
+        tl.fromTo("#toque", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, t);
+      }
+      function moverToque(t, x, y, dur) {
+        tl.to("#toque", { x: x, y: y, duration: dur || 0.55, ease: "power2.inOut" }, t);
+      }
+      function pulsar(t, x, y, rizo) {
+        tl.to("#toque", { scale: 0.78, duration: 0.09, ease: "power2.in" }, t);
+        tl.to("#toque", { scale: 1, duration: 0.16, ease: "power2.out" }, t + 0.09);
+        tl.set("#onda", { x: x, y: y }, t);
+        tl.fromTo("#onda", { opacity: 0.85, scale: 1 }, { opacity: 0, scale: 2.4, duration: 0.45, ease: "power2.out" }, t + 0.04);
+        if (rizo) tl.fromTo(rizo, { opacity: 1, scale: 0 }, { opacity: 0, scale: 1, duration: 0.45, ease: "power2.out" }, t + 0.04);
+      }
+      function ocultarToque(t) {
+        tl.to("#toque", { opacity: 0, duration: 0.2, ease: "power1.out" }, t);
+      }
+      function abrirDialogo(t, sel) {
+        tl.fromTo(sel, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.22, ease: "power2.out" }, t);
+      }
+      function cerrarDialogo(t, sel) {
+        tl.to(sel, { opacity: 0, scale: 0.94, duration: 0.15, ease: "power1.in" }, t);
+      }
+      function pildora(t, sel) {
+        tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.12 }, t);
+        tl.to(sel, { opacity: 0, duration: 0.15 }, t + 1.0);
+      }
+
+      // Centro de los elementos que se tocan (dp). xPercent/yPercent centran el círculo en el punto.
+      tl.set(["#toque", "#onda"], { xPercent: -50, yPercent: -50 }, 0);
+      tl.set("#camara", { transformOrigin: "0 0", scale: 1, x: 0, y: 0 }, 0);
+      tl.set("#detalle", { x: 372 }, 0);
+      tl.set(["#dlg-nombre", "#dlg-progreso", "#dlg-exito"], { transformOrigin: "50% 50%" }, 0);
+      tl.set("#wa", { y: 800 }, 0);
+
+      // ---------- 0–3,4 s · La app abierta: lista de packs ----------
+      camara(1.3, 1.4, 150, 320, 1.0);
+      aparecerToque(2.35, 120, 430);
+      moverToque(2.55, 92, 361, 0.55);
+      pulsar(3.15, 92, 361, "#rizo-ver");
+
+      // ---------- 3,4–10,9 s · Dentro del pack: se eligen 3 stickers ----------
+      tl.to("#detalle", { x: 0, duration: 0.45, ease: "power3.out" }, 3.4);
+      tl.to("#lista", { x: -60, duration: 0.45, ease: "power3.out" }, 3.4);
+      ocultarToque(3.35);
+      camara(3.45, 1, 180, 400, 0.7);
+      camara(4.45, 1.3, 180, 360, 0.9);
+
+      // Todos los stickers del pack se mueven (la app los reproduce en bucle), cada uno en su punto.
+      const PACK = [2, 5, 6, 8, 9, 10, 11, 13, 17, 18, 19, 21, 22, 23, 24, 25, 28, 29, 30, 31, 33, 38, 39, 40];
+      PACK.forEach((n, i) => nlSprite(tl, document.querySelector("#s" + n), n, 3.3, 8.2, ((i * 37) % 24) / 24));
+
+      const TOQUES = [
+        { n: 10, x: 140.5, y: 320.5, t: 5.95, sub: "#sub-1", pil: "#pil-1" },
+        { n: 19, x: 219.5, y: 399.5, t: 7.3, sub: "#sub-2", pil: "#pil-2" },
+        { n: 18, x: 140.5, y: 399.5, t: 8.65, sub: "#sub-3", pil: "#pil-3" },
+      ];
+      aparecerToque(5.2, 200, 520);
+      moverToque(5.35, TOQUES[0].x, TOQUES[0].y, 0.5);
+      TOQUES.forEach((p, i) => {
+        if (i > 0) moverToque(p.t - 0.65, p.x, p.y, 0.5);
+        pulsar(p.t, p.x, p.y);
+        tl.fromTo("#k" + p.n, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2.5)", transformOrigin: "50% 50%" }, p.t + 0.06);
+        pildora(p.t + 0.06, p.pil);
+        if (i > 0) tl.set(TOQUES[i - 1].sub, { opacity: 0 }, p.t + 0.06);
+        tl.set(p.sub, { opacity: 1 }, p.t + 0.06);
+      });
+      // Al añadir el primero, la barra enseña el subtítulo «Mi Selección: n / 30» y el título sube
+      tl.fromTo("#barra-textos", { y: 0 }, { y: -9, duration: 0.15 }, 6.01);
+      tl.fromTo("#barra-sub", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 6.01);
+      // Mientras tanto, «Mi Selección» de la lista ya tiene 3 (se ve al volver)
+      tl.set("#sel-vacia", { opacity: 0 }, 8.75);
+      tl.set("#sel-llena", { opacity: 1 }, 8.75);
+      tl.set("#packs", { y: 88 }, 8.75);
+
+      // Volver atrás con la flecha
+      camara(9.75, 1, 180, 400, 0.7);
+      moverToque(9.85, 28, 52, 0.6);
+      pulsar(10.6, 28, 52);
+      tl.to("#detalle", { x: 372, duration: 0.4, ease: "power3.in" }, 10.85);
+      tl.to("#lista", { x: 0, duration: 0.4, ease: "power3.in" }, 10.85);
+      ocultarToque(10.85);
+
+      // ---------- 11,3–13,3 s · «Mi Selección» con 3 stickers → Importar a WhatsApp ----------
+      camara(11.4, 1.15, 180, 230, 0.9);
+      aparecerToque(12.25, 220, 400);
+      moverToque(12.4, 180, 278, 0.55);
+      pulsar(13.1, 180, 278, "#rizo-importar");
+
+      // ---------- 13,3–16 s · Diálogo «Personaliza tu pack» → Añadir ----------
+      tl.to("#velo", { opacity: 1, duration: 0.22 }, 13.3);
+      abrirDialogo(13.3, "#dlg-nombre");
+      ocultarToque(13.3);
+      camara(13.3, 1.12, 180, 400, 0.7);
+      // Cursor que parpadea en el nombre
+      [13.8, 14.6, 15.4].forEach((t) => {
+        tl.set("#cursor", { opacity: 0 }, t);
+        tl.set("#cursor", { opacity: 1 }, t + 0.4);
+      });
+      aparecerToque(14.65, 250, 600);
+      moverToque(14.8, 238.4, 483, 0.6);
+      pulsar(15.6, 238.4, 483, "#rizo-confirmar");
+      cerrarDialogo(15.85, "#dlg-nombre");
+      ocultarToque(15.85);
+
+      // ---------- 16–17,6 s · Preparando el pack ----------
+      abrirDialogo(16.0, "#dlg-progreso");
+      tl.fromTo("#rueda", { rotation: 0 }, { rotation: 720, duration: 1.6, ease: "none", transformOrigin: "50% 50%" }, 16.0);
+      cerrarDialogo(17.45, "#dlg-progreso");
+
+      // ---------- 17,6–20,4 s · WhatsApp abre su hoja con el pack → «Añadir a tus stickers» ----------
+      tl.to("#wa", { y: 0, duration: 0.45, ease: "power3.out" }, 17.6);
+      camara(17.6, 1.08, 180, 300, 0.7);
+      [10, 19, 18].forEach((n, i) => nlSprite(tl, document.querySelector("#w" + n), n, 17.5, 3.0, i / 3));
+      camara(19.0, 1.08, 180, 700, 0.7);
+      aparecerToque(19.3, 250, 600);
+      moverToque(19.45, 180, 736, 0.55);
+      pulsar(20.05, 180, 736, "#rizo-wa");
+      tl.to("#wa", { y: 800, duration: 0.35, ease: "power3.in" }, 20.3);
+      ocultarToque(20.3);
+      // La app vacía «Mi Selección» al terminar (clearSelection) y celebra
+      tl.set("#sel-vacia", { opacity: 1 }, 20.5);
+      tl.set("#sel-llena", { opacity: 0 }, 20.5);
+      tl.set("#packs", { y: 0 }, 20.5);
+
+      // ---------- 20,6–25 s · ¡Añadido! y vuelta a la lista (enlaza con el inicio del bucle) ----------
+      tl.fromTo("#wa-aviso", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 20.6);
+      tl.to("#wa-aviso", { opacity: 0, duration: 0.3 }, 22.5);
+      abrirDialogo(20.7, "#dlg-exito");
+      camara(20.6, 1.12, 180, 420, 0.6);
+      tl.fromTo("#dlg-exito .exito-emoji", { scale: 0.4 }, { scale: 1, duration: 0.45, ease: "back.out(3)" }, 20.8);
+      aparecerToque(22.15, 250, 600);
+      moverToque(22.3, 180, 484, 0.5);
+      pulsar(22.95, 180, 484, "#rizo-genial");
+      cerrarDialogo(23.15, "#dlg-exito");
+      tl.to("#velo", { opacity: 0, duration: 0.22 }, 23.15);
+      ocultarToque(23.15);
+      camara(23.2, 1, 180, 400, 0.8);
+      // Último fotograma idéntico al primero
+      tl.set("#toque", { opacity: 0 }, 24.9);
+
+      window.__timelines["demo"] = tl;
+    </script>
+  </template>
+</body>
+</html>

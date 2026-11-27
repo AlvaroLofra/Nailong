@@ -417,8 +417,8 @@ assert os.path.getsize('StickersNailong.apk') > 20 * 1024 * 1024, "StickersNailo
 assert 'id="android-app-banner"' in html, "android-app-banner missing in index.html!"
 assert 'href="StickersNailong.apk"' in html, "Download link to StickersNailong.apk missing in index.html!"
 assert 'download="StickersNailong.apk"' in html, "Download attribute missing in APK download link!"
-assert 'v4.0.0 APK' in html, "Badge in index.html must show v4.0.0 APK!"
-print("✔ v4.0.0 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v4.0.0 APK badge.")
+assert 'v4.0.1 APK' in html, "Badge in index.html must show v4.0.1 APK!"
+print("✔ v4.0.1 verified: Native Android app (StickersNailong.apk) present on web root with Claymorphism download banner and v4.0.1 APK badge.")
 
 # Test 43: v3.2.1 - Tipografia Fredoka y calibracion de icono adaptive en Android
 if HAY_ANDROID:
@@ -822,10 +822,45 @@ assert "inyectarOjoAO(matSuaveOjo, uOjoAO, uGloboAPivote, 'suave');" in _esc and
 assert 'function precompilarEstilos(' in _vis and 'precompilarEstilos();' in _vis and 'S.renderer.compile(S.escena, S.camara);' in _vis, "3D16: all shader programs (both styles, mouth parts) must be ready when the 3D turns on!"
 print("✔ 3D14-3D16 verified: no live shadow and ~30 fps idle in 'baja', IndexedDB mesh cache keyed by js/11, shared eye program and precompiled styles.")
 
+# Test 56: DA1 - demo animada de la app en el banner de descarga: vídeo MP4 ligero y silencioso con portada,
+# sin autoplay ni descarga al abrir la página (lo arranca js/10 solo mientras se ve), marco con hueco reservado,
+# rótulo honesto de «demo animada» y fuentes de HyperFrames en video-promo/app-demo/ (recursos derivados fuera de Git)
+_demo_mp4 = os.path.join('video-promo', 'nailong_app_demo.mp4')
+_demo_portada = os.path.join('video-promo', 'nailong_app_demo_portada.webp')
+assert os.path.isfile(_demo_mp4) and os.path.isfile(_demo_portada), "DA1: the app demo video or its poster is missing!"
+_demo_kb = os.path.getsize(_demo_mp4) / 1024
+assert _demo_kb <= 600, f"DA1: the app demo video must stay light (<= 600 KB, now {_demo_kb:.0f} KB)!"
+assert os.path.getsize(_demo_portada) <= 80 * 1024, "DA1: the app demo poster must stay under 80 KB!"
+with open(_demo_mp4, 'rb') as _f:
+    _demo_bytes = _f.read()
+assert b'avc1' in _demo_bytes and b'soun' not in _demo_bytes, "DA1: the app demo must be H.264 without an audio track!"
+assert _demo_bytes.find(b'moov') < _demo_bytes.find(b'mdat'), "DA1: the app demo needs +faststart (moov before mdat) to start quickly!"
+_demo_tag = re.search(r'<video id="apk-demo-video"[^>]*>', page_html)
+assert _demo_tag, "DA1: <video id=\"apk-demo-video\"> missing inside the app banner!"
+_demo_tag = _demo_tag.group(0)
+for _attr in (' muted', ' loop', ' playsinline', 'preload="none"', 'src="video-promo/nailong_app_demo.mp4"', 'poster="video-promo/nailong_app_demo_portada.webp"'):
+    assert _attr in _demo_tag, f"DA1: the app demo video needs {_attr.strip()}!"
+assert 'autoplay' not in _demo_tag and ' controls' not in _demo_tag, "DA1: the app demo must not autoplay on load (js/10 starts it only while visible)!"
+_banner_html = page_html[page_html.index('id="android-app-banner"'):page_html.index('id="video-promo-section"')]
+assert 'id="apk-demo"' in _banner_html and 'id="apk-demo-btn"' in _banner_html, "DA1: the demo frame and its play/pause button must live in the app banner!"
+assert 'Demo animada, no es una grabación' in _banner_html, "DA1: the demo must say it is an animation, not a real recording!"
+assert 'abrirTrailer' not in _banner_html and 'href="#video-promo-section"' not in _banner_html, "DA1: the app banner's only video is the demo; the general trailer lives in its own block below!"
+assert 'id="apk-demo-ver"' in _banner_html, "DA1: on phones the banner needs the «Ver la demo» button (the demo sits below the buttons)!"
+assert re.search(r'\.apk-demo-pantalla \{[^}]*aspect-ratio: 9 / 20', html), "DA1: the phone screen must reserve its 9:20 space (no layout shift)!"
+_demo_js = js_function_body(html, 'setupAppDemo')
+assert 'IntersectionObserver' in _demo_js and 'video.pause()' in _demo_js and "'visibilitychange'" in _demo_js, "DA1: the demo must play only while visible and pause when it leaves the screen!"
+assert 'prefers-reduced-motion: reduce' in html[html.index('APP_DEMO_SOLO_AL_TOCAR'):][:200], "DA1: with reduced motion the demo must wait for a tap!"
+assert 'setupAppDemo();' in js_function_body(html, 'setupAppBanner'), "DA1: setupAppBanner must start the demo logic!"
+assert "getElementById('apk-demo-ver')" in _demo_js and 'scrollIntoView' in _demo_js, "DA1: «Ver la demo» must bring the demo into view and play it!"
+for _src in ('index.html', os.path.join('compositions', 'demo.html'), 'hyperframes.json', '.gitignore', os.path.join('tools', 'preparar_assets.py')):
+    assert os.path.isfile(os.path.join('video-promo', 'app-demo', _src)), f"DA1: HyperFrames source video-promo/app-demo/{_src} missing!"
+assert 'assets/' in open(os.path.join('video-promo', 'app-demo', '.gitignore'), encoding='utf-8').read(), "DA1: the demo's derived assets must stay out of Git!"
+print(f"✔ DA1 verified: app demo in the download banner ({_demo_kb:.0f} KB silent H.264 + poster), plays only while visible, tap-to-play on phones and with reduced motion, honest 'demo animada' label.")
+
 if NO_COMPROBADO:
     print(f"\n⚠ NO COMPROBADO: falta el código de la app Android en {ANDROID_SRC} (defínelo con NAILONG_ANDROID_SRC si está en otra ruta):")
     for _nc in NO_COMPROBADO:
         print(f"   - {_nc}")
-    print(f"\n=== 55 VERIFICATION TESTS PASSED, {len(NO_COMPROBADO)} WITH THEIR ANDROID PART NOT CHECKED ===")
+    print(f"\n=== 56 VERIFICATION TESTS PASSED, {len(NO_COMPROBADO)} WITH THEIR ANDROID PART NOT CHECKED ===")
 else:
-    print("\n=== ALL 55 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")
+    print("\n=== ALL 56 VERIFICATION TESTS PASSED SUCCESSFULLY! ===")

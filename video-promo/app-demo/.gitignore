@@ -1,0 +1,7 @@
+# Recursos derivados de «Stickers Nailong/» y de la app: se regeneran con
+#   py -3 video-promo/app-demo/tools/preparar_assets.py
+assets/
+renders/
+.hyperframes/
+.thumbnails/
+.waveform-cache/
