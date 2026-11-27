@@ -429,7 +429,7 @@ assert 'href="#android-app-banner"' in html and 'id="lb-visor-btn"' in html and 
 assert 'overflow-x: clip' in html and '@media (max-width: 359px)' in html, "Navbar overflow fix missing!"
 print("✔ v3.2.0 verified: GIF wall merged into stickers section (app banner, Visor strip, album), app button in nav, navbar fits narrow phones.")
 
-# Test 44 (ampliado, VM1-VM2 de la web 4.3.0): Visor Magico con reproductor propio en <canvas> (velocidad real, pausa, paso a paso,
+# Test 44 (ampliado, VM1-VM3 de la web 4.3.0): Visor Magico con reproductor propio en <canvas> (velocidad real, pausa, paso a paso,
 # marcha atras, bumeran y barra de tiempo) y abierto con cualquier sticker animado; titulos leidos de ALL_STICKERS
 _visor = open(os.path.join('js', '05-visor-magico.js'), encoding='utf-8').read()
 _alb = open(os.path.join('js', '06-album-y-descargas.js'), encoding='utf-8').read()
@@ -441,7 +441,7 @@ assert "tipo === 'ANMF'" in _visor and "(banderas & 1) === 1" in _visor and "(ba
 assert 'resizeWidth' in _visor and 'new Image()' in _visor, "VM1: frames must be decoded at screen size, with an <img> fallback when createImageBitmap fails!"
 assert 'new ImageDecoder' not in html, "VM1: ImageDecoder (WebCodecs) is not proven on iPhone Safari: it cannot be the decoding path!"
 assert 'setModalSpeed' not in html and 'VISOR_BYTES_MAX' in _visor, "VM1: the fake CSS speed modes must be gone and frame memory must be capped!"
-assert "modal.addEventListener('close', () => soltarVisor())" in _visor and 'soltarVisor();' in js_function_body(_visor, 'closeMagicModal'), "VM1: closing the Visor (any way) must free the decoded frames!"
+assert "modal.addEventListener('close', () => { soltarVisor();" in _visor and 'soltarVisor();' in js_function_body(_visor, 'closeMagicModal'), "VM1: closing the Visor (any way) must free the decoded frames!"
 assert 'prefersReducedMotion()' in js_function_body(_visor, 'cargarEnReproductor'), "VM1: with prefers-reduced-motion the Visor must start paused!"
 _vel = [float(v) for v in re.search(r'VISOR_VELOCIDADES = \[([^\]]+)\]', _visor).group(1).split(',')]
 assert _vel[0] == 0.25 and _vel[-1] == 3, "VM1: real speed must go from 0.25x to 3x!"
@@ -469,7 +469,23 @@ for _s_id, _s_frames in re.findall(r"\{ id: (\d+),[^}]*?frames: (\d+),", open(os
         _n_anim += 1
         assert len(_anmf) == int(_s_frames), f"VM1: sticker_{_s_id} says frames: {_s_frames} but has {len(_anmf)} ANMF frames!"
         assert all(_c in (b'ALPH', b'VP8 ', b'VP8L') for _c in _anmf), f"VM1: sticker_{_s_id} has a frame the Visor reader cannot wrap!"
-print(f"✔ VM1-VM2 verified: own canvas player (0.25x-3x, pause, frame step, reverse, boomerang, time bar, memory freed on close) for the {_n_anim} animated stickers; titles from ALL_STICKERS.")
+# VM3 · «Crea tu sticker»: WebP animado de 512x512 con EXIF de WhatsApp, con los mismos limites que normalizar_stickers.py
+for _fn in ('crearStickerVisor', 'crearWebPAnimadoCreador', 'estimarAjusteCreador', 'codificarFotogramasCreador', 'montarWebPAnimado',
+            'exifWhatsAppCreador', 'imagenDeWebPFijo', 'ajustarSecuencia', 'cortarSecuenciaA10s', 'secuenciaCreador', 'crearImagenFijaCreador',
+            'recorrerComposicion', 'dibujarTextoMeme', 'emojisDelEscenario', 'marcarTramoCreador', 'compartirStickerCreado'):
+    assert f'function {_fn}(' in _visor, f"VM3: function {_fn} missing in js/05!"
+_norm = open('normalizar_stickers.py', encoding='utf-8').read()
+_lim_py = {k: int(re.search(rf'^{k} = (\d+)', _norm, re.M).group(1)) for k in ('MAX_ANIM_KB', 'MIN_FRAME_MS', 'MAX_TOTAL_MS')}
+assert f"CREADOR_MAX_BYTES = {_lim_py['MAX_ANIM_KB']} * 1024;" in _visor, "VM3: the sticker maker must use WhatsApp's animated size limit (MAX_ANIM_KB)!"
+assert f"CREADOR_MIN_MS = {_lim_py['MIN_FRAME_MS']};" in _visor and f"CREADOR_MAX_MS = {_lim_py['MAX_TOTAL_MS']};" in _visor, "VM3: frame >= 20 ms and total <= 10 s, as normalizar_stickers.py!"
+assert "trozoRiff('VP8X', new Uint8Array([0x02 | 0x08 | 0x10" in _visor and "...bytes24(f.dur), 0x02]" in _visor, "VM3: animated + EXIF + alpha header and full-canvas frames without blending!"
+assert "'sticker-pack-id'" in js_function_body(_visor, 'exifWhatsAppCreador') and "trozoRiff('EXIF', exifWhatsAppCreador())" in _visor, "VM3: the created sticker must carry the WhatsApp EXIF!"
+assert 'ctx.clearRect(l, l, e, e);' in js_function_body(_visor, 'pintarSalidaCreador'), "VM3: transparent corners force an ALPH chunk in every frame (WhatsApp needs it)!"
+assert "sabeCrearWebP() ? await crearWebPAnimadoCreador" in _visor and "lienzoABlob(salida, 'image/png')" in _visor, "VM3: browsers that cannot encode WebP (Safari) must get a still PNG!"
+assert re.search(r'<details id="visor-creador" data-no-swipe', page_html) and 'id="creador-texto" type="text" maxlength="28"' in page_html, "VM3: «Crea tu sticker» panel missing in the Visor!"
+for _id in ('creador-crear', 'creador-tramo', 'creador-estado', 'creador-resultado', 'creador-vista'):
+    assert f'id="{_id}"' in page_html, f"VM3: #{_id} missing!"
+print(f"✔ VM1-VM3 verified: own canvas player (0.25x-3x, pause, frame step, reverse, boomerang, time bar, memory freed on close) for the {_n_anim} animated stickers; titles from ALL_STICKERS; «Crea tu sticker» makes WhatsApp-ready animated WebP.")
 
 # Test 45: v3.3.2 - version.json (lo lee la app para avisar de versiones nuevas) coincide con el APK publicado.
 # Desde D-27 (4.1.0) la web lleva su propia versión (pie): version.json solo sube cuando sube el APK, o la app pediría actualizar sin fin.

@@ -633,6 +633,10 @@
             .visor-vel { padding: 0.25rem 0.2rem; font-size: 0.68rem; }
             .visor-interruptor { min-width: 2.25rem; font-size: 0.95rem; }
         }
+        #visor-creador[open] .visor-creador-flecha { transform: rotate(180deg); }
+        .visor-cuadros { background: repeating-conic-gradient(#F5F5F4 0 25%, #FFFFFF 0 50%) 0 0 / 16px 16px; }  /* deja ver la transparencia del sticker */
+        #visor-creador > summary { list-style: none; }
+        #visor-creador > summary::-webkit-details-marker { display: none; }
         @media (prefers-reduced-motion: reduce) {
             #magic-modal .animate-duang { animation: none; }
             .visor-ctrl:hover:not(:disabled) { transform: none; }

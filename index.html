@@ -1048,19 +1048,58 @@
                     </div>
                 </div>
 
+                <!-- VM3 · Crea tu sticker: tramo, texto tipo meme y emojis → sticker animado de WhatsApp (js/05, bloque 6C) -->
+                <details id="visor-creador" data-no-swipe ontoggle="alternarCreadorVisor(this.open)" class="bg-gradient-to-br from-amber-50 to-nailong-pale rounded-2xl border-2 border-nailong-orange">
+                    <summary class="cursor-pointer select-none px-3 py-2.5 font-display font-bold text-sm sm:text-base text-amber-950 flex items-center gap-2">
+                        <span aria-hidden="true">✂️</span> ¡Crea tu sticker de WhatsApp!
+                        <i class="fa-solid fa-chevron-down ml-auto text-xs transition-transform visor-creador-flecha" aria-hidden="true"></i>
+                    </summary>
+                    <div class="px-3 pb-3 space-y-2.5">
+                        <p class="text-[11px] sm:text-xs font-semibold text-amber-900">Elige el trozo con la barra de arriba, escribe un texto y pon emojis encima del dibujo. La velocidad, «al revés» y «bumerán» también cuentan.</p>
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <button type="button" onclick="marcarTramoCreador('inicio')" class="visor-vel">⏮ Empieza aquí</button>
+                            <button type="button" onclick="marcarTramoCreador('fin')" class="visor-vel">Acaba aquí ⏭</button>
+                            <button type="button" onclick="marcarTramoCreador('todo')" class="visor-vel">Todo</button>
+                        </div>
+                        <p id="creador-tramo" class="text-[11px] sm:text-xs font-bold text-amber-900">…</p>
+                        <div class="flex items-center gap-1.5">
+                            <label for="creador-texto" class="sr-only">Texto del sticker</label>
+                            <input id="creador-texto" type="text" maxlength="28" autocomplete="off" placeholder="Texto (opcional)" oninput="ponerTextoCreador(this.value)" class="flex-1 min-w-0 h-9 px-3 rounded-xl border-2 border-nailong-yellow bg-white text-sm font-bold text-amber-950 placeholder:text-amber-700/70 focus:outline-none focus:border-nailong-orange">
+                            <div role="group" aria-label="Posición del texto" class="flex shrink-0 gap-1">
+                                <button type="button" data-posicion="arriba" onclick="ponerPosicionCreador('arriba')" class="visor-vel" aria-pressed="false">Arriba</button>
+                                <button type="button" data-posicion="abajo" onclick="ponerPosicionCreador('abajo')" class="visor-vel" aria-pressed="true">Abajo</button>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" id="creador-crear" onclick="crearStickerVisor()" class="clay-btn bg-nailong-orange hover:bg-nailong-softorange text-amber-950 font-display font-bold px-4 py-2 text-sm flex items-center gap-1.5 shadow-sm disabled:opacity-50">✨ Crear sticker</button>
+                            <span id="creador-estado" aria-live="polite" class="text-[11px] sm:text-xs font-bold text-amber-900"></span>
+                        </div>
+                        <div id="creador-resultado" class="hidden flex items-center gap-3 bg-white/90 rounded-xl border-2 border-emerald-300 p-2">
+                            <img id="creador-vista" alt="Vista previa de tu sticker" class="visor-cuadros w-20 h-20 shrink-0 object-contain rounded-lg">
+                            <div class="min-w-0 space-y-1.5">
+                                <p id="creador-info" class="text-[11px] sm:text-xs font-bold text-emerald-900"></p>
+                                <button type="button" onclick="compartirStickerCreado()" class="clay-btn bg-[#25D366] hover:bg-[#20ba5a] text-[#052E16] font-display font-bold px-3 py-1.5 text-xs inline-flex items-center gap-1.5 shadow-sm"><i class="fa-brands fa-whatsapp text-sm"></i> Enviar o guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
                 <!-- Stickers arrastrables, «Sorpréndeme» y descarga -->
                 <div class="bg-white/95 p-3 sm:p-4 rounded-2xl border-2 border-nailong-yellow flex flex-wrap items-center justify-between gap-2 sm:gap-3">
                     <button type="button" onclick="sorprendeme()" class="clay-btn bg-nailong-yellow hover:bg-nailong-light text-amber-950 font-display font-bold px-3 py-1.5 text-xs flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 active:scale-95" title="Abrir un sticker animado al azar">
                         <i class="fa-solid fa-shuffle"></i> ¡Sorpréndeme!
                     </button>
 
-                    <div class="flex items-center gap-1">
+                    <div class="flex flex-wrap items-center gap-1">
                         <span class="font-display font-bold text-xs sm:text-sm text-amber-950 mr-1 hidden sm:inline">✨ Stickers:</span>
                         <button onclick="addModalSticker('🍗')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner muslito de pollo">🍗</button>
                         <button onclick="addModalSticker('💖')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner corazón">💖</button>
                         <button onclick="addModalSticker('⭐')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner estrellita">⭐</button>
                         <button onclick="addModalSticker('🍼')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner biberón">🍼</button>
                         <button onclick="addModalSticker('👑')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner coronita">👑</button>
+                        <button onclick="addModalSticker('😂')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner carcajada">😂</button>
+                        <button onclick="addModalSticker('🔥')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner fuego">🔥</button>
+                        <button onclick="addModalSticker('💤')" class="text-base sm:text-lg hover:scale-125 transition-transform bg-nailong-belly p-1 rounded-xl border border-nailong-yellow" title="Poner zzz">💤</button>
                         <button onclick="clearModalStickers()" title="Limpiar stickers" class="text-xs font-bold text-rose-700 bg-rose-100 px-2 py-1 rounded-xl ml-1 hover:bg-rose-200">
                             Borrar
                         </button>

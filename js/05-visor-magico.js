@@ -120,6 +120,7 @@
             prepararEventosVisor(modal);
             // Al abrir de nuevo, velocidad normal y hacia delante; al pasar de cromo se conserva lo elegido
             if (!yaAbierto) reiniciarAjustesVisor();
+            ocultarResultadoCreador();
             cargarEnReproductor(url, s.title);
         }
 
@@ -155,7 +156,7 @@
         const VISOR_BYTES_MAX = 48 * 1024 * 1024;        // tope de memoria de los fotogramas compuestos
         const VISOR_BYTES_MAX_MOVIL = 32 * 1024 * 1024;  // en móviles (táctiles o con poca RAM), menos
         const VISOR_LADO_MIN = 96;
-        const VISOR_DECODIFICANDO_A_LA_VEZ = 4;
+        const VISOR_DECODIFICANDO_A_LA_VEZ = 8;
 
         const reproductorVisor = {
             fotogramas: [],      // [{ img: ImageBitmap o <canvas>, dur: ms, inicio: ms }]
@@ -172,7 +173,10 @@
             bumeran: false,
             sentido: 1,
             abortar: null,
-            ctx: null
+            ctx: null,
+            info: null,          // fotogramas del fichero (para «Crea tu sticker», VM3)
+            desde: 0,            // tramo elegido en «Crea tu sticker»
+            hasta: 0
         };
 
         // --- Lector del contenedor WebP (RIFF) ---
@@ -299,14 +303,15 @@
             return Math.max(VISOR_LADO_MIN, Math.min(mayor, Math.ceil(css * dpr), porMemoria));
         }
 
-        async function componerFotogramas(info, lado, turno) {
-            const R = reproductorVisor;
+        /* Recorre los fotogramas 0…ultimo en orden y los compone en un lienzo de `lado` px respetando
+           desplazamiento, fusión y borrado; llama a cadaUno(i, lienzo) con cada uno ya compuesto.
+           Lo usan el reproductor (a tamaño de pantalla) y «Crea tu sticker» (a 512 px). */
+        async function recorrerComposicion(info, lado, ultimo, sigue, cadaUno) {
             const escala = lado / Math.max(info.ancho, info.alto);
             const lienzo = document.createElement('canvas');
             lienzo.width = Math.max(1, Math.round(info.ancho * escala));
             lienzo.height = Math.max(1, Math.round(info.alto * escala));
             const ctx = lienzo.getContext('2d');
-            const n = info.fotogramas.length;
             const rect = info.fotogramas.map(f => {
                 const x0 = Math.round(f.x * escala), y0 = Math.round(f.y * escala);
                 return { x0, y0, w: Math.max(1, Math.round((f.x + f.w) * escala) - x0), h: Math.max(1, Math.round((f.y + f.h) * escala) - y0) };
@@ -314,16 +319,17 @@
             // Se decodifican unos pocos por delante mientras se compone en orden
             const pendientes = new Map();
             const pedir = i => {
-                if (i < n && !pendientes.has(i)) pendientes.set(i, decodificarFotograma(info.fotogramas[i].archivo, rect[i].w, rect[i].h));
+                if (i > ultimo || pendientes.has(i)) return;
+                const pr = decodificarFotograma(info.fotogramas[i].archivo, rect[i].w, rect[i].h);
+                pr.catch(() => {});   // el error se recoge al esperarlo, no como rechazo suelto
+                pendientes.set(i, pr);
             };
-            const listos = [];
-            let inicio = 0;
             try {
-                for (let i = 0; i < n; i++) {
+                for (let i = 0; i <= ultimo; i++) {
                     for (let k = i; k < i + VISOR_DECODIFICANDO_A_LA_VEZ; k++) pedir(k);
                     const dec = await pendientes.get(i);
                     pendientes.delete(i);
-                    if (turno !== R.turno) { dec.soltar(); throw new Error('cancelado'); }
+                    if (!sigue()) { dec.soltar(); throw new Error('cancelado'); }
                     const f = info.fotogramas[i];
                     if (i > 0 && info.fotogramas[i - 1].borrar) {
                         const r = rect[i - 1];
@@ -332,20 +338,34 @@
                     if (!f.mezclar) ctx.clearRect(rect[i].x0, rect[i].y0, rect[i].w, rect[i].h);
                     ctx.drawImage(dec.fuente, rect[i].x0, rect[i].y0, rect[i].w, rect[i].h);
                     dec.soltar();
+                    await cadaUno(i, lienzo);
+                    if (!sigue()) throw new Error('cancelado');
+                }
+            } finally {
+                pendientes.forEach(pr => pr.then(d => d.soltar(), () => {}));
+                lienzo.width = 0;
+                lienzo.height = 0;
+            }
+        }
+
+        async function componerFotogramas(info, lado, turno) {
+            const R = reproductorVisor;
+            const n = info.fotogramas.length;
+            const listos = [];
+            let inicio = 0;
+            try {
+                await recorrerComposicion(info, lado, n - 1, () => turno === R.turno, async (i, lienzo) => {
+                    const f = info.fotogramas[i];
                     const dur = f.dur > 10 ? f.dur : 100;   // como los navegadores: 0–10 ms cuentan como 100 ms
                     listos.push({ img: await instantaneaLienzo(lienzo), dur, inicio });
                     inicio += dur;
-                    if (turno !== R.turno) throw new Error('cancelado');
-                    mostrarCargaVisor(i + 1, n);
-                }
+                    if (turno === R.turno) mostrarCargaVisor(i + 1, n);
+                });
             } catch (e) {
-                pendientes.forEach(pr => pr.then(d => d.soltar(), () => {}));
                 soltarFotogramas(listos);
-                lienzo.width = 0; lienzo.height = 0;
                 if (turno !== R.turno) return null;
                 throw e;
             }
-            lienzo.width = 0; lienzo.height = 0;
             return listos;
         }
 
@@ -379,6 +399,9 @@
                 if (turno !== R.turno) { soltarFotogramas(fotogramas); return; }
 
                 R.fotogramas = fotogramas;
+                R.info = info;
+                R.desde = 0;
+                R.hasta = fotogramas.length - 1;
                 R.total = fotogramas.reduce((t, f) => t + f.dur, 0);
                 R.listo = true;
                 R.abortar = null;
@@ -397,6 +420,7 @@
                 const barra = document.getElementById('visor-barra');
                 if (barra) barra.max = String(fotogramas.length - 1);
                 actualizarBarraVisor();
+                actualizarTramoCreador();
                 if (quieto) pausarVisor(); else reproducirVisor();
             } catch (e) {
                 if (turno !== R.turno) return;
@@ -421,6 +445,7 @@
             R.listo = false;
             soltarFotogramas(R.fotogramas);
             R.fotogramas = [];
+            R.info = null;
             R.total = 0;
             R.ctx = null;
             const lienzo = document.getElementById('modal-player-canvas');
@@ -442,19 +467,22 @@
             if (!R.ctx || !f) return;
             R.ctx.clearRect(0, 0, R.ctx.canvas.width, R.ctx.canvas.height);
             R.ctx.drawImage(f.img, 0, 0);
+            if (creadorVisor.activo) dibujarTextoMeme(R.ctx, R.ctx.canvas.width, R.ctx.canvas.height);
         }
 
+        // Siguiente fotograma dentro del tramo (todo el sticker, o el elegido en «Crea tu sticker»)
         function avanzarVisor() {
             const R = reproductorVisor;
-            const n = R.fotogramas.length;
-            if (n < 2) return;
+            const [a, b] = limitesVisor();
+            if (b <= a) { R.indice = a; return; }
+            if (R.indice < a || R.indice > b) { R.indice = R.sentido > 0 ? a : b; return; }
             let sig = R.indice + R.sentido;
-            if (sig < 0 || sig >= n) {
+            if (sig < a || sig > b) {
                 if (R.bumeran) {
                     R.sentido = -R.sentido;
                     sig = R.indice + R.sentido;
                 } else {
-                    sig = (sig + n) % n;
+                    sig = R.sentido > 0 ? a : b;
                 }
             }
             R.indice = sig;
@@ -610,6 +638,7 @@
                 if (icono) icono.className = R.reproduciendo ? 'fa-solid fa-pause' : 'fa-solid fa-play';
             }
             if (!R.listo) return;
+            if (creadorVisor.activo) actualizarTramoCreador();
             const extras = [R.marchaAtras ? 'al revés' : '', R.bumeran ? 'en bumerán' : ''].filter(Boolean).join(' y ');
             let texto = VISOR_TEXTO_VELOCIDAD[R.velocidad] || '';
             if (extras) texto += ` Ahora va ${extras}.`;
@@ -645,7 +674,7 @@
         function prepararEventosVisor(modal) {
             if (modal.dataset.visorListo) return;
             modal.dataset.visorListo = '1';
-            modal.addEventListener('close', () => soltarVisor());
+            modal.addEventListener('close', () => { soltarVisor(); ocultarResultadoCreador(); });
             const capa = document.getElementById('modal-stickers-layer');
             if (capa) capa.addEventListener('click', e => { if (e.target === capa) alternarPausaVisor(); });
         }
@@ -654,6 +683,7 @@
         function teclaVisor(e) {
             const modal = document.getElementById('magic-modal');
             if (!modal || !modal.open || e.ctrlKey || e.metaKey || e.altKey) return false;
+            if (e.target && e.target.closest && e.target.closest('input, textarea, select')) return false;   // escribiendo
             const enControl = e.target && e.target.closest && e.target.closest('button, a, input, select, textarea');
             if (e.key === 'k' || e.key === 'K' || (e.key === ' ' && !enControl)) {
                 e.preventDefault();
@@ -666,6 +696,490 @@
                 return true;
             }
             return false;
+        }
+
+        /* ==============================================================
+           6C. «CREA TU STICKER» (VM3)
+           Tramo, texto tipo meme, emojis del escenario, velocidad, al revés y bumerán →
+           WebP animado de 512×512 con el EXIF de WhatsApp, de 500 KB como máximo, 10 s como
+           máximo y fotogramas de 20 ms como mínimo (las mismas reglas que normalizar_stickers.py).
+           Cada fotograma se codifica con canvas.toBlob('image/webp') y aquí se montan todos en un
+           WebP animado (VP8X + ANIM + ANMF + EXIF). Si pesa demasiado, se baja la calidad o se
+           quitan fotogramas y se vuelve a intentar. Safari no sabe crear WebP: allí sale una
+           imagen fija (PNG) del fotograma que se ve.
+        ============================================================== */
+        const CREADOR_TAM = 512;
+        const CREADOR_MAX_BYTES = 500 * 1024;
+        const CREADOR_MAX_MS = 10000;
+        const CREADOR_MIN_MS = 20;
+        const CREADOR_FOTOGRAMAS_OBJETIVO = 80;   // como los stickers más largos del álbum
+        const creadorVisor = { activo: false, texto: '', posicion: 'abajo', urlResultado: null, nombre: '', ocupado: false };
+
+        function limitesVisor() {
+            const R = reproductorVisor;
+            const n = R.fotogramas.length;
+            if (!creadorVisor.activo || !n) return [0, Math.max(0, n - 1)];
+            return [Math.min(R.desde, n - 1), Math.min(R.hasta, n - 1)];
+        }
+
+        // --- Panel ---
+        function alternarCreadorVisor(abierto) {
+            creadorVisor.activo = Boolean(abierto);
+            actualizarTramoCreador();
+            pintarFotogramaVisor();
+            if (abierto) playSound('pop');
+        }
+
+        function ponerTextoCreador(texto) {
+            creadorVisor.texto = String(texto || '').slice(0, 28);
+            pintarFotogramaVisor();
+        }
+
+        function ponerPosicionCreador(posicion) {
+            playSound('pop');
+            creadorVisor.posicion = posicion === 'arriba' ? 'arriba' : 'abajo';
+            document.querySelectorAll('#visor-creador [data-posicion]').forEach(b => {
+                b.setAttribute('aria-pressed', b.dataset.posicion === creadorVisor.posicion ? 'true' : 'false');
+            });
+            pintarFotogramaVisor();
+        }
+
+        // «Empieza aquí» / «Acaba aquí» / «Todo»: el tramo se marca con el fotograma que se está viendo
+        function marcarTramoCreador(extremo) {
+            const R = reproductorVisor;
+            const n = R.fotogramas.length;
+            if (!R.listo || !n) return;
+            playSound('pop');
+            if (extremo === 'inicio') {
+                R.desde = R.indice;
+                if (R.hasta < R.desde) R.hasta = n - 1;
+            } else if (extremo === 'fin') {
+                R.hasta = R.indice;
+                if (R.desde > R.hasta) R.desde = 0;
+            } else {
+                R.desde = 0;
+                R.hasta = n - 1;
+            }
+            actualizarTramoCreador();
+        }
+
+        function actualizarTramoCreador() {
+            const R = reproductorVisor;
+            const etiqueta = document.getElementById('creador-tramo');
+            const barra = document.getElementById('visor-barra');
+            const n = R.fotogramas.length;
+            if (!R.listo || !n) {
+                if (etiqueta) etiqueta.textContent = '…';
+                if (barra) barra.style.background = '';
+                return;
+            }
+            const fin = R.fotogramas[R.hasta];
+            const plan = ajustarSecuencia(secuenciaCreador(), 1);
+            if (etiqueta) {
+                etiqueta.textContent = `${formatoSegundos(R.fotogramas[R.desde].inicio)}–${formatoSegundos(fin.inicio + fin.dur)} s del original · tu sticker durará ${formatoSegundos(plan.total)} s` +
+                    (plan.recortado ? ' (máximo de WhatsApp: se corta a 10 s)' : '');
+            }
+            if (barra) {
+                if (creadorVisor.activo && n > 1) {
+                    // El tramo se pinta en la barra (el centro del tirador va de 14 px a 100 % − 14 px)
+                    const pos = i => `calc(14px + (100% - 28px) * ${(i / (n - 1)).toFixed(4)})`;
+                    barra.style.background = `linear-gradient(to right, #FFF3B0 ${pos(R.desde)}, #FFBF69 ${pos(R.desde)}, #FFBF69 ${pos(R.hasta)}, #FFF3B0 ${pos(R.hasta)})`;
+                } else {
+                    barra.style.background = '';
+                }
+            }
+        }
+
+        function ponerEstadoCreador(texto) {
+            const el = document.getElementById('creador-estado');
+            if (el) el.textContent = texto;
+        }
+
+        function ocultarResultadoCreador() {
+            const caja = document.getElementById('creador-resultado');
+            const vista = document.getElementById('creador-vista');
+            if (caja) caja.classList.add('hidden');
+            if (vista) vista.removeAttribute('src');
+            if (creadorVisor.urlResultado) URL.revokeObjectURL(creadorVisor.urlResultado);
+            creadorVisor.urlResultado = null;
+            if (!creadorVisor.ocupado) ponerEstadoCreador('');
+        }
+
+        function mostrarResultadoCreador(res, s) {
+            ocultarResultadoCreador();
+            creadorVisor.urlResultado = URL.createObjectURL(res.blob);
+            creadorVisor.nombre = `nailong_mi_sticker_${s.id}.${res.animado ? 'webp' : 'png'}`;
+            const kb = Math.round(res.blob.size / 1024);
+            document.getElementById('creador-vista').src = creadorVisor.urlResultado;
+            let texto;
+            if (res.animado) {
+                texto = `✅ ¡Listo! ${kb} KB · ${formatoSegundos(res.total)} s · ${res.fotogramas} fotogramas`;
+                if (res.recortado) texto += ' · cortado a 10 s';
+                if (res.blob.size > CREADOR_MAX_BYTES) texto += ' · ⚠️ pasa de 500 KB y WhatsApp puede rechazarlo: acorta el tramo';
+            } else {
+                texto = `🖼️ Imagen fija (${kb} KB): este navegador no sabe crear stickers animados.`;
+            }
+            document.getElementById('creador-info').textContent = texto;
+            document.getElementById('creador-resultado').classList.remove('hidden');
+            ponerEstadoCreador('');
+        }
+
+        function compartirStickerCreado() {
+            if (!creadorVisor.urlResultado) return;
+            openStickerOptionsModal(creadorVisor.urlResultado, creadorVisor.nombre, 'Mi sticker de Nailong');
+        }
+
+        // --- Dibujo del texto y de los emojis ---
+        function dibujarTextoMeme(ctx, ancho, alto) {
+            const texto = creadorVisor.texto.trim().toUpperCase();
+            if (!texto) return;
+            const fuente = t => `700 ${t}px Fredoka, Fredoka-Fallback, sans-serif`;
+            let tam = Math.round(alto * 0.12);
+            ctx.save();
+            ctx.font = fuente(tam);
+            const maxAncho = ancho * 0.92;
+            const medida = ctx.measureText(texto).width;
+            if (medida > maxAncho) {
+                tam = Math.max(Math.round(alto * 0.05), Math.floor(tam * maxAncho / medida));
+                ctx.font = fuente(tam);
+            }
+            const arriba = creadorVisor.posicion === 'arriba';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = arriba ? 'top' : 'bottom';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = Math.max(2, tam * 0.2);
+            ctx.strokeStyle = '#2B1700';
+            ctx.fillStyle = '#FFFFFF';
+            const y = arriba ? alto * 0.04 : alto * 0.965;
+            ctx.strokeText(texto, ancho / 2, y);
+            ctx.fillText(texto, ancho / 2, y);
+            ctx.restore();
+        }
+
+        // Emojis arrastrados sobre el dibujo, en proporción (0–1) a la imagen que se ve en el lienzo
+        function emojisDelEscenario() {
+            const lienzo = document.getElementById('modal-player-canvas');
+            const capa = document.getElementById('modal-stickers-layer');
+            if (!lienzo || !capa || lienzo.classList.contains('hidden')) return [];
+            const r = lienzo.getBoundingClientRect();
+            const lado = Math.min(r.width, r.height);
+            if (!lado) return [];
+            const x0 = r.left + (r.width - lado) / 2;
+            const y0 = r.top + (r.height - lado) / 2;
+            return [...capa.children].map(el => {
+                const e = el.getBoundingClientRect();
+                const giro = /rotate\(([-\d.]+)deg\)/.exec(el.style.transform || '');
+                return {
+                    emoji: el.textContent,
+                    x: (e.left + e.width / 2 - x0) / lado,
+                    y: (e.top + e.height / 2 - y0) / lado,
+                    tam: parseFloat(getComputedStyle(el).fontSize) / lado,
+                    giro: giro ? parseFloat(giro[1]) * Math.PI / 180 : 0
+                };
+            }).filter(e => e.emoji && e.x > -0.2 && e.x < 1.2 && e.y > -0.2 && e.y < 1.2);
+        }
+
+        function dibujarEmojis(ctx, lado, emojis) {
+            emojis.forEach(e => {
+                ctx.save();
+                ctx.translate(e.x * lado, e.y * lado);
+                ctx.rotate(e.giro);
+                ctx.font = `${Math.round(e.tam * lado)}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(e.emoji, 0, 0);
+                ctx.restore();
+            });
+        }
+
+        function pintarSalidaCreador(salida, compuesto, emojis) {
+            const ctx = salida.getContext('2d');
+            ctx.clearRect(0, 0, CREADOR_TAM, CREADOR_TAM);
+            ctx.drawImage(compuesto, Math.round((CREADOR_TAM - compuesto.width) / 2), Math.round((CREADOR_TAM - compuesto.height) / 2));
+            dibujarTextoMeme(ctx, CREADOR_TAM, CREADOR_TAM);
+            dibujarEmojis(ctx, CREADOR_TAM, emojis);
+            // Esquinas transparentes (como los PNG copiados, test 41): así el navegador guarda siempre el canal
+            // alfa (ALPH) en cada fotograma, que WhatsApp exige en los animados aunque el sticker sea opaco
+            const e = 2, l = CREADOR_TAM - e;
+            ctx.clearRect(0, 0, e, e);
+            ctx.clearRect(l, 0, e, e);
+            ctx.clearRect(0, l, e, e);
+            ctx.clearRect(l, l, e, e);
+        }
+
+        // --- Orden y duración de los fotogramas ---
+        function secuenciaCreador() {
+            const R = reproductorVisor;
+            const [a, b] = limitesVisor();
+            let orden = [];
+            for (let i = a; i <= b; i++) orden.push(i);
+            if (R.marchaAtras) orden.reverse();
+            if (R.bumeran && orden.length > 2) orden = orden.concat(orden.slice(1, -1).reverse());
+            return orden.map(i => ({ i, dur: R.fotogramas[i].dur / R.velocidad }));
+        }
+
+        /* Se queda con 1 de cada `paso` fotogramas (puede ser fraccionario: 1,25 quita 1 de cada 5, repartidos)
+           sumando su tiempo, funde los de menos de 20 ms y corta a 10 s */
+        function ajustarSecuencia(secuencia, paso) {
+            const saltada = [];
+            for (let pos = 0; Math.floor(pos) < secuencia.length; pos += paso) {
+                const k = Math.floor(pos);
+                const fin = Math.max(k + 1, Math.min(secuencia.length, Math.floor(pos + paso)));
+                let dur = 0;
+                for (let j = k; j < fin; j++) dur += secuencia[j].dur;
+                saltada.push({ i: secuencia[k].i, dur });
+            }
+            const fundida = [];
+            let actual = null;
+            saltada.forEach(f => {
+                if (actual && actual.dur < CREADOR_MIN_MS) { actual.dur += f.dur; return; }
+                actual = { i: f.i, dur: f.dur };
+                fundida.push(actual);
+            });
+            const fotogramas = [];
+            let total = 0;
+            for (const f of fundida) {
+                const dur = Math.max(CREADOR_MIN_MS, Math.round(f.dur));
+                if (total + dur > CREADOR_MAX_MS) break;
+                fotogramas.push({ i: f.i, dur });
+                total += dur;
+            }
+            return { fotogramas, total, recortado: fotogramas.length < fundida.length };
+        }
+
+        // --- Codificación y montaje del WebP animado ---
+        function lienzoABlob(lienzo, tipo, calidad) {
+            return new Promise(ok => {
+                try { lienzo.toBlob(b => ok(b), tipo, calidad); } catch (e) { ok(null); }
+            });
+        }
+
+        function sabeCrearWebP() {
+            try {
+                const c = document.createElement('canvas');
+                c.width = 1;
+                c.height = 1;
+                return c.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function trozoRiff(tipo, datos) {
+            const pad = datos.length & 1;
+            const out = new Uint8Array(8 + datos.length + pad);
+            for (let k = 0; k < 4; k++) out[k] = tipo.charCodeAt(k);
+            new DataView(out.buffer).setUint32(4, datos.length, true);
+            out.set(datos, 8);
+            return out;
+        }
+
+        function unirBytes(partes) {
+            const out = new Uint8Array(partes.reduce((t, p) => t + p.length, 0));
+            let p = 0;
+            partes.forEach(x => { out.set(x, p); p += x.length; });
+            return out;
+        }
+
+        function bytes24(v) {
+            return [v & 255, (v >> 8) & 255, (v >> 16) & 255];
+        }
+
+        // Datos de imagen (ALPH + VP8, o VP8L) de un WebP fijo hecho por el navegador
+        function imagenDeWebPFijo(bytes) {
+            const partes = [];
+            let p = 12;
+            while (p + 8 <= bytes.length) {
+                const tipo = String.fromCharCode(bytes[p], bytes[p + 1], bytes[p + 2], bytes[p + 3]);
+                const tam = (bytes[p + 4] | (bytes[p + 5] << 8) | (bytes[p + 6] << 16) | (bytes[p + 7] << 24)) >>> 0;
+                if (tipo === 'ALPH' || tipo === 'VP8 ' || tipo === 'VP8L') partes.push(trozoRiff(tipo, bytes.subarray(p + 8, p + 8 + tam)));
+                p += 8 + tam + (tam & 1);
+            }
+            if (!partes.length) throw new Error('El navegador no ha creado un WebP válido');
+            return unirBytes(partes);
+        }
+
+        // EXIF de WhatsApp: TIFF con la etiqueta 0x5741 y el JSON del pack (mismo formato que el sticker 3D)
+        function exifWhatsAppCreador() {
+            const json = JSON.stringify({
+                'sticker-pack-id': 'nailong.visor.web',
+                'sticker-pack-name': 'Mis stickers de Nailong',
+                'sticker-pack-publisher': 'El Mundo Mágico de Nailong'
+            }).replace(/\//g, '\\/');
+            const datos = new TextEncoder().encode(json);
+            const n = datos.length;
+            const exif = new Uint8Array(26 + n);
+            exif.set([
+                0x4D, 0x4D, 0x00, 0x2A, 0x00, 0x00, 0x00, 0x08,
+                0x00, 0x01, 0x57, 0x41, 0x00, 0x07,
+                (n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255,
+                0x00, 0x00, 0x00, 0x1A, 0x00, 0x00, 0x00, 0x00
+            ], 0);
+            exif.set(datos, 26);
+            return exif;
+        }
+
+        function montarWebPAnimado(fotogramas, codificados) {
+            const m1 = CREADOR_TAM - 1;
+            const vp8x = trozoRiff('VP8X', new Uint8Array([0x02 | 0x08 | 0x10, 0, 0, 0, ...bytes24(m1), ...bytes24(m1)]));  // animado + EXIF + alfa
+            const anim = trozoRiff('ANIM', new Uint8Array([0, 0, 0, 0, 0, 0]));   // fondo transparente y bucle infinito
+            const anmf = fotogramas.map(f => trozoRiff('ANMF', unirBytes([
+                new Uint8Array([0, 0, 0, 0, 0, 0, ...bytes24(m1), ...bytes24(m1), ...bytes24(f.dur), 0x02]),   // lienzo entero, sin fundir ni borrar
+                codificados.get(f.i)[0]
+            ])));
+            const cuerpo = unirBytes([vp8x, anim, ...anmf, trozoRiff('EXIF', exifWhatsAppCreador())]);
+            const cab = new Uint8Array(12);
+            cab.set([0x52, 0x49, 0x46, 0x46], 0);
+            new DataView(cab.buffer).setUint32(4, 4 + cuerpo.length, true);
+            cab.set([0x57, 0x45, 0x42, 0x50], 8);
+            return unirBytes([cab, cuerpo]);
+        }
+
+        // Codifica los fotogramas `indices` (compuestos a 512 px con texto y emojis) a cada una de las `calidades`
+        async function codificarFotogramasCreador(indices, calidades, emojis, sigue, alAvanzar) {
+            const R = reproductorVisor;
+            const necesarios = new Set(indices);
+            const ultimo = Math.max(...indices);
+            const salida = document.createElement('canvas');
+            salida.width = CREADOR_TAM;
+            salida.height = CREADOR_TAM;
+            const codificados = new Map();
+            try {
+                await recorrerComposicion(R.info, CREADOR_TAM, ultimo, sigue, async (i, compuesto) => {
+                    if (necesarios.has(i)) {
+                        pintarSalidaCreador(salida, compuesto, emojis);
+                        const versiones = [];
+                        for (const calidad of calidades) {
+                            const blob = await lienzoABlob(salida, 'image/webp', calidad);
+                            if (!blob || blob.type !== 'image/webp') throw new Error('Sin WebP');
+                            versiones.push(imagenDeWebPFijo(new Uint8Array(await blob.arrayBuffer())));
+                        }
+                        codificados.set(i, versiones);
+                    }
+                    alAvanzar(i + 1, ultimo + 1);
+                });
+            } finally {
+                salida.width = 0;
+                salida.height = 0;
+            }
+            return codificados;
+        }
+
+        /* Elige calidad y fotogramas antes de la pasada completa: codifica una muestra de 12 fotogramas a
+           calidad 0,72 y 0,42 y estima el peso (crece con la calidad de forma aproximadamente exponencial). */
+        async function estimarAjusteCreador(plan, paso, emojis, sigue) {
+            const indices = [...new Set(plan.fotogramas.map(f => f.i))].sort((a, b) => a - b);
+            if (indices.length <= 16) return { calidad: 0.72, paso };
+            const muestra = [];
+            for (let k = 0; k < 12; k++) muestra.push(indices[Math.floor(k * (indices.length - 1) / 11)]);
+            const medidas = await codificarFotogramasCreador([...new Set(muestra)], [0.72, 0.42], emojis, sigue,
+                (hechos, total) => ponerEstadoCreador(`✨ Calculando el peso… ${Math.round(100 * hechos / total)} %`));
+            let s72 = 0, s42 = 0;
+            muestra.forEach(i => { s72 += medidas.get(i)[0].length; s42 += medidas.get(i)[1].length; });
+            s72 = s72 / muestra.length * plan.fotogramas.length;
+            s42 = s42 / muestra.length * plan.fotogramas.length;
+            const objetivo = CREADOR_MAX_BYTES * 0.9;
+            if (s72 <= objetivo) return { calidad: 0.72, paso };
+            // Modelo: log(peso) lineal con la calidad. Se baja la calidad hasta 0,35 antes de quitar fotogramas
+            const pendiente = Math.log(s72 / s42) / 0.3;
+            if (!(pendiente > 0)) return s42 <= objetivo ? { calidad: 0.42, paso } : { calidad: 0.42, paso: paso * s42 / objetivo };
+            const calidad = 0.42 + Math.log(objetivo / s42) / pendiente;
+            if (calidad >= 0.35) return { calidad: Math.min(0.72, calidad), paso };
+            const s35 = s42 * Math.exp(pendiente * (0.35 - 0.42));
+            return { calidad: 0.35, paso: paso * s35 / objetivo };
+        }
+
+        // Corta la secuencia a 10 s antes de aligerarla (si no, se quitarían fotogramas que luego se tiran)
+        function cortarSecuenciaA10s(secuencia) {
+            const out = [];
+            let total = 0;
+            for (const f of secuencia) {
+                const dur = Math.max(CREADOR_MIN_MS, f.dur);
+                if (total + dur > CREADOR_MAX_MS) break;
+                out.push(f);
+                total += dur;
+            }
+            return { secuencia: out, recortado: out.length < secuencia.length };
+        }
+
+        async function crearWebPAnimadoCreador(emojis, sigue) {
+            const corte = cortarSecuenciaA10s(secuenciaCreador());
+            const secuencia = corte.secuencia;
+            let paso = Math.max(1, secuencia.length / CREADOR_FOTOGRAMAS_OBJETIVO);
+            const ajuste = await estimarAjusteCreador(ajustarSecuencia(secuencia, paso), paso, emojis, sigue);
+            let calidad = ajuste.calidad;
+            paso = ajuste.paso;
+            let mejor = null;
+            for (let intento = 1; intento <= 3; intento++) {
+                const plan = ajustarSecuencia(secuencia, paso);
+                const indices = [...new Set(plan.fotogramas.map(f => f.i))];
+                const aviso = intento > 1 ? ` (ajustando el peso, intento ${intento})` : '';
+                const codificados = await codificarFotogramasCreador(indices, [calidad], emojis, sigue,
+                    (hechos, total) => ponerEstadoCreador(`✨ Creando tu sticker… ${Math.round(100 * hechos / total)} %${aviso}`));
+                const bytes = montarWebPAnimado(plan.fotogramas, codificados);
+                const res = { blob: new Blob([bytes], { type: 'image/webp' }), animado: true, fotogramas: plan.fotogramas.length, total: plan.total, recortado: corte.recortado || plan.recortado };
+                if (!mejor || res.blob.size < mejor.blob.size) mejor = res;
+                if (bytes.length <= CREADOR_MAX_BYTES) return res;
+                // La estimación se quedó corta: menos calidad (hasta 0,3) o, si ya no se puede, menos fotogramas
+                const proporcion = CREADOR_MAX_BYTES / bytes.length;
+                if (proporcion >= 0.8 && calidad > 0.35) calidad = Math.max(0.3, calidad - 0.12);
+                else paso = paso / Math.max(0.34, proporcion * 0.95);
+            }
+            return mejor;
+        }
+
+        // Safari: imagen fija (PNG) del fotograma que se ve, con el texto y los emojis
+        async function crearImagenFijaCreador(emojis, sigue) {
+            const R = reproductorVisor;
+            const objetivo = R.indice;
+            const salida = document.createElement('canvas');
+            salida.width = CREADOR_TAM;
+            salida.height = CREADOR_TAM;
+            let blob = null;
+            try {
+                await recorrerComposicion(R.info, CREADOR_TAM, objetivo, sigue, async (i, compuesto) => {
+                    if (i !== objetivo) return;
+                    pintarSalidaCreador(salida, compuesto, emojis);
+                    blob = await lienzoABlob(salida, 'image/png');
+                });
+            } finally {
+                salida.width = 0;
+                salida.height = 0;
+            }
+            if (!blob) throw new Error('Sin PNG');
+            return { blob, animado: false };
+        }
+
+        async function crearStickerVisor() {
+            const R = reproductorVisor;
+            if (!R.listo || !R.info || creadorVisor.ocupado) return;
+            const s = stickerActualVisor();
+            const turno = R.turno;
+            const boton = document.getElementById('creador-crear');
+            const estabaReproduciendo = R.reproduciendo;
+            creadorVisor.ocupado = true;
+            if (boton) boton.disabled = true;
+            playSound('pop');
+            pausarVisor();
+            ocultarResultadoCreador();
+            ponerEstadoCreador('✨ Creando tu sticker…');
+            const emojis = emojisDelEscenario();
+            try {
+                if (document.fonts && document.fonts.load) {
+                    try { await document.fonts.load('700 48px Fredoka'); } catch (e) { /* se usa la fuente de reserva */ }
+                }
+                const sigue = () => turno === R.turno;
+                const res = sabeCrearWebP() ? await crearWebPAnimadoCreador(emojis, sigue) : await crearImagenFijaCreador(emojis, sigue);
+                if (turno !== R.turno || !res) return;
+                mostrarResultadoCreador(res, s);
+                playSound('fanfare');
+            } catch (e) {
+                if (turno === R.turno) ponerEstadoCreador('😿 No se ha podido crear el sticker. Prueba con un tramo más corto.');
+            } finally {
+                creadorVisor.ocupado = false;
+                if (boton) boton.disabled = false;
+                if (estabaReproduciendo && turno === R.turno) reproducirVisor();
+            }
         }
 
         function addModalSticker(emoji) {
