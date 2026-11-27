@@ -96,7 +96,7 @@ for s_id, s_name in soundboard_matches:
 assert len(soundboard_matches) == 12, f"Expected 12 soundboard tiles, got {len(soundboard_matches)}"
 
 # Test 6: Verify FEATURED_GIFS has 9 items
-featured_matches = re.findall(r"\{\s*id:\s*(\d+),\s*tag:\s*'([^']+)'", html)
+featured_matches = re.findall(r"\{\s*clave:\s*'([a-z0-9-]+)',\s*tag:\s*'([^']+)'", html)
 assert len(featured_matches) == 9, f"Expected 9 featured GIFs, got {len(featured_matches)}"
 print("✔ FEATURED_GIFS contains 9 curated real animated scenes.")
 
@@ -452,6 +452,11 @@ assert re.search(r'id="visor-controles" data-no-swipe', page_html), "VM1: swipin
 assert 'type="range" id="visor-barra"' in page_html, "VM1: the time bar must be a native range input!"
 _feat = _visor[_visor.index('const FEATURED_GIFS = ['):_visor.index('];', _visor.index('const FEATURED_GIFS = ['))]
 assert 'title:' not in _feat and 'desc:' not in _feat, "VM2: the Visor must not keep its own copies of titles and descriptions (read them from ALL_STICKERS)!"
+_claves_feat = re.findall(r"clave: '([a-z0-9-]+)'", _feat)
+assert len(_claves_feat) == 9 and 'id:' not in _feat and 'stickerPorClave(gif.clave)' in _visor, "VM2: the 9 Visor scenes must point to their sticker by stable key (D-22), not by number!"
+_claves_js02 = set(re.findall(r"clave: '([a-z0-9-]+)'", open(os.path.join('js', '02-datos-stickers.js'), encoding='utf-8').read()))
+for _k in _claves_feat:
+    assert _k in _claves_js02, f"VM2: Visor scene clave '{_k}' has no sticker in ALL_STICKERS!"
 assert 's.title' in js_function_body(_visor, 'renderGifWall') and 's.desc' in js_function_body(_visor, 'mostrarEnVisor'), "VM2: titles and descriptions must come from ALL_STICKERS!"
 assert 'esStickerAnimado(item)' in _alb and 'abrirVisorConSticker(item)' in _alb and 'featuredGifIndexOf' not in html, "VM2: every animated sticker of the album must open in the Visor!"
 assert page_html.count('onclick="sorprendeme()"') >= 2, "VM2: «¡Sorpréndeme!» must be in the Visor strip and inside the Visor!"
@@ -541,8 +546,19 @@ assert "Math.round(foodCanvas.width * 0.013)" in _mj_txt, "Minigame arrow key sp
 assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2.mp4')), "video-promo/nailong_trailer_v2.mp4 missing!"
 assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2_portada.webp')), "video-promo/nailong_trailer_v2_portada.webp missing!"
 assert 'video-ambient-canvas' in html, "video-ambient-canvas missing in index.html!"
+# V1 (web 4.3.0): en pantallas anchas, el trailer horizontal 16:9 con su portada; en movil vertical, el vertical
+assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2_horizontal.mp4')), "V1: video-promo/nailong_trailer_v2_horizontal.mp4 missing!"
+assert os.path.exists(os.path.join('video-promo', 'nailong_trailer_v2_horizontal_portada.webp')), "V1: video-promo/nailong_trailer_v2_horizontal_portada.webp missing!"
+_inicio = open(os.path.join('js', '10-inicio.js'), encoding='utf-8').read()
+for _ref in ('video-promo/nailong_trailer_v2.mp4', 'video-promo/nailong_trailer_v2_portada.webp', 'video-promo/nailong_trailer_v2_horizontal.mp4', 'video-promo/nailong_trailer_v2_horizontal_portada.webp'):
+    assert f"'{_ref}'" in _inicio and os.path.exists(_ref), f"V1: js/10 must point the trailer formats to existing files ({_ref})!"
+assert 'function elegirFormatoTrailer(' in _inicio and "matchMedia(TRAILER_CONSULTA_HORIZONTAL)" in _inicio and re.search(r'^        elegirFormatoTrailer\(\);', _inicio, re.M), "V1: the trailer format must be chosen with matchMedia as soon as js/10 loads!"
+assert 'if (box.open) elegirFormatoTrailer();' in js_function_body(_inicio, 'setupTrailerFold'), "V1: opening the trailer must choose the format again (rotated phone, resized window)!"
+_vid = re.search(r'<video id="trailer-video"[^>]*>', page_html).group(0)
+assert 'preload="none"' in _vid and 'poster=' not in _vid, "V1: the trailer keeps preload=none and gets its poster from js/10 (only the right one is downloaded)!"
+assert '#video-promo-section.trailer-horizontal #video-player-container' in html and 'aspect-ratio: 16 / 9' in html, "V1: 16:9 box for the horizontal trailer missing in css/styles.css!"
 
-print("✔ v3.4.1 verified: zero Chinese chars, creator credit in web & app, trailer v2 with ambilight & minigame speed tuned.")
+print("✔ v3.4.1 verified: zero Chinese chars, creator credit in web & app, trailer v2 (vertical on phones, horizontal 16:9 on wide screens, V1) with ambilight & minigame speed tuned.")
 
 # Test 48: v3.5.0 - A8-A13, W6-W7, zoom grande centrado y revision de Mi Seleccion
 assert 'id="apk-qr-box"' in page_html and 'id="apk-qr-img"' in page_html, "W6: APK QR box missing in index.html!"

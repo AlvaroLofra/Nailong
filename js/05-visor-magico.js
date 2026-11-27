@@ -1,23 +1,23 @@
         /* ==============================================================
            5. TIRA DE ESCENAS DEL VISOR MÁGICO
-           Cada escena solo guarda su etiqueta y su fondo: el título y la descripción se
-           leen de ALL_STICKERS (js/02), así no vuelven a desincronizarse (VM2).
+           Cada escena solo guarda la clave de su cromo, su etiqueta y su fondo: el título y la
+           descripción se leen de ALL_STICKERS (js/02), así no vuelven a desincronizarse (VM2).
         ============================================================== */
         const FEATURED_GIFS = [
-            { id: 17, tag: 'GLOTÓN 🍿', bg: 'from-amber-100 to-yellow-100' },
-            { id: 10, tag: 'ARCOÍRIS 🌈', bg: 'from-yellow-100 to-pink-100' },
-            { id: 33, tag: 'FIESTA 🦁', bg: 'from-sky-100 to-teal-100' },
-            { id: 21, tag: 'ESCAPE 🏃', bg: 'from-orange-100 to-amber-100' },
-            { id: 29, tag: 'RELAX 🍃', bg: 'from-emerald-100 to-lime-100' },
-            { id: 38, tag: 'DORMILÓN 🍼', bg: 'from-blue-100 to-sky-100' },
-            { id: 13, tag: 'RISAS 😝', bg: 'from-rose-100 to-amber-100' },
-            { id: 11, tag: 'PUCHERO 🥺', bg: 'from-yellow-100 to-orange-100' },
-            { id: 39, tag: 'ALEGRÍA 🕺', bg: 'from-purple-100 to-pink-100' }
+            { clave: 'palomitas-sofa', tag: 'RISAS 🍿', bg: 'from-amber-100 to-yellow-100' },
+            { clave: 'baile-arcoiris', tag: 'ARCOÍRIS 🌈', bg: 'from-yellow-100 to-pink-100' },
+            { clave: 'gorro-de-leon', tag: 'FIESTA 🦁', bg: 'from-sky-100 to-teal-100' },
+            { clave: 'huida-bosque', tag: 'ESCAPE 🏃', bg: 'from-orange-100 to-amber-100' },
+            { clave: 'pataleo-camino', tag: 'PATALEO 🦶', bg: 'from-emerald-100 to-lime-100' },
+            { clave: 'siesta-hamaca', tag: 'RELAX 🌴', bg: 'from-blue-100 to-sky-100' },
+            { clave: 'burla-lengua', tag: 'BURLA 😝', bg: 'from-rose-100 to-amber-100' },
+            { clave: 'muneco-antiestres', tag: 'JUGUETE 🧸', bg: 'from-yellow-100 to-orange-100' },
+            { clave: 'baile-alegria', tag: 'ALEGRÍA 🕺', bg: 'from-purple-100 to-pink-100' }
         ];
 
-        // Cromo de ALL_STICKERS que corresponde a una escena de la tira
+        // Cromo de ALL_STICKERS que corresponde a una escena de la tira (por clave estable, D-22)
         function stickerDeEscena(gif) {
-            return ALL_STICKERS.find(s => s.id === gif.id) || null;
+            return stickerPorClave(gif.clave) || null;
         }
 
         // ¿Se mueve? (cromos del catálogo con más de un fotograma; las fotos del usuario no)

@@ -564,6 +564,26 @@
             z-index: 2 !important;
         }
 
+        /* V1 · Tráiler horizontal 16:9 en pantallas anchas (js/10, elegirFormatoTrailer): caja apaisada con el
+           texto debajo; no pasa del 80 % del alto de la ventana (móvil girado) */
+        #video-promo-section.trailer-horizontal .trailer-cuerpo { flex-direction: column; }
+        #video-promo-section.trailer-horizontal #video-player-container {
+            width: min(100%, 48rem, calc(80vh * 16 / 9));
+            height: auto;
+            aspect-ratio: 16 / 9;
+        }
+        #video-promo-section.trailer-horizontal .trailer-texto { text-align: center; }
+        #video-promo-section.trailer-horizontal .trailer-texto .flex { justify-content: center; }
+        #video-promo-section.trailer-horizontal .trailer-cerrado { width: 5.5rem; height: 3.1rem; }
+        #video-promo-section.trailer-horizontal #video-player-container:fullscreen video,
+        #video-promo-section.trailer-horizontal #video-player-container:-webkit-full-screen video,
+        #video-promo-section.trailer-horizontal #video-player-container.trailer-fullscreen-active video {
+            width: 96vw !important;
+            height: auto !important;
+            max-width: calc(94vh * 16 / 9) !important;
+            max-height: 94vh !important;
+        }
+
         /* ---------- Nailong 3D (sección #nailong-3d, js/11 a js/14, visible para todos) ---------- */
         .n3d-seccion.clay-card:hover { transform: none; }
         .n3d-visor { touch-action: pan-y; -webkit-user-select: none; user-select: none; isolation: isolate; }

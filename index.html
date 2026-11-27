@@ -521,7 +521,7 @@
             <details id="video-promo-section" class="clay-card bg-gradient-to-br from-amber-50 via-yellow-100 to-orange-100 border-3 border-nailong-orange p-3 sm:p-5 w-full shadow-md reveal-item scroll-mt-24">
                 <summary class="trailer-resumen cursor-pointer flex items-center gap-3 sm:gap-4 select-none">
                     <span class="trailer-cerrado relative w-12 h-20 sm:w-14 sm:h-24 shrink-0 rounded-xl overflow-hidden border-2 border-white shadow-md bg-black">
-                        <img src="video-promo/nailong_trailer_v2_portada.webp" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
+                        <img id="trailer-miniatura" src="video-promo/nailong_trailer_v2_portada.webp" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
                         <span class="absolute inset-0 flex items-center justify-center text-white text-lg"><i class="fa-solid fa-play"></i></span>
                     </span>
                     <span class="flex-1 min-w-0">
@@ -530,17 +530,18 @@
                     </span>
                     <span class="shrink-0 w-9 h-9 rounded-full bg-white border-2 border-nailong-orange text-amber-900 flex items-center justify-center" aria-hidden="true"><i class="trailer-flecha fa-solid fa-chevron-down transition-transform"></i></span>
                 </summary>
-                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-4">
+                <!-- V1: en pantallas anchas js/10 (elegirFormatoTrailer) cambia al tráiler horizontal 16:9 y pone la portada que toca -->
+                <div class="trailer-cuerpo flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-4">
                     <div id="video-player-container" class="w-48 sm:w-56 h-80 sm:h-96 flex-shrink-0 rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black flex items-center justify-center relative group">
                         <canvas id="video-ambient-canvas" aria-hidden="true"></canvas>
-                        <video id="trailer-video" src="video-promo/nailong_trailer_v2.mp4" poster="video-promo/nailong_trailer_v2_portada.webp" controls playsinline preload="none" class="w-full h-full object-contain relative z-10 bg-black"></video>
+                        <video id="trailer-video" src="video-promo/nailong_trailer_v2.mp4" controls playsinline preload="none" class="w-full h-full object-contain relative z-10 bg-black"></video>
                     </div>
-                    <div class="space-y-3 text-center sm:text-left flex-1">
+                    <div class="trailer-texto space-y-3 text-center sm:text-left flex-1">
                         <p class="text-xs sm:text-sm text-amber-900/85 font-semibold leading-relaxed">
                             Disfruta del tráiler animado oficial creado con <strong>HyperFrames</strong>: físicas elásticas <em>Duang</em>, los 126 stickers de WhatsApp, minijuego arcade y música saltarina original.
                         </p>
                         <div class="flex flex-wrap gap-2 justify-center sm:justify-start pt-1">
-                            <span class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">📱 Vertical 9:16</span>
+                            <span id="trailer-formato" class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">📱 Vertical 9:16</span>
                             <span class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">🎵 Banda Sonora Original</span>
                             <span class="text-xs font-bold bg-white/90 text-amber-900 px-3 py-1 rounded-full border border-amber-300">🦖 100% Nailong</span>
                         </div>
