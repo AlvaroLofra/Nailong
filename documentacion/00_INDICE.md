@@ -17,6 +17,7 @@
 | **5** | [`guias_y_contexto/CONTEXTO_PROYECTO.md`](guias_y_contexto/CONTEXTO_PROYECTO.md) | Universo de Nailong, principios de diseño Claymorphism, paleta y requisitos clave. |
 | **6** | [`guias_y_contexto/GUIA_DESARROLLO.md`](guias_y_contexto/GUIA_DESARROLLO.md) | Flujo buildless, compilación y firma del APK Android, y suite `verify_all.py`. |
 | **7** | [`notas_tecnicas/00_mapa_de_codigo.md`](notas_tecnicas/00_mapa_de_codigo.md) | Qué vive en cada fichero de `js/` y `index.html` (antes de tocar código web). |
+| *Si escribes textos sobre el personaje* | [`guias_y_contexto/LORE_NAILONG.md`](guias_y_contexto/LORE_NAILONG.md) | Lore con fuentes y lista de lo que no se debe decir. |
 | *Si tocas el README* | [`guias_y_contexto/GUIA_README.md`](guias_y_contexto/GUIA_README.md) | Guía de estilo obligatoria de la vitrina pública. |
 | *Ideas sin aplicar* | [`estado_del_proyecto/MEJORAS_PENDIENTES.md`](estado_del_proyecto/MEJORAS_PENDIENTES.md) | Mejoras visuales/de interfaz pendientes. |
 | *Si tocas Nailong 3D* | [`estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md`](estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md) | Plan por fases de fidelidad a la serie (`3D5`–`3D10` completadas con 21/21 OK; forma frontal de la cara `3D12` en el Anexo E; `3D11` opcional tras revisión del usuario). Léelo junto a la nota técnica 05. |
@@ -69,6 +70,7 @@ Fuera de esta carpeta:
 | Historial de decisiones de arquitectura (ADRs) | [`estado_del_proyecto/DECISIONES.md`](estado_del_proyecto/DECISIONES.md) |
 | Pautas de redacción del README (vitrina pública) | [guias_y_contexto/GUIA_README.md](guias_y_contexto/GUIA_README.md) |
 | Contexto narrativo, principios y paleta de diseño | [guias_y_contexto/CONTEXTO_PROYECTO.md](guias_y_contexto/CONTEXTO_PROYECTO.md) |
+| Lore de Nailong con fuentes: personajes, series, historia, memes y qué no decir en los textos | [guias_y_contexto/LORE_NAILONG.md](guias_y_contexto/LORE_NAILONG.md) |
 | Guía operativa y compilación del APK | [guias_y_contexto/GUIA_DESARROLLO.md](guias_y_contexto/GUIA_DESARROLLO.md) |
 | Mejoras visuales/de interfaz pendientes | [`estado_del_proyecto/MEJORAS_PENDIENTES.md`](estado_del_proyecto/MEJORAS_PENDIENTES.md) |
 | Bitácoras de sesiones | [`estado_del_proyecto/bitacora_de_sesiones/`](estado_del_proyecto/bitacora_de_sesiones/) |

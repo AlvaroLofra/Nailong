@@ -10,7 +10,9 @@
 ### Rasgos Característicos:
 - **Personalidad:** Ingenuo, glotón, alegre, curioso y con un humor físico slapstick.
 - **Aspecto:** Cuerpo rechoncho y elástico (efecto «Duang-Duang»), panza suave, ojos expresivos y movimientos gelatinosos.
-- **Relaciones:** Vive aventuras con su creador y amigos, enfrentándose recurrentemente al villano cómico Bombloong (el dragón esqueleto/robot).
+- **Relaciones:** Vive aventuras con su mejor amigo, el chico inventor Xiao Qi (小七), y se enfrenta una y otra vez al villano cómico Bombloong (暴暴龙), un dragón azul de cascarón de huevo.
+
+> **Lore completo y con fuentes** (personajes, series, historia, memes y qué no decir): [`LORE_NAILONG.md`](LORE_NAILONG.md). Es la fuente única para los textos sobre el personaje.
 - **Fenómeno Viral:** Se convirtió en un fenómeno global en TikTok, Instagram Reels, Xiaohongshu y WhatsApp a través de clips breves y stickers animados hiper-expresivos.
 
 ---
