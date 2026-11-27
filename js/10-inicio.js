@@ -315,8 +315,14 @@
             const video = document.getElementById('trailer-video');
             if (!box || !video) return;
             box.addEventListener('toggle', () => {
-                if (box.open) elegirFormatoTrailer();
-                else if (!video.paused) video.pause();
+                if (box.open) {
+                    elegirFormatoTrailer();
+                    // Plegado no descarga nada (preload="none"); al desplegarlo se piden solo los datos del vídeo
+                    // (37 KB al principio del .mp4): sin ellos el navegador deja desactivado su botón de pantalla completa
+                    if (video.preload === 'none') video.preload = 'metadata';
+                } else if (!video.paused) {
+                    video.pause();
+                }
             });
         }
 

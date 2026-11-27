@@ -562,7 +562,9 @@ _inicio = open(os.path.join('js', '10-inicio.js'), encoding='utf-8').read()
 for _ref in ('video-promo/nailong_trailer_v2.mp4', 'video-promo/nailong_trailer_v2_portada.webp', 'video-promo/nailong_trailer_v2_horizontal.mp4', 'video-promo/nailong_trailer_v2_horizontal_portada.webp'):
     assert f"'{_ref}'" in _inicio and os.path.exists(_ref), f"V1: js/10 must point the trailer formats to existing files ({_ref})!"
 assert 'function elegirFormatoTrailer(' in _inicio and "matchMedia(TRAILER_CONSULTA_HORIZONTAL)" in _inicio and re.search(r'^        elegirFormatoTrailer\(\);', _inicio, re.M), "V1: the trailer format must be chosen with matchMedia as soon as js/10 loads!"
-assert 'if (box.open) elegirFormatoTrailer();' in js_function_body(_inicio, 'setupTrailerFold'), "V1: opening the trailer must choose the format again (rotated phone, resized window)!"
+_plegado = js_function_body(_inicio, 'setupTrailerFold')
+assert 'elegirFormatoTrailer();' in _plegado, "V1: opening the trailer must choose the format again (rotated phone, resized window)!"
+assert "video.preload = 'metadata'" in _plegado, "V1: unfolding the trailer must load its metadata, or the browser keeps its own fullscreen button disabled!"
 _vid = re.search(r'<video id="trailer-video"[^>]*>', page_html).group(0)
 assert 'preload="none"' in _vid and 'poster=' not in _vid, "V1: the trailer keeps preload=none and gets its poster from js/10 (only the right one is downloaded)!"
 assert '#video-promo-section.trailer-horizontal #video-player-container' in html and 'aspect-ratio: 16 / 9' in html, "V1: 16:9 box for the horizontal trailer missing in css/styles.css!"
