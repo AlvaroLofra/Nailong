@@ -658,7 +658,7 @@
         #visor-creador > summary { list-style: none; }
         #visor-creador > summary::-webkit-details-marker { display: none; }
         @media (prefers-reduced-motion: reduce) {
-            #magic-modal .animate-duang { animation: none; }
+            #magic-modal .animate-duang, #soundboard .animate-duang { animation: none; }
             .visor-ctrl:hover:not(:disabled) { transform: none; }
         }
 

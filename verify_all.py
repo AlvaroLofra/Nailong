@@ -88,12 +88,21 @@ assert unique_js_stickers == list(range(1, 127)), f"Missing stickers in ALL_STIC
 assert "creador_nailong.webp" in html, "Creator photo missing from ALL_STICKERS!"
 print("✔ ALL_STICKERS array accurately maps all 126 stickers (IDs 1 through 126) + creator photo.")
 
-# Test 5: Verify SOUNDBOARD_TILES has 12 items
-soundboard_matches = re.findall(r"sticker:\s*'sticker_(\d+)\.webp',\s*name:\s*'([^']+)'", html)
+# Test 5: Verify SOUNDBOARD_TILES has 12 items (B1, web 4.3.0: por clave, 12 sonidos distintos en 3 grupos de 4)
+soundboard_matches = re.findall(r"\{ clave: '([a-z0-9-]+)', grupo: '([a-z]+)', sonido: '([a-z]+)', nombre: '([^']+)', icono: '[^']+' \}", html)
 print(f"✔ Soundboard contains {len(soundboard_matches)} sound tiles:")
-for s_id, s_name in soundboard_matches:
-    print(f"   - Sticker {s_id}: {s_name}")
+for s_key, s_group, s_sound, s_name in soundboard_matches:
+    print(f"   - {s_group}: {s_name} ({s_sound}) -> {s_key}")
 assert len(soundboard_matches) == 12, f"Expected 12 soundboard tiles, got {len(soundboard_matches)}"
+assert len({m[2] for m in soundboard_matches}) == 12, "B1: every soundboard button needs its own sound (no repeats)!"
+assert sorted(m[1] for m in soundboard_matches) == ['efectos'] * 4 + ['risas'] * 4 + ['voces'] * 4, "B1: 3 groups (voces, risas y llantos, efectos) of 4 buttons!"
+_claves_bot = set(re.findall(r"clave: '([a-z0-9-]+)'", open(os.path.join('js', '02-datos-stickers.js'), encoding='utf-8').read()))
+_audio_src = open(os.path.join('js', '01-audio.js'), encoding='utf-8').read()
+for s_key, s_group, s_sound, s_name in soundboard_matches:
+    assert s_key in _claves_bot, f"B1: soundboard clave '{s_key}' has no sticker in ALL_STICKERS!"
+    assert f"type === '{s_sound}'" in _audio_src or re.search(rf"^            {s_sound}\(ctx, t, d\) \{{", _audio_src, re.M), f"B1: sound '{s_sound}' does not exist in js/01-audio.js!"
+assert "if (SONIDOS_BOTONERA[type]) {" in _audio_src and _audio_src.count(".gain.value = 0.0001") >= 3, "B1: soundboard sounds must start silent (no click) and be played through playSound!"
+assert 'stickerPorClave(tile.clave)' in html and 'escaparHtml(s.title)' in html, "B1: soundboard images and labels must come from ALL_STICKERS by key!"
 
 # Test 6: Verify FEATURED_GIFS has 9 items
 featured_matches = re.findall(r"\{\s*clave:\s*'([a-z0-9-]+)',\s*tag:\s*'([^']+)'", html)

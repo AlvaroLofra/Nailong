@@ -1,35 +1,53 @@
         /* ==============================================================
-           8. BOTONERA DE SONIDOS INTERACTIVA (12 SONIDOS REALES)
+           8. BOTONERA DE SONIDOS (B1, web 4.3.0): 12 BOTONES, 12 SONIDOS DISTINTOS
+           Cada botón apunta a su cromo por CLAVE (D-22) y muestra el título de ALL_STICKERS (js/02);
+           el nombre corto describe el sonido, que vive en js/01 (SONIDOS_BOTONERA o playSound).
         ============================================================== */
+        const SOUNDBOARD_GRUPOS = [
+            { id: 'voces', titulo: '🗣️ Voces' },
+            { id: 'risas', titulo: '😂 Risas y llantos' },
+            { id: 'efectos', titulo: '✨ Efectos' }
+        ];
         const SOUNDBOARD_TILES = [
-            { sticker: 'sticker_18.webp', name: '¡Duang Rebotón!', sound: 'duang', icon: '🍮' },
-            { sticker: 'sticker_11.webp', name: '¡Ñam Ñam Crujiente!', sound: 'chomp', icon: '🥟' },
-            { sticker: 'sticker_30.webp', name: 'Sorbito Refrescante', sound: 'pop', icon: '🧃' },
-            { sticker: 'sticker_9.webp', name: '¡Bleh Burlón!', sound: 'pop', icon: '🤪' },
-            { sticker: 'sticker_10.webp', name: 'Maracas Duang', sound: 'maracas', icon: '🪇' },
-            { sticker: 'sticker_32.webp', name: '¡Llamita Bebé!', sound: 'fire', icon: '🔥' },
-            { sticker: 'sticker_38.webp', name: 'Ronquidito Zzz', sound: 'sleep', icon: '😴' },
-            { sticker: 'sticker_13.webp', name: '¡Risa a Carcajadas!', sound: 'laugh', icon: '😆' },
-            { sticker: 'sticker_33.webp', name: '¡Capitán Pirata!', sound: 'fanfare', icon: '🏴‍☠️' },
-            { sticker: 'sticker_21.webp', name: '¡A Correr Rápido!', sound: 'duang', icon: '🏃' },
-            { sticker: 'sticker_28.webp', name: 'Xiao Qi & Colita', sound: 'pop', icon: '👦' },
-            { sticker: 'sticker_19.webp', name: '¡Fiesta Victoria!', sound: 'fanfare', icon: '🎉' }
+            { clave: 'gritos-hierba', grupo: 'voces', sonido: 'grito', nombre: 'Grito', icono: '😱' },
+            { clave: 'bostezo-arbol', grupo: 'voces', sonido: 'bostezo', nombre: 'Bostezo', icono: '🥱' },
+            { clave: 'burla-nyah', grupo: 'voces', sonido: 'nyah', nombre: '¡Nyah, nyah!', icono: '😜' },
+            { clave: 'siesta-ronquido', grupo: 'voces', sonido: 'ronquido', nombre: 'Ronquido', icono: '😴' },
+            { clave: 'carcajada-movil', grupo: 'risas', sonido: 'carcajada', nombre: 'Carcajada', icono: '🤣' },
+            { clave: 'risa-tranquila', grupo: 'risas', sonido: 'laugh', nombre: 'Risita', icono: '😊' },
+            { clave: 'llanto-chorros', grupo: 'risas', sonido: 'llanto', nombre: '¡Buaaa!', icono: '😭' },
+            { clave: 'ojos-aguados', grupo: 'risas', sonido: 'puchero', nombre: 'Puchero', icono: '🥺' },
+            { clave: 'palmas-jardin', grupo: 'efectos', sonido: 'palmas', nombre: 'Palmas', icono: '👏' },
+            { clave: 'patata-frita', grupo: 'efectos', sonido: 'crujido', nombre: 'Crujido', icono: '🥔' },
+            { clave: 'fiesta-parque', grupo: 'efectos', sonido: 'fanfare', nombre: 'Fanfarria', icono: '🎺' },
+            { clave: 'huida-bosque', grupo: 'efectos', sonido: 'run', nombre: 'Carrerita', icono: '🏃' }
         ];
 
         function renderSoundboard() {
             const grid = document.getElementById('soundboard-grid');
-            grid.innerHTML = SOUNDBOARD_TILES.map((tile, i) => `
-                <button onclick="playTileSound('${tile.sound}', this)" class="sound-tile clay-card !rounded-3xl p-2 sm:p-5 flex flex-col items-center justify-start sm:justify-between text-center bg-white/95 hover:bg-nailong-belly border-3 border-nailong-yellow transition-all group">
-                    <div class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-2xl bg-nailong-pale p-1.5 sm:p-2 flex items-center justify-center overflow-hidden mb-1 sm:mb-2 shadow-inner group-hover:scale-110 transition-transform">
-                        <img src="Stickers Nailong/${tile.sticker}" alt="${tile.name}" loading="lazy" decoding="async" class="w-full h-full object-contain">
-                        <span class="sm:hidden absolute -bottom-0.5 -right-0.5 text-base leading-none" aria-hidden="true">${tile.icon}</span>
-                    </div>
-                    <div>
-                        <span class="hidden sm:block text-xl mb-1">${tile.icon}</span>
-                        <h4 class="font-display font-bold text-[11px] sm:text-base text-amber-950 leading-tight">${tile.name}</h4>
-                    </div>
-                </button>
-            `).join('');
+            grid.innerHTML = SOUNDBOARD_GRUPOS.map(g => {
+                const botones = SOUNDBOARD_TILES.filter(tile => tile.grupo === g.id).map(tile => {
+                    const s = stickerPorClave(tile.clave);
+                    if (!s) return '';
+                    const titulo = escaparHtml(s.title);
+                    return `
+                    <button type="button" onclick="playTileSound('${tile.sonido}', this)" aria-label="Sonido: ${tile.nombre}. ${titulo}" class="sound-tile clay-card !rounded-2xl sm:!rounded-3xl p-1.5 sm:p-4 flex sm:flex-col items-center gap-2 sm:gap-1.5 text-left sm:text-center bg-white/95 hover:bg-nailong-belly border-3 border-nailong-yellow transition-all group">
+                        <div class="relative w-12 h-12 sm:w-24 sm:h-24 shrink-0 rounded-xl sm:rounded-2xl bg-nailong-pale p-1 sm:p-2 flex items-center justify-center overflow-hidden shadow-inner group-hover:scale-110 transition-transform">
+                            <img src="Stickers Nailong/${s.file}" alt="" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                            <span class="sm:hidden absolute -bottom-0.5 -right-0.5 text-base leading-none" aria-hidden="true">${tile.icono}</span>
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="font-display font-bold text-xs sm:text-base text-amber-950 leading-tight"><span class="hidden sm:inline" aria-hidden="true">${tile.icono} </span>${tile.nombre}</h4>
+                            <p class="text-[10px] sm:text-xs font-semibold text-amber-800 leading-tight line-clamp-2">${titulo}</p>
+                        </div>
+                    </button>`;
+                }).join('');
+                return `
+                <div class="space-y-2 sm:space-y-3" role="group" aria-label="${g.titulo.replace(/^\S+\s/, '')}">
+                    <h3 class="font-display font-bold text-base sm:text-xl text-amber-950">${g.titulo}</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">${botones}</div>
+                </div>`;
+            }).join('');
         }
 
         function playTileSound(soundType, btnEl) {
