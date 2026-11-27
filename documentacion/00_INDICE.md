@@ -83,3 +83,4 @@ Fuera de esta carpeta:
 | Plan de fidelidad de Nailong 3D a la serie (medidas, objetivos, fases y herramientas 3D evaluadas) | [`estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md`](estado_del_proyecto/PLAN_FIDELIDAD_NAILONG_3D.md) |
 | Referencias visuales de la serie oficial para Nailong 3D | `referencias_nailong_serie/README.md` (solo en local, D-25) |
 | Auditoría de seguridad de la app, la actualización y la web | [`notas_tecnicas/06_auditoria_seguridad.md`](notas_tecnicas/06_auditoria_seguridad.md) |
+| Revisión de los textos de los stickers con fotogramas (tiras, veredictos y `herramientas/revision_stickers.py`) | [`notas_tecnicas/07_revision_textos_stickers.md`](notas_tecnicas/07_revision_textos_stickers.md) |
