@@ -7,14 +7,14 @@
 
 | Fichero | Contenido (bloques de la lista de abajo) | Líneas aprox. |
 |---|---|---|
-| `index.html` | Marcado de todas las secciones; carga `css/`, `js/01`–`js/10` y `js/14` (con `?v=` anti-caché; `js/11`–`js/13` se cargan bajo demanda desde `js/14`, mejora W25); botón de pausa de partículas `#particles-toggle-btn` (W21), `autofocus` en los 4 `<dialog>` (W22), botón `#nailong-3d-sticker` (3D3), botones `#nailong-3d-cargar` / `#nailong-3d-ocultar` del 3D apagado por defecto (D-26), cabecera que pasa al menú ☰ por debajo de 1.280 px (W31), icono de pestaña y copias reducidas de `Stickers Nailong/mini/` en logo, banner, pie y tarjetas (W33) y QR fijos en SVG `#apk-qr-img` / `#share-qr-code` (W34) | 1.286 |
-| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, `body.particles-paused` (W21), contraste WCAG AA (W23), reservas de espacio anti-CLS (W28), objetivo táctil del deslizador `#power-size-slider` ≥ 28 px (W30), estilos `.n3d-*` (incl. `.n3d-cargando` y controles ocultos con el 3D apagado, D-26) y, al final, el bloque generado de los 27 iconos SVG (`ICONOS-INICIO` … `ICONOS-FIN`, clases `fa-*`, W32) | 655 |
+| `index.html` | Marcado de todas las secciones; carga `css/`, `js/01`–`js/10` y `js/14` (con `?v=` anti-caché; `js/11`–`js/13` se cargan bajo demanda desde `js/14`, mejora W25); botón de pausa de partículas `#particles-toggle-btn` (W21), `autofocus` en los 4 `<dialog>` (W22), botón `#nailong-3d-sticker` (3D3), botones `#nailong-3d-cargar` / `#nailong-3d-ocultar` del 3D apagado por defecto (D-26), cabecera que pasa al menú ☰ por debajo de 1.280 px (W31), icono de pestaña y copias reducidas de `Stickers Nailong/mini/` en logo, banner, pie y tarjetas (W33) y QR fijos en SVG `#apk-qr-img` / `#share-qr-code` (W34); en `#magic-modal`, lienzo `#modal-player-canvas` y controles `#visor-controles` del reproductor (VM1) | 1.315 |
+| `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, `body.particles-paused` (W21), contraste WCAG AA (W23), reservas de espacio anti-CLS (W28), objetivo táctil del deslizador `#power-size-slider` ≥ 28 px (W30), estilos `.n3d-*` (incl. `.n3d-cargando` y controles ocultos con el 3D apagado, D-26), controles del reproductor del Visor `.visor-ctrl` / `.visor-vel` (VM1) y, al final, el bloque generado de los 31 iconos SVG (`ICONOS-INICIO` … `ICONOS-FIN`, clases `fa-*`, W32) | 687 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind con métricas de respaldo anti-CLS (se carga justo tras el CDN) | 30 |
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 242 |
 | `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos; `clave` estable en los usados fuera del álbum) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22; respeta las copias `mini/<clave>.webp`, W33) | 147 |
 | `js/03-hero.js` | 3 · Hero, contador Duang, estados de ánimo y control de pausa de partículas de fondo (`#particles-toggle-btn`, `sessionStorage`, W21) | 145 |
 | `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante (`COMPANION_SECTION_PHRASES`, W9) | 131 |
-| `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico | 279 |
+| `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico; 6A · reproductor propio de WebP animado en `<canvas>` (VM1: `leerWebPAnimado`, `componerFotogramas`, `soltarVisor`) y Visor abierto con cualquier cromo animado (VM2: `abrirVisorConSticker`, `sorprendeme`) | 832 |
 | `js/06-album-y-descargas.js` | 7–7B · Álbum polaroid, lightbox, descarga/WhatsApp/portapapeles | 616 |
 | `js/07-sonidos-y-laboratorio.js` | 8–9 · Botonera de sonidos y Laboratorio de superpoderes | 261 |
 | `js/08-minijuego.js` | 10 · Minijuego «La Gran Comilona»; el sprite del jugador se pide al acercarse al juego o al empezar (`cargarSpriteJugador`, W33) | 474 |
@@ -49,8 +49,9 @@ El código está estructurado en 12 bloques funcionales visibles:
    - Widget flotante en la esquina inferior con diálogos contextuales controlados por `requestAnimationFrame` según la sección visible en viewport (`COMPANION_SECTION_PHRASES` con `getBoundingClientRect().top`, mejora W9, incluida la frase de `#nailong-3d`).
 
 5. **Visor Mágico de Animaciones:**
-   - Tira horizontal de 9 escenas GIF virales dentro de la sección «Stickers» (`#galeria`, ancla `#muro-gifs`), justo debajo del banner de la app; el lightbox del álbum ofrece «Abrir en el Visor Mágico» para esas escenas.
-   - Modal `<dialog>` con `autofocus` en cerrar (W22), control de velocidad (0.5x, 1x, 1.5x), gestos táctiles de deslizamiento y pegatinas arrastrables.
+   - Tira horizontal de 9 escenas dentro de la sección «Stickers» (`#galeria`, ancla `#muro-gifs`), justo debajo del banner de la app, con botón «¡Sorpréndeme!». `FEATURED_GIFS` solo guarda etiqueta y fondo: título y descripción salen de `ALL_STICKERS` (VM2). El lightbox del álbum ofrece «Abrir en el Visor Mágico» en **todos** los cromos animados (`esStickerAnimado`).
+   - Modal `<dialog>` con `autofocus` en cerrar (W22), gestos táctiles de deslizamiento (salvo sobre `#visor-controles`, `data-no-swipe`) y pegatinas arrastrables.
+   - **Reproductor propio (VM1, 4.3.0):** lee el RIFF del `.webp`, separa los fotogramas `ANMF`, los decodifica con `createImageBitmap` a tamaño de pantalla (reserva `<img>`; sin `ImageDecoder`) y los compone en `#modal-player-canvas` respetando desplazamiento, fusión y borrado. Velocidad real 0,25×–3× (`VISOR_VELOCIDADES`), pausa, fotograma a fotograma, al revés, bumerán y barra `#visor-barra`. Tope de memoria 48 MB (32 MB en móviles); `soltarVisor` libera todo al cerrar o cambiar de cromo. Con `prefers-reduced-motion` arranca en pausa.
 
 6. **Gran Álbum Polaroid de Cromos:**
    - Cromos reales categorizados con visor ampliado (Lightbox), paginados con el botón «Ver más cromos» y cuadrícula de 2 columnas en móvil.
@@ -87,7 +88,7 @@ El código está estructurado en 12 bloques funcionales visibles:
 | Pausa de partículas de fondo (W21) | `index.html` · `#particles-toggle-btn`; `css/styles.css` · `body.particles-paused`; `js/03-hero.js` / `js/10-inicio.js` |
 | Fotos del usuario (datos no fiables) | `js/06-album-y-descargas.js` · `escaparHtml`, `esFotoGuardadaValida` |
 | Álbum paginado | `js/06-album-y-descargas.js` · `renderPolaroidGallery`, `GALLERY_PAGE_SIZE`, `GALLERY_STEP`, `showMoreGallery` |
-| Muro/tira de escenas y Visor Mágico | `js/05-visor-magico.js` y `js/06-…` · `renderGifWall`, `featuredGifIndexOf`, `openVisorFromLightbox` |
+| Muro/tira de escenas y Visor Mágico | `js/05-visor-magico.js` y `js/06-…` · `renderGifWall`, `stickerDeEscena`, `abrirVisorConSticker`, `sorprendeme`, `openVisorFromLightbox`; reproductor: `leerWebPAnimado`, `componerFotogramas`, `cargarEnReproductor`, `soltarVisor`, `teclaVisor` (atajos K/espacio, «,» y «.») |
 | Descarga y compartir stickers | `js/06-album-y-descargas.js` · `forceDownloadSticker`, `shareStickerDirectToWhatsApp`, `copyStickerToClipboard`, `#sticker-options-modal` |
 | Audio | `js/01-audio.js`, `js/07-…` · `renderSoundboard`, `audioCtx` (osciladores Web Audio) |
 | Minijuego | `js/08-minijuego.js` · `#food-game-canvas`, `resizeGameCanvas`, `getEmojiSprite` |
