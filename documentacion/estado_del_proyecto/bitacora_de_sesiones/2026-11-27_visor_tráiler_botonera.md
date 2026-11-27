@@ -34,15 +34,43 @@
 - El lightbox del álbum ofrece «Abrir en el Visor Mágico» en **todos** los cromos animados (los 97 con más de un fotograma), no solo en las 9 escenas. Desde el álbum, ◀ ▶ recorren todos los animados; desde la tira, las 9 escenas.
 - Botón **«¡Sorpréndeme!»** en la cabecera de la tira y dentro del Visor: abre un animado al azar (distinto del que se ve).
 - **Una sola fuente de textos:** `FEATURED_GIFS` ya solo guarda la etiqueta y el fondo de cada escena; el título y la descripción se leen de `ALL_STICKERS`. Descargar y WhatsApp usan el cromo que se está viendo (`stickerActualVisor`).
-- **Pendiente de la fusión de la rama de textos:** `FEATURED_GIFS` sigue apuntando por número (`id`). La sesión de textos añadirá en `js/02` las claves acordadas (`palomitas-sofa` #17, `baile-arcoiris` #10, `gorro-de-leon` #33, `huida-bosque` #21, `croqueta-cesped` #29, `siesta-hamaca` #38, `carcajada-lengua` #13, `morritos-cielo` #11, `baile-alegria` #39); al hacer `git merge main` se cambia `stickerDeEscena` a `clave` y el test.
+- **Pendiente de la fusión de la rama de textos:** `FEATURED_GIFS` sigue apuntando por número (`id`). La sesión de textos añadirá en `js/02` las claves acordadas (`palomitas-sofa` #17, `baile-arcoiris` #10, `gorro-de-leon` #33, `huida-bosque` #21, `siesta-hamaca` #38, `baile-alegria` #39 y, tras su revisión fotograma a fotograma, las propuestas corregidas `burla-lengua` #13, `pataleo-camino` #29 y `muneco-antiestres` #11); al hacer `git merge main` se cambia `stickerDeEscena` a `clave` y el test.
+- **Etiquetas de escena a revisar tras la fusión** (son de `js/05`): «RISAS» del #13 (es una burla), «RELAX» del #29 (patalea) y «PUCHERO» del #11, que según la sesión de textos **no es la serie sino un muñeco antiestrés real**: preguntar al usuario si sigue entre las 9 escenas.
 
-## 3. Tests
+## 3. `VM3` · «Crea tu sticker» (elegida por el usuario)
 
-- Las comprobaciones nuevas van **dentro del test 44** (el del Visor y el lightbox), no en un test 56: el recuento de tests vive en `ESTADO_ACTUAL.md` (no es de esta sesión) y así tampoco choca con la numeración de la rama de textos. Comprueba las funciones del lector y del reproductor, los bits de borrado y fusión, el decodificado a tamaño de pantalla con reserva `<img>`, que no se use `ImageDecoder`, que se libere la memoria al cerrar, el arranque en pausa con movimiento reducido, que cada velocidad tenga su botón, que el Visor no guarde títulos propios, que el álbum abra cualquier animado, los dos «¡Sorpréndeme!» y, leyendo los 126 ficheros, que `frames` de `ALL_STICKERS` coincida con los fotogramas `ANMF` y que cada fotograma lleve `ALPH`+`VP8`, `VP8` o `VP8L` (lo que el lector sabe envolver).
+**Qué hace:** dentro del Visor, un panel plegable «✂️ ¡Crea tu sticker de WhatsApp!» (`#visor-creador`):
+- **Tramo:** «Empieza aquí» / «Acaba aquí» / «Todo» con el fotograma que se ve; el tramo se pinta en la barra de tiempo y el reproductor solo repite ese trozo mientras el panel está abierto. Se avisa de cuánto durará el sticker y de si se cortará a 10 s.
+- **Texto tipo meme** (28 caracteres, arriba o abajo, Fredoka en blanco con borde marrón) dibujado en el propio lienzo: lo que se ve es lo que sale.
+- **Emojis:** los que se arrastran sobre el dibujo (se añaden 😂 🔥 💤 a los de siempre) salen en el sticker en su sitio, tamaño y giro.
+- **Velocidad, «al revés» y «bumerán»** se aplican al sticker.
+- **Resultado:** vista previa, peso, duración y fotogramas, y «Enviar o guardar», que abre el menú de siempre (copiar, WhatsApp, descargar) con el fichero creado.
+
+**Cómo se crea** (`js/05`, bloque 6C): se recomponen los fotogramas a 512 px (`recorrerComposicion`, compartida con el reproductor), se dibujan texto y emojis, cada fotograma se codifica con `canvas.toBlob('image/webp')` y se montan todos en un WebP animado propio (`VP8X` animado + alfa + EXIF, `ANIM` en bucle infinito, `ANMF` a lienzo completo sin fundir y el **EXIF de WhatsApp** con `sticker-pack-id`). Reglas de `normalizar_stickers.py`: **≤ 500 KB, ≤ 10 s y fotogramas ≥ 20 ms** (los más cortos se funden).
+- **Peso:** una muestra de 12 fotogramas a calidad 0,72 y 0,42 estima el peso (modelo log-lineal) y elige calidad (hasta 0,35) y, solo si no basta, quita fotogramas repartidos (paso fraccionario); luego una pasada completa y, si aún se pasa, hasta 2 reintentos.
+- **Esquinas transparentes** de 2 px (como los PNG copiados, test 41): así el navegador guarda siempre el canal `ALPH`, que WhatsApp exige en los animados aunque el sticker sea opaco.
+- **Safari** no sabe crear WebP (`sabeCrearWebP`): allí sale una imagen fija PNG del fotograma que se ve, con texto y emojis.
+
+**Comprobado (Chrome sin interfaz, móvil emulado a 320 y 375 px y escritorio):**
+- **Ficheros válidos:** 512×512, bucle infinito y EXIF; `normalizar_stickers.problems()` → **sin problemas para WhatsApp** en #2 y #8 (de fondo opaco), #17 y #118. Pillow los abre con todos sus fotogramas.
+- **Peso y fluidez** (una sola pasada completa en todos): #118 entero, 456 KB con sus 80 fotogramas; #118 a 0,5× en bumerán (20 s), cortado a 10 s, 456 KB y 80 fotogramas; #17 451 KB/71; #2 458 KB/36; #123 en bumerán 439 KB/79; #6 a 3×, fotogramas de 11 ms fundidos a 22 ms (16 fotogramas, 91 KB).
+- **Tiempos:** 0,8–4,7 s en escritorio. Con la CPU 4× más lenta (simulación de móvil modesto): 11,7 s el #118 entero y 7 s en preparar el Visor (mientras tanto se ve la animación normal con el porcentaje).
+- **Modo Safari simulado** (sin WebP): PNG de 512 px con texto y emoji.
+- **«Enviar o guardar»** abre el menú de siempre con la vista previa del fichero creado; al cerrar el Visor se libera la URL del resultado.
+- **Sin desbordes** a 320 px (se corrigió la fila de emojis, que no saltaba de línea) y **sin errores de consola**.
+- **Errores encontrados y corregidos en la sesión:** se quitaban fotogramas antes de cortar a 10 s (quedaba a 2 imágenes por segundo); el ajuste de peso hacía hasta 3 pasadas completas (10,5 s); el «paso» entero pasaba de 80 a 40 fotogramas por sobrar un 4 %; faltaba `ALPH` en los fotogramas de stickers opacos.
+- **Detalle de prueba, no fallo:** si se crea el sticker en el mismo instante de añadir un emoji (solo posible desde código), el CDN de Tailwind aún no ha generado la clase `text-4xl` y el emoji sale pequeño; un usuario siempre pulsa «Crear» después.
+- **No comprobado:** WhatsApp real (Android e iPhone) con el fichero creado, Safari de iPhone (el PNG de reserva) y el tiempo en un móvil real.
+
+## 4. Tests
+
+- Las comprobaciones nuevas (VM1–VM3) van **dentro del test 44** (el del Visor y el lightbox), no en un test 56: el recuento de tests vive en `ESTADO_ACTUAL.md` (no es de esta sesión) y así tampoco choca con la numeración de la rama de textos. Comprueba las funciones del lector y del reproductor, los bits de borrado y fusión, el decodificado a tamaño de pantalla con reserva `<img>`, que no se use `ImageDecoder`, que se libere la memoria al cerrar, el arranque en pausa con movimiento reducido, que cada velocidad tenga su botón, que el Visor no guarde títulos propios, que el álbum abra cualquier animado, los dos «¡Sorpréndeme!» y, leyendo los 126 ficheros, que `frames` de `ALL_STICKERS` coincida con los fotogramas `ANMF` y que cada fotograma lleve `ALPH`+`VP8`, `VP8` o `VP8L` (lo que el lector sabe envolver). Para VM3: las funciones del creador, que sus límites (500 KB, 20 ms, 10 s) sean los de `normalizar_stickers.py`, la cabecera y los fotogramas del WebP animado, el EXIF, las esquinas transparentes, la reserva PNG y el panel en `index.html`.
 - `py -3 verify_all.py`: **55/55 en verde**.
 
-## 4. Para la integración (sesión principal)
+## 5. Para la integración (sesión principal)
 
 - **`ESTADO_ACTUAL.md`:** el Visor ya no tiene «control de velocidad 0.5x/1x/1.5x» falso: reproductor propio de 0,25× a 3× con pausa, paso a paso, al revés, bumerán y barra de tiempo, para los 97 cromos animados. «12 sonidos únicos» de la botonera es falso (son 8 distintos); se corregirá del todo con `B1`.
-- **`CHANGELOG.md` (4.3.0):** «Visor Mágico: velocidad real (0,25× a 3×), pausa, fotograma a fotograma, al revés, bumerán y barra de tiempo; se abre con cualquier sticker animado del álbum y tiene botón «¡Sorpréndeme!»».
+- **`CHANGELOG.md` (4.3.0):** «Visor Mágico: velocidad real (0,25× a 3×), pausa, fotograma a fotograma, al revés, bumerán y barra de tiempo; se abre con cualquier sticker animado del álbum y tiene botón «¡Sorpréndeme!». Nuevo «Crea tu sticker»: elige un trozo, ponle texto y emojis y llévatelo como sticker animado de WhatsApp (en iPhone, como imagen)».
+- **`README.md` (vitrina):** una línea para «Crea tu sticker» (para el usuario final, sin jerga).
+- **`DECISIONES.md`:** el WebP animado se monta en el navegador sin librerías (por la regla de proyecto sin dependencias ni build); si se quiere como decisión numerada, la redacta la sesión principal.
 - **`.claude/launch.json`** de este *worktree* (servidor en el puerto 8011) no se sube.
