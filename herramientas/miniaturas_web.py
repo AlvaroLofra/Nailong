@@ -9,6 +9,9 @@ copias de 192 px en 'Stickers Nailong/mini/' (animadas si el original lo es, en 
   siendo correcta. Se generan las que pide index.html ('Stickers Nailong/mini/<clave>.webp').
 - 'mini/favicon.webp': icono de la pestaña de 64 px (primer fotograma del sticker 18, que era el
   icono hasta ahora y pesaba 398 KB).
+- RECORTES: copias que no son el sticker entero, sino un trozo fijo de uno de sus fotogramas.
+  Bombloong solo asoma por el borde de su sticker (el dragón azul del cascarón, T2), así que su
+  ficha usa ese trozo ampliado y quieto.
 - Los 126 stickers oficiales no se tocan (normalizar_stickers.py --check sigue igual).
 
 Uso:
@@ -33,6 +36,8 @@ CALIDAD_ANIMADA = 70       # WebP con pérdida: a este tamaño no se notan los a
 CALIDAD_FIJA = 85
 FAVICON = ('favicon', 'sticker_18.webp', 64)
 PESO_MAX_KB = 200          # aviso de seguridad: una copia de 192 px nunca debería pasar de aquí
+# clave -> (fotograma, (x0, y0, x1, y1) sobre el sticker de 512 px). La copia sale fija (1 fotograma).
+RECORTES = {'bombloong': (26, (0, 205, 175, 380))}
 
 
 def claves_de_catalogo():
@@ -59,14 +64,17 @@ def objetivos():
     return res
 
 
-def reducir(origen, lado, solo_primero=False):
+def reducir(origen, lado, solo_primero=False, recorte=None):
     im = Image.open(origen)
-    n = 1 if solo_primero else getattr(im, 'n_frames', 1)
+    n = 1 if (solo_primero or recorte) else getattr(im, 'n_frames', 1)
     fotogramas, duraciones = [], []
     for k in range(n):
-        im.seek(k)
+        im.seek(recorte[0] if recorte else k)
+        f = im.convert('RGBA')
+        if recorte:
+            f = f.crop(recorte[1])
         # En alfa premultiplicado ('RGBa') para que los bordes transparentes no se oscurezcan
-        f = im.convert('RGBA').convert('RGBa').resize((lado, lado), Image.LANCZOS).convert('RGBA')
+        f = f.convert('RGBa').resize((lado, lado), Image.LANCZOS).convert('RGBA')
         fotogramas.append(f)
         duraciones.append(im.info.get('duration', 66))
     b = io.BytesIO()
@@ -90,7 +98,14 @@ def comprobar(nombre, origen, lado):
     kb = os.path.getsize(ruta) / 1024
     if kb > PESO_MAX_KB:
         pr.append(f'pesa {kb:.0f} KB (máximo {PESO_MAX_KB})')
-    if nombre != FAVICON[0]:
+    if nombre in RECORTES:
+        if getattr(im, 'n_frames', 1) != 1:
+            pr.append('un recorte debe ser una imagen fija')
+        ref = io.BytesIO(reducir(os.path.join(DIR, origen), lado, recorte=RECORTES[nombre]))
+        d = ns.distancia(ns.firma(ruta), ns.firma(ref))
+        if d >= ns.UMBRAL_REPETIDO:
+            pr.append(f'ya no coincide con su recorte de {origen} (distancia {d:.1f}): ¿se renumeró? regenera las copias')
+    elif nombre != FAVICON[0]:
         n_orig = getattr(Image.open(os.path.join(DIR, origen)), 'n_frames', 1)
         if getattr(im, 'n_frames', 1) != n_orig:
             pr.append(f'tiene {getattr(im, "n_frames", 1)} fotogramas y {origen} {n_orig}')
@@ -108,7 +123,8 @@ def main():
     for nombre, origen, lado in objetivos():
         if not solo_check:
             os.makedirs(DIR_MINI, exist_ok=True)
-            datos = reducir(os.path.join(DIR, origen), lado, solo_primero=(nombre == FAVICON[0]))
+            datos = reducir(os.path.join(DIR, origen), lado, solo_primero=(nombre == FAVICON[0]),
+                            recorte=RECORTES.get(nombre))
             ruta = os.path.join(DIR_MINI, nombre + '.webp')
             anterior = open(ruta, 'rb').read() if os.path.exists(ruta) else None
             if datos != anterior:

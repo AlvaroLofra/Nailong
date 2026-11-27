@@ -21,7 +21,7 @@
         // W33: el sprite del jugador (245 KB) ya no se descarga al abrir la web: se pide al
         // acercarse al minijuego (setupGameVisibilityPause) o, como muy tarde, al empezar a jugar.
         const playerSprite = new Image();
-        const PLAYER_SPRITE_SRC = 'Stickers Nailong/sticker_9.webp';
+        const PLAYER_SPRITE_SRC = rutaSticker('mofletes-estirados');  // por clave estable (W11, D-22)
         function cargarSpriteJugador() {
             if (!playerSprite.getAttribute('src')) playerSprite.src = PLAYER_SPRITE_SRC;
         }

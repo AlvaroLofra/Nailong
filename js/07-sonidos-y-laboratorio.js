@@ -157,13 +157,15 @@
             }
         }
 
-        // Disfraces mágicos en el laboratorio
-        function setLabCostume(imgFile, labelName) {
+        // Disfraces mágicos en el laboratorio: cada botón pasa la CLAVE de su cromo (W11, D-22)
+        function setLabCostume(clave, labelName) {
             playSound('pop');
             const img = document.getElementById('lab-nailong-img');
             const badge = document.getElementById('lab-status-badge');
-            if (img) {
-                img.src = 'Stickers Nailong/' + imgFile;
+            const sticker = stickerPorClave(clave);
+            if (img && sticker) {
+                img.src = 'Stickers Nailong/' + sticker.file;
+                img.alt = 'Nailong: ' + sticker.title;
                 img.style.transform = 'scale(1.15)';
                 setTimeout(() => { img.style.transform = 'scale(1)'; }, 250);
             }

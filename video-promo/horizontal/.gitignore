@@ -1,0 +1,6 @@
+# «assets» es una unión (junction) de Windows a ../assets: no se duplica en Git.
+# Para recrearla: cmd /c mklink /J assets ..\assets
+assets
+renders/
+.hyperframes/
+.waveform-cache/

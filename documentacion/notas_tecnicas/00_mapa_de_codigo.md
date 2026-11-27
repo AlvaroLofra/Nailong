@@ -11,8 +11,8 @@
 | `css/styles.css` | Estilos propios: variables, Claymorphism, animaciones, `body.particles-paused` (W21), contraste WCAG AA (W23), reservas de espacio anti-CLS (W28), objetivo táctil del deslizador `#power-size-slider` ≥ 28 px (W30), estilos `.n3d-*` (incl. `.n3d-cargando` y controles ocultos con el 3D apagado, D-26), controles del reproductor del Visor `.visor-ctrl` / `.visor-vel` (VM1) y del panel «Crea tu sticker» `#visor-creador` (VM3) y, al final, el bloque generado de los 31 iconos SVG (`ICONOS-INICIO` … `ICONOS-FIN`, clases `fa-*`, W32) | 691 |
 | `js/tailwind-config.js` | Paleta y fuentes de Tailwind con métricas de respaldo anti-CLS (se carga justo tras el CDN) | 30 |
 | `js/01-audio.js` | 1 · Web Audio (síntesis, desbloqueo en iOS) | 242 |
-| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos; `clave` estable en los usados fuera del álbum) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22; respeta las copias `mini/<clave>.webp`, W33) | 147 |
-| `js/03-hero.js` | 3 · Hero, contador Duang, estados de ánimo y control de pausa de partículas de fondo (`#particles-toggle-btn`, `sessionStorage`, W21) | 145 |
+| `js/02-datos-stickers.js` | 2 · `ALL_STICKERS` (catálogo de cromos: título, descripción, categoría y sonido revisados con fotogramas en la 4.3.0, T1; `clave` estable en los usados fuera del álbum), `stickerPorClave()` / `rutaSticker()` (W11: el hero, el laboratorio, el minijuego y el Visor buscan sus cromos por clave y leen de aquí sus textos) y `aplicarStickersFijos()` (resuelve `data-sticker`, D-22; respeta las copias `mini/<clave>.webp`, W33) | 157 |
+| `js/03-hero.js` | 3 · Hero, contador Duang, estados de ánimo (`moodData` por clave de cromo: imagen, texto alternativo y sonido salen de `ALL_STICKERS`, W11) y control de pausa de partículas de fondo (`#particles-toggle-btn`, `sessionStorage`, W21) | 112 |
 | `js/04-navegacion.js` | 4 · Navegación móvil y muñeco acompañante (`COMPANION_SECTION_PHRASES`, W9) | 131 |
 | `js/05-visor-magico.js` | 5–6 · Tira de escenas y Visor Mágico; 6A · reproductor propio de WebP animado en `<canvas>` (VM1: `leerWebPAnimado`, `componerFotogramas`, `soltarVisor`) y Visor abierto con cualquier cromo animado (VM2: `abrirVisorConSticker`, `sorprendeme`); 6C · «Crea tu sticker» (VM3: `crearStickerVisor`, `montarWebPAnimado`, `estimarAjusteCreador`) | 1.346 |
 | `js/06-album-y-descargas.js` | 7–7B · Álbum polaroid, lightbox, descarga/WhatsApp/portapapeles | 616 |
@@ -85,7 +85,7 @@ El código está estructurado en 12 bloques funcionales visibles:
 
 | Qué | Fichero · símbolo |
 |---|---|
-| Datos de los cromos | `js/02-datos-stickers.js` · `ALL_STICKERS` (revisar textos: `herramientas/hojas_contacto.py`) |
+| Datos de los cromos | `js/02-datos-stickers.js` · `ALL_STICKERS`, `stickerPorClave`, `rutaSticker` (revisión de textos con fotogramas: `notas_tecnicas/07_revision_textos_stickers.md` y `herramientas/revision_stickers.py`) |
 | Pausa de partículas de fondo (W21) | `index.html` · `#particles-toggle-btn`; `css/styles.css` · `body.particles-paused`; `js/03-hero.js` / `js/10-inicio.js` |
 | Fotos del usuario (datos no fiables) | `js/06-album-y-descargas.js` · `escaparHtml`, `esFotoGuardadaValida` |
 | Álbum paginado | `js/06-album-y-descargas.js` · `renderPolaroidGallery`, `GALLERY_PAGE_SIZE`, `GALLERY_STEP`, `showMoreGallery` |
@@ -101,7 +101,7 @@ El código está estructurado en 12 bloques funcionales visibles:
 | Tráiler plegable | `index.html` · `<details id="video-promo-section">`; `js/10-inicio.js` · `abrirTrailer`, `setupTrailerFold` |
 | Pestañas del laboratorio | `index.html` · `.lab-tab` / `.lab-panel`; `js/07-sonidos-y-laboratorio.js` · `mostrarPestanaLab` |
 | Carruseles de móvil | `css/styles.css` · `.carrusel-movil` («¿Quién es?»), `.carrusel-chips` (acciones 3D) |
-| Copias reducidas de stickers (W33) | `Stickers Nailong/mini/<clave>.webp` (+ `favicon.webp`), generadas y comprobadas por `herramientas/miniaturas_web.py` (test 53) |
+| Copias reducidas de stickers (W33) | `Stickers Nailong/mini/<clave>.webp` (+ `favicon.webp`), generadas y comprobadas por `herramientas/miniaturas_web.py` (test 53); `mini/bombloong.webp` es un recorte fijo de su cromo (`RECORTES`, T2) |
 | Iconos SVG (W32) | `css/styles.css` · bloque `ICONOS-INICIO`/`ICONOS-FIN` (clases `fa-*`), generado por `herramientas/iconos_svg.py` (test 54) |
 | QR fijos (W34) | `index.html` · `#apk-qr-img`, `#share-qr-code` (`data-qr-url`), generados por `herramientas/generar_qr.py --html` (tests 22 y 48) |
 | Rendimiento 3D (3D14–3D16) | `js/14` · `decidirCalidad` (`?calidad=`), `enReposo`/`marcarActividad`, `obtenerMallas`, `precompilarEstilos`; `js/12` · `crearEstudio` (`conSombra`), `inyectarOjoAO` (test 55) |

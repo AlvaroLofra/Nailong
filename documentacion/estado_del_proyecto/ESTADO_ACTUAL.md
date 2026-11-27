@@ -2,7 +2,7 @@
 
 > **Regla de Actualización:** Este fichero se **sobrescribe en cada sesión** para reflejar la realidad de AHORA. El historial de sesiones reside en `bitacora_de_sesiones/` y las decisiones técnicas en `DECISIONES.md`.
 >
-> **Última actualización:** 25/11/2026 (sesiones Claude Code `optimizaciones` y `nailong3d-frente`): web más ligera (`W32`–`W34`), 3D más ligero en móviles (`3D14`–`3D16`), frente más corta del Nailong 3D (`3D18`, D-29), tráiler actualizado y publicación de la **web 4.2.0** (D-30). La app Android no cambia (D-27).
+> **Última actualización:** 27/11/2026 (sesión Claude Code `tráiler horizontal`): versión horizontal 1920×1080 del tráiler para ordenador, **aún sin integrar en la web** (irá en la web 4.3.0, mejora `V1`). Antes, el 25/11: web más ligera (`W32`–`W34`), 3D más ligero en móviles (`3D14`–`3D16`), frente más corta del Nailong 3D (`3D18`, D-29), tráiler actualizado y publicación de la **web 4.2.0** (D-30). La app Android no cambia (D-27).
 > **Rama activa:** `main`, publicada en GitHub Pages el 25/11/2026 como web 4.2.0 (antes de la 4.2.0 lo publicado era `90a22f8`, la 4.1.0).
 > **Versión actual:** Web `v4.2.0` (sufijo anti-caché `?v=4.2.0`) | Android APK `v4.0.0` (`versionCode 16`; `version.json` sin cambios, D-27).
 
@@ -39,6 +39,7 @@ La web oficial está en **v4.2.0** y la app Android nativa en **v4.0.0** (`versi
 | **Imágenes fijas por clave (D-22)** | Las 4 tarjetas de «¿Quién es Nailong?» usan `data-sticker` con su copia `mini/<clave>.webp`; el logo, el banner y el pie usan `mini/dragon-de-leche.webp`. El resto sigue pendiente en `W11`. |
 | **Herramientas de clasificación TikTok** | `herramientas/descargar_tiktok_consola.js`, `herramientas/stickers_vistos.json` (61 entradas) y `herramientas/stickers_descartados.npz` (4 descartes: `062`, `063`, `082`, `089`). |
 | **Tráiler oficial animado (HyperFrames)** | `video-promo/nailong_trailer_v2.mp4` (1080×1920, 60 fps, 32,0 s, 18,0 MB, `preload="none"`), actualizado el 25/11: «+120» en lugar de «96» en el título de la lluvia de stickers y en la portada del álbum, y la app con los 5 packs y «Stickers animados» / «Stickers estáticos» (textos que no caducan). |
+| **Tráiler horizontal para ordenador (HyperFrames, 27/11/2026)** | `video-promo/nailong_trailer_v2_horizontal.mp4` (1920×1080, 60 fps, 32,0 s, 17,1 MB, audio AAC) + `nailong_trailer_v2_horizontal_portada.webp` (960×540). Mismos tiempos, música y efectos que el vertical; las 7 escenas recolocadas a lo ancho y un QR de la web en el final. Fuentes en `video-promo/horizontal/` (usa los recursos del vertical mediante una unión de Windows `assets` → `../assets`, fuera de Git). **La web aún no lo usa** (mejora `V1`, prevista para la 4.3.0). |
 | **Botonera de sonidos sintetizados** | 12 casillas con 12 sonidos únicos sintetizados con Web Audio API. |
 | **Suite de pruebas automatizadas (`verify_all.py`)** | **55 comprobaciones** en verde el 25/11/2026 (nuevas: 53 copias reducidas, 54 iconos SVG y 55 rendimiento 3D; adaptadas: 22, 25, 40, 48, 49 y 51). Si falta el código de la app Android (`NAILONG_ANDROID_SRC`), la parte Android de los tests 43, 45, 47, 48 y 50 se declara como **NO COMPROBADO**. En este equipo `python` abre la Microsoft Store: se ejecuta con `py -3 verify_all.py`. |
 | **Auditoría de stickers (`normalizar_stickers.py --check`)** | **0 problemas en los 126 stickers (100 % conformes con WhatsApp)**; distancia visual mínima en `1..126` = `21.46` (0 pares `< 20`). |
@@ -47,6 +48,7 @@ La web oficial está en **v4.2.0** y la app Android nativa en **v4.0.0** (`versi
 
 ## 3. Qué Está Completado y Verificado
 
+- [x] **Sesión del 27/11/2026 (Claude Code; bitácora `2026-11-27_trailer_horizontal.md`):** tráiler horizontal 1920×1080 renderizado con HyperFrames; `hyperframes check` sin errores y fotogramas del `.mp4` revisados en las 7 escenas. Sin integrar en la web.
 - [x] **Sesiones del 25/11/2026, segunda parte (Claude Code; bitácoras `2026-11-25_optimizaciones_y_v4.2.md` y `2026-11-25_frente_corta_3d18.md`):**
   - **`W33`, `W32`, `W34`:** imágenes reducidas (más icono de pestaña y sprite del minijuego bajo demanda), iconos SVG propios y QR fijos (D-30).
   - **`3D14`–`3D16`:** sin sombra en tiempo real y ~30 fps en reposo en calidad «baja», malla en IndexedDB y *shaders* preparados al encender (D-30); en «alta», 24 vistas y 12 primeros planos de los ojos idénticos píxel a píxel a la 4.1.0.
@@ -72,6 +74,7 @@ La web oficial está en **v4.2.0** y la app Android nativa en **v4.0.0** (`versi
 
 ## 5. Siguiente Paso
 
-1. **Probar la 4.2.0 en un móvil real**, mejor uno modesto (iPhone y Android).
-2. **Decisiones del usuario:** `W26` (Tailwind compilado: quitaría el CDN que más frena el primer pintado, pero choca con «sin build»; sería D-31), `L4` (ramas y *worktrees* viejos de Git, incluidas ramas remotas), `L6` (`__pycache__` y `git gc`), `L1`/`L2`/`L5` (restos del proyecto del vídeo).
-3. **Pendientes de antes:** `W11`, `3D17`, licencia del código (`LICENSE`), `documentacion/CREDITOS.md`, `3D11` (Blender) y `3D4` (AR, aplazada).
+1. **Web 4.3.0:** integrar el tráiler horizontal (`V1` en `MEJORAS_PENDIENTES.md`): horizontal en ordenador y vertical en móvil.
+2. **Probar la 4.2.0 en un móvil real**, mejor uno modesto (iPhone y Android).
+3. **Decisiones del usuario:** `W26` (Tailwind compilado: quitaría el CDN que más frena el primer pintado, pero choca con «sin build»; sería D-31), `L4` (ramas y *worktrees* viejos de Git, incluidas ramas remotas), `L6` (`__pycache__` y `git gc`), `L1`/`L2`/`L5` (restos del proyecto del vídeo).
+4. **Pendientes de antes:** `W11`, `3D17`, licencia del código (`LICENSE`), `documentacion/CREDITOS.md`, `3D11` (Blender) y `3D4` (AR, aplazada).

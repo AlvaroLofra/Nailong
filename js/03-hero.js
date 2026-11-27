@@ -4,10 +4,10 @@
         let bellyPokes = 0;
         const heroQuotes = [
             "¡Duang~ Duang~! ¡Jajaja, qué cosquillas tan ricas! 💛",
-            "¡Mi pancita está llena de leche calentita y muslitos de pollo! 🍗",
+            "¡Con la tripa llena se rebota muchísimo mejor! 🍮",
             "¡Soy el dragón más tierno y rebotón de todo el universo! ✨",
             "¡Oye! ¡Si me tocas tanto la pancita me entrará hambre de tarta! 🍰",
-            "¡Xiao Qi dice que mi barriga rebota como un flan gigante! 🍮",
+            "¡Mi barriga rebota como un flan gigante! 🍮",
             "¡Duang! ¡Mira cómo tiembla mi gelatina amarilla! 🦖",
             "¡Ñam ñam! ¿Tienes un poco de pollo frito para compartir? 🍗",
             "¡Amo a todos mis pequeños fans! ¡Sois los mejores! 💖"
@@ -68,23 +68,27 @@
             setTimeout(() => badge.remove(), 750);
         }
 
+        // Cada estado de ánimo apunta a su cromo por CLAVE (W11, D-22): la imagen, su texto alternativo y el
+        // sonido salen de ALL_STICKERS, así que no se desincronizan si se renumeran o se corrigen los textos.
+        // La frase es de Nailong en primera persona y describe lo que se ve en ese cromo (T1).
         const moodData = {
-            happy: { sticker: 'sticker_17.webp', sound: 'laugh', speech: '¡Estoy súper feliz y saltarín hoy! 😄💛' },
-            popcorn: { sticker: 'sticker_17.webp', sound: 'chomp', speech: '¡Ñam ñam! ¡Devorando palomitas en el cine! 🍿✨' },
-            maracas: { sticker: 'sticker_10.webp', sound: 'maracas', speech: '¡Moviendo las caderas con mis maracas mágicas! 🪇💃' },
-            pirate: { sticker: 'sticker_33.webp', sound: 'fanfare', speech: '¡Al abordaje, grumetes! ¡Soy el Capitán Nailong! 🏴‍☠️' },
-            sleep: { sticker: 'sticker_38.webp', sound: 'sleep', speech: 'Zzz... soñando en mi hamaca con lagos de natillas... 😴🫧' },
-            scared: { sticker: 'sticker_21.webp', sound: 'duang', speech: '¡Socorro! ¡Xiao Qi me persigue con la esponja del baño! 🏃💨' },
-            drama: { sticker: 'sticker_22.webp', sound: 'duang', speech: '¡Hmpf! ¡Pues ahora no te doy de mi tarta favorita! 🥺💧' },
-            pastry: { sticker: 'sticker_11.webp', sound: 'chomp', speech: '¡Ñam, masticando bollitos dulces a toda velocidad! 🥟😋' },
-            chicken: { sticker: 'sticker_13.webp', sound: 'chomp', speech: '¡Mmm, qué delicia de muslito de pollo frito! ¡Mi comida favorita! 🍗😋' }
+            happy: { clave: 'ilusion', speech: '¡Qué ilusión! ¡Hoy estoy contentísimo! 😄💛' },
+            popcorn: { clave: 'palomitas-sofa', speech: '¡Jajaja! ¡Con palomitas en el sofá todo da más risa! 🍿' },
+            rainbow: { clave: 'baile-arcoiris', speech: '¡Bota que bota con mis bolas de colores! 🌈' },
+            lion: { clave: 'gorro-de-leon', speech: '¡Grrr! ¡Con mi cabeza de león bailo la danza del león! 🦁' },
+            hammock: { clave: 'siesta-hamaca', speech: 'Aaah... meciéndome en la hamaca con mi cóctel azul... 😌🍹' },
+            run: { clave: 'huida-bosque', speech: '¡Patas, para qué os quiero! ¡Que me pillan! 🏃💨' },
+            pout: { clave: 'ojos-aguados', speech: 'Snif... ¿me das un abrazo? 🥺💧' },
+            snack: { clave: 'patata-frita', speech: '¡Ñam! ¡Una patata frita crujiente para mí solito! 😋' },
+            watermelon: { clave: 'sandia-tumbona', speech: '¡Qué fresquita está la sandía en la playa! 🍉😎' }
         };
 
         function setHeroMood(moodKey, btnEl) {
             const data = moodData[moodKey];
-            if (!data) return;
+            const sticker = data && stickerPorClave(data.clave);
+            if (!sticker) return;
 
-            playSound(data.sound);
+            playSound(sticker.sound);
 
             // Highlight Active Button
             document.querySelectorAll('#hero-mood-buttons .mood-btn').forEach(b => {
@@ -96,7 +100,8 @@
 
             // Swap Real Animated Image
             const img = document.getElementById('hero-nailong-img');
-            img.src = `Stickers Nailong/${data.sticker}`;
+            img.src = `Stickers Nailong/${sticker.file}`;
+            img.alt = `Nailong: ${sticker.title}`;
             img.classList.remove('animate-duang');
             void img.offsetWidth;
             img.classList.add('animate-duang');

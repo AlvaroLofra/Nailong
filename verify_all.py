@@ -706,16 +706,28 @@ _claves = dict(re.findall(r"clave: '([a-z0-9-]+)', file: '(sticker_\d+\.webp)'",
 assert len(_claves) == _datos.count("clave: '"), "Every 'clave' in ALL_STICKERS must be unique and followed by its file!"
 # W33: tambien vale su copia reducida mini/<clave>.webp (se llama por la clave, asi que no se desplaza al renumerar)
 _fijas = re.findall(r'<img src="Stickers Nailong/((?:mini/[a-z0-9-]+|sticker_\d+)\.webp)" data-sticker="([a-z0-9-]+)"', page_html)
-assert len(_fijas) == page_html.count('data-sticker="'), "Every data-sticker image must have its src right before data-sticker!"
+# W11 (web 4.3.0): tambien la cabecera (icono de iPhone, precarga del hero, og:image y twitter:image). En <link>/<meta>
+# la clave no se resuelve al cargar (los buscadores y WhatsApp no ejecutan JS): solo este test vigila que coincida.
+_fijas_cabecera = re.findall(r'<(?:link|meta) [^>]*?(?:href|content)="Stickers Nailong/(sticker_\d+\.webp)" data-sticker="([a-z0-9-]+)"', page_html)
+assert len(_fijas) + len(_fijas_cabecera) == page_html.count('data-sticker="'), "Every data-sticker image must have its src/href/content right before data-sticker!"
 assert {k for _, k in _fijas} >= {'dragon-de-leche', 'xiao-qi-colita', 'bombloong', 'escamitas-espalda'}, "The 4 'Quién es Nailong' cards must use data-sticker keys!"
-for _file, _key in _fijas:
+_ids_fijos = dict((i, k) for k, i in re.findall(r'data-sticker="([a-z0-9-]+)" id="([a-z0-9-]+)"', page_html))
+assert {'hero-nailong-img', 'companion-img', 'lab-nailong-img'} <= set(_ids_fijos), "W11: hero, companion and lab images must use data-sticker keys!"
+_precarga = re.search(r'<link rel="preload" as="image" href="[^"]+" data-sticker="([a-z0-9-]+)"', page_html)
+assert _precarga and _precarga.group(1) == _ids_fijos['hero-nailong-img'], "W11: the LCP preload must be the same sticker (key) as the hero image!"
+assert re.search(r'<meta property="og:image" content="[^"]+" data-sticker="', page_html), "W11: og:image must carry its sticker key!"
+# W11: las claves que usa el codigo (estados de animo del hero, disfraces del laboratorio, sprite del minijuego) existen
+_usadas = re.findall(r"(?:stickerPorClave|rutaSticker|setLabCostume)\('([a-z0-9-]+)'", html) + re.findall(r"\{ clave: '([a-z0-9-]+)', speech:", html)
+assert len(_usadas) >= 15 and set(_usadas) <= set(_claves), f"W11: unknown sticker keys used in the code: {sorted(set(_usadas) - set(_claves))}"
+assert "setLabCostume('sticker_" not in page_html and "sticker: 'sticker_" not in js_function_body(html, 'setHeroMood'), "W11: costumes and moods must use sticker keys, not numbers!"
+for _file, _key in _fijas + _fijas_cabecera:
     assert _key in _claves, f"data-sticker='{_key}' has no matching clave in ALL_STICKERS!"
     if _file.startswith('mini/'):
         assert _file == f'mini/{_key}.webp', f"data-sticker='{_key}' must use its own reduced copy mini/{_key}.webp (found {_file})!"
     else:
         assert _claves[_key] == _file, f"data-sticker='{_key}' points to {_file} but its clave belongs to {_claves[_key]} (renumbering drift)!"
 assert 'function aplicarStickersFijos' in _datos and 'aplicarStickersFijos();' in _datos, "The runtime resolver of data-sticker keys is missing!"
-print(f"✔ Fixed sticker images verified: {len(_fijas)} images resolved by stable key, none drifted after renumbering.")
+print(f"✔ Fixed sticker images verified: {len(_fijas) + len(_fijas_cabecera)} images and {len(set(_usadas))} keys in the code resolved by stable key, none drifted after renumbering.")
 
 # Test 52: detector de stickers repetidos (normalizar_stickers.py --clasificar)
 # Dos garantias: ningun par de stickers distintos del catalogo se confunde entre si (ni como dudoso),
@@ -742,13 +754,15 @@ with _tmp.TemporaryDirectory() as _d:
 print(f"✔ Duplicate detector verified: closest distinct pair at {_dmin:.1f} (>= {_ns.UMBRAL_DUDOSO}), 240 px copies recognised as repeats.")
 
 # Test 53: W33 - las imagenes pequenas usan copias reducidas de 192 px (mini/<clave>.webp), el icono de la
-# pestana es de 64 px y el sprite del minijuego (sticker_9) se descarga al acercarse al juego, no al abrir la web
+# pestana es de 64 px y el sprite del minijuego (clave mofletes-estirados) se descarga al acercarse al juego, no al abrir la web.
+# T2 (web 4.3.0): mini/bombloong.webp es un recorte fijo de su cromo (RECORTES en miniaturas_web.py)
 _res_mini = subprocess.run([sys.executable, os.path.join('herramientas', 'miniaturas_web.py'), '--check'], capture_output=True, text=True, encoding='utf-8')
 assert _res_mini.returncode == 0, "W33: reduced copies are missing or out of date (run: py -3 herramientas/miniaturas_web.py): " + _res_mini.stdout
 _minis = set(re.findall(r'Stickers Nailong/mini/([a-z0-9-]+)\.webp', page_html))
 assert {'dragon-de-leche', 'xiao-qi-colita', 'bombloong', 'escamitas-espalda', 'favicon'} <= _minis, f"W33: logo, banner, cards and favicon must use their reduced copies (found {sorted(_minis)})!"
 assert 'rel="icon" type="image/webp" href="Stickers Nailong/mini/favicon.webp"' in page_html, "W33: the favicon must be the 64 px copy (the whole sticker_18 weighed 398 KB)!"
-assert not re.search(r'<img src="Stickers Nailong/sticker_(2|27|28|31)\.webp"', page_html), "W33: small images (logo, banner, cards, footer) must not load the 512 px stickers!"
+_de_las_fichas = '|'.join(re.escape(_claves[k]) for k in ('dragon-de-leche', 'xiao-qi-colita', 'bombloong', 'escamitas-espalda'))
+assert not re.search(r'<img src="Stickers Nailong/(?:' + _de_las_fichas + ')"', page_html), "W33: small images (logo, banner, cards, footer) must not load the 512 px stickers!"
 _mj_src = open(os.path.join('js', '08-minijuego.js'), encoding='utf-8').read()
 assert re.search(r"playerSprite\.src\s*=\s*'", _mj_src) is None and 'function cargarSpriteJugador' in _mj_src, "W33: the minigame sprite must not be requested when the page opens!"
 assert 'cargarSpriteJugador();' in js_function_body(html, 'startMiniGame') and 'cargarSpriteJugador();' in js_function_body(html, 'setupGameVisibilityPause'), "W33: the minigame sprite must load near the game or when it starts!"
